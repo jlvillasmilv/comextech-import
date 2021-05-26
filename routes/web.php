@@ -21,7 +21,6 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->name('dashboard');
 
-
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('forms', 'forms')->name('forms');
