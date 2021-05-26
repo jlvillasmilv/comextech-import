@@ -26,12 +26,13 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
         ])->validate();
+        
 
         return DB::transaction(function () use ($input) {
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
-                'password' => Hash::make($input['password']),
+                'password' => $input['password'],
             ]), function (User $user) {
                 $this->createTeam($user);
             });
@@ -46,6 +47,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     protected function createTeam(User $user)
     {
+        $user->assignRole('Client'); //assign role to user
         $user->ownedTeams()->save(Team::forceCreate([
             'user_id' => $user->id,
             'name' => explode(' ', $user->name, 2)[0]."'s Team",
