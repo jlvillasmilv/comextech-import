@@ -1,6 +1,5 @@
 {
     "name": "comextech-import",
-    "proxy": "https://comextech-import.herokuapp.com/",
     "private": true,
     "scripts": {
         "dev": "npm run development",
