@@ -32,6 +32,5 @@
         "datatables": "^1.10.18",
         "jquery": "^3.6.0",
         "turbolinks": "^5.2.0"
- 
     }
 }
