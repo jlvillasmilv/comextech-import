@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html :class="{ 'theme-dark': dark }" x-data="data()" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<html :class="{ 'theme-dark': @if(auth()->user()->hasRole('Client')) !dark @else dark @endif }" x-data="data()" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
