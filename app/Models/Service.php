@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Company extends Model
+class Service extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'companies';
+    protected $table = 'services';
     protected $guarded = [];
 
     protected $dates = [
@@ -21,13 +21,9 @@ class Company extends Model
     ];
 
 
-    public function user()
+    public function category()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(CategoryService::class, 'category_service_id');
     }
 
-    public function details()
-    {
-        return $this->hasMany(Invoice::class,'application_id');
-    }
 }

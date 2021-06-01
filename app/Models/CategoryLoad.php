@@ -4,18 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ApplicationStatus extends Model
+class CategoryLoad extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-
-    protected $table = 'application_statuses';
+    protected $table = 'category_loads';
     protected $guarded = [];
 
     protected $dates = [
         'created_at',
         'updated_at',
+        'deleted_at',
     ];
+
 }

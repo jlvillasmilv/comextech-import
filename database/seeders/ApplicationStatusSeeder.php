@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\ApplicationStatus;
 
 class ApplicationStatusSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class ApplicationStatusSeeder extends Seeder
      */
     public function run()
     {
-        App\Models\ApplicationStatus::create([
+        ApplicationStatus::create([
             'name' => 'PENDIENTE',
             'status_icon' => 'far fa-clock fa-2x',
             'status_color' => '#6c757d',

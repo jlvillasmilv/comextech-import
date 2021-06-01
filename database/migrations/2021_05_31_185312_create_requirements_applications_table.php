@@ -21,6 +21,9 @@ class CreateRequirementsApplicationsTable extends Migration
             $table->string('file_name');
             $table->string('mime_type',50);
             $table->timestamps();
+
+            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
+            $table->foreign('requirement_id')->references('id')->on('requirements')->onDelete('cascade');
         });
     }
 

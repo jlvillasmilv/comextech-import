@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompaniesTable extends Migration
+class CreateCategoryServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,18 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('category_services', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('country_id')->nullable();
-            $table->string('tax_id')->unique()->nullable();
-            $table->string('name');
-            $table->string('address');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('contact_name')->nullable();
-            $table->string('contact_telf')->nullable();
-            $table->boolean('status')->default(true);
+            $table->string('name',100);
+            $table->string('description')->nullable();
+            $table->boolean('ind_service')->default(true);
+            $table->string('dependence',100)->nullable();
+            $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
         });
     }
 
@@ -40,6 +35,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('category_services');
     }
 }
