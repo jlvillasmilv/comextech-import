@@ -1,11 +1,10 @@
 <x-app-layout title="Dashboard">
-    <menu-app></menu-app>
-    {{-- <div class="container grid px-6 mx-auto my-6 text-1xl font-semibold text-gray-700 dark:text-gray-200"> --}}
+    <div class="container grid px-6 mx-auto my-6 text-1xl font-semibold text-gray-700 dark:text-gray-200">
         {{-- <h2 class="">
             Dashboard
         </h2> --}}
 
-        {{-- <div x-data="setup()">
+        <div x-data="setup()">
             <ul class="flex justify-center items-center my-4">
                 <template x-for="(tab, index) in tabs" :key="index">
                     <li class="cursor-pointer py-2 px-14 text-gray-500 border-b-8"
@@ -36,7 +35,7 @@
                 <div x-show="activeTab===6"> 
 
                 </div>
-            </div> --}}
+            </div>
 
             {{-- <ul class="flex justify-center items-center my-4">
                 <template x-for="(tab, index) in tabs" :key="index">
@@ -45,7 +44,7 @@
                         x-text="tab"></li>
                 </template>
             </ul> --}}
-        {{-- </div>
+        </div>
     </div>
 
 <script>
@@ -62,7 +61,7 @@
       ]
     };
   };
-</script> --}}
+</script>
 
 <!--
 # Changelog:
