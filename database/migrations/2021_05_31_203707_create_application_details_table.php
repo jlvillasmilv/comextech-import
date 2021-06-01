@@ -18,9 +18,9 @@ class CreateApplicationDetailsTable extends Migration
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('requirement_id');
             $table->decimal('amount', 12, 2)->default(0)->nullable();
-            $table->string('currency',10)->nullable();
+            $table->string('currency_id',10)->nullable();
             $table->decimal('amount2', 12, 2)->default(0)->nullable();
-            $table->string('currency2',10)->nullable();
+            $table->string('currency2_id',10)->nullable();
             $table->timestamps();
         });
     }
