@@ -15,6 +15,14 @@ class CreateLoadsTable extends Migration
     {
         Schema::create('loads', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_load_id');
+            $table->unsignedBigInteger('transport_id');
+            $table->unsignedBigInteger('category_container_id')->nullable(); 
+            $table->string('length',20)->nullable(); 
+            $table->string('width',20)->nullable(); 
+            $table->string('measurement',20)->nullable();
+            $table->string('weighed',20)->nullable(); 
+            $table->string('cbm',20)->nullable(); 
             $table->timestamps();
         });
     }

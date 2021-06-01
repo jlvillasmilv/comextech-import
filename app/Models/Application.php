@@ -14,7 +14,7 @@ class Application extends Model
     protected $table = 'applications';
     protected $guarded = [];
 
-    rotected $dates = [
+    protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
@@ -24,4 +24,15 @@ class Application extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function details()
+    {
+        return $this->hasMany(ApplicationDetail::class,'application_id');
+    }
+
+    public function requirements()
+    {
+        return $this->hasMany(RequirementsApplication::class,'application_id');
+    }
+
 }

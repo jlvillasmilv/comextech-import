@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApplicationsTable extends Migration
+class CreateCategoryServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('applications', function (Blueprint $table) {
+        Schema::create('category_services', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('type')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('supplier_id');
-            $table->unsignedBigInteger('application_statuses_id');
+            $table->string('name',100);
             $table->string('description')->nullable();
-            $table->date('estimated_date_delivery')->nullable();
-            $table->decimal('amount', 12, 2)->default(0)->nullable();
-            $table->decimal('charge', 12, 2)->default(0)->nullable();
-            $table->decimal('commission', 12, 2)->default(0)->nullable();
-            $table->decimal('interest', 12, 2)->default(0)->nullable();
+            $table->boolean('ind_service')->default(true);
+            $table->string('dependence',100)->nullable();
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -40,6 +35,6 @@ class CreateApplicationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applications');
+        Schema::dropIfExists('category_services');
     }
 }

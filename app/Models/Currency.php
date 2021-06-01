@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Currency extends Model
 {
     use HasFactory;
+    protected $table = 'currencies';
+    protected $guarded = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
 }

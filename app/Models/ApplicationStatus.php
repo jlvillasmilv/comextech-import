@@ -14,7 +14,7 @@ class ApplicationStatus extends Model
     protected $table = 'application_statuses';
     protected $guarded = [];
 
-    rotected $dates = [
+    protected $dates = [
         'created_at',
         'updated_at',
     ];

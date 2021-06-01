@@ -20,6 +20,9 @@ class CreateCompaniesTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('contact_name')->nullable();
+            $table->string('contact_telf')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
