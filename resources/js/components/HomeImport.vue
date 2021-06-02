@@ -86,7 +86,7 @@
                         name:"Bodegaje Local", selected:false, id:5
                     },
                     {
-                        name:"Transp. Internacional", selected:true, id:6
+                        name:"Transp. Internacional", selected:false, id:6
                     },
                     {
                         name:"Servicio de Origen", selected:false, id:7
