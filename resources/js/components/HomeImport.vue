@@ -34,8 +34,11 @@
                 <div v-if="activetab ==='Gestion de Cambio'"> 
                         Gestion de Cambio
                 </div>
-                <div v-if="activetab ==='Transp. Local'"> 
-                        Transp. Local
+                <div v-if="activetab ==='Transp. Internacional'">
+                    <div class="flex px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
+                         <Transport></Transport>
+                    </div>
+                       
                 </div>
                 <div v-if="activetab ==='Internacion'"> 
                         Internacion
@@ -52,7 +55,7 @@
                         <span class="ml-2"> {{item.name}} </span>
                     </label>
                 </div>
-            </template>
+             </template>
         </Modal>
       
 </div>
@@ -61,6 +64,7 @@
     import FormSupplier from './FormSupplier'
     import Modal from './Modal.vue'
     import TablePayment from './TablePayment'
+    import Transport  from './Transport'
 
     export default {
         data(){
@@ -82,7 +86,7 @@
                         name:"Bodegaje Local", selected:false, id:5
                     },
                     {
-                        name:"Transp. Internacional", selected:false, id:6
+                        name:"Transp. Internacional", selected:true, id:6
                     },
                     {
                         name:"Servicio de Origen", selected:false, id:7
@@ -97,7 +101,8 @@
         components:{
             FormSupplier,
             TablePayment,
-            Modal            
+            Modal,
+            Transport           
         },
         methods:{
             generateForm(){
