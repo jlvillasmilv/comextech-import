@@ -19,7 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->unsignedBigInteger('country_id')->nullable();
             $table->string('tax_id')->unique()->nullable();
             $table->string('name');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('contact_name')->nullable();
