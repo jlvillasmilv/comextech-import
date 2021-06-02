@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="Kunaisoft">
     <title>{{ $title }}</title>
 
     <!-- Fonts -->
@@ -23,9 +24,9 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-    <script src="{{asset('js/charts-lines.js')}}" defer></script>
+    {{-- <script src="{{asset('js/charts-lines.js')}}" defer></script>
     <script src="{{asset('js/charts-pie.js')}}" defer></script>
-    <script src="{{asset('js/charts-bars.js')}}" defer></script>
+    <script src="{{asset('js/charts-bars.js')}}" defer></script> --}}
 
     @livewireStyles
     {{-- <script>

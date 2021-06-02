@@ -21,9 +21,12 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name'         => ['required', 'string', 'max:150'],
+            'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'tax_id'       => ['required', 'string', 'max:100', 'unique:companies'],
+            'company_name' => ['required', 'string', 'max:100'],
             'password' => $this->passwordRules(),
         ])->validate();
         
@@ -33,8 +36,8 @@ class CreateNewUser implements CreatesNewUsers
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => $input['password'],
-            ]), function (User $user) {
-                $this->createTeam($user);
+            ]), function (User $user) use ($input) {
+                $this->createCompany($user, $input);
             });
         });
     }
@@ -45,13 +48,18 @@ class CreateNewUser implements CreatesNewUsers
      * @param  \App\Models\User  $user
      * @return void
      */
-    protected function createTeam(User $user)
+    protected function createCompany(User $user, $input)
     {
         $user->assignRole('Client'); //assign role to user
-        $user->ownedTeams()->save(Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
-            'personal_team' => true,
-        ]));
+        $user->company()->create([
+            'tax_id'  => $input['tax_id'],
+            'name'    => $input['company_name'],
+            'status'  => 1
+        ]);
+        // $user->ownedTeams()->save(Team::forceCreate([
+        //     'user_id' => $user->id,
+        //     'name' => explode(' ', $user->name, 2)[0]."'s Team",
+        //     'personal_team' => true,
+        // ]));
     }
 }
