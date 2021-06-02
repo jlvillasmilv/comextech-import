@@ -51,7 +51,7 @@ class PermissionsTableSeeder extends Seeder
 
         //User Client
         $client = User::find(2); 
-        $client->assignRole('client');
+        $client->assignRole('Client');
 
     }
 }
