@@ -1,47 +1,74 @@
 <template>
-    <div class="w-1/2 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <h4 class="my-4 text-1xl font-semibold text-gray-700 dark:text-gray-200">
-            Form/Proveedor
-        </h4>
-        <label class="block text-sm my-3">
-            <span class="text-gray-700 dark:text-gray-400"> Nombre</span>
-            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" />
-        </label>
-        <label class="block text-sm my-3">
-            <span class="text-gray-700 dark:text-gray-400"> Banco</span>
-            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" />
-        </label>
-        <label class="block text-sm my-3">
-            <span class="text-gray-700 dark:text-gray-400"> ISIN </span>
-            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder=" Número de identificación de valores internacionales
-            " />
-        </label>
-        <label class="block text-sm my-3">
-            <span class="text-gray-700 dark:text-gray-400"> Direccion </span>
-            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion Postal" />
-        </label>
-        <label class="block text-sm my-3">
-            <span class="text-gray-700 dark:text-gray-400"> IBAN </span>
-            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Código Internacional de Cuenta Bancaria" />
-        </label>
-        <label class="block text-sm my-3">
-            <span class="text-gray-700 dark:text-gray-400"> Direccion de Origen </span>
-            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Origen de importacion" />
-        </label>
-        <div class="flex  justify-start">
-                <button class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
-                        </svg>
-                    <span> Guardar </span>
-                </button>
+    <div class="w-1/2 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:text-gray-200 dark:bg-gray-800">
+    <!-- <v-select label="name" v-model="payload.bank_id" :options="banks" :reduce="bank => bank.id" > "></v-select> -->
+        <div class="dark:text-gray-200">   
+            <h3 class="my-4  text-gray-500 ">
+                    Proveedor de Mercancia
+            </h3>
+            <v-select label="name" @input="showSuplier"  placeholder="Seleccionar Proveedor" :options="suppliers" > ">
+                <template  v-slot:no-options="{ search, searching }" >
+                    <template v-if="searching" class="text-sm">
+                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                </template>
+                <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
+                    </template>
+            </v-select>
         </div>
+        <div v-if="supp" class="mt-15 text-center dark:text-gray-200 text-9xl ">
+                <h1 class="my-1 font-semibold text-green-500  "> {{ supplier.name }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">   {{ supplier.address }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">   {{ supplier.bank }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">  Nro  {{ supplier.account }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">   DNI {{ supplier.DNI }} </h1>
+        </div> 
+           
     </div>
 </template>
 
 <script>
 export default {
-     
+     data(){
+         return{
+             supplier:{},
+             supp:false,
+             suppliers:[
+                {
+                 name:"Harina Pana",
+                 address:"Venezuela, San Cristobal",
+                 bank: "Banco Mercantil",
+                 account:"426384843",
+                 DNI:"27234322-3"
+                },
+                {
+                 name:"Alimento Polar",
+                 address:"Venezuela, San Cristobal",
+                 bank: "Banco Mercantil",
+                 account:"426384843",
+                 DNI:"27234322-3"
+                },
+                {
+                 name:"Motores Pekin",
+                 address:"Venezuela, San Cristobal",
+                 bank: "Banco Mercantil",
+                 account:"426384843",
+                 DNI:"27234322-3"
+                },
+                {
+                 name:"Autopartes Colombia",
+                 address:"Venezuela, San Cristobal",
+                 bank: "Banco Mercantil",
+                 account:"426384843",
+                 DNI:"27234322-3"
+                },
+             ]
+         }
+     },
+     methods:{
+         showSuplier(index){
+            this.supp     = index === null ?   false : true
+            this.supplier = index === null ?   {} : index
+         }
+     }
 }
 </script>
 

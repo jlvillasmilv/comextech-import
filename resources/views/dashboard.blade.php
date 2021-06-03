@@ -1,83 +1,10 @@
 <x-app-layout title="Dashboard">
-    <menu-app></menu-app>
-    {{-- <div class="container grid px-6 mx-auto my-6 text-1xl font-semibold text-gray-700 dark:text-gray-200"> --}}
-        {{-- <h2 class="">
+    <div class="container grid px-6 mx-auto">
+        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Dashboard
-        </h2> --}}
+        </h2>
 
-        {{-- <div x-data="setup()">
-            <ul class="flex justify-center items-center my-4">
-                <template x-for="(tab, index) in tabs" :key="index">
-                    <li class="cursor-pointer py-2 px-14 text-gray-500 border-b-8"
-                        :class="activeTab===index ? 'text-b-500 border-indigo-500' : ''" @click="activeTab = index"
-                        x-text="tab"></li>
-                </template>
-            </ul>
-
-            <div class="h-auto bg-white p-16 text-center mx-auto  border">
-                <div x-show="activeTab===0">
-
-                </div>
-                <div x-show="activeTab===1"> 
-
-                </div>
-                <div x-show="activeTab===2"> 
-
-                </div>
-                <div x-show="activeTab===3"> 
-
-                </div>
-                <div x-show="activeTab===4"> 
-
-                </div>
-                <div x-show="activeTab===5"> 
-
-                </div>
-                <div x-show="activeTab===6"> 
-
-                </div>
-            </div> --}}
-
-            {{-- <ul class="flex justify-center items-center my-4">
-                <template x-for="(tab, index) in tabs" :key="index">
-                    <li class="cursor-pointer py-3 px-4 rounded transition"
-                        :class="activeTab===index ? 'bg-indigo-500 text-white' : ' text-gray-500'" @click="activeTab = index"
-                        x-text="tab"></li>
-                </template>
-            </ul> --}}
-        {{-- </div>
-    </div>
-
-<script>
-	function setup() {
-    return {
-      activeTab: 0,
-      tabs: [
-        "Resumen",
-        "Financiamiento",
-        "Transporte",
-        "Tipo de Cambio",
-        "Carga",
-        "Proveedor",
-      ]
-    };
-  };
-</script> --}}
-
-<!--
-# Changelog:
-
-## [1.1] - 2021-05-01
-### Added
- - Back/Next buttons
-
-## [1.0] - 2021-05-01
-### Added
- - Nav bar with two styles
- - Set tabs title dynamically and render on page
--->
-
-        {{-- <!-- Cards -->
+        <!-- Cards -->
         <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
             <!-- Card -->
             <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
@@ -528,7 +455,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 
     {{-- <div class="py-12">
