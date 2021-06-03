@@ -1,3 +1,3 @@
 <x-app-layout title="Listado de Monedas ">
-    @livewire('admin.user.index')
+    @livewire('admin.currency.index')
 </x-app-layout>

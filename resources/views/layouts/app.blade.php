@@ -18,13 +18,13 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   
     <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    
+    {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
+    <script src="{{asset('js/alpine.min.js')}}" defer></script>
     <script src="{{asset('js/init-alpine.js')}}" defer></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-    {{-- <script src="{{asset('js/charts-lines.js')}}" defer></script>
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
+     <script src="{{asset('js/charts-lines.js')}}" defer></script>
     <script src="{{asset('js/charts-pie.js')}}" defer></script>
     <script src="{{asset('js/charts-bars.js')}}" defer></script> --}}
 
@@ -39,7 +39,9 @@
 </head>
 
 <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div  class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+        
         @include('layouts.menu')
         @include('layouts.mobile-menu')
 
@@ -52,9 +54,11 @@
 
 
         @stack('modals')
-
-        @livewireScripts
         <script src="{{ mix('js/app.js') }}" ></script>
+        @livewireScripts
+        @yield('scripts')
+        @stack('scripts')
+
     </div>
 </body>
 
