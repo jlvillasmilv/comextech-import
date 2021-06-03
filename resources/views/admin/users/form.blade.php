@@ -38,7 +38,7 @@
 			    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 			      <label class="block text-sm my-3">
 		            <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
-		            <input class="{{ $errors->has('password') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Contraseña" / name="password" required="" >
+		            <input type="password" class="{{ $errors->has('password') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Contraseña" / name="password" required="" >
 
 		          
 		            @if($errors->has('password'))

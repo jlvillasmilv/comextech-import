@@ -100,8 +100,6 @@ class UserController extends Controller
         $roles = $request->input('roles') ? $request->input('roles') : '';
         $user->syncRoles($roles);
 
-        $data->fill($request->all())->save();
-
         $notification = array(
             'message'    => 'Registro actualizado',
             'alert_type' => 'success',);
