@@ -45,5 +45,7 @@ class UsersTableSeeder extends Seeder
             'personal_team' => true,
         ]));
 
+        
+
     }
 }

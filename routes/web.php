@@ -27,9 +27,9 @@ Route::get('/', function () {
 // })->name('dashboard');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-
-    Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
-    Route::get('/supplier/create', [SupplierController::class, 'create'])->name('supplier.create');
+    
+    Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
+  
     Route::get('/imports', [ImportsController::class, 'index'])->name('imports.index');
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
