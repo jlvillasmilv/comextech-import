@@ -38,7 +38,10 @@
     {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.js" defer></script> --}}
 </head>
 
-<body>
+<body {{ Session::has('notification') ? 'data-notification' : '' }} 
+data-notification-type="{{  Session::has('notification') ? Session::get('notification')['alert_type'] : '' }}" 
+data-notification-message="{{ Session::has('notification') ? json_encode(Session::get('notification')['message']) : '' }}" >
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div  class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
         
@@ -55,6 +58,7 @@
 
         @stack('modals')
         <script src="{{ mix('js/app.js') }}" ></script>
+        <script src="{{ asset('js/main.js') }}"></script> 
         @livewireScripts
         @yield('scripts')
         @stack('scripts')
