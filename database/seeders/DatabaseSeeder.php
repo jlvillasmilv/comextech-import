@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoryServiceSeeder::class);
         $this->call(SupplierSeeder::class);
         $this->call(CompanySeeder::class);
+        $this->call(TransportModeSeeder::class);
+        
         
     }
 }
