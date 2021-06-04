@@ -18,6 +18,12 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         //Permission list
+        Permission::create(['name' => 'admin.applications.index']);
+        Permission::create(['name' => 'admin.applications.edit']);
+        Permission::create(['name' => 'admin.applications.show']);
+        Permission::create(['name' => 'admin.applications.create']);
+        Permission::create(['name' => 'admin.applications.destroy']);
+      
         Permission::create(['name' => 'clients.index']);
         Permission::create(['name' => 'clients.edit']);
         Permission::create(['name' => 'clients.show']);
@@ -30,8 +36,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'users.create']);
         Permission::create(['name' => 'users.destroy']);
        
-
-
         //Admin
         $admin = Role::create(['name' => 'Admin']);
        

@@ -2,9 +2,28 @@ window.$ = window.jQuery = require('jquery');
 require('./bootstrap');
 require('datatables');
 
-import HomeImport  from './components/HomeImport'
+import Import  from './views/Import'
 
 import Vue from 'vue';
+
+//Import Sweetalert2
+import Swal from 'sweetalert2'
+window.Swal = Swal
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  onOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+window.Toast = Toast
+
+
+
 
 import 'alpinejs'
 
@@ -16,6 +35,6 @@ const app = new Vue({
     el: '#app',
     
     components:{
-        'home-import-app': HomeImport,
+        'home-import-app': Import,
     }
 });

@@ -18,12 +18,12 @@ class CreateCompaniesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('country_id')->nullable();
             $table->string('tax_id')->unique()->nullable();
-            $table->string('name');
+            $table->string('name',100);
             $table->string('address')->nullable();
             $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('contact_name')->nullable();
-            $table->string('contact_telf')->nullable();
+            $table->string('phone',100)->nullable();
+            $table->string('contact_name',100)->nullable();
+            $table->string('contact_telf',100)->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

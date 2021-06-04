@@ -12,6 +12,7 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Support\HasAdvancedFilter;
 
 use Spatie\Permission\Traits\HasRoles;
 
@@ -25,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use TwoFactorAuthenticatable;
     use SoftDeletes;
     use HasRoles;
+    use HasAdvancedFilter;
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +35,18 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'email', 'password',
+    ];
+
+    public $orderable = [
+        'id',
+        'name',
+        'email',
+    ];
+
+    public $filterable = [
+        'id',
+        'name',
+        'email',
     ];
 
     /**
