@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call(SupplierSeeder::class);
         $this->call(CompanySeeder::class);
         $this->call(TransportModeSeeder::class);
+        $this->call(ApplicationSeeder::class);
+        
         
         
     }
