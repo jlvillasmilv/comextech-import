@@ -18,9 +18,9 @@ class CreateSuppliersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('address')->nullable();
-            $table->string('bank')->nullable();
-            $table->string('isin')->nullable();
-            $table->string('iban')->nullable();
+            $table->string('bank',60)->nullable();
+            $table->string('isin',15)->nullable();
+            $table->string('iban',50)->nullable();
             $table->string('phone',50)->nullable();
             $table->string('email')->nullable();
             $table->timestamps();

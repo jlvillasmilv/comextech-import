@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Support\HasAdvancedFilter;
 
 class Application extends Model
 {
     use HasFactory;
+    use HasAdvancedFilter;
     use SoftDeletes;
 
     protected $table = 'applications';
@@ -18,6 +20,16 @@ class Application extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    public $orderable = [
+        'id',
+        'created_at',
+    ];
+
+    public $filterable = [
+        'id',
+        'created_at',
     ];
 
     public function user()
