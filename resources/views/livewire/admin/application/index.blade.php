@@ -1,12 +1,13 @@
 <div class="container grid px-6 mx-auto">
     <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-       Clientes
+       Solicitudes
      </h2>
 
      <div class="flex justify-between items-end">
          <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-             Listado de Clientes
+             Listado de Solicitudes
          </h4>
+        
      </div>
 
   <div class="flex flex-wrap ">
@@ -36,47 +37,36 @@
                <thead>
                    <tr
                        class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                       
-                       <th class="px-4 py-3">IT
-                           @include('components.table.sort', ['field' => 'name'])
-                       </th>
+                       <th class="px-4 py-3">Numero </th>
+                       <th class="px-4 py-3">Cliente </th>
+                       <th class="px-4 py-3">Status </th>
                        <th class="px-4 py-3">
-                            Nombre
-                           @include('components.table.sort', ['field' => 'code'])
+                           Fecha
+                           @include('components.table.sort', ['field' => 'created_at'])
                        </th>
-                       <th class="px-4 py-3">
-                             Correo
-                           @include('components.table.sort', ['field' => 'symbol'])
-                       </th>
-                       <th class="px-4 py-3">
-                             Usuario
-                        </th>
                        <th class="px-4 py-3">Actions</th>
                    </tr>
                </thead>
                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                   @forelse($clients as $client)
+                   @forelse($datas as $data)
                    <tr class="text-gray-700 dark:text-gray-400">
                        
                        <td class="px-4 py-3 text-sm">
-                            <p class="font-semibold">{{ $client->tax_id }}</p>
-                        </td>
-                       <td class="px-4 py-3 text-sm">
-                           <p class="font-semibold">{{ $client->name }}</p>
+                           <p class="font-semibold">{{ $data->name }}</p>
                        </td>
                        <td class="px-4 py-3 text-xs">
                            <div class="flex items-center text-sm">                                 
-                              {{ $client->email }}
+                              {{ $data->code }}
                            </div>
                            
                        </td>
                        <td class="px-4 py-3 text-sm">
-                           {{ $client->user->name }}
+                           {{ $data->symbol }}
                        </td>
                        <td class="px-4 py-3">
                            <div class="flex items-center space-x-4 text-sm">
-                               @can('client.show')
-                               <a  href="{{ route('admin.clients.show', $client->id) }}" 
+                               @can('admin.applications.show')
+                               <a  href="{{ route('admin.applications.show', $data->id) }}" 
                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                    aria-label="Edit">
                                   
@@ -90,19 +80,30 @@
                                    </svg>
                                </a>
                                @endcan
-                              
+                               @can('admin.applications.edit')
+                                   <a  href="{{ route('admin.applications.edit', $data->id) }}"
+                                       class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                       aria-label="Delete">
+                                       <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                           viewBox="0 0 20 20">
+                                           <path
+                                               d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                                           </path>
+                                       </svg>
+                                   </a>
+                               @endcan
                            </div>
                        </td>
                    </tr>
 
                    @empty
                    <tr class="text-gray-700 dark:text-gray-400">
-                        <td class="px-4 py-3 text-sm" colspan="5">No entries found.</td>
-                    </tr>
+                       <td class="px-4 py-3 text-sm" colspan="5">No entries found.</td>
+                   </tr>
                @endforelse
                </tbody>
            </table>
        </div>
-       {{ $clients->links() }}
+       {{ $datas->links() }}
    </div>
 </div>

@@ -17,7 +17,7 @@
 
        <div class="flex flex-wrap ">
             <div class="w-full md:w-1/2 px-3">
-                  <select wire:model="perPage" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select ">
+                  <select wire:model="perPage" class="flex w-1/2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select ">
                     @foreach($paginationOptions as $value)
                         <option value="{{ $value }}">{{ $value }}</option>
                     @endforeach
@@ -42,10 +42,7 @@
                     <thead>
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3">
-                                Id
-                                @include('components.table.sort', ['field' => 'id'])
-                            </th>
+                            
                             <th class="px-4 py-3">Nombre
                                 @include('components.table.sort', ['field' => 'name'])
                             </th>
@@ -63,16 +60,7 @@
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                         @forelse($currencies as $currency)
                         <tr class="text-gray-700 dark:text-gray-400">
-                            <td class="px-4 py-3">
-                                <div class="flex items-center text-sm">
-                                    <!-- Avatar with inset shadow -->
-                                    
-                                    <div>
-                                        <p class="font-semibold">{{ $currency->id }}</p>
-                                        
-                                    </div>
-                                </div>
-                            </td>
+                            
                             <td class="px-4 py-3 text-sm">
                                 <p class="font-semibold">{{ $currency->name }}</p>
                             </td>
@@ -119,8 +107,8 @@
                         </tr>
 
                         @empty
-                        <tr>
-                            <td colspan="10">No entries found.</td>
+                        <tr class="text-gray-700 dark:text-gray-400">
+                            <td class="px-4 py-3 text-sm" colspan="4">No entries found.</td>
                         </tr>
                     @endforelse
                     </tbody>

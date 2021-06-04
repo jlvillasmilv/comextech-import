@@ -48,5 +48,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::resource('currencies', 'CurrencyController');
     Route::resource('users', 'UserController');
     Route::resource('clients', 'CompanyController');
+    Route::resource('applications', 'ApplicationController');
 
 });
