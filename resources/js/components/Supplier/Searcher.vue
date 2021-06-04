@@ -14,14 +14,13 @@
                     </template>
             </v-select>
         </div>
-        <div v-if="supp" class="mt-15 text-center dark:text-gray-200 text-9xl ">
-                <h1 class="my-1 font-semibold text-green-500  "> {{ supplier.name }} </h1>
-                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">   {{ supplier.address }} </h1>
-                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">   {{ supplier.bank }} </h1>
-                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">  Nro  {{ supplier.account }} </h1>
-                <h1 class="my-3 text-gray-750 dark:text-gray-200 ">   DNI {{ supplier.DNI }} </h1>
+        <div v-if="supp" class="mt-15 text-center dark:text-gray-200  ">
+                <h1 class="my-1 font-semibold text-blue-500  text-4xl "> {{ supplier.name }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 text-2xl  ">   {{ supplier.address }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 text-2xl  ">   {{ supplier.bank }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 text-2xl  ">  Nro  {{ supplier.account }} </h1>
+                <h1 class="my-3 text-gray-750 dark:text-gray-200 text-2xl  ">   DNI {{ supplier.DNI }} </h1>
         </div> 
-           
     </div>
 </template>
 

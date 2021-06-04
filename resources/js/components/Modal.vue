@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div v-if="statusModal" class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
+  <div class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
         <div   class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
 
             <header class="flex justify-between">
@@ -20,12 +20,7 @@
 
             </div>
             <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-                 <button  @click="close" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-                    Cancelar
-                </button>
-                <button  @click="open"  class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
-                    Aceptar
-                </button>
+                 <slot name="footer"> </slot>
             </footer>
         </div>
   </div>
@@ -45,16 +40,7 @@
         default: Boolean, 
         title:String
     },
-    methods:{
-        open(){
-            this.$emit('sucessModal')
-            this.statusModal = !this.statusModal
-        },
-        close(){
-            this.$emit('closeModal')
-            this.statusModal = !this.statusModal
-        }
-    }
+  
 }
 </script>
 
