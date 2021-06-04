@@ -27,9 +27,9 @@ Route::get('/', function () {
 // })->name('dashboard');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-
-    Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
-    Route::get('/supplier/create', [SupplierController::class, 'create'])->name('supplier.create');
+    
+    Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
+  
     Route::get('/imports', [ImportsController::class, 'index'])->name('imports.index');
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
@@ -41,4 +41,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('tables', 'tables')->name('tables');
     Route::view('calendar', 'calendar')->name('calendar');
     Route::view('calendar', 'calendar')->name('calendar');
+});
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {
+
+    Route::resource('currencies', 'CurrencyController');
+    Route::resource('users', 'UserController');
+    Route::resource('clients', 'CompanyController');
+    Route::resource('applications', 'ApplicationController');
+
 });
