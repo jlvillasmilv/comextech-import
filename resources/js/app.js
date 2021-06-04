@@ -2,7 +2,7 @@ window.$ = window.jQuery = require('jquery');
 require('./bootstrap');
 require('datatables');
 
-import HomeImport  from './components/HomeImport'
+import Import  from './views/Import'
 
 import Vue from 'vue';
 
@@ -16,6 +16,6 @@ const app = new Vue({
     el: '#app',
     
     components:{
-        'home-import-app': HomeImport,
+        'home-import-app': Import,
     }
 });
