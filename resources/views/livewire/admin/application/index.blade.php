@@ -52,16 +52,19 @@
                    <tr class="text-gray-700 dark:text-gray-400">
                        
                        <td class="px-4 py-3 text-sm">
-                           <p class="font-semibold">{{ $data->name }}</p>
+                           <p class="font-semibold">{{ $data->id }}</p>
                        </td>
                        <td class="px-4 py-3 text-xs">
                            <div class="flex items-center text-sm">                                 
-                              {{ $data->code }}
+                              {{ $data->user->company->name }}
                            </div>
                            
                        </td>
                        <td class="px-4 py-3 text-sm">
-                           {{ $data->symbol }}
+                           {{ $data->status->name }}
+                       </td>
+                       <td class="px-4 py-3 text-sm">
+                            {{ date('d-m-Y', strtotime($data->created_at)) }}
                        </td>
                        <td class="px-4 py-3">
                            <div class="flex items-center space-x-4 text-sm">

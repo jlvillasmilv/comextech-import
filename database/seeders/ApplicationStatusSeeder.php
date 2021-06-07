@@ -22,5 +22,25 @@ class ApplicationStatusSeeder extends Seeder
             'rank' => 0,
             'created_at' => now(),
         ]);
+
+        ApplicationStatus::create([
+            'name' => 'RECHAZADO',
+            'status_icon' => 'fa fa-times fa-2x',
+            'status_color' => 'red',
+            'modify' => false,
+            'rank' => 1,
+            'created_at' => now(),
+        ]);
+
+        ApplicationStatus::create([
+            'name' => 'APROBADO',
+            'status_icon' => 'fa fa-clipboard-check fa-2x',
+            'status_color' => '#00BD2D',
+            'modify' => false,
+            'rank' => 3,
+            'created_at' => now(),
+        ]);
+
+
     }
 }

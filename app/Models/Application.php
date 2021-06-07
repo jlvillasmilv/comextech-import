@@ -47,4 +47,11 @@ class Application extends Model
         return $this->hasMany(RequirementsApplication::class,'application_id');
     }
 
+    public function status()
+    {
+        return $this->belongsTo(ApplicationStatus::class, 'application_statuses_id');
+    }
+
+    
+
 }
