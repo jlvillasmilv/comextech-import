@@ -50,9 +50,11 @@ class ApplicationController extends Controller
      * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function show(Application $application)
+    public function show($id)
     {
-        //
+        $data  = Application::findOrFail($id);
+
+        return view('admin.applications.show', compact('data'));
     }
 
     /**

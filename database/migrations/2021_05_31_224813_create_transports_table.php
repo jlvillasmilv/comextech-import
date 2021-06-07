@@ -16,6 +16,7 @@ class CreateTransportsTable extends Migration
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
+            $table->unsignedBigInteger('transport_mode_id');
             $table->unsignedBigInteger('origin_id');
             $table->unsignedBigInteger('destination_id');
             $table->string('bonus',100);
@@ -25,6 +26,9 @@ class CreateTransportsTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
+            $table->foreign('transport_mode_id')->references('id')->on('transport_modes')->onDelete('cascade');
         });
     }
 

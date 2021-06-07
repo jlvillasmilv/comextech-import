@@ -9,17 +9,7 @@
             </div>
             <div class="flex  mt-3 dark:text-gray-400  ">
                 <ul class="flex  space-x-2 mt-3 ">
-                        <li  class="cursor-pointer px-5 text-gray-900 border-b-2  border-blue-500">
-                            AEREO
-                        </li>
-                    
-                        <!-- <li  class="cursor-pointer px-5 text-gray-500 border-b-2 text-b-500 border-blue-500 ">
-                                Currier
-                        </li>
-                    
-                        <li  class="cursor-pointer px-5 text-gray-500 border-b-2">
-                                Consolidado
-                        </li> -->
+                        <li v-for=" name in types" :key="name" :class="['cursor-pointer px-5 text-gray-900 border-b-2', name == typeSelected ? ' border-blue-500' : '']"  @click="typeSelected = name" > {{ name }} </li>
                 </ul>
             </div>
             <div class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 ">
@@ -34,25 +24,26 @@
                         </button>  
                     </div>
                 </div>
-                <div class="inline w-1/6">
-                    <!-- <span class="text-sm  "> Tipo de Carga  </span> -->
-                    <div class="mt-6">
-                        <v-select label="name"   placeholder="Tipo de Carga" :options="[]" > ">
-                            <template  v-slot:no-options="{ search, searching }" >
-                                <template v-if="searching" class="text-sm font-semibold ">
-                                Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
-                            </template>
-                            <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
-                                </template>
-                        </v-select>
-                    </div>
+                <div class="inline w-1/6 p-1">
+                        <label class="block text-sm  font-semibold" for="grid-state">
+                            Tipo de Carga 
+                        </label>
+                        <div class="relative">
+                            <select class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                 <option value="2" translate="" >Pallet / s</option>
+                                <option value="3" translate="" >Caja / s</option>
+                                <option value="4" translate="" >Unidad/es</option>
+                                <option value="5" translate="" >Bidón / es</option>
+                                <option value="6" translate="" >Bags</option>
+                            </select>
+                         </div>
                 </div>
-                <div class="inline">
+                <div class="inline" v-if="modeCalculate" >
                     <span class="text-sm text-center font-semibold "> Dimension Unitaria  </span>
                     <div class="flex">
-                        <input class="h-9 w-13 focus:outline-none border rounded-l-lg flex items-center text-center  text-sm" value="" maxlength="1" max="9" min="0"  placeholder="L" >  
-                        <input class="h-9 w-13 focus:outline-none border rounded-none flex items-center text-center  text-sm" value="" maxlength="1" max="9" min="0"  placeholder="W"  > 
-                        <input class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm" value="" maxlength="1" max="9" min="0"  placeholder="H">  
+                        <input class="h-9 w-13 focus:outline-none border rounded-l-lg flex items-center text-center  text-sm"   placeholder="L" >  
+                        <input class="h-9 w-13 focus:outline-none border rounded-none flex items-center text-center  text-sm"   placeholder="W"  > 
+                        <input class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm"   placeholder="H">  
                     </div>
                     <label class="inline-flex text-sm items-center mx-2 mt-2">
                     <input type="radio" name="radio"  class="form-checkbox h-4 w-4 text-gray-800"  id="1" checked ><span class="ml-2 text-gray-700"> cm </span>
@@ -63,11 +54,11 @@
                 </div>
                 <div class="inline text-center">
                     <span class="text-sm text-center font-semibold "> CBM </span>
-                    <input class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center  text-sm" value="0"   placeholder="CBM" >  
+                    <input class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"  :disabled="modeCalculate" placeholder="CBM" >  
                 </div>
                 <div class="inline">
                     <span class="text-sm font-semibold">    Peso Unitario </span>
-                    <input class="h-9 w-17 focus:outline-none border rounded-lg flex text-center   text-sm" value="0" >  
+                    <input class="h-9 w-16 focus:outline-none border rounded-lg flex text-center text-sm"  value="0">  
                         <label class="inline-flex text-sm items-center mx-2 mt-2">
                         <input type="radio" name="k" id="k" class="form-checkbox h-4 w-4 text-gray-800" checked><span class="ml-2 text-gray-700"> kg </span>
                     </label>
@@ -76,35 +67,40 @@
                     </label>
                 </div>
                 <div class="flex">
-        
                         <label class="inline-flex text-sm items-center ">
-                        <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-800" checked><span class="ml-2 text-gray-700 ">Non Stackable</span>
-                    </label>
+                            <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-800" checked><span class="ml-2 text-gray-700 ">Non Stackable</span>
+                        </label>
+                </div>
+                <div class="innline w-1/7 mt-5" v-if="modeCalculate">
+                         <button class="bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded">
+                            Añadir Carga
+                        </button>
                 </div>
             </div>
-            <div class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 ">
+            <!-- <div class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 ">
                 <div class="inline w-1/6">
                    
                 </div>
-                <div class="inline w-1/6">
-                    <!-- <span class="text-sm  "> Tipo de Carga  </span> -->
-                    <div class="mt-6">
-                        <v-select label="name"   placeholder="Tipo de Carga" :options="[]" > ">
-                            <template  v-slot:no-options="{ search, searching }" >
-                                <template v-if="searching" class="text-sm font-semibold ">
-                                Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
-                            </template>
-                            <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
-                                </template>
-                        </v-select>
-                    </div>
+                <div class="inline w-1/6 w-2/3  p-1  ">
+                        <label class="block text-sm  font-semibold" for="grid-state">
+                            Tipo de Carga 
+                        </label>
+                        <div class="relative">
+                            <select class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                <option value="2"  >Pallet / s</option>
+                                <option value="3"  >Caja / s</option>
+                                <option value="4"  >Unidad/es</option>
+                                <option value="5"  >Bidón / es</option>
+                                <option value="6"  >Bags</option>
+                            </select>
+                         </div>
                 </div>
                 <div class="inline">
                     <span class="text-sm text-center font-semibold "> Dimension Unitaria  </span>
                     <div class="flex">
-                        <input class="h-9 w-13 focus:outline-none border rounded-l-lg flex items-center text-center  text-sm" value="" maxlength="1" max="9" min="0"  placeholder="L" >  
-                        <input class="h-9 w-13 focus:outline-none border rounded-none flex items-center text-center  text-sm" value="" maxlength="1" max="9" min="0"  placeholder="W"  > 
-                        <input class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm" value="" maxlength="1" max="9" min="0"  placeholder="H">  
+                        <input class="h-9 w-13 focus:outline-none border rounded-l-lg flex items-center text-center  text-sm"   placeholder="L" >  
+                        <input class="h-9 w-13 focus:outline-none border rounded-none flex items-center text-center  text-sm"   placeholder="W"  > 
+                        <input class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm"   placeholder="H">  
                     </div>
                     <label class="inline-flex text-sm items-center mx-2 mt-2">
                     <input type="radio" name="radio"  class="form-checkbox h-4 w-4 text-gray-800"  id="1" checked ><span class="ml-2 text-gray-700"> cm </span>
@@ -119,7 +115,7 @@
                 </div>
                 <div class="inline">
                     <span class="text-sm font-semibold">    Peso Unitario </span>
-                    <input class="h-9 w-17 focus:outline-none border rounded-lg flex text-center   text-sm" value="0" >  
+                    <input class="h-9 w-16 focus:outline-none border rounded-lg flex text-center   text-sm" value="0" >  
                         <label class="inline-flex text-sm items-center mx-2 mt-2">
                         <input type="radio" name="k" id="k" class="form-checkbox h-4 w-4 text-gray-800" checked><span class="ml-2 text-gray-700"> kg </span>
                     </label>
@@ -133,7 +129,7 @@
                         <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-800" checked><span class="ml-2 text-gray-700 ">Non Stackable</span>
                     </label>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 my-3 ">
                 
                 
@@ -197,8 +193,12 @@
         </div>
         <div class="w-1/6 mt-8">
                 <label class="ml-6 text-gray-500 dark:text-gray-400">
-                   <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-800"  ><span class="ml-2 text-gray-700 "> Seguro </span>
+                   <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-800" @click="safe = !safe"  ><span class="ml-2 text-gray-700 "> Seguro </span>
                 </label>
+        </div>
+        <div class="w-1/6  " v-show="safe">
+            <span class="text-sm font-semibold">  Valor de Carga </span>
+            <input class="h-9 w-16.5 focus:outline-none border rounded-sm flex text-center   text-sm" placeholder="USD" >  
         </div>
     </div>
   </div>       
@@ -209,8 +209,18 @@
 export default {
     data(){
         return{
-            modeCalculate:true
+            modeCalculate:true,
+            safe:false,
+            typeSelected:'AEREO',
+            types:[
+                'AEREO',
+                'MARITIMO',
+                'CONSOLIDADO'
+            ]
         }
+    }, 
+    methods:{
+       
     }
 }
 </script>

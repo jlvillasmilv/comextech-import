@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
         ]));
 
 
-        $user = User::create([
+        $client = User::create([
             'name'      => 'Cliente',
             'email'     => 'client@client.com',
             'email_verified_at' => now(),
@@ -39,9 +39,20 @@ class UsersTableSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-        $user->ownedTeams()->save(Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+        $client->company()->create([
+            'country_id' => '44',
+            'tax_id'  => '76722268-8',
+            'name'    => 'Comextech',
+            'address' => 'Augusto Leguía Sur 79, Oficina 1110. Las Condes, Chile',
+            'email'   => 'info@Comex.Tech',
+            'phone'   => '+56228977070',
+            'contact_name'   => 'Andres Fabregat',
+            'status'  => 1
+        ]);
+
+        $client->ownedTeams()->save(Team::forceCreate([
+            'user_id' => $client->id,
+            'name' => explode(' ', $client->name, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
 
