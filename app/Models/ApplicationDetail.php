@@ -23,4 +23,19 @@ class ApplicationDetail extends Model
     {
         return $this->belongsTo(Application::class,'application_id');
     }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class,'service_id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class,'currency_id');
+    }
+
+    public function currency2()
+    {
+        return $this->belongsTo(Currency::class,'currency2_id');
+    }
 }
