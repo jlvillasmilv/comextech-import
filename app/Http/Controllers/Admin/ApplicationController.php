@@ -65,7 +65,7 @@ class ApplicationController extends Controller
      */
     public function edit(Application $application)
     {
-        //
+        return view('admin.applications.form', compact('application'));
     }
 
     /**
