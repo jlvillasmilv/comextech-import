@@ -34,6 +34,9 @@
                 <div v-if="activetab ==='Servicio de Origen'"> 
                         Internacion
                 </div>
+                <div v-if="activetab ==='Financiamiento'"> 
+                      <Financing/>
+                </div>
                 
         </div>
         <Modal v-if="statusModal"  :title="title"> 
@@ -60,7 +63,8 @@
     import PaymentProvider from '../layouts/PaymentProvider.vue'
     import Modal from '../components/Modal.vue'
     import Transport from '../components/Transport.vue'
-     
+    import Financing from '../components/Financing.vue'
+    
     
     export default {
         name:"HomeImport",
@@ -88,6 +92,9 @@
                     {
                         name:"Servicio de Origen", selected:false, id:7
                     },
+                    {
+                        name:"Financiamiento", selected:false, id:8
+                    },
 
                 ],
                 activetab:"",
@@ -98,7 +105,8 @@
         components:{
             Modal,
             PaymentProvider,
-            Transport           
+            Transport,
+            Financing           
         },
         methods:{
             generateForm(){
