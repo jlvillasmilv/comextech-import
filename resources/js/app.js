@@ -31,9 +31,12 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 Vue.component('v-select', vSelect)
 
+import UniqueId from 'vue-unique-id';
+
+Vue.use(UniqueId);
+
 const app = new Vue({
-    el: '#app',
-    
+    el: '#app',  
     components:{
         'home-import-app': Import,
     }
