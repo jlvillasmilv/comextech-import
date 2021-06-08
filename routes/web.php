@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Http\Controllers\{
-    ImportsController,
+    ServicesController,
     SupplierController
 };
 
@@ -29,8 +29,10 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
-  
-    Route::get('/imports', [ImportsController::class, 'index'])->name('imports.index');
+
+    //services
+    Route::get('/services', [ServicesController::class, 'show'])->name('services.show');
+    Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('forms', 'forms')->name('forms');

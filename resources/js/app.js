@@ -29,10 +29,10 @@ import 'alpinejs'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 Vue.component('v-select', vSelect)
+ 
 
 const app = new Vue({
-    el: '#app',
-    
+    el: '#app',  
     components:{
         'home-import-app': Import,
     }
