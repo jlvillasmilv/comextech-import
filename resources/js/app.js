@@ -30,10 +30,7 @@ import 'alpinejs'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 Vue.component('v-select', vSelect)
-
-import UniqueId from 'vue-unique-id';
-
-Vue.use(UniqueId);
+ 
 
 const app = new Vue({
     el: '#app',  
