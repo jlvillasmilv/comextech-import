@@ -19,7 +19,6 @@ class CreateCurrenciesTable extends Migration
             $table->string('code', 10)->unique();
             $table->string('symbol', 5)->nullable();
             $table->boolean('status')->default(true);
-            $table->timestamps();
         });
     }
 

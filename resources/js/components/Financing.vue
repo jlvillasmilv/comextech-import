@@ -6,8 +6,7 @@
                     <div class="flex w-full overflow-x-auto">
                         <table class="w-full whitespace-no-wrap">
                             <thead>
-                                <tr
-                                    class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+                                <tr class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
                                     <th class="px-4 py-3">
                                         Fuente
                                     </th>
@@ -22,7 +21,6 @@
                                             <!-- Avatar with inset shadow -->
                                             <div>
                                                 <p class="font-semibold tex-2x1"> Contado </p>
-                                                
                                             </div>
                                         </div>
                                     </td>

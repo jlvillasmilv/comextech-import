@@ -21,9 +21,10 @@
             <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
                     <thead>
-                        <tr
-                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3"> Id  </th>
+                        <tr 
+                            class="text-sm font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+
+                             <th class="px-4 py-3"> Id  </th>
                             <th class="px-4 py-3"> Empresa </th>
                             <th class="px-4 py-3"> ISIN </th>
                             <th class="px-4 py-3"> IBAN</th>

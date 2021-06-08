@@ -11,13 +11,10 @@ class Currency extends Model
     use HasFactory;
     use HasAdvancedFilter;
 
+    public $timestamps = false;
+
     protected $table = 'currencies';
     protected $guarded = [];
-
-    protected $dates = [
-        'created_at',
-        'updated_at',
-    ];
 
     public $orderable = [
         'id',

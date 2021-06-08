@@ -42,9 +42,16 @@
                 aria-label="submenu"
               >
                 <li
+                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                >
+                <a class="w-full" href="{{ route('services.index')}}">
+                    Solicitudes
+                </a>
+                </li>
+                <li
                   class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                 >
-                  <a class="w-full"  href="{{route('imports.index')}}" > Gestion de Servicios</a>
+                  <a class="w-full"  href="{{route('services.show')}}" > Gestion de Servicios</a>
                 </li>
                 <li
                   class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"

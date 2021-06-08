@@ -19,8 +19,12 @@ class CreateApplicationsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('application_statuses_id');
+            $table->unsignedBigInteger('currency_id')->nullable();
             $table->string('description')->nullable();
-            $table->date('estimated_date_delivery')->nullable();
+            $table->date('estimated_date')->nullable();
+            $table->unsignedTinyInteger('fee1')->nullable()->comment('PAGO ADELANTO %');
+            $table->unsignedTinyInteger('fee2')->nullable()->comment('PAGO_ENTREGA_%');
+            $table->unsignedTinyInteger('day_pay')->nullable()->comment('Dias a pagar');
             $table->decimal('amount', 12, 2)->default(0)->nullable();
             $table->decimal('charge', 12, 2)->default(0)->nullable();
             $table->decimal('commission', 12, 2)->default(0)->nullable();
@@ -30,6 +34,7 @@ class CreateApplicationsTable extends Migration
             $table->softDeletes($column = 'deleted_at', $precision = 0);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('application_statuses_id')->references('id')->on('application_statuses')->onDelete('cascade');
         });
     }
 
