@@ -29,7 +29,6 @@
     },
     "dependencies": {
         "alpinejs": "^2.8.1",
-        "datatables": "^1.10.18",
         "jquery": "^3.6.0",
         "sweetalert2": "^11.0.16",
         "turbolinks": "^5.2.0",

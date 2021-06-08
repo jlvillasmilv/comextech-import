@@ -1,6 +1,5 @@
 window.$ = window.jQuery = require('jquery');
 require('./bootstrap');
-require('datatables');
 
 import Import  from './views/Import'
 

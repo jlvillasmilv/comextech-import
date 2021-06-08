@@ -57,8 +57,34 @@
                                 {{$application->description}} 
                             </p>
                         </label>
+
+                        <div class="px-2">
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Dias a partir del adelanto:</span>
+                                <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
+                                    {{$application->day_pay}} 
+                                </p>
+                            </label>
+                        </div>
         
-                        <div class="py-4 px-8">
+                        <div class="px-2">
+                            <div class="flex mb-4">
+                                <div class="w-1/2 mr-1">
+                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Adelanto</label>
+                                    <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                                        {{ $application->fee1 }} %
+                                    </p>
+                                </div>
+                                <div class="w-1/2 ml-1">
+                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Saldo</label>
+                                    <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                                        {{ $application->fee2 }} %
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="px-2">
                             <div class="flex mb-4">
                                 <div class="w-1/2 mr-1">
                                     <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha Solicitud:</label>
@@ -69,7 +95,7 @@
                                 <div class="w-1/2 ml-1">
                                     <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Fecha estimada</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                        {{ date('d-m-Y', strtotime($application->estimated_date_delivery)) }}
+                                        {{ date('d-m-Y', strtotime($application->estimated_date)) }}
                                     </p>
                                 </div>
                             </div>
@@ -85,33 +111,27 @@
                                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                     <th class="px-4 py-3">Servicio </th>
                                     <th class="px-4 py-3">MO </th>
-                                    <th class="px-4 py-3">Moneda </th>
                                     <th class="px-4 py-3">Monto </th>
-                                    <th class="px-4 py-3">Moneda </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                 @forelse($application->details as $detail)
                                 <tr class="text-gray-700 dark:text-gray-400">
-                                    
+                            
                                     <td class="px-4 py-3 text-sm">
                                         <p class="font-semibold">{{ $detail->service->name }}</p>
                                     </td>
                                     <td class="px-4 py-3 text-xs">
                                         <div class="flex items-center text-sm">                                 
-                                            {{ $detail->currency->symbol }}  {{ $detail->amount }}
+                                            {{ $detail->currency->code }}  {{ $detail->currency->symbol }}   {{number_format($detail->amount,0,",",".") }}
                                         </div>
                                         
                                     </td>
+                                  
                                     <td class="px-4 py-3 text-sm">
-                                        {{ $detail->currency->code }}
+                                        {{ $detail->currency2->code }}  {{ $detail->currency2->symbol }}  {{number_format($detail->amount2,0,",",".") }}
                                     </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {{ $detail->currency2->symbol }}   {{ $detail->amount }}
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {{ $detail->currency2->code }}
-                                    </td>
+                                    
                                 </tr>
              
                                 @empty
