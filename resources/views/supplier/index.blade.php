@@ -21,13 +21,14 @@
             <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
                     <thead>
-                        <tr
-                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                        <tr 
+                            class="text-sm font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+
                             <th class="px-4 py-3"> Id  </th>
                             <th class="px-4 py-3"> Empresa </th>
                             <th class="px-4 py-3"> ISIN </th>
                             <th class="px-4 py-3"> IBAN</th>
-                             <th class="px-4 py-3"> </th> 
+                            <th class="px-4 py-3"> </th> 
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -58,7 +59,8 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                    
-                                    <a  href="{{ route('supplier.show', $supplier->id) }}" 
+                                    <a  
+                                    href="{{ route('supplier.show', $supplier->id) }}" 
                                         class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                        
