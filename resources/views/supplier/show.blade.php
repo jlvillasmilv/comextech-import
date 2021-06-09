@@ -89,9 +89,6 @@
                                 {{ date('d-m-Y', strtotime($supplier->created_at)) }}
                             </td>
                         </tr> 
-
-                           
-
                     </tbody>
                 </table>
         </div>
