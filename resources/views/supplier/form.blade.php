@@ -3,7 +3,6 @@
         <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
             <a href="{{route('supplier.index')}}">Proveedores</a>  
         </h2>
-
         <div class="flex justify-center px-6 m-auto my-2 ">
             <div class=" w-2/3 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    ">
                 <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">

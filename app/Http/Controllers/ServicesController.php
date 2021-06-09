@@ -15,6 +15,10 @@ class ServicesController extends Controller
     {
         return view('services.show');
     }
+    public function summary()
+    {
+        return view('services.show_summary');
+    }
     
 
    
