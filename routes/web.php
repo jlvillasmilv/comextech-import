@@ -34,7 +34,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
   
-
     //services
     Route::get('/services', [ServicesController::class, 'show'])->name('services.show');
     Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');

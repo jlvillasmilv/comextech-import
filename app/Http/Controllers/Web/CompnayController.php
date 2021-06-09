@@ -71,10 +71,22 @@ class CompnayController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        $data = Company::findOrFail(base64_decode($id));
+
+        $data->fill($request->all())->save();
+
+        $notification = array(
+            'message'    => 'Registro actualizado',
+            'alert_type' => 'success',);
+
+        \Session::flash('notification', $notification);
+
+        return redirect()->route('company.index');
+
     }
+
 
     /**
      * Remove the specified resource from storage.

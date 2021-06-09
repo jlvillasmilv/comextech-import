@@ -21,10 +21,11 @@ class ApplicationSeeder extends Seeder
             'application_statuses_id'   => '1',
             'currency_id'       => 97,
             'description'       => 'Necesito importar un Equipo desde China con Valor del Equipo es Usd50.000,00',
-            'day_pay'           => '30',
+            'fee1_date'           => date('Y-m-d'),
             'amount'            => '50000',
             'fee1'              => '20',
             'fee2'              => '80',
+            'fee2_date'           => date('Y-m-d'),
             'estimated_date'    => date('Y-m-d'),           
         ]);
 
