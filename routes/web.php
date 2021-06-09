@@ -29,6 +29,9 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
+    Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
+
+    Route::resource('company',  'App\Http\Controllers\Web\CompnayController');
   
     Route::get('/imports', [ImportsController::class, 'index'])->name('imports.index');
 
