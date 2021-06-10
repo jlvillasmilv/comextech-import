@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Models\Currency;
+use App\Models\{Currency, CategoryService};
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -22,6 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/currencies', function (Request $request) {
     $currencies = Currency::select('id',DB::raw("CONCAT(name,' (', code,')') as name_code"))
+    ->where('status', '=', true)->OrderBy('name')->get();
+    return response()->json($currencies ,200);
+});
+
+
+Route::get('/category_services', function (Request $request) {
+    $currencies = CategoryService::select('name', DB::raw("'false' as selected"),'id','ind_service')
     ->where('status', '=', true)->OrderBy('name')->get();
     return response()->json($currencies ,200);
 });

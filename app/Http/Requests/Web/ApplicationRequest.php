@@ -23,8 +23,21 @@ class ApplicationRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        $rules = [
+            'supplier_id'              => 'nullable|exists:suppliers,id',
+            'application_statuses_id'  => 'required|exists:application_statuses,id',
+            'currency_id'              => 'required|exists:currencies,id',
+            'description'              => 'required|max:250',
+            'estimated_date'           => 'required|date',
+            'fee1'                     => 'required|numeric',
+            'fee1_date'                => 'required|date',
+            'fee2'                     => 'required|numeric',
+            'fee2_date'                => 'required|date',
+            'fee3'                     => 'nullable|numeric',
+            'fee3_date'                => 'nullable|date',
+            'amount'                   => 'required|numeric',
         ];
+
+        return $rules;
     }
 }

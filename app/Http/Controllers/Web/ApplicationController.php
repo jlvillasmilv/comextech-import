@@ -34,7 +34,7 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SupplierRequest $request)
+    public function store(ApplicationRequest $request)
     {
         $data = new Application;
         $data->fill($request->all());
