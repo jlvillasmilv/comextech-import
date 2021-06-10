@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/currencies', function (Request $request) {
-    $currencies = Currency::where('status', '=', true)->OrderBy('name')->get();
+    $currencies = Currency::select('id',DB::raw("CONCAT(name,' (', code,')') as name_code"))
+    ->where('status', '=', true)->OrderBy('name')->get();
     return response()->json($currencies ,200);
 });
