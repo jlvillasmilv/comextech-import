@@ -23,8 +23,11 @@ class CreateApplicationsTable extends Migration
             $table->string('description')->nullable();
             $table->date('estimated_date')->nullable();
             $table->unsignedTinyInteger('fee1')->nullable()->comment('PAGO ADELANTO %');
+            $table->date('fee1_date')->nullable();
             $table->unsignedTinyInteger('fee2')->nullable()->comment('PAGO_ENTREGA_%');
-            $table->unsignedTinyInteger('day_pay')->nullable()->comment('Dias a pagar');
+            $table->date('fee2_date')->nullable();
+            $table->unsignedTinyInteger('fee3')->nullable()->comment('PAGO_ENTREGA_% si amerita');
+            $table->date('fee3_date')->nullable();
             $table->decimal('amount', 12, 2)->default(0)->nullable();
             $table->decimal('charge', 12, 2)->default(0)->nullable();
             $table->decimal('commission', 12, 2)->default(0)->nullable();

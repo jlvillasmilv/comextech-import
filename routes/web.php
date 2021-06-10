@@ -30,11 +30,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
     Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
-    Route::resource('company',  'App\Http\Controllers\Web\CompnayController');
+    Route::resource('company',  'App\Http\Controllers\Web\CompnayController')->except(['destroy','create']);
 
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
   
-
     //services
     Route::get('/services', [ServicesController::class, 'show'])->name('services.show');
     Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');
@@ -56,6 +55,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::resource('currencies', 'CurrencyController');
     Route::resource('users', 'UserController');
     Route::resource('clients', 'CompanyController');
-    Route::resource('applications', 'ApplicationController')->except(['destroy','create']); ;
+    Route::resource('applications', 'ApplicationController')->except(['destroy','create']);
+    Route::resource('category_service', 'CategoryServiceController');
+
+
 
 });
