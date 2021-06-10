@@ -30,6 +30,9 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 Vue.component('v-select', vSelect)
  
+import VueMask from 'v-mask'
+Vue.use(VueMask)
+ 
 
 const app = new Vue({
     el: '#app',  

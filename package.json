@@ -32,6 +32,7 @@
         "jquery": "^3.6.0",
         "sweetalert2": "^11.0.16",
         "turbolinks": "^5.2.0",
+        "v-mask": "^2.2.4",
         "vue": "^2.6.12",
         "vue-select": "^3.11.2",
         "vue-unique-id": "^3.2.1"
