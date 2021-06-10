@@ -50,7 +50,7 @@
                 </div>
                 <div class="" v-else>
                     <div class="flex flex-wrap -mx-3 my-3 ">
-                        <v-select label="name" @input="showSuplier" class=" w-full mx-3  h2   dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400   dark:text-gray-300 dark:focus:shadow-outline-gray  " placeholder="Seleccionar Proveedor" :options="tabs" > ">
+                        <v-select label="name"  class=" w-full mx-3  h2   dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400   dark:text-gray-300 dark:focus:shadow-outline-gray  " placeholder="Seleccionar Proveedor" :options="suppliers" > ">
                                 <template  v-slot:no-options="{ search, searching }" >
                                     <template v-if="searching" class="text-sm">
                                     Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
@@ -59,51 +59,76 @@
                                     </template>
                          </v-select>
                     </div>
-       
-                      <div class="flex flex-wrap -mx-3  ">
+                    <div class="flex flex-wrap -mx-3  ">
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                         <label class="block   text-gray-700 text-xs dark:text-gray-400" >
-                               Monto Total Operacion
-                        </label>
-                            <input class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                            <label class="block   text-gray-700 text-xs dark:text-gray-400" >
+                                Monto Total Operacion
+                            </label>
+                                <input class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
                          </div>
                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                        <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                               Moneda
-                        </label>
-                        <v-select label="name" @input="showSuplier" class="block  mt-1 h2  dark:border-gray-600 dark:bg-gray-700   dark:text-gray-300 dark:focus:shadow-outline-gray " placeholder="Moneda" :options="tabs" > ">
-                                <template  v-slot:no-options="{ search, searching }" >
-                                    <template v-if="searching" class="text-sm">
-                                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
-                                </template>
-                                <em style="opacity: 0.5;" v-else>  Moneda </em>
+                            <label class="block  text-gray-700 text-xs dark:text-gray-400" >
+                                Moneda
+                            </label>
+                            <v-select label="name"   class="block text-center mt-1 h2  dark:border-gray-600 dark:bg-gray-700   dark:text-gray-300 dark:focus:shadow-outline-gray " placeholder="Moneda" :options="currencies" > ">
+                                    <template  v-slot:no-options="{ search, searching }" >
+                                            <template v-if="searching" class="text-sm">
+                                            Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                                            </template>
+                                        <em style="opacity: 0.5;" v-else>  Moneda </em>
                                     </template>
-                         </v-select>
-                          </div>
+                            </v-select>
+                        </div>
                     </div>   
                      <div class="flex flex-wrap -mx-3  ">
-                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                         <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                               Dias a Pagar
-                        </label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
-                       <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                        <label class="block   text-gray-700 text-xs dark:text-gray-400" >
-                               Fecha Estimada
-                        </label>
-                            <input type="date" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
+                        <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class="flex text-gray-700 text-xs dark:text-gray-400" >
+                                Porcentaje
+                            </label>
+                            <input placeholder="70%" class="block text-center w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                        </div>
+                       <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class="block  text-gray-700 text-xs dark:text-gray-400" >
+                                Fecha a Pagar Porcentaje
+                            </label>
+                             <input type="date"  class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                        </div>
+                    </div>   
+                    <div class="flex   -mx-3  ">
+                  
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full whitespace-no-wrap">
+                            <thead>
+                                <tr
+                                    class="text-xs  tracking-wide text-left text-black  uppercase border-b dark:border-gray-700 bg-gray-100 dark:text-gray-400 dark:bg-gray-800">
+                                    <th class="px-4 py-3">Monto </th>
+                                    <th class=""> Porcentaje</th>
+                                    <th class="px-4 py-3">Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                <tr class="text-gray-700 dark:text-gray-400">
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class=""> Adelantado </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-2 py-2 text-sm">
+                                        10 %
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                    </div>   
                      <div class="flex flex-wrap -mx-3  ">
                          <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
                             <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
-                                Porcentaje de Pagos al Proveedor
+                                Fecha de Estimacion
                             </label>
-                            <div class="block md:w-1/2 px-3 mb-2 md:mb-0">
-                                <input placeholder="Adelantado" class="w-17 h-10 text-center    mt-1 text-sm  form-input" />
-                                <input placeholder="Al Entregar" class="w-17 h-10 text-center    mt-1 text-sm  form-input" />
-                            </div>
+                                 <input type="date" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
                          </div>
                          <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
                               <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
@@ -117,8 +142,6 @@
                                 spellcheck="false">
                             </textarea>
                           </div>
-               
-                    
                     </div>
                 </div>
             </template>
@@ -181,10 +204,13 @@
                         name:"Servicio de Origen", selected:false, id:7
                     },
                 ],
+                suppliers:[],
                 activetab:"",
                 statusModal:true,
                 title:"Servicios para Cotizacion",
-                next:false
+                next:false,
+                currencies:[],
+                tablePayment:[]
             }
         },
         components:{
@@ -203,8 +229,15 @@
                 this.activetab = value.name
             },
         },
-        created(){
-           
+        async created(){
+            try {
+                let suppliers  = await axios.get("/supplierlist");
+                let currencies = await axios.get("/api/currencies");
+                this.suppliers =  suppliers.data
+                this.currencies =  currencies.data
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 </script>
