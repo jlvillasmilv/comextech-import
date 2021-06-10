@@ -58,18 +58,13 @@ class ServicesController extends Controller
    
     public function show($id)
     {
-
         if (! Gate::allows('services.show')) {
             return abort(401);
         }
 
         $data  = Service::findOrFail($id);
 
-        $depend_id = count(explode(',',$data->dependence)) > 1 ? explode(',',$data->dependence) : [0];
-
-        $dependence =  Service::whereIn('id',$depend_id)->pluck('id','name');
-
-        return view('admin.services.show', compact('data','dependence'));
+        return view('admin.services.show', compact('data'));
     }
 
     /**
@@ -86,11 +81,7 @@ class ServicesController extends Controller
 
         $data  = Service::findOrFail($id);
 
-        $depend_id = count(explode(',',$data->dependence)) > 1 ? explode(',',$data->dependence) : [0];
-
-        $dependence =  Service::whereIn('id',$depend_id)->pluck('id','name');
-
-        return view('admin.services.form', compact('data','dependence'));
+        return view('admin.services.form', compact('data'));
     }
 
     /**
