@@ -49,28 +49,38 @@
                 </label>
                 </div>
                 <div class="" v-else>
-                     <div class="flex flex-wrap -mx-3 mt-2 ">
-                        <div class="w-full md:w-full px-3 mb-2 md:mb-0">
-                         <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                               Monto Total 
-                        </label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Monto Total de la Operacion" />
-                         </div>
+                    <div class="flex flex-wrap -mx-3 my-3 ">
+                        <v-select label="name" @input="showSuplier" class=" w-full mx-3  h2   dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400   dark:text-gray-300 dark:focus:shadow-outline-gray  " placeholder="Seleccionar Proveedor" :options="tabs" > ">
+                                <template  v-slot:no-options="{ search, searching }" >
+                                    <template v-if="searching" class="text-sm">
+                                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                                </template>
+                                <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
+                                    </template>
+                         </v-select>
                     </div>
-                     <div class="flex flex-wrap -mx-3  ">
+       
+                      <div class="flex flex-wrap -mx-3  ">
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                         <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                               Pago Adelantado
+                         <label class="block   text-gray-700 text-xs dark:text-gray-400" >
+                               Monto Total Operacion
                         </label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                            <input class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
                          </div>
                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                         <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                               Pago de Entrega  
+                               Moneda
                         </label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
-                    </div>
+                        <v-select label="name" @input="showSuplier" class="block  mt-1 h2  dark:border-gray-600 dark:bg-gray-700   dark:text-gray-300 dark:focus:shadow-outline-gray " placeholder="Moneda" :options="tabs" > ">
+                                <template  v-slot:no-options="{ search, searching }" >
+                                    <template v-if="searching" class="text-sm">
+                                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                                </template>
+                                <em style="opacity: 0.5;" v-else>  Moneda </em>
+                                    </template>
+                         </v-select>
+                          </div>
+                    </div>   
                      <div class="flex flex-wrap -mx-3  ">
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                          <label class="block  text-gray-700 text-xs dark:text-gray-400" >
@@ -84,6 +94,31 @@
                         </label>
                             <input type="date" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
                          </div>
+                    </div>
+                     <div class="flex flex-wrap -mx-3  ">
+                         <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
+                                Porcentaje de Pagos al Proveedor
+                            </label>
+                            <div class="block md:w-1/2 px-3 mb-2 md:mb-0">
+                                <input placeholder="Adelantado" class="w-17 h-10 text-center    mt-1 text-sm  form-input" />
+                                <input placeholder="Al Entregar" class="w-17 h-10 text-center    mt-1 text-sm  form-input" />
+                            </div>
+                         </div>
+                         <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
+                              <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
+                                Description  
+                            </label>
+                            <textarea 
+                                required="" 
+                                name="message" 
+                                class="w-full min-h-[50px] max-h-[50px]  w-25 text-xs appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" 
+                                placeholder=" Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"														
+                                spellcheck="false">
+                            </textarea>
+                          </div>
+               
+                    
                     </div>
                 </div>
             </template>
