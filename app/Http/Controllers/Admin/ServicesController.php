@@ -3,24 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\CategoryService;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Requests\ServiceRequest;
 use Illuminate\Support\Facades\Gate;
 
-class CategoryServiceController extends Controller
+class ServicesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        if (! Gate::allows('category_services.index')) {
+        if (! Gate::allows('services.index')) {
             return abort(401);
         }
         
-        return view('admin.category_services.index');
+        return view('admin.services.index');
 
     }
 
@@ -31,11 +27,11 @@ class CategoryServiceController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('category_services.create')) {
+        if (! Gate::allows('services.create')) {
             return abort(401);
         }
 
-        return view('admin.category_services.form');
+        return view('admin.services.form');
     }
 
     /**
@@ -44,10 +40,9 @@ class CategoryServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
-        $data = new CategoryService;
-        $data->user_id = auth()->user()->id;
+        $data = new Service;
         $data->fill($request->all());
         $data->save();
 
@@ -57,63 +52,57 @@ class CategoryServiceController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.category_services.edit', $data->id);
+        return redirect()->route('admin.Service.edit', $data->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CategoryService  $categoryService
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show($id)
     {
 
-        if (! Gate::allows('category_services.show')) {
+        if (! Gate::allows('services.show')) {
             return abort(401);
         }
 
-        $data  = CategoryService::findOrFail($id);
+        $data  = Service::findOrFail($id);
 
         $depend_id = count(explode(',',$data->dependence)) > 1 ? explode(',',$data->dependence) : [0];
 
-        $dependence =  CategoryService::whereIn('id',$depend_id)->pluck('id','name');
+        $dependence =  Service::whereIn('id',$depend_id)->pluck('id','name');
 
-        return view('admin.category_services.show', compact('data','dependence'));
+        return view('admin.services.show', compact('data','dependence'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\CategoryService  $categoryService
+     * @param  \App\Models\Service  $Service
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (! Gate::allows('category_services.edit')) {
+        if (! Gate::allows('services.edit')) {
             return abort(401);
         }
 
-        $data  = CategoryService::findOrFail($id);
+        $data  = Service::findOrFail($id);
 
         $depend_id = count(explode(',',$data->dependence)) > 1 ? explode(',',$data->dependence) : [0];
 
-        $dependence =  CategoryService::whereIn('id',$depend_id)->pluck('id','name');
+        $dependence =  Service::whereIn('id',$depend_id)->pluck('id','name');
 
-        return view('admin.category_services.form', compact('data','dependence'));
+        return view('admin.services.form', compact('data','dependence'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CategoryService  $categoryService
+     * @param  \App\Models\Service  $Service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ServiceRequest $request, $id)
     {
-        $data = CategoryService::findOrFail($id);
-        $data->modified_user_id = auth()->user()->id;
+        $data = Service::findOrFail($id);
         $data->fill($request->all())->save();
 
         $notification = array(
@@ -122,19 +111,19 @@ class CategoryServiceController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.category_service.edit', $data->id);
+        return redirect()->route('admin.services.edit', $data->id);
     }
     
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CategoryService  $categoryService
+     * @param  \App\Models\Service  $Service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CategoryService $categoryService)
+    public function destroy($id)
     {
-        $data = CategoryService::findOrFail($id);
+        $data = Service::findOrFail($id);
         $data->status = false;
         $data->save();
 

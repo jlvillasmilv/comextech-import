@@ -35,12 +35,18 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'users.show']);
         Permission::create(['name' => 'users.create']);
         Permission::create(['name' => 'users.destroy']);
+
+        Permission::create(['name' => 'services.index']);
+        Permission::create(['name' => 'services.edit']);
+        Permission::create(['name' => 'services.show']);
+        Permission::create(['name' => 'services.create']);
+        Permission::create(['name' => 'services.destroy']);
        
         //Admin
         $admin = Role::create(['name' => 'Admin']);
        
         //Client
-        $guest = Role::create(['name' => 'Client']);
+        $client = Role::create(['name' => 'Client']);
 
          //Guest
         $guest = Role::create(['name' => 'Guest']);

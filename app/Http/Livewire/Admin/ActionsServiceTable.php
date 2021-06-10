@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\Service;
+use App\Models\{CategoryService, Service};
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -17,6 +17,9 @@ class ActionsServiceTable extends LivewireDatatable
         return [
             NumberColumn::name('id'),
 
+            Column::name('category.name')
+            ->label('Categoria'),
+
             Column::name('name')->searchable()->label('Nombre'),
 
             Column::callback(['id'], function ($id) {
@@ -24,4 +27,10 @@ class ActionsServiceTable extends LivewireDatatable
             })
         ];
     }
+
+    public function getCategoryServiceProperty()
+    {
+        return CategoryService::pluck('name');
+    }
+
 }
