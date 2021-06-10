@@ -1,13 +1,11 @@
 <template>
      <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
-      
         <ul class="flex justify-center items-center mt-2 ">
                     <button  @click="statusModal = !statusModal"  class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>   
                     </button>
-            
             <div v-for="(item, id) in tabs"   :key="id" @click="toogleMenu(item)"    >
                 <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.name == activetab ? 'text-b-500 border-indigo-500' : '']">
                         {{ item.name}}
@@ -50,8 +48,8 @@
                 </div>
                 <div class="" v-else>
                     <div class="flex flex-wrap -mx-3 my-3 ">
-                        <v-select label="name" @input="showSuplier" class=" w-full mx-3  h2   dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400   dark:text-gray-300 dark:focus:shadow-outline-gray  " placeholder="Seleccionar Proveedor" :options="tabs" > ">
-                                <template  v-slot:no-options="{ search, searching }" >
+                        <v-select label="name"  v-model="payment.suppliers_id"  :reduce="s => s.id"  class=" w-full mx-3  h2   dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400   dark:text-gray-300 dark:focus:shadow-outline-gray  " placeholder="Seleccionar Proveedor" :options="suppliers" > ">
+                                <template v-slot:no-options="{ search, searching }" >
                                     <template v-if="searching" class="text-sm">
                                     Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
                                 </template>
@@ -59,66 +57,78 @@
                                     </template>
                          </v-select>
                     </div>
-       
-                      <div class="flex flex-wrap -mx-3  ">
+                    <div class="flex flex-wrap -mx-3  ">
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                         <label class="block   text-gray-700 text-xs dark:text-gray-400" >
-                               Monto Total Operacion
-                        </label>
-                            <input class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                            <label class="block   text-gray-700 text-xs dark:text-gray-400" >
+                                Monto Total Operacion
+                            </label>
+                                <input v-model.number="payment.amount"     class="block  text-center w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
                          </div>
                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                        <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                               Moneda
-                        </label>
-                        <v-select label="name" @input="showSuplier" class="block  mt-1 h2  dark:border-gray-600 dark:bg-gray-700   dark:text-gray-300 dark:focus:shadow-outline-gray " placeholder="Moneda" :options="tabs" > ">
-                                <template  v-slot:no-options="{ search, searching }" >
-                                    <template v-if="searching" class="text-sm">
-                                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
-                                </template>
-                                <em style="opacity: 0.5;" v-else>  Moneda </em>
+                           <label class="block  text-gray-700 text-xs dark:text-gray-400" >
+                                Moneda
+                            </label>
+                            <v-select label="name_code" v-model="payment.currency_id"  class="block text-center mt-1 h2  dark:border-gray-600 dark:bg-gray-700   dark:text-gray-300 dark:focus:shadow-outline-gray " placeholder="Moneda" :options="currencies" > ">
+                                    <template  v-slot:no-options="{ search, searching }" >
+                                            <template v-if="searching" class="text-sm">
+                                            Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                                            </template>
+                                        <em style="opacity: 0.5;" v-else>  Moneda </em>
                                     </template>
-                         </v-select>
-                          </div>
+                            </v-select>
+                        </div>
                     </div>   
                      <div class="flex flex-wrap -mx-3  ">
-                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                         <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                               Dias a Pagar
-                        </label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
-                       <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                        <label class="block   text-gray-700 text-xs dark:text-gray-400" >
-                               Fecha Estimada
-                        </label>
-                            <input type="date" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
-                    </div>
-                     <div class="flex flex-wrap -mx-3  ">
-                         <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
-                                Porcentaje de Pagos al Proveedor
+                        <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class="flex text-gray-700 text-xs dark:text-gray-400" >
+                                Porcentaje de Adelanto  %
                             </label>
-                            <div class="block md:w-1/2 px-3 mb-2 md:mb-0">
-                                <input placeholder="Adelantado" class="w-17 h-10 text-center    mt-1 text-sm  form-input" />
-                                <input placeholder="Al Entregar" class="w-17 h-10 text-center    mt-1 text-sm  form-input" />
-                            </div>
+                            <input  v-model.number="payment.feed1" @input="setValidate()"     placeholder="30%" class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                             <span v-if="payment.feed1 > 0" class="ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray  " > {{ mount1 }} </span>
                          </div>
+                       <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class="block  text-gray-700 text-xs dark:text-gray-400" >
+                                Fecha a Pagar Porcentaje
+                            </label>
+                             <input v-model="payment.feed1_date"  type="date" class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                        </div>
+                    </div>   
+                      <div class="flex flex-wrap -mx-3  "  >
+                        <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class="flex text-gray-700 text-xs dark:text-gray-400" >
+                                Porcentaje Contra Entrega %
+                            </label>
+                            <input   :disabled="true" :value="payment.feed2"  class="  text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                            <span v-if="payment.feed1 > 0" class="ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray  " > {{ mount2 }} </span>
+                        </div>
+                       <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class="block  text-gray-700 text-xs dark:text-gray-400" >
+                                Fecha a Pagar  Contra Entrega
+                            </label>
+                            <input type="date" v-model="payment.feed2_date"  class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                         </div>
+                    </div>     
+                     <div class="flex flex-wrap -mx-3  ">
                          <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
                               <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
                                 Description  
                             </label>
                             <textarea 
+                                v-model="payment.description"
                                 required="" 
                                 name="message" 
-                                class="w-full min-h-[50px] max-h-[50px]  w-25 text-xs appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" 
+                                class=" w-full text-xs appearance-none   bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" 
                                 placeholder=" Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"														
-                                spellcheck="false">
+                                >
                             </textarea>
                           </div>
-               
-                    
+                         <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
+                                Fecha de Estimacion
+                            </label>
+                            <input type="date" v-model="payment.estimated_date" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                         </div>
+                         
                     </div>
                 </div>
             </template>
@@ -128,13 +138,13 @@
                         Atras
                     </button>
                     <button  
-                        @click="statusModal = !statusModal"  
+                        @click="submitFormApplications()" 
                         class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
                         Aceptar
                     </button >
                 </div >
                 <div v-else>
-                     <button @click="statusModal = !statusModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+                    <button @click="statusModal = !statusModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
                         Cancelar
                     </button>
                     <button 
@@ -181,31 +191,78 @@
                         name:"Servicio de Origen", selected:false, id:7
                     },
                 ],
+                payment:{
+                   amount:0,
+                   currency_id:'',
+                   suppliers_id:'',
+                   feed1:0,
+                   feed2:0,
+                   feed1_date:'',
+                   feed2_date:'',
+                   description:'',
+                   estimated_date:'',
+                   description:''
+                },
+                suppliers:[],
                 activetab:"",
                 statusModal:true,
                 title:"Servicios para Cotizacion",
-                next:false
+                next:false,
+                currencies:[],
+                tablePayment:[],
             }
         },
         components:{
             Modal,
             PaymentProvider,
-            Transport
+            Transport,
         },
         methods:{
-            generateForm(){
-               console.log({...this.tabs})
-            },
             tabsAdd(item){
-              this.tabs = this.tabs.map(e => e.id === item.id ? {...e, selected:!e.selected }: e)
+                this.tabs = this.tabs.map(e => e.id === item.id ? {...e, selected:!e.selected }: e)
             },
             toogleMenu(value){
                 this.activetab = value.name
             },
+            setValidate(){
+                if(isNaN(this.payment.feed1) || this.payment.feed1 > 100  ){
+                     this.payment.feed1 = 0
+                }else{
+                    this.payment.feed2 = 100 - this.payment.feed1
+                }
+            },
+            async submitFormApplications(){
+                 try {
+                     let data  = await axios.post("/applications",  {
+                          payment: this.payment,
+                          services: this.tabs
+                     })
+                     this.statusModal = !this.statusModal
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         },
-        created(){
-           
-        }
+        computed:{
+            mount2(){
+                return Math.round(this.payment.amount * (this.payment.feed2 / 100))
+            },
+            mount1(){
+                return Math.round( this.payment.amount * (this.payment.feed1 / 100))
+            }
+        },
+        async created(){
+            try {
+                let suppliers   = await axios.get("/supplierlist");
+                let currencies  = await axios.get("/api/currencies");
+                this.suppliers  = suppliers.data
+                this.currencies = currencies.data
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        
+         
     }
 </script>
 
