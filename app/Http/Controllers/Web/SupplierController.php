@@ -97,6 +97,12 @@ class SupplierController extends Controller
 
     }
 
+    public function list()
+    {
+        $data = Supplier::where('user_id', auth()->user()->id)->get();
+        return response()->json($data, 200);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
