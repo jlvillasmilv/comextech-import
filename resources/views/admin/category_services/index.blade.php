@@ -16,8 +16,15 @@
             </a>
         </div>
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
-            <div class="w-full overflow-x-auto">
-                <livewire:datatable model="App\Models\CategoryService" />
+            <div class="w-full whitespace-no-wrap">
+                {{-- <livewire:datatable 
+                    model="App\Models\CategoryService"
+                    include="id, name|Nombre"
+                    searchable="name, code"
+                    hideable="select"
+                    exportable
+                 /> --}}
+                 <livewire:admin.actions-category-serv-table  include="id, name|Nombre" exportable/>
             </div>
         </div>
 

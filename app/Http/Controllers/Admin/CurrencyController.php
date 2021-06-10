@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Currency;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\CurrencyRequest;
 
@@ -118,25 +117,4 @@ class CurrencyController extends Controller
         //
     }
 
-    public function table(Request $request)
-    {
-        $query = Currency::query();
-
-        return Datatables::of($query)->addColumn('action', function ($dat) {
-
-            return ' <a href="'.route("admin.users.show", $dat->id).'" class="btn btn-sm btn-primary"><i class="fas fa-eye" title="Show: '.$dat->name.'"></i></a>
-
-                <a href="'.route("admin.users.edit", $dat->id).'" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                aria-label="Edit"></i></a>
-                <button class="btn btn-sm btn-danger btn-delete" title="delete '.$dat->name.'" data-remote="'.route("admin.users.destroy", $dat->id).'"><i class="far fa-trash-alt"></i></button> ';
-        })
-        ->editColumn('created_at', function ($users){
-            return date('d-m-y', strtotime($users->created_at) );
-        })
-        ->filterColumn('created_at', function ($query, $keyword) {
-            $query->whereRaw("DATE_FORMAT(users.created_at,'%m/%d/%y') like ?", ["%$keyword%"]);
-        })
-        ->rawColumns(['action'])
-        ->make(true);
-    }
 }

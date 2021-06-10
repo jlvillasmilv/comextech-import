@@ -71,6 +71,13 @@
                   {!! request()->routeIs('admin.currencies.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
                   <a class="w-full" href="{{route('admin.currencies.index')}}">Monedas</a>
                 </li>
+
+                <li
+                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              >
+                {!! request()->routeIs('admin.category_service.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+                <a class="w-full" href="{{route('admin.category_service.index')}}">Categorias</a>
+              </li>
                 
               </ul>
             </template>
