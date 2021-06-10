@@ -1,13 +1,20 @@
 <x-app-layout title="Formulario de registro">
 	<div class="container grid px-6 mx-auto">
-		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Registro de moneda
+		<h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            <a href="{{route('admin.category_service.index')}}">Categoria Servicios</a>  
         </h2>
+
+        <div class="flex justify-between items-end">
+            <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
+                Registro Categoria de Servicios
+            </h4>
+           
+        </div>
 
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         
 
-            <form class="form-horizontal" role="form" method="POST" action="{{ isset($data) ? route('admin.currencies.update', $data->id) : route('admin.currencies.store') }}"  enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" method="POST" action="{{ isset($data) ? route('admin.category_service.update', $data->id) : route('admin.category_service.store') }}"  enctype="multipart/form-data">
                 @csrf
                  @if(isset($data))
 		           @method('PUT')
@@ -23,32 +30,18 @@
 	                @endif
 	        </label>
 
-	        <div class="flex flex-wrap">
-			    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-			      <label class="block text-sm my-3">
-		            <span class="text-gray-700 dark:text-gray-400">Codigo</span>
-		            <input class="{{ $errors->has('code') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="code" value="{{ old('code', isset($data) ? $data->code : '') }}" max="10" required="">
 
-		          
-		            @if($errors->has('code'))
+			<label class="block text-sm my-3">
+	            <span class="text-gray-700 dark:text-gray-400">Descripción</span>
+	            <input class="{{ $errors->has('description') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="description" value="{{ old('description', isset($data) ? $data->description : '') }}" max="100" required="">
+	            @if($errors->has('description'))
 		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('code') }}
+		                    {{ $errors->first('description') }}
 		                </span>
 	                @endif
-		        </label>
-			    </div>
-			    <div class="w-full md:w-1/2 px-3">
-			     <label class="block text-sm my-3">
-		            <span class="text-gray-700 dark:text-gray-400">Simbolo</span>
-		            <input class="{{ $errors->has('symbol') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="symbol" value="{{ old('symbol', isset($data) ? $data->symbol : '') }}" max="10">
-		            @if($errors->has('symbol'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('symbol') }}
-		                </span>
-	                @endif
-		        </label>
-			    </div>
-			</div>
+	        </label>
+
+	       
 	        
 	       
 	       

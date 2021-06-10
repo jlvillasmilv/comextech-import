@@ -66,13 +66,20 @@ class CategoryServiceController extends Controller
      * @param  \App\Models\CategoryService  $categoryService
      * @return \Illuminate\Http\Response
      */
-    public function show(CategoryService $data)
+    public function show($id)
     {
-        if (! Gate::allows('currency.show')) {
+
+        if (! Gate::allows('category_services.show')) {
             return abort(401);
         }
 
-        return view('admin.category_services.form', compact('data'));
+        $data  = CategoryService::findOrFail($id);
+
+        $depend_id = count(explode(',',$data->dependence)) > 1 ? explode(',',$data->dependence) : [0];
+
+        $dependence =  CategoryService::whereIn('id',$depend_id)->pluck('id','name');
+
+        return view('admin.category_services.show', compact('data','dependence'));
     }
 
     /**
@@ -81,13 +88,19 @@ class CategoryServiceController extends Controller
      * @param  \App\Models\CategoryService  $categoryService
      * @return \Illuminate\Http\Response
      */
-    public function edit(CategoryService $data)
+    public function edit($id)
     {
-        if (! Gate::allows('currency.edit')) {
+        if (! Gate::allows('category_services.edit')) {
             return abort(401);
         }
 
-        return view('admin.category_services.form', compact('data'));
+        $data  = CategoryService::findOrFail($id);
+
+        $depend_id = count(explode(',',$data->dependence)) > 1 ? explode(',',$data->dependence) : [0];
+
+        $dependence =  CategoryService::whereIn('id',$depend_id)->pluck('id','name');
+
+        return view('admin.category_services.form', compact('data','dependence'));
     }
 
     /**

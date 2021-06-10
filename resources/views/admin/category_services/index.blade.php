@@ -24,7 +24,7 @@
                     hideable="select"
                     exportable
                  /> --}}
-                 <livewire:admin.actions-category-serv-table  include="id, name|Nombre" exportable/>
+                 <livewire:admin.actions-category-serv-table searchable="name"  exportable/>
             </div>
         </div>
 
