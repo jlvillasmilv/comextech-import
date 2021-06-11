@@ -52,6 +52,11 @@ class Application extends Model
         return $this->belongsTo(ApplicationStatus::class, 'application_statuses_id');
     }
 
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id')->withDefault(['name' => '' ]);
+    }
+
     
 
 }
