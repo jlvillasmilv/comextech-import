@@ -25,7 +25,6 @@ class ApplicationRequest extends FormRequest
     {
         $rules = [
             'supplier_id'              => 'nullable|exists:suppliers,id',
-            'application_statuses_id'  => 'required|exists:application_statuses,id',
             'currency_id'              => 'required|exists:currencies,id',
             'description'              => 'required|max:250',
             'estimated_date'           => 'required|date',
