@@ -196,6 +196,7 @@
                 </div>
             </template>
             <template v-slot:footer>
+              
                 <div v-if="next">
                     <button 
                         @click="next = !next" 
@@ -248,9 +249,7 @@
                    services:[],
                 }),
 
-                 tabs:[],
-                
-               
+                tabs:[],
                 suppliers:[],
                 activetab:"",
                 statusModal:true,
@@ -297,7 +296,7 @@
                 try {
                     const response = await this.form.post('/applications')
 
-                    this.statusModal = !this.statusModal
+                   this.statusModal = !this.statusModal
                 } catch (error) {
                     console.log(error);
                 }

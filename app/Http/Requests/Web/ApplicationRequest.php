@@ -35,6 +35,7 @@ class ApplicationRequest extends FormRequest
             'fee3'                     => 'nullable|numeric',
             'fee3_date'                => 'nullable|date',
             'amount'                   => 'required|numeric',
+            'services'                 => 'required',
         ];
 
         return $rules;
