@@ -7,42 +7,42 @@
                         </svg>   
                     </button>
             <div v-for="(item, id) in tabs"   :key="id" @click="toogleMenu(item)"    >
-                <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.name == activetab ? 'text-b-500 border-indigo-500' : '']">
+                <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.id == activetab ? 'text-b-500 border-indigo-500' : '']">
                         {{ item.name}}
                 </li>
             </div>
         </ul>
          <div class="w-full p-2 ">
-                <div  v-if="activetab ==='Bodegaje Local'">
+                <div  v-if="activetab === 8 ">
                         Bodegaje Local
                 </div>
-                <div  v-if="activetab ==='Pago Proveedor'" > 
+                <div  v-if="activetab === 2 " > 
                      <payment-provider/>
                 </div>
-                <div v-if="activetab ==='Gestion de Cambio'"> 
+                <div v-if="activetab === 6 "> 
                         Gestion de Cambio
                 </div>
-                <div v-if="activetab ==='Transp. Internacional'">
-                     <transport/>
+                <div v-if="activetab === 4">
+                    <Transport/>
                 </div>
-                <div v-if="activetab ==='Internacion'"> 
-                        Internacion
+                <div v-if="activetab === 5 "> 
+                       <Internment/>
                 </div>
-                <div v-if="activetab ==='Servicio de Origen'"> 
-                        Internacion
+                <div v-if="activetab === 3"> 
+                    Origen
                 </div>
-                <div v-if="activetab ==='Financiamiento'"> 
+                <div v-if="activetab === 1 "> 
                    
                 </div>
         </div>
         <Modal v-if="statusModal"  :title="title" class="mt-10"> 
             <template v-slot:body>
                 <div class="mt-2" v-if="!next">
-                <label   
-                    v-for="(item, id) in tabs"   
-                    :key="id" 
-                    class="flex items-center ml-6 my-2 focu:otext-gray-600 dark:text-gray-400"
-                >
+                    <label   
+                        v-for="(item, id) in tabs"   
+                        :key="id" 
+                        class="flex items-center ml-6 my-2 focu:otext-gray-600 dark:text-gray-400"
+                    >
                     <input  @click="tabsAdd(item)" :checked="item.selected" type="checkbox" class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"  > <span class="ml-2"> {{item.name}} </span>
                 </label>
                 </div>
@@ -228,6 +228,7 @@
 </template>
 <script>
     import PaymentProvider from '../layouts/PaymentProvider.vue'
+    import Internment from '../layouts/Internment'
     import Modal from '../components/Modal.vue'
     import Transport from '../components/Transport.vue'
     
@@ -248,10 +249,9 @@
                    description:'',
                    services:[],
                 }),
-
                 tabs:[],
                 suppliers:[],
-                activetab:"",
+                activetab:false,
                 statusModal:true,
                 title:"Servicios para Cotizacion",
                 next:false,
@@ -271,6 +271,7 @@
             Modal,
             PaymentProvider,
             Transport,
+            Internment
         },
         methods:{
             tabsAdd(item){
@@ -278,7 +279,7 @@
                 this.form.services = this.tabs.filter(e => e.selected)
             },
             toogleMenu(value){
-                this.activetab = value.name
+                this.activetab = value.id
             },
             setValidate(){
                 if(isNaN(this.form.fee1) || this.form.fee1 > 100  ){
@@ -292,14 +293,12 @@
                 this.tabs.map(e => e.selected = false)
             },
             async submitFormApplications(){
-                 
+                    this.statusModal = !this.statusModal
                 try {
                     const response = await this.form.post('/applications')
-
-                   this.statusModal = !this.statusModal
-                } catch (error) {
-                    console.log(error);
-                }
+                 }catch(error) {
+                      console.log(error);
+                 }
             }
         },
         computed:{
