@@ -50,7 +50,7 @@
                     <div class="flex flex-wrap -mx-3 my-3 ">
                         <v-select 
                             label="name"  
-                            v-model="payment.suppliers_id"  
+                            v-model="form.supplier_id"  
                             :reduce="s => s.id"  
                             :class="[classStyle.wfull, classStyle.input, 'mx-2']" 
                             placeholder="Seleccionar Proveedor" 
@@ -62,6 +62,7 @@
                             <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
                                 </template>
                         </v-select>
+                        <span v-if="form.errors.has('supplier_id')" v-html="form.errors.get('supplier_id')" class="text-xs text-red-600 dark:text-red-400"></span>
                     </div>
                     <div class="flex flex-wrap -mx-3  ">
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
@@ -71,9 +72,10 @@
                                 Monto Total Operacion
                             </label>
                             <input 
-                                v-model.number="payment.amount"  
+                                v-model.number="form.amount"  
                                 :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
                             />
+                             <span v-if="form.errors.has('amount')" v-html="form.errors.get('amount')" class="text-xs text-red-600 dark:text-red-400"></span>
                             </div>
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                             <label  
@@ -82,12 +84,13 @@
                             </label>
                             <v-select 
                                 label="name_code" 
-                                v-model="payment.currency_id" 
+                                v-model="form.currency_id" 
                                 :reduce="currencie => currencie.id" 
                                 :class="[classStyle.input, ' text-sm mt-1  ']"
                                 placeholder="Moneda" 
                                 :options="currencies" 
                             > ">
+                             
                             <template  v-slot:no-options="{ search, searching }" >
                                     <template v-if="searching" class="text-sm">
                                     Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
@@ -95,6 +98,7 @@
                                 <em style="opacity: 0.5;" v-else>  Moneda </em>
                             </template>
                             </v-select>
+                            <span v-if="form.errors.has('currency_id')" v-html="form.errors.get('currency_id')" class="text-xs text-red-600 dark:text-red-400"></span>
                         </div>
                     </div>   
                         <div class="flex flex-wrap -mx-3  ">
@@ -103,17 +107,18 @@
                                     Porcentaje de Adelanto  %
                                 </label>
                                 <input  
-                                    v-model.number="payment.fee1" 
+                                    v-model.number="form.fee1" 
                                     @input="setValidate()"     
                                     placeholder="30%" 
                                     class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
                                 />
                                 <span 
-                                    v-if="payment.fee1 > 0" 
+                                    v-if="form.fee1 > 0" 
                                     :class="[classStyle.span ]"                                     
                                     > 
                                     {{ mount1 }} 
                                 </span>
+                                <span v-if="form.errors.has('fee1')" v-html="form.errors.get('fee1')" class="text-xs text-red-600 dark:text-red-400"></span>
                         </div>
                         <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
                             <label 
@@ -122,10 +127,11 @@
                                 Fecha a Pagar Porcentaje
                             </label>
                             <input 
-                                v-model="payment.feed1_date"  
+                                v-model="form.fee1_date"  
                                 type="date" 
                                 :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
                             />
+                            <span v-if="form.errors.has('feed1_date')" v-html="form.errors.get('feed1_date')" class="text-xs text-red-600 dark:text-red-400"></span>
                         </div>
                     </div>   
                         <div class="flex flex-wrap -mx-3  "  >
@@ -135,16 +141,17 @@
                             </label>
                             <input  
                                     :disabled="true" 
-                                    :value="payment.fee2"
+                                    :value="form.fee2"
                                     class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
  
                              />
                             <span 
-                                v-if="payment.fee1 > 0" 
+                                v-if="form.fee2 > 0" 
                                 :class="[classStyle.span ]"  
                              > 
                                     {{ mount2 }} 
                             </span>
+                            <span v-if="form.errors.has('fee2')" v-html="form.errors.get('fee2')" class="text-xs text-red-600 dark:text-red-400"></span>
                         </div>
                         <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
                             <label :class="[classStyle.label ]" >
@@ -152,9 +159,11 @@
                             </label>
                             <input 
                                 type="date" 
-                                v-model="payment.fee2_date" 
+                                name="fee2_date"
+                                v-model="form.fee2_date" 
                                 :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]"  
                              />
+                              <span v-if="form.errors.has('fee2_date')" v-html="form.errors.get('fee2_date')" class="text-xs text-red-600 dark:text-red-400"></span>
                             </div>
                     </div>     
                         <div class="flex flex-wrap -mx-3  ">
@@ -163,12 +172,13 @@
                                 Description  
                             </label>
                             <textarea 
-                                    v-model="payment.description"
+                                    v-model="form.description"
                                     name="message" 
                                     :class="[ classStyle.wfull, classStyle.formInput, 'py-4 px-4 text-xs' ]"   
                                     placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"														
                                 >
                             </textarea>
+                            <span v-if="form.errors.has('description')" v-html="form.errors.get('description')" class="text-xs text-red-600 dark:text-red-400"></span>
                             </div>
                             <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
                             <label :class="[classStyle.label ]"  >
@@ -176,9 +186,10 @@
                             </label>
                             <input 
                                 type="date" 
-                                v-model="payment.estimated_date" 
+                                v-model="form.estimated_date" 
                                 :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
                             >
+                             <span v-if="form.errors.has('estimated_date')" v-html="form.errors.get('estimated_date')" class="text-xs text-red-600 dark:text-red-400"></span>
                              </div>
                             
                     </div>
@@ -221,44 +232,26 @@
     import Transport from '../components/Transport.vue'
     
     export default {
-        name:"HomeImport",
+       
         data(){
             return {
-                tabs:[
-                    {
-                        name:"Gestion de Cambio", selected:false, id:1
-                    },
-                    {
-                        name:"Transp. Local", selected:false, id:2
-                    },
-                    {
-                        name:"Internacion", selected:false, id:3
-                    },
-                    {
-                        name:"Pago Proveedor", selected:false,id:4
-                    },
-                    {
-                        name:"Bodegaje Local", selected:false, id:5
-                    },
-                    {
-                        name:"Transp. Internacional", selected:false, id:6
-                    },
-                    {
-                        name:"Servicio de Origen", selected:false, id:7
-                    },
-                ],
-                payment:{
+                form: new Form({
                    amount:0,
                    currency_id:'',
-                   suppliers_id:'',
+                   supplier_id:'',
                    fee1:0,
                    fee2:0,
                    fee1_date:'',
                    fee2_date:'',
                    description:'',
                    estimated_date:'',
-                   description:''
-                },
+                   description:'',
+                   services:[],
+                }),
+
+                 tabs:[],
+                
+               
                 suppliers:[],
                 activetab:"",
                 statusModal:true,
@@ -285,15 +278,16 @@
         methods:{
             tabsAdd(item){
                 this.tabs = this.tabs.map(e => e.id === item.id ? {...e, selected:!e.selected }: e)
+                this.form.services = this.tabs.filter(e => e.selected)
             },
             toogleMenu(value){
                 this.activetab = value.name
             },
             setValidate(){
-                if(isNaN(this.payment.fee1) || this.payment.fee1 > 100  ){
-                     this.payment.fee1 = 0
+                if(isNaN(this.form.fee1) || this.form.fee1 > 100  ){
+                     this.form.fee1 = 0
                 }else{
-                    this.payment.fee2 = 100 - this.payment.fee1
+                    this.form.fee2 = 100 - this.form.fee1
                 }
             },
             clearSeletedTabs(){
@@ -302,25 +296,19 @@
             },
             async submitFormApplications(){
                     this.statusModal = !this.statusModal
-                 
-                // try {
-                //     let data  = await axios.post("/applications", { payload: {
-                //         payment: this.payment,
-                //         services: this.tabs
-                //         }
-                //     })
-
-                // } catch (error) {
-                //     console.log(error);
-                // }
+                try {
+                    const response = await this.form.post('/applications')
+                 }catch(error) {
+                      console.log(error);
+                 }
             }
         },
         computed:{
             mount2(){
-                return Math.round(this.payment.amount * (this.payment.fee2 / 100))
+                return Math.round(this.form.amount * (this.form.fee2 / 100))
             },
             mount1(){
-                return Math.round( this.payment.amount * (this.payment.fee1 / 100))
+                return Math.round( this.form.amount * (this.form.fee1 / 100))
             }, 
             tabsSelected(){
                 return this.tabs.filter(e => e.selected !== false )
@@ -331,6 +319,7 @@
                 let suppliers   = await axios.get("/supplierlist");
                 let currencies  = await axios.get("/api/currencies");
                 let tabs        = await axios.get("/api/category_services");
+                this.tabs = tabs.data;
                 this.suppliers  = suppliers.data
                 this.currencies = currencies.data
              

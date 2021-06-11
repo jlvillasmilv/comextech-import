@@ -35,9 +35,11 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ApplicationRequest $request)
-    {
+    {   
+        // dd($request->all());
         $data = new Application;
         $data->fill($request->all());
+        $data->application_statuses_id = 1;
         $data->user_id = auth()->user()->id;
         $data->save();
 
