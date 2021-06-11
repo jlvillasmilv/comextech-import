@@ -46,108 +46,163 @@
                     <input  @click="tabsAdd(item)" :checked="item.selected" type="checkbox" class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"  > <span class="ml-2"> {{item.name}} </span>
                 </label>
                 </div>
-                <div class="" v-else>
+                <div  v-else>
                     <div class="flex flex-wrap -mx-3 my-3 ">
-                        <v-select label="name"  v-model="payment.suppliers_id"  :reduce="s => s.id"  class=" w-full mx-3  h2   dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400   dark:text-gray-300 dark:focus:shadow-outline-gray  " placeholder="Seleccionar Proveedor" :options="suppliers" > ">
-                                <template v-slot:no-options="{ search, searching }" >
-                                    <template v-if="searching" class="text-sm">
-                                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                        <v-select 
+                            label="name"  
+                            v-model="payment.suppliers_id"  
+                            :reduce="s => s.id"  
+                            :class="[classStyle.wfull, classStyle.input, 'mx-2']" 
+                            placeholder="Seleccionar Proveedor" 
+                            :options="suppliers" > ">
+                            <template v-slot:no-options="{ search, searching }" >
+                                <template v-if="searching" class="text-sm">
+                                Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                            </template>
+                            <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
                                 </template>
-                                <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
-                                    </template>
-                         </v-select>
+                        </v-select>
                     </div>
                     <div class="flex flex-wrap -mx-3  ">
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label class="block   text-gray-700 text-xs dark:text-gray-400" >
+                            <label 
+                            :class="[classStyle.label]"
+                            >
                                 Monto Total Operacion
                             </label>
-                                <input v-model.number="payment.amount"     class="block  text-center w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
-                       <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                           <label class="block  text-gray-700 text-xs dark:text-gray-400" >
-                                Moneda
+                            <input 
+                                v-model.number="payment.amount"  
+                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
+                            />
+                            </div>
+                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label  
+                                :class="[classStyle.label], "> 
+                                Moneda 
                             </label>
-                            <v-select label="name_code" v-model="payment.currency_id"  class="block text-center mt-1 h2  dark:border-gray-600 dark:bg-gray-700   dark:text-gray-300 dark:focus:shadow-outline-gray " placeholder="Moneda" :options="currencies" > ">
-                                    <template  v-slot:no-options="{ search, searching }" >
-                                            <template v-if="searching" class="text-sm">
-                                            Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
-                                            </template>
-                                        <em style="opacity: 0.5;" v-else>  Moneda </em>
+                            <v-select 
+                                label="name_code" 
+                                v-model="payment.currency_id"  
+                                :class="[classStyle.input, ' text-sm mt-1  ']"
+                                placeholder="Moneda" 
+                                :options="currencies" 
+                            > ">
+                            <template  v-slot:no-options="{ search, searching }" >
+                                    <template v-if="searching" class="text-sm">
+                                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
                                     </template>
+                                <em style="opacity: 0.5;" v-else>  Moneda </em>
+                            </template>
                             </v-select>
                         </div>
                     </div>   
-                     <div class="flex flex-wrap -mx-3  ">
+                        <div class="flex flex-wrap -mx-3  ">
                         <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label class="flex text-gray-700 text-xs dark:text-gray-400" >
-                                Porcentaje de Adelanto  %
-                            </label>
-                            <input  v-model.number="payment.feed1" @input="setValidate()"     placeholder="30%" class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                             <span v-if="payment.feed1 > 0" class="ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray  " > {{ mount1 }} </span>
-                         </div>
-                       <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label class="block  text-gray-700 text-xs dark:text-gray-400" >
+                                <label :class="[classStyle.label]" >
+                                    Porcentaje de Adelanto  %
+                                </label>
+                                <input  
+                                    v-model.number="payment.feed1" 
+                                    @input="setValidate()"     
+                                    placeholder="30%" 
+                                    class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                                />
+                                <span 
+                                    v-if="payment.feed1 > 0" 
+                                    :class="[classStyle.span ]"                                     
+                                    > 
+                                    {{ mount1 }} 
+                                </span>
+                        </div>
+                        <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label 
+                             :class="[classStyle.label ]" 
+                            >
                                 Fecha a Pagar Porcentaje
                             </label>
-                             <input v-model="payment.feed1_date"  type="date" class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                            <input 
+                                v-model="payment.feed1_date"  
+                                type="date" 
+                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
+                            />
                         </div>
                     </div>   
-                      <div class="flex flex-wrap -mx-3  "  >
+                        <div class="flex flex-wrap -mx-3  "  >
                         <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
                             <label class="flex text-gray-700 text-xs dark:text-gray-400" >
                                 Porcentaje Contra Entrega %
                             </label>
-                            <input   :disabled="true" :value="payment.feed2"  class="  text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                            <span v-if="payment.feed1 > 0" class="ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray  " > {{ mount2 }} </span>
+                            <input  
+                                    :disabled="true" 
+                                    :value="payment.feed2"
+                                    class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+ 
+                             />
+                            <span 
+                                v-if="payment.feed1 > 0" 
+                                :class="[classStyle.span ]"  
+                             > 
+                                    {{ mount2 }} 
+                            </span>
                         </div>
-                       <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label class="block  text-gray-700 text-xs dark:text-gray-400" >
+                        <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label :class="[classStyle.label ]" >
                                 Fecha a Pagar  Contra Entrega
                             </label>
-                            <input type="date" v-model="payment.feed2_date"  class="block   w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
+                            <input 
+                                type="date" 
+                                v-model="payment.feed2_date" 
+                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]"  
+                             />
+                            </div>
                     </div>     
-                     <div class="flex flex-wrap -mx-3  ">
-                         <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
-                              <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
+                        <div class="flex flex-wrap -mx-3  ">
+                            <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label :class="[classStyle.label ]" >
                                 Description  
                             </label>
                             <textarea 
-                                v-model="payment.description"
-                                required="" 
-                                name="message" 
-                                class=" w-full text-xs appearance-none   bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" 
-                                placeholder=" Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"														
+                                    v-model="payment.description"
+                                    name="message" 
+                                    :class="[ classStyle.wfull, classStyle.formInput, 'py-4 px-4 text-xs' ]"   
+                                    placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"														
                                 >
                             </textarea>
-                          </div>
-                         <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label class=" block  text-gray-700 text-xs dark:text-gray-400 mb-2" >
+                            </div>
+                            <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
+                            <label :class="[classStyle.label ]"  >
                                 Fecha de Estimacion
                             </label>
-                            <input type="date" v-model="payment.estimated_date" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-                         </div>
-                         
+                            <input 
+                                type="date" 
+                                v-model="payment.estimated_date" 
+                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
+                            >
+                             </div>
+                            
                     </div>
                 </div>
             </template>
             <template v-slot:footer>
                 <div v-if="next">
-                    <button @click="next = !next" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+                    <button 
+                        @click="next = !next" 
+                        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
+                    >
                         Atras
                     </button>
                     <button  
                         @click="submitFormApplications()" 
-                        class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
                         Aceptar
                     </button >
                 </div >
                 <div v-else>
-                    <button @click="statusModal = !statusModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+                    <button @click="clearSeletedTabs()" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
                         Cancelar
                     </button>
                     <button 
+                        v-if="tabsSelected.length > 0"
                         @click="next = !next" 
                         class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                     >
@@ -162,7 +217,6 @@
     import PaymentProvider from '../layouts/PaymentProvider.vue'
     import Modal from '../components/Modal.vue'
     import Transport from '../components/Transport.vue'
-     
     
     export default {
         name:"HomeImport",
@@ -210,7 +264,15 @@
                 next:false,
                 currencies:[],
                 tablePayment:[],
-            }
+                classStyle:{
+                    span:'ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ',
+                    input:'block  text-center  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray',
+                    wfull:'w-full',
+                    formInput:' form-input',
+                    label:'block  text-gray-700 text-xs dark:text-gray-400'
+                }
+
+           }
         },
         components:{
             Modal,
@@ -231,11 +293,15 @@
                     this.payment.feed2 = 100 - this.payment.feed1
                 }
             },
+            clearSeletedTabs(){
+                this.statusModal = !this.statusModal
+                this.tabs.map(e => e.selected = false)
+            },
             async submitFormApplications(){
-                 try {
+                try {
                      let data  = await axios.post("/applications",  {
                           payment: this.payment,
-                          services: this.tabs
+                          services: this.tabsSelected
                      })
                      this.statusModal = !this.statusModal
                 } catch (error) {
@@ -249,6 +315,9 @@
             },
             mount1(){
                 return Math.round( this.payment.amount * (this.payment.feed1 / 100))
+            }, 
+            tabsSelected(){
+                return this.tabs.filter(e => e.selected !== false )
             }
         },
         async created(){
