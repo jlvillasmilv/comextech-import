@@ -16,7 +16,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $data = Supplier::where('user_id', auth()->user()->id)->get();
+        $data = Supplier::where('user_id', auth()->user()->id)->paginate();
         return view('supplier.index' , compact('data'));
     }
 
