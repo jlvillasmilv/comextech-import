@@ -10,6 +10,14 @@
 
         	<table class="w-full whitespace-no-wrap">
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        <tr class="text-gray-700 dark:text-gray-400">
+                            <th class="px-4 py-3">
+                               Categoria
+                            </th>
+                            <td class="px-4 py-3">
+                                {{ $data->category->name }}
+                            </td>
+                        </tr>
                     	<tr class="text-gray-700 dark:text-gray-400" >
                             <th class="px-4 py-3">
                                Nombre
@@ -18,21 +26,14 @@
                                 {{ $data->name }}
                             </td>
                         </tr>
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Codigo
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->code }}
-                            </td>
-                        </tr>
+                       
                       
                         <tr class="text-gray-700 dark:text-gray-400">
                             <th class="px-4 py-3">
-                               Símbolo
+                                Descripción
                             </th>
                             <td class="px-4 py-3">
-                                {{ $data->symbol }}
+                                {{ $data->description }}
                             </td>
                         </tr>               
 

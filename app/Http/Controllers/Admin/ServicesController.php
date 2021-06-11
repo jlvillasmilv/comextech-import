@@ -1,22 +1,23 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\Currency;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\CurrencyRequest;
 
-class CurrencyController extends Controller
+use App\Http\Controllers\Controller;
+use App\Models\Service;
+use Illuminate\Http\Request;
+use App\Http\Requests\ServiceRequest;
+use Illuminate\Support\Facades\Gate;
+
+class ServicesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('admin.currencies.index');
+        if (! Gate::allows('services.index')) {
+            return abort(401);
+        }
+        
+        return view('admin.services.index');
+
     }
 
     /**
@@ -26,11 +27,11 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('currency.create')) {
+        if (! Gate::allows('services.create')) {
             return abort(401);
         }
 
-        return view('admin.currencies.form');
+        return view('admin.services.form');
     }
 
     /**
@@ -39,62 +40,60 @@ class CurrencyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CurrencyRequest $request)
+    public function store(ServiceRequest $request)
     {
-        $data = new Currency;
+        $data = new Service;
         $data->fill($request->all());
         $data->save();
 
         $notification = array(
-            'message'    => 'Registro actualizado',
+            'message'    => 'Registro Agregado',
             'alert_type' => 'success',);
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.currencies.edit', $data->id);
+        return redirect()->route('admin.Service.edit', $data->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show($id)
     {
-        $data  = Currency::findOrFail($id);
+        if (! Gate::allows('services.show')) {
+            return abort(401);
+        }
 
-        return view('admin.currencies.show', compact('data'));
+        $data  = Service::findOrFail($id);
+
+        return view('admin.services.show', compact('data'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Service  $Service
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (! Gate::allows('currency.edit')) {
+        if (! Gate::allows('services.edit')) {
             return abort(401);
         }
 
-        $data  = Currency::findOrFail($id);
+        $data  = Service::findOrFail($id);
 
-        return view('admin.currencies.form', compact('data'));
+        return view('admin.services.form', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Service  $Service
      * @return \Illuminate\Http\Response
      */
-    public function update(CurrencyRequest $request, $id)
+    public function update(ServiceRequest $request, $id)
     {
-        $data = Currency::findOrFail($id);
-
+        $data = Service::findOrFail($id);
         $data->fill($request->all())->save();
 
         $notification = array(
@@ -103,18 +102,21 @@ class CurrencyController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.currencies.edit', $data->id);
+        return redirect()->route('admin.services.edit', $data->id);
     }
+    
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Service  $Service
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
-    }
+        $data = Service::findOrFail($id);
+        $data->status = false;
+        $data->save();
 
+    }
 }

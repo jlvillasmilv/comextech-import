@@ -57,7 +57,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::resource('clients', 'CompanyController');
     Route::resource('applications', 'ApplicationController')->except(['destroy','create']);
     Route::resource('category_service', 'CategoryServiceController');
-
-
+    Route::resource('services', 'ServicesController');
+    
 
 });

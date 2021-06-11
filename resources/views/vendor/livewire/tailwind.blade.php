@@ -15,14 +15,14 @@
         <nav aria-label="Table navigation">
             <ul class="inline-flex items-center">
                 <li>
-                    <button 
+                    <a 
                         class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                         aria-label="Previous"
 
                         @if ($paginator->onFirstPage())
                             disabled
                         @else
-                            @click="window.location='{{ $paginator->previousPageUrl() }}'"
+                            href="{{ $paginator->previousPageUrl() }}"
                         @endif
                     >
                         <svg class="w-4 h-4 fill-current" aria-hidden="true"
@@ -31,7 +31,7 @@
                                 d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                                 clip-rule="evenodd" fill-rule="evenodd"></path>
                         </svg>
-                    </button>
+                    </a>
                 </li>
 
                 {{-- Pagination Elements --}}
@@ -55,12 +55,12 @@
                                 </li>
                             @else
                                 <li>
-                                    <button 
-                                        @click="window.location='{{ $url }}'"
+                                    <a 
+                                        href="{{ $url }}"
                                         aria-label="{{ __('Go to page :page', ['page' => $page]) }}"
                                         class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
                                          {{ $page }}
-                                    </button>
+                                    </a>
                                 </li>
                             @endif
                         @endforeach
@@ -68,14 +68,14 @@
                 @endforeach
 
                 <li>
-                    <button
+                    <a
                         class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
                         aria-label="Next"
 
                         @if (!$paginator->hasMorePages())
                             disabled
                         @else
-                            @click="window.location='{{ $paginator->nextPageUrl() }}'"
+                            href="{{ $paginator->nextPageUrl() }}"
                         @endif
                     >
                         <svg class="w-4 h-4 fill-current" aria-hidden="true"
@@ -84,7 +84,7 @@
                                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                 clip-rule="evenodd" fill-rule="evenodd"></path>
                         </svg>
-                    </button>
+                    </a>
                 </li>
             </ul>
         </nav>
