@@ -54,7 +54,7 @@
                             :reduce="s => s.id"  
                             :class="[classStyle.wfull, classStyle.input, 'mx-2']" 
                             placeholder="Seleccionar Proveedor" 
-                            :options="suppliers" > ">
+                            :options="suppliers">
                             <template v-slot:no-options="{ search, searching }" >
                                 <template v-if="searching" class="text-sm">
                                 Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
@@ -82,7 +82,8 @@
                             </label>
                             <v-select 
                                 label="name_code" 
-                                v-model="payment.currency_id"  
+                                v-model="payment.currency_id" 
+                                :reduce="currencie => currencie.id" 
                                 :class="[classStyle.input, ' text-sm mt-1  ']"
                                 placeholder="Moneda" 
                                 :options="currencies" 
@@ -102,13 +103,13 @@
                                     Porcentaje de Adelanto  %
                                 </label>
                                 <input  
-                                    v-model.number="payment.feed1" 
+                                    v-model.number="payment.fee1" 
                                     @input="setValidate()"     
                                     placeholder="30%" 
                                     class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
                                 />
                                 <span 
-                                    v-if="payment.feed1 > 0" 
+                                    v-if="payment.fee1 > 0" 
                                     :class="[classStyle.span ]"                                     
                                     > 
                                     {{ mount1 }} 
@@ -134,12 +135,12 @@
                             </label>
                             <input  
                                     :disabled="true" 
-                                    :value="payment.feed2"
+                                    :value="payment.fee2"
                                     class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
  
                              />
                             <span 
-                                v-if="payment.feed1 > 0" 
+                                v-if="payment.fee1 > 0" 
                                 :class="[classStyle.span ]"  
                              > 
                                     {{ mount2 }} 
@@ -151,7 +152,7 @@
                             </label>
                             <input 
                                 type="date" 
-                                v-model="payment.feed2_date" 
+                                v-model="payment.fee2_date" 
                                 :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]"  
                              />
                             </div>
@@ -249,10 +250,10 @@
                    amount:0,
                    currency_id:'',
                    suppliers_id:'',
-                   feed1:0,
-                   feed2:0,
-                   feed1_date:'',
-                   feed2_date:'',
+                   fee1:0,
+                   fee2:0,
+                   fee1_date:'',
+                   fee2_date:'',
                    description:'',
                    estimated_date:'',
                    description:''
@@ -287,10 +288,10 @@
                 this.activetab = value.name
             },
             setValidate(){
-                if(isNaN(this.payment.feed1) || this.payment.feed1 > 100  ){
-                     this.payment.feed1 = 0
+                if(isNaN(this.payment.fee1) || this.payment.fee1 > 100  ){
+                     this.payment.fee1 = 0
                 }else{
-                    this.payment.feed2 = 100 - this.payment.feed1
+                    this.payment.fee2 = 100 - this.payment.fee1
                 }
             },
             clearSeletedTabs(){
@@ -298,12 +299,15 @@
                 this.tabs.map(e => e.selected = false)
             },
             async submitFormApplications(){
+                 
                 try {
-                     let data  = await axios.post("/applications",  {
-                          payment: this.payment,
-                          services: this.tabsSelected
-                     })
-                     this.statusModal = !this.statusModal
+                    let data  = await axios.post("/applications", { payload: {
+                        payment: this.payment,
+                        services: this.tabs
+                        }
+                    })
+
+                    this.statusModal = !this.statusModal
                 } catch (error) {
                     console.log(error);
                 }
@@ -311,10 +315,10 @@
         },
         computed:{
             mount2(){
-                return Math.round(this.payment.amount * (this.payment.feed2 / 100))
+                return Math.round(this.payment.amount * (this.payment.fee2 / 100))
             },
             mount1(){
-                return Math.round( this.payment.amount * (this.payment.feed1 / 100))
+                return Math.round( this.payment.amount * (this.payment.fee1 / 100))
             }, 
             tabsSelected(){
                 return this.tabs.filter(e => e.selected !== false )
@@ -324,8 +328,10 @@
             try {
                 let suppliers   = await axios.get("/supplierlist");
                 let currencies  = await axios.get("/api/currencies");
+                let tabs        = await axios.get("/api/category_services");
                 this.suppliers  = suppliers.data
                 this.currencies = currencies.data
+             
             } catch (error) {
                 console.log(error);
             }
