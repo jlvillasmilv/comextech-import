@@ -7,31 +7,31 @@
                         </svg>   
                     </button>
             <div v-for="(item, id) in tabs"   :key="id" @click="toogleMenu(item)"    >
-                <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.name == activetab ? 'text-b-500 border-indigo-500' : '']">
+                <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.id == activetab ? 'text-b-500 border-indigo-500' : '']">
                         {{ item.name}}
                 </li>
             </div>
         </ul>
          <div class="w-full p-2 ">
-                <div  v-if="activetab ==='Bodegaje Local'">
+                <div  v-if="activetab === 8 ">
                         Bodegaje Local
                 </div>
-                <div  v-if="activetab ==='Pago Proveedor'" > 
+                <div  v-if="activetab === 2 " > 
                      <payment-provider/>
                 </div>
-                <div v-if="activetab ==='Gestion de Cambio'"> 
+                <div v-if="activetab === 6 "> 
                         Gestion de Cambio
                 </div>
-                <div v-if="activetab ==='Transp. Internacional'">
+                <div v-if="activetab === 4">
                     <Transport/>
                 </div>
-                <div v-if="activetab ==='Internacion'"> 
+                <div v-if="activetab === 5 "> 
                        <Internment/>
                 </div>
-                <div v-if="activetab ==='Servicio de Origen'"> 
+                <div v-if="activetab === 3"> 
                     Origen
                 </div>
-                <div v-if="activetab ==='Financiamiento'"> 
+                <div v-if="activetab === 1 "> 
                    
                 </div>
         </div>
@@ -248,12 +248,9 @@
                    description:'',
                    services:[],
                 }),
-
-                 tabs:[],
-                
-               
+                tabs:[],
                 suppliers:[],
-                activetab:"",
+                activetab:false,
                 statusModal:true,
                 title:"Servicios para Cotizacion",
                 next:false,
@@ -281,7 +278,7 @@
                 this.form.services = this.tabs.filter(e => e.selected)
             },
             toogleMenu(value){
-                this.activetab = value.name
+                this.activetab = value.id
             },
             setValidate(){
                 if(isNaN(this.form.fee1) || this.form.fee1 > 100  ){
