@@ -23,13 +23,13 @@
                         Gestion de Cambio
                 </div>
                 <div v-if="activetab ==='Transp. Internacional'">
-                     <transport/>
+                    <Transport/>
                 </div>
                 <div v-if="activetab ==='Internacion'"> 
-                        Internacion
+                       <Internment/>
                 </div>
                 <div v-if="activetab ==='Servicio de Origen'"> 
-                        Internacion
+                    Origen
                 </div>
                 <div v-if="activetab ==='Financiamiento'"> 
                    
@@ -38,11 +38,11 @@
         <Modal v-if="statusModal"  :title="title" class="mt-10"> 
             <template v-slot:body>
                 <div class="mt-2" v-if="!next">
-                <label   
-                    v-for="(item, id) in tabs"   
-                    :key="id" 
-                    class="flex items-center ml-6 my-2 focu:otext-gray-600 dark:text-gray-400"
-                >
+                    <label   
+                        v-for="(item, id) in tabs"   
+                        :key="id" 
+                        class="flex items-center ml-6 my-2 focu:otext-gray-600 dark:text-gray-400"
+                    >
                     <input  @click="tabsAdd(item)" :checked="item.selected" type="checkbox" class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"  > <span class="ml-2"> {{item.name}} </span>
                 </label>
                 </div>
@@ -227,6 +227,7 @@
 </template>
 <script>
     import PaymentProvider from '../layouts/PaymentProvider.vue'
+    import Internment from '../layouts/Internment'
     import Modal from '../components/Modal.vue'
     import Transport from '../components/Transport.vue'
     
@@ -272,6 +273,7 @@
             Modal,
             PaymentProvider,
             Transport,
+            Internment
         },
         methods:{
             tabsAdd(item){
@@ -293,14 +295,12 @@
                 this.tabs.map(e => e.selected = false)
             },
             async submitFormApplications(){
-                 
+                    this.statusModal = !this.statusModal
                 try {
                     const response = await this.form.post('/applications')
-
-                    this.statusModal = !this.statusModal
-                } catch (error) {
-                    console.log(error);
-                }
+                 }catch(error) {
+                      console.log(error);
+                 }
             }
         },
         computed:{
