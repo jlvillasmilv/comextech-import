@@ -20,6 +20,7 @@ class CreateCategoryServicesTable extends Migration
             $table->string('description')->nullable();
             $table->boolean('ind_service')->default(true);
             $table->string('dependence',100)->nullable();
+            $table->boolean('status')->default(true);
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

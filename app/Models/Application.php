@@ -14,7 +14,24 @@ class Application extends Model
     use SoftDeletes;
 
     protected $table = 'applications';
-    protected $guarded = [];
+    protected $fillable = ['user_id',
+                           'supplier_id',
+                           'application_statuses_id',
+                           'currency_id',
+                           'description',
+                           'estimated_date',
+                           'fee1',
+                           'fee1_date',
+                           'fee2',
+                           'fee2_date',
+                           'fee3',
+                           'fee3_date',
+                           'amount',
+                           'charge',
+                           'commission',
+                           'interest',
+                           'modified_user_id',
+                            ];
 
     protected $dates = [
         'created_at',
@@ -50,6 +67,11 @@ class Application extends Model
     public function status()
     {
         return $this->belongsTo(ApplicationStatus::class, 'application_statuses_id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id')->withDefault(['name' => '' ]);
     }
 
     

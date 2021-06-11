@@ -5,6 +5,7 @@ import Import  from './views/Import'
 
 import Vue from 'vue';
 
+
 //Import Sweetalert2
 import Swal from 'sweetalert2'
 window.Swal = Swal
@@ -22,13 +23,18 @@ const Toast = Swal.mixin({
 window.Toast = Toast
 
 
-
-
 import 'alpinejs'
 
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 Vue.component('v-select', vSelect)
+ 
+import VueMask from 'v-mask'
+Vue.use(VueMask)
+
+//Import v-from
+import { Form} from 'vform'
+window.Form = Form;
  
 
 const app = new Vue({
