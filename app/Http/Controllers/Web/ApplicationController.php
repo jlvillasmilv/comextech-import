@@ -12,9 +12,9 @@ class ApplicationController extends Controller
     public function index()
     {
 
-        $data  = Application::where('user_id', auth()->user()->id)->get();
+        $data  = Application::where('user_id', auth()->user()->id)->paginate();
        
-        return response()->json($data, 200);
+        return view('applications.index' , compact('data'));
         
     }
 
