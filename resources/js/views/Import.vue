@@ -1,11 +1,11 @@
 <template>
      <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
         <ul class="flex justify-center items-center mt-2 ">
-                    <button  @click="statusModal = !statusModal"  class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                        </svg>   
-                    </button>
+            <button v-if="!responseId" @click="statusModal = !statusModal"  class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>   
+            </button>
             <div v-for="(item, id) in tabs"   :key="id" @click="toogleMenu(item)"    >
                 <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.id == activetab ? 'text-b-500 border-indigo-500' : '']">
                         {{ item.name}}
@@ -135,37 +135,37 @@
                         </div>
                     </div>   
                         <div class="flex flex-wrap -mx-3  "  >
-                        <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label class="flex text-gray-700 text-xs dark:text-gray-400" >
-                                Porcentaje Contra Entrega %
-                            </label>
-                            <input  
-                                    :disabled="true" 
-                                    :value="form.fee2"
-                                    class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
- 
-                             />
-                            <span 
-                                v-if="form.fee2 > 0" 
-                                :class="[classStyle.span ]"  
-                             > 
-                                    {{ mount2 }} 
-                            </span>
-                            <span v-if="form.errors.has('fee2')" v-html="form.errors.get('fee2')" class="text-xs text-red-600 dark:text-red-400"></span>
-                        </div>
-                        <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label :class="[classStyle.label ]" >
-                                Fecha a Pagar  Contra Entrega
-                            </label>
-                            <input 
-                                type="date" 
-                                name="fee2_date"
-                                v-model="form.fee2_date" 
-                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]"  
-                             />
-                              <span v-if="form.errors.has('fee2_date')" v-html="form.errors.get('fee2_date')" class="text-xs text-red-600 dark:text-red-400"></span>
+                            <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label class="flex text-gray-700 text-xs dark:text-gray-400" >
+                                    Porcentaje Contra Entrega %
+                                </label>
+                                <input  
+                                        :disabled="true" 
+                                        :value="form.fee2"
+                                        class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+    
+                                />
+                                <span 
+                                    v-if="form.fee2 > 0" 
+                                    :class="[classStyle.span ]"  
+                                > 
+                                        {{ mount2 }} 
+                                </span>
+                                <span v-if="form.errors.has('fee2')" v-html="form.errors.get('fee2')" class="text-xs text-red-600 dark:text-red-400"></span>
                             </div>
-                    </div>     
+                            <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label :class="[classStyle.label ]" >
+                                    Fecha a Pagar  Contra Entrega
+                                </label>
+                                <input 
+                                    type="date" 
+                                    name="fee2_date"
+                                    v-model="form.fee2_date" 
+                                    :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]"  
+                                />
+                                <span v-if="form.errors.has('fee2_date')" v-html="form.errors.get('fee2_date')" class="text-xs text-red-600 dark:text-red-400"></span>
+                                </div>
+                        </div>     
                         <div class="flex flex-wrap -mx-3  ">
                             <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
                                 <label :class="[classStyle.label ]" >
@@ -231,8 +231,7 @@
     import Internment from '../layouts/Internment'
     import Modal from '../components/Modal.vue'
     import Transport from '../components/Transport.vue'
-    
-    export default {
+     export default {
        
         data(){
             return {
@@ -263,7 +262,8 @@
                     wfull:'w-full',
                     formInput:' form-input',
                     label:'block  text-gray-700 text-xs dark:text-gray-400'
-                }
+                },
+                responseId:false,
 
            }
         },
@@ -293,11 +293,22 @@
                 this.tabs.map(e => e.selected = false)
             },
             async submitFormApplications(){
-                    this.statusModal = !this.statusModal
+                    
                 try {
-                    const response = await this.form.post('/applications')
+                    
+                    const response   = await this.form.post('/applications')
+                    this.statusModal = !this.statusModal
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Solicitud creada con exito!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    this.responseId  = response.data
+                    this.activetab   = this.form.services[this.form.services.length - 1].id
                  }catch(error) {
-                      console.log(error);
+                       console.log('error')
                  }
             }
         },
@@ -314,11 +325,13 @@
         },
         async created(){
             try {
-                let suppliers   = await axios.get("/supplierlist");
-                let currencies  = await axios.get("/api/currencies");
-                let tabs        = await axios.get("/api/category_services");
+                let tabs = await axios.get("/api/category_services");
                 this.tabs = tabs.data;
+
+                let suppliers   = await axios.get("/supplierlist");
                 this.suppliers  = suppliers.data
+
+                let currencies  = await axios.get("/api/currencies");
                 this.currencies = currencies.data
              
             } catch (error) {

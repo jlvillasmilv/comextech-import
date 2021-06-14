@@ -76,7 +76,7 @@ class ApplicationController extends Controller
       
     
 
-        return response()->json(['status' => 'OK'], 200);
+        return response()->json($data->id, 200);
     }
 
     /**
