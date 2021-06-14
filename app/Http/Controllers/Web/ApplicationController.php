@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Application;
+use App\Models\{Application,Service};
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\ApplicationRequest;
 
@@ -36,12 +37,46 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {   
-        // dd($request->all());
-        $data = new Application;
-        $data->fill($request->all());
-        $data->application_statuses_id = 1;
-        $data->user_id = auth()->user()->id;
-        $data->save();
+        //dd($request->all());
+
+        DB::beginTransaction();
+
+        try {
+            $data = new Application;
+            $data->fill($request->all());
+            $data->application_statuses_id = 1;
+            $data->user_id = auth()->user()->id;
+            $data->save();
+
+            foreach ($request->services as $key => $service) {
+
+                $add_serv = Service::where([
+                    ['status', true],
+                    ['category_service_id', $service["id"]],
+                ])->get();
+
+                foreach ($add_serv as $key => $add) {
+
+                    $data->details()->create([
+                        'service_id'   => $add["id"],
+                        'currency_id'  => $data->currency_id,
+                        'amount'       => 0,
+                        'currency2_id' => $data->currency_id,
+                        'estimated'  => date('Y-m-d')
+                    ]);
+                }
+
+            }
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            return response()->json(['status' => 'Error'], 400);
+        }
+      
+    
 
         return response()->json($data->id, 200);
     }

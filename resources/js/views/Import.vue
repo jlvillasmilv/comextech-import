@@ -196,6 +196,7 @@
                 </div>
             </template>
             <template v-slot:footer>
+              
                 <div v-if="next">
                     <button 
                         @click="next = !next" 
