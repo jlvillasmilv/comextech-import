@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Detalle Registro 
+                Detalle Solicitud  #   {{str_pad($data->id, 6, '0', STR_PAD_LEFT) }}
             </h4>
            
         </div>
@@ -34,9 +34,9 @@
                 </label>
                 <div class="px-2">
                     <label class="block mt-4 text-sm">
-                        <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Dias a partir del adelanto:</span>
+                        <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Monto de la operación:</span>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                            {{$data->day_pay}} 
+                            {{ $data->currency->code }} {{ $data->currency->symbol }} {{number_format($data->amount,0,",",".") }} 
                         </p>
                     </label>
                 </div>

@@ -31,11 +31,11 @@ class ApplicationDetail extends Model
 
     public function currency()
     {
-        return $this->belongsTo(Currency::class,'currency_id');
+        return $this->belongsTo(Currency::class,'currency_id')->withDefault(['code' => '', 'symbol' => '' ]);
     }
 
     public function currency2()
     {
-        return $this->belongsTo(Currency::class,'currency2_id');
+        return $this->belongsTo(Currency::class,'currency2_id')->withDefault(['code' => '', 'symbol' => '' ]);
     }
 }

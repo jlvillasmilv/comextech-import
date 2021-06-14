@@ -54,6 +54,11 @@ class Application extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class,'currency_id')->withDefault(['code' => '', 'symbol' => '' ]);
+    }
+
     public function details()
     {
         return $this->hasMany(ApplicationDetail::class,'application_id');

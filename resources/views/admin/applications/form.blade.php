@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Detalle Solicitud  # {{$application->id}}
+                Detalle Solicitud  #   {{str_pad($application->id, 6, '0', STR_PAD_LEFT) }}
             </h4>
            
         </div>
@@ -60,9 +60,9 @@
 
                         <div class="px-2">
                             <label class="block mt-4 text-sm">
-                                <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Dias a partir del adelanto:</span>
+                                <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Monto de la operación:</span>
                                 <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                                    {{$application->day_pay}} 
+                                    {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }} 
                                 </p>
                             </label>
                         </div>
@@ -72,13 +72,13 @@
                                 <div class="w-1/2 mr-1">
                                     <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Adelanto</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                        {{ $application->fee1 }} %
+                                        {{ $application->fee1 }} %  fecha: {{ date('d-m-Y', strtotime($application->fee1_date)) }}
                                     </p>
                                 </div>
                                 <div class="w-1/2 ml-1">
                                     <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Saldo</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                        {{ $application->fee2 }} %
+                                        {{ $application->fee2 }} % fecha: {{ date('d-m-Y', strtotime($application->fee2_date)) }}
                                     </p>
                                 </div>
                             </div>
@@ -112,6 +112,7 @@
                                     <th class="px-4 py-3">Servicio </th>
                                     <th class="px-4 py-3">MO </th>
                                     <th class="px-4 py-3">Monto </th>
+                                    <th class="px-4 py-3">&nbsp; </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -122,14 +123,23 @@
                                         <p class="font-semibold">{{ $detail->service->name }}</p>
                                     </td>
                                     <td class="px-4 py-3 text-xs">
-                                        <div class="flex items-center text-sm">                                 
-                                            {{ $detail->currency->code }}  {{ $detail->currency->symbol }}   {{number_format($detail->amount,0,",",".") }}
-                                        </div>
-                                        
+                                        {{ $detail->currency->code }}  {{ $detail->currency->symbol }}   {{number_format($detail->amount,0,",",".") }}
                                     </td>
                                   
                                     <td class="px-4 py-3 text-sm">
                                         {{ $detail->currency2->code }}  {{ $detail->currency2->symbol }}  {{number_format($detail->amount2,0,",",".") }}
+                                    </td>
+
+                                    <td>
+                                        <a href="#" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        aria-label="Delete">
+                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        </a>
                                     </td>
                                     
                                 </tr>
