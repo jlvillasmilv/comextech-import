@@ -58,8 +58,10 @@ class ApplicationController extends Controller
                 foreach ($add_serv as $key => $add) {
 
                     $data->details()->create([
-                        'service_id'  => $add["id"],
-                        'amount'    => 0,
+                        'service_id'   => $add["id"],
+                        'currency_id'  => $data->currency_id,
+                        'amount'       => 0,
+                        'currency2_id' => $data->currency_id,
                         'estimated'  => date('Y-m-d')
                     ]);
                 }
