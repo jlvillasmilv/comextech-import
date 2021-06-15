@@ -105,7 +105,7 @@
 
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto">
-                        <table class="w-full whitespace-no-wrap">
+                        <table id="table" class="w-full whitespace-no-wrap">
                             <thead>
                                 <tr
                                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -117,9 +117,11 @@
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                 @forelse($application->details as $detail)
-                                <tr class="text-gray-700 dark:text-gray-400">
+                                <tr class="text-gray-700 dark:text-gray-400" id="{{$detail->id}}">
                             
                                     <td class="px-4 py-3 text-sm">
+                                        <input type="hidden" class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"  name="service_id[]" value="{{ old('service_id', isset($detail) ? $detail->service_id : '') }}" >
+
                                         <p class="font-semibold">{{ $detail->service->name }}</p>
                                     </td>
                                     <td class="px-4 py-3 text-xs">
@@ -155,7 +157,7 @@
                                                     <input type="hidden" class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="detail_id[]" value="{{ old('detail_id', isset($detail) ? $detail->id : '') }}" >
 
 
-                                                    <input class="{{ $errors->has('amount') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="amount[]" value="{{ old('amount', isset($detail) ? $detail->amount : '') }}" >
+                                                    <input type="number" class="{{ $errors->has('amount') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="amount[]" value="{{ old('amount', isset($detail) ? $detail->amount : '') }}" required min="1" >
                                        
                                                     @if($errors->has('amount'))
                                                          <span class="text-xs text-red-600 dark:text-red-400">
@@ -199,7 +201,7 @@
                                                 </div>
                                                 <div class="w-1/2 ml-1">
 
-                                                    <input class="{{ $errors->has('amount2') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="amount2[]" value="{{ old('amount2', isset($detail) ? $detail->amount2 : '') }}" >
+                                                    <input type="number" class="{{ $errors->has('amount2') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="amount2[]" value="{{ old('amount2', isset($detail) ? $detail->amount2 : '') }}" required min="1" >
                                        
                                                     @if($errors->has('amount2'))
                                                          <span class="text-xs text-red-600 dark:text-red-400">
@@ -214,7 +216,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="#" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        <a href="#" data-id="{{$detail->id}}" data-remote="{{route("admin.applications.destroy", $detail->id)}}"  class=" btn-delete flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">

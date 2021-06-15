@@ -61,7 +61,7 @@ class Application extends Model
 
     public function details()
     {
-        return $this->hasMany(ApplicationDetail::class,'application_id');
+        return $this->hasMany(ApplicationDetail::class,'application_id')->OrderBy('id');
     }
 
     public function requirements()

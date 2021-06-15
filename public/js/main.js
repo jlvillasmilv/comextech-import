@@ -27,4 +27,45 @@ $(document).ready(function () {
     
     }
 
+    $('#table').on('click', '.btn-delete[data-remote]', function (e) { 
+      
+          var url = $(this).data('remote');
+          var id = $(this).data('id');
+
+          console.log(id);
+                      
+            Swal.fire({
+            title: '¿Desea eliminar este registro?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            cancelButtonText:'No',
+            showLoaderOnConfirm: true,
+                preConfirm: () => {
+
+                  $(`#${id}`).remove();  
+
+                      // axios.delete(url).then(response => {
+
+                      //   Toast.fire({
+                      //     icon: 'success',
+                      //     title: 'Operacion realizada con exito'
+                      //   })
+                      //   $('#table').DataTable().draw(false);
+                      
+                      // }).catch(error => {
+                      //   Toast.fire({
+                      //     icon: 'error',
+                      //     title: 'Errore de Conexion'
+                      //   })
+
+                      
+                      //   console.error(error.response.data)
+                      // });
+
+                }
+           });
+          });
+    
+
 })
