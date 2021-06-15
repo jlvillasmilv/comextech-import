@@ -28,7 +28,9 @@ Route::get('/currencies', function (Request $request) {
 
 
 Route::get('/category_services', function (Request $request) {
-    $currencies = CategoryService::select('name', DB::raw("false as selected"),'id','ind_service')
-    ->where('status', '=', true)->OrderBy('name')->get();
+    $currencies = CategoryService::select('id','name', DB::raw("false as selected"))
+    ->where('status', '=', true)
+    ->where('ind_service', '=', true)
+    ->OrderBy('sort')->get();
     return response()->json($currencies ,200);
 });
