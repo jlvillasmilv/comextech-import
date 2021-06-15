@@ -39,7 +39,7 @@
                     <input  @click="tabsAdd(item)" :checked="item.selected" type="checkbox" class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"  > <span class="ml-2"> {{item.name}} </span>
                 </label>
                 </div>
-                <div  v-else>
+                <!-- <div  v-else>
                     <div class="flex flex-wrap -mx-3 my-3 ">
                         <v-select 
                             label="name"  
@@ -186,7 +186,7 @@
                              </div>
                             
                     </div>
-                </div>
+                </div> -->
             </template>
             <template v-slot:footer>
               
@@ -209,10 +209,10 @@
                     </button>
                     <button 
                         v-if="tabsSelected.length > 0"
-                        @click="next = !next" 
+                        @click="submitFormApplications()" 
                         class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                     >
-                        Siguiente
+                        Aceptar
                     </button>
                 </div>
             </template>
@@ -291,6 +291,7 @@
                     
                 //     const response   = await this.form.post('/applications')
                     this.statusModal = !this.statusModal
+                    this.activetab   = this.form.services[0].name
                 //     Swal.fire({
                 //         position: 'center',
                 //         icon: 'success',
