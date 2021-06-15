@@ -25,17 +25,17 @@ class ApplicationRequest extends FormRequest
     {
         $rules = [
             'supplier_id'              => 'nullable|exists:suppliers,id',
-            'currency_id'              => 'required|exists:currencies,id',
-            'description'              => 'required|max:250',
-            'estimated_date'           => 'required|date',
-            'fee1'                     => 'required|numeric',
-            'fee1_date'                => 'required|date',
-            'fee2'                     => 'required|numeric',
-            'fee2_date'                => 'required|date',
+            'currency_id'              => 'nullable|exists:currencies,id',
+            'description'              => 'nullable|max:250',
+            'estimated_date'           => 'nullable|date',
+            'fee1'                     => 'nullable|numeric',
+            'fee1_date'                => 'nullable|date',
+            'fee2'                     => 'nullable|numeric',
+            'fee2_date'                => 'nullable|date',
             'fee3'                     => 'nullable|numeric',
             'fee3_date'                => 'nullable|date',
-            'amount'                   => 'required|numeric',
-            'services'                 => 'required',
+            'amount'                   => 'nullable|numeric',
+            'services'                 => 'nullable',
         ];
 
         return $rules;
