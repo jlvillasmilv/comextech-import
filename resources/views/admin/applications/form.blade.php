@@ -25,7 +25,7 @@
         
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Status</span>
-                            <select name="application_statuses_id" id="application_statuses_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select select2  @error('application_statuses_id') is-invalid @enderror">
+                            <select name="application_statuses_id" id="application_statuses_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray  @error('application_statuses_id') is-invalid @enderror">
 
                                 @foreach($status as $id => $name)
 
@@ -104,6 +104,10 @@
                 </div>
 
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                    <span class="text-xs text-red-600 dark:text-red-400">
+                        {!! session()->get('error') !!} 
+                    </span>
+                  
                     <div class="w-full overflow-x-auto">
                         <table id="table" class="w-full whitespace-no-wrap">
                             <thead>
@@ -124,14 +128,12 @@
 
                                         <p class="font-semibold">{{ $detail->service->name }}</p>
                                     </td>
-                                    <td class="px-4 py-3 text-xs">
+                                    <td class="px-4 py-3 ">
 
-
-                                        <div class="px-2">
-                                            <div class="flex mb-4">
+                                            <div class="flex ">
                                                 <div class="w-1/2 mr-1">
                                                    
-                                                    <select name="currency_id[]" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select select2  @error('currency_id') is-invalid @enderror">
+                                                    <select name="currency_id[]" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray  @error('currency_id') is-invalid @enderror">
 
                                                         @foreach($currencies as $id => $name)
                         
@@ -167,18 +169,14 @@
                                                     
                                                 </div>
                                             </div>
-                                        </div>
-
 
                                     </td>
                                   
-                                    <td class="px-4 py-3 text-sm">
-
-                                        <div class="px-2">
-                                            <div class="flex mb-4">
+                                    <td class="px-4 py-3 ">
+                                        <div class="flex">
                                                 <div class="w-1/2 mr-1">
                                                    
-                                                    <select name="currency2_id[]" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select select2  @error('currency_id') is-invalid @enderror">
+                                                    <select name="currency2_id[]" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray  @error('currency_id') is-invalid @enderror">
 
                                                         @foreach($currencies as $id => $name)
                         
@@ -201,7 +199,7 @@
                                                 </div>
                                                 <div class="w-1/2 ml-1">
 
-                                                    <input type="number" class="{{ $errors->has('amount2') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="amount2[]" value="{{ old('amount2', isset($detail) ? $detail->amount2 : '') }}" required min="1" >
+                                                    <input type="number" class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la moneda" / name="amount2[]" value="{{ old('amount2', isset($detail) ? $detail->amount2 : '') }}" required min="1" >
                                        
                                                     @if($errors->has('amount2'))
                                                          <span class="text-xs text-red-600 dark:text-red-400">
@@ -211,7 +209,6 @@
                                                     
                                                 </div>
                                             </div>
-                                        </div>
                                         
                                     </td>
 
