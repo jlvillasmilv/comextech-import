@@ -23,8 +23,8 @@
 
 <script>
 
-import AddPayment from '../components/PaymentProvider/Form.vue'
-import Supplier from '../components/Supplier/Searcher.vue'
+import AddPayment   from '../components/PaymentProvider/Form.vue'
+import Supplier     from '../components/Supplier/Payment.vue'
 import TablePayment from '../components/PaymentProvider/Table.vue'
 
 export default {
