@@ -13,7 +13,6 @@
             </div>
         </ul>
          <div class="w-full p-2 ">
-             
                 <div  v-if="activetab == 'Pago Proveedor' " > 
                     <payment-provider/>
                 </div>
@@ -39,8 +38,91 @@
                     <input  @click="tabsAdd(item)" :checked="item.selected" type="checkbox" class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"  > <span class="ml-2"> {{item.name}} </span>
                 </label>
                 </div>
-                <!-- <div  v-else>
-                    <div class="flex flex-wrap -mx-3 my-3 ">
+                <div  v-else>
+
+            
+    <!-- <v-select label="name" v-model="payload.bank_id" :options="banks" :reduce="bank => bank.id" > "></v-select> -->
+     <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
+             Informacion de Proveedor
+    </h3>
+        <div class="dark:text-gray-200">   
+            <h3 class="my-4  text-gray-500 text-sm">
+                    Proveedor de Mercancia
+            </h3>
+            <v-select 
+                label="name"   
+                placeholder="Seleccionar Proveedor" 
+                :options="suppliers" 
+            >
+                <template  v-slot:no-options="{ search, searching }" >
+                    <template v-if="searching" class="text-sm">
+                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                </template>
+                <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
+                    </template>
+            </v-select>
+        </div>
+        <div class="dark:text-gray-200">   
+             <h3 class="my-3 text-gray-500 text-sm ">
+                Moneda de Pago
+            </h3>
+            <v-select 
+                label="name_code" 
+                v-model="form.currency_id" 
+                :reduce="currencie => currencie.id" 
+                placeholder="Moneda" 
+                :options="currencies" 
+                >
+                            
+                <template  v-slot:no-options="{ search, searching }" >
+                        <template v-if="searching" class="text-sm">
+                        Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
+                        </template>
+                    <em style="opacity: 0.5;" v-else>  Moneda </em>
+                </template>
+            </v-select>
+        </div>
+       
+        <div class="flex flex-wrap -mx-3  ">
+                <div class="w-full md:w-1/2 px-3  md:mb-0">
+                    <h3 class="my-3 text-gray-500 text-sm ">
+                    Fecha de Estimacion
+                    </h3>
+                    <input 
+                        type="date" 
+                        v-model="form.estimated_date" 
+                        :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
+                    >
+                </div>
+                <div class="w-full md:w-1/2 px-3">
+                    <h3 class="my-3  text-gray-500  text-sm">
+                    Monto Total de Operacion
+                    </h3>
+                    <input 
+                        :class="[classStyle.input, classStyle.formInput,classStyle.wfull ]" 
+                    />
+                </div>
+        </div>
+        <div class="dark:text-gray-200">   
+            <h3 class="my-4  text-gray-500  text-sm ">
+                        Description
+            </h3>
+                <textarea 
+                    v-model="form.description"
+                    name="message" 
+                    :class="[ classStyle.wfull, classStyle.formInput, 'py-4 px-4 text-xs' ]"   
+                    placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"														
+                >
+                </textarea>
+        </div>
+     
+
+
+
+
+
+
+                       <!-- <div class="flex flex-wrap -mx-3 my-3 ">
                         <v-select 
                             label="name"  
                             v-model="form.supplier_id"  
@@ -59,7 +141,9 @@
                     </div>
                     <div class="flex flex-wrap -mx-3  ">
                         <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label 
+
+                        
+                         <label 
                             :class="[classStyle.label]"
                             >
                                 Monto Total Operacion
@@ -183,10 +267,10 @@
                                 :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
                             >
                              <span v-if="form.errors.has('estimated_date')" v-html="form.errors.get('estimated_date')" class="text-xs text-red-600 dark:text-red-400"></span>
-                             </div>
-                            
-                    </div>
-                </div> -->
+                           
+                             </div> 
+                    </div> -->
+                </div>
             </template>
             <template v-slot:footer>
               
@@ -209,10 +293,10 @@
                     </button>
                     <button 
                         v-if="tabsSelected.length > 0"
-                        @click="submitFormApplications()" 
+                        @click="next = !next" 
                         class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                     >
-                        Aceptar
+                        Siguiente
                     </button>
                 </div>
             </template>
