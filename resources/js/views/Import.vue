@@ -78,7 +78,7 @@
                                 :class="[classStyle.label], "> 
                                 Moneda 
                             </label>
-                            <v-select 
+                              <v-select 
                                 label="name_code" 
                                 v-model="form.currency_id" 
                                 :reduce="currencie => currencie.id" 
@@ -290,23 +290,23 @@
             },
             async submitFormApplications(){
                     
-                try {
+                // try {
                     
-                    const response   = await this.form.post('/applications')
+                //     const response   = await this.form.post('/applications')
                     this.statusModal = !this.statusModal
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Solicitud creada con exito!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    this.responseId  = response.data
-                    // this.form.services.sort((a, b) => b.id - a.id)
-                    this.activetab   = this.form.services[0].name
-                 }catch(error) {
-                       console.log('error')
-                 }
+                //     Swal.fire({
+                //         position: 'center',
+                //         icon: 'success',
+                //         title: 'Solicitud creada con exito!',
+                //         showConfirmButton: false,
+                //         timer: 1500
+                //     })
+                //     this.responseId  = response.data
+                //     // this.form.services.sort((a, b) => b.id - a.id)
+                //     this.activetab   = this.form.services[0].name
+                //  }catch(error) {
+                //        console.log('error')
+                //  }
             }
         },
         computed:{
