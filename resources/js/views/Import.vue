@@ -7,33 +7,26 @@
                 </svg>   
             </button>
             <div v-for="(item, id) in tabs"   :key="id" @click="toogleMenu(item)"    >
-                <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.id == activetab ? 'text-b-500 border-indigo-500' : '']">
+                <li v-if="item.selected"   :class="['cursor-pointer py-2 px-5 text-gray-500 border-b-8', item.name == activetab ? 'text-b-500 border-indigo-500' : '']">
                         {{ item.name}}
                 </li>
             </div>
         </ul>
          <div class="w-full p-2 ">
-                <div  v-if="activetab === 8 ">
-                        Bodegaje Local
+             
+                <div  v-if="activetab == 'Pago Proveedor' " > 
+                    <payment-provider/>
                 </div>
-                <div  v-if="activetab === 2 " > 
-                     <payment-provider/>
-                </div>
-                <div v-if="activetab === 6 "> 
-                        Gestion de Cambio
-                </div>
-                <div v-if="activetab === 4">
+                <div  v-if="activetab =='Transporte'" > 
                     <Transport/>
                 </div>
-                <div v-if="activetab === 5 "> 
-                       <Internment/>
+                <div v-if="activetab == 'Proceso de Internación' "> 
+                    <Internment/>
                 </div>
-                <div v-if="activetab === 3"> 
-                    Origen
+                <div v-if="activetab == 'Bodegaje Local'">
+                   Bodegaje Local
                 </div>
-                <div v-if="activetab === 1 "> 
-                   
-                </div>
+          
         </div>
         <Modal v-if="statusModal"  :title="title" class="mt-10"> 
             <template v-slot:body>
@@ -82,7 +75,7 @@
                                 :class="[classStyle.label], "> 
                                 Moneda 
                             </label>
-                            <v-select 
+                              <v-select 
                                 label="name_code" 
                                 v-model="form.currency_id" 
                                 :reduce="currencie => currencie.id" 
@@ -279,7 +272,7 @@
                 this.form.services = this.tabs.filter(e => e.selected)
             },
             toogleMenu(value){
-                this.activetab = value.id
+                this.activetab = value.name
             },
             setValidate(){
                 if(isNaN(this.form.fee1) || this.form.fee1 > 100  ){
@@ -294,22 +287,23 @@
             },
             async submitFormApplications(){
                     
-                try {
+                // try {
                     
-                    const response   = await this.form.post('/applications')
+                //     const response   = await this.form.post('/applications')
                     this.statusModal = !this.statusModal
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Solicitud creada con exito!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    this.responseId  = response.data
-                    this.activetab   = this.form.services[this.form.services.length - 1].id
-                 }catch(error) {
-                       console.log('error')
-                 }
+                //     Swal.fire({
+                //         position: 'center',
+                //         icon: 'success',
+                //         title: 'Solicitud creada con exito!',
+                //         showConfirmButton: false,
+                //         timer: 1500
+                //     })
+                //     this.responseId  = response.data
+                //     // this.form.services.sort((a, b) => b.id - a.id)
+                //     this.activetab   = this.form.services[0].name
+                //  }catch(error) {
+                //        console.log('error')
+                //  }
             }
         },
         computed:{
