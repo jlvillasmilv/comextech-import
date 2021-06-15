@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application,ApplicationDetail};
+use App\Models\{Application,ApplicationDetail, ApplicationStatus};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -65,6 +65,7 @@ class ApplicationController extends Controller
      */
     public function edit(Application $application)
     {
+
         return view('admin.applications.form', compact('application'));
     }
 
@@ -79,6 +80,38 @@ class ApplicationController extends Controller
     {
 
         $data = Application::findOrFail($id);
+
+        $status = ApplicationStatus::where('id', $data->application_statuses_id)->firstOrFail();
+
+        if(!$status->modify){
+
+            $notification = array(
+                'message'    => 'No puede modificar solicitud '. $status->name,
+                'alert_type' => 'error',);
+    
+            \Session::flash('notification', $notification);
+    
+            return redirect()->route('admin.applications.edit', $data->id);
+
+        }
+
+        if($data->status != $request->get('application_statuses_id')){
+
+            $status2= ApplicationStatus::where('id',  $request->get('application_statuses_id'))->firstOrFail();
+
+            if($status->rank > $status2->rank){
+
+                $notification = array(
+                    'message'    => 'No puede modificar desembolso a status menor' ,
+                    'alert_type' => 'error',);
+        
+                \Session::flash('notification', $notification);
+        
+                return redirect()->route('admin.applications.edit', $data->id);
+    
+            }
+        }
+
         $data->application_statuses_id = $request->application_statuses_id;
         $data->modified_user_id = auth()->user()->id;
         $data->save();

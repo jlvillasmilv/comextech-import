@@ -18,12 +18,12 @@ class CategoryServiceSeeder extends Seeder
         \DB::table('category_services')->insert([
             ['name' => 'Pago Proveedor', 'user_id' => 1, 'dependence' => '', 'ind_service' => true, 'sort' => 1, 'created_at' => now() ], 
             ['name' => 'Servicios en Origen', 'user_id' => 1, 'dependence' => '4,5,7,8', 'ind_service' => false, 'sort' => 2,'created_at' => now(), ], 
-            ['name' => 'Transporte Internacional', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 3,'created_at' => now() ], 
+            ['name' => 'Transporte', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 3,'created_at' => now() ], 
             ['name' => 'Proceso de Internación', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 4,'created_at' => now() ], 
-            ['name' => 'Bodegaje Local', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => false, 'sort' => 5,'created_at' => now() ],
-            ['name' => 'Transporte Local', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 6,'created_at' => now() ],
+            ['name' => 'Bodegaje Local', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => true, 'sort' => 5,'created_at' => now() ],
+            ['name' => 'Transporte Local', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 6,'created_at' => now() ],
             ['name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => false, 'sort' => 7, 'created_at' => now() ], 
-            ['name' => 'Gestion del Tipo de Cambio', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 8,'created_at' => now() ], 
+            ['name' => 'Gestion del Tipo de Cambio', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 8,'created_at' => now() ], 
         ]);
 
         \DB::table('services')->insert([
