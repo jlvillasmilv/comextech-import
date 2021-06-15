@@ -17,17 +17,14 @@
                 <div  v-if="activetab == 'Pago Proveedor' " > 
                     <payment-provider/>
                 </div>
-                <div  v-if="activetab =='Transporte Internacional'" > 
+                <div  v-if="activetab =='Transporte'" > 
                     <Transport/>
                 </div>
                 <div v-if="activetab == 'Proceso de Internación' "> 
                     <Internment/>
                 </div>
-                <div v-if="activetab == 'Transporte Local'">
-                    <Transport/>
-                </div>
-                <div v-if="activetab == 'Gestion del Tipo de Cambio' "> 
-                       Gestion de Tipo de Cambio
+                <div v-if="activetab == 'Bodegaje Local'">
+                   Bodegaje Local
                 </div>
           
         </div>
