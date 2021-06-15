@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{Application,ApplicationDetail, ApplicationStatus};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\Admin\ApplicationRequest;
 
 class ApplicationController extends Controller
 {
@@ -76,7 +77,7 @@ class ApplicationController extends Controller
      * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ApplicationRequest $request, $id)
     {
 
         $data = Application::findOrFail($id);
@@ -110,6 +111,10 @@ class ApplicationController extends Controller
                 return redirect()->route('admin.applications.edit', $data->id);
     
             }
+        }
+
+        if(!isset($request->detail_id)){
+            return back()->with('error', 'Debe tener al menos un servicio asociado');
         }
 
         $data->application_statuses_id = $request->application_statuses_id;
