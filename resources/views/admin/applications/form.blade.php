@@ -104,9 +104,91 @@
                 </div>
 
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
+
                     <span class="text-xs text-red-600 dark:text-red-400">
                         {!! session()->get('error') !!} 
                     </span>
+                    @if ($application->status->modify)
+                        
+                    <div class="px-2" id="add_services">
+                        <div class="flex mb-4">
+                            <div class="w-1/2 mr-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Servicio:</label>
+                                <select name="services_id" id="services_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray ">
+
+                                    @foreach($services as $id => $name)
+
+                                        <option value="{{ $id }}">{{ $name }}</option>
+    
+                                    @endforeach
+                                </select>
+                                <span id="services_idError" class="text-xs text-red-600 dark:text-red-400">
+                                    <strong></strong>
+                                </span>
+                            </div>
+                            <div class="w-1/2 ml-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Moneda</label>
+                                <select id="_currency_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray  ">
+
+                                    @foreach($currencies as $id => $name)
+                                       <option value="{{ $id }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                                <span id="currency_idError" class="text-xs text-red-600 dark:text-red-400">
+                                    <strong></strong>
+                                </span>
+                            </div>
+
+                            <div class="w-1/2 ml-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Monto origen</label>
+
+                                <input type="number" class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Monto Origen" id="_amount" >
+
+                                <span id="amountError" class="text-xs text-red-600 dark:text-red-400">
+                                    <strong></strong>
+                                </span>
+                                
+                            </div>
+
+                            <div class="w-1/2 ml-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Moneda</label>
+                                <select id="_currency2_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray  ">  
+                                    @foreach($currencies as $id => $name)
+                                    <option value="{{ $id }}">{{ $name }}</option>
+                                 @endforeach
+                                </select>
+
+                                <span id="currency2_idError" class="text-xs text-red-600 dark:text-red-400">
+                                    <strong></strong>
+                                </span>
+                            </div>
+
+                            <div class="w-1/2 ml-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Monto </label>
+
+                                <input type="number" class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Monto"  id="_amount2" >
+
+                                <span id="amount2Error" class="text-xs text-red-600 dark:text-red-400">
+                                    <strong></strong>
+                                </span>
+                                
+                            </div>
+
+                            
+                            
+                                <button id="add" type="button" class="btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue" 
+                                data-remote="{{route('admin.applications.store')}}" data-id="{{$application->id}}"
+                                title="Agregar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                     </svg>
+
+                                </button>
+                        </div>
+                    </div>
+                    @endif
+
+
                   
                     <div class="w-full overflow-x-auto">
                         <table id="table" class="w-full whitespace-no-wrap">
@@ -116,7 +198,7 @@
                                     <th class="px-4 py-3">Servicio </th>
                                     <th class="px-4 py-3">Moneda / Monto origen </th>
                                     <th class="px-4 py-3">Monto </th>
-                                    <th class="px-4 py-3">&nbsp; </th>
+                                    @if ($application->status->modify)<th class="px-4 py-3">&nbsp; </th> @endif
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -124,7 +206,7 @@
                                 <tr class="text-gray-700 dark:text-gray-400" id="{{$detail->id}}">
                             
                                     <td class="px-4 py-3 text-sm">
-                                        <input type="hidden" class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"  name="service_id[]" value="{{ old('service_id', isset($detail) ? $detail->service_id : '') }}" >
+                                        <input type="hidden"  name="service_id[]" value="{{ old('service_id', isset($detail) ? $detail->service_id : '') }}" >
 
                                         <p class="font-semibold">{{ $detail->service->name }}</p>
                                     </td>
@@ -211,19 +293,20 @@
                                             </div>
                                         
                                     </td>
-
-                                    <td>
-                                        <a href="#" data-id="{{$detail->id}}" data-remote="{{route("admin.applications.destroy", $detail->id)}}"  class=" btn-delete flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                        aria-label="Delete">
-                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                            viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                        </a>
-                                    </td>
-                                    
+                                    @if ($application->status->modify)
+                                        <td>
+                                            <a href="#" data-id="{{$detail->id}}" data-remote="{{route("admin.applications.destroy", $detail->id)}}"  class=" btn-delete flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                aria-label="Delete">
+                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                </a>
+                                        
+                                        </td>
+                                    @endif
                                 </tr>
              
                                 @empty
@@ -245,6 +328,5 @@
                 </div>
 
       		</form>
-
 	</div>
 </x-app-layout>
