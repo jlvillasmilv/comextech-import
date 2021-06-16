@@ -1,8 +1,6 @@
 <template>
     <div class="w-1/2 overflow-x-auto">
-        <div
-            class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
-        >
+         
             <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
                 Pagos al Proveedor
             </h3>
@@ -85,37 +83,17 @@
                     <span> Agregar a Tabla de Pagos </span>
                 </button>
             </div>
-
-            <!-- <label class="block text-sm my-3">
-                
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Porcentaje</span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Moneda </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder=" Número de identificación de valores internacionales
-                " />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Description Pago </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion Postal" />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Monto </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Código Internacional de Cuenta Bancaria" />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Forma </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Origen de importacion" />
-            </label> -->
-        </div>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+    data(){
+        return{
+            form:[]
+        }
+    }
+};
 </script>
 
 <style></style>

@@ -43,7 +43,7 @@
                 <Transport />
             </div>
             <div v-if="activetab == 'Proceso de Internación'">
-                <Internment :services="form.services"/>
+                <Internment :services="form.services" />
             </div>
             <div v-if="activetab == 'Bodegaje Local'">
                 Bodegaje Local
@@ -67,7 +67,6 @@
                     </label>
                 </div>
                 <div v-else>
-                    <!-- <v-select label="name" v-model="payload.bank_id" :options="banks" :reduce="bank => bank.id" > "></v-select> -->
                     <h3
                         class="my-4  font-semibold text-gray-700 dark:text-gray-200"
                     >
@@ -81,6 +80,8 @@
                             label="name"
                             placeholder="Seleccionar Proveedor"
                             :options="suppliers"
+                            v-model="form.suppliers_id"
+                            :reduce="supplier => supplier.id"
                         >
                             <template v-slot:no-options="{ search, searching }">
                                 <template v-if="searching" class="text-sm">
@@ -136,6 +137,7 @@
                                 Monto Total de Operacion
                             </h3>
                             <input
+                                v-model="form.amount"
                                 :class="[
                                     classStyle.input,
                                     classStyle.formInput,
@@ -160,155 +162,6 @@
                         >
                         </textarea>
                     </div>
-
-                    <!-- <div class="flex flex-wrap -mx-3 my-3 ">
-                        <v-select 
-                            label="name"  
-                            v-model="form.supplier_id"  
-                            :reduce="s => s.id"  
-                            :class="[classStyle.wfull, classStyle.input, 'mx-2']" 
-                            placeholder="Seleccionar Proveedor" 
-                            :options="suppliers">
-                            <template v-slot:no-options="{ search, searching }" >
-                                <template v-if="searching" class="text-sm">
-                                Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
-                            </template>
-                            <em style="opacity: 0.5;" v-else> No posee proveedores en tu lista</em>
-                                </template>
-                        </v-select>
-                        <span v-if="form.errors.has('supplier_id')" v-html="form.errors.get('supplier_id')" class="text-xs text-red-600 dark:text-red-400"></span>
-                    </div>
-                    <div class="flex flex-wrap -mx-3  ">
-                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-
-                        
-                         <label 
-                            :class="[classStyle.label]"
-                            >
-                                Monto Total Operacion
-                            </label>
-                            <input 
-                                v-model.number="form.amount"  
-                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
-                            />
-                             <span v-if="form.errors.has('amount')" v-html="form.errors.get('amount')" class="text-xs text-red-600 dark:text-red-400"></span>
-                            </div>
-                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label  
-                                :class="[classStyle.label], "> 
-                                Moneda 
-                            </label>
-                              <v-select 
-                                label="name_code" 
-                                v-model="form.currency_id" 
-                                :reduce="currencie => currencie.id" 
-                                :class="[classStyle.input, ' text-sm mt-1  ']"
-                                placeholder="Moneda" 
-                                :options="currencies" 
-                            > ">
-                             
-                            <template  v-slot:no-options="{ search, searching }" >
-                                    <template v-if="searching" class="text-sm">
-                                    Lo sentimos no hay opciones que coincidan <strong>{{ search }}</strong>.
-                                    </template>
-                                <em style="opacity: 0.5;" v-else>  Moneda </em>
-                            </template>
-                            </v-select>
-                            <span v-if="form.errors.has('currency_id')" v-html="form.errors.get('currency_id')" class="text-xs text-red-600 dark:text-red-400"></span>
-                        </div>
-                    </div>   
-                        <div class="flex flex-wrap -mx-3  ">
-                        <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
-                                <label :class="[classStyle.label]" >
-                                    Porcentaje de Adelanto  %
-                                </label>
-                                <input  
-                                    v-model.number="form.fee1" 
-                                    @input="setValidate()"     
-                                    placeholder="30%" 
-                                    class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
-                                />
-                                <span 
-                                    v-if="form.fee1 > 0" 
-                                    :class="[classStyle.span ]"                                     
-                                    > 
-                                    {{ mount1 }} 
-                                </span>
-                                <span v-if="form.errors.has('fee1')" v-html="form.errors.get('fee1')" class="text-xs text-red-600 dark:text-red-400"></span>
-                        </div>
-                        <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label 
-                             :class="[classStyle.label ]" 
-                            >
-                                Fecha a Pagar Porcentaje
-                            </label>
-                            <input 
-                                v-model="form.fee1_date"  
-                                type="date" 
-                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
-                            />
-                            <span v-if="form.errors.has('feed1_date')" v-html="form.errors.get('feed1_date')" class="text-xs text-red-600 dark:text-red-400"></span>
-                        </div>
-                    </div>   
-                        <div class="flex flex-wrap -mx-3  "  >
-                            <div class="w-1/6 md:w-1/2 px-3 mb-2 md:mb-0">
-                                <label class="flex text-gray-700 text-xs dark:text-gray-400" >
-                                    Porcentaje Contra Entrega %
-                                </label>
-                                <input  
-                                        :disabled="true" 
-                                        :value="form.fee2"
-                                        class="text-center  w-15 h-9 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
-    
-                                />
-                                <span 
-                                    v-if="form.fee2 > 0" 
-                                    :class="[classStyle.span ]"  
-                                > 
-                                        {{ mount2 }} 
-                                </span>
-                                <span v-if="form.errors.has('fee2')" v-html="form.errors.get('fee2')" class="text-xs text-red-600 dark:text-red-400"></span>
-                            </div>
-                            <div class="w-1/6  md:w-1/2 px-3 mb-2 md:mb-0">
-                                <label :class="[classStyle.label ]" >
-                                    Fecha a Pagar  Contra Entrega
-                                </label>
-                                <input 
-                                    type="date" 
-                                    name="fee2_date"
-                                    v-model="form.fee2_date" 
-                                    :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]"  
-                                />
-                                <span v-if="form.errors.has('fee2_date')" v-html="form.errors.get('fee2_date')" class="text-xs text-red-600 dark:text-red-400"></span>
-                                </div>
-                        </div>     
-                        <div class="flex flex-wrap -mx-3  ">
-                            <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
-                                <label :class="[classStyle.label ]" >
-                                Description  
-                            </label>
-                            <textarea 
-                                    v-model="form.description"
-                                    name="message" 
-                                    :class="[ classStyle.wfull, classStyle.formInput, 'py-4 px-4 text-xs' ]"   
-                                    placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"														
-                                >
-                            </textarea>
-                            <span v-if="form.errors.has('description')" v-html="form.errors.get('description')" class="text-xs text-red-600 dark:text-red-400"></span>
-                            </div>
-                            <div class="w-1/2 md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label :class="[classStyle.label ]"  >
-                                Fecha de Estimacion
-                            </label>
-                            <input 
-                                type="date" 
-                                v-model="form.estimated_date" 
-                                :class="[classStyle.input, classStyle.wfull, classStyle.formInput ]" 
-                            >
-                             <span v-if="form.errors.has('estimated_date')" v-html="form.errors.get('estimated_date')" class="text-xs text-red-600 dark:text-red-400"></span>
-                           
-                             </div> 
-                    </div> -->
                 </div>
             </template>
             <template v-slot:footer>
@@ -346,22 +199,20 @@
     </div>
 </template>
 <script>
+
 import PaymentProvider from "../layouts/PaymentProvider.vue";
 import Internment from "../layouts/Internment";
 import Modal from "../components/Modal.vue";
-import Transport from "../components/Transport.vue";
+import Transport from "../layouts/Transport.vue";
+
+
 export default {
     data() {
         return {
             form: new Form({
                 amount: 0,
-                currency_id: "",
                 supplier_id: "",
-                fee1: 0,
-                fee2: 0,
-                fee1_date: "",
-                fee2_date: "",
-                description: "",
+                currency_id: "",
                 estimated_date: "",
                 description: "",
                 services: []
