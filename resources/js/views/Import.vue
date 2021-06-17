@@ -67,6 +67,7 @@
                     </label>
                 </div>
                 <div v-else>
+                <form @submit.prevent="submitFormApplications" @keydown="form.onKeydown($event)">
                     <h3
                         class="my-4  font-semibold text-gray-700 dark:text-gray-200"
                     >
@@ -80,7 +81,7 @@
                             label="name"
                             placeholder="Seleccionar Proveedor"
                             :options="suppliers"
-                            v-model="form.suppliers_id"
+                            v-model="form.supplier_id"
                             :reduce="supplier => supplier.id"
                         >
                             <template v-slot:no-options="{ search, searching }">
@@ -94,6 +95,7 @@
                                 >
                             </template>
                         </v-select>
+                        <span class="text-xs text-red-600 dark:text-red-400" v-if="form.errors.has('supplier_id')" v-html="form.errors.get('supplier_id')"></span>
                     </div>
                     <div class="dark:text-gray-200">
                         <h3 class="my-3 text-gray-500 text-sm ">
@@ -115,6 +117,7 @@
                                 <em style="opacity: 0.5;" v-else> Moneda </em>
                             </template>
                         </v-select>
+                        <span class="text-xs text-red-600 dark:text-red-400" v-if="form.errors.has('currency_id')" v-html="form.errors.get('currency_id')"></span>
                     </div>
 
                     <div class="flex flex-wrap -mx-3  ">
@@ -136,7 +139,7 @@
                             <h3 class="my-3  text-gray-500  text-sm">
                                 Monto Total de Operacion
                             </h3>
-                            <input
+                            <input type="number"
                                 v-model="form.amount"
                                 :class="[
                                     classStyle.input,
@@ -144,6 +147,7 @@
                                     classStyle.wfull
                                 ]"
                             />
+                            <span class="text-xs text-red-600 dark:text-red-400" v-if="form.errors.has('amount')" v-html="form.errors.get('amount')"></span>
                         </div>
                     </div>
                     <div class="dark:text-gray-200">
@@ -162,6 +166,7 @@
                         >
                         </textarea>
                     </div>
+                    </form>
                 </div>
             </template>
             <template v-slot:footer>
@@ -173,6 +178,7 @@
                         Atras
                     </button>
                     <button
+                        type="submit" :disabled="form.busy"
                         @click="submitFormApplications()"
                         class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                     >
@@ -210,6 +216,7 @@ export default {
     data() {
         return {
             form: new Form({
+                application_id: 0,
                 amount: 0,
                 supplier_id: "",
                 currency_id: "",
@@ -266,10 +273,8 @@ export default {
         },
         async submitFormApplications() {
             // try {
-
-            //     const response   = await this.form.post('/applications')
-            this.statusModal = !this.statusModal;
-            this.activetab = this.form.services[0].name;
+           
+            const response   = await this.form.post('/applications')
             //     Swal.fire({
             //         position: 'center',
             //         icon: 'success',
@@ -283,6 +288,9 @@ export default {
             //  }catch(error) {
             //        console.log('error')
             //  }
+            this.form.application_id = response.data;
+            this.statusModal = !this.statusModal;
+            this.activetab = this.form.services[0].name;
         }
     },
     computed: {

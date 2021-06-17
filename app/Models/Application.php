@@ -79,6 +79,12 @@ class Application extends Model
         return $this->belongsTo(Supplier::class, 'supplier_id')->withDefault(['name' => '' ]);
     }
 
+    public function suppliers()
+    {
+        return $this->belongsToMany('App\Supplier', 'application_supplier', 
+        'application_id', 'supplier_id');
+    }
+
     
 
 }

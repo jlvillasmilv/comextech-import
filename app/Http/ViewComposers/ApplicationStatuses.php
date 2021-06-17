@@ -12,7 +12,7 @@ class ApplicationStatuses {
 	{
 
                 $status = ApplicationStatus::select('id', 'name')
-                ->orderBy('name', 'ASC')
+                ->orderBy('rank', 'ASC')
                 ->pluck('name','id');
                         
                 $view->with('status',  $status);
