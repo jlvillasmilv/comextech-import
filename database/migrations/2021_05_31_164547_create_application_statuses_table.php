@@ -20,6 +20,7 @@ class CreateApplicationStatusesTable extends Migration
             $table->string('status_color',50)->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('modify')->default(true);
+            $table->boolean('client_modify')->default(false);
             $table->unsignedTinyInteger('rank')->default(true);
             $table->timestamps();
         });
