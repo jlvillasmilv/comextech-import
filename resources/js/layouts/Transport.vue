@@ -1,5 +1,5 @@
 <template>
-        <Container :bg="true">
+        <Container >
             <div class="container grid px-6 my-1 ">
                 <Load />
                 <Addresses />

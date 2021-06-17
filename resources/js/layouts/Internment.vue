@@ -1,5 +1,5 @@
 <template>
-    <Container :bg="true">
+    <Container>
         <div class="w-full p-4">
             <div v-if="!serviceTransport.length">
                 <Load :title="title" />
