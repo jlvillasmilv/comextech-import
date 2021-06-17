@@ -1,5 +1,5 @@
 <template>
-    <div class="w-1/2 overflow-x-auto">
+    <div class="w-1/2 overflow-x-auto ">
         <div
             class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
         >
@@ -14,14 +14,17 @@
                     <input
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
                         placeholder="%"
+                        v-model.number="form.percentage"
+                        step="1"
+                        type="number"
                     />
                 </div>
                 <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <span class="text-gray-700 dark:text-gray-400 text-xs">
                         Monto de Operacion
                     </span>
-                    <span class="block w-full mt-1 text-lg  text-center"
-                        >70.000.000</span
+                    <span class="block w-full mt-1 text-lg  text-center">
+                        {{ 0 }}</span
                     >
                 </div>
             </div>
@@ -31,6 +34,7 @@
                         Fecha a Pagar Porcentaje</span
                     >
                     <input
+                        v-model="form.datePay"
                         type="date"
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                         placeholder="Empresa"
@@ -42,11 +46,16 @@
                     </span>
                     <div class="relative">
                         <select
+                            v-model="form.typePay"
                             class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-state"
                         >
-                            <option> Carta de Credito </option>
-                            <option> Transferencia </option>
+                            <option value="Carta de Credito">
+                                Carta de Credito
+                            </option>
+                            <option value="Transferencia">
+                                Transferencia
+                            </option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -67,6 +76,7 @@
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 my-5">
                 <button
                     class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    @click="$emit('Add', form)"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -85,37 +95,29 @@
                     <span> Agregar a Tabla de Pagos </span>
                 </button>
             </div>
-
-            <!-- <label class="block text-sm my-3">
-                
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Porcentaje</span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Moneda </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder=" Número de identificación de valores internacionales
-                " />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Description Pago </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion Postal" />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Monto </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Código Internacional de Cuenta Bancaria" />
-            </label>
-            <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400"> Forma </span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Origen de importacion" />
-            </label> -->
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+    props: {
+        amountTotal: {
+            required: false,
+            default: 0
+        }
+    },
+    data() {
+        return {
+            form: {
+                percentage: "",
+                percentageInitial: 100,
+                datePay: "",
+                typePay: ""
+            }
+        };
+    }
+};
 </script>
 
 <style></style>
