@@ -80,7 +80,7 @@
                             label="name"
                             placeholder="Seleccionar Proveedor"
                             :options="suppliers"
-                            v-model="form.suppliers_id"
+                            v-model="form.supplier_id"
                             :reduce="supplier => supplier.id"
                         >
                             <template v-slot:no-options="{ search, searching }">
@@ -136,7 +136,7 @@
                             <h3 class="my-3  text-gray-500  text-sm">
                                 Monto Total de Operacion
                             </h3>
-                            <input
+                            <input type="number"
                                 v-model="form.amount"
                                 :class="[
                                     classStyle.input,
@@ -266,10 +266,8 @@ export default {
         },
         async submitFormApplications() {
             // try {
-
-            //     const response   = await this.form.post('/applications')
-            this.statusModal = !this.statusModal;
-            this.activetab = this.form.services[0].name;
+           
+            const response   = await this.form.post('/applications')
             //     Swal.fire({
             //         position: 'center',
             //         icon: 'success',
@@ -283,6 +281,8 @@ export default {
             //  }catch(error) {
             //        console.log('error')
             //  }
+            this.statusModal = !this.statusModal;
+            this.activetab = this.form.services[0].name;
         }
     },
     computed: {

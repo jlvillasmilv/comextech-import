@@ -37,8 +37,6 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {   
-        //dd($request->all());
-
         DB::beginTransaction();
 
         try {
@@ -72,7 +70,6 @@ class ApplicationController extends Controller
             // all good
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
             return response()->json(['status' => 'Error'], 400);
         }
       
