@@ -6,10 +6,13 @@
             <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
                 Pagos al Proveedor
             </h3>
+            <h3 class="my-2   text-gray-400 dark:text-gray-200">
+                Monto Total a Pagar : {{ amountTotal }} $
+            </h3>
             <div class="flex flex-wrap -mx-3  ">
                 <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <span class="text-gray-700 dark:text-gray-400 text-xs">
-                        Porcentaje de Pago Nro 1</span
+                        Porcentaje de Pago Nro {{ data.length + 1 }}</span
                     >
                     <input
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
@@ -21,7 +24,7 @@
                 </div>
                 <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <span class="text-gray-700 dark:text-gray-400 text-xs">
-                        Monto de Operacion
+                        Monto del Porcentaje Agregado
                     </span>
                     <span class="block w-full mt-1 text-lg  text-center">
                         {{ 0 }}</span
@@ -76,7 +79,7 @@
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 my-5">
                 <button
                     class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                    @click="$emit('Add', form)"
+                    @click="submitTable()"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +106,7 @@
 export default {
     props: {
         amountTotal: {
-            required: false,
+            required: true,
             default: 0
         }
     },
@@ -111,11 +114,33 @@ export default {
         return {
             form: {
                 percentage: "",
-                percentageInitial: 100,
                 datePay: "",
                 typePay: ""
-            }
+            },
+            percentageInitial: 100,
+            data: []
         };
+    },
+    methods: {
+        submitTable() {
+            this.$emit("Add", this.form);
+            this.setValidate();
+        },
+        setValidate() {
+            this.data.push({ ...this.form });
+            this.percentageInitial =
+                this.percentageInitial - this.form.percentage;
+
+            if (this.percentageInitial < 0) {
+                alert("SUPERA EL MAXIMO DE 100");
+            } else {
+                this.form = {
+                    percentage: this.percentageInitial,
+                    datePay: "",
+                    typePay: ""
+                };
+            }
+        }
     }
 };
 </script>

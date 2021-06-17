@@ -1,6 +1,6 @@
 <template>
     <Container :bg="false">
-        <Form  @Add="AddPay" />
+        <Form @Add="AddPay" :amountTotal="amountTotal" />
         <Table :data="pays" />
     </Container>
 </template>
@@ -12,6 +12,12 @@ import Table from "../components/PaymentProvider/Table.vue";
 
 export default {
     components: { Table, Form, Container },
+    props: {
+        amountTotal: {
+            required: true,
+            default: 0
+        }
+    },
     data() {
         return {
             creating: false,
@@ -20,14 +26,10 @@ export default {
     },
     methods: {
         AddPay(payload) {
-            this.pays.push({
-                    percentage: "Majuriic" + this.pays.length ,
-                    datePay: "Majuriic",
-                    typePay: "Majuriic"
-                })
-            console.log(payload);
+            this.pays.push({ ...payload });
         }
-    }
+    },
+    computed: {}
 };
 </script>
 
