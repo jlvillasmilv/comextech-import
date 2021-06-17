@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application,Service};
+use App\Models\{Application, ApplicationDetail ,Service};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\ApplicationRequest;
@@ -40,11 +40,21 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
         try {
-            $data = new Application;
-            $data->fill($request->all());
-            $data->application_statuses_id = 1;
-            $data->user_id = auth()->user()->id;
-            $data->save();
+
+            $data =  Application::updateOrCreate(
+                ['id' => $request->application_id,
+                'user_id'   => auth()->user()->id,
+                ],
+                [
+                    'supplier_id'  => $request->supplier_id,
+                    'amount'       => $request->amount,
+                    'application_statuses_id' => 1,
+                    'currency_id' => $request->currency_id,
+                    'description' => $request->description,
+                    'estimated_date' => $request->estimated_date,
+                ]
+            );
+
 
             foreach ($request->services as $key => $service) {
 
@@ -55,13 +65,18 @@ class ApplicationController extends Controller
 
                 foreach ($add_serv as $key => $add) {
 
-                    $data->details()->create([
+                    ApplicationDetail::updateOrCreate(
+                        ['application_id' => $data->id,
                         'service_id'   => $add["id"],
-                        'currency_id'  => $data->currency_id,
-                        'amount'       => 0,
-                        'currency2_id' => $data->currency_id,
-                        'estimated'  => date('Y-m-d')
-                    ]);
+                        ],
+                        [
+                            'currency_id'  => $data->currency_id,
+                            'amount'       => 0,
+                            'currency2_id' => $data->currency_id,
+                            'estimated'  => date('Y-m-d')
+                        ]
+                    );
+
                 }
 
             }

@@ -216,6 +216,7 @@ export default {
     data() {
         return {
             form: new Form({
+                application_id: 0,
                 amount: 0,
                 supplier_id: "",
                 currency_id: "",
@@ -287,6 +288,7 @@ export default {
             //  }catch(error) {
             //        console.log('error')
             //  }
+            this.form.application_id = response.data;
             this.statusModal = !this.statusModal;
             this.activetab = this.form.services[0].name;
         }
