@@ -23,34 +23,36 @@
                             :key="key"
                             class="text-gray-700 dark:text-gray-400"
                         >
-                            {{
-                                item.percentage
-                            }}
-                            <!-- <td class="px-4 py-3">
-                                        <div class="flex items-center text-sm">
-                                            <div>
-                                                <p class="font-semibold"> Adelantado </p>
-                                                <p class="text-xs text-gray-600 dark:text-gray-400">
-                                                    6/10/2020
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-2 py-2 text-sm">
-                                        10 %
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        USD
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        $ 369.95
-                                    </td>
-                                    <td class="px-4 py-3 text-xs">
-                                        <span
-                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:text-white dark:bg-green-600">
-                                            Contado
-                                        </span>
-                                    </td>    -->
+                            <td class="px-4 py-3">
+                                <div class="flex items-center text-sm">
+                                    <div>
+                                        <p class="font-semibold">
+                                            Pago Nro {{ key + 1 }}
+                                        </p>
+                                        <p
+                                            class="text-xs text-gray-600 dark:text-gray-400"
+                                        >
+                                            {{ item.datePay }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-2 py-2 text-sm">
+                                {{ item.percentage }} %
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                USD
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                $ 369.95
+                            </td>
+                            <td class="px-4 py-3 text-xs">
+                                <span
+                                    class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:text-white dark:bg-green-600"
+                                >
+                                    {{ item.typePay }}
+                                </span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

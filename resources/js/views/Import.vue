@@ -37,7 +37,7 @@
         </ul>
         <div class="w-full p-2 ">
             <div v-if="activetab == 'Pago Proveedor'">
-                <payment-provider />
+                <payment-provider :amountTotal="form.amount"/>
             </div>
             <div v-if="activetab == 'Transporte'">
                 <Transport />
