@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/services', [ServicesController::class, 'show'])->name('services.show');
     Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');
     Route::get('/services/summary/{id}', [ServicesController::class, 'summary'])->name('services.summary');
+    Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('services.edit');
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('forms', 'forms')->name('forms');
