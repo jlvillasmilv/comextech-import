@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div>
         <div class="flex flex-wrap -mx-3">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label class="block text-sm">
@@ -135,6 +136,10 @@
                     placeholder="USD"
                 />
             </div>
+        </div>
+    </div>
+        <div class="flex justify-center">
+             <button @click="$emit('incomingMenu')" class="w-1/3 h-12 px-4 text-white transition-colors text-lg duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"> Cotizar </button>
         </div>
     </div>
 </template>

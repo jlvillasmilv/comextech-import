@@ -35,35 +35,40 @@
             </div>
         </ul>
         <div class="w-full p-2 ">
-            <div v-if="activetab == 'Pago Proveedor'">
-                <payment-provider :amountTotal="form.amount" />
-            </div>
-            <div v-if="activetab == 'Transporte'">
-                <Transport />
-            </div>
-            <div v-if="activetab == 'Proceso de Internación'">
-                <Internment :services="form.services" />
-            </div>
-            <div v-if="activetab == 'Bodegaje Local'">
-                Bodegaje Local
-            </div>
+                <Container 
+                    :bg="false" 
+                    v-if="activetab == 'Pago Proveedor'"
+                >
+                    <FormPayment 
+                        @Add="AddPay" 
+                        :amountTotal="form.amount" 
+                        @incomingMenu="incomingMenu" 
+                    />
+                    <TablePayment :data="pays" />
+                </Container>
+
+                <Container 
+                    v-if="activetab == 'Transporte'" 
+                >
+                    <div class="container grid px-6 my-1 ">
+                        <Load />
+                        <Addresses @incomingMenu="incomingMenu" />
+                    </div>
+                </Container>
+                <Container v-if="activetab == 'Proceso de Internación'" >
+                    <div class="w-full p-4">
+                        <div v-if="!serviceTransport.length">
+                            <Load :title="`Carga de Internacion`" />
+                        </div>
+                        <FormInternment @incomingMenu="incomingMenu"/>
+                    </div>
+                </Container>
+
+                <Container v-if="activetab == 'Bodegaje Local'" >
+                     Bodegaje Local
+                </Container>
         </div>
-        <div v-if="form.services.length > 1 ">
-            <button
-                @click="backMenu"
-                v-if="position !== 0"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-                Atras
-            </button>
-            <button
-                @click="incomingMenu"
-                v-if="position !== form.services.length - 1"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-                Siguiente
-            </button>
-        </div>
+  
         <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
                 <div class="mt-2" v-if="!next">
@@ -245,10 +250,16 @@
     </div>
 </template>
 <script>
+
 import PaymentProvider from "../layouts/PaymentProvider.vue";
-import Internment from "../layouts/Internment";
 import Modal from "../components/Modal.vue";
 import Transport from "../layouts/Transport.vue";
+import Container from "../components/Container.vue";
+import Load from "../components/Transport/Load.vue";
+import Addresses from "../components/Transport/Addresses.vue";
+import FormInternment from "../components/Internment/Form.vue";
+import FormPayment from "../components/PaymentProvider/Form.vue";
+import TablePayment from "../components/PaymentProvider/Table.vue";
 
 export default {
     data() {
@@ -270,7 +281,6 @@ export default {
             title: "Servicios para Cotizacion",
             next: false,
             currencies: [],
-            tablePayment: [],
             classStyle: {
                 span:
                     "ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ",
@@ -280,14 +290,21 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            responseId: false
+            responseId: false,
+            pays: []
         };
     },
     components: {
         Modal,
         PaymentProvider,
         Transport,
-        Internment
+        // Internment,
+        Container,
+        Load,
+        Addresses,
+        FormInternment,
+        FormPayment,
+        TablePayment
     },
     methods: {
         tabsAdd(item) {
@@ -295,6 +312,9 @@ export default {
                 e.id === item.id ? { ...e, selected: !e.selected } : e
             );
             this.form.services = this.tabs.filter(e => e.selected);
+        },
+        AddPay(payload) {
+            this.pays.push({ ...payload });
         },
         toogleMenu(value) {
             this.activetab = value.name;
@@ -314,31 +334,23 @@ export default {
             this.position = this.position + 1;
             this.activetab = this.form.services[this.position].name;
         },
-        backMenu() {
-            this.position = this.position - 1;
-            this.activetab = this.form.services[this.position].name;
-        },
         async submitFormApplications() {
-            // try {
-
-            // const response   = await this.form.post('/applications')
-            //     Swal.fire({
-            //         position: 'center',
-            //         icon: 'success',
-            //         title: 'Solicitud creada con exito!',
-            //         showConfirmButton: false,
-            //         timer: 1500
-            //     })
-            //     this.responseId  = response.data
-            //     // this.form.services.sort((a, b) => b.id - a.id)
-            //     this.activetab   = this.form.services[0].name
-            //  }catch(error) {
-            //        console.log('error')
-            //  }
-            // this.form.application_id = response.data;
-            this.statusModal = !this.statusModal;
-            this.position = 0;
-            this.activetab = this.form.services[0].name;
+            try {
+                const response   = await this.form.post('/applications')
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Solicitud creada con exito!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                this.activetab   = this.form.services[0].name
+                this.form.application_id = response.data;
+                this.statusModal = !this.statusModal;
+                this.position = 0;
+             }catch(error) {
+                   console.log('error')
+             }
         }
     },
     computed: {
@@ -347,6 +359,9 @@ export default {
         },
         mount1() {
             return Math.round(this.form.amount * (this.form.fee1 / 100));
+        },
+        serviceTransport() {
+            return this.form.services.filter(item => item.name == "Transporte");
         }
     },
     async created() {
@@ -363,15 +378,13 @@ export default {
             console.log(error);
         }
 
-         let application =  document.getElementById("applications")
-        
-        if(application == null){
-            console.log('Nueva Solicitud')
-        }else{
-             console.log('Editando', application.value)    
-        }
-        
-    },
-     
+        // let application = document.getElementById("applications");
+
+        // if (application == null) {
+        //     console.log("Nueva Solicitud");
+        // } else {
+        //     console.log("Editando", application.value);
+        // }
+    }
 };
 </script>

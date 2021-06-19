@@ -27,7 +27,7 @@
                         Monto del Porcentaje Agregado
                     </span>
                     <span class="block w-full mt-1 text-lg  text-center">
-                        {{ 0 }}</span
+                        {{ amountTotal * (form.percentage / 100) }}</span
                     >
                 </div>
             </div>
@@ -76,9 +76,11 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 my-5">
+
+            <div class="flex  space-x-2  px-3 mb-6 md:mb-0 my-5">
                 <button
-                    class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    v-if="this.percentageInitial > 0"
+                    class=" flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
                     @click="submitTable()"
                 >
                     <svg
@@ -95,7 +97,28 @@
                             d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
                         />
                     </svg>
-                    <span> Agregar a Tabla de Pagos </span>
+                    <span> Agregar Pago a Tabla </span>
+                </button>
+
+                <button
+                    class=" flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-purple"
+                    @click="submitPayment()"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
+                        />
+                    </svg>
+                    <span> Guardar Pagos</span>
                 </button>
             </div>
         </div>
@@ -140,6 +163,11 @@ export default {
                     typePay: ""
                 };
             }
+        },
+        submitPayment() {
+            // Aqui va el axios
+            //Con este evento hace el cambio a la siguiente pantalla
+            this.$emit("incomingMenu");
         }
     }
 };
