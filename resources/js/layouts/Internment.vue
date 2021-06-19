@@ -1,14 +1,14 @@
-<template>
+ <!--<template>
     <Container>
         <div class="w-full p-4">
             <div v-if="!serviceTransport.length">
-                <Load :title="title" />
+                <Load :title="titleLoad" />
             </div>
             <Form />
         </div>
     </Container>
 
-    <!-- <div class="grid gap-6 mb-8 md:grid-cols-2">
+    <div class="grid gap-6 mb-8 md:grid-cols-2">
             <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-3 font-semibold text-gray-900 dark:text-gray-300"> Informacion de Aduana </h4>
                 <div class="flex flex-wrap -mx-3  ">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div> 
 </template>
 
 <script>
@@ -75,7 +75,7 @@ export default {
     props: ["services"],
     data() {
         return {
-            title: "Carga a Internar"
+            titleLoad: "Carga a Internar"
         };
     },
     computed: {
@@ -85,3 +85,4 @@ export default {
     }
 };
 </script>
+-->
