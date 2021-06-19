@@ -19,6 +19,10 @@ class ServicesController extends Controller
     {
         return view('services.show_summary');
     }
+    public function edit()
+    {
+        return view('services.edit');
+    }
     
 
    

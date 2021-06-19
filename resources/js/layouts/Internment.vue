@@ -1,10 +1,14 @@
-<template>
-     <div class="container grid px-6 mx-auto">
-        <!-- Cards with title -->
-        <!-- <div class="flex bg-white mb-4">
-              <div class="w-full p-4 rounded-lg shadow-xs dark:bg-gray-800 min-w-0 "></div>
-        </div> -->
-        <div class="grid gap-6 mb-8 md:grid-cols-2">
+ <!--<template>
+    <Container>
+        <div class="w-full p-4">
+            <div v-if="!serviceTransport.length">
+                <Load :title="titleLoad" />
+            </div>
+            <Form />
+        </div>
+    </Container>
+
+    <div class="grid gap-6 mb-8 md:grid-cols-2">
             <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-3 font-semibold text-gray-900 dark:text-gray-300"> Informacion de Aduana </h4>
                 <div class="flex flex-wrap -mx-3  ">
@@ -20,12 +24,10 @@
                                     Pago de Agente de Aduana
                             </h3>
                             <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input " placeholder="Monto" />
-                            <!-- <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600" ><span class="ml-2 text-xs text-black"> Ingrese los datos de su agente aduana  </span> -->
-                    </div>
+                     </div>
                
                 </div>
-            </div>
-            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+   
                 <h4 class="mb-3 font-semibold text-gray-900 dark:text-gray-300"> Requisitos   </h4>
                 <div>
                     <h3 class="my-4  text-gray-500 text-sm"> 
@@ -60,7 +62,27 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
- 
+        </div> 
 </template>
+
+<script>
+import Container from "../components/Container.vue";
+import Form from "../components/Internment/Form.vue";
+import Load from "../components/Transport/Load.vue";
+
+export default {
+    components: { Load, Form, Container },
+    props: ["services"],
+    data() {
+        return {
+            titleLoad: "Carga a Internar"
+        };
+    },
+    computed: {
+        serviceTransport() {
+            return this.services.filter(item => item.name == "Transporte");
+        }
+    }
+};
+</script>
+-->

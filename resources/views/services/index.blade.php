@@ -2,7 +2,7 @@
 
     <div class="container grid px-6 mx-auto">
         <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Servicios Solicitado
+            Servicios Solicitadosss
         </h2>
 
         <div class="flex justify-between items-end">
@@ -171,6 +171,21 @@
                                 <a  
                                 href="{{ route('services.summary', 1) }}" 
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    aria-label="Edit">
+                                   
+                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                        viewBox="0 0 20 20">
+
+                                          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                         
+                                          <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                        
+                                    </svg>
+                                </a>
+                                
+                                <a  
+                                href="{{ route('services.edit', 1) }}" 
+                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"

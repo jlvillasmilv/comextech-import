@@ -15,32 +15,46 @@ class ApplicationStatusSeeder extends Seeder
     public function run()
     {
         ApplicationStatus::create([
-            'name' => 'PENDIENTE',
+            'name' => 'Borrador',
             'status_icon' => 'far fa-clock fa-2x',
             'status_color' => 'bg-blue-100',
             'modify' => true,
-            'rank' => 0,
-            'created_at' => now(),
+            'client_modify' => true,
+            'rank' => 0
         ]);
 
         ApplicationStatus::create([
-            'name' => 'RECHAZADO',
+            'name' => 'Cotizado',
             'status_icon' => 'fa fa-times fa-2x',
-            'status_color' => 'bg-red-100',
-            'modify' => false,
+            'status_color' => 'bg-yellow-100',
+            'modify' => true,
             'rank' => 1,
-            'created_at' => now(),
+        ]);
+
+
+        ApplicationStatus::create([
+            'name' => 'Solicitado',
+            'status_icon' => 'fa fa-times fa-2x',
+            'status_color' => 'bg-yellow-100',
+            'modify' => true,
+            'rank' => 2
         ]);
 
         ApplicationStatus::create([
-            'name' => 'APROBADO',
+            'name' => 'Firmado',
             'status_icon' => 'fa fa-clipboard-check fa-2x',
             'status_color' => 'bg-green-100',
             'modify' => false,
-            'rank' => 3,
-            'created_at' => now(),
+            'rank' => 3
         ]);
 
+        ApplicationStatus::create([
+            'name' => 'Rechazado',
+            'status_icon' => 'fa fa-times fa-2x',
+            'status_color' => 'bg-red-100',
+            'modify' => false,
+            'rank' => 3
+        ]);
 
     }
 }

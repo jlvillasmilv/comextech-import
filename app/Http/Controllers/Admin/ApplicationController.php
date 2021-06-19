@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application,ApplicationDetail, ApplicationStatus};
+use App\Models\{Application,ApplicationDetail, ApplicationStatus, Service};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\Admin\ApplicationRequest;
+use App\Http\Requests\Admin\{ApplicationRequest,ApplicationServiceRequest};
 
 class ApplicationController extends Controller
 {
@@ -40,9 +40,24 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ApplicationServiceRequest $request)
     {
-        //
+
+        $data = Application::findOrFail($request->application_id);
+
+        $status = ApplicationStatus::where('id', $data->application_statuses_id)->firstOrFail();
+
+        if(!$status->modify){
+
+            return  response()->json(['errors' => ['services_id' => ['No puede modificar solicitud']]],422);
+        }
+
+
+        $data = new ApplicationDetail;
+        $data->fill($request->all());
+        $data->save();
+
+        return  response()->json(['aviso' => 'OK'],200);
     }
 
     /**
@@ -54,6 +69,7 @@ class ApplicationController extends Controller
     public function show($id)
     {
         $data  = Application::findOrFail($id);
+
 
         return view('admin.applications.show', compact('data'));
     }
@@ -67,7 +83,15 @@ class ApplicationController extends Controller
     public function edit(Application $application)
     {
 
-        return view('admin.applications.form', compact('application'));
+
+        $services = Service::join('category_services', 'services.category_service_id', '=', 'category_services.id')
+        ->select('services.id', \DB::raw("CONCAT(category_services.name,' / ', services.name) as name_code"))
+        ->whereNotIn('services.id', $application->details->pluck('service_id'))
+        ->where('services.status', '=', true)
+        ->orderBy('services.name', 'ASC')
+        ->pluck('name_code','services.id');
+
+        return view('admin.applications.form', compact('application','services'));
     }
 
     /**
@@ -123,11 +147,11 @@ class ApplicationController extends Controller
 
         if(isset($request->detail_id)){
 
-            foreach ($request->detail_id as $key => $id) {
+            foreach ($request->service_id as $key => $id) {
 
                 ApplicationDetail::updateOrCreate(
                     ['application_id' => $data->id,
-                    'service_id'     => $request->service_id[$key]
+                    'service_id'     => $id
                     ],
                     [
                     'currency_id'  => $request->currency_id[$key],
@@ -154,8 +178,9 @@ class ApplicationController extends Controller
      * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Application $application)
+    public function destroy($id)
     {
-        //
+        ApplicationDetail::where('id', $id)->delete();
+        return  response()->json(['aviso' => 'OK'],200);
     }
 }
