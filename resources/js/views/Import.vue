@@ -21,9 +21,8 @@
                     />
                 </svg>
             </button>
-            <div v-for="(item, id) in tabs" :key="id" @click="toogleMenu(item)">
+            <div v-for="(item, id) in form.services" :key="id">
                 <li
-                    v-if="item.selected"
                     :class="[
                         'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
                         item.name == activetab
@@ -36,19 +35,40 @@
             </div>
         </ul>
         <div class="w-full p-2 ">
-            <div v-if="activetab == 'Pago Proveedor'">
-                <payment-provider :amountTotal="form.amount"/>
-            </div>
-            <div v-if="activetab == 'Transporte'">
-                <Transport />
-            </div>
-            <div v-if="activetab == 'Proceso de Internación'">
-                <Internment :services="form.services" />
-            </div>
-            <div v-if="activetab == 'Bodegaje Local'">
-                Bodegaje Local
-            </div>
+                <Container 
+                    :bg="false" 
+                    v-if="activetab == 'Pago Proveedor'"
+                >
+                    <FormPayment 
+                        @Add="AddPay" 
+                        :amountTotal="form.amount" 
+                        @incomingMenu="incomingMenu" 
+                    />
+                    <TablePayment :data="pays" />
+                </Container>
+
+                <Container 
+                    v-if="activetab == 'Transporte'" 
+                >
+                    <div class="container grid px-6 my-1 ">
+                        <Load />
+                        <Addresses @incomingMenu="incomingMenu" />
+                    </div>
+                </Container>
+                <Container v-if="activetab == 'Proceso de Internación'" >
+                    <div class="w-full p-4">
+                        <div v-if="!serviceTransport.length">
+                            <Load :title="`Carga de Internacion`" />
+                        </div>
+                        <FormInternment @incomingMenu="incomingMenu"/>
+                    </div>
+                </Container>
+
+                <Container v-if="activetab == 'Bodegaje Local'" >
+                     Bodegaje Local
+                </Container>
         </div>
+  
         <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
                 <div class="mt-2" v-if="!next">
@@ -67,105 +87,129 @@
                     </label>
                 </div>
                 <div v-else>
-                <form @submit.prevent="submitFormApplications" @keydown="form.onKeydown($event)">
-                    <h3
-                        class="my-4  font-semibold text-gray-700 dark:text-gray-200"
+                    <form
+                        @submit.prevent="submitFormApplications"
+                        @keydown="form.onKeydown($event)"
                     >
-                        Informacion de Proveedor
-                    </h3>
-                    <div class="dark:text-gray-200">
-                        <h3 class="my-4  text-gray-500 text-sm">
-                            Proveedor de Mercancia
-                        </h3>
-                        <v-select
-                            label="name"
-                            placeholder="Seleccionar Proveedor"
-                            :options="suppliers"
-                            v-model="form.supplier_id"
-                            :reduce="supplier => supplier.id"
+                        <h3
+                            class="my-4  font-semibold text-gray-700 dark:text-gray-200"
                         >
-                            <template v-slot:no-options="{ search, searching }">
-                                <template v-if="searching" class="text-sm">
-                                    Lo sentimos no hay opciones que coincidan
-                                    <strong>{{ search }}</strong
-                                    >.
-                                </template>
-                                <em style="opacity: 0.5;" v-else>
-                                    No posee proveedores en tu lista</em
+                            Informacion de Proveedor
+                        </h3>
+                        <div class="dark:text-gray-200">
+                            <h3 class="my-4  text-gray-500 text-sm">
+                                Proveedor de Mercancia
+                            </h3>
+                            <v-select
+                                label="name"
+                                placeholder="Seleccionar Proveedor"
+                                :options="suppliers"
+                                v-model="form.supplier_id"
+                                :reduce="supplier => supplier.id"
+                            >
+                                <template
+                                    v-slot:no-options="{ search, searching }"
                                 >
-                            </template>
-                        </v-select>
-                        <span class="text-xs text-red-600 dark:text-red-400" v-if="form.errors.has('supplier_id')" v-html="form.errors.get('supplier_id')"></span>
-                    </div>
-                    <div class="dark:text-gray-200">
-                        <h3 class="my-3 text-gray-500 text-sm ">
-                            Moneda de Pago
-                        </h3>
-                        <v-select
-                            label="name_code"
-                            v-model="form.currency_id"
-                            :reduce="currencie => currencie.id"
-                            placeholder="Moneda"
-                            :options="currencies"
-                        >
-                            <template v-slot:no-options="{ search, searching }">
-                                <template v-if="searching" class="text-sm">
-                                    Lo sentimos no hay opciones que coincidan
-                                    <strong>{{ search }}</strong
-                                    >.
+                                    <template v-if="searching" class="text-sm">
+                                        Lo sentimos no hay opciones que
+                                        coincidan
+                                        <strong>{{ search }}</strong
+                                        >.
+                                    </template>
+                                    <em style="opacity: 0.5;" v-else>
+                                        No posee proveedores en tu lista</em
+                                    >
                                 </template>
-                                <em style="opacity: 0.5;" v-else> Moneda </em>
-                            </template>
-                        </v-select>
-                        <span class="text-xs text-red-600 dark:text-red-400" v-if="form.errors.has('currency_id')" v-html="form.errors.get('currency_id')"></span>
-                    </div>
-
-                    <div class="flex flex-wrap -mx-3  ">
-                        <div class="w-full md:w-1/2 px-3  md:mb-0">
+                            </v-select>
+                            <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="form.errors.has('supplier_id')"
+                                v-html="form.errors.get('supplier_id')"
+                            ></span>
+                        </div>
+                        <div class="dark:text-gray-200">
                             <h3 class="my-3 text-gray-500 text-sm ">
-                                Fecha de Estimacion
+                                Moneda de Pago
                             </h3>
-                            <input
-                                type="date"
-                                v-model="form.estimated_date"
+                            <v-select
+                                label="name_code"
+                                v-model="form.currency_id"
+                                :reduce="currencie => currencie.id"
+                                placeholder="Moneda"
+                                :options="currencies"
+                            >
+                                <template
+                                    v-slot:no-options="{ search, searching }"
+                                >
+                                    <template v-if="searching" class="text-sm">
+                                        Lo sentimos no hay opciones que
+                                        coincidan
+                                        <strong>{{ search }}</strong
+                                        >.
+                                    </template>
+                                    <em style="opacity: 0.5;" v-else>
+                                        Moneda
+                                    </em>
+                                </template>
+                            </v-select>
+                            <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="form.errors.has('currency_id')"
+                                v-html="form.errors.get('currency_id')"
+                            ></span>
+                        </div>
+
+                        <div class="flex flex-wrap -mx-3  ">
+                            <div class="w-full md:w-1/2 px-3  md:mb-0">
+                                <h3 class="my-3 text-gray-500 text-sm ">
+                                    Fecha de Estimacion
+                                </h3>
+                                <input
+                                    type="date"
+                                    v-model="form.estimated_date"
+                                    :class="[
+                                        classStyle.input,
+                                        classStyle.wfull,
+                                        classStyle.formInput
+                                    ]"
+                                />
+                            </div>
+                            <div class="w-full md:w-1/2 px-3">
+                                <h3 class="my-3  text-gray-500  text-sm">
+                                    Monto Total de Operacion
+                                </h3>
+                                <input
+                                    type="number"
+                                    v-model="form.amount"
+                                    :class="[
+                                        classStyle.input,
+                                        classStyle.formInput,
+                                        classStyle.wfull
+                                    ]"
+                                />
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="form.errors.has('amount')"
+                                    v-html="form.errors.get('amount')"
+                                ></span>
+                            </div>
+                        </div>
+                        <div class="dark:text-gray-200">
+                            <h3 class="my-4  text-gray-500  text-sm ">
+                                Description
+                            </h3>
+                            <textarea
+                                v-model="form.description"
+                                name="message"
                                 :class="[
-                                    classStyle.input,
                                     classStyle.wfull,
-                                    classStyle.formInput
-                                ]"
-                            />
-                        </div>
-                        <div class="w-full md:w-1/2 px-3">
-                            <h3 class="my-3  text-gray-500  text-sm">
-                                Monto Total de Operacion
-                            </h3>
-                            <input type="number"
-                                v-model="form.amount"
-                                :class="[
-                                    classStyle.input,
                                     classStyle.formInput,
-                                    classStyle.wfull
+                                    'py-4 px-4 text-xs'
                                 ]"
-                            />
-                            <span class="text-xs text-red-600 dark:text-red-400" v-if="form.errors.has('amount')" v-html="form.errors.get('amount')"></span>
+                                placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"
+                            >
+                            </textarea>
                         </div>
-                    </div>
-                    <div class="dark:text-gray-200">
-                        <h3 class="my-4  text-gray-500  text-sm ">
-                            Description
-                        </h3>
-                        <textarea
-                            v-model="form.description"
-                            name="message"
-                            :class="[
-                                classStyle.wfull,
-                                classStyle.formInput,
-                                'py-4 px-4 text-xs'
-                            ]"
-                            placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"
-                        >
-                        </textarea>
-                    </div>
                     </form>
                 </div>
             </template>
@@ -178,7 +222,8 @@
                         Atras
                     </button>
                     <button
-                        type="submit" :disabled="form.busy"
+                        type="submit"
+                        :disabled="form.busy"
                         @click="submitFormApplications()"
                         class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                     >
@@ -193,7 +238,7 @@
                         Cancelar
                     </button>
                     <button
-                        v-if="tabsSelected.length > 0"
+                        v-if="form.services.length > 0"
                         @click="next = !next"
                         class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                     >
@@ -207,10 +252,14 @@
 <script>
 
 import PaymentProvider from "../layouts/PaymentProvider.vue";
-import Internment from "../layouts/Internment";
 import Modal from "../components/Modal.vue";
 import Transport from "../layouts/Transport.vue";
-
+import Container from "../components/Container.vue";
+import Load from "../components/Transport/Load.vue";
+import Addresses from "../components/Transport/Addresses.vue";
+import FormInternment from "../components/Internment/Form.vue";
+import FormPayment from "../components/PaymentProvider/Form.vue";
+import TablePayment from "../components/PaymentProvider/Table.vue";
 
 export default {
     data() {
@@ -224,6 +273,7 @@ export default {
                 description: "",
                 services: []
             }),
+            position: 0,
             tabs: [],
             suppliers: [],
             activetab: false,
@@ -231,7 +281,6 @@ export default {
             title: "Servicios para Cotizacion",
             next: false,
             currencies: [],
-            tablePayment: [],
             classStyle: {
                 span:
                     "ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ",
@@ -241,14 +290,21 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            responseId: false
+            responseId: false,
+            pays: []
         };
     },
     components: {
         Modal,
         PaymentProvider,
         Transport,
-        Internment
+        // Internment,
+        Container,
+        Load,
+        Addresses,
+        FormInternment,
+        FormPayment,
+        TablePayment
     },
     methods: {
         tabsAdd(item) {
@@ -256,6 +312,9 @@ export default {
                 e.id === item.id ? { ...e, selected: !e.selected } : e
             );
             this.form.services = this.tabs.filter(e => e.selected);
+        },
+        AddPay(payload) {
+            this.pays.push({ ...payload });
         },
         toogleMenu(value) {
             this.activetab = value.name;
@@ -271,26 +330,27 @@ export default {
             this.statusModal = !this.statusModal;
             this.tabs.map(e => (e.selected = false));
         },
+        incomingMenu() {
+            this.position = this.position + 1;
+            this.activetab = this.form.services[this.position].name;
+        },
         async submitFormApplications() {
-            // try {
-           
-            const response   = await this.form.post('/applications')
-            //     Swal.fire({
-            //         position: 'center',
-            //         icon: 'success',
-            //         title: 'Solicitud creada con exito!',
-            //         showConfirmButton: false,
-            //         timer: 1500
-            //     })
-            //     this.responseId  = response.data
-            //     // this.form.services.sort((a, b) => b.id - a.id)
-            //     this.activetab   = this.form.services[0].name
-            //  }catch(error) {
-            //        console.log('error')
-            //  }
-            this.form.application_id = response.data;
-            this.statusModal = !this.statusModal;
-            this.activetab = this.form.services[0].name;
+            try {
+                const response   = await this.form.post('/applications')
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Solicitud creada con exito!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                this.activetab   = this.form.services[0].name
+                this.form.application_id = response.data;
+                this.statusModal = !this.statusModal;
+                this.position = 0;
+             }catch(error) {
+                   console.log('error')
+             }
         }
     },
     computed: {
@@ -300,8 +360,8 @@ export default {
         mount1() {
             return Math.round(this.form.amount * (this.form.fee1 / 100));
         },
-        tabsSelected() {
-            return this.tabs.filter(e => e.selected !== false);
+        serviceTransport() {
+            return this.form.services.filter(item => item.name == "Transporte");
         }
     },
     async created() {
@@ -317,6 +377,14 @@ export default {
         } catch (error) {
             console.log(error);
         }
+
+        // let application = document.getElementById("applications");
+
+        // if (application == null) {
+        //     console.log("Nueva Solicitud");
+        // } else {
+        //     console.log("Editando", application.value);
+        // }
     }
 };
 </script>
