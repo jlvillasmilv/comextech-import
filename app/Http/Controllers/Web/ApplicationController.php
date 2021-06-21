@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application, ApplicationDetail ,Service};
+use App\Models\{User,Application, ApplicationDetail ,Service};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\ApplicationRequest;
+use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
 {
@@ -82,7 +83,17 @@ class ApplicationController extends Controller
             }
 
             DB::commit();
-            // all good
+
+            $user_admin = User::whereHas('roles', function ($query) {
+                $query->where('name','=', 'Admin');
+            })->pluck('id');
+    
+            User::all()
+                ->whereIn('id', $user_admin)
+                ->each(function (User $user) use ($data) {
+                    $user->notify(new AdminApplicationNotification($data));
+                });
+
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status' => 'Error'], 400);
