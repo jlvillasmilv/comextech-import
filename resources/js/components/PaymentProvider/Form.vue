@@ -1,5 +1,7 @@
 <template>
+    
     <div class="w-1/2 overflow-x-auto ">
+    {{ data }}
         <div
             class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
         >
@@ -154,7 +156,8 @@ export default {
             },
             percentageInitial: 100,
             discount: "",
-            counter: 0
+            counter: 0,
+            data:[]
         };
     },
     methods: {
@@ -167,6 +170,11 @@ export default {
                     ...this.form,
                     percentage: this.discount
                 });
+                this.data.push({
+                    ...this.form,
+                    percentage: this.discount,
+                    id:this.data.length
+                })
                 this.discount = 0;
                 this.form = {
                     percentage: "",
@@ -188,7 +196,8 @@ export default {
     },
     watch: {
         percentajeDelete(newValue, oldValue) {
-            this.percentageInitial = this.percentageInitial + newValue;
+            this.data.splice(newValue.id, 1);
+            this.percentageInitial = this.percentageInitial + newValue.percentage;
         }
     }
 };
