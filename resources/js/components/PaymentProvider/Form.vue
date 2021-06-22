@@ -8,7 +8,7 @@
                 Pagos al Proveedor
             </h3>
             <h3 class="my-2   text-gray-400 dark:text-gray-200">
-                Monto Total a Pagar : {{ amountTotal }} $
+                Monto Total a Pagar : {{ amountTotal }} $ {{ application_id }} 
             </h3>
             <div class="flex flex-wrap -mx-3  ">
                 <div class="w-full md:w-1/2 px-3 md:mb-0">
@@ -130,6 +130,10 @@
 <script>
 export default {
     props: {
+        application_id: {
+            type: Number,
+            required: true,
+        },
         amountTotal: {
             required: true,
             default: 0

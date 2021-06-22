@@ -149,17 +149,26 @@ class ApplicationController extends Controller
 
             foreach ($request->service_id as $key => $id) {
 
-                ApplicationDetail::updateOrCreate(
-                    ['application_id' => $data->id,
-                    'service_id'     => $id
-                    ],
-                    [
+                $data->details->sync($arrayIds,
+                [
+                    ['service_id'  =>  $id,
                     'currency_id'  => $request->currency_id[$key],
                     'amount'       => $request->amount[$key],
                     'currency2_id' => $request->currency2_id[$key],
-                    'amount2'      => $request->amount2[$key],
-                    ]
-                );
+                    'amount2'      => $request->amount2[$key],]
+                ]);
+
+                // ApplicationDetail::updateOrCreate(
+                //     ['application_id' => $data->id,
+                //     'service_id'     => $id
+                //     ],
+                //     [
+                //     'currency_id'  => $request->currency_id[$key],
+                //     'amount'       => $request->amount[$key],
+                //     'currency2_id' => $request->currency2_id[$key],
+                //     'amount2'      => $request->amount2[$key],
+                //     ]
+                // );
             }
         }
 
