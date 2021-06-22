@@ -549,7 +549,7 @@ export default {
         },
         deletePayment(item) {
             this.pays = this.pays.filter(e => e.id !== item.id);
-            this.deletePay = item.percentage;
+            this.deletePay = item;
         },
         async submitFormApplications() {
             try {
