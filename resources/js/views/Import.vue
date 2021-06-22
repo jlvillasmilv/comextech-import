@@ -34,41 +34,43 @@
                 </li>
             </div>
         </ul>
+
         <div class="w-full p-2 ">
-                <Container 
-                    :bg="false" 
-                    v-if="activetab == 'Pago Proveedor'"
-                >
-                    <FormPayment 
-                        @Add="AddPay" 
-                        :amountTotal="form.amount" 
-                        @incomingMenu="incomingMenu" 
-                    />
-                    <TablePayment :data="pays" />
-                </Container>
+            <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
+                <FormPayment
+                    @Add="AddPay"
+                    :amountTotal="form.amount"
+                    @incomingMenu="incomingMenu"
+                    :percentajeDelete="deletePay"
+                />
+                <TablePayment
+                    :amount="form.amount"
+                    :data="pays"
+                    :currencies="currency"
+                    @deleteRow="deletePayment"
+                />
+            </Container>
 
-                <Container 
-                    v-if="activetab == 'Transporte'" 
-                >
-                    <div class="container grid px-6 my-1 ">
-                        <Load />
-                        <Addresses @incomingMenu="incomingMenu" />
-                    </div>
-                </Container>
-                <Container v-if="activetab == 'Proceso de Internación'" >
-                    <div class="w-full p-4">
-                        <div v-if="!serviceTransport.length">
-                            <Load :title="`Carga de Internacion`" />
-                        </div>
-                        <FormInternment @incomingMenu="incomingMenu"/>
-                    </div>
-                </Container>
+            <Container v-if="activetab == 'Transporte'">
+                <div class="container grid px-6 my-1 ">
+                    <Load />
+                    <Addresses @incomingMenu="incomingMenu" />
+                </div>
+            </Container>
 
-                <Container v-if="activetab == 'Bodegaje Local'" >
-                     Bodegaje Local
-                </Container>
+            <Container v-if="activetab == 'Proceso de Internación'">
+                <div class="w-full p-4">
+                    <div v-if="!serviceTransport.length">
+                        <Load :title="`Carga de Internacion`" />
+                    </div>
+                    <FormInternment @incomingMenu="incomingMenu" />
+                </div>
+            </Container>
+
+            <Container v-if="activetab == 'Bodegaje Local'">
+                Bodegaje Local
+            </Container>
         </div>
-  
         <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
                 <div class="mt-2" v-if="!next">
@@ -133,8 +135,7 @@
                             </h3>
                             <v-select
                                 label="name_code"
-                                v-model="form.currency_id"
-                                :reduce="currencie => currencie.id"
+                                v-model="currency"
                                 placeholder="Moneda"
                                 :options="currencies"
                             >
@@ -250,7 +251,6 @@
     </div>
 </template>
 <script>
-
 import PaymentProvider from "../layouts/PaymentProvider.vue";
 import Modal from "../components/Modal.vue";
 import Transport from "../layouts/Transport.vue";
@@ -273,6 +273,7 @@ export default {
                 description: "",
                 services: []
             }),
+            currency: "",
             position: 0,
             tabs: [],
             suppliers: [],
@@ -291,7 +292,9 @@ export default {
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
             responseId: false,
-            pays: []
+            pays: [],
+            formEditPayment: "",
+            deletePay: 0
         };
     },
     components: {
@@ -314,7 +317,8 @@ export default {
             this.form.services = this.tabs.filter(e => e.selected);
         },
         AddPay(payload) {
-            this.pays.push({ ...payload });
+            console.log(payload);
+            this.pays.push({ ...payload, id: this.pays.length });
         },
         toogleMenu(value) {
             this.activetab = value.name;
@@ -334,28 +338,33 @@ export default {
             this.position = this.position + 1;
             this.activetab = this.form.services[this.position].name;
         },
+        deletePayment(item) {
+            this.pays = this.pays.filter(e => e.id !== item.id);
+            this.deletePay = item.percentage;
+        },
         async submitFormApplications() {
             try {
-                const response   = await this.form.post('/applications')
+                this.form.currency_id = this.currency.id;
+                const response = await this.form.post("/applications");
                 Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Solicitud creada con exito!',
+                    position: "center",
+                    icon: "success",
+                    title: "Solicitud creada con exito!",
                     showConfirmButton: false,
                     timer: 1500
-                })
-                this.activetab   = this.form.services[0].name
+                });
+                this.activetab = this.form.services[0].name;
                 this.form.application_id = response.data;
                 this.statusModal = !this.statusModal;
                 this.position = 0;
-             }catch(error) {
-                   console.log('error')
-             }
+            } catch (error) {
+                console.log("error");
+            }
         }
     },
     computed: {
         mount2() {
-            return Math.round(this.form.amount * (this.form.fee2 / 100));
+            return;
         },
         mount1() {
             return Math.round(this.form.amount * (this.form.fee1 / 100));
@@ -378,13 +387,13 @@ export default {
             console.log(error);
         }
 
-        // let application = document.getElementById("applications");
+        let application = document.getElementById("applications");
 
-        // if (application == null) {
-        //     console.log("Nueva Solicitud");
-        // } else {
-        //     console.log("Editando", application.value);
-        // }
+        if (application == null) {
+            console.log("Nueva Solicitud");
+        } else {
+            console.log("Editando", application.value);
+        }
     }
 };
 </script>
