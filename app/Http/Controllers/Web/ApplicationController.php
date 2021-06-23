@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application, ApplicationDetail ,Service};
+use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\ApplicationRequest;
+use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
 {
@@ -55,42 +56,53 @@ class ApplicationController extends Controller
                 ]
             );
 
+            $category_id = array();
 
             foreach ($request->services as $key => $service) {
+                $category_id[] =  $service["id"];
+            }
 
-                $add_serv = Service::where([
-                    ['status', true],
-                    ['category_service_id', $service["id"]],
-                ])->get();
+            $add_serv = Service::whereIn('category_service_id', $category_id)
+            ->select('id')
+            ->pluck('id');
 
-                foreach ($add_serv as $key => $add) {
+             \DB::table('application_details')
+                ->whereNotIn('service_id', $add_serv)
+                ->where('application_id', $data->id)
+                ->delete();           
+               
+            foreach ($add_serv as $key => $id) {
 
-                    ApplicationDetail::updateOrCreate(
-                        ['application_id' => $data->id,
-                        'service_id'   => $add["id"],
-                        ],
-                        [
-                            'currency_id'  => $data->currency_id,
-                            'amount'       => 0,
-                            'currency2_id' => $data->currency_id,
-                            'estimated'  => date('Y-m-d')
-                        ]
-                    );
-
-                }
-
+                ApplicationDetail::updateOrCreate(
+                    ['application_id' => $data->id,
+                     'service_id'   => $id,
+                    ],
+                    [
+                       'currency_id'  => $data->currency_id,
+                       'currency2_id' => $data->currency_id,
+                    ]
+                );
             }
 
             DB::commit();
-            // all good
+
+            $user_admin = User::whereHas('roles', function ($query) {
+                $query->where('name','=', 'Admin');
+            })->pluck('id');
+    
+            User::all()
+                ->whereIn('id', $user_admin)
+                ->each(function (User $user) use ($data) {
+                    $user->notify(new AdminApplicationNotification($data));
+                });
+
         } catch (\Exception $e) {
             DB::rollback();
+            return $e;
             return response()->json(['status' => 'Error'], 400);
         }
       
-    
-
-        return response()->json($data->id, 200);
+         return response()->json($data->id, 200);
     }
 
     /**
@@ -148,6 +160,25 @@ class ApplicationController extends Controller
     public function destroy($id)
     {
         Application::findOrFail($id)->delete();
+        return response()->json(['status' => 'OK'], 200);
+    }
+
+
+    public function payment_provider(Request $request)
+    {
+
+        foreach ($request->input() as $key => $data) {
+
+            PaymentProvider::updateOrCreate(
+                ['application_id' => $data['application_id']],
+                [
+                    'percentage'   => $data['percentage'],
+                    'type_pay'      => $data['typePay'],
+                    'date_pay'      => $data['datePay'],
+                ]
+            );
+        }
+
         return response()->json(['status' => 'OK'], 200);
     }
 }

@@ -85,6 +85,11 @@ class Application extends Model
         'application_id', 'supplier_id');
     }
 
+    public function payment_provider()
+    {
+        return $this->hasMany(PaymentProvider::class,'application_id')->OrderBy('id');
+    }
+
     
 
 }
