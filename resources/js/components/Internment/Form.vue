@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div class="w-full p-4">
+        <div v-show="!transportSelected">
+              <load @getDataLoad="getDataLoad" /> 
+         </div>
         <div class="flex flex-wrap -mx-3 ">
             <div class="w-1/2 px-3 mb-2 md:mb-0">
                 <label class="block text-sm">
@@ -107,7 +110,31 @@
 </template>
 
 <script>
-export default {};
+import Load from "../Transport/Load.vue";
+
+export default {
+    props: {
+        application_id: {
+            required: true,
+            type: Number
+        },
+        transportSelected: {
+            required: true,
+            default: false
+        }
+    },
+    components: { Load },
+    data() {
+        return {
+            dataLoad: []
+        };
+    },
+    methods: {
+        getDataLoad(payload) {
+            this.dataLoad = payload;
+        }
+    }
+};
 </script>
 
 <style></style>
