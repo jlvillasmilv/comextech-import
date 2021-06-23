@@ -261,18 +261,15 @@
             </Container>
 
             <Container v-if="activetab == 'Transporte'">
-                <div class="container grid px-6 my-1 ">
-                    <Load />
                     <Addresses @incomingMenu="incomingMenu" />
-                </div>
             </Container>
 
             <Container v-if="activetab == 'Proceso de Internación'">
                 <div class="w-full p-4">
                     <div v-if="!serviceTransport.length">
-                        <Load :title="`Carga de Internacion`" />
+                        <!-- <Load :title="`Carga de Internacion`" /> -->
                     </div>
-                    <FormInternment @incomingMenu="incomingMenu" />
+                    <FormInternment @incomingMenu="incomingMenu" @ />
                 </div>
             </Container>
 
@@ -464,7 +461,6 @@ import PaymentProvider from "../layouts/PaymentProvider.vue";
 import Modal from "../components/Modal.vue";
 import Transport from "../layouts/Transport.vue";
 import Container from "../components/Container.vue";
-import Load from "../components/Transport/Load.vue";
 import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
@@ -512,11 +508,10 @@ export default {
         Transport,
         // Internment,
         Container,
-        Load,
         Addresses,
         FormInternment,
         FormPayment,
-        TablePayment
+        TablePayment,
     },
     methods: {
         tabsAdd(item) {
