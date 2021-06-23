@@ -24,6 +24,7 @@
             v-for="(item, id) in FielFormLoad"
             :key="id"
             class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 "
+            @input="changeDataForm"
         >
             <div class="inline w-1/6" v-if="modeTypeSelected != 'CONTAINER'">
                 <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
@@ -67,11 +68,12 @@
                         value="Seleccionar"
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
-                        <option value="2" translate=""> Pallet / s</option>
-                        <option value="3" translate=""> Caja / s</option>
-                        <option value="4" translate=""> Unidad/es</option>
-                        <option value="5" translate=""> Bidón / es</option>
-                        <option value="6" translate=""> Bags </option>
+                        <option disabled value=""> Seleccione </option>
+                        <option value="2"> Pallet / s</option>
+                        <option value="3"> Caja / s</option>
+                        <option value="4"> Unidad/es</option>
+                        <option value="5"> Bidón / es</option>
+                        <option value="6"> Bags </option>
                     </select>
                 </div>
             </div>
@@ -84,10 +86,11 @@
                         v-model="item.typeContainer"
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
-                        <option value="2" translate=""> 20'DV </option>
-                        <option value="3" translate=""> 40'DV </option>
-                        <option value="4" translate=""> 40'HC </option>
-                        <option value="5" translate=""> 45'HC </option>
+                        <option disabled value=""> Seleccione </option>
+                        <option value="2"> 20'DV </option>
+                        <option value="3"> 40'DV </option>
+                        <option value="4"> 40'HC </option>
+                        <option value="5"> 45'HC </option>
                     </select>
                 </div>
             </div>
@@ -127,6 +130,7 @@
                     </label>
                     <label class="inline-flex text-sm items-center mx-2  mt-2">
                         <input
+                            :selected="true"
                             type="radio"
                             v-model="item.lengthUnit"
                             class="form-checkbox h-4 w-4 text-gray-800"
@@ -144,9 +148,19 @@
                     CBM
                 </span>
                 <input
-                    :value="(item.lengths * item.width * item.high) / 10000"
+                    v-if="modeCalculate"
+                    :value="
+                        (item.cbm =
+                            (item.lengths * item.width * item.high) / 10000)
+                    "
                     class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"
                     :disabled="modeCalculate"
+                    placeholder="CBM"
+                />
+                <input
+                    v-else
+                    v-model="item.cbm"
+                    class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"
                     placeholder="CBM"
                 />
             </div>
@@ -155,7 +169,7 @@
                     Peso Unitario
                 </span>
                 <input
-                    :value="item.weight"
+                    v-model="item.weight"
                     :class="[
                         'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
                         modeTypeSelected != 'CONTAINER' ? ' w-16' : ' w-17'
@@ -226,15 +240,8 @@
 export default {
     data() {
         return {
-            expenses: {
-                origin: false,
-                destinacion: false,
-                originWarehouse: false,
-                destinacionWarehouse: false
-            },
             modeCalculate: true,
-            modeTypeSelected: "AERERO",
-            safe: false,
+            modeTypeSelected: "AEREO",
             types: ["AEREO", "CONTAINER", "CONSOLIDADO"],
             item: {
                 typeLoad: "",
@@ -246,38 +253,48 @@ export default {
                 id: 1,
                 cbm: "",
                 weight: "",
-                weightUnits: true,
+                weightUnits: "",
                 stackable: "",
                 id: 0
             },
             FielFormLoad: []
         };
     },
-    props:{
-        title:{
-            require:false,
-            default:'Cotizador Online'
+    props: {
+        title: {
+            require: false,
+            default: "Cotizador Online"
         }
     },
     methods: {
+        changeDataForm() {
+            this.$emit("dataForm", [
+                ...this.FielFormLoad,
+                this.modeCalculate,
+                this.modeTypeSelected
+            ]);
+        },
         AddFielForm() {
             this.FielFormLoad.push({ ...this.item });
+            this.changeDataForm();
         },
         deleteForm(id) {
             this.FielFormLoad.splice(id, 1);
+            this.changeDataForm();
         },
         changeMode() {
             this.modeCalculate = !this.modeCalculate;
             this.reset();
         },
         typeSelected(value) {
-            this.reset();
             this.modeTypeSelected = value;
+            this.reset();
         },
         reset() {
             this.FielFormLoad = [];
             this.FielFormLoad.push({ ...this.item });
-        },
+            this.changeDataForm();
+        }
     },
     created() {
         this.reset();
