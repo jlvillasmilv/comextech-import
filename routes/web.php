@@ -29,7 +29,10 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
+
     Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
+    Route::post('applications/payment_provider',  'App\Http\Controllers\Web\ApplicationController@payment_provider')->name('applications.payment.provider'); 
+
     Route::resource('company',  'App\Http\Controllers\Web\CompnayController')->except(['destroy','create']);
 
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');

@@ -1,7 +1,6 @@
 <template>
     
     <div class="w-1/2 overflow-x-auto ">
-    {{ data }}
         <div
             class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
         >
@@ -10,7 +9,7 @@
                 Pagos al Proveedor
             </h3>
             <h3 class="my-2   text-gray-400 dark:text-gray-200">
-                Monto Total a Pagar : {{ amountTotal }} $
+                Monto Total a Pagar : {{ amountTotal }} $ 
             </h3>
             <div class="flex flex-wrap -mx-3  ">
                 <div class="w-full md:w-1/2 px-3 md:mb-0">
@@ -132,6 +131,10 @@
 <script>
 export default {
     props: {
+        application_id: {
+            type: Number,
+            required: true,
+        },
         amountTotal: {
             required: true,
             default: 0
@@ -148,7 +151,8 @@ export default {
                 datePay: "",
                 typePay: "",
                 manyPayment: "",
-                id: ""
+                id: "",
+                application_id: this.application_id
             },
             percentageInitial: 100,
             discount: "",
@@ -177,12 +181,25 @@ export default {
                     datePay: "",
                     typePay: "",
                     manyPayment: "",
-                    id: ""
+                    id: "",
+                    application_id: this.application_id
                 };
             }
         },
         submitPayment() {
-            this.$emit("incomingMenu");
+            //  const response = await this.form.post("/applications/payment_provider");
+            //     console.log(response);
+
+             axios.post('/applications/payment_provider', this.data)
+                .then(res => {
+                    console.log(res.data)
+                    //commit('CREATE_POST', res.data)
+                    }).catch(err => {
+                    console.log(err)
+                })
+
+
+             this.$emit("incomingMenu");
         }
     },
     computed: {

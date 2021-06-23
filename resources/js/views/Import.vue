@@ -248,6 +248,7 @@
             <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
                 <FormPayment
                     @Add="AddPay"
+                    :application_id="form.application_id"
                     :amountTotal="form.amount"
                     @incomingMenu="incomingMenu"
                     :percentajeDelete="deletePay"
