@@ -262,16 +262,15 @@
             </Container>
 
             <Container v-if="activetab == 'Transporte'">
-                    <Addresses @incomingMenu="incomingMenu" />
+                <Addresses @incomingMenu="incomingMenu" />
             </Container>
 
             <Container v-if="activetab == 'Proceso de Internación'">
-                <div class="w-full p-4">
-                    <div v-if="!serviceTransport.length">
-                        <!-- <Load :title="`Carga de Internacion`" /> -->
-                    </div>
-                    <FormInternment @incomingMenu="incomingMenu" @ />
-                </div>
+                <FormInternment
+                    @incomingMenu="incomingMenu"
+                    :transportSelected="transportSelected"
+                    :application_id="form.application_id"
+                />
             </Container>
 
             <Container v-if="activetab == 'Bodegaje Local'">
@@ -497,10 +496,10 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            responseId: false,
             pays: [],
             formEditPayment: "",
-            deletePay: 0
+            deletePay: 0,
+            transportSelected: false
         };
     },
     components: {
@@ -512,7 +511,7 @@ export default {
         Addresses,
         FormInternment,
         FormPayment,
-        TablePayment,
+        TablePayment
     },
     methods: {
         tabsAdd(item) {
@@ -522,18 +521,10 @@ export default {
             this.form.services = this.tabs.filter(e => e.selected);
         },
         AddPay(payload) {
-            console.log(payload);
             this.pays.push({ ...payload, id: this.pays.length });
         },
         toogleMenu(value) {
             this.activetab = value.name;
-        },
-        setValidate() {
-            if (isNaN(this.form.fee1) || this.form.fee1 > 100) {
-                this.form.fee1 = 0;
-            } else {
-                this.form.fee2 = 100 - this.form.fee1;
-            }
         },
         clearSeletedTabs() {
             this.statusModal = !this.statusModal;
@@ -549,6 +540,7 @@ export default {
         },
         async submitFormApplications() {
             try {
+                this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
                 const response = await this.form.post("/applications");
                 Swal.fire({
@@ -565,17 +557,10 @@ export default {
             } catch (error) {
                 console.log("error");
             }
-        }
-    },
-    computed: {
-        mount2() {
-            return;
         },
-        mount1() {
-            return Math.round(this.form.amount * (this.form.fee1 / 100));
-        },
-        serviceTransport() {
-            return this.form.services.filter(item => item.name == "Transporte");
+        serviceFind(value) {
+            let response = this.form.services.find(item => item.name == value);
+            return response ? true : false;
         }
     },
     async created() {
