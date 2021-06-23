@@ -147,32 +147,20 @@ class ApplicationController extends Controller
 
         if(isset($request->detail_id)){
 
-            $syncData = array();
-
             foreach ($request->service_id as $key => $id) {
 
-                $syncData[$id] = array(
-                'service_id'  =>  $id,
-                'currency_id'  => $request->currency_id[$key],
-                'amount'       => $request->amount[$key],
-                'currency2_id' => $request->currency2_id[$key],
-                'amount2'      => $request->amount2[$key],);
-
-              
-
-                // ApplicationDetail::updateOrCreate(
-                //     ['application_id' => $data->id,
-                //     'service_id'     => $id
-                //     ],
-                //     [
-                //     'currency_id'  => $request->currency_id[$key],
-                //     'amount'       => $request->amount[$key],
-                //     'currency2_id' => $request->currency2_id[$key],
-                //     'amount2'      => $request->amount2[$key],
-                //     ]
-                // );
+                ApplicationDetail::updateOrCreate(
+                    ['application_id' => $data->id,
+                    'service_id'     => $id
+                    ],
+                    [
+                    'currency_id'  => $request->currency_id[$key],
+                    'amount'       => $request->amount[$key],
+                    'currency2_id' => $request->currency2_id[$key],
+                    'amount2'      => $request->amount2[$key],
+                    ]
+                );
             }
-            $data->details->sync($syncData);
         }
 
         $notification = array(
