@@ -41,7 +41,6 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
         try {
-
             $data =  Application::updateOrCreate(
                 ['id' => $request->application_id,
                 'user_id'   => auth()->user()->id,
@@ -52,7 +51,7 @@ class ApplicationController extends Controller
                     'application_statuses_id' => 1,
                     'currency_id' => $request->currency_id,
                     'description' => $request->description,
-                    'estimated_date' => $request->estimated_date,
+                    'condition' => $request->condition,
                 ]
             );
 
