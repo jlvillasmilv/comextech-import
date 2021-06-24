@@ -262,7 +262,10 @@
             </Container>
 
             <Container v-if="activetab == 'Transporte'">
-                <Addresses @incomingMenu="incomingMenu" />
+                <Addresses 
+                    @incomingMenu="incomingMenu"
+                    :application_id="form.application_id"
+                 />
             </Container>
 
             <Container v-if="activetab == 'Proceso de Internación'">

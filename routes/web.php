@@ -29,9 +29,14 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
-
+    
+    // Applications
     Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
-    Route::post('applications/payment_provider',  'App\Http\Controllers\Web\ApplicationController@payment_provider')->name('applications.payment.provider'); 
+
+    Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@payment_provider')
+    ->name('applications.payment.provider'); 
+
+    Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
 
     Route::resource('company',  'App\Http\Controllers\Web\CompnayController')->except(['destroy','create']);
 
@@ -51,7 +56,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('modals', 'modals')->name('modals');
     Route::view('tables', 'tables')->name('tables');
     Route::view('calendar', 'calendar')->name('calendar');
-    Route::view('calendar', 'calendar')->name('calendar');
+
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {

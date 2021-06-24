@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service};
+use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service, Transport, Load};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\ApplicationRequest;
@@ -98,7 +98,6 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return $e;
             return response()->json(['status' => 'Error'], 400);
         }
       
@@ -180,5 +179,58 @@ class ApplicationController extends Controller
         }
 
         return response()->json(['status' => 'OK'], 200);
+    }
+
+    public function transports(Request $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $transport =  Transport::updateOrCreate(
+                ['application_id'   => $request->application_id, ],
+                [
+                    'address_destination'   => $request->addressDestination,
+                    'address_origin'        => $request->addressOrigin,
+                    'destinacion'           => $request->destinacion,
+                    'destinacion_warehouse' => $request->destinacionWarehouse,
+                    'origin'                => $request->origin,
+                    'origin_warehouse'      => $request->originWarehouse,
+                    'estimated_date'        => $request->estimated_date,
+                    'description'           => $request->description,
+                ]
+            );
+
+
+         foreach ($request->input('dataLoad') as $key => $data) {
+
+            Load::updateOrCreate(
+                ['transport_id' => $transport->id],
+                [
+                    'cbm'            => $data['cbm'],
+                    'high'           => $data['high'],
+                    'length_unit'    => $data['lengthUnit'],
+                    'length'         => $data['lengths'],
+                    'mode_calculate' => $data['modeCalculate'],
+                    'mode_selected'  => $data['modeTypeSelected'],
+                    'type_container' => $data['stackable'],
+                    'type_load'      => $data['typeLoad'],
+                    'weight'         => $data['weight'],
+                    'weight_units'   => $data['weightUnits'],
+                    'width'          => $data['width'],
+                ]
+            );
+         }
+
+
+         DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'Error'], 400);
+        }
+
+        return response()->json($transport->id, 200);
     }
 }
