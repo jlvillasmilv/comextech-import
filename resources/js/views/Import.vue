@@ -2,7 +2,6 @@
     <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
         <ul class="flex justify-center items-center mt-2 ">
             <button
-                v-if="!responseId"
                 @click="statusModal = !statusModal"
                 class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue"
             >
@@ -21,6 +20,7 @@
                     />
                 </svg>
             </button>
+
             <div v-for="(item, id) in form.services" :key="id">
                 <li
                     :class="[
@@ -34,41 +34,251 @@
                 </li>
             </div>
         </ul>
-        <div class="w-full p-2 ">
-                <Container 
-                    :bg="false" 
-                    v-if="activetab == 'Pago Proveedor'"
+        <!-- <div class="w-full py-6">
+            <div class="flex">
+                <div
+                    v-for="(item, id) in form.services"
+                    :key="id"
+                    class="w-1/4"
                 >
-                    <FormPayment 
-                        @Add="AddPay" 
-                        :amountTotal="form.amount" 
-                        @incomingMenu="incomingMenu" 
-                    />
-                    <TablePayment :data="pays" />
-                </Container>
-
-                <Container 
-                    v-if="activetab == 'Transporte'" 
-                >
-                    <div class="container grid px-6 my-1 ">
-                        <Load />
-                        <Addresses @incomingMenu="incomingMenu" />
-                    </div>
-                </Container>
-                <Container v-if="activetab == 'Proceso de Internación'" >
-                    <div class="w-full p-4">
-                        <div v-if="!serviceTransport.length">
-                            <Load :title="`Carga de Internacion`" />
+                    <div class="relative mb-2" v-if="id > 0">
+                        <div  >
+                            <div
+                                class="absolute flex align-center items-center align-middle content-center"
+                                style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)"
+                            >
+                                <div
+                                    class="w-full bg-gray-200 rounded items-center align-middle align-center flex-1"
+                                >
+                                    <div
+                                        class="w-0 bg-green-300 py-1 rounded width"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                :class="[item.name == activetab ? 'bg-green-500' :'bg-white']"
+                                class="w-10 h-10 mx-auto   rounded-full text-lg text-white flex items-center"
+                            >
+                                <span  :class="[item.name == activetab ? 'text-white' :'text-gray-600']"   class="text-center   w-full">
+                                     <svg class="w-full fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                        <path class="heroicon-ui" d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2zm14 8V5H5v6h14zm0 2H5v6h14v-6zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                    </svg>
+                                </span>
+                            </div>
                         </div>
-                        <FormInternment @incomingMenu="incomingMenu"/>
                     </div>
-                </Container>
+                    <div v-else-if="id == 0" class="relative mb-2">
+                        <div
+                            :class="[item.name == activetab ? 'bg-green-500' :'bg-white']" class="w-10 h-10 mx-auto  rounded-full text-lg text-white flex items-center"
+                        >
+                            <span  :class="[item.name == activetab ? 'text-white' :'text-gray-600']" class="text-center  w-full">
+                                <svg
+                                    class="w-full fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                >
+                                    <path
+                                        class="heroicon-ui"
+                                        d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2zm14 8V5H5v6h14zm0 2H5v6h14v-6zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
 
-                <Container v-if="activetab == 'Bodegaje Local'" >
-                     Bodegaje Local
-                </Container>
+                    <div class="text-xs text-center md:text-base">
+                        {{ item.name }}
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- <div class="w-full py-6">
+            <div class="flex">
+                <div class="w-1/4">
+                    <div class="relative mb-2">
+                        <div
+                            class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center"
+                        >
+                            <span class="text-center text-white w-full">
+                                <svg
+                                    class="w-full fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                >
+                                    <path
+                                        class="heroicon-ui"
+                                        d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2zm14 8V5H5v6h14zm0 2H5v6h14v-6zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-center md:text-base">
+                        Select Server
+                    </div>
+                </div>
+
+                <div class="w-1/4">
+                    <div class="relative mb-2">
+                        <div
+                            class="absolute flex align-center items-center align-middle content-center"
+                            style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)"
+                        >
+                            <div
+                                class="w-full bg-gray-200 rounded items-center align-middle align-center flex-1"
+                            >
+                                <div
+                                    class="w-0 bg-green-300 py-1 rounded"
+                                    style="width: 100%;"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center"
+                        >
+                            <span class="text-center text-white w-full">
+                                <svg
+                                    class="w-full fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                >
+                                    <path
+                                        class="heroicon-ui"
+                                        d="M19 10h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 0 1 0-2h2V8a1 1 0 0 1 2 0v2zM9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2z"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-center md:text-base">Add User</div>
+                </div>
+
+                <div class="w-1/4">
+                    <div class="relative mb-2">
+                        <div
+                            class="absolute flex align-center items-center align-middle content-center"
+                            style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)"
+                        >
+                            <div
+                                class="w-full bg-gray-200 rounded items-center align-middle align-center flex-1"
+                            >
+                                <div
+                                    class="w-0 bg-green-300 py-1 rounded"
+                                    style="width: 33%;"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center"
+                        >
+                            <span class="text-center text-gray-600 w-full">
+                                <svg
+                                    class="w-full fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                >
+                                    <path
+                                        class="heroicon-ui"
+                                        d="M9 4.58V4c0-1.1.9-2 2-2h2a2 2 0 0 1 2 2v.58a8 8 0 0 1 1.92 1.11l.5-.29a2 2 0 0 1 2.74.73l1 1.74a2 2 0 0 1-.73 2.73l-.5.29a8.06 8.06 0 0 1 0 2.22l.5.3a2 2 0 0 1 .73 2.72l-1 1.74a2 2 0 0 1-2.73.73l-.5-.3A8 8 0 0 1 15 19.43V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.58a8 8 0 0 1-1.92-1.11l-.5.29a2 2 0 0 1-2.74-.73l-1-1.74a2 2 0 0 1 .73-2.73l.5-.29a8.06 8.06 0 0 1 0-2.22l-.5-.3a2 2 0 0 1-.73-2.72l1-1.74a2 2 0 0 1 2.73-.73l.5.3A8 8 0 0 1 9 4.57zM7.88 7.64l-.54.51-1.77-1.02-1 1.74 1.76 1.01-.17.73a6.02 6.02 0 0 0 0 2.78l.17.73-1.76 1.01 1 1.74 1.77-1.02.54.51a6 6 0 0 0 2.4 1.4l.72.2V20h2v-2.04l.71-.2a6 6 0 0 0 2.41-1.4l.54-.51 1.77 1.02 1-1.74-1.76-1.01.17-.73a6.02 6.02 0 0 0 0-2.78l-.17-.73 1.76-1.01-1-1.74-1.77 1.02-.54-.51a6 6 0 0 0-2.4-1.4l-.72-.2V4h-2v2.04l-.71.2a6 6 0 0 0-2.41 1.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-center md:text-base">Setting</div>
+                </div>
+
+                <div class="w-1/4">
+                    <div class="relative mb-2">
+                        <div
+                            class="absolute flex align-center items-center align-middle content-center"
+                            style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)"
+                        >
+                            <div
+                                class="w-full bg-gray-200 rounded items-center align-middle align-center flex-1"
+                            >
+                                <div
+                                    class="w-0 bg-green-300 py-1 rounded"
+                                    style="width: 0%;"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center"
+                        >
+                            <span class="text-center text-gray-600 w-full">
+                                <svg
+                                    class="w-full fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                >
+                                    <path
+                                        class="heroicon-ui"
+                                        d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-center md:text-base">Finished</div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="w-full p-2 ">
+            <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
+                <FormPayment
+                    @Add="AddPay"
+                    :application_id="form.application_id"
+                    :amountTotal="form.amount"
+                    @incomingMenu="incomingMenu"
+                    :percentajeDelete="deletePay"
+                />
+                <TablePayment
+                    :amount="form.amount"
+                    :data="pays"
+                    :currencies="currency"
+                    @deleteRow="deletePayment"
+                />
+            </Container>
+
+            <Container v-if="activetab == 'Transporte'">
+                <Addresses 
+                    @incomingMenu="incomingMenu"
+                    :application_id="form.application_id"
+                 />
+            </Container>
+
+            <Container v-if="activetab == 'Proceso de Internación'">
+                <FormInternment
+                    @incomingMenu="incomingMenu"
+                    :transportSelected="transportSelected"
+                    :application_id="form.application_id"
+                />
+            </Container>
+
+            <Container v-if="activetab == 'Bodegaje Local'">
+                Bodegaje Local
+            </Container>
         </div>
-  
         <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
                 <div class="mt-2" v-if="!next">
@@ -97,8 +307,8 @@
                             Informacion de Proveedor
                         </h3>
                         <div class="dark:text-gray-200">
-                            <h3 class="my-4  text-gray-500 text-sm">
-                                Proveedor de Mercancia
+                            <h3 class="my-3  text-gray-500  text-sm">
+                                Monto Total de Operacion
                             </h3>
                             <v-select
                                 label="name"
@@ -133,8 +343,7 @@
                             </h3>
                             <v-select
                                 label="name_code"
-                                v-model="form.currency_id"
-                                :reduce="currencie => currencie.id"
+                                v-model="currency"
                                 placeholder="Moneda"
                                 :options="currencies"
                             >
@@ -161,18 +370,38 @@
 
                         <div class="flex flex-wrap -mx-3  ">
                             <div class="w-full md:w-1/2 px-3  md:mb-0">
-                                <h3 class="my-3 text-gray-500 text-sm ">
-                                    Fecha de Estimacion
+                                <h3 class="my-3  text-gray-500  text-sm">
+                                    Condicion de Venta del Proveedor
                                 </h3>
-                                <input
-                                    type="date"
-                                    v-model="form.estimated_date"
-                                    :class="[
-                                        classStyle.input,
-                                        classStyle.wfull,
-                                        classStyle.formInput
-                                    ]"
-                                />
+                                <div class="relative">
+                                    <select
+                                        v-model="form.condition"
+                                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    > 
+                                        <option value="FBO">
+                                            FBO
+                                        </option>
+                                        <option value="CIF">
+                                            CIF
+                                        </option>
+                                        <option value="DDP">
+                                            DDP
+                                        </option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                                    >
+                                        <svg
+                                            class="fill-current h-4 w-4"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                             <div class="w-full md:w-1/2 px-3">
                                 <h3 class="my-3  text-gray-500  text-sm">
@@ -250,12 +479,9 @@
     </div>
 </template>
 <script>
-
-import PaymentProvider from "../layouts/PaymentProvider.vue";
 import Modal from "../components/Modal.vue";
-import Transport from "../layouts/Transport.vue";
+
 import Container from "../components/Container.vue";
-import Load from "../components/Transport/Load.vue";
 import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
@@ -269,10 +495,11 @@ export default {
                 amount: 0,
                 supplier_id: "",
                 currency_id: "",
-                estimated_date: "",
+                condition: "",
                 description: "",
                 services: []
             }),
+            currency: "",
             position: 0,
             tabs: [],
             suppliers: [],
@@ -290,17 +517,15 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            responseId: false,
-            pays: []
+            pays: [],
+            formEditPayment: "",
+            deletePay: 0,
+            transportSelected: false
         };
     },
     components: {
         Modal,
-        PaymentProvider,
-        Transport,
-        // Internment,
         Container,
-        Load,
         Addresses,
         FormInternment,
         FormPayment,
@@ -314,17 +539,10 @@ export default {
             this.form.services = this.tabs.filter(e => e.selected);
         },
         AddPay(payload) {
-            this.pays.push({ ...payload });
+            this.pays.push({ ...payload, id: this.pays.length });
         },
         toogleMenu(value) {
             this.activetab = value.name;
-        },
-        setValidate() {
-            if (isNaN(this.form.fee1) || this.form.fee1 > 100) {
-                this.form.fee1 = 0;
-            } else {
-                this.form.fee2 = 100 - this.form.fee1;
-            }
         },
         clearSeletedTabs() {
             this.statusModal = !this.statusModal;
@@ -334,34 +552,33 @@ export default {
             this.position = this.position + 1;
             this.activetab = this.form.services[this.position].name;
         },
+        deletePayment(item) {
+            this.pays = this.pays.filter(e => e.id !== item.id);
+            this.deletePay = item;
+        },
         async submitFormApplications() {
             try {
-                const response   = await this.form.post('/applications')
+                this.transportSelected = this.serviceFind("Transporte");
+                this.form.currency_id = this.currency.id;
+                const response = await this.form.post("/applications");
                 Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Solicitud creada con exito!',
+                    position: "center",
+                    icon: "success",
+                    title: "Solicitud creada con exito!",
                     showConfirmButton: false,
                     timer: 1500
-                })
-                this.activetab   = this.form.services[0].name
+                });
+                this.activetab = this.form.services[0].name;
                 this.form.application_id = response.data;
                 this.statusModal = !this.statusModal;
                 this.position = 0;
-             }catch(error) {
-                   console.log('error')
-             }
-        }
-    },
-    computed: {
-        mount2() {
-            return Math.round(this.form.amount * (this.form.fee2 / 100));
+            } catch (error) {
+                console.log("error");
+            }
         },
-        mount1() {
-            return Math.round(this.form.amount * (this.form.fee1 / 100));
-        },
-        serviceTransport() {
-            return this.form.services.filter(item => item.name == "Transporte");
+        serviceFind(value) {
+            let response = this.form.services.find(item => item.name == value);
+            return response ? true : false;
         }
     },
     async created() {
@@ -378,13 +595,13 @@ export default {
             console.log(error);
         }
 
-        // let application = document.getElementById("applications");
+        let application = document.getElementById("applications");
 
-        // if (application == null) {
-        //     console.log("Nueva Solicitud");
-        // } else {
-        //     console.log("Editando", application.value);
-        // }
+        if (application == null) {
+            console.log("Nueva Solicitud");
+        } else {
+            console.log("Editando", application.value);
+        }
     }
 };
 </script>

@@ -15,15 +15,23 @@ class CreateLoadsTable extends Migration
     {
         Schema::create('loads', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_load_id');
             $table->unsignedBigInteger('transport_id');
-            $table->unsignedBigInteger('category_container_id')->nullable(); 
+            $table->string('type_container',20)->nullable();
+            $table->string('type_load',20)->nullable();
+            $table->string('mode_selected',20)->nullable();
+            $table->boolean('mode_calculate')->default(false);
+            $table->string('cbm',20)->nullable();
+            $table->string('high',20)->nullable(); 
+            $table->boolean('length_unit')->default(false); 
             $table->string('length',20)->nullable(); 
             $table->string('width',20)->nullable(); 
-            $table->string('measurement',20)->nullable();
-            $table->string('weighed',20)->nullable(); 
-            $table->string('cbm',20)->nullable(); 
+            $table->decimal('weight', 12, 2)->default(0)->nullable();
+            $table->string('weight_units',10)->nullable();
+            $table->boolean('stackable')->default(false);
+
             $table->timestamps();
+
+            $table->foreign('transport_id')->references('id')->on('transports')->onDelete('cascade');
         });
     }
 

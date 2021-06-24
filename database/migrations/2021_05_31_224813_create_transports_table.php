@@ -16,19 +16,19 @@ class CreateTransportsTable extends Migration
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
-            $table->unsignedBigInteger('transport_mode_id');
-            $table->unsignedBigInteger('origin_id');
-            $table->unsignedBigInteger('destination_id');
-            $table->string('bonus',100);
-            $table->string('mount_secure',100);
-            $table->string('stackable',100);
+            $table->string('address_origin');
+            $table->string('address_destination');
+            $table->boolean('destinacion')->default(false);
+            $table->boolean('destinacion_warehouse')->default(false);
+            $table->boolean('origin')->default(false);
+            $table->boolean('origin_warehouse')->default(false);
             $table->date('estimated_date')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
-            $table->foreign('transport_mode_id')->references('id')->on('transport_modes')->onDelete('cascade');
+        
         });
     }
 

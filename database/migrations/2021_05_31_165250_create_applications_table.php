@@ -21,7 +21,7 @@ class CreateApplicationsTable extends Migration
             $table->unsignedBigInteger('application_statuses_id')->default(1);
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->string('description')->nullable();
-            $table->date('estimated_date')->nullable();
+            $table->string('condition', 50)->nullable();
             $table->unsignedTinyInteger('fee1')->nullable()->comment('PAGO ADELANTO %');
             $table->date('fee1_date')->nullable();
             $table->unsignedTinyInteger('fee2')->nullable()->comment('PAGO_ENTREGA_%');

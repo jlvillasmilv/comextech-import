@@ -1,23 +1,25 @@
 <template>
+    
     <div class="w-1/2 overflow-x-auto ">
         <div
             class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
         >
+            Porcentaje Restante : {{ this.percentageInitial - this.discount }}
             <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
                 Pagos al Proveedor
             </h3>
             <h3 class="my-2   text-gray-400 dark:text-gray-200">
-                Monto Total a Pagar : {{ amountTotal }} $
+                Monto Total a Pagar : {{ amountTotal }} $ 
             </h3>
             <div class="flex flex-wrap -mx-3  ">
                 <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <span class="text-gray-700 dark:text-gray-400 text-xs">
-                        Porcentaje de Pago Nro {{ data.length + 1 }}</span
+                        Porcentaje de Pago Nro {{ this.counter + 1 }}</span
                     >
                     <input
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
                         placeholder="%"
-                        v-model.number="form.percentage"
+                        v-model.number="discount"
                         step="1"
                         type="number"
                     />
@@ -27,8 +29,8 @@
                         Monto del Porcentaje Agregado
                     </span>
                     <span class="block w-full mt-1 text-lg  text-center">
-                        {{ amountTotal * (form.percentage / 100) }}</span
-                    >
+                        {{ amountRound }}
+                    </span>
                 </div>
             </div>
             <div class="flex flex-wrap -mx-3  ">
@@ -79,7 +81,7 @@
 
             <div class="flex  space-x-2  px-3 mb-6 md:mb-0 my-5">
                 <button
-                    v-if="this.percentageInitial > 0"
+                    v-if="discount > 0"
                     class=" flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
                     @click="submitTable()"
                 >
@@ -101,6 +103,7 @@
                 </button>
 
                 <button
+                    v-if="percentageInitial == 0"
                     class=" flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-purple"
                     @click="submitPayment()"
                 >
@@ -128,8 +131,16 @@
 <script>
 export default {
     props: {
+        application_id: {
+            type: Number,
+            required: true,
+        },
         amountTotal: {
             required: true,
+            default: 0
+        },
+        percentajeDelete: {
+            require: true,
             default: 0
         }
     },
@@ -138,36 +149,68 @@ export default {
             form: {
                 percentage: "",
                 datePay: "",
-                typePay: ""
+                typePay: "",
+                manyPayment: "",
+                id: "",
+                application_id: this.application_id
             },
             percentageInitial: 100,
-            data: []
+            discount: "",
+            counter: 0,
+            data:[]
         };
     },
     methods: {
         submitTable() {
-            this.$emit("Add", this.form);
-            this.setValidate();
-        },
-        setValidate() {
-            this.data.push({ ...this.form });
-            this.percentageInitial =
-                this.percentageInitial - this.form.percentage;
+            if (this.percentageInitial - this.discount >= 0) {
+                this.percentageInitial = this.percentageInitial - this.discount;
+                this.counter = ++this.counter;
 
-            if (this.percentageInitial < 0) {
-                alert("SUPERA EL MAXIMO DE 100");
-            } else {
+                this.$emit("Add", {
+                    ...this.form,
+                    percentage: this.discount
+                });
+                this.data.push({
+                    ...this.form,
+                    percentage: this.discount,
+                    id:this.data.length
+                })
+                this.discount = 0;
                 this.form = {
-                    percentage: this.percentageInitial,
+                    percentage: "",
                     datePay: "",
-                    typePay: ""
+                    typePay: "",
+                    manyPayment: "",
+                    id: "",
+                    application_id: this.application_id
                 };
             }
         },
         submitPayment() {
-            // Aqui va el axios
-            //Con este evento hace el cambio a la siguiente pantalla
-            this.$emit("incomingMenu");
+            //  const response = await this.form.post("/applications/payment_provider");
+            //     console.log(response);
+
+             axios.post('/applications/payment_provider', this.data)
+                .then(res => {
+                    console.log(res.data)
+                    //commit('CREATE_POST', res.data)
+                    }).catch(err => {
+                    console.log(err)
+                })
+
+
+             this.$emit("incomingMenu");
+        }
+    },
+    computed: {
+        amountRound() {
+            return Math.round(this.amountTotal * (this.discount / 100));
+        }
+    },
+    watch: {
+        percentajeDelete(newValue, oldValue) {
+            this.data.splice(newValue.id, 1);
+            this.percentageInitial = this.percentageInitial + newValue.percentage;
         }
     }
 };
