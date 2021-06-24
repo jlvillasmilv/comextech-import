@@ -12,7 +12,7 @@
                                 Origen de Envio
                             </span>
                             <input
-                                v-model="addressOrigin"
+                                v-model="expenses.addressOrigin"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
                                     this.expenses.originWarehouse
@@ -61,7 +61,7 @@
                                 Destino de Envio</span
                             >
                             <input
-                                v-model="addressDestination"
+                                v-model="expenses.addressDestination"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
                                     this.expenses.destinacionWarehouse
@@ -113,6 +113,7 @@
                             </span>
                             <input
                                 type="date"
+                                v-model="expenses.estimated_date"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Nombre o codigo Puerto/Aeropuerto"
                             />
@@ -126,6 +127,7 @@
                                 Descripcion de la carga
                             </span>
                             <input
+                                v-model="expenses.description"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Introduzca la descripcion aqui"
                             />
@@ -154,7 +156,7 @@
             </div>
             <div class="flex justify-center">
                 <button
-                    @click="$emit('incomingMenu')"
+                    @click="submitForm()"
                     class="w-1/3 h-12 px-4 text-white transition-colors text-lg duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                 >
                     Cotizar
@@ -169,6 +171,12 @@ import Load from "./Load.vue";
 
 export default {
     components: { Load },
+    props: {
+        application_id: {
+            type: Number,
+            required: true,
+        },
+    },
     data() {
         return {
             safe: false,
@@ -176,11 +184,15 @@ export default {
                 origin: false,
                 destinacion: false,
                 originWarehouse: false,
-                destinacionWarehouse: false
+                destinacionWarehouse: false,
+                application_id: this.application_id,
+                addressOrigin: "",
+                addressDestination: "",
+                estimated_date: "",
+                description: "",
+                dataLoad: []
             },
-            addressOrigin: "",
-            addressDestination: "",
-            dataLoad: []
+    
         };
     },
     methods: {
@@ -210,9 +222,17 @@ export default {
             }
         },
         getDataLoad(payload) {
-            this.dataLoad = payload;
+            this.expenses.dataLoad = payload;
         },
         submitForm() {
+            axios.post('/applications/transports', this.expenses)
+                .then(res => {
+                    console.log(res.data)
+                    //commit('CREATE_POST', res.data)
+                    }).catch(err => {
+                    console.log(err)
+                })
+
             // this.dataLoad, this.expenses, this.addresOrigin
         }
     }

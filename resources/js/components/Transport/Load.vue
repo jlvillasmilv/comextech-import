@@ -12,7 +12,7 @@
                     :key="name"
                     :class="[
                         'cursor-pointer px-5 text-gray-900 border-b-2',
-                        name == modeTypeSelected ? ' border-blue-500' : ''
+                        name == item.modeTypeSelected ? ' border-blue-500' : ''
                     ]"
                     @click="typeSelected(name)"
                 >
@@ -26,7 +26,7 @@
             class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 "
             @input="changeDataForm"
         >
-            <div class="inline w-1/6" v-if="modeTypeSelected != 'CONTAINER'">
+            <div class="inline w-1/6" v-if="item.modeTypeSelected != 'CONTAINER'">
                 <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
                     Calcular por
                 </span>
@@ -35,7 +35,7 @@
                         @click="changeMode()"
                         :class="[
                             'focus:outline-none  font-medium py-2 px-4 rounded-2 rounded-lg',
-                            !modeCalculate
+                            !item.modeCalculate
                                 ? 'bg-blue-800 text-white'
                                 : 'bg-gray-50'
                         ]"
@@ -46,7 +46,7 @@
                         @click="changeMode()"
                         :class="[
                             'focus:outline-none font-medium py-2 px-4 rounded-2 rounded-lg',
-                            modeCalculate
+                            item.modeCalculate
                                 ? 'bg-blue-800 text-white'
                                 : 'bg-gray-50'
                         ]"
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div
-                v-if="modeTypeSelected != 'CONTAINER'"
+                v-if="item.modeTypeSelected != 'CONTAINER'"
                 class="inline w-1/6 p-1"
             >
                 <div class="relative">
@@ -94,8 +94,8 @@
                     </select>
                 </div>
             </div>
-            <div class="inline" v-if="modeCalculate">
-                <div v-if="modeTypeSelected != 'CONTAINER'">
+            <div class="inline" v-if="item.modeCalculate">
+                <div v-if="item.modeTypeSelected != 'CONTAINER'">
                     <span
                         v-if="id == 0"
                         class="text-sm text-center font-semibold "
@@ -142,19 +142,19 @@
             </div>
             <div
                 class="inline text-center"
-                v-if="modeTypeSelected != 'CONTAINER'"
+                v-if="item.modeTypeSelected != 'CONTAINER'"
             >
                 <span v-if="id == 0" class="text-sm text-center font-semibold ">
                     CBM
                 </span>
                 <input
-                    v-if="modeCalculate"
+                    v-if="item.modeCalculate"
                     :value="
                         (item.cbm =
                             (item.lengths * item.width * item.high) / 10000)
                     "
                     class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"
-                    :disabled="modeCalculate"
+                    :disabled="item.modeCalculate"
                     placeholder="CBM"
                 />
                 <input
@@ -172,7 +172,7 @@
                     v-model="item.weight"
                     :class="[
                         'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
-                        modeTypeSelected != 'CONTAINER' ? ' w-16' : ' w-17'
+                        item.modeTypeSelected != 'CONTAINER' ? ' w-16' : ' w-17'
                     ]"
                 />
                 <label class="inline-flex text-sm items-center mx-2 mt-2">
@@ -202,7 +202,7 @@
             <div class="flex">
                 <label
                     class="inline-flex text-sm items-center "
-                    v-if="modeTypeSelected != 'CONTAINER'"
+                    v-if="item.modeTypeSelected != 'CONTAINER'"
                 >
                     <input
                         type="checkbox"
@@ -215,7 +215,7 @@
             </div>
             <div
                 class="innline w-1/7 mt-5"
-                v-if="modeCalculate || typeSelected == 'CONTAINER'"
+                v-if="item.modeCalculate || typeSelected == 'CONTAINER'"
             >
                 <button
                     v-if="id > 0"
@@ -240,10 +240,10 @@
 export default {
     data() {
         return {
-            modeCalculate: true,
-            modeTypeSelected: "AEREO",
             types: ["AEREO", "CONTAINER", "CONSOLIDADO"],
             item: {
+                modeCalculate: true,
+                modeTypeSelected: "AEREO",
                 typeLoad: "",
                 typeContainer: "",
                 lengths: "",
@@ -264,14 +264,12 @@ export default {
         title: {
             require: false,
             default: "Cotizador Online"
-        }
+        },
     },
     methods: {
         changeDataForm() {
             this.$emit("dataForm", [
                 ...this.FielFormLoad,
-                this.modeCalculate,
-                this.modeTypeSelected
             ]);
         },
         AddFielForm() {
@@ -283,11 +281,11 @@ export default {
             this.changeDataForm();
         },
         changeMode() {
-            this.modeCalculate = !this.modeCalculate;
+            this.item.modeCalculate = !this.item.modeCalculate;
             this.reset();
         },
         typeSelected(value) {
-            this.modeTypeSelected = value;
+            this.item.modeTypeSelected = value;
             this.reset();
         },
         reset() {
