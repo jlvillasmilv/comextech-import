@@ -4,9 +4,12 @@
         <div
             class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
         >
-            Porcentaje Restante : {{ this.percentageInitial - this.discount }}
-            <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
+            
+            <h3 class="my-2 font-semibold text-gray-700 dark:text-gray-200">
                 Pagos al Proveedor
+            </h3>
+            <h3  :class="[ percentageInitial - discount >= 0 ? 'text-black' : 'text-red-600  ', ' text-xs dark:text-gray-200']">
+                    Porcentaje Restante : {{ percentageInitial - discount }}
             </h3>
             <h3 class="my-2   text-gray-400 dark:text-gray-200">
                 Monto Total a Pagar : {{ amountTotal }} $ 
@@ -14,9 +17,10 @@
             <div class="flex flex-wrap -mx-3  ">
                 <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <span class="text-gray-700 dark:text-gray-400 text-xs">
-                        Porcentaje de Pago Nro {{ this.counter + 1 }}</span
+                        Porcentaje de Pago Nro {{ counter + 1 }}</span
                     >
                     <input
+                        :class="[]"
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
                         placeholder="%"
                         v-model.number="discount"
