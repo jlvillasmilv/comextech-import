@@ -92,12 +92,7 @@
                                         {{ date('d-m-Y', strtotime($application->created_at)) }}
                                     </p>
                                 </div>
-                                <div class="w-1/2 ml-1">
-                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Fecha estimada</label>
-                                    <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                        {{ date('d-m-Y', strtotime($application->estimated_date)) }}
-                                    </p>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

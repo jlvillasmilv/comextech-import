@@ -227,8 +227,7 @@ export default {
         submitForm() {
             axios.post('/applications/transports', this.expenses)
                 .then(res => {
-                    console.log(res.data)
-                    //commit('CREATE_POST', res.data)
+                     this.$emit("incomingMenu");
                     }).catch(err => {
                     console.log(err)
                 })

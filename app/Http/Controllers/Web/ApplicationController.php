@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service, Transport, Load};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Http\Requests\Web\ApplicationRequest;
+use App\Http\Requests\Web\{ApplicationRequest, TransportRequest};
 use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
@@ -180,9 +180,8 @@ class ApplicationController extends Controller
         return response()->json(['status' => 'OK'], 200);
     }
 
-    public function transports(Request $request)
+    public function transports(TransportRequest $request)
     {
-
         DB::beginTransaction();
 
         try {
@@ -200,7 +199,6 @@ class ApplicationController extends Controller
                     'description'           => $request->description,
                 ]
             );
-
 
          foreach ($request->input('dataLoad') as $key => $data) {
 
@@ -221,7 +219,6 @@ class ApplicationController extends Controller
                 ]
             );
          }
-
 
          DB::commit();
 

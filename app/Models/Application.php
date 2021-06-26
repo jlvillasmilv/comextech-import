@@ -19,7 +19,6 @@ class Application extends Model
                            'application_statuses_id',
                            'currency_id',
                            'description',
-                           'estimated_date',
                            'fee1',
                            'fee1_date',
                            'fee2',
