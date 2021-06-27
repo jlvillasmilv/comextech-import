@@ -246,18 +246,18 @@
         <div class="w-full p-2 ">
             <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
                 <FormPayment
-                    @Add="AddPay"
                     :application_id="form.application_id"
                     :amountTotal="form.amount"
                     @incomingMenu="incomingMenu"
-                    :percentajeDelete="deletePay"
+                    :currencies="currency"
                 />
-                <TablePayment
+                 
+                <!-- <TablePayment
                     :amount="form.amount"
                     :data="pays"
-                    :currencies="currency"
+                    
                     @deleteRow="deletePayment"
-                />
+                /> -->
             </Container>
 
             <Container v-if="activetab == 'Transporte'">
@@ -514,7 +514,6 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            pays: [],
             formEditPayment: "",
             deletePay: 0,
             transportSelected: false
@@ -535,9 +534,6 @@ export default {
             );
             this.form.services = this.tabs.filter(e => e.selected);
         },
-        AddPay(payload) {
-            this.pays.push({ ...payload, id: this.pays.length });
-        },
         toogleMenu(value) {
             this.activetab = value.name;
         },
@@ -548,10 +544,6 @@ export default {
         incomingMenu() {
             this.position = this.position + 1;
             this.activetab = this.form.services[this.position].name;
-        },
-        deletePayment(item) {
-            this.pays = this.pays.filter(e => e.id !== item.id);
-            this.deletePay = item;
         },
         async submitFormApplications() {
             try {
