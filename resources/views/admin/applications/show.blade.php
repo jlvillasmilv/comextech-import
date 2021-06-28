@@ -32,27 +32,19 @@
                         {{$data->description}} 
                     </p>
                 </label>
-                <div class="px-2">
-                    <label class="block mt-4 text-sm">
-                        <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Monto de la operación:</span>
-                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                            {{ $data->currency->code }} {{ $data->currency->symbol }} {{number_format($data->amount,0,",",".") }} 
-                        </p>
-                    </label>
-                </div>
-
+               
                 <div class="px-2">
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Adelanto</label>
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Monto de la operación:</label>
                             <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                {{ $data->fee1 }} %
+                                {{ $data->currency->code }} {{ $data->currency->symbol }} {{number_format($data->amount,0,",",".") }} 
                             </p>
                         </div>
                         <div class="w-1/2 ml-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Saldo</label>
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Condicion de Venta del Proveedor</label>
                             <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                {{ $data->fee2 }} %
+                                {{ $data->condition }} 
                             </p>
                         </div>
                     </div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service, Transport, Load};
+use App\Models\{FileStore, InternmentProcess, InternmentLoad};
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\{ApplicationRequest, TransportRequest};
@@ -162,7 +164,7 @@ class ApplicationController extends Controller
     }
 
 
-    public function payment_provider(Request $request)
+    public function paymentProvider(Request $request)
     {
         // dd($request->all());
         $values = collect($request);
@@ -244,5 +246,62 @@ class ApplicationController extends Controller
         }
 
         return response()->json($transport->id, 200);
+    }
+
+    public function internmentProcesses(Request $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $internment = InternmentProcess::updateOrCreate(
+                ['application_id'   => $request->application_id, ],
+                [
+                    'agent_name'            => $request->agent_name,
+                    'customs_house'         => $request->customs_house,
+                    'agent_payment'         => $request->agent_payment,
+                    'certificate'           => $request->certificate,
+                ]
+            );
+
+
+            // agregar datos de subida de archivo
+            // $data = new FileStore;
+            // $file_storage = $data->addFile($request);
+
+            foreach ($request->input('dataLoad') as $key => $data) {
+
+                InternmentLoad::updateOrCreate(
+                    ['internment_id' => $internment->id],
+                    [
+                        'calculate_by'   => $data['calculate_by'],
+                        'cbm'            => $data['cbm'],
+                        'high'           => $data['high'],
+                        'length_unit'    => $data['lengthUnit'],
+                        'length'         => $data['lengths'],
+                        'mode_calculate' => $data['modeCalculate'],
+                        'mode_selected'  => $data['modeTypeSelected'],
+                        'type_container' => $data['stackable'],
+                        'type_load'      => $data['typeLoad'],
+                        'weight'         => $data['weight'],
+                        'weight_units'   => $data['weightUnits'],
+                        'width'          => $data['width'],
+                    ]
+                );
+             }
+    
+             DB::commit();
+
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'Error'], 400);
+        }
+
+        return response()->json($transport->id, 200);
+        
+
+
     }
 }
