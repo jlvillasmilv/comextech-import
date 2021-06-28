@@ -21,6 +21,7 @@ class CreatePaymentProvidersTable extends Migration
             $table->decimal('amount', 12, 2)->default(0)->nullable();
             $table->string('type_pay')->nullable();
             $table->date('date_pay')->nullable();
+            $table->enum('payment_release', ['Contra Documento', 'Contra Inspeccion', 'Sin Restriccion'])->default('Sin Restriccion'); 
             $table->timestamps();
 
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');

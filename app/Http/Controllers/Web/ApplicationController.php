@@ -51,7 +51,7 @@ class ApplicationController extends Controller
                     'application_statuses_id' => 1,
                     'currency_id' => $request->currency_id,
                     'description' => $request->description,
-                    'condition' => $request->condition,
+                    'condition'   => $request->condition,
                 ]
             );
 
@@ -164,20 +164,36 @@ class ApplicationController extends Controller
 
     public function payment_provider(Request $request)
     {
+        // dd($request->all());
+        $values = collect($request);
 
-        foreach ($request->input() as $key => $data) {
-
-            PaymentProvider::updateOrCreate(
-                ['application_id' => $data['application_id']],
-                [
-                    'percentage'   => $data['percentage'],
-                    'type_pay'      => $data['typePay'],
-                    'date_pay'      => $data['datePay'],
-                ]
-            );
+        if ($values->sum('percentage') > 100){
+            return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 401);
         }
 
-        return response()->json(['status' => 'OK'], 200);
+        if ($values->sum('percentage') == 100){
+
+            PaymentProvider::where('application_id', $request[0]['application_id'])->delete();
+            
+            foreach ($request->input() as $key => $data) {
+                
+                 PaymentProvider::updateOrCreate(
+                     [
+                         'application_id'  => $data['application_id'],
+                         'percentage'      => $data['percentage'],
+                         'type_pay'        => $data['typePay'],
+                 ],
+                     [
+                         'date_pay'        => $data['datePay'],
+                         'payment_release' => $data['payment_release'],
+                     ]
+                 );
+             }
+
+             return response()->json(['status' => 'OK'], 200);
+        }
+      
+        
     }
 
     public function transports(TransportRequest $request)
