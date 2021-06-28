@@ -21,6 +21,13 @@
                 </svg>
             </button>
 
+            <button rel="prev" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" @click="incomingMenu(false)">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+
             <div v-for="(item, id) in form.services" :key="id">
                 <li
                     :class="[
@@ -33,6 +40,15 @@
                     {{ item.name }}
                 </li>
             </div>
+
+            
+            <button rel="next" @click="incomingMenu(true)" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple">
+                    <svg class="w-4 h-4 fill-current" aria-hidden="true"
+                    viewBox="0 0 20 20">
+                        <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                </button>
         </ul>
         <!-- <div class="w-full py-6">
             <div class="flex">
@@ -278,22 +294,7 @@
             <Container v-if="activetab == 'Bodegaje Local'">
                 Bodegaje Local
             </Container>
-            <nav role="navigation" class="flex justify-center">
-                 <button rel="prev" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" @click="incomingMenu(false)">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-
-                <button rel="next" @click="incomingMenu(true)" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple">
-                    <svg class="w-4 h-4 fill-current" aria-hidden="true"
-                    viewBox="0 0 20 20">
-                        <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" fill-rule="evenodd"></path>
-                    </svg>
-                </button>
-
-            </nav>
+           
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
