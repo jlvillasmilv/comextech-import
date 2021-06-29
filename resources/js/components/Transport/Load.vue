@@ -103,17 +103,17 @@
                         Dimension Unitaria
                     </span>
                     <div class="flex">
-                        <input
+                        <input type="number"
                             v-model.number="item.lengths"
                             class="h-9 w-13 focus:outline-none border rounded-l-lg flex items-center text-center  text-sm"
                             placeholder="L"
                         />
-                        <input
+                        <input type="number"
                             v-model.number="item.width"
                             class="h-9 w-13 focus:outline-none border rounded-none flex items-center text-center  text-sm"
                             placeholder="W"
                         />
-                        <input
+                        <input type="number"
                             v-model.number="item.high"
                             class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm"
                             placeholder="H"
