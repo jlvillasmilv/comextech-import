@@ -23,7 +23,7 @@ class CreateLoadsTable extends Migration
             $table->boolean('mode_calculate')->default(false);
             $table->string('cbm',20)->nullable();
             $table->string('high',20)->nullable(); 
-            $table->boolean('length_unit')->default(false); 
+            $table->string('length_unit',10)->default(''); 
             $table->string('length',20)->nullable(); 
             $table->string('width',20)->nullable(); 
             $table->decimal('weight', 12, 2)->default(0)->nullable();

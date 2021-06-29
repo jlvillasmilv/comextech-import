@@ -15,7 +15,7 @@ class CreateCategoryLoadsTable extends Migration
     {
         Schema::create('category_loads', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name',100);
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

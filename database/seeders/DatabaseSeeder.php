@@ -23,8 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CompanySeeder::class);
         $this->call(TransportModeSeeder::class);
         $this->call(ApplicationSeeder::class);
-        
-        
-        
+        $this->call(CategoryLoadSeeder::class);
+        $this->call(CategoryContainerSeeder::class);
     }
 }
