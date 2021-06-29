@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLoadsTable extends Migration
+class CreateInternmentLoadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateLoadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('loads', function (Blueprint $table) {
+        Schema::create('internment_loads', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('transport_id');
+            $table->unsignedBigInteger('internment_id');
             $table->string('calculate_by',10)->nullable();
             $table->string('type_container',20)->nullable();
             $table->string('type_load',20)->nullable();
@@ -29,10 +29,9 @@ class CreateLoadsTable extends Migration
             $table->decimal('weight', 12, 2)->default(0)->nullable();
             $table->string('weight_units',10)->nullable();
             $table->boolean('stackable')->default(false);
-
             $table->timestamps();
 
-            $table->foreign('transport_id')->references('id')->on('transports')->onDelete('cascade');
+            $table->foreign('internment_id')->references('id')->on('internment_processes')->onDelete('cascade');
         });
     }
 
@@ -43,6 +42,6 @@ class CreateLoadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('loads');
+        Schema::dropIfExists('internment_loads');
     }
 }

@@ -33,8 +33,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     // Applications
     Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
 
-    Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@payment_provider')
+    Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@paymentProvider')
     ->name('applications.payment.provider'); 
+
+     // Internment Process
+    Route::post('internment', 'App\Http\Controllers\Web\ApplicationController@internmentProcesses')
+    ->name('applications.internment'); 
 
     Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
 
