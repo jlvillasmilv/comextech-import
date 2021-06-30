@@ -35,8 +35,8 @@ class TransportRequest extends FormRequest
             "dataLoad.*.width"           => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
             "dataLoad.*.high"            => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
             "dataLoad.*.weight"          => "required|numeric",
-            "dataLoad.*.type_load"       => 'nullable|exists:category_loads,id',
-            "dataLoad.*.type_container"  => 'nullable|exists:category_containers,id',
+            "dataLoad.*.type_load"       => 'required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO',
+            "dataLoad.*.type_container"  => 'required_if:dataLoad.*.mode_selected,in:CONTAINER',
         ];
 
         return $rules;

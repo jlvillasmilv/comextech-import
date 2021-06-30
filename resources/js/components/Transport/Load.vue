@@ -68,7 +68,7 @@
                         value="Seleccionar"
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
-                        <option value="1"> Pallet / s</option>
+                        <option value="1" selected> Pallet / s</option>
                         <option value="2"> Caja / s</option>
                         <option value="3"> Unidad/es</option>
                         <option value="4"> Bidón / es</option>
@@ -85,7 +85,7 @@
                         v-model="item.type_container"
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
-                        <option value="1"> 20'DV </option>
+                        <option value="1" > 20'DV </option>
                         <option value="2"> 40'DV </option>
                         <option value="3"> 40'HC </option>
                         <option value="4"> 45'HC </option>
@@ -246,17 +246,17 @@ export default {
             item: {
                 mode_calculate: true,
                 mode_selected: "AEREO",
-                type_load: "",
-                type_container: "",
+                type_load: 1,
+                type_container: 1,
                 length: "",
                 width: "",
                 high: "",
-                lengthUnit: "",
+                lengthUnit: "cm",
                 id: 1,
                 cbm: "",
                 weight: "",
-                weight_units: "",
-                stackable: "",
+                weight_units: "kg",
+                stackable: false,
                 id: 0
             },
             FielFormLoad: []

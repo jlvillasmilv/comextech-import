@@ -200,7 +200,6 @@ class ApplicationController extends Controller
 
     public function transports(TransportRequest $request)
     {
-        dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -224,7 +223,6 @@ class ApplicationController extends Controller
             Load::updateOrCreate(
                 ['transport_id' => $transport->id],
                 [
-                    'calculate_by'   => $data['calculate_by'],
                     'cbm'            => $data['cbm'],
                     'length_unit'    => $data['lengthUnit'],
                     'length'         => $data['length'],
@@ -235,11 +233,11 @@ class ApplicationController extends Controller
                     'type_container' => $data['type_container'],
                     'type_load'      => $data['type_load'],
                     'weight'         => $data['weight'],
-                    'weight_units'   => $data['weightUnits'],
+                    'weight_units'   => $data['weight_units'],
                     'stackable'      => $data['stackable'],
                 ]
             );
-         }
+          }
 
          DB::commit();
 
@@ -278,7 +276,6 @@ class ApplicationController extends Controller
                 InternmentLoad::updateOrCreate(
                     ['internment_id' => $internment->id],
                     [
-                        'calculate_by'   => $data['calculate_by'],
                         'cbm'            => $data['cbm'],
                         'length_unit'    => $data['lengthUnit'],
                         'length'         => $data['length'],
@@ -289,7 +286,7 @@ class ApplicationController extends Controller
                         'type_container' => $data['type_container'],
                         'type_load'      => $data['type_load'],
                         'weight'         => $data['weight'],
-                        'weight_units'   => $data['weightUnits'],
+                        'weight_units'   => $data['weight_units'],
                         'stackable'      => $data['stackable'],
                     ]
                 );
