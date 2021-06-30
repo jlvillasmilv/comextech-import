@@ -133,25 +133,7 @@
                             />
                         </label>
                     </div>
-                    <div class="w-1/6 mt-8">
-                        <label class="ml-6 text-gray-500 dark:text-gray-400">
-                            <input
-                                type="checkbox"
-                                class="form-checkbox h-4 w-4 text-gray-800"
-                                @click="safe = !safe"
-                            />
-                            <span class="ml-2 text-gray-700 "> Seguro </span>
-                        </label>
-                    </div>
-                    <div class="w-1/6  " v-show="safe">
-                        <span class="text-sm font-semibold">
-                            Valor de Carga
-                        </span>
-                        <input
-                            class="h-9 w-16.5 focus:outline-none border rounded-sm flex text-center   text-sm"
-                            placeholder="USD"
-                        />
-                    </div>
+                   
                 </div>
             </div>
             <div class="flex justify-center">

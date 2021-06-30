@@ -22,13 +22,13 @@ class Load extends Model
         return $this->belongsTo(Transport::class,'transport_id');
     }
 
-    public function category()
+    public function categoryLoad()
     {
-        return $this->belongsTo(CategoryLoad::class,'category_load_id');
+        return $this->belongsTo(CategoryLoad::class,'type_load')->withDefault(['name' => '' ]);
     }
 
     public function container()
     {
-        return $this->belongsTo(CategoryContainer::class,'category_container_id');
+        return $this->belongsTo(CategoryContainer::class,'type_container')->withDefault(['name' => '' ]);
     }
 }

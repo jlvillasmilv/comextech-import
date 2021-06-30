@@ -69,11 +69,11 @@
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
                         <option disabled value=""> Seleccione </option>
-                        <option value="2"> Pallet / s</option>
-                        <option value="3"> Caja / s</option>
-                        <option value="4"> Unidad/es</option>
-                        <option value="5"> Bidón / es</option>
-                        <option value="6"> Bags </option>
+                        <option value="1"> Pallet / s</option>
+                        <option value="2"> Caja / s</option>
+                        <option value="3"> Unidad/es</option>
+                        <option value="4"> Bidón / es</option>
+                        <option value="5"> Bags </option>
                     </select>
                 </div>
             </div>
@@ -87,10 +87,10 @@
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
                         <option disabled value=""> Seleccione </option>
-                        <option value="2"> 20'DV </option>
-                        <option value="3"> 40'DV </option>
-                        <option value="4"> 40'HC </option>
-                        <option value="5"> 45'HC </option>
+                        <option value="1"> 20'DV </option>
+                        <option value="2"> 40'DV </option>
+                        <option value="3"> 40'HC </option>
+                        <option value="4"> 45'HC </option>
                     </select>
                 </div>
             </div>
@@ -103,17 +103,17 @@
                         Dimension Unitaria
                     </span>
                     <div class="flex">
-                        <input
+                        <input type="number"
                             v-model.number="item.lengths"
                             class="h-9 w-13 focus:outline-none border rounded-l-lg flex items-center text-center  text-sm"
                             placeholder="L"
                         />
-                        <input
+                        <input type="number"
                             v-model.number="item.width"
                             class="h-9 w-13 focus:outline-none border rounded-none flex items-center text-center  text-sm"
                             placeholder="W"
                         />
-                        <input
+                        <input type="number"
                             v-model.number="item.high"
                             class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm"
                             placeholder="H"
@@ -249,7 +249,7 @@ export default {
                 lengths: "",
                 width: "",
                 high: "",
-                lengthUnit: true,
+                lengthUnit: "",
                 id: 1,
                 cbm: "",
                 weight: "",

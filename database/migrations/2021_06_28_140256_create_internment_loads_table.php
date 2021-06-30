@@ -16,7 +16,6 @@ class CreateInternmentLoadsTable extends Migration
         Schema::create('internment_loads', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('internment_id');
-            $table->string('calculate_by',10)->nullable();
             $table->string('type_container',20)->nullable();
             $table->string('type_load',20)->nullable();
             $table->string('mode_selected',20)->nullable();
@@ -26,7 +25,7 @@ class CreateInternmentLoadsTable extends Migration
             $table->boolean('length_unit')->default(false); 
             $table->string('length',20)->nullable(); 
             $table->string('width',20)->nullable(); 
-            $table->decimal('weight', 12, 2)->default(0)->nullable();
+            $table->string('weight', 12)->nullable();
             $table->string('weight_units',10)->nullable();
             $table->boolean('stackable')->default(false);
             $table->timestamps();

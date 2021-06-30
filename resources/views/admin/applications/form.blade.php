@@ -89,6 +89,15 @@
                     </div>
                 </div>
 
+                <div class="flex justify-between items-end">
+                    <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
+                        Detalle Solicitud 
+                    </h4>
+                </div>
+                
+                @include('admin.applications.services')
+                
+
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
 
                     <span class="text-xs text-red-600 dark:text-red-400">
