@@ -20,6 +20,11 @@
                                         : 'Direccion, Codigo Postal'
                                 "
                             />
+                             <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('addressOrigin')"
+                                    v-html="expenses.errors.get('addressOrigin')"
+                                ></span>
                         </label>
                         <div class="mt-2 text-sm">
                             <label
@@ -69,6 +74,11 @@
                                         : 'Direccion, Codigo Postal'
                                 "
                             />
+                            <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('addressDestination')"
+                                    v-html="expenses.errors.get('addressDestination')"
+                                ></span>
                         </label>
                         <div class="mt-2 text-sm">
                             <label
@@ -117,6 +127,11 @@
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Nombre o codigo Puerto/Aeropuerto"
                             />
+                            <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('estimated_date')"
+                                    v-html="expenses.errors.get('estimated_date')"
+                                ></span>
                         </label>
                     </div>
                     <div class="w-1/3 px-2">
@@ -128,6 +143,7 @@
                             </span>
                             <input
                                 v-model="expenses.description"
+                                maxlength="250"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Introduzca la descripcion aqui"
                             />
@@ -169,7 +185,7 @@ export default {
     data() {
         return {
             safe: false,
-            expenses: {
+            expenses: new Form({
                 origin: false,
                 destinacion: false,
                 originWarehouse: false,
@@ -180,7 +196,7 @@ export default {
                 estimated_date: "",
                 description: "",
                 dataLoad: []
-            },
+            }),
     
         };
     },
@@ -213,15 +229,20 @@ export default {
         getDataLoad(payload) {
             this.expenses.dataLoad = payload;
         },
-        submitForm() {
-            axios.post('/applications/transports', this.expenses)
-                .then(res => {
-                     this.$emit("incomingMenu");
-                    }).catch(err => {
-                    console.log(err)
-                })
+        async submitForm() {
+            try {
+            const response = await this.expenses.post("/applications/transports");
 
-            // this.dataLoad, this.expenses, this.addresOrigin
+            Toast.fire({
+                        icon: 'success',
+                        title: 'Datos Agregados'
+                    })
+
+                this.$emit("incomingMenu");
+
+             } catch (error) {
+                console.error(error);
+            }
         }
     }
 };

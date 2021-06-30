@@ -200,6 +200,7 @@ class ApplicationController extends Controller
 
     public function transports(TransportRequest $request)
     {
+        dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -223,17 +224,19 @@ class ApplicationController extends Controller
             Load::updateOrCreate(
                 ['transport_id' => $transport->id],
                 [
+                    'calculate_by'   => $data['calculate_by'],
                     'cbm'            => $data['cbm'],
-                    'high'           => $data['high'],
                     'length_unit'    => $data['lengthUnit'],
-                    'length'         => $data['lengths'],
-                    'mode_calculate' => $data['modeCalculate'],
-                    'mode_selected'  => $data['modeTypeSelected'],
-                    'type_container' => $data['stackable'],
-                    'type_load'      => $data['typeLoad'],
+                    'length'         => $data['length'],
+                    'width'          => $data['width'],
+                    'high'           => $data['high'],
+                    'mode_calculate' => $data['mode_calculate'],
+                    'mode_selected'  => $data['mode_selected'],
+                    'type_container' => $data['type_container'],
+                    'type_load'      => $data['type_load'],
                     'weight'         => $data['weight'],
                     'weight_units'   => $data['weightUnits'],
-                    'width'          => $data['width'],
+                    'stackable'      => $data['stackable'],
                 ]
             );
          }
@@ -277,16 +280,17 @@ class ApplicationController extends Controller
                     [
                         'calculate_by'   => $data['calculate_by'],
                         'cbm'            => $data['cbm'],
-                        'high'           => $data['high'],
                         'length_unit'    => $data['lengthUnit'],
-                        'length'         => $data['lengths'],
-                        'mode_calculate' => $data['modeCalculate'],
-                        'mode_selected'  => $data['modeTypeSelected'],
-                        'type_container' => $data['stackable'],
-                        'type_load'      => $data['typeLoad'],
+                        'length'         => $data['length'],
+                        'width'          => $data['width'],
+                        'high'           => $data['high'],
+                        'mode_calculate' => $data['mode_calculate'],
+                        'mode_selected'  => $data['mode_selected'],
+                        'type_container' => $data['type_container'],
+                        'type_load'      => $data['type_load'],
                         'weight'         => $data['weight'],
                         'weight_units'   => $data['weightUnits'],
-                        'width'          => $data['width'],
+                        'stackable'      => $data['stackable'],
                     ]
                 );
              }
