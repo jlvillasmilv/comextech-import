@@ -395,14 +395,17 @@
                                         v-model="form.condition"
                                         class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     > 
-                                        <option value="FBO">
-                                            FBO
+                                        <option value="FOB">
+                                            FOB
                                         </option>
                                         <option value="CIF">
                                             CIF
                                         </option>
-                                        <option value="DDP">
-                                            DDP
+                                        <option value="DDP/DAP">
+                                            DDP/DAP
+                                        </option>
+                                         <option value="EXW">
+                                            EXW
                                         </option>
                                     </select>
                                     <div
@@ -562,7 +565,6 @@ export default {
             this.tabs.map(e => (e.selected = false));
         },
         incomingMenu(next=true) {
-            console.log(next);
             if(this.position >= 0){
                 this.position = next ? this.position + 1 : this.position - 1;
                 this.activetab = this.form.services[this.position].name;

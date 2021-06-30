@@ -21,10 +21,10 @@ class CreateInternmentLoadsTable extends Migration
             $table->string('mode_selected',20)->nullable();
             $table->boolean('mode_calculate')->default(false);
             $table->string('cbm',20)->nullable();
-            $table->string('high',20)->nullable(); 
             $table->boolean('length_unit')->default(false); 
-            $table->string('length',20)->nullable(); 
-            $table->string('width',20)->nullable(); 
+            $table->decimal('length',12,2)->nullable(); 
+            $table->decimal('width',12,2)->nullable(); 
+            $table->decimal('high',12,2)->nullable(); 
             $table->string('weight', 12)->nullable();
             $table->string('weight_units',10)->nullable();
             $table->boolean('stackable')->default(false);

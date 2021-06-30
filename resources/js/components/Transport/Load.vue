@@ -12,7 +12,7 @@
                     :key="name"
                     :class="[
                         'cursor-pointer px-5 text-gray-900 border-b-2',
-                        name == item.modeTypeSelected ? ' border-blue-500' : ''
+                        name == item.mode_selected ? ' border-blue-500' : ''
                     ]"
                     @click="typeSelected(name)"
                 >
@@ -26,7 +26,7 @@
             class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 "
             @input="changeDataForm"
         >
-            <div class="inline w-1/6" v-if="item.modeTypeSelected != 'CONTAINER'">
+            <div class="inline w-1/6" v-if="item.mode_selected != 'CONTAINER'">
                 <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
                     Calcular por
                 </span>
@@ -35,7 +35,7 @@
                         @click="changeMode()"
                         :class="[
                             'focus:outline-none  font-medium py-2 px-4 rounded-2 rounded-lg',
-                            !item.modeCalculate
+                            !item.mode_calculate
                                 ? 'bg-blue-800 text-white'
                                 : 'bg-gray-50'
                         ]"
@@ -46,7 +46,7 @@
                         @click="changeMode()"
                         :class="[
                             'focus:outline-none font-medium py-2 px-4 rounded-2 rounded-lg',
-                            item.modeCalculate
+                            item.mode_calculate
                                 ? 'bg-blue-800 text-white'
                                 : 'bg-gray-50'
                         ]"
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div
-                v-if="item.modeTypeSelected != 'CONTAINER'"
+                v-if="item.mode_selected != 'CONTAINER'"
                 class="inline w-1/6 p-1"
             >
                 <div class="relative">
@@ -64,11 +64,10 @@
                         Tipo de Carga
                     </label>
                     <select
-                        v-model="item.typeLoad"
+                        v-model="item.type_load"
                         value="Seleccionar"
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
-                        <option disabled value=""> Seleccione </option>
                         <option value="1"> Pallet / s</option>
                         <option value="2"> Caja / s</option>
                         <option value="3"> Unidad/es</option>
@@ -83,10 +82,9 @@
                         Tipo de Container
                     </label>
                     <select
-                        v-model="item.typeContainer"
+                        v-model="item.type_container"
                         class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
-                        <option disabled value=""> Seleccione </option>
                         <option value="1"> 20'DV </option>
                         <option value="2"> 40'DV </option>
                         <option value="3"> 40'HC </option>
@@ -94,8 +92,8 @@
                     </select>
                 </div>
             </div>
-            <div class="inline" v-if="item.modeCalculate">
-                <div v-if="item.modeTypeSelected != 'CONTAINER'">
+            <div class="inline" v-if="item.mode_calculate">
+                <div v-if="item.mode_selected != 'CONTAINER'">
                     <span
                         v-if="id == 0"
                         class="text-sm text-center font-semibold "
@@ -103,18 +101,21 @@
                         Dimension Unitaria
                     </span>
                     <div class="flex">
-                        <input type="number"
-                            v-model.number="item.lengths"
+                        <input
+                            v-model.number="item.length"
+                            type="number"
                             class="h-9 w-13 focus:outline-none border rounded-l-lg flex items-center text-center  text-sm"
                             placeholder="L"
                         />
-                        <input type="number"
+                        <input
                             v-model.number="item.width"
+                            type="number"
                             class="h-9 w-13 focus:outline-none border rounded-none flex items-center text-center  text-sm"
                             placeholder="W"
                         />
-                        <input type="number"
+                        <input
                             v-model.number="item.high"
+                            type="number"
                             class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm"
                             placeholder="H"
                         />
@@ -142,19 +143,19 @@
             </div>
             <div
                 class="inline text-center"
-                v-if="item.modeTypeSelected != 'CONTAINER'"
+                v-if="item.mode_selected != 'CONTAINER'"
             >
                 <span v-if="id == 0" class="text-sm text-center font-semibold ">
                     CBM
                 </span>
                 <input
-                    v-if="item.modeCalculate"
+                    v-if="item.mode_calculate"
                     :value="
                         (item.cbm =
-                            (item.lengths * item.width * item.high) / 10000)
+                            (item.length * item.width * item.high) / 10000)
                     "
                     class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"
-                    :disabled="item.modeCalculate"
+                    :disabled="item.mode_calculate"
                     placeholder="CBM"
                 />
                 <input
@@ -169,18 +170,19 @@
                     Peso Unitario
                 </span>
                 <input
-                    v-model="item.weight"
+                    v-model.number="item.weight"
+                    type="number"
                     :class="[
                         'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
-                        item.modeTypeSelected != 'CONTAINER' ? ' w-16' : ' w-17'
+                        item.mode_selected != 'CONTAINER' ? ' w-16' : ' w-17'
                     ]"
                 />
                 <label class="inline-flex text-sm items-center mx-2 mt-2">
                     <input
                         type="radio"
-                        v-model="item.weightUnits"
-                        :id="'weightUnits' + id"
-                        :name="'weightUnits' + id"
+                        v-model="item.weight_units"
+                        :id="'weight_units' + id"
+                        :name="'weight_units' + id"
                         class="form-checkbox h-4 w-4 text-gray-800"
                         checked
                         value="kg"
@@ -190,9 +192,9 @@
                 <label class="inline-flex text-sm items-center mx-2  mt-2">
                     <input
                         type="radio"
-                        v-model="item.weightUnits"
-                        :id="'weightUnits' + id"
-                        :name="'weightUnits' + id"
+                        v-model="item.weight_units"
+                        :id="'weight_units' + id"
+                        :name="'weight_units' + id"
                         class="form-checkbox h-4 w-4 text-gray-800"
                         value="lbs"
                     />
@@ -202,7 +204,7 @@
             <div class="flex">
                 <label
                     class="inline-flex text-sm items-center "
-                    v-if="item.modeTypeSelected != 'CONTAINER'"
+                    v-if="item.mode_selected != 'CONTAINER'"
                 >
                     <input
                         type="checkbox"
@@ -215,7 +217,7 @@
             </div>
             <div
                 class="innline w-1/7 mt-5"
-                v-if="item.modeCalculate || typeSelected == 'CONTAINER'"
+                v-if="item.mode_calculate || typeSelected == 'CONTAINER'"
             >
                 <button
                     v-if="id > 0"
@@ -242,18 +244,18 @@ export default {
         return {
             types: ["AEREO", "CONTAINER", "CONSOLIDADO"],
             item: {
-                modeCalculate: true,
-                modeTypeSelected: "AEREO",
-                typeLoad: "",
-                typeContainer: "",
-                lengths: "",
+                mode_calculate: true,
+                mode_selected: "AEREO",
+                type_load: "",
+                type_container: "",
+                length: "",
                 width: "",
                 high: "",
                 lengthUnit: "",
                 id: 1,
                 cbm: "",
                 weight: "",
-                weightUnits: "",
+                weight_units: "",
                 stackable: "",
                 id: 0
             },
@@ -281,11 +283,11 @@ export default {
             this.changeDataForm();
         },
         changeMode() {
-            this.item.modeCalculate = !this.item.modeCalculate;
+            this.item.mode_calculate = !this.item.mode_calculate;
             this.reset();
         },
         typeSelected(value) {
-            this.item.modeTypeSelected = value;
+            this.item.mode_selected = value;
             this.reset();
         },
         reset() {
