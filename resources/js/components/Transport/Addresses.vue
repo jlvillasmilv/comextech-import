@@ -26,37 +26,6 @@
                                     v-html="expenses.errors.get('addressOrigin')"
                                 ></span>
                         </label>
-                        <div class="mt-2 text-sm">
-                            <label
-                                class="inline-flex items-center text-gray-500 dark:text-gray-400"
-                            >
-                                <input
-                                    ref="origin"
-                                    @click="changeExpenses('origin')"
-                                    :checked="expenses.origin"
-                                    v-model="expenses.origin"
-                                    type="checkbox"
-                                    class="form-checkbox h-4 w-4 text-gray-800"
-                                />
-                                <span class="ml-2">
-                                    Incluir Gastos Locales</span
-                                >
-                            </label>
-                            <label
-                                class="inline-flex items-center ml-6 text-gray-500 dark:text-gray-400"
-                            >
-                                <input
-                                    @click="changeExpensesWarehouse('origin')"
-                                    :checked="expenses.originWarehouse"
-                                    v-model="expenses.originWarehouse"
-                                    type="checkbox"
-                                    class="form-checkbox h-4 w-4 text-gray-800"
-                                />
-                                <span class="ml-2">
-                                    Factory/Warehouse (EXW)</span
-                                >
-                            </label>
-                        </div>
                     </div>
                     <div class="w-full md:w-1/2 px-3">
                         <label class="block text-sm">
@@ -80,37 +49,6 @@
                                     v-html="expenses.errors.get('addressDestination')"
                                 ></span>
                         </label>
-                        <div class="mt-2 text-sm">
-                            <label
-                                class="inline-flex items-center text-gray-500 dark:text-gray-400"
-                            >
-                                <input
-                                    ref="destinacion"
-                                    @click="changeExpenses('destinacion')"
-                                    :checked="expenses.destinacion"
-                                    v-model="expenses.destinacion"
-                                    type="checkbox"
-                                    class="form-checkbox h-4 w-4 text-gray-800"
-                                />
-                                <span class="ml-2">
-                                    Incluir Gastos Locales</span
-                                >
-                            </label>
-                            <label
-                                class="inline-flex items-center ml-6 text-gray-500 dark:text-gray-400"
-                            >
-                                <input
-                                    @click="
-                                        changeExpensesWarehouse('destinacion')
-                                    "
-                                    :checked="expenses.destinacionWarehouse"
-                                    v-model="expenses.destinacionWarehouse"
-                                    type="checkbox"
-                                    class="form-checkbox h-4 w-4 text-gray-800"
-                                />
-                                <span class="ml-2"> Fabricar/Almacen </span>
-                            </label>
-                        </div>
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-6">
