@@ -57,28 +57,19 @@
                                 {{$application->description}} 
                             </p>
                         </label>
-
-                        <div class="px-2">
-                            <label class="block mt-4 text-sm">
-                                <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Monto de la operación:</span>
-                                <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                                    {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }} 
-                                </p>
-                            </label>
-                        </div>
         
                         <div class="px-2">
                             <div class="flex mb-4">
                                 <div class="w-1/2 mr-1">
-                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Adelanto</label>
+                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Monto de la operación:</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                        {{ $application->fee1 }} %  fecha: {{ date('d-m-Y', strtotime($application->fee1_date)) }}
+                                        {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }} 
                                     </p>
                                 </div>
                                 <div class="w-1/2 ml-1">
-                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Saldo</label>
+                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Condicion de Venta del Proveedor</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                        {{ $application->fee2 }} % fecha: {{ date('d-m-Y', strtotime($application->fee2_date)) }}
+                                        {{ $application->condition }} 
                                     </p>
                                 </div>
                             </div>
@@ -97,6 +88,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="flex justify-between items-end">
+                    <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
+                        Detalle Solicitud 
+                    </h4>
+                </div>
+                
+                @include('admin.applications.services')
+                
 
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
 

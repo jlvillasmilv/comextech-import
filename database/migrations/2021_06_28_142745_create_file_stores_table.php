@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoryLoadsTable extends Migration
+class CreateFileStoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCategoryLoadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_loads', function (Blueprint $table) {
+        Schema::create('file_stores', function (Blueprint $table) {
             $table->id();
-            $table->string('name',100);
-            $table->string('description')->nullable();
+            $table->string('disk');
+            $table->string('file_name');
+            $table->string('mime_type')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
-            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 
@@ -29,6 +30,6 @@ class CreateCategoryLoadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_loads');
+        Schema::dropIfExists('file_stores');
     }
 }
