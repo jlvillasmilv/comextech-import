@@ -1,7 +1,7 @@
 <template>
     <div class="w-full p-4">
         <div v-show="!transportSelected">
-            <load @getDataLoad="getDataLoad" />
+            <Load @getDataLoad="getDataLoad" />
         </div>
         <div class="flex flex-wrap -mx-3 ">
             <div class="w-1/2 px-3 mb-2 md:mb-0">
@@ -28,7 +28,7 @@
                 <span
                     class="text-gray-700 dark:text-gray-400 font-semibold text-sm"
                 >
-                    Tratado Internacional {{ treatiesSelected }}
+                    Tratado Internacional {{ treaties }} {{  nameFileUpload }}
                 </span>
                 <input
                     id="fileid"
@@ -160,7 +160,8 @@ export default {
             dataLoad: [],
             treatiesSelected: [],
             files: [],
-            showInputFile: false
+            showInputFile: false,
+            nameFileUpload: ''
         };
     },
     methods: {
@@ -168,20 +169,22 @@ export default {
             this.dataLoad = payload;
         },
         openWindowFile({ e, name: entry }) {
+
             let value = this.treatiesSelected.find(a => a.name == entry);
 
             if (value == undefined) {
                 this.showInputFile = !this.showInputFile;
                 let fileInputElement = this.$refs.file;
+                this.nameFileUpload  = entry
                 fileInputElement.click();
-                this.treatiesSelected = [...this.treatiesSelected, e];
             }
         },
         handleFile() {
-            console.log(this.$refs.file.files[0], "PRIMERO");
-            this.showInputFile = !this.showInputFile;
-            console.log(this.$refs.file.files[0], "SEGUNDO");
-            // value.addEventListener( 'change', () => this.checked ? console.log('true') )
+            this.treaties =  this.treaties.map(e =>
+                 e.name === this.nameFileUpload ? { ...e, submit: true } : e
+            );
+            console.log(this.$refs.file.files[0], "ARCHIVO");
+             
         },
         checkInput(e) {
             console.log("SALIO");
