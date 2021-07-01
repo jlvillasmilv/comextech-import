@@ -133,14 +133,7 @@
                     class=" flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
                     @click="submitTable()"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
->>>>>>> fbbc66f1e393effd39e42fb474d294a56352453e
-                    >
+
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-6 w-6"

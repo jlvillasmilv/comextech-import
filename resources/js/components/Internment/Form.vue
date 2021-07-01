@@ -48,8 +48,12 @@
                     >
                         <button
                             @click="openWindowFile(item)"
-                             :class="[item.submit ? "bg-blue-500 hover:bg-blue-700" : "bg-green-500 hover:bg-green-700"]"
-                            class=" text-white   py-2 px-4 rounded-full"
+                            :class="[
+                                'text-white   py-2 px-4 rounded-full',
+                                item.submit
+                                    ? 'bg-blue-500 hover:bg-blue-700'
+                                    : 'bg-green-500 hover:bg-green-700'
+                            ]"
                         >
                             {{ item.name }}
                         </button>
@@ -150,7 +154,7 @@ export default {
                 },
                 {
                     name: "Mercosur",
-                    submit:false
+                    submit: false
                 }
             ],
             dataLoad: [],
@@ -163,7 +167,7 @@ export default {
         getDataLoad(payload) {
             this.dataLoad = payload;
         },
-        openWindowFile({e, name:entry}) {
+        openWindowFile({ e, name: entry }) {
             let value = this.treatiesSelected.find(a => a.name == entry);
 
             if (value == undefined) {
