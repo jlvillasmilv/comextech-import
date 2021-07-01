@@ -13,26 +13,33 @@ class FileStore extends Model
     protected $table = 'file_stores';
 
     protected $fillable = [
-        'path', 'type', 'original_name', 'mime_type', 'status'
+        'disk', 'type', 'file_name', 'mime_type', 'status'
     ];
 
 
-    public function addFile($request)
+    public function addFile($file,$name=null)
     {
+        $file_name = is_null($name) ?  time() . '_' . $file->getClientOriginalName() : $name;
 
-        $file    = $request->file('file');
+        $exists = Storage::disk('s3')
+        ->exists('file/'.$file_name);
 
-        $file_name = time() . '_' . $file->getClientOriginalName();
+        if($exists){
+            Storage::disk('s3')
+            ->delete('file/'.$file_name);
+        }
+       
         Storage::disk('s3')->put('file/'.$file_name, \File::get($file));
         
-        $fileStorage = FileStore::create([
-            'path' =>  Storage::disk('s3')->url('file/'.$file_name),
-            'original_name' => $file_name,
+        $fileStorage = FileStore::updateOrCreate([
+            'file_name'     => $file_name,
+        ],
+        [   'disk'          => Storage::disk('s3')->url('file/'.$file_name),
             'mime_type'     => $file->getMimeType(),
-        ]);
+        ]
+        );
 
         return $fileStorage;
-        
     }
 
 

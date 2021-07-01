@@ -17,7 +17,7 @@ class CreateFileStoreInternmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('file_store_id');
             $table->unsignedBigInteger('internment_id');
-            $table->enum('intl_treaty', ['Mercosur', 'Eur1', 'Form1 F'])->nullable();
+            $table->string('intl_treaty', 10)->nullable();
 
             $table->foreign('file_store_id')->references('id')->on('file_stores');
             $table->foreign('internment_id')->references('id')->on('internment_processes');

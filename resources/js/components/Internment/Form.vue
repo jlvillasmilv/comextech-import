@@ -1,7 +1,7 @@
 <template>
     <div class="w-full p-4">
         <div v-show="!transportSelected">
-            <Load @getDataLoad="getDataLoad" />
+            <Load @dataForm="getDataLoad" />
         </div>
         <div class="flex flex-wrap -mx-3 ">
             <div class="w-1/2 px-3 mb-2 md:mb-0">
@@ -12,10 +12,12 @@
                         Agente de Aduana
                     </span>
                     <input
+                        v-model="expenses.agent_name"
                         class="block w-full mt-1 mb-3 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                         placeholder="Datos del Agente de Aduana "
                     />
                     <input
+                        v-model="expenses.customs_house"
                         type="checkbox"
                         class="form-checkbox h-4 w-4   text-blue-600"
                     /><span class="ml-2 text-xs text-black  text-gray-500">
@@ -33,7 +35,7 @@
                 <input
                     id="fileid"
                     v-show="showInputFile"
-                    @change="handleFile()"
+                    @change="handleFile('x')"
                     ref="file"
                     type="file"
                     hidden
@@ -79,6 +81,8 @@
                         Pago de Agente de Aduana
                     </span>
                     <input
+                        v-model.number="expenses.agent_payment"
+                        type="number"
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                         placeholder="Monto"
                     />
@@ -95,35 +99,49 @@
                 >
                     <label class="inline-flex items-center mt-3">
                         <input
+                            id="Origen"
+                            value="Origen"
+                            v-model="expenses.certificate"
                             type="radio"
                             class="form-checkbox h-5 w-5 text-blue-600"
-                            id="1"
-                            name="1"
                         />
                         <span class="ml-2 text-black"> Origen</span>
                     </label>
                     <label class="inline-flex items-center mt-3">
                         <input
+                            id="Fitosanitario"
+                            value="Fitosanitario"
+                            v-model="expenses.certificate"
                             type="radio"
                             class="form-checkbox h-5 w-5 text-blue-600"
-                            id="1"
-                            name="1"
                         />
                         <span class="ml-2 text-black"> Fitosanitario</span>
                     </label>
                     <label class="inline-flex items-center mt-3">
                         <input
+                            id="Form F" value="Form F" v-model="expenses.certificate"
                             type="radio"
                             class="form-checkbox h-5 w-5 text-blue-600"
-                            id="1"
-                            name="1"
                         />
                         <span class="ml-2 text-black"> Form F</span>
                     </label>
+                       <input
+                            id="fileid"
+                            @change="handleFile(expenses.certificate)"
+                            ref="file"
+                            type="file"
+                        />
                 </div>
             </div>
         </div>
+        <button
+                    @click="submitForm()"
+                    class="w-1/3 h-12 px-4 text-white transition-colors text-lg duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                >
+                    Cotizar
+        </button>
     </div>
+    
 </template>
 
 <script>
@@ -157,20 +175,32 @@ export default {
                     submit: false
                 }
             ],
-            dataLoad: [],
-            treatiesSelected: [],
-            files: [],
+             expenses: new Form({
+                application_id: this.application_id,
+                transport: this.transportSelected,
+                agent_name:"",
+                agent_payment:0,
+                treatiesSelected: [],
+                file_descrip: [],
+                customs_house: false,
+                certificate: "",
+                file_certificate: "",
+                dataLoad: [],
+                files: []
+            }),
+
+            
             showInputFile: false,
             nameFileUpload: ''
         };
     },
     methods: {
         getDataLoad(payload) {
-            this.dataLoad = payload;
+           this.expenses.dataLoad = payload;
         },
         openWindowFile({ e, name: entry }) {
 
-            let value = this.treatiesSelected.find(a => a.name == entry);
+            let value = this.expenses.treatiesSelected.find(a => a.name == entry);
 
             if (value == undefined) {
                 this.showInputFile = !this.showInputFile;
@@ -179,41 +209,48 @@ export default {
                 fileInputElement.click();
             }
         },
-        handleFile() {
-            this.treaties =  this.treaties.map(e =>
+        handleFile(flag) {
+
+            const file = this.$refs.file.files[0]
+
+            if (flag.length >1) {
+
+               this.expenses.file_certificate = file;
+                
+            }else{
+
+                 this.treaties =  this.treaties.map(e =>
                  e.name === this.nameFileUpload ? { ...e, submit: true } : e
-            );
-            console.log(this.$refs.file.files[0], "ARCHIVO");
+                );
+
+                this.expenses.files.push(file);
+
+                this.expenses.file_descrip.push(this.nameFileUpload)
+
+                console.log(file, "ARCHIVO");
+
+            } 
              
         },
         checkInput(e) {
             console.log("SALIO");
+        },
+        async submitForm() {
+            try {
+            const response = await this.expenses.post("/internment");
+
+            Toast.fire({
+                        icon: 'success',
+                        title: 'Datos Agregados'
+                    })
+
+                this.$emit("incomingMenu");
+
+             } catch (error) {
+                console.error(error);
+            }
         }
-        // async submitFile() {
-        //     this.$swal.fire(
-        //         Option("info", "Almacenando tu archivo, un momento!")
-        //     );
-        //     this.file = this.$refs.file.files[0];
-        //     let formData = new FormData();
-        //     formData.append("file", this.file);
-        //     formData.append("type", this.data);
-        //     let header = {
-        //         headers: {
-        //             "Content-Type": "multipart/form-data"
-        //         }
-        //     };
-        //     try {
-        //         await axios.post("/single-file", formData, header);
-        //         this.status = true;
-        //         this.$swal.fire(
-        //             Option("success", "Archivo almacenado exitosamente!")
-        //         );
-        //     } catch (e) {
-        //         this.$swal.fire(
-        //             Option("error", "Ah ocurrido un error intente nuevamente!")
-        //         );
-        //     }
-        // },
+        
     }
 };
 </script>

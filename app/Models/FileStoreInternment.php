@@ -9,7 +9,7 @@ class FileStoreInternment extends Model
 {
     use HasFactory;
 
-    protected $table = 'file_stores';
+    protected $table = 'file_store_internments';
 
     public $timestamps = false;
 
