@@ -1,7 +1,7 @@
 window.$ = window.jQuery = require('jquery');
 require('./bootstrap');
 
-import Import  from './views/Import'
+import Import  from './pages/Import'
 
 import Vue from 'vue';
 

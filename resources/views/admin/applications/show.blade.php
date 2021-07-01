@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Detalle Solicitud  #   {{str_pad($data->id, 6, '0', STR_PAD_LEFT) }}
+                Detalle Solicitud  #   {{str_pad($application->id, 6, '0', STR_PAD_LEFT) }}
             </h4>
            
         </div>
@@ -16,43 +16,35 @@
 
                 <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400 font-bold mb-2">Status:</span>
-                    <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">{{$data->status->name}} </p>
+                    <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">{{$application->status->name}} </p>
                 </label>
 
                 <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400 font-bold mb-2">Cliente:</span>
                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                        {{$data->user->company->tax_id}} {{$data->user->company->name}} 
+                        {{$application->user->company->tax_id}} {{$application->user->company->name}} 
                     </p>
                 </label>
 
                 <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Descripccion:</span>
                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                        {{$data->description}} 
+                        {{$application->description}} 
                     </p>
                 </label>
-                <div class="px-2">
-                    <label class="block mt-4 text-sm">
-                        <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Monto de la operación:</span>
-                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                            {{ $data->currency->code }} {{ $data->currency->symbol }} {{number_format($data->amount,0,",",".") }} 
-                        </p>
-                    </label>
-                </div>
-
+               
                 <div class="px-2">
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Adelanto</label>
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Monto de la operación:</label>
                             <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                {{ $data->fee1 }} %
+                                {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }} 
                             </p>
                         </div>
                         <div class="w-1/2 ml-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Saldo</label>
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Condicion de Venta del Proveedor</label>
                             <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                {{ $data->fee2 }} %
+                                {{ $application->condition }} 
                             </p>
                         </div>
                     </div>
@@ -63,15 +55,10 @@
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha Solicitud:</label>
                             <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                {{ date('d-m-Y', strtotime($data->created_at)) }}
+                                {{ date('d-m-Y', strtotime($application->created_at)) }}
                             </p>
                         </div>
-                        <div class="w-1/2 ml-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Fecha estimada</label>
-                            <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                                {{ date('d-m-Y', strtotime($data->estimated_date)) }}
-                            </p>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -81,8 +68,9 @@
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
                 Detalle Solicitud 
             </h4>
-           
         </div>
+
+        @include('admin.applications.services')
 
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
@@ -97,7 +85,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        @forelse($data->details as $detail)
+                        @forelse($application->details as $detail)
                         <tr class="text-gray-700 dark:text-gray-400">
                             
                             <td class="px-4 py-3 text-sm">

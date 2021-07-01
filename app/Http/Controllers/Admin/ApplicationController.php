@@ -68,10 +68,10 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-        $data  = Application::findOrFail($id);
+        $application  = Application::findOrFail($id);
 
 
-        return view('admin.applications.show', compact('data'));
+        return view('admin.applications.show', compact('application'));
     }
 
     /**

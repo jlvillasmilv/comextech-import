@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service, Transport, Load};
+use App\Models\{FileStore, InternmentProcess, InternmentLoad};
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Http\Requests\Web\ApplicationRequest;
+use App\Http\Requests\Web\{ApplicationRequest, TransportRequest};
 use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
@@ -51,7 +53,7 @@ class ApplicationController extends Controller
                     'application_statuses_id' => 1,
                     'currency_id' => $request->currency_id,
                     'description' => $request->description,
-                    'condition' => $request->condition,
+                    'condition'   => $request->condition,
                 ]
             );
 
@@ -162,27 +164,42 @@ class ApplicationController extends Controller
     }
 
 
-    public function payment_provider(Request $request)
+    public function paymentProvider(Request $request)
     {
+        // dd($request->all());
+        $values = collect($request);
 
-        foreach ($request->input() as $key => $data) {
-
-            PaymentProvider::updateOrCreate(
-                ['application_id' => $data['application_id']],
-                [
-                    'percentage'   => $data['percentage'],
-                    'type_pay'      => $data['typePay'],
-                    'date_pay'      => $data['datePay'],
-                ]
-            );
+        if ($values->sum('percentage') > 100){
+            return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 401);
         }
 
-        return response()->json(['status' => 'OK'], 200);
+        if ($values->sum('percentage') == 100){
+
+            PaymentProvider::where('application_id', $request[0]['application_id'])->delete();
+            
+            foreach ($request->input() as $key => $data) {
+                
+                 PaymentProvider::updateOrCreate(
+                     [
+                         'application_id'  => $data['application_id'],
+                         'percentage'      => $data['percentage'],
+                         'type_pay'        => $data['typePay'],
+                 ],
+                     [
+                         'date_pay'        => $data['datePay'],
+                         'payment_release' => $data['payment_release'],
+                     ]
+                 );
+             }
+
+             return response()->json(['status' => 'OK'], 200);
+        }
+      
+        
     }
 
-    public function transports(Request $request)
+    public function transports(TransportRequest $request)
     {
-
         DB::beginTransaction();
 
         try {
@@ -201,27 +218,26 @@ class ApplicationController extends Controller
                 ]
             );
 
-
          foreach ($request->input('dataLoad') as $key => $data) {
 
             Load::updateOrCreate(
                 ['transport_id' => $transport->id],
                 [
                     'cbm'            => $data['cbm'],
-                    'high'           => $data['high'],
                     'length_unit'    => $data['lengthUnit'],
-                    'length'         => $data['lengths'],
-                    'mode_calculate' => $data['modeCalculate'],
-                    'mode_selected'  => $data['modeTypeSelected'],
-                    'type_container' => $data['stackable'],
-                    'type_load'      => $data['typeLoad'],
-                    'weight'         => $data['weight'],
-                    'weight_units'   => $data['weightUnits'],
+                    'length'         => $data['length'],
                     'width'          => $data['width'],
+                    'high'           => $data['high'],
+                    'mode_calculate' => $data['mode_calculate'],
+                    'mode_selected'  => $data['mode_selected'],
+                    'type_container' => $data['type_container'],
+                    'type_load'      => $data['type_load'],
+                    'weight'         => $data['weight'],
+                    'weight_units'   => $data['weight_units'],
+                    'stackable'      => $data['stackable'],
                 ]
             );
-         }
-
+          }
 
          DB::commit();
 
@@ -231,5 +247,62 @@ class ApplicationController extends Controller
         }
 
         return response()->json($transport->id, 200);
+    }
+
+    public function internmentProcesses(Request $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $internment = InternmentProcess::updateOrCreate(
+                ['application_id'   => $request->application_id, ],
+                [
+                    'agent_name'            => $request->agent_name,
+                    'customs_house'         => $request->customs_house,
+                    'agent_payment'         => $request->agent_payment,
+                    'certificate'           => $request->certificate,
+                ]
+            );
+
+
+            // agregar datos de subida de archivo
+            // $data = new FileStore;
+            // $file_storage = $data->addFile($request);
+
+            foreach ($request->input('dataLoad') as $key => $data) {
+
+                InternmentLoad::updateOrCreate(
+                    ['internment_id' => $internment->id],
+                    [
+                        'cbm'            => $data['cbm'],
+                        'length_unit'    => $data['lengthUnit'],
+                        'length'         => $data['length'],
+                        'width'          => $data['width'],
+                        'high'           => $data['high'],
+                        'mode_calculate' => $data['mode_calculate'],
+                        'mode_selected'  => $data['mode_selected'],
+                        'type_container' => $data['type_container'],
+                        'type_load'      => $data['type_load'],
+                        'weight'         => $data['weight'],
+                        'weight_units'   => $data['weight_units'],
+                        'stackable'      => $data['stackable'],
+                    ]
+                );
+             }
+    
+             DB::commit();
+
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'Error'], 400);
+        }
+
+        return response()->json($transport->id, 200);
+        
+
+
     }
 }
