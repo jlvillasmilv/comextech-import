@@ -292,7 +292,6 @@
                         clip-rule="evenodd" fill-rule="evenodd"></path>
                     </svg>
                 </button>
-
             </nav>
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10">
@@ -561,7 +560,6 @@ export default {
             this.tabs.map(e => (e.selected = false));
         },
         incomingMenu(next=true) {
-            console.log(next);
             if(this.position >= 0){
                 this.position = next ? this.position + 1 : this.position - 1;
                 this.activetab = this.form.services[this.position].name;
