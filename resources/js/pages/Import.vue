@@ -294,7 +294,6 @@
             <Container v-if="activetab == 'Bodegaje Local'">
                 Bodegaje Local
             </Container>
-           
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
