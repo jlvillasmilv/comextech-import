@@ -99,7 +99,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['status' => 'Error'], 400);
+            return response()->json(0, 400);
         }
       
          return response()->json($data->id, 200);
@@ -232,7 +232,7 @@ class ApplicationController extends Controller
 
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-       // dd($request->file('file_certificate'));
+        //dd($request->all());
         DB::beginTransaction();
 
         try {

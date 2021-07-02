@@ -28,7 +28,8 @@ class InternmentProcessRequest extends FormRequest
             'agent_name'              => 'required_if:customs_house,false|max:250',
             'agent_payment'           => 'nullable|numeric',
             'files'                   => 'nullable|array',
-            'files.*'                 => 'nullable|max:2048',
+            'files.*'                 => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
+            'file_certificate'        => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
             'dataLoad'                => 'required_if:transport,false',
             //"dataLoad.*.weight"       => "required_if:transport,false|numeric",
         ];

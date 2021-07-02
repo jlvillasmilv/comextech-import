@@ -33,9 +33,9 @@ class ApplicationRequest extends FormRequest
             'fee2'                     => 'nullable|numeric',
             'fee2_date'                => 'nullable|date',
             'fee3'                     => 'nullable|numeric',
-            'fee3_date'                => 'nullable|date',
-            'amount'                   => 'required|numeric',
-            'services'                 => 'nullable',
+            'condition'                => 'required|in:FOB,CIF,DDP/DAP,EXW',
+            'amount'                   => 'required|numeric|gt:0',
+            'services'                 => 'required',
         ];
 
         return $rules;
