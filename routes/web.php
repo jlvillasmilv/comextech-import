@@ -65,12 +65,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {
 
-    Route::resource('currencies', 'CurrencyController');
     Route::resource('users', 'UserController');
-    Route::resource('clients', 'CompanyController');
     Route::resource('applications', 'ApplicationController')->except(['create']);
-    Route::resource('category_service', 'CategoryServiceController');
-    Route::resource('services', 'ServicesController');
+    Route::resources([
+        'category_service' => CategoryServiceController::class,
+        'currencies'       => CurrencyController::class,
+        'clients'          => CompanyController::class,
+        'services'         => 'ServicesController',
+        'warehouses'       => WarehouseController::class,
+    ]);
     
-
 });

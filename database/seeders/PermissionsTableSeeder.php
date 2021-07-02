@@ -41,6 +41,12 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'services.show']);
         Permission::create(['name' => 'services.create']);
         Permission::create(['name' => 'services.destroy']);
+
+        Permission::create(['name' => 'warehouses.index']);
+        Permission::create(['name' => 'warehouses.edit']);
+        Permission::create(['name' => 'warehouses.show']);
+        Permission::create(['name' => 'warehouses.create']);
+        Permission::create(['name' => 'warehouses.destroy']);
        
         //Admin
         $admin = Role::create(['name' => 'Admin']);
