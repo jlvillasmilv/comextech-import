@@ -232,7 +232,7 @@ class ApplicationController extends Controller
 
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         DB::beginTransaction();
 
         try {
