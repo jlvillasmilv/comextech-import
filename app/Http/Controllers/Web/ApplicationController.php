@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service, Transport, Load};
-use App\Models\{FileStore, InternmentProcess, InternmentLoad};
+use App\Models\{FileStore, FileStoreInternment, InternmentProcess};
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Http\Requests\Web\{ApplicationRequest, TransportRequest};
+use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest};
 use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
@@ -218,26 +218,7 @@ class ApplicationController extends Controller
                 ]
             );
 
-         foreach ($request->input('dataLoad') as $key => $data) {
-
-            Load::updateOrCreate(
-                ['transport_id' => $transport->id],
-                [
-                    'cbm'            => $data['cbm'],
-                    'length_unit'    => $data['lengthUnit'],
-                    'length'         => $data['length'],
-                    'width'          => $data['width'],
-                    'high'           => $data['high'],
-                    'mode_calculate' => $data['mode_calculate'],
-                    'mode_selected'  => $data['mode_selected'],
-                    'type_container' => $data['type_container'],
-                    'type_load'      => $data['type_load'],
-                    'weight'         => $data['weight'],
-                    'weight_units'   => $data['weight_units'],
-                    'stackable'      => $data['stackable'],
-                ]
-            );
-          }
+            $this->load($request->input('dataLoad'),$request->application_id);
 
          DB::commit();
 
@@ -249,9 +230,9 @@ class ApplicationController extends Controller
         return response()->json($transport->id, 200);
     }
 
-    public function internmentProcesses(Request $request)
+    public function internmentProcesses(InternmentProcessRequest $request)
     {
-
+       // dd($request->file('file_certificate'));
         DB::beginTransaction();
 
         try {
@@ -266,43 +247,84 @@ class ApplicationController extends Controller
                 ]
             );
 
+            // agregar datos de subida de archivo 
+            if ($request->hasFile('files')) {
+                foreach ($request->input('file_descrip') as $key => $file) {
+                    $data = new FileStore;
+                    $file_storage = $data->addFile(
+                        $request->file('files')[$key],
+                        $file.'-'.$request->application_id.'-'.$internment->id);
 
-            // agregar datos de subida de archivo
-            // $data = new FileStore;
-            // $file_storage = $data->addFile($request);
+                    FileStoreInternment::updateOrCreate(
+                        ['file_store_id' => $file_storage->id,
+                         'internment_id' => $internment->id,
+                        ],
+                        [ 'intl_treaty' => $file, ]
+                    );
+                    
+                }
+            }
 
-            foreach ($request->input('dataLoad') as $key => $data) {
+            if ($request->hasFile('file_certificate')) {
+                
+                    $data = new FileStore;
+                    $file_storage = $data->addFile(
+                        $request->file('file_certificate'),
+                        $request->certificate.'-'.$request->application_id.'-'.$internment->id);
 
-                InternmentLoad::updateOrCreate(
-                    ['internment_id' => $internment->id],
-                    [
-                        'cbm'            => $data['cbm'],
-                        'length_unit'    => $data['lengthUnit'],
-                        'length'         => $data['length'],
-                        'width'          => $data['width'],
-                        'high'           => $data['high'],
-                        'mode_calculate' => $data['mode_calculate'],
-                        'mode_selected'  => $data['mode_selected'],
-                        'type_container' => $data['type_container'],
-                        'type_load'      => $data['type_load'],
-                        'weight'         => $data['weight'],
-                        'weight_units'   => $data['weight_units'],
-                        'stackable'      => $data['stackable'],
-                    ]
-                );
-             }
+                    FileStoreInternment::updateOrCreate(
+                        ['file_store_id' => $file_storage->id,
+                         'internment_id' => $internment->id,
+                        ],
+                        [ 'intl_treaty' => $request->certificate, ]
+                    );
+
+            }
+
+            //Agrega datos a carga de transporte
+            if(!$request->input('transport')){
+
+                $this->load($request->input('dataLoad'),$request->application_id);
+            }
     
-             DB::commit();
-
+            DB::commit();
             
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status' => 'Error'], 400);
         }
 
-        return response()->json($transport->id, 200);
-        
-
-
+        return response()->json($internment->id, 200);
     }
+
+
+    public function load($data=null,$application_id=null)
+    {
+        Load::where('application_id', $application_id)->delete();
+        foreach ($data as $key => $item) {
+
+            Load::updateOrCreate(
+                ['application_id'   => $application_id,
+                 'cbm'            => $item['cbm'],
+                 'stackable'      => $item['stackable'],
+                ],
+                  
+                [
+                    'length_unit'    => $item['lengthUnit'],
+                    'length'         => $item['length'],
+                    'width'          => $item['width'],
+                    'high'           => $item['high'],
+                    'mode_calculate' => $item['mode_calculate'],
+                    'mode_selected'  => $item['mode_selected'],
+                    'type_container' => $item['type_container'],
+                    'type_load'      => $item['type_load'],
+                    'weight'         => $item['weight'],
+                    'weight_units'   => $item['weight_units'],
+                ]
+            );
+          }
+
+        return true;
+    }
+
 }

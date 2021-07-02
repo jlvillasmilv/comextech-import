@@ -15,7 +15,7 @@ class CreateLoadsTable extends Migration
     {
         Schema::create('loads', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('transport_id');
+            $table->unsignedBigInteger('application_id');
             $table->string('type_container',20)->nullable();
             $table->string('type_load',20)->nullable();
             $table->string('mode_selected',20)->nullable();
@@ -30,7 +30,7 @@ class CreateLoadsTable extends Migration
             $table->boolean('stackable')->default(false);
             $table->timestamps();
 
-            $table->foreign('transport_id')->references('id')->on('transports')->onDelete('cascade');
+            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
         });
     }
 
