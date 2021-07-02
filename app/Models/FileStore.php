@@ -21,13 +21,13 @@ class FileStore extends Model
     {
         $file_name = is_null($name) ?  time() . '_' . $file->getClientOriginalName() : $name;
 
-        $exists = Storage::disk('s3')
-        ->exists('file/'.$file_name);
+        // $exists = Storage::disk('s3')
+        // ->exists('file/'.$file_name);
 
-        if($exists){
-            Storage::disk('s3')
-            ->delete('file/'.$file_name);
-        }
+        // if($exists){
+        //     Storage::disk('s3')
+        //     ->delete('file/'.$file_name);
+        // }
        
         Storage::disk('s3')->put('file/'.$file_name, \File::get($file));
         

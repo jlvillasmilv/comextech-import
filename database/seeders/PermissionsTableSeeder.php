@@ -41,7 +41,25 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'services.show']);
         Permission::create(['name' => 'services.create']);
         Permission::create(['name' => 'services.destroy']);
-       
+
+        Permission::create(['name' => 'currencies.index']);
+        Permission::create(['name' => 'currencies.edit']);
+        Permission::create(['name' => 'currencies.show']);
+        Permission::create(['name' => 'currencies.create']);
+        Permission::create(['name' => 'currencies.destroy']);
+
+        Permission::create(['name' => 'warehouses.index']);
+        Permission::create(['name' => 'warehouses.edit']);
+        Permission::create(['name' => 'warehouses.show']);
+        Permission::create(['name' => 'warehouses.create']);
+        Permission::create(['name' => 'warehouses.destroy']);
+
+        Permission::create(['name' => 'trans_companies.index']);
+        Permission::create(['name' => 'trans_companies.edit']);
+        Permission::create(['name' => 'trans_companies.show']);
+        Permission::create(['name' => 'trans_companies.create']);
+        Permission::create(['name' => 'trans_companies.destroy']);
+
         //Admin
         $admin = Role::create(['name' => 'Admin']);
        

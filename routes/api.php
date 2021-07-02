@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Models\{Currency, CategoryService};
+use App\Models\{Currency, CategoryService, Warehouse, TransCompanies};
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -34,3 +34,16 @@ Route::get('/category_services', function (Request $request) {
         ->OrderBy('sort')->get();
     return response()->json($currencies, 200);
 });
+
+Route::get('/warehouses', function (Request $request) {
+    $warehouses = Warehouse::where('status', '=', true)
+        ->OrderBy('name')->get();
+    return response()->json($warehouses, 200);
+});
+
+Route::get('/trans_companies', function (Request $request) {
+    $trans_cos = TransCompanies::where('status', '=', true)
+        ->OrderBy('name')->get();
+    return response()->json($trans_cos, 200);
+});
+
