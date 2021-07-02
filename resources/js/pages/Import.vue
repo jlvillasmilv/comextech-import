@@ -295,24 +295,9 @@
                 Bodegaje Local
             </Container>
         </div>
-        <Modal v-if="statusModal" :title="title" class="mt-10">
+        <Modal v-if="statusModal" :title="title" class="mt-10 w-full">
             <template v-slot:body>
                 <div class="mt-2" v-if="!next">
-                    <label
-                        v-for="(item, id) in tabs"
-                        :key="id"
-                        class="flex items-center ml-6 my-2 focu:otext-gray-600 dark:text-gray-400"
-                    >
-                        <input
-                            @click="tabsAdd(item)"
-                            :checked="item.selected"
-                            type="checkbox"
-                            class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
-                        />
-                        <span class="ml-2"> {{ item.name }} </span>
-                    </label>
-                </div>
-                <div v-else>
                     <form
                         @submit.prevent="submitFormApplications"
                         @keydown="form.onKeydown($event)"
@@ -458,16 +443,28 @@
                             >
                             </textarea>
                         </div>
+                          <label
+                            v-for="(item, id) in tabs"
+                            :key="id"
+                            class="flex items-center ml-6 my-2 focu:otext-gray-600 dark:text-gray-400"
+                        >
+                            <input
+                                @click="tabsAdd(item)"
+                                :checked="item.selected"
+                                type="checkbox"
+                                class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
+                            />
+                            <span class="ml-2"> {{ item.name }} </span>
+                        </label>
                     </form>
                 </div>
             </template>
             <template v-slot:footer>
-                <div v-if="next">
-                    <button
-                        @click="next = !next"
+                <button
+                        @click="clearSeletedTabs()"
                         class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
                     >
-                        Atras
+                        Cancelar
                     </button>
                     <button
                         type="submit"
@@ -477,22 +474,6 @@
                     >
                         Aceptar
                     </button>
-                </div>
-                <div v-else>
-                    <button
-                        @click="clearSeletedTabs()"
-                        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
-                    >
-                        Cancelar
-                    </button>
-                    <button
-                        v-if="form.services.length > 0"
-                        @click="next = !next"
-                        class=" transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
-                    >
-                        Siguiente
-                    </button>
-                </div>
             </template>
         </Modal>
     </div>

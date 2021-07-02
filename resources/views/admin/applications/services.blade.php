@@ -35,7 +35,7 @@
                                     Pago Nro {{$key + 1}}
                                 </td>
                                 <td class="px-4 py-3">
-                                    {{$item->percentage}}
+                                    {{$item->percentage}} %
                                 </td>
                                 <td class="px-4 py-3">
                                     {{ $application->currency->code }} {{ $application->currency->symbol }}
