@@ -78,7 +78,7 @@
             </Container>
 
             <Container v-if="activetab == 'Bodegaje Local'">
-                Bodegaje Local
+                 <internal-storage></internal-storage>
             </Container>
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10 w-full">
@@ -281,6 +281,7 @@ import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
 import TablePayment from "../components/PaymentProvider/Table.vue";
+import InternalStorage from '../components/InternalStorage.vue';
 
 export default {
     data() {
@@ -323,7 +324,8 @@ export default {
         Addresses,
         FormInternment,
         FormPayment,
-        TablePayment
+        TablePayment,
+        InternalStorage
     },
     methods: {
         tabsAdd(item) {
