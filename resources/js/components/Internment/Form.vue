@@ -16,6 +16,10 @@
                         class="block w-full mt-1 mb-3 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                         placeholder="Datos del Agente de Aduana "
                     />
+                    <span class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('agent_name')"
+                                v-html="expenses.errors.get('agent_name')"
+                            ></span>
                     <input
                         v-model="expenses.customs_house"
                         type="checkbox"
@@ -30,7 +34,7 @@
                 <span
                     class="text-gray-700 dark:text-gray-400 font-semibold text-sm"
                 >
-                    Tratado Internacional {{ treaties }} {{  nameFileUpload }}
+                    Tratado Internacional 
                 </span>
                 <input
                     id="fileid"
@@ -59,15 +63,6 @@
                         >
                             {{ item.name }}
                         </button>
-                        <!-- <input
-                            v-model="treatiesSelected"
-                            type="checkbox"
-                            @input="checkInput(item)"
-                            :id="key"
-                            :value="item"
-                            @click="openWindowFile(item)"
-                            class="form-checkbox h-5 w-5 text-blue-600"
-                        /><span class="ml-2 text-black"> {{ item }} </span> -->
                     </label>
                 </div>
             </div>
@@ -86,6 +81,10 @@
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                         placeholder="Monto"
                     />
+                    <span class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('agent_payment')"
+                                v-html="expenses.errors.get('agent_payment')"
+                            ></span>
                 </label>
             </div>
             <div class="w-1/2 px-3 ">
@@ -105,7 +104,11 @@
                             type="radio"
                             class="form-checkbox h-5 w-5 text-blue-600"
                         />
-                        <span class="ml-2 text-black"> Origen</span>
+                        <span class="ml-2 text-black">
+                           
+                             Origen
+                             </span>
+                       
                     </label>
                     <label class="inline-flex items-center mt-3">
                         <input
@@ -125,13 +128,23 @@
                         />
                         <span class="ml-2 text-black"> Form F</span>
                     </label>
-                       <input
-                            id="fileid"
-                            @change="handleFile(expenses.certificate)"
-                            ref="file"
-                            type="file"
-                        />
+                      
                 </div>
+                <div class="flex ">
+                        <label class="flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-black">
+                            <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                            </svg>
+                            <span class="mt-2 text-base leading-normal">Subir Certificado</span>
+                            <input type='file' class="hidden" id="fileic"
+                            @change="previewFiles"
+                            ref="certificate" />
+                        </label>
+                 </div>
+                 <span class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('file_certificate')"
+                                v-html="expenses.errors.get('file_certificate')"
+                            ></span>
             </div>
         </div>
         <button
@@ -183,7 +196,7 @@ export default {
                 treatiesSelected: [],
                 file_descrip: [],
                 customs_house: false,
-                certificate: "",
+                certificate: "Origen",
                 file_certificate: "",
                 dataLoad: [],
                 files: []
@@ -209,28 +222,23 @@ export default {
                 fileInputElement.click();
             }
         },
-        handleFile(flag) {
+        handleFile() {
 
             const file = this.$refs.file.files[0]
 
-            if (flag.length >1) {
-
-               this.expenses.file_certificate = file;
-                
-            }else{
-
-                 this.treaties =  this.treaties.map(e =>
+            this.treaties =  this.treaties.map(e =>
                  e.name === this.nameFileUpload ? { ...e, submit: true } : e
                 );
 
-                this.expenses.files.push(file);
+            this.expenses.files.push(file);
 
-                this.expenses.file_descrip.push(this.nameFileUpload)
-
-                console.log(file, "ARCHIVO");
-
-            } 
+            this.expenses.file_descrip.push(this.nameFileUpload)
              
+        },
+        previewFiles(event) {
+            // console.log(event.target.files);
+            const certificate = event.target.files[0];
+            this.expenses.file_certificate = certificate;
         },
         checkInput(e) {
             console.log("SALIO");
