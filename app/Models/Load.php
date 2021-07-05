@@ -17,9 +17,9 @@ class Load extends Model
         'updated_at',
     ];
 
-    public function transport()
+    public function application()
     {
-        return $this->belongsTo(Transport::class,'transport_id');
+        return $this->belongsTo(Application::class,'application_id');
     }
 
     public function categoryLoad()

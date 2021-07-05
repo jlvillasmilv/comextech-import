@@ -26,7 +26,7 @@ class InternmentProcessRequest extends FormRequest
         return [
             'application_id'          => 'required|exists:applications,id',
             'agent_name'              => 'required_if:customs_house,false|max:250',
-            'agent_payment'           => 'nullable|numeric',
+            'agent_payment'           => 'nullable|numeric|between:1,999999999999|gt:0',
             'files'                   => 'nullable|array',
             'files.*'                 => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
             'file_certificate'        => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
