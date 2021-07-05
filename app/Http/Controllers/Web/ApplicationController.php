@@ -233,9 +233,9 @@ class ApplicationController extends Controller
     public function internmentProcesses(InternmentProcessRequest $request)
     {
         //dd($request->all());
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
-        try {
+        // try {
 
             $internment = InternmentProcess::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
@@ -287,14 +287,14 @@ class ApplicationController extends Controller
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
     
-            DB::commit();
+        //     DB::commit();
             
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['status' => 'Error'], 400);
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json(['status' => 'Error'], 400);
+        // }
 
-        return response()->json($internment->id, 200);
+        // return response()->json($internment->id, 200);
     }
 
 

@@ -20,14 +20,9 @@ class Transport extends Model
         'deleted_at',
     ];
 
-
     public function application()
     {
         return $this->belongsTo(Application::class,'application_id');
     }
 
-    public function details()
-    {
-        return $this->hasMany(Load::class,'transport_id');
-    }
 }

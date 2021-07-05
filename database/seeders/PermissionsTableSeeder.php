@@ -60,6 +60,12 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'trans_companies.create']);
         Permission::create(['name' => 'trans_companies.destroy']);
 
+        Permission::create(['name' => 'suppl_cond_sales.index']);
+        Permission::create(['name' => 'suppl_cond_sales.edit']);
+        Permission::create(['name' => 'suppl_cond_sales.show']);
+        Permission::create(['name' => 'suppl_cond_sales.create']);
+        Permission::create(['name' => 'suppl_cond_sales.destroy']);
+
         //Admin
         $admin = Role::create(['name' => 'Admin']);
        

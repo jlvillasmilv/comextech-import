@@ -34,7 +34,7 @@ class ApplicationRequest extends FormRequest
             'fee2_date'                => 'nullable|date',
             'fee3'                     => 'nullable|numeric',
             'condition'                => 'required|in:FOB,CIF,DDP/DAP,EXW',
-            'amount'                   => 'required|numeric|gt:0',
+            'amount'                   => 'required|numeric|gt:0|between:1,999999999999',
             'services'                 => 'required',
         ];
 

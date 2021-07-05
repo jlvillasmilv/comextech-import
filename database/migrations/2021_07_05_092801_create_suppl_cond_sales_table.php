@@ -17,6 +17,7 @@ class CreateSupplCondSalesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name',100);
+            $table->text('description')->nullable();
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();

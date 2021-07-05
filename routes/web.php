@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
         'services'         => 'ServicesController',
         'warehouses'       => WarehouseController::class,
         'trans_companies'  => TransCompaniesController::class,
+        'suppl_cond_sales' => SupplCondSaleController::class,
     ]);
     
 });
