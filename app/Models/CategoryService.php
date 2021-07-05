@@ -20,6 +20,12 @@ class CategoryService extends Model
         'deleted_at',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+        'updated_at',
+        'user_id',
+    ];
+
 
     public function user()
     {
@@ -29,5 +35,10 @@ class CategoryService extends Model
     public function details()
     {
         return $this->hasMany(Service::class,'category_service_id');
+    }
+
+    public function supplCondSale()
+    {
+        return $this->belongsToMany(SupplCondSale::class, 'category_service_suppl_cond_sale', 'category_service_id', 'suppl_cond_sale_id');
     }
 }

@@ -336,69 +336,7 @@ export default {
             formEditPayment: "",
             deletePay: 0,
             transportSelected: false,
-            arrayServices: [
-                {
-                    name: "FOB",
-                    services: [
-                        {
-                            id: 1,
-                            name: "Pago Proveedor",
-                            selected: 0
-                        },
-                        {
-                            id: 3,
-                            name: "Transporte",
-                            selected: 0
-                        },
-                        
-                    ], 
-                },
-                {
-                    name: "DDP/DAP",
-                    services: [
-                       {
-                            id: 4,
-                            name: "Proceso de Internación",
-                            selected: 0
-                        },
-                        {
-                            id: 5,
-                            name: "Bodegaje Local",
-                            selected: 0
-                        }
-                    ],
-                },
-                {
-                    name: "EXW",
-                    services: [
-                       {
-                            id: 4,
-                            name: "Proceso de Internación",
-                            selected: 0
-                        },
-                        {
-                            id: 5,
-                            name: "Bodegaje Local",
-                            selected: 0
-                        }
-                    ]
-                },
-                {
-                    name: "CIF",
-                    services: [
-                       {
-                            id: 4,
-                            name: "Proceso de Internación",
-                            selected: 0
-                        },
-                        {
-                            id: 5,
-                            name: "Bodegaje Local",
-                            selected: 0
-                        }
-                    ]
-                }
-            ]
+            arrayServices: []
         };
     },
     components: {
@@ -465,8 +403,8 @@ export default {
     },
     async created() {
         try {
-            // let tabs = await axios.get("/api/category_services");
-            // this.tabs = tabs.data;
+             let tabs = await axios.get("/api/suppl_cond_sales");
+             this.arrayServices = tabs.data;
 
             let suppliers = await axios.get("/supplierlist");
             this.suppliers = suppliers.data;
