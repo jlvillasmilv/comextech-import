@@ -21,12 +21,19 @@
                 </svg>
             </button>
 
-            <button rel="prev" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" @click="incomingMenu(false)">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-
+            <button
+                rel="prev"
+                class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                @click="incomingMenu(false)"
+            >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fill-rule="evenodd"
+                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            </button>
 
             <div v-for="(item, id) in form.services" :key="id">
                 <li
@@ -41,14 +48,23 @@
                 </li>
             </div>
 
-            
-            <button rel="next" @click="incomingMenu(true)" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple">
-                    <svg class="w-4 h-4 fill-current" aria-hidden="true"
-                    viewBox="0 0 20 20">
-                        <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" fill-rule="evenodd"></path>
-                    </svg>
-                </button>
+            <button
+                rel="next"
+                @click="incomingMenu(true)"
+                class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+            >
+                <svg
+                    class="w-4 h-4 fill-current"
+                    aria-hidden="true"
+                    viewBox="0 0 20 20"
+                >
+                    <path
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"
+                        fill-rule="evenodd"
+                    ></path>
+                </svg>
+            </button>
         </ul>
 
         <div class="w-full p-2 ">
@@ -59,14 +75,13 @@
                     @incomingMenu="incomingMenu"
                     :currencies="currency"
                 />
-                 
             </Container>
 
             <Container v-if="activetab == 'Transporte'">
-                <Addresses 
+                <Addresses
                     @incomingMenu="incomingMenu"
                     :application_id="form.application_id"
-                 />
+                />
             </Container>
 
             <Container v-if="activetab == 'Proceso de Internación'">
@@ -78,10 +93,10 @@
             </Container>
 
             <Container v-if="activetab == 'Bodegaje Local'">
-                 <internal-storage></internal-storage>
+                <internal-storage></internal-storage>
             </Container>
         </div>
-        <Modal v-if="statusModal" :title="title" class="mt-10 w-full">
+        <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
                 <div class="mt-2">
                     <form
@@ -163,8 +178,9 @@
                                 <div class="relative">
                                     <select
                                         v-model="form.condition"
+                                        @change="toogleMenuTabs()"
                                         class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    > 
+                                    >
                                         <option value="FOB">
                                             FOB
                                         </option>
@@ -174,7 +190,7 @@
                                         <option value="DDP/DAP">
                                             DDP/DAP
                                         </option>
-                                         <option value="EXW">
+                                        <option value="EXW">
                                             EXW
                                         </option>
                                     </select>
@@ -218,7 +234,7 @@
                                 ></span>
                             </div>
                         </div>
-                        <div class="dark:text-gray-200">
+                        <!-- <div class="dark:text-gray-200">
                             <h3 class="my-4  text-gray-500  text-sm ">
                                 Description
                             </h3>
@@ -233,8 +249,9 @@
                                 placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"
                             >
                             </textarea>
-                        </div>
-                          <label
+                        </div> -->
+                        <div v-if="tabs.length">
+                           <label
                             v-for="(item, id) in tabs"
                             :key="id"
                             class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
@@ -246,29 +263,32 @@
                                 class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
                             />
                             <span class="ml-2"> {{ item.name }} </span>
-                             
-                        </label>
-                        <span class="text-xs text-red-600 dark:text-red-400"
-                                v-if="form.errors.has('services')"
-                                v-html="form.errors.get('services')"
-                            ></span>
+                        </label>     
+                        </div>
+                        
+                        <span
+                            class="text-xs text-red-600 dark:text-red-400"
+                            v-if="form.errors.has('services')"
+                            v-html="form.errors.get('services')"
+                        ></span>
                     </form>
                 </div>
             </template>
             <template v-slot:footer>
                 <button
-                        @click="clearSeletedTabs()"
-                        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
-                    >
-                        Cancelar
-                    </button>
-                    <button
-                        type="submit"
-                        :disabled="form.busy"
-                        @click="submitFormApplications()"
-                        class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
-                    > Aceptar
-                    </button>
+                    @click="clearSeletedTabs()"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
+                >
+                    Cancelar
+                </button>
+                <button
+                    type="submit"
+                    :disabled="form.busy"
+                    @click="submitFormApplications()"
+                    class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
+                >
+                    Aceptar
+                </button>
             </template>
         </Modal>
     </div>
@@ -281,7 +301,7 @@ import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
 import TablePayment from "../components/PaymentProvider/Table.vue";
-import InternalStorage from '../components/InternalStorage.vue';
+import InternalStorage from "../components/InternalStorage.vue";
 
 export default {
     data() {
@@ -315,7 +335,70 @@ export default {
             },
             formEditPayment: "",
             deletePay: 0,
-            transportSelected: false
+            transportSelected: false,
+            arrayServices: [
+                {
+                    name: "FOB",
+                    services: [
+                        {
+                            id: 1,
+                            name: "Pago Proveedor",
+                            selected: 0
+                        },
+                        {
+                            id: 3,
+                            name: "Transporte",
+                            selected: 0
+                        },
+                        
+                    ], 
+                },
+                {
+                    name: "DDP/DAP",
+                    services: [
+                       {
+                            id: 4,
+                            name: "Proceso de Internación",
+                            selected: 0
+                        },
+                        {
+                            id: 5,
+                            name: "Bodegaje Local",
+                            selected: 0
+                        }
+                    ],
+                },
+                {
+                    name: "EXW",
+                    services: [
+                       {
+                            id: 4,
+                            name: "Proceso de Internación",
+                            selected: 0
+                        },
+                        {
+                            id: 5,
+                            name: "Bodegaje Local",
+                            selected: 0
+                        }
+                    ]
+                },
+                {
+                    name: "CIF",
+                    services: [
+                       {
+                            id: 4,
+                            name: "Proceso de Internación",
+                            selected: 0
+                        },
+                        {
+                            id: 5,
+                            name: "Bodegaje Local",
+                            selected: 0
+                        }
+                    ]
+                }
+            ]
         };
     },
     components: {
@@ -341,19 +424,20 @@ export default {
             this.statusModal = !this.statusModal;
             this.tabs.map(e => (e.selected = false));
         },
-        incomingMenu(next=true) {
-            if(this.position >= 0){
+        incomingMenu(next = true) {
+            if (this.position >= 0) {
                 this.position = next ? this.position + 1 : this.position - 1;
                 this.activetab = this.form.services[this.position].name;
             }
         },
+
         async submitFormApplications() {
             try {
                 this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
                 const response = await this.form.post("/applications");
 
-                if (response.data > 0){
+                if (response.data > 0) {
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -366,7 +450,6 @@ export default {
                     this.statusModal = !this.statusModal;
                     this.position = 0;
                 }
-
             } catch (error) {
                 console.log("error");
             }
@@ -374,12 +457,16 @@ export default {
         serviceFind(value) {
             let response = this.form.services.find(item => item.name == value);
             return response ? true : false;
+        },
+        toogleMenuTabs(){
+            let data  = this.arrayServices.find(item => item.name == this.form.condition);
+            this.tabs = data.services;
         }
     },
     async created() {
         try {
-            let tabs = await axios.get("/api/category_services");
-            this.tabs = tabs.data;
+            // let tabs = await axios.get("/api/category_services");
+            // this.tabs = tabs.data;
 
             let suppliers = await axios.get("/supplierlist");
             this.suppliers = suppliers.data;
