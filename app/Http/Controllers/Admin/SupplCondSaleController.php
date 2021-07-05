@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\SupplCondSale;
+use App\Models\{SupplCondSale,CategoryService};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -30,7 +30,12 @@ class SupplCondSaleController extends Controller
             return abort(401);
         }
 
-        return view('admin.suppl_cond_sales.form');
+        $cserv = CategoryService::select('id', 'name')
+        ->where('status', '=', true)
+        ->orderBy('name', 'ASC')
+        ->pluck('name','id');
+
+        return view('admin.suppl_cond_sales.form', compact('cserv'));
     }
 
     /**
@@ -77,14 +82,24 @@ class SupplCondSaleController extends Controller
 
         $data  = SupplCondSale::findOrFail($id);
 
-        return view('admin.suppl_cond_sales.form', compact('data'));
+        $cserv = CategoryService::select('id', 'name')
+        ->where('status', '=', true)
+        ->orderBy('name', 'ASC')
+        ->pluck('name','id');
+
+        return view('admin.suppl_cond_sales.form', compact('data','cserv'));
     }
 
     public function update(Request $request, $id)
     {
+
+        // dd($request->all());
         $data = SupplCondSale::findOrFail($id);
         $data->modified_user_id = auth()->user()->id;
         $data->fill($request->all())->save();
+
+        // $services = $request->input('services') ? $request->input('services') : '';
+        // $data->services()->sync($services);
 
         $notification = array(
             'message'    => 'Registro actualizado',
