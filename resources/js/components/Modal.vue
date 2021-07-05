@@ -1,5 +1,5 @@
 <template>
-<div>
+ 
   <div class="h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
         <div   class="w-full px-3 py-2 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
             <header class="flex justify-between">
@@ -21,7 +21,7 @@
             </footer>
         </div>
   </div>
-</div>
+ 
 </template>
 
 <script>
