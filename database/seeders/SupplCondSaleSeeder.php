@@ -24,7 +24,7 @@ class SupplCondSaleSeeder extends Seeder
             
         ]);
 
-        $sup->services()->sync([1,3]);
+        $sup->services()->sync([1,3,5,6,7]);
 
         $sup = SupplCondSale::create([
             'user_id'   => 1,
@@ -34,7 +34,7 @@ class SupplCondSaleSeeder extends Seeder
             “Delivery at place”, requiere que la mercancía sea entregada por el vendedor en un lugar designado por el comprador. Normalmente esa entrega se realiza en las instalaciones del comprador. Por lo tanto, el comprador es el responsable de descargar los medios de transporte. Además, el vendedor debe realizar los trámites de exportación, mientras que el comprador debe realizar los trámites de importación.'
         ]);
 
-        $sup->services()->sync([4,5]);
+        $sup->services()->sync([3,4,5]);
 
         $sup = SupplCondSale::create([
             'user_id'   => 1,
@@ -44,7 +44,7 @@ class SupplCondSaleSeeder extends Seeder
             '
         ]);
 
-        $sup->services()->sync([4,5]);
+        $sup->services()->sync([1,2,3,4,5,7,8]);
 
         $sup = SupplCondSale::create([
             'user_id'   => 1,
@@ -54,7 +54,26 @@ class SupplCondSaleSeeder extends Seeder
             '
         ]);
 
-        $sup->services()->sync([4,5]);
+        $sup->services()->sync([3,4,5]);
+
+        $sup = SupplCondSale::create([
+            'user_id'   => 1,
+            'name'      => 'FCA',
+            'description' => '“Free carrier”
+            Free Carrier (named place) → ‘Libre transportista (lugar convenido)’.
+            El vendedor se compromete a entregar la mercancía en un punto acordado dentro del país de origen, que pueden ser las bodegas de un Embarcador, un Puerto o Aeropuerto... (este lugar convenido para entregar la mercancía suele estar relacionado con los espacios del transportista). Se hace cargo de los costos hasta que la mercancía está situada en ese punto convenido.            
+            '
+        ]);
+
+        $sup->services()->sync([3,4,5]);
+
+        $sup = SupplCondSale::create([
+            'user_id'   => 1,
+            'name'      => 'CFR',
+            'description' => '“ Cost and Freight”, es un término utilizado en la compraventa internacional de mercancías para indicar que el vendedor debe responsabilizarse de hacer llegar la mercancía al punto de destino acordado con el comprador a bordo del medio de transporte que él mismo decida, así como del pago del coste del flete marítimo internacional. Cuando se dice punto de destino convenido nos estamos refiriendo al puerto de destino, pues el incoterm CFR es exclusivo del transporte marítimo. Es decir, una vez desembarcada la mercancía, cesan las obligaciones del vendedor. '
+        ]);
+
+        $sup->services()->sync([3,4,5]);
 
     }
 }
