@@ -140,9 +140,54 @@
                             ></span>
                         </div>
                         <div class="dark:text-gray-200">
-                            <h3 class="my-3 text-gray-500 text-sm ">
+                             <h3 class="my-3  text-gray-500  text-sm">
+                                    Condicion de Venta del Proveedor
+                                </h3>
+                                <div class="relative">
+                                    <select
+                                        v-model="form.condition"
+                                        @change="toogleMenuTabs()"
+                                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    >
+
+                                        <option v-for="item in arrayServices" :value="item.name" :key="item.name">
+                                             {{ item.name }}
+                                        </option>
+
+                                    </select>
+                                    <span
+                                        class="text-xs text-red-600 dark:text-red-400"
+                                        v-if="form.errors.has('condition')"
+                                        v-html="form.errors.get('condition')"
+                                    ></span>
+
+
+                                    
+
+
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                                    >
+                                        <svg
+                                            class="fill-current h-4 w-4"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="flex flex-wrap -mx-3  ">
+                            <div class="w-full md:w-1/2 px-3  md:mb-0">
+                                  <h3 class="my-3 text-gray-500 text-sm ">
                                 Moneda de Pago
                             </h3>
+                                <div class="relative">
+                                  
                             <v-select
                                 label="name_code"
                                 v-model="currency"
@@ -168,37 +213,7 @@
                                 v-if="form.errors.has('currency_id')"
                                 v-html="form.errors.get('currency_id')"
                             ></span>
-                        </div>
 
-                        <div class="flex flex-wrap -mx-3  ">
-                            <div class="w-full md:w-1/2 px-3  md:mb-0">
-                                <h3 class="my-3  text-gray-500  text-sm">
-                                    Condicion de Venta del Proveedor
-                                </h3>
-                                <div class="relative">
-                                    <select
-                                        v-model="form.condition"
-                                        @change="toogleMenuTabs()"
-                                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    >
-                                        <option value="FOB">
-                                            FOB
-                                        </option>
-                                        <option value="CIF">
-                                            CIF
-                                        </option>
-                                        <option value="DDP/DAP">
-                                            DDP/DAP
-                                        </option>
-                                        <option value="EXW">
-                                            EXW
-                                        </option>
-                                    </select>
-                                    <span
-                                        class="text-xs text-red-600 dark:text-red-400"
-                                        v-if="form.errors.has('condition')"
-                                        v-html="form.errors.get('condition')"
-                                    ></span>
                                     <div
                                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
                                     >

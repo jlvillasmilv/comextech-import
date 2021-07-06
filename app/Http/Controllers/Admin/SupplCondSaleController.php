@@ -93,13 +93,13 @@ class SupplCondSaleController extends Controller
     public function update(Request $request, $id)
     {
 
-        // dd($request->all());
+        //dd($request->all());
         $data = SupplCondSale::findOrFail($id);
         $data->modified_user_id = auth()->user()->id;
         $data->fill($request->all())->save();
 
-        // $services = $request->input('services') ? $request->input('services') : '';
-        // $data->services()->sync($services);
+         $services = $request->input('services') ? $request->input('services') : '';
+         $data->services()->sync($services);
 
         $notification = array(
             'message'    => 'Registro actualizado',

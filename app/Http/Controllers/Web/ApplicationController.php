@@ -40,6 +40,11 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {   
+        $app_id = new Application;
+        $status = $app_id->validStatus($request->application_id);
+
+        if ($status <> 0) { return response()->json($status, 400); }
+
         DB::beginTransaction();
 
         try {
@@ -144,6 +149,11 @@ class ApplicationController extends Controller
      */
     public function update(ApplicationRequest $request, $id)
     {
+        $app_id = new Application;
+        $status = $app_id->validStatus($id);
+
+        if ($status <> 0) { return response()->json($status, 400); }
+
         $data = Application::findOrFail($id);
 
         $data->fill($request->all())->save();
@@ -233,9 +243,9 @@ class ApplicationController extends Controller
     public function internmentProcesses(InternmentProcessRequest $request)
     {
         //dd($request->all());
-        // DB::beginTransaction();
+        DB::beginTransaction();
 
-        // try {
+        try {
 
             $internment = InternmentProcess::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
@@ -287,14 +297,14 @@ class ApplicationController extends Controller
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
     
-        //     DB::commit();
+            DB::commit();
             
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return response()->json(['status' => 'Error'], 400);
-        // }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'Error'], 400);
+        }
 
-        // return response()->json($internment->id, 200);
+        return response()->json($internment->id, 200);
     }
 
 

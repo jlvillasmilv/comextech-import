@@ -12,7 +12,7 @@ class SupplCondSale extends Model
     use SoftDeletes;
 
     protected $table = 'suppl_cond_sales';
-    protected $guarded = [];
+    protected $guarded = ['services'];
 
     protected $hidden = [
         'deleted_at',
