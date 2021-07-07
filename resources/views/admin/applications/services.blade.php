@@ -223,6 +223,53 @@
 
 {{-- Fin de  transporte--}}
 
+{{-- Bodegaje Local  --}}
+@if (isset($application->localWarehouse->id))
+
+<div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
+    <ul class="shadow-box">
+                    
+    <li class="relative border-b border-gray-200">
+
+            <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
+            <div class="flex items-center justify-between">
+                <span>Bodegaje Local </span>
+                <span class="ico-plus"></span>
+            </div>
+        </a>
+
+        <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
+
+            <div class="p-6">
+                <div class="flex mb-2">
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Ubicacion de Bodegaje</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                           <strong> {{  $application->localWarehouse->warehouse->name }} </strong> {{  $application->localWarehouse->warehouse->address }}
+                        </p>
+                    </div>
+                    <div class="w-1/2 ml-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Preferencia de Despacho</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                            {{  $application->localWarehouse->transCompany->name }}  
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </li>
+
+</ul>
+
+</div>
+
+@endif
+
+{{-- Fin Bodegaje Local --}}
+
 {{-- Cargamento  --}}
 @if (isset($application->cargo) && count($application->cargo) > 0)
 

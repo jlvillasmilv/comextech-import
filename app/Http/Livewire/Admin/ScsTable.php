@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\SupplCondSale;
+use App\Models\ApplicationCondSale;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class ScsTable extends LivewireDatatable
 {
-    public $model = SupplCondSale::class;
+    public $model = ApplicationCondSale::class;
 
     public function columns()
     {

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\TransCompanies;
+use App\Models\TransCompany;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\TransCompaniesRequest;
 use Illuminate\Support\Facades\Gate;
 
-class TransCompaniesController extends Controller
+class TransCompanyController extends Controller
 {
     public function index()
     {
@@ -41,7 +41,7 @@ class TransCompaniesController extends Controller
      */
     public function store(TransCompaniesRequest $request)
     {
-        $data = new TransCompanies;
+        $data = new TransCompany;
         $data->user_id = auth()->user()->id;
         $data->fill($request->all());
         $data->save();
@@ -58,7 +58,7 @@ class TransCompaniesController extends Controller
     
     public function show($id)
     {
-        $data  = TransCompanies::findOrFail($id);
+        $data  = TransCompany::findOrFail($id);
 
         return view('admin.trans_companies.show', compact('data'));
     }
@@ -75,7 +75,7 @@ class TransCompaniesController extends Controller
             return abort(401);
         }
 
-        $data  = TransCompanies::findOrFail($id);
+        $data  = TransCompany::findOrFail($id);
 
         return view('admin.trans_companies.form', compact('data'));
     }
@@ -89,7 +89,7 @@ class TransCompaniesController extends Controller
      */
     public function update(TransCompaniesRequest $request, $id)
     {
-        $data = TransCompanies::findOrFail($id);
+        $data = TransCompany::findOrFail($id);
         $data->modified_user_id = auth()->user()->id;
         $data->fill($request->all())->save();
 
@@ -102,13 +102,8 @@ class TransCompaniesController extends Controller
         return redirect()->route('admin.trans_companies.edit', $data->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Warehouse  $warehouse
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Warehouse $warehouse)
+   
+    public function destroy($id)
     {
         //
     }

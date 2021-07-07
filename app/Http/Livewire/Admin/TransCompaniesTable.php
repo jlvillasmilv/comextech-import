@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\TransCompanies;
+use App\Models\TransCompany;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
@@ -11,7 +11,7 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class TransCompaniesTable extends LivewireDatatable
 {
-    public $model = TransCompanies::class;
+    public $model = TransCompany::class;
 
     public function columns()
     {

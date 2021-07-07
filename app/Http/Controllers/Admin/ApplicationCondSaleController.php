@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{SupplCondSale,CategoryService};
+use App\Models\{ApplicationCondSale,CategoryService};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class SupplCondSaleController extends Controller
+class ApplicationCondSaleController extends Controller
 {
     public function index()
     {
@@ -46,7 +46,7 @@ class SupplCondSaleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new SupplCondSale;
+        $data = new ApplicationCondSale;
         $data->user_id = auth()->user()->id;
         $data->fill($request->all());
         $data->save();
@@ -68,7 +68,7 @@ class SupplCondSaleController extends Controller
             return abort(401);
         }
 
-        $data  = SupplCondSale::with('services')->findOrFail($id);
+        $data  = ApplicationCondSale::with('services')->findOrFail($id);
 
         return view('admin.suppl_cond_sales.show', compact('data'));
     }
@@ -80,7 +80,7 @@ class SupplCondSaleController extends Controller
             return abort(401);
         }
 
-        $data  = SupplCondSale::findOrFail($id);
+        $data  = ApplicationCondSale::findOrFail($id);
 
         $cserv = CategoryService::select('id', 'name')
         ->where('status', '=', true)
@@ -94,7 +94,7 @@ class SupplCondSaleController extends Controller
     {
 
         //dd($request->all());
-        $data = SupplCondSale::findOrFail($id);
+        $data = ApplicationCondSale::findOrFail($id);
         $data->modified_user_id = auth()->user()->id;
         $data->fill($request->all())->save();
 
@@ -112,7 +112,7 @@ class SupplCondSaleController extends Controller
     
     public function destroy($id)
     {
-        $data = SupplCondSale::findOrFail($id);
+        $data = ApplicationCondSale::findOrFail($id);
         $data->status = false;
         $data->save();
 

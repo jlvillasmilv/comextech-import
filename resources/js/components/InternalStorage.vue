@@ -16,6 +16,8 @@
                             label="address"
                             placeholder="Nuestros Almacenes"
                             :options="warehouses"
+                            v-model="form.warehouse_id"
+                            :reduce="warehouses => warehouses.id" 
                             class="text-xs"
                         >
                             ">
@@ -30,6 +32,11 @@
                                 >
                             </template>
                         </v-select>
+                         <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="form.errors.has('warehouse_id')"
+                                v-html="form.errors.get('warehouse_id')"
+                            ></span>
                     </div>
                 </div>
                 <!--<div class="flex flex-wrap -mx-3  ">
@@ -112,8 +119,13 @@
                         <div class="relative">
                             <v-select
                                 label="name"
+                                
+                                :required="!selected"
                                 placeholder="Agencia de Transporte"
                                 :options="agencyTransport"
+                                v-model="form.trans_company_id"
+                                :reduce="agencyTransport => agencyTransport.id"
+
                                 class="text-xs text-center"
                             >
                                 ">
@@ -131,6 +143,11 @@
                                     >
                                 </template>
                             </v-select>
+                             <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="form.errors.has('trans_company_id')"
+                                v-html="form.errors.get('trans_company_id')"
+                            ></span>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
                             >
@@ -149,11 +166,13 @@
                 </div>
 
                 <div class="flex  space-x-2  px-3 mb-6 md:mb-0 my-5">
-                    <button
-                        v-if="discount > 0"
-                        class=" flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                        @click="submitTable()"
-                    >
+
+                       <!-- <button
+                    v-if="discount > 0"
+                    class=" flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    @click="submitTable()"
+                >
+
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-6 w-6"
@@ -175,6 +194,27 @@
                         v-if="percentageInitial == 0"
                         class=" flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-purple"
                         @click="submitPayment()"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
+                            />
+                        </svg>
+                        <span> Guardar Pagos</span>
+                    </button>
+                    -->
+                    <button
+                        class=" flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-purple"
+                        @click="submitForm()"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -288,29 +328,14 @@ export default {
             type: Number,
             required: false
         },
-        amountTotal: {
-            required: false,
-            default: 0
-        },
-        currencies: {
-            required: false,
-            default: () => {}
-        }
     },
     data() {
         return {
-            form: {
-                percentage: "",
-                datePay: "",
-                typePay: "",
-                payment_release: "",
-                manyPayment: "",
-                id: "",
+            form: new Form({
+                trans_company_id:"",
+                warehouse_id: "",
                 application_id: this.application_id
-            },
-            percentageInitial: 100,
-            discount: "",
-            counter: 0,
+            }),
             data: [],
             percentajeDelete: {},
             warehouses: [],
@@ -318,55 +343,20 @@ export default {
         };
     },
     methods: {
-        deleteRow(item) {
-            this.data = this.data.filter(e => e.id !== item.id);
-            this.percentajeDelete = item;
-        },
-        submitTable() {
-            if (this.percentageInitial - this.discount >= 0) {
-                this.percentageInitial = this.percentageInitial - this.discount;
-                this.counter = ++this.counter;
+    
+         async submitForm() {
+            try {
+                const response = await this.form.post("/local_warehouse");
 
-                this.data.push({
-                    ...this.form,
-                    percentage: this.discount,
-                    id: this.data.length
+                Toast.fire({
+                    icon: "success",
+                    title: "Datos Agregados"
                 });
 
-                this.discount = 0;
-                this.form = {
-                    percentage: "",
-                    datePay: "",
-                    typePay: "",
-                    payment_release: "",
-                    manyPayment: "",
-                    id: "",
-                    application_id: this.application_id
-                };
+              //  this.$emit("incomingMenu");
+            } catch (error) {
+                console.error(error);
             }
-        },
-        submitPayment() {
-            axios
-                .post("/applications/payment_provider", this.data)
-                .then(res => {
-                    this.$emit("incomingMenu");
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
-    },
-    computed: {
-        amountRound() {
-            return 0;
-            // return Math.round(this.amountTotal * (this.discount / 100)) + "  " + this.currencies.code;
-        }
-    },
-    watch: {
-        percentajeDelete(newValue, oldValue) {
-            this.data.splice(newValue.id, 1);
-            this.percentageInitial =
-                this.percentageInitial + newValue.percentage;
         }
     },
     async created() {
@@ -381,5 +371,3 @@ export default {
     }
 };
 </script>
-
-<style></style>

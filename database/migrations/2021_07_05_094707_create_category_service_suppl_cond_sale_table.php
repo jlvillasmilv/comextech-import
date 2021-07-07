@@ -17,8 +17,8 @@ class CreateCategoryServiceSupplCondSaleTable extends Migration
             $table->id();
             $table->unsignedBigInteger('category_service_id');
             $table->foreign('category_service_id')->references('id')->on('category_services')->onDelete('cascade');
-            $table->unsignedBigInteger('suppl_cond_sale_id');
-            $table->foreign('suppl_cond_sale_id')->references('id')->on('suppl_cond_sales')->onDelete('cascade');
+            $table->unsignedBigInteger('application_cond_sale_id');
+            $table->foreign('application_cond_sale_id')->references('id')->on('application_cond_sales')->onDelete('cascade');
             $table->timestamps();
         });
     }

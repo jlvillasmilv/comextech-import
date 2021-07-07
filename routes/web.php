@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('internment', 'App\Http\Controllers\Web\ApplicationController@internmentProcesses')
     ->name('applications.internment'); 
 
+     // Bodegaje local
+    Route::post('local_warehouse', 'App\Http\Controllers\Web\ApplicationController@localWarehouse');
+    
     Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
 
     Route::resource('company',  'App\Http\Controllers\Web\CompnayController')->except(['destroy','create']);
@@ -73,8 +76,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
         'clients'          => CompanyController::class,
         'services'         => 'ServicesController',
         'warehouses'       => WarehouseController::class,
-        'trans_companies'  => TransCompaniesController::class,
-        'suppl_cond_sales' => SupplCondSaleController::class,
+        'trans_companies'  => TransCompanyController::class,
+        'suppl_cond_sales' => ApplicationCondSaleController::class,
     ]);
     
 });

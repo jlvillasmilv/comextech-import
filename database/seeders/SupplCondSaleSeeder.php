@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\SupplCondSale;
+use App\Models\ApplicationCondSale;
 
 class SupplCondSaleSeeder extends Seeder
 {
@@ -15,7 +15,7 @@ class SupplCondSaleSeeder extends Seeder
     public function run()
     {
 
-        $sup = SupplCondSale::create([
+        $sup = ApplicationCondSale::create([
             'user_id'   => 1,
             'name'      => 'FOB',
             'description' => '“Free On Board” (named loading port) → ‘Libre a bordo (puerto de carga convenido)’
@@ -26,7 +26,7 @@ class SupplCondSaleSeeder extends Seeder
 
         $sup->services()->sync([1,3,5,6,7]);
 
-        $sup = SupplCondSale::create([
+        $sup = ApplicationCondSale::create([
             'user_id'   => 1,
             'name'      => 'DDP/DAP',
             'description' => '“Delivery Duty Paid”, significa que el vendedor debe poner las mercancías a disposición del comprador en el lugar acordado (la fábrica del comprador, un almacén, etc.), además de cubrir todos los gastos asociados, incluyendo la descarga de las mercancías y los procedimientos y costes aduaneros que se puedan aplicar.
@@ -36,7 +36,7 @@ class SupplCondSaleSeeder extends Seeder
 
         $sup->services()->sync([3,4,5]);
 
-        $sup = SupplCondSale::create([
+        $sup = ApplicationCondSale::create([
             'user_id'   => 1,
             'name'      => 'EXW',
             'description' => 'Ex Works (named place) → ‘en fábrica (lugar convenido)’.
@@ -46,7 +46,7 @@ class SupplCondSaleSeeder extends Seeder
 
         $sup->services()->sync([1,2,3,4,5,7,8]);
 
-        $sup = SupplCondSale::create([
+        $sup = ApplicationCondSale::create([
             'user_id'   => 1,
             'name'      => 'CIF',
             'description' => '“ Cost, insurance and freight”
@@ -56,7 +56,7 @@ class SupplCondSaleSeeder extends Seeder
 
         $sup->services()->sync([3,4,5]);
 
-        $sup = SupplCondSale::create([
+        $sup = ApplicationCondSale::create([
             'user_id'   => 1,
             'name'      => 'FCA',
             'description' => '“Free carrier”
@@ -67,7 +67,7 @@ class SupplCondSaleSeeder extends Seeder
 
         $sup->services()->sync([3,4,5]);
 
-        $sup = SupplCondSale::create([
+        $sup = ApplicationCondSale::create([
             'user_id'   => 1,
             'name'      => 'CFR',
             'description' => '“ Cost and Freight”, es un término utilizado en la compraventa internacional de mercancías para indicar que el vendedor debe responsabilizarse de hacer llegar la mercancía al punto de destino acordado con el comprador a bordo del medio de transporte que él mismo decida, así como del pago del coste del flete marítimo internacional. Cuando se dice punto de destino convenido nos estamos refiriendo al puerto de destino, pues el incoterm CFR es exclusivo del transporte marítimo. Es decir, una vez desembarcada la mercancía, cesan las obligaciones del vendedor. '
