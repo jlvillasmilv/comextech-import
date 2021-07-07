@@ -21,12 +21,19 @@
                 </svg>
             </button>
 
-            <button rel="prev" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" @click="incomingMenu(false)">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-
+            <button
+                rel="prev"
+                class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                @click="incomingMenu(false)"
+            >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fill-rule="evenodd"
+                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            </button>
 
             <div v-for="(item, id) in form.services" :key="id">
                 <li
@@ -41,14 +48,23 @@
                 </li>
             </div>
 
-            
-            <button rel="next" @click="incomingMenu(true)" class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple">
-                    <svg class="w-4 h-4 fill-current" aria-hidden="true"
-                    viewBox="0 0 20 20">
-                        <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" fill-rule="evenodd"></path>
-                    </svg>
-                </button>
+            <button
+                rel="next"
+                @click="incomingMenu(true)"
+                class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+            >
+                <svg
+                    class="w-4 h-4 fill-current"
+                    aria-hidden="true"
+                    viewBox="0 0 20 20"
+                >
+                    <path
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"
+                        fill-rule="evenodd"
+                    ></path>
+                </svg>
+            </button>
         </ul>
 
         <div class="w-full p-2 ">
@@ -59,14 +75,13 @@
                     @incomingMenu="incomingMenu"
                     :currencies="currency"
                 />
-                 
             </Container>
 
             <Container v-if="activetab == 'Transporte'">
-                <Addresses 
+                <Addresses
                     @incomingMenu="incomingMenu"
                     :application_id="form.application_id"
-                 />
+                />
             </Container>
 
             <Container v-if="activetab == 'Proceso de Internación'">
@@ -78,10 +93,12 @@
             </Container>
 
             <Container v-if="activetab == 'Bodegaje Local'">
-                Bodegaje Local
+                <internal-storage
+                 :application_id="form.application_id"
+                 />
             </Container>
         </div>
-        <Modal v-if="statusModal" :title="title" class="mt-10 w-full">
+        <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
                 <div class="mt-2">
                     <form
@@ -125,64 +142,83 @@
                             ></span>
                         </div>
                         <div class="dark:text-gray-200">
-                            <h3 class="my-3 text-gray-500 text-sm ">
-                                Moneda de Pago
+                            <h3 class="my-3  text-gray-500  text-sm">
+                                Condicion de Venta del Proveedor
                             </h3>
-                            <v-select
-                                label="name_code"
-                                v-model="currency"
-                                placeholder="Moneda"
-                                :options="currencies"
-                            >
-                                <template
-                                    v-slot:no-options="{ search, searching }"
+                            <div class="relative">
+                                <select
+                                    v-model="form.condition"
+                                    @change="toogleMenuTabs()"
+                                    class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 >
-                                    <template v-if="searching" class="text-sm">
-                                        Lo sentimos no hay opciones que
-                                        coincidan
-                                        <strong>{{ search }}</strong
-                                        >.
-                                    </template>
-                                    <em style="opacity: 0.5;" v-else>
-                                        Moneda
-                                    </em>
-                                </template>
-                            </v-select>
-                            <span
-                                class="text-xs text-red-600 dark:text-red-400"
-                                v-if="form.errors.has('currency_id')"
-                                v-html="form.errors.get('currency_id')"
-                            ></span>
+                                    <option
+                                        v-for="item in arrayServices"
+                                        :value="item.name"
+                                        :key="item.name"
+                                    >
+                                        {{ item.name }}
+                                    </option>
+                                </select>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="form.errors.has('condition')"
+                                    v-html="form.errors.get('condition')"
+                                ></span>
+
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                                >
+                                    <svg
+                                        class="fill-current h-4 w-4"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path
+                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flex flex-wrap -mx-3  ">
                             <div class="w-full md:w-1/2 px-3  md:mb-0">
-                                <h3 class="my-3  text-gray-500  text-sm">
-                                    Condicion de Venta del Proveedor
+                                <h3 class="my-3 text-gray-500 text-sm ">
+                                    Moneda de Pago
                                 </h3>
                                 <div class="relative">
-                                    <select
-                                        v-model="form.condition"
-                                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    > 
-                                        <option value="FOB">
-                                            FOB
-                                        </option>
-                                        <option value="CIF">
-                                            CIF
-                                        </option>
-                                        <option value="DDP/DAP">
-                                            DDP/DAP
-                                        </option>
-                                         <option value="EXW">
-                                            EXW
-                                        </option>
-                                    </select>
+                                    <v-select
+                                        label="name_code"
+                                        v-model="currency"
+                                        placeholder="Moneda"
+                                        :options="currencies"
+                                    >
+                                        <template
+                                            v-slot:no-options="{
+                                                search,
+                                                searching
+                                            }"
+                                        >
+                                            <template
+                                                v-if="searching"
+                                                class="text-sm"
+                                            >
+                                                Lo sentimos no hay opciones que
+                                                coincidan
+                                                <strong>{{ search }}</strong
+                                                >.
+                                            </template>
+                                            <em style="opacity: 0.5;" v-else>
+                                                Moneda
+                                            </em>
+                                        </template>
+                                    </v-select>
                                     <span
                                         class="text-xs text-red-600 dark:text-red-400"
-                                        v-if="form.errors.has('condition')"
-                                        v-html="form.errors.get('condition')"
+                                        v-if="form.errors.has('currency_id')"
+                                        v-html="form.errors.get('currency_id')"
                                     ></span>
+
                                     <div
                                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
                                     >
@@ -218,7 +254,7 @@
                                 ></span>
                             </div>
                         </div>
-                        <div class="dark:text-gray-200">
+                        <!-- <div class="dark:text-gray-200">
                             <h3 class="my-4  text-gray-500  text-sm ">
                                 Description
                             </h3>
@@ -233,42 +269,46 @@
                                 placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"
                             >
                             </textarea>
+                        </div> -->
+                        <div v-if="tabs.length">
+                            <label
+                                v-for="(item, id) in tabs"
+                                :key="id"
+                                class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
+                            >
+                                <input
+                                    @click="tabsAdd(item)"
+                                    :checked="item.selected"
+                                    type="checkbox"
+                                    class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
+                                />
+                                <span class="ml-2"> {{ item.name }} </span>
+                            </label>
                         </div>
-                          <label
-                            v-for="(item, id) in tabs"
-                            :key="id"
-                            class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
-                        >
-                            <input
-                                @click="tabsAdd(item)"
-                                :checked="item.selected"
-                                type="checkbox"
-                                class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
-                            />
-                            <span class="ml-2"> {{ item.name }} </span>
-                             
-                        </label>
-                        <span class="text-xs text-red-600 dark:text-red-400"
-                                v-if="form.errors.has('services')"
-                                v-html="form.errors.get('services')"
-                            ></span>
+
+                        <span
+                            class="text-xs text-red-600 dark:text-red-400"
+                            v-if="form.errors.has('services')"
+                            v-html="form.errors.get('services')"
+                        ></span>
                     </form>
                 </div>
             </template>
             <template v-slot:footer>
+                <a
+                    href="/applications"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
+                >
+                    Cancelar
+                </a>
                 <button
-                        @click="clearSeletedTabs()"
-                        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
-                    >
-                        Cancelar
-                    </button>
-                    <button
-                        type="submit"
-                        :disabled="form.busy"
-                        @click="submitFormApplications()"
-                        class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
-                    > Aceptar
-                    </button>
+                    type="submit"
+                    :disabled="form.busy"
+                    @click="submitFormApplications()"
+                    class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
+                >
+                    Aceptar
+                </button>
             </template>
         </Modal>
     </div>
@@ -281,6 +321,7 @@ import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
 import TablePayment from "../components/PaymentProvider/Table.vue";
+import InternalStorage from "../components/InternalStorage.vue";
 
 export default {
     data() {
@@ -314,7 +355,8 @@ export default {
             },
             formEditPayment: "",
             deletePay: 0,
-            transportSelected: false
+            transportSelected: false,
+            arrayServices: []
         };
     },
     components: {
@@ -323,7 +365,8 @@ export default {
         Addresses,
         FormInternment,
         FormPayment,
-        TablePayment
+        TablePayment,
+        InternalStorage
     },
     methods: {
         tabsAdd(item) {
@@ -339,19 +382,20 @@ export default {
             this.statusModal = !this.statusModal;
             this.tabs.map(e => (e.selected = false));
         },
-        incomingMenu(next=true) {
-            if(this.position >= 0){
+        incomingMenu(next = true) {
+            if (this.position >= 0) {
                 this.position = next ? this.position + 1 : this.position - 1;
                 this.activetab = this.form.services[this.position].name;
             }
         },
+
         async submitFormApplications() {
             try {
                 this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
                 const response = await this.form.post("/applications");
 
-                if (response.data > 0){
+                if (response.data > 0) {
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -364,7 +408,6 @@ export default {
                     this.statusModal = !this.statusModal;
                     this.position = 0;
                 }
-
             } catch (error) {
                 console.log("error");
             }
@@ -372,12 +415,18 @@ export default {
         serviceFind(value) {
             let response = this.form.services.find(item => item.name == value);
             return response ? true : false;
+        },
+        toogleMenuTabs() {
+            let data = this.arrayServices.find(
+                item => item.name == this.form.condition
+            );
+            this.tabs = data.services;
         }
     },
     async created() {
         try {
-            let tabs = await axios.get("/api/category_services");
-            this.tabs = tabs.data;
+            let tabs = await axios.get("/api/suppl_cond_sales");
+            this.arrayServices = tabs.data;
 
             let suppliers = await axios.get("/supplierlist");
             this.suppliers = suppliers.data;

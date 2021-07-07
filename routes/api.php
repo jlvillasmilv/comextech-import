@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Models\{Currency, CategoryService, Warehouse, TransCompanies};
+use App\Models\{Currency, CategoryService, Warehouse, TransCompany, ApplicationCondSale};
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -26,7 +26,6 @@ Route::get('/currencies', function (Request $request) {
     return response()->json($currencies, 200);
 });
 
-
 Route::get('/category_services', function (Request $request) {
     $currencies = CategoryService::select('id', 'name', DB::raw("false as selected"))
         ->where('status', '=', true)
@@ -36,14 +35,23 @@ Route::get('/category_services', function (Request $request) {
 });
 
 Route::get('/warehouses', function (Request $request) {
-    $warehouses = Warehouse::where('status', '=', true)
+    $warehouses = Warehouse::select('id',  DB::raw("CONCAT(name,' - ', address) as address"))
+        ->where('status', '=', true)
         ->OrderBy('name')->get();
     return response()->json($warehouses, 200);
 });
 
 Route::get('/trans_companies', function (Request $request) {
-    $trans_cos = TransCompanies::where('status', '=', true)
+    $trans_cos = TransCompany::select('id', 'name')
+        ->where('status', '=', true)
         ->OrderBy('name')->get();
     return response()->json($trans_cos, 200);
 });
 
+Route::get('/suppl_cond_sales', function (Request $request) {
+    $suppl = ApplicationCondSale::where('status', '=', true)
+        ->OrderBy('name')
+        ->with('services')
+        ->get();
+    return response()->json($suppl, 200);
+});

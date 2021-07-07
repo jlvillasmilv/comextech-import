@@ -1,5 +1,5 @@
-@if (isset($application->paymentProvider))
-        
+@if (isset($application->paymentProvider) && count($application->paymentProvider) > 0)
+
 <div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
         <ul class="shadow-box">
                         
@@ -66,7 +66,7 @@
 
 @endif
 
-
+{{-- Transporte  --}}
 @if (isset($application->transport->id))
 
 <div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
@@ -164,6 +164,129 @@
                 </label>
             </div>
 
+        </div>
+
+    </li>
+
+</ul>
+
+</div>
+
+@endif
+
+{{-- Fin de  transporte--}}
+
+{{-- PROCESO INTERNACION  --}}
+@if (isset($application->internmentProcess->id))
+
+<div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
+    <ul class="shadow-box">
+                    
+    <li class="relative border-b border-gray-200">
+
+            <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
+            <div class="flex items-center justify-between">
+                <span>Proceso de Internación </span>
+                <span class="ico-plus"></span>
+            </div>
+        </a>
+
+        <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
+
+            <div class="p-6">
+                <div class="flex mb-2">
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Agente de Aduana</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                            {{  $application->internmentProcess->customs_house ? 'COMEXTECH S' : $application->internmentProcess->agent_name }}
+                        </p>
+                    </div>
+                    <div class="w-1/2 ml-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Pago de Agente de Aduana</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                            {{ number_format($application->internmentProcess->agent_payment,0,",",".") }}  
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </li>
+
+</ul>
+
+</div>
+
+@endif
+
+{{-- Fin de  transporte--}}
+
+{{-- Bodegaje Local  --}}
+@if (isset($application->localWarehouse->id))
+
+<div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
+    <ul class="shadow-box">
+                    
+    <li class="relative border-b border-gray-200">
+
+            <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
+            <div class="flex items-center justify-between">
+                <span>Bodegaje Local </span>
+                <span class="ico-plus"></span>
+            </div>
+        </a>
+
+        <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
+
+            <div class="p-6">
+                <div class="flex mb-2">
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Ubicacion de Bodegaje</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                           <strong> {{  $application->localWarehouse->warehouse->name }} </strong> {{  $application->localWarehouse->warehouse->address }}
+                        </p>
+                    </div>
+                    <div class="w-1/2 ml-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Preferencia de Despacho</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                            {{  $application->localWarehouse->transCompany->name }}  
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </li>
+
+</ul>
+
+</div>
+
+@endif
+
+{{-- Fin Bodegaje Local --}}
+
+{{-- Cargamento  --}}
+@if (isset($application->cargo) && count($application->cargo) > 0)
+
+<div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
+    <ul class="shadow-box">
+                    
+    <li class="relative border-b border-gray-200">
+
+            <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
+            <div class="flex items-center justify-between">
+                <span>Cargamento </span>
+                <span class="ico-plus"></span>
+            </div>
+        </a>
+
+        <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
+
             <div class="p-6">
                 <table class="w-full whitespace-no-wrap">
                     <thead>
@@ -178,14 +301,11 @@
                             <th class="px-4 py-3">Peso Unitario</th>
                             <th class="px-4 py-3">Stackable</th>
 
-
-
-
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                     
-                        @forelse ($application->transport->details as $key => $item)
+                        @forelse ($application->cargo as $key => $item)
 
                         <tr class="text-gray-700 dark:text-gray-400">
                             <td class="px-4 py-3">
@@ -229,4 +349,4 @@
 
 @endif
 
-{{-- Fin de servicios --}}
+{{-- Fin crgamento --}}

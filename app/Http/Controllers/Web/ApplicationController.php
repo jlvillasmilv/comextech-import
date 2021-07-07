@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service, Transport, Load};
-use App\Models\{FileStore, FileStoreInternment, InternmentProcess};
+use App\Models\{FileStore, FileStoreInternment, InternmentProcess, LocalWarehouse};
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest};
+use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest, LocalWarehouseRequest};
 use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
@@ -40,6 +40,11 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {   
+        $app_id = new Application;
+        $status = $app_id->validStatus($request->application_id);
+
+        if ($status <> 0) { return response()->json($status, 400); }
+
         DB::beginTransaction();
 
         try {
@@ -144,6 +149,11 @@ class ApplicationController extends Controller
      */
     public function update(ApplicationRequest $request, $id)
     {
+        $app_id = new Application;
+        $status = $app_id->validStatus($id);
+
+        if ($status <> 0) { return response()->json($status, 400); }
+
         $data = Application::findOrFail($id);
 
         $data->fill($request->all())->save();
@@ -297,6 +307,19 @@ class ApplicationController extends Controller
         return response()->json($internment->id, 200);
     }
 
+    public function localWarehouse(LocalWarehouseRequest $request)
+    {
+        $localw =  LocalWarehouse::updateOrCreate(
+            ['application_id'   => $request->application_id, ],
+            [
+                'trans_company_id'  => $request->trans_company_id,
+                'warehouse_id'      => $request->warehouse_id,
+            ]
+        );
+
+        return response()->json($localw->id, 200);
+    }
+
 
     public function load($data=null,$application_id=null)
     {
@@ -326,5 +349,7 @@ class ApplicationController extends Controller
 
         return true;
     }
+
+       
 
 }

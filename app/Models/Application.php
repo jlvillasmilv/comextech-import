@@ -49,6 +49,25 @@ class Application extends Model
         'created_at',
     ];
 
+    public function validStatus($id)
+    {
+        $data = $this->where('id', $id)->first();
+
+        if(is_null($data)){
+
+            return 0;
+        }
+
+        $status = ApplicationStatus::findOrFail($data->application_statuses_id);
+
+        if(!$status->modify || !$status->client_modify){
+
+            return 'No puede modificar solicitud '. $status->name;
+        }
+
+        return 0;
+    }
+   
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -95,5 +114,19 @@ class Application extends Model
         return $this->hasOne(Transport::class,'application_id');
     }
 
+    public function internmentProcess()
+    {
+        return $this->hasOne(InternmentProcess::class,'application_id');
+    }
+
+    public function cargo()
+    {
+        return $this->hasMany(Load::class,'application_id');
+    }
+
+    public function localWarehouse()
+    {
+        return $this->hasOne(LocalWarehouse::class,'application_id');
+    }
 
 }
