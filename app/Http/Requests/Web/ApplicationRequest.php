@@ -33,11 +33,24 @@ class ApplicationRequest extends FormRequest
             'fee2'                     => 'nullable|numeric',
             'fee2_date'                => 'nullable|date',
             'fee3'                     => 'nullable|numeric',
-            'condition'                => 'required|in:FOB,CIF,DDP/DAP,EXW',
+            'condition'                => 'required|exists:application_cond_sales,name',
             'amount'                   => 'required|numeric|gt:0|between:1,999999999999',
             'services'                 => 'required',
         ];
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'services.required'         => 'Debe seleccionar al menos 1 servicios',
+            'currency_id.required'      => 'El campo Moneda es obligatorio.',
+            'condition.required'        => 'El campo Condicion de Venta del Proveedor es obligatorio.',
+            'amount.required'           => 'El campo Monto Total de Operacion es obligatorio.',
+            'amount.gt'                 => 'El campo Monto Total de Operacion debe ser mayor a 0.',
+            'amount.numeric'            => 'El campo Monto Total de Operacion debe ser numerico',
+            'amount.between'            => 'El campo Monto Total de Operacion debe ser menor a 999.999.999.999' ,
+        ];
     }
 }

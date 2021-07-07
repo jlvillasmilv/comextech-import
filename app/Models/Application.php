@@ -124,4 +124,9 @@ class Application extends Model
         return $this->hasMany(Load::class,'application_id');
     }
 
+    public function localWarehouse()
+    {
+        return $this->hasOne(LocalWarehouse::class,'application_id');
+    }
+
 }

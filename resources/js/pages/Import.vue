@@ -93,7 +93,9 @@
             </Container>
 
             <Container v-if="activetab == 'Bodegaje Local'">
-                <internal-storage></internal-storage>
+                <internal-storage
+                 :application_id="form.application_id"
+                 />
             </Container>
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10">

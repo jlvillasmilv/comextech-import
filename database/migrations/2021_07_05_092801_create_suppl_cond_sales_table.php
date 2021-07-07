@@ -13,7 +13,7 @@ class CreateSupplCondSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('suppl_cond_sales', function (Blueprint $table) {
+        Schema::create('application_cond_sales', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name',100);
@@ -34,5 +34,6 @@ class CreateSupplCondSalesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('suppl_cond_sales');
+        Schema::dropIfExists('application_cond_sales');
     }
 }
