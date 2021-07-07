@@ -12,16 +12,28 @@
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Ubicacion de Bodegaje
                         </span>
-                        <input
-                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
-                            v-model="discount"
-                            step="1"
-                            type="text"
-                        />
+                        <v-select
+                            label="address"
+                            placeholder="Nuestros Almacenes"
+                            :options="warehouses"
+                            class="text-xs"
+                        >
+                            ">
+                            <template v-slot:no-options="{ search, searching }">
+                                <template v-if="searching" class="text-sm">
+                                    Lo sentimos no hay opciones que coincidan
+                                    <strong>{{ search }}</strong
+                                    >.
+                                </template>
+                                <em style="opacity: 0.5;" v-else>
+                                    No posee proveedores en tu lista</em
+                                >
+                            </template>
+                        </v-select>
                     </div>
                 </div>
-                <div class="flex flex-wrap -mx-3  ">
-                    <div class="w-full md:w-1/2 px-3">
+                <!--<div class="flex flex-wrap -mx-3  ">
+              <div class="w-full md:w-1/2 px-3">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
                             P
                         </span>
@@ -31,9 +43,9 @@
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             placeholder="Empresa"
                         />
-                    </div>
-                    <div class="w-1/2 px-3 ">
-                       <span class="text-gray-700 dark:text-gray-400 text-xs">
+                    </div> -->
+                <!-- <div class="w-1/2 px-3 ">
+                        <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Tipo de Servicio
                         </span>
                         <div
@@ -55,13 +67,11 @@
                                     id="1"
                                     name="1"
                                 />
-                                <span class="ml-2 text-black">
-                                    Eco</span
-                                >
+                                <span class="ml-2 text-black"> Eco</span>
                             </label>
                         </div>
-                    </div>
-                    <!-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    </div> -->
+                <!-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Tipo  de Servicio
                         </span>
@@ -92,28 +102,35 @@
                                 </svg>
                             </div>
                         </div>
-                    </div> -->
-                </div>
-                <div class="flex flex-wrap -mx-3  ">
+                    </div>
+                </div> -->
+                <div class="flex flex-wrap -mx-3 mt-3  ">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
-                             Preferencia de Despacho
+                            Preferencia de Despacho
                         </span>
                         <div class="relative">
-                            <select
-                                class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="grid-state"
+                            <v-select
+                                label="name"
+                                placeholder="Agencia de Transporte"
+                                :options="agencyTransport"
+                                class="text-xs text-center"
                             >
-                                <option value="Contra Documento">
-                                    Fedex
-                                </option>
-                                <option value="Contra Inspeccion">
-                                    DHL
-                                </option>
-                                <option value="Sin Restriccion">
-                                    Sin Restriccion
-                                </option>
-                            </select>
+                                ">
+                                <template
+                                    v-slot:no-options="{ search, searching }"
+                                >
+                                    <template v-if="searching" class="text-sm">
+                                        Lo sentimos no hay opciones que
+                                        coincidan
+                                        <strong>{{ search }}</strong
+                                        >.
+                                    </template>
+                                    <em style="opacity: 0.5;" v-else>
+                                        No posee proveedores en tu lista</em
+                                    >
+                                </template>
+                            </v-select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
                             >
@@ -295,7 +312,9 @@ export default {
             discount: "",
             counter: 0,
             data: [],
-            percentajeDelete: {}
+            percentajeDelete: {},
+            warehouses: [],
+            agencyTransport: []
         };
     },
     methods: {
@@ -348,6 +367,16 @@ export default {
             this.data.splice(newValue.id, 1);
             this.percentageInitial =
                 this.percentageInitial + newValue.percentage;
+        }
+    },
+    async created() {
+        try {
+            let warehouses = await axios.get("/api/warehouses");
+            let agencyTransport = await axios.get("/api/trans_companies");
+            this.warehouses = warehouses.data;
+            this.agencyTransport = agencyTransport.data;
+        } catch (error) {
+            console.log(error);
         }
     }
 };
