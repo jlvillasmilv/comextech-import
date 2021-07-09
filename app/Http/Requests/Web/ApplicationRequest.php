@@ -46,11 +46,15 @@ class ApplicationRequest extends FormRequest
         return [
             'services.required'         => 'Debe seleccionar al menos 1 servicios',
             'currency_id.required'      => 'El campo Moneda es obligatorio.',
-            'condition.required'        => 'El campo Condicion de Venta del Proveedor es obligatorio.',
-            'amount.required'           => 'El campo Monto Total de Operacion es obligatorio.',
-            'amount.gt'                 => 'El campo Monto Total de Operacion debe ser mayor a 0.',
-            'amount.numeric'            => 'El campo Monto Total de Operacion debe ser numerico',
-            'amount.between'            => 'El campo Monto Total de Operacion debe ser menor a 999.999.999.999' ,
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'supplier_id' => 'Proveedor',
+            'amount'      => 'Monto Total de Operacion',
+            'condition'   => 'Condicion de Venta del Proveedor'
         ];
     }
 }

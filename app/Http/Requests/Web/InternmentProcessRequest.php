@@ -38,9 +38,17 @@ class InternmentProcessRequest extends FormRequest
     public function messages()
     {
         return [
-            'application_id.required'   => 'Se debe tener una solicitud generada.',
-            'agent_name.required_if'    => 'El campo Nombre del Agente de aduana es obligatorio.',
-            'agent_payment.between'     => 'El campo Monto Total de Operacion debe ser menor a 999.999.999.999' ,
+            'application_id.required'   => 'Se debe tener una solicitud generada.'
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'agent_name'    => 'Nombre del Agente de aduana',
+            'agent_payment' => 'Monto Total de Operacion',
+        ];
+    }
+
+
 }
