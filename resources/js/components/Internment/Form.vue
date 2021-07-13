@@ -4,6 +4,7 @@
             <Load @dataForm="getDataLoad" />
         </div>
         <div class="flex flex-wrap -mx-3 ">
+            
             <div class="w-1/2 px-3 mb-2 md:mb-0">
                 <label class="block text-sm">
                     <span
@@ -11,15 +12,37 @@
                     >
                         Agente de Aduana
                     </span>
-                    <input
+                    
+                    <v-select
+                                label="name"
+                                placeholder="Seleccionar Proveedor"
+                                :options="custom_agents"
+                                v-model="expenses.custom_agent_id"
+                                :reduce="custom_agent => custom_agent.id"
+                            >
+                                <template
+                                    v-slot:no-options="{ search, searching }"
+                                >
+                                    <template v-if="searching" class="text-sm">
+                                        Lo sentimos no hay opciones que
+                                        coincidan
+                                        <strong>{{ search }}</strong
+                                        >.
+                                    </template>
+                                    <em style="opacity: 0.5;" v-else>
+                                        No posee proveedores en tu lista</em
+                                    >
+                                </template>
+                            </v-select>
+                    <!-- <input
                         v-model="expenses.agent_name"
                         class="block w-full mt-1 mb-3 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                         placeholder="Datos del Agente de Aduana "
-                    />
+                    /> -->
                     <span
                         class="text-xs text-red-600 dark:text-red-400"
-                        v-if="expenses.errors.has('agent_name')"
-                        v-html="expenses.errors.get('agent_name')"
+                        v-if="expenses.errors.has('custom_agent_id')"
+                        v-html="expenses.errors.get('custom_agent_id')"
                     ></span>
                     <div>
                         <input
@@ -238,6 +261,7 @@ export default {
                 application_id: this.application_id,
                 transport: this.transportSelected,
                 agent_name: "",
+                custom_agent_id: "",
                 agent_payment: 0,
                 treatiesSelected: [],
                 file_descrip: [],
@@ -247,7 +271,7 @@ export default {
                 dataLoad: [],
                 files: new FormData()
             }),
-
+            custom_agents:[],
             showInputFile: false,
             nameFileUpload: ""
         };
@@ -330,6 +354,16 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        }
+    },
+    async created() {
+        try {
+            let agents = await axios.get("/agentslist"); // agente de Aduana del cliente
+            let customsHouse = await axios.get("/customs_house"); // agente de Aduana que que ofrece Comextech
+            this.custom_agents = agents.data;
+            
+        } catch (error) {
+            console.log(error);
         }
     }
 };

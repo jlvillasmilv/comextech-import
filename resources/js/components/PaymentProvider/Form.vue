@@ -65,11 +65,14 @@
                                 class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="grid-state"
                             >
-                                <option value="Carta de Credito">
-                                    Carta de Credito
-                                </option>
                                 <option value="Transferencia">
                                     Transferencia
+                                </option>
+                                <option value="Cobranza Documentaria">
+                                    Cobranza Documentaria
+                                </option>
+                                <option value="Carta de Credito">
+                                    Carta de Credito
                                 </option>
                             </select>
                             <div
@@ -100,15 +103,16 @@
                             class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-state"
                         >
+                            <option value="Sin Restricción">
+                                Sin Restricción
+                            </option>
                             <option value="Contra Documento">
                                 Contra Documento
                             </option>
                             <option value="Contra Inspeccion">
                                 Contra Inspeccion
                             </option>
-                             <option value="Sin Restriccion">
-                                Sin Restriccion
-                            </option>
+                           
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"

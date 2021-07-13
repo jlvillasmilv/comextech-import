@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Models\{Currency, CategoryService, Warehouse, TransCompany, ApplicationCondSale};
+use App\Models\{Currency, CategoryService, CustomAgent, Warehouse, TransCompany, ApplicationCondSale};
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -49,9 +49,11 @@ Route::get('/trans_companies', function (Request $request) {
 });
 
 Route::get('/suppl_cond_sales', function (Request $request) {
+   
     $suppl = ApplicationCondSale::where('status', '=', true)
-        ->OrderBy('name')
+        ->OrderBy('sort','asc')
         ->with('services')
         ->get();
+
     return response()->json($suppl, 200);
 });

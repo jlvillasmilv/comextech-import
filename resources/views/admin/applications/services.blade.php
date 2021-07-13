@@ -198,7 +198,8 @@
                     <div class="w-1/2 mr-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Agente de Aduana</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{  $application->internmentProcess->customs_house ? 'COMEXTECH S' : $application->internmentProcess->agent_name }}
+                            {{  $application->internmentProcess->customs_house ? 'COMEXTECH S' : '' }}
+                            {{$application->internmentProcess->customAgent->name}}
                         </p>
                     </div>
                     <div class="w-1/2 ml-1">

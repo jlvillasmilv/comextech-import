@@ -48,6 +48,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::resource('company',  'App\Http\Controllers\Web\CompnayController')->except(['destroy','create']);
 
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
+
+    Route::resource('custom_agents',  'App\Http\Controllers\CustomAgentController');
+
+    Route::get('agentslist', 'App\Http\Controllers\CustomAgentController@list');
+    Route::get('customs_house', 'App\Http\Controllers\CustomAgentController@customsHouse');
   
     //services
     Route::get('/services', [ServicesController::class, 'show'])->name('services.show');
@@ -56,14 +61,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('services.edit');
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
-    Route::view('forms', 'forms')->name('forms');
-    Route::view('cards', 'cards')->name('cards');
-    Route::view('charts', 'charts')->name('charts');
-    Route::view('buttons', 'buttons')->name('buttons');
-    Route::view('modals', 'modals')->name('modals');
-    Route::view('tables', 'tables')->name('tables');
-    Route::view('calendar', 'calendar')->name('calendar');
-
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {

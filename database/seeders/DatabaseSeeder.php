@@ -28,6 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(WarehouseSeeder::class);
         $this->call(TransCompaniesSeeder::class);
         $this->call(SupplCondSaleSeeder::class);
-        
+        $this->call(CustomAgentSeeder::class);
     }
 }
