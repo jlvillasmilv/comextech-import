@@ -57,11 +57,3 @@ Route::get('/suppl_cond_sales', function (Request $request) {
 
     return response()->json($suppl, 200);
 });
-
-
-Route::get('/custom_agents', function (Request $request) {
-    $custom_agents = CustomAgent::select('id', DB::raw("CONCAT(name,' - ', rate) as name"))
-        ->where('status', true)
-        ->OrderBy('name')->get();
-    return response()->json($custom_agents, 200);
-});

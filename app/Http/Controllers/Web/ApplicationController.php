@@ -250,7 +250,7 @@ class ApplicationController extends Controller
             $internment = InternmentProcess::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'agent_name'            => $request->agent_name,
+                    'custom_agent_id'       => $request->custom_agent_id,
                     'customs_house'         => $request->customs_house,
                     'agent_payment'         => $request->agent_payment,
                     'certificate'           => $request->certificate,

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CustomAgent;
+use App\Models\{CustomAgent, User};
 use Illuminate\Http\Request;
+use App\Http\Requests\CustomAgentRequest;
 
 class CustomAgentController extends Controller
 {
@@ -28,7 +29,7 @@ class CustomAgentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SupplierRequest $request)
+    public function store(CustomAgentRequest $request)
     {
         $data = new CustomAgent;
         $data->fill($request->all());
@@ -41,37 +42,44 @@ class CustomAgentController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('custom_agents.edit', $data->id);
+        return redirect()->route('custom_agents.edit', base64_encode($data->id));
     }
 
    
-    public function show(CustomAgent $customAgent)
+    public function show($id)
     {
-        return view('custom_agents.show', compact('supplier'));
+        $data = CustomAgent::where([
+            ['id',  base64_decode($id)],
+            ['user_id', auth()->user()->id],
+        ])->firstOrFail();
+
+        if(auth()->user()->hasRole('Admin')) {
+            $data = CustomAgent::findOrFail(base64_decode($id));
+        }
+
+        return view('custom_agents.show', compact('data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CustomAgent $customAgent)
+   
+    public function edit($id)
     {
-        return view('custom_agents.form', compact('supplier'));
+        $data = CustomAgent::where([
+            ['id',  base64_decode($id)],
+            ['user_id', auth()->user()->id],
+        ])->firstOrFail();
+
+        if(auth()->user()->hasRole('Admin')) {
+            $data = CustomAgent::findOrFail(base64_decode($id));
+        }
+
+        return view('custom_agents.form', compact('data'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SupplierRequest $request, $id)
+    
+    public function update(CustomAgentRequest $request, $id)
     {
-        $data = CustomAgent::findOrFail($id);
-
+        $data = CustomAgent::findOrFail(base64_decode($id));
+        $data->modified_user_id = auth()->user()->id;
         $data->fill($request->all())->save();
 
         $notification = array(
@@ -80,7 +88,7 @@ class CustomAgentController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('custom_agents.edit', $data->id);
+        return redirect()->route('custom_agents.edit', base64_encode($data->id));
 
     }
 
@@ -90,6 +98,18 @@ class CustomAgentController extends Controller
         return response()->json($data, 200);
     }
 
+    public function customsHouse()
+    {
+        $admin = User::whereHas('roles', function ($query) {
+            $query->where('name', 'Admin');
+        })->pluck('id');
+
+        $data = CustomAgent::whereIn('user_id', $admin)->get();
+        return response()->json($data, 200);
+    }
+
+    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -98,7 +118,11 @@ class CustomAgentController extends Controller
      */
     public function destroy($id)
     {
-        CustomAgent::findOrFail($id)->delete();
+        CustomAgent::where([
+            ['id',  base64_decode($id)],
+            ['user_id', auth()->user()->id],
+        ])->delete();
+        
         return response(null, 204);
     }
 }

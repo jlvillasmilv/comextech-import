@@ -17,4 +17,9 @@ class InternmentProcess extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function customAgent()
+    {
+        return $this->belongsTo(CustomAgent::class,'custom_agent_id')->withDefault(['name' => '' ]);
+    }
 }

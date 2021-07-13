@@ -16,9 +16,9 @@ class CreateCustomAgentsTable extends Migration
         Schema::create('custom_agents', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('rut',12);
+            $table->string('rut',25);
             $table->string('name',100);
-            $table->string('contact_person')->nullable();
+            $table->string('contact_person',100)->nullable();
             $table->decimal('rate', 12, 2)->default(0)->nullable();
             $table->string('bank',100);
             $table->string('account_number',100)->nullable();
