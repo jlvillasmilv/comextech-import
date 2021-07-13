@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSupplCondSalesTable extends Migration
+class CreateCustomAgentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateSupplCondSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('application_cond_sales', function (Blueprint $table) {
+        Schema::create('custom_agents', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('rut',12);
             $table->string('name',100);
-            $table->text('description')->nullable();
-            $table->unsignedTinyInteger('sort')->nullable();
+            $table->string('contact_person')->nullable();
+            $table->decimal('rate', 12, 2)->default(0)->nullable();
+            $table->string('bank',100);
+            $table->string('account_number',100)->nullable();
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
@@ -34,7 +37,6 @@ class CreateSupplCondSalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suppl_cond_sales');
-        Schema::dropIfExists('application_cond_sales');
+        Schema::dropIfExists('custom_agents');
     }
 }
