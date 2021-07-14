@@ -4,7 +4,6 @@
             <Load @dataForm="getDataLoad" />
         </div>
         <div class="flex flex-wrap -mx-3 ">
-            
             <div class="w-1/2 px-3 mb-2 md:mb-0">
                 <label class="block text-sm">
                     <span
@@ -12,33 +11,28 @@
                     >
                         Agente de Aduana
                     </span>
-                    
-                    <v-select
-                                label="name"
-                                placeholder="Seleccionar Proveedor"
-                                :options="custom_agents"
-                                v-model="expenses.custom_agent_id"
-                                :reduce="custom_agent => custom_agent.id"
-                            >
-                                <template
-                                    v-slot:no-options="{ search, searching }"
-                                >
-                                    <template v-if="searching" class="text-sm">
-                                        Lo sentimos no hay opciones que
-                                        coincidan
-                                        <strong>{{ search }}</strong
-                                        >.
-                                    </template>
-                                    <em style="opacity: 0.5;" v-else>
-                                        No posee proveedores en tu lista</em
-                                    >
+                    <div class="my-4">
+                        <v-select
+                            v-if="!expenses.customs_house"
+                            label="name"
+                            placeholder="Seleccione agente de Aduana"
+                            :options="custom_agents"
+                            v-model="expenses.custom_agent_id"
+                            :reduce="e => e.id"
+                        >
+                            <template v-slot:no-options="{ search, searching }">
+                                <template v-if="searching" class="text-sm">
+                                    Lo sentimos no hay opciones que coincidan
+                                    <strong>{{ search }}</strong
+                                    >.
                                 </template>
-                            </v-select>
-                    <!-- <input
-                        v-model="expenses.agent_name"
-                        class="block w-full mt-1 mb-3 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                        placeholder="Datos del Agente de Aduana "
-                    /> -->
+                                <em style="opacity: 0.5;" v-else>
+                                    No posee proveedores en tu lista</em
+                                >
+                            </template>
+                        </v-select>
+                    </div>
+
                     <span
                         class="text-xs text-red-600 dark:text-red-400"
                         v-if="expenses.errors.has('custom_agent_id')"
@@ -48,7 +42,7 @@
                         <input
                             v-model="expenses.customs_house"
                             type="checkbox"
-                            class="form-checkbox h-4 w-4   text-blue-600"
+                            class="form-checkbox h-4 w-4 text-blue-600"
                         /><span class="ml-2 text-xs text-black  text-gray-500">
                             Quiero que Comextech me asigne mi agente de aduana
                         </span>
@@ -57,7 +51,7 @@
             </div>
 
             <div class="w-1/2 px-3">
-                 <input
+                <input
                     id="filecert"
                     v-show="showInputFile"
                     @change="certificateFile()"
@@ -65,7 +59,9 @@
                     type="file"
                     hidden
                 />
-                <span class="text-gray-700 dark:text-gray-400 font-semibold text-sm" >
+                <span
+                    class="text-gray-700 dark:text-gray-400 font-semibold text-sm"
+                >
                     Certificado
                 </span>
                 <div
@@ -105,14 +101,8 @@
                             <span> {{ item.name }} </span></a
                         >
                     </label>
-
                 </div>
-                
-
-
-
-              
-                 <span
+                <span
                     class="text-xs text-red-600 dark:text-red-400"
                     v-if="expenses.errors.has('file_certificate')"
                     v-html="expenses.errors.get('file_certificate')"
@@ -191,9 +181,8 @@
                             <span> {{ item.name }} </span></a
                         >
                     </label>
-
                 </div>
-               
+
                 <span
                     class="text-xs text-red-600 dark:text-red-400"
                     v-if="expenses.errors.has('file_certificate')"
@@ -227,7 +216,7 @@ export default {
     components: { Load },
     data() {
         return {
-             certif: [
+            certif: [
                 {
                     name: "Origen",
                     submit: false
@@ -271,7 +260,7 @@ export default {
                 dataLoad: [],
                 files: new FormData()
             }),
-            custom_agents:[],
+            custom_agents: [],
             showInputFile: false,
             nameFileUpload: ""
         };
@@ -292,8 +281,7 @@ export default {
             }
         },
 
-         openWindowFileCert({ e, name: entry }) {
-
+        openWindowFileCert({ e, name: entry }) {
             this.nameFileUpload = entry;
             let value = this.certif.find(a => a.name == entry);
             if (!value.submit) {
@@ -301,16 +289,16 @@ export default {
                 let fileInputElement = this.$refs.file_cert;
                 fileInputElement.click();
             } else {
-                 this.handleStatusCertificate();
+                this.handleStatusCertificate();
             }
         },
 
-         certificateFile() {
+        certificateFile() {
             const file = this.$refs.file_cert.files[0];
             if (file) {
                 this.handleStatusCertificate();
                 this.expenses.file_certificate = file;
-                this.certificate = this.nameFileUpload
+                this.certificate = this.nameFileUpload;
             }
         },
 
@@ -323,18 +311,14 @@ export default {
             }
         },
         handleStatusSubmitFile(ref = null) {
-
             this.treaties = this.treaties.map(e =>
                 e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
-                );
-           
+            );
         },
-         handleStatusCertificate(ref = null) {
-
+        handleStatusCertificate(ref = null) {
             this.certif = this.certif.map(e =>
                 e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
-                );
-           
+            );
         },
         previewFiles(event) {
             console.log(event.target.files);
@@ -361,7 +345,6 @@ export default {
             let agents = await axios.get("/agentslist"); // agente de Aduana del cliente
             let customsHouse = await axios.get("/customs_house"); // agente de Aduana que que ofrece Comextech
             this.custom_agents = agents.data;
-            
         } catch (error) {
             console.log(error);
         }

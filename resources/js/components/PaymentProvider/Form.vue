@@ -107,10 +107,10 @@
                                 Sin Restricción
                             </option>
                             <option value="Contra Documento">
-                                Contra Documento
+                                Ante Inspeccion
                             </option>
                             <option value="Contra Inspeccion">
-                                Contra Inspeccion
+                                Ante copia BL
                             </option>
                            
                         </select>
