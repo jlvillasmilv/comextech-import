@@ -112,9 +112,10 @@
                         </h3>
                         <div class="dark:text-gray-200">
                             <h3 class="my-3  text-gray-500  text-sm">
-                                Monto Total de Operacion
-                            </h3>
-                            <v-select
+                                Proveedor
+                            </h3> 
+                             <v-select
+                                v-show="statusSuppliers == 'with' "
                                 label="name"
                                 placeholder="Seleccionar Proveedor"
                                 :options="suppliers"
@@ -134,7 +135,18 @@
                                         No posee proveedores en tu lista</em
                                     >
                                 </template>
-                            </v-select>
+                            </v-select>  
+                             
+                            <div class="mt-2">
+                                <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio" name="accountType" v-model="statusSuppliers"  value="with">
+                                <span class="ml-2"> Con Proveedor </span>
+                                </label>
+                                <label class="inline-flex items-center ml-6">
+                                <input type="radio" class="form-radio" name="accountType" v-model="statusSuppliers" value="without">
+                                <span class="ml-2"> Sin Proveedor </span>
+                                </label>
+                            </div>
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
                                 v-if="form.errors.has('supplier_id')"
@@ -343,6 +355,7 @@ export default {
             statusModal: true,
             title: "Servicios para Cotizacion",
             next: false,
+            statusSuppliers:'with',
             currencies: [],
             classStyle: {
                 span:

@@ -25,7 +25,7 @@ class InternmentProcessRequest extends FormRequest
     {
         return [
             'application_id'          => 'required|exists:applications,id',
-            'agent_name'              => 'required_if:customs_house,false|max:250',
+            'custom_agent_id'         => 'required|exists:custom_agents,id',
             'agent_payment'           => 'nullable|numeric|between:1,999999999999|gt:0',
             'files'                   => 'nullable|array',
             'files.*'                 => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
@@ -38,9 +38,17 @@ class InternmentProcessRequest extends FormRequest
     public function messages()
     {
         return [
-            'application_id.required'   => 'Se debe tener una solicitud generada.',
-            'agent_name.required_if'    => 'El campo Nombre del Agente de aduana es obligatorio.',
-            'agent_payment.between'     => 'El campo Monto Total de Operacion debe ser menor a 999.999.999.999' ,
+            'application_id.required'   => 'Se debe tener una solicitud generada.'
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'custom_agent_id'    => 'Nombre del Agente de aduana',
+            'agent_payment' => 'Monto Total de Operacion',
+        ];
+    }
+
+
 }

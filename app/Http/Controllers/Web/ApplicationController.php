@@ -17,9 +17,9 @@ class ApplicationController extends Controller
     {
 
         $data  = Application::where('user_id', auth()->user()->id)->paginate();
-       
+
         return view('applications.index' , compact('data'));
-        
+
     }
 
     /**
@@ -29,7 +29,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-      
+
     }
 
     /**
@@ -39,7 +39,7 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ApplicationRequest $request)
-    {   
+    {
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
 
@@ -75,8 +75,8 @@ class ApplicationController extends Controller
              \DB::table('application_details')
                 ->whereNotIn('service_id', $add_serv)
                 ->where('application_id', $data->id)
-                ->delete();           
-               
+                ->delete();
+
             foreach ($add_serv as $key => $id) {
 
                 ApplicationDetail::updateOrCreate(
@@ -95,7 +95,7 @@ class ApplicationController extends Controller
             $user_admin = User::whereHas('roles', function ($query) {
                 $query->where('name','=', 'Admin');
             })->pluck('id');
-    
+
             User::all()
                 ->whereIn('id', $user_admin)
                 ->each(function (User $user) use ($data) {
@@ -106,7 +106,7 @@ class ApplicationController extends Controller
             DB::rollback();
             return response()->json(0, 400);
         }
-      
+
          return response()->json($data->id, 200);
     }
 
@@ -123,19 +123,19 @@ class ApplicationController extends Controller
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
- 
+
         return response()->json($data, 200);
-        
+
     }
 
-   
+
     public function edit($id)
     {
         $data  = Application::where([
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
- 
+
         return response()->json($data, 200);
 
     }
@@ -186,9 +186,9 @@ class ApplicationController extends Controller
         if ($values->sum('percentage') == 100){
 
             PaymentProvider::where('application_id', $request[0]['application_id'])->delete();
-            
+
             foreach ($request->input() as $key => $data) {
-                
+
                  PaymentProvider::updateOrCreate(
                      [
                          'application_id'  => $data['application_id'],
@@ -204,8 +204,8 @@ class ApplicationController extends Controller
 
              return response()->json(['status' => 'OK'], 200);
         }
-      
-        
+
+
     }
 
     public function transports(TransportRequest $request)
@@ -242,7 +242,7 @@ class ApplicationController extends Controller
 
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-        //dd($request->all());
+       // dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -250,14 +250,14 @@ class ApplicationController extends Controller
             $internment = InternmentProcess::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'agent_name'            => $request->agent_name,
+                    'custom_agent_id'       => $request->custom_agent_id,
                     'customs_house'         => $request->customs_house,
                     'agent_payment'         => $request->agent_payment,
                     'certificate'           => $request->certificate,
                 ]
             );
 
-            // agregar datos de subida de archivo 
+            // agregar datos de subida de archivo
             if ($request->hasFile('files')) {
                 foreach ($request->input('file_descrip') as $key => $file) {
                     $data = new FileStore;
@@ -271,12 +271,12 @@ class ApplicationController extends Controller
                         ],
                         [ 'intl_treaty' => $file, ]
                     );
-                    
+
                 }
             }
 
             if ($request->hasFile('file_certificate')) {
-                
+
                     $data = new FileStore;
                     $file_storage = $data->addFile(
                         $request->file('file_certificate'),
@@ -296,9 +296,9 @@ class ApplicationController extends Controller
 
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
-    
+
             DB::commit();
-            
+
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status' => 'Error'], 400);
@@ -331,7 +331,7 @@ class ApplicationController extends Controller
                  'cbm'            => $item['cbm'],
                  'stackable'      => $item['stackable'],
                 ],
-                  
+
                 [
                     'length_unit'    => $item['lengthUnit'],
                     'length'         => $item['length'],
@@ -350,6 +350,6 @@ class ApplicationController extends Controller
         return true;
     }
 
-       
+
 
 }

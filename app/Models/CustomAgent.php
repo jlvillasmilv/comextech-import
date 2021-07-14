@@ -4,22 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class InternmentProcess extends Model
+class CustomAgent extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $table = 'internment_processes';
-
+    protected $table = 'custom_agents';
     protected $guarded = [];
 
     protected $dates = [
         'created_at',
         'updated_at',
+        'deleted_at',
     ];
 
-    public function customAgent()
+    public function user()
     {
-        return $this->belongsTo(CustomAgent::class,'custom_agent_id')->withDefault(['name' => '' ]);
+        return $this->belongsTo(User::class,'user_id');
     }
 }

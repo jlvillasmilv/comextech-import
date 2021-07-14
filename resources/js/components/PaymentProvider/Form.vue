@@ -65,11 +65,14 @@
                                 class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="grid-state"
                             >
-                                <option value="Carta de Credito">
-                                    Carta de Credito
-                                </option>
                                 <option value="Transferencia">
                                     Transferencia
+                                </option>
+                                <option value="Cobranza Documentaria">
+                                    Cobranza Documentaria
+                                </option>
+                                <option value="Carta de Credito">
+                                    Carta de Credito
                                 </option>
                             </select>
                             <div
@@ -100,15 +103,16 @@
                             class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-state"
                         >
+                            <option value="Sin Restricción">
+                                Sin Restricción
+                            </option>
                             <option value="Contra Documento">
-                                Contra Documento
+                                Ante Inspeccion
                             </option>
                             <option value="Contra Inspeccion">
-                                Contra Inspeccion
+                                Ante copia BL
                             </option>
-                             <option value="Sin Restriccion">
-                                Sin Restriccion
-                            </option>
+                           
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -151,9 +155,9 @@
                         <span> Agregar Pago a Tabla </span>
                     </button>
 
-                    <button
-                        v-if="percentageInitial == 0"
-                        class=" flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-purple"
+ <button
+                        :disabled="percentageInitial !== 0"
+                        :class="[percentageInitial !== 0 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300' :  'bg-green-600 active:bg-green-600 hover:bg-green-700' ,'flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150  border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple']"
                         @click="submitPayment()"
                     >
                         <svg
@@ -181,14 +185,15 @@
                     <table class="w-full whitespace-no-wrap">
                         <thead>
                             <tr
-                                class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                                class="text-xs  text-center font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                             >
                                 <th class="px-4 py-3">Pago</th>
-                                <th class="">Porcentaje</th>
-                                <th class="px-4 py-3">Moneda</th>
-                                <th class="px-4 py-3">Monto</th>
-                                <th class="px-4 py-3">Forma</th>
-                                <th class="px-4 py-3"></th>
+                                <th class="">%</th>
+                                <th class=" py-3">Moneda</th>
+                                <th class=" py-3">Monto</th>
+                                <th class=" py-3">Forma</th>
+                                <th class=" py-3">Restriccion </th>
+                                <th class=" py-3"></th>
                             </tr>
                         </thead>
                         <tbody
@@ -234,6 +239,9 @@
                                     >
                                         {{ item.typePay }}
                                     </span>
+                                </td>
+                                <td class="px-4 py-3 text-xs font-semibold ">
+                                     {{ item.payment_release }}
                                 </td>
                                 <td>
                                     <svg
