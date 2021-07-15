@@ -43,7 +43,7 @@ class CustomAgentTable extends LivewireDatatable
             ->label('Fecha de Registro'),
 
             Column::callback(['id'], function ($id) {
-                return view('table-actions', ['id' => base64_encode($id), 'route' => 'custom_agents.', 'delete' => true]);
+                return view('table-actions', ['id' => base64_encode($id), 'route' => 'custom-agents.', 'delete' => true]);
             })
         ];
 

@@ -66,11 +66,26 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'suppl_cond_sales.create']);
         Permission::create(['name' => 'suppl_cond_sales.destroy']);
 
+        Permission::create(['name' => 'custom_agents.index']);
+        Permission::create(['name' => 'custom_agents.edit']);
+        Permission::create(['name' => 'custom_agents.show']);
+        Permission::create(['name' => 'custom_agents.create']);
+        Permission::create(['name' => 'custom_agents.destroy']);
+
         //Admin
         $admin = Role::create(['name' => 'Admin']);
        
         //Client
         $client = Role::create(['name' => 'Client']);
+
+        $client->givePermissionTo([
+            'clients.index',
+            'custom_agents.index',
+            'custom_agents.edit',
+            'custom_agents.create',
+            'custom_agents.show',
+            'custom_agents.destroy',
+        ]);
 
          //Guest
         $guest = Role::create(['name' => 'Guest']);

@@ -1,7 +1,7 @@
 <x-app-layout title="Formulario de registro">
 	<div class="container grid px-6 mx-auto">
 		<h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            <a href="{{route('custom_agents.index')}}">Agentes de Aduanas</a>  
+            <a href="{{route('custom-agents.index')}}">Agentes de Aduanas</a>  
         </h2>
 
         <div class="flex justify-between items-end">

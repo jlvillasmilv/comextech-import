@@ -42,7 +42,7 @@ class CustomAgentController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('custom_agents.edit', base64_encode($data->id));
+        return redirect()->route('custom-agents.edit', base64_encode($data->id));
     }
 
    
@@ -88,7 +88,7 @@ class CustomAgentController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('custom_agents.edit', base64_encode($data->id));
+        return redirect()->route('custom-agents.edit', base64_encode($data->id));
 
     }
 
