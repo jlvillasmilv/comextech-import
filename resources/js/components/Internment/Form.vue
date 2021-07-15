@@ -14,8 +14,8 @@
                     <div class="my-4">
                         <v-select
                             v-if="!expenses.customs_house"
-                            label="name"
-                            placeholder="Seleccione agente de Aduana"
+                            label="contact_person"
+                            placeholder="Seleccionar su Agente de Aduana"
                             :options="custom_agents"
                             v-model="expenses.custom_agent_id"
                             :reduce="e => e.id"
@@ -32,7 +32,6 @@
                             </template>
                         </v-select>
                     </div>
-
                     <span
                         class="text-xs text-red-600 dark:text-red-400"
                         v-if="expenses.errors.has('custom_agent_id')"
