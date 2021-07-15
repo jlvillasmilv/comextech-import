@@ -242,10 +242,10 @@
 export default {
     data() {
         return {
-            types: ["AEREO", "CONTAINER", "CONSOLIDADO"],
+            types: ["COURIER","CARGA AEREA", "CONTAINER", "CONSOLIDADO"],
             item: {
                 mode_calculate: true,
-                mode_selected: "AEREO",
+                mode_selected: "CARGA AEREA",
                 type_load: 1,
                 type_container: 1,
                 length: "",
