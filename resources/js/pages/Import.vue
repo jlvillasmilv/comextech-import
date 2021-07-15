@@ -93,9 +93,7 @@
             </Container>
 
             <Container v-if="activetab == 'Bodegaje Local'">
-                <internal-storage
-                 :application_id="form.application_id"
-                 />
+                <internal-storage :application_id="form.application_id" />
             </Container>
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10">
@@ -113,9 +111,9 @@
                         <div class="dark:text-gray-200">
                             <h3 class="my-3  text-gray-500  text-sm">
                                 Proveedor
-                            </h3> 
-                             <v-select
-                                v-show="statusSuppliers == 'with' "
+                            </h3>
+                            <v-select
+                                v-show="statusSuppliers == 'with'"
                                 label="name"
                                 placeholder="Seleccionar Proveedor"
                                 :options="suppliers"
@@ -135,16 +133,28 @@
                                         No posee proveedores en tu lista</em
                                     >
                                 </template>
-                            </v-select>  
-                             
+                            </v-select>
+
                             <div class="mt-2">
                                 <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio" name="accountType" v-model="statusSuppliers"  value="with">
-                                <span class="ml-2"> Con Proveedor </span>
+                                    <input
+                                        type="radio"
+                                        class="form-radio"
+                                        name="accountType"
+                                        v-model="statusSuppliers"
+                                        value="with"
+                                    />
+                                    <span class="ml-2"> Con Proveedor </span>
                                 </label>
                                 <label class="inline-flex items-center ml-6">
-                                <input type="radio" class="form-radio" name="accountType" v-model="statusSuppliers" value="without">
-                                <span class="ml-2"> Sin Proveedor </span>
+                                    <input
+                                        type="radio"
+                                        class="form-radio"
+                                        name="accountType"
+                                        v-model="statusSuppliers"
+                                        value="without"
+                                    />
+                                    <span class="ml-2"> Sin Proveedor </span>
                                 </label>
                             </div>
                             <span
@@ -288,13 +298,24 @@
                                 :key="id"
                                 class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
                             >
-                                <input
-                                    @click="tabsAdd(item)"
-                                    :checked="item.selected"
-                                    type="checkbox"
-                                    class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
-                                />
-                                <span class="ml-2"> {{ item.name }} </span>
+                                <div v-if="item.name !== 'Pago Proveedor' ">
+                                    <input
+                                        @click="tabsAdd(item)"
+                                        :checked="item.selected"
+                                        type="checkbox"
+                                        class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
+                                    />
+                                    <span class="ml-2"> {{ item.name }} </span>
+                                </div>
+                                 <div v-else-if="statusSuppliers == 'with'" >
+                                    <input
+                                        @click="tabsAdd(item)"
+                                        :checked="item.selected"
+                                        type="checkbox"
+                                        class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
+                                    />
+                                    <span class="ml-2"> {{ item.name }} </span>
+                                </div>
                             </label>
                         </div>
 
@@ -355,7 +376,7 @@ export default {
             statusModal: true,
             title: "Servicios para Cotizacion",
             next: false,
-            statusSuppliers:'with',
+            statusSuppliers: "with",
             currencies: [],
             classStyle: {
                 span:
