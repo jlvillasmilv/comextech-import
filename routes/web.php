@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
 
-    Route::resource('custom_agents',  'App\Http\Controllers\CustomAgentController');
+    Route::resource('custom-agents',  'App\Http\Controllers\CustomAgentController');
 
     Route::get('agentslist', 'App\Http\Controllers\CustomAgentController@list');
     Route::get('customs_house', 'App\Http\Controllers\CustomAgentController@customsHouse');
