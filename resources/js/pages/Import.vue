@@ -113,7 +113,7 @@
                                 Proveedor
                             </h3>
                             <v-select
-                                v-show="statusSuppliers == 'with'"
+                                :disabled="form.statusSuppliers != 'with'"
                                 label="name"
                                 placeholder="Seleccionar Proveedor"
                                 :options="suppliers"
@@ -141,7 +141,7 @@
                                         type="radio"
                                         class="form-radio"
                                         name="accountType"
-                                        v-model="statusSuppliers"
+                                        v-model="form.statusSuppliers"
                                         value="with"
                                     />
                                     <span class="ml-2"> Con Proveedor </span>
@@ -151,7 +151,7 @@
                                         type="radio"
                                         class="form-radio"
                                         name="accountType"
-                                        v-model="statusSuppliers"
+                                        v-model="form.statusSuppliers"
                                         value="without"
                                     />
                                     <span class="ml-2"> Sin Proveedor </span>
@@ -307,7 +307,7 @@
                                     />
                                     <span class="ml-2"> {{ item.name }} </span>
                                 </div>
-                                 <div v-else-if="statusSuppliers == 'with'" >
+                                 <div v-else-if="form.statusSuppliers == 'with'" >
                                     <input
                                         @click="tabsAdd(item)"
                                         :checked="item.selected"
@@ -366,6 +366,7 @@ export default {
                 currency_id: "",
                 condition: "",
                 description: "",
+                statusSuppliers: "with",
                 services: []
             }),
             currency: "",
@@ -376,7 +377,6 @@ export default {
             statusModal: true,
             title: "Servicios para Cotizacion",
             next: false,
-            statusSuppliers: "with",
             currencies: [],
             classStyle: {
                 span:
@@ -451,16 +451,21 @@ export default {
             return response ? true : false;
         },
         toogleMenuTabs() {
-            let data = this.arrayServices.find(
-                item => item.name == this.form.condition
-            );
-            this.tabs = data.services;
+            // let data = this.arrayServices.find(
+            //     item => item.name == this.form.condition
+            // );
+            // this.tabs = data.services;
         }
     },
     async created() {
         try {
             let tabs = await axios.get("/api/suppl_cond_sales");
             this.arrayServices = tabs.data;
+
+            let catserv = await axios.get("/api/category_services");
+            this.tabs = catserv.data;
+
+            
 
             let suppliers = await axios.get("/supplierlist");
             this.suppliers = suppliers.data;

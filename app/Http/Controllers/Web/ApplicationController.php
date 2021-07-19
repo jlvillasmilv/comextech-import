@@ -53,7 +53,7 @@ class ApplicationController extends Controller
                 'user_id'   => auth()->user()->id,
                 ],
                 [
-                    'supplier_id'  => $request->supplier_id,
+                    'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'amount'       => $request->amount,
                     'application_statuses_id' => 1,
                     'currency_id' => $request->currency_id,
