@@ -24,7 +24,7 @@ class ApplicationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'supplier_id'              => 'nullable|exists:suppliers,id',
+            'supplier_id'              => 'required_if:statusSuppliers,with',
             'currency_id'              => 'required|exists:currencies,id',
             'description'              => 'nullable|max:250',
             'estimated_date'           => 'nullable|date',
@@ -35,6 +35,8 @@ class ApplicationRequest extends FormRequest
             'fee3'                     => 'nullable|numeric',
             'condition'                => 'required|exists:application_cond_sales,name',
             'amount'                   => 'required|numeric|gt:0|between:1,999999999999',
+            'statusSuppliers'          => 'required',
+                        
             'services'                 => 'required',
         ];
 
