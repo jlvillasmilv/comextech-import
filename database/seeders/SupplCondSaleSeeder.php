@@ -24,7 +24,12 @@ class SupplCondSaleSeeder extends Seeder
             'sort' => 1
         ]);
 
-        $sup->services()->sync([1,2,3,4,5,7,8]);
+        $sup->services()->sync([1 => ['selected' => true],
+        3=> ['selected' => true],
+        4=> ['selected' => true],
+        5=> ['selected' => true],
+        7=> ['selected' => true],
+        8=> ['selected' => true]]);
 
         $sup = ApplicationCondSale::create([
             'user_id'   => 1,
@@ -36,7 +41,13 @@ class SupplCondSaleSeeder extends Seeder
             'sort' => 2
         ]);
 
-        $sup->services()->sync([3,4,5]);
+        $sup->services()->sync([1 => ['selected' => false],
+        3=> ['selected' => true],
+        4=> ['selected' => true],
+        5=> ['selected' => true],
+        7=> ['selected' => false],
+        8=> ['selected' => false]
+    ]);
 
 
         $sup = ApplicationCondSale::create([
@@ -49,7 +60,14 @@ class SupplCondSaleSeeder extends Seeder
 
         ]);
 
-        $sup->services()->sync([1,3,5,6,7]);
+        
+        $sup->services()->sync([1 => ['selected' => true],
+            3=> ['selected' => true],
+            4=> ['selected' => false],
+            5=> ['selected' => true],
+            7=> ['selected' => true],
+            8=> ['selected' => false]
+        ]);
 
 
         $sup = ApplicationCondSale::create([
@@ -61,7 +79,15 @@ class SupplCondSaleSeeder extends Seeder
             'sort' => 4
         ]);
 
-        $sup->services()->sync([3,4,5]);
+       
+        $sup->services()->sync([1 => ['selected' => false],
+            3=> ['selected' => true],
+            4=> ['selected' => true],
+            5=> ['selected' => true],
+            7=> ['selected' => false],
+            8=> ['selected' => false]
+        ]);
+
 
 
         $sup = ApplicationCondSale::create([
@@ -73,7 +99,14 @@ class SupplCondSaleSeeder extends Seeder
             'sort' => 5
         ]);
 
-        $sup->services()->sync([3,4,5]);
+        $sup->services()->sync([1 => ['selected' => false],
+            3=> ['selected' => true],
+            4=> ['selected' => true],
+            5=> ['selected' => true],
+            7=> ['selected' => false],
+            8=> ['selected' => false]
+        ]);
+
 
         // $sup = ApplicationCondSale::create([
         //     'user_id'   => 1,

@@ -29,5 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TransCompaniesSeeder::class);
         $this->call(SupplCondSaleSeeder::class);
         $this->call(CustomAgentSeeder::class);
+        $this->call(EcommerceSeeder::class);
+        
     }
 }
