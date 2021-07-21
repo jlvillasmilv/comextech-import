@@ -23,6 +23,7 @@ class CreateSuppliersTable extends Migration
             $table->string('iban',50)->nullable();
             $table->string('phone',50)->nullable();
             $table->string('email')->nullable();
+            $table->string('origin_transport')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
 

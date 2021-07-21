@@ -30,6 +30,7 @@ class SupplierRequest extends FormRequest
             'phone'            => 'required|max:50', 
             'email'            => 'required|email', 
             'bank'             => 'required|max:15',    
+            'origin_transport' => 'required|max:254',
         ];
         
         return $rules;
