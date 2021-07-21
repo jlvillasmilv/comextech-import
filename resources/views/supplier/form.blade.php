@@ -61,7 +61,7 @@
                 </label>
                 <label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400"> Direccion de Correo </span>
-                    <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Origen de importacion" name="email" value="{{ old('email', isset($supplier) ? $supplier->email : '') }}" max="100" required="">
+                    <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion de Correo electrónico" name="email" value="{{ old('email', isset($supplier) ? $supplier->email : '') }}" max="100" required="">
 	                @if($errors->has('email'))
 		             	<span class="text-xs text-red-600 dark:text-red-400">
 		                    {{ $errors->first('email') }}
@@ -70,10 +70,20 @@
                 </label>
                 <label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400"> Telefono </span>
-                    <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Origen de importacion" name="phone" value="{{ old('phone', isset($supplier) ? $supplier->phone : '') }}" max="100" required="">
+                    <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Telefono del proveedor" name="phone" value="{{ old('phone', isset($supplier) ? $supplier->phone : '') }}" max="100" required="">
 	                @if($errors->has('phone'))
 		             	<span class="text-xs text-red-600 dark:text-red-400">
 		                    {{ $errors->first('phone') }}
+		                </span>
+	                @endif
+                </label>
+                <label class="block text-sm my-3">
+                    <span class="text-gray-700 dark:text-gray-400"> Origen del Transporte </span>
+                    <textarea name="origin_transport" id="origin_transport" cols="30" rows="5" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion  Origen del Transporte" maxlength="254">{{ old('origin_transport', isset($supplier) ? $supplier->origin_transport : '') }}</textarea>
+                    
+	                @if($errors->has('origin_transport'))
+		             	<span class="text-xs text-red-600 dark:text-red-400">
+		                    {{ $errors->first('origin_transport') }}
 		                </span>
 	                @endif
                 </label>
