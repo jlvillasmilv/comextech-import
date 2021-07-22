@@ -23,7 +23,7 @@ class InternmentProcessRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'application_id'          => 'required|exists:applications,id',
             'custom_agent_id'         => 'required|exists:custom_agents,id',
             'agent_payment'           => 'nullable|numeric|between:1,999999999999|gt:0',
@@ -33,6 +33,8 @@ class InternmentProcessRequest extends FormRequest
             'dataLoad'                => 'required_if:transport,false',
             "dataLoad.*.weight"       => "required_if:transport,false|numeric",
         ];
+
+        return $rules;
     }
 
     public function messages()
