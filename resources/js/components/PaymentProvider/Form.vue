@@ -30,6 +30,7 @@
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
                             placeholder="%"
                             v-model.number="discount"
+                            :disabled="discount < 0 || percentageInitial == 0 "
                             step="1"
                             type="number"
                         />
@@ -49,6 +50,7 @@
                             Fecha a Pagar Porcentaje</span
                         >
                         <input
+                            :disabled="discount < 0 || percentageInitial == 0 "
                             v-model="form.datePay"
                             type="date"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -61,6 +63,7 @@
                         </span>
                         <div class="relative">
                             <select
+                                :disabled="discount < 0 || percentageInitial == 0 "
                                 v-model="form.typePay"
                                 class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="grid-state"
@@ -99,6 +102,7 @@
                     </span>
                     <div class="relative">
                         <select
+                            :disabled="discount < 0 || percentageInitial == 0 "
                             v-model="form.payment_release"
                             class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-state"
@@ -133,8 +137,8 @@
 
             <div class="flex  space-x-2  px-3 mb-6 md:mb-0 my-5">
                 <button
-                    v-if="discount > 0"
-                    class=" flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    :disabled="discount < 0 || percentageInitial == 0 "
+                    :class=" [discount > 0  ?'active:bg-purple-600 hover:bg-purple-700  bg-purple-600': 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300'    , 'flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple']"
                     @click="submitTable()"
                 >
 
@@ -155,7 +159,7 @@
                         <span> Agregar Pago a Tabla </span>
                     </button>
 
- <button
+                    <button
                         :disabled="percentageInitial !== 0"
                         :class="[percentageInitial !== 0 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300' :  'bg-green-600 active:bg-green-600 hover:bg-green-700' ,'flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150  border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple']"
                         @click="submitPayment()"
