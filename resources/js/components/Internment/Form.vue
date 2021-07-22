@@ -58,14 +58,11 @@
                     type="file"
                     hidden
                 />
-                <span
-                    class="text-gray-700 dark:text-gray-400 font-semibold text-sm"
-                >
-                    Certificado
-                </span>
+                <!-- <span class="text-gray-700 dark:text-gray-400 font-semibold text-sm">
+                    Cargar Invoice
+                </span> -->
                 <div
-                    class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start "
-                >
+                    class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
                     <label
                         v-for="(item, key) in certif"
                         :key="key"
@@ -73,7 +70,7 @@
                     >
                         <a
                             @click="openWindowFileCert(item)"
-                            class="flex  px-2 py-2 m-2  text-sm  rounded-full font-medium leading-5 text-white transition-colors duration-150   border border-transparent rounded-lg    focus:outline-none focus:shadow-outline-blue"
+                            class="flex  px-2 py-2 m-2  text-sm  font-medium leading-5 text-white transition-colors duration-150   border border-transparent rounded-lg    focus:outline-none focus:shadow-outline-blue"
                             :class="[
                                 item.submit
                                     ? 'bg-red-500 hover:bg-red-800'
@@ -138,11 +135,10 @@
                     type="file"
                     hidden
                 />
-                <span
-                    class="text-gray-700 dark:text-gray-400 font-semibold text-sm"
-                >
-                    Tratado Internacional
-                </span>
+                <!-- <span
+                    class="text-gray-700 dark:text-gray-400 font-semibold text-sm">
+                   Otro documento
+                </span> -->
                 <div
                     class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start "
                 >
@@ -153,7 +149,7 @@
                     >
                         <a
                             @click="openWindowFile(item)"
-                            class="flex  px-2 py-2 m-2  text-sm  rounded-full font-medium leading-5 text-white transition-colors duration-150   border border-transparent rounded-lg    focus:outline-none focus:shadow-outline-blue"
+                            class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150   border border-transparent rounded-lg    focus:outline-none focus:shadow-outline-blue"
                             :class="[
                                 item.submit
                                     ? 'bg-red-500 hover:bg-red-800'
@@ -184,8 +180,8 @@
 
                 <span
                     class="text-xs text-red-600 dark:text-red-400"
-                    v-if="expenses.errors.has('file_certificate')"
-                    v-html="expenses.errors.get('file_certificate')"
+                    v-if="expenses.errors.has('file_descrip')"
+                    v-html="expenses.errors.get('file_descrip')"
                 ></span>
             </div>
         </div>
@@ -217,32 +213,36 @@ export default {
         return {
             certif: [
                 {
-                    name: "Origen",
+                    name: "Cargar Invoice",
                     submit: false
                 },
-                {
-                    name: "Fitosanitario",
-                    submit: false
-                },
-                {
-                    name: "Form F",
-                    submit: false
-                }
+                // {
+                //     name: "Fitosanitario",
+                //     submit: false
+                // },
+                // {
+                //     name: "Form F",
+                //     submit: false
+                // }
             ],
 
             treaties: [
                 {
-                    name: "Form1",
+                    name: "Otro Documento",
                     submit: false
-                },
-                {
-                    name: "Eur1",
-                    submit: false
-                },
-                {
-                    name: "Mercosur",
-                    submit: false
-                }
+                 },
+                // {
+                //     name: "Form1",
+                //     submit: false
+                // },
+                // {
+                //     name: "Eur1",
+                //     submit: false
+                // },
+                // {
+                //     name: "Mercosur",
+                //     submit: false
+                // }
             ],
             certificate: {},
             expenses: new Form({
@@ -254,7 +254,7 @@ export default {
                 treatiesSelected: [],
                 file_descrip: [],
                 customs_house: false,
-                certificate: "Origen",
+                certificate: "Invoice",
                 file_certificate: "",
                 dataLoad: [],
                 files: new FormData()

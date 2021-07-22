@@ -9,6 +9,7 @@ use App\Models\{FileStore, FileStoreInternment, InternmentProcess, LocalWarehous
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest, LocalWarehouseRequest};
+use App\Http\Requests\Web\{LoadRequest};
 use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
@@ -242,7 +243,7 @@ class ApplicationController extends Controller
 
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-       // dd($request->all());
+        //   dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -253,7 +254,7 @@ class ApplicationController extends Controller
                     'custom_agent_id'       => $request->custom_agent_id,
                     'customs_house'         => $request->customs_house,
                     'agent_payment'         => $request->agent_payment,
-                    'certificate'           => $request->certificate,
+                    // 'certificate'           => $request->certificate,
                 ]
             );
 
@@ -293,15 +294,16 @@ class ApplicationController extends Controller
 
             //Agrega datos a carga de transporte
             if(!$request->input('transport')){
-
+               
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
+        
 
             DB::commit();
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['status' => 'Error'], 400);
+            return response()->json(['status' => $e], 400);
         }
 
         return response()->json($internment->id, 200);
@@ -323,6 +325,17 @@ class ApplicationController extends Controller
 
     public function load($data=null,$application_id=null)
     {
+       
+        // $this->validate($data, [
+        //     'dataLoad.*.mode_selected'   => 'required|string',
+        //     "dataLoad.*.length"          => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
+        //     "dataLoad.*.width"           => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
+        //     "dataLoad.*.high"            => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
+        //     "dataLoad.*.weight"          => "required|numeric",
+        //     "dataLoad.*.type_load"       => 'required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO',
+        //     "dataLoad.*.type_container"  => 'required_if:dataLoad.*.mode_selected,in:CONTAINER',
+        // ]);
+
         Load::where('application_id', $application_id)->delete();
         foreach ($data as $key => $item) {
 
