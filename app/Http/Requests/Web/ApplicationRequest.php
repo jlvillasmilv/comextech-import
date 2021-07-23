@@ -36,7 +36,7 @@ class ApplicationRequest extends FormRequest
             'condition'                => 'required|exists:application_cond_sales,name',
             'amount'                   => 'required|numeric|gt:0|between:1,999999999999',
             'statusSuppliers'          => 'required',
-                        
+            'ecommerce_url'            => 'required_if:statusSuppliers,E-commerce',
             'services'                 => 'required',
         ];
 

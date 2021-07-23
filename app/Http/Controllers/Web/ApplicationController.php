@@ -8,8 +8,8 @@ use App\Models\{FileStore, FileStoreInternment, InternmentProcess, LocalWarehous
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest, LocalWarehouseRequest};
-use App\Http\Requests\Web\{LoadRequest};
 use App\Notifications\AdminApplicationNotification;
 
 class ApplicationController extends Controller
@@ -41,13 +41,14 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+        
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
 
         if ($status <> 0) { return response()->json($status, 400); }
 
         DB::beginTransaction();
-
+       // dd($request->all());
         try {
             $data =  Application::updateOrCreate(
                 ['id' => $request->application_id,
@@ -57,9 +58,9 @@ class ApplicationController extends Controller
                     'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'amount'       => $request->amount,
                     'application_statuses_id' => 1,
-                    'currency_id' => $request->currency_id,
-                    'description' => $request->description,
-                    'condition'   => $request->condition,
+                    'currency_id'  => $request->currency_id,
+                    'ecommerce_url' => $request->ecommerce_url,
+                    'condition'    => $request->condition,
                 ]
             );
 
@@ -105,10 +106,10 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(0, 400);
+            return response()->json($e, 400);
         }
 
-         return response()->json($data->id, 200);
+         return response()->json($data, 200);
     }
 
     /**
@@ -323,19 +324,8 @@ class ApplicationController extends Controller
     }
 
 
-    public function load($data=null,$application_id=null)
+    public function load($data,$application_id=null)
     {
-       
-        // $this->validate($data, [
-        //     'dataLoad.*.mode_selected'   => 'required|string',
-        //     "dataLoad.*.length"          => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
-        //     "dataLoad.*.width"           => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
-        //     "dataLoad.*.high"            => "required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO",
-        //     "dataLoad.*.weight"          => "required|numeric",
-        //     "dataLoad.*.type_load"       => 'required_if:dataLoad.*.mode_selected,in:AEREO,CONSOLIDADO',
-        //     "dataLoad.*.type_container"  => 'required_if:dataLoad.*.mode_selected,in:CONTAINER',
-        // ]);
-
         Load::where('application_id', $application_id)->delete();
         foreach ($data as $key => $item) {
 

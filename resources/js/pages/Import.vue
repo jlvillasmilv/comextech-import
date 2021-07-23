@@ -144,6 +144,7 @@
                             </v-select>
                             <div v-if="form.statusSuppliers == 'E-commerce'" class="w-full md:w-full  ">
                                 <input
+                                    v-model="form.ecommerce_url"
                                     type="text"
                                     placeholder="Ingrese url generado por e-commerce "
                                     :class="[
@@ -206,7 +207,7 @@
                                 >
                                     <option
                                         v-for="item in arrayServices"
-                                        :value="item"
+                                        :value="item.name"
                                         :key="item.name"
                                     >
                                         {{ item.name }}
@@ -372,6 +373,7 @@ export default {
                 amount: 0,
                 supplier_id: "",
                 currency_id: "",
+                ecommerce_url: "",
                 condition: "",
                 description: "",
                 statusSuppliers: "with",
@@ -451,7 +453,8 @@ export default {
                         timer: 1500
                     });
                     this.activetab = this.form.services[0].name;
-                    this.form.application_id = response.data;
+                    this.form.application_id = response.data.id;
+                    console.log(data.id);
                     this.statusModal = !this.statusModal;
                     this.position = 0;
                 }
@@ -464,7 +467,7 @@ export default {
             return response ? true : false;
         },
         toogleMenuTabs() {
-            this.tabs = this.form.condition.services;
+            this.tabs = this.form.condition.services;           
         }
     },
     async created() {
