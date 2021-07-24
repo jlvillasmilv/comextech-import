@@ -70,9 +70,9 @@
             <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
                 <FormPayment
                     :application_id="form.application_id"
-                    :amountTotal="form.amount"
                     @incomingMenu="incomingMenu"
                     :currencies="currency"
+                    :dataApplications="form"
                 />
             </Container>
 
