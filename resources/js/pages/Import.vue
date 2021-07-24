@@ -465,7 +465,7 @@ export default {
             }
         },
         serviceFind(value) {
-            let response = this.form.services.find(item => item.name == value);
+            let response = this.form.services.find(item => item == value);
             return response ? true : false;
         },
         toogleMenuTabs() {
