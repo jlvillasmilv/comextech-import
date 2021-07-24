@@ -8,6 +8,7 @@ use App\Models\{FileStore, FileStoreInternment, InternmentProcess, LocalWarehous
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest, LocalWarehouseRequest};
 use App\Notifications\AdminApplicationNotification;
 
@@ -40,35 +41,31 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+        
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
-
+      
         if ($status <> 0) { return response()->json($status, 400); }
 
         DB::beginTransaction();
-
+       // dd($request->all());
         try {
             $data =  Application::updateOrCreate(
                 ['id' => $request->application_id,
                 'user_id'   => auth()->user()->id,
                 ],
                 [
-                    'supplier_id'  => $request->supplier_id,
+                    'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'amount'       => $request->amount,
                     'application_statuses_id' => 1,
-                    'currency_id' => $request->currency_id,
-                    'description' => $request->description,
-                    'condition'   => $request->condition,
+                    'currency_id'  => $request->currency_id,
+                    'ecommerce_url' => $request->ecommerce_url,
+                    'condition'    => $request->condition,
                 ]
             );
 
-            $category_id = array();
-
-            foreach ($request->services as $key => $service) {
-                $category_id[] =  $service["id"];
-            }
-
-            $add_serv = Service::whereIn('category_service_id', $category_id)
+            
+            $add_serv = Service::whereIn('name', $request->services)
             ->select('id')
             ->pluck('id');
 
@@ -76,7 +73,7 @@ class ApplicationController extends Controller
                 ->whereNotIn('service_id', $add_serv)
                 ->where('application_id', $data->id)
                 ->delete();
-
+               
             foreach ($add_serv as $key => $id) {
 
                 ApplicationDetail::updateOrCreate(
@@ -104,10 +101,10 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(0, 400);
+            return response()->json($e, 400);
         }
 
-         return response()->json($data->id, 200);
+         return response()->json($data, 200);
     }
 
     /**
@@ -242,7 +239,7 @@ class ApplicationController extends Controller
 
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-       // dd($request->all());
+        //   dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -253,7 +250,7 @@ class ApplicationController extends Controller
                     'custom_agent_id'       => $request->custom_agent_id,
                     'customs_house'         => $request->customs_house,
                     'agent_payment'         => $request->agent_payment,
-                    'certificate'           => $request->certificate,
+                    // 'certificate'           => $request->certificate,
                 ]
             );
 
@@ -293,15 +290,16 @@ class ApplicationController extends Controller
 
             //Agrega datos a carga de transporte
             if(!$request->input('transport')){
-
+               
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
+        
 
             DB::commit();
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['status' => 'Error'], 400);
+            return response()->json(['status' => $e], 400);
         }
 
         return response()->json($internment->id, 200);
@@ -321,7 +319,7 @@ class ApplicationController extends Controller
     }
 
 
-    public function load($data=null,$application_id=null)
+    public function load($data,$application_id=null)
     {
         Load::where('application_id', $application_id)->delete();
         foreach ($data as $key => $item) {

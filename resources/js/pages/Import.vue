@@ -34,17 +34,16 @@
                     />
                 </svg>
             </button>
-
             <div v-for="(item, id) in form.services" :key="id">
                 <li
                     :class="[
                         'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                        item.name == activetab
+                        item == activetab
                             ? 'text-b-500 border-indigo-500'
                             : ''
                     ]"
                 >
-                    {{ item.name }}
+                    {{ item }}
                 </li>
             </div>
 
@@ -66,7 +65,7 @@
                 </svg>
             </button>
         </ul>
-
+       
         <div class="w-full p-2 ">
             <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
                 <FormPayment
@@ -113,10 +112,18 @@
                                 Proveedor
                             </h3>
                             <v-select
-                                v-show="statusSuppliers == 'with'"
+                                :disabled="form.statusSuppliers == 'without'"
                                 label="name"
-                                placeholder="Seleccionar Proveedor"
-                                :options="suppliers"
+                                :placeholder="
+                                    form.statusSuppliers !== 'E-commerce'
+                                        ? 'Seleccionar Proveedor'
+                                        : 'Seleccione E-commerce'
+                                "
+                                :options="
+                                    form.statusSuppliers !== 'E-commerce'
+                                        ? suppliers
+                                        : agencyElectronic
+                                "
                                 v-model="form.supplier_id"
                                 :reduce="supplier => supplier.id"
                             >
@@ -134,14 +141,27 @@
                                     >
                                 </template>
                             </v-select>
-
+                            <div  class="w-full md:w-full  ">
+                                <input
+                                    v-model="form.ecommerce_url"
+                                    type="text"
+                                    placeholder="Ingrese url generado por e-commerce "
+                                    :disabled="form.statusSuppliers !== 'E-commerce'"
+                                    :class="[
+                                        classStyle.input,
+                                        classStyle.formInput,
+                                        classStyle.wfull
+                                    ]"
+                                />
+                            </div>
                             <div class="mt-2">
                                 <label class="inline-flex items-center">
                                     <input
                                         type="radio"
                                         class="form-radio"
                                         name="accountType"
-                                        v-model="statusSuppliers"
+                                        v-model="form.statusSuppliers"
+                                        @change="form.supplier_id = ''"
                                         value="with"
                                     />
                                     <span class="ml-2"> Con Proveedor </span>
@@ -151,7 +171,19 @@
                                         type="radio"
                                         class="form-radio"
                                         name="accountType"
-                                        v-model="statusSuppliers"
+                                        v-model="form.statusSuppliers"
+                                        @change="form.supplier_id = ''"
+                                        value="E-commerce"
+                                    />
+                                    <span class="ml-2"> E-commerce </span>
+                                </label>
+                                <label class="inline-flex items-center ml-6">
+                                    <input
+                                        type="radio"
+                                        class="form-radio"
+                                        name="accountType"
+                                        v-model="form.statusSuppliers"
+                                        @change="form.supplier_id = ''"
                                         value="without"
                                     />
                                     <span class="ml-2"> Sin Proveedor </span>
@@ -169,13 +201,13 @@
                             </h3>
                             <div class="relative">
                                 <select
-                                    v-model="form.condition"
+                                    v-model="selectedCondition"
                                     @change="toogleMenuTabs()"
                                     class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 >
                                     <option
                                         v-for="item in arrayServices"
-                                        :value="item.name"
+                                        :value="item"
                                         :key="item.name"
                                     >
                                         {{ item.name }}
@@ -202,7 +234,7 @@
                                 </div>
                             </div>
                         </div>
-
+                            
                         <div class="flex flex-wrap -mx-3  ">
                             <div class="w-full md:w-1/2 px-3  md:mb-0">
                                 <h3 class="my-3 text-gray-500 text-sm ">
@@ -276,49 +308,28 @@
                                 ></span>
                             </div>
                         </div>
-                        <!-- <div class="dark:text-gray-200">
-                            <h3 class="my-4  text-gray-500  text-sm ">
-                                Description
-                            </h3>
-                            <textarea
-                                v-model="form.description"
-                                name="message"
-                                :class="[
-                                    classStyle.wfull,
-                                    classStyle.formInput,
-                                    'py-4 px-4 text-xs'
-                                ]"
-                                placeholder="Necesito importar un Equipo desde China con Valor del Equipo es USD 50.000,00 Pago de 20% adelanto y 80% Saldo contra entrega Entrega para 30 dias a partir del adelanto"
-                            >
-                            </textarea>
-                        </div> -->
                         <div v-if="tabs.length">
                             <label
                                 v-for="(item, id) in tabs"
                                 :key="id"
                                 class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
                             >
-                                <div v-if="item.name !== 'Pago Proveedor' ">
+                                <div class="flex items-center ">
                                     <input
-                                        @click="tabsAdd(item)"
-                                        :checked="item.selected"
+                                        v-if="item.selected"
                                         type="checkbox"
                                         class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
+                                        :value="item.name"
+                                        v-model="form.services"
                                     />
-                                    <span class="ml-2"> {{ item.name }} </span>
-                                </div>
-                                 <div v-else-if="statusSuppliers == 'with'" >
-                                    <input
-                                        @click="tabsAdd(item)"
-                                        :checked="item.selected"
-                                        type="checkbox"
-                                        class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
-                                    />
-                                    <span class="ml-2"> {{ item.name }} </span>
+                                    <div v-else class=" ">
+                                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                     </div>
+
+                                    <span :class="[ !item.selected ? 'text-gray-300': '' , 'ml-2']"> {{ item.name }} </span>
                                 </div>
                             </label>
                         </div>
-
                         <span
                             class="text-xs text-red-600 dark:text-red-400"
                             v-if="form.errors.has('services')"
@@ -347,8 +358,8 @@
     </div>
 </template>
 <script>
-import Modal from "../components/Modal.vue";
 
+import Modal from "../components/Modal.vue";
 import Container from "../components/Container.vue";
 import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
@@ -364,10 +375,24 @@ export default {
                 amount: 0,
                 supplier_id: "",
                 currency_id: "",
-                condition: "",
+                ecommerce_url: "",
+                condition: '',
                 description: "",
+                statusSuppliers: "with",
                 services: []
             }),
+            agencyElectronic: [
+                {
+                    name: "Mercado Libre"
+                },
+                {
+                    name: "Alibaba"
+                },
+                {
+                    name: "Amazon"
+                }
+            ],
+            selectedCondition:'',
             currency: "",
             position: 0,
             tabs: [],
@@ -376,7 +401,6 @@ export default {
             statusModal: true,
             title: "Servicios para Cotizacion",
             next: false,
-            statusSuppliers: "with",
             currencies: [],
             classStyle: {
                 span:
@@ -403,12 +427,6 @@ export default {
         InternalStorage
     },
     methods: {
-        tabsAdd(item) {
-            this.tabs = this.tabs.map(e =>
-                e.id === item.id ? { ...e, selected: !e.selected } : e
-            );
-            this.form.services = this.tabs.filter(e => e.selected);
-        },
         toogleMenu(value) {
             this.activetab = value.name;
         },
@@ -419,7 +437,7 @@ export default {
         incomingMenu(next = true) {
             if (this.position >= 0) {
                 this.position = next ? this.position + 1 : this.position - 1;
-                this.activetab = this.form.services[this.position].name;
+                this.activetab = this.form.services[this.position];
             }
         },
 
@@ -427,9 +445,9 @@ export default {
             try {
                 this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
-                const response = await this.form.post("/applications");
-
-                if (response.data > 0) {
+                const { data } = await this.form.post("/applications");
+                
+                if (data) {
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -437,8 +455,8 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    this.activetab = this.form.services[0].name;
-                    this.form.application_id = response.data;
+                    this.activetab = this.form.services[0];
+                    this.form.application_id =  data.id;
                     this.statusModal = !this.statusModal;
                     this.position = 0;
                 }
@@ -451,17 +469,16 @@ export default {
             return response ? true : false;
         },
         toogleMenuTabs() {
-            let data = this.arrayServices.find(
-                item => item.name == this.form.condition
-            );
-            this.tabs = data.services;
+            this.form.services = []
+            this.tabs = this.selectedCondition.services
+            this.form.condition = this.selectedCondition.name
         }
     },
     async created() {
         try {
             let tabs = await axios.get("/api/suppl_cond_sales");
-            this.arrayServices = tabs.data;
-
+            this.arrayServices = tabs.data 
+            this.tabs = tabs.data[0].services;
             let suppliers = await axios.get("/supplierlist");
             this.suppliers = suppliers.data;
 

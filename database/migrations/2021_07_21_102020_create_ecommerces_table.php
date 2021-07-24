@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSuppliersTable extends Migration
+class CreateEcommercesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,13 @@ class CreateSuppliersTable extends Migration
      */
     public function up()
     {
-        Schema::create('suppliers', function (Blueprint $table) {
-            $table->id();
+        Schema::create('ecommerces', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
-            $table->string('address')->nullable();
-            $table->string('bank',60)->nullable();
-            $table->string('isin',15)->nullable();
-            $table->string('iban',50)->nullable();
-            $table->string('phone',50)->nullable();
-            $table->string('email')->nullable();
-            $table->string('origin_transport')->nullable();
+            $table->string('name',100);
+            $table->boolean('status')->default(true);
+            $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -38,6 +31,6 @@ class CreateSuppliersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('ecommerces');
     }
 }

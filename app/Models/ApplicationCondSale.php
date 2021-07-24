@@ -24,7 +24,7 @@ class ApplicationCondSale extends Model
     public function services()
     {
         return $this->belongsToMany(CategoryService::class, 'category_service_suppl_cond_sale', 'application_cond_sale_id', 'category_service_id')
-        ->select('category_services.id','category_services.name', \DB::raw("false as selected"))
+        ->select('category_services.id','category_services.name', 'category_service_suppl_cond_sale.selected', 'category_service_suppl_cond_sale.aggregate')
         ->where('status', true);
     }
 }

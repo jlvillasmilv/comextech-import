@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Models\{Currency, CategoryService, CustomAgent, Warehouse, TransCompany, ApplicationCondSale};
+use App\Models\{Currency, CategoryService, CustomAgent, Ecommerce, Warehouse, TransCompany, ApplicationCondSale};
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::get('/currencies', function (Request $request) {
-    $currencies = Currency::select('id', 'code', DB::raw("CONCAT(name,' (', code,')') as name_code"))
+    $currencies = Currency::select('id', 'code', DB::raw("CONCAT('(', code,') ',name) as name_code"))
         ->where('status', '=', true)->OrderBy('name')->get();
     return response()->json($currencies, 200);
 });
@@ -56,4 +56,14 @@ Route::get('/suppl_cond_sales', function (Request $request) {
         ->get();
 
     return response()->json($suppl, 200);
+});
+
+Route::get('/ecommerce', function (Request $request) {
+   
+    $e = Ecommerce::select('id', 'name')
+    ->where('status', '=', true)
+    ->OrderBy('sort','asc')
+    ->get();
+    
+    return response()->json($e, 200);
 });
