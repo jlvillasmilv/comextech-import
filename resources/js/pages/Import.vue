@@ -34,17 +34,16 @@
                     />
                 </svg>
             </button>
-
             <div v-for="(item, id) in form.services" :key="id">
                 <li
                     :class="[
                         'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                        item.name == activetab
+                        item == activetab
                             ? 'text-b-500 border-indigo-500'
                             : ''
                     ]"
                 >
-                    {{ item.name }}
+                    {{ item }}
                 </li>
             </div>
 
@@ -66,7 +65,7 @@
                 </svg>
             </button>
         </ul>
-
+       
         <div class="w-full p-2 ">
             <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
                 <FormPayment
@@ -142,11 +141,12 @@
                                     >
                                 </template>
                             </v-select>
-                            <div v-if="form.statusSuppliers == 'E-commerce'" class="w-full md:w-full  ">
+                            <div  class="w-full md:w-full  ">
                                 <input
                                     v-model="form.ecommerce_url"
                                     type="text"
                                     placeholder="Ingrese url generado por e-commerce "
+                                    :disabled="form.statusSuppliers !== 'E-commerce'"
                                     :class="[
                                         classStyle.input,
                                         classStyle.formInput,
@@ -201,13 +201,13 @@
                             </h3>
                             <div class="relative">
                                 <select
-                                    v-model="form.condition"
+                                    v-model="selectedCondition"
                                     @change="toogleMenuTabs()"
                                     class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 >
                                     <option
                                         v-for="item in arrayServices"
-                                        :value="item.name"
+                                        :value="item"
                                         :key="item.name"
                                     >
                                         {{ item.name }}
@@ -234,7 +234,7 @@
                                 </div>
                             </div>
                         </div>
-
+                            
                         <div class="flex flex-wrap -mx-3  ">
                             <div class="w-full md:w-1/2 px-3  md:mb-0">
                                 <h3 class="my-3 text-gray-500 text-sm ">
@@ -319,6 +319,8 @@
                                         v-if="item.selected"
                                         type="checkbox"
                                         class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
+                                        :value="item.name"
+                                        v-model="form.services"
                                     />
                                     <div v-else class=" ">
                                         <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -356,8 +358,8 @@
     </div>
 </template>
 <script>
-import Modal from "../components/Modal.vue";
 
+import Modal from "../components/Modal.vue";
 import Container from "../components/Container.vue";
 import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
@@ -374,7 +376,7 @@ export default {
                 supplier_id: "",
                 currency_id: "",
                 ecommerce_url: "",
-                condition: "",
+                condition: '',
                 description: "",
                 statusSuppliers: "with",
                 services: []
@@ -390,6 +392,7 @@ export default {
                     name: "Amazon"
                 }
             ],
+            selectedCondition:'',
             currency: "",
             position: 0,
             tabs: [],
@@ -434,7 +437,7 @@ export default {
         incomingMenu(next = true) {
             if (this.position >= 0) {
                 this.position = next ? this.position + 1 : this.position - 1;
-                this.activetab = this.form.services[this.position].name;
+                this.activetab = this.form.services[this.position];
             }
         },
 
@@ -442,9 +445,9 @@ export default {
             try {
                 this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
-                const response = await this.form.post("/applications");
-
-                if (response.data > 0) {
+                const { data } = await this.form.post("/applications");
+                
+                if (data) {
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -452,9 +455,8 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    this.activetab = this.form.services[0].name;
-                    this.form.application_id = response.data.id;
-                    console.log(data.id);
+                    this.activetab = this.form.services[0];
+                    this.form.application_id =  data.id;
                     this.statusModal = !this.statusModal;
                     this.position = 0;
                 }
@@ -467,13 +469,15 @@ export default {
             return response ? true : false;
         },
         toogleMenuTabs() {
-            this.tabs = this.form.condition.services;           
+            this.form.services = []
+            this.tabs = this.selectedCondition.services
+            this.form.condition = this.selectedCondition.name
         }
     },
     async created() {
         try {
             let tabs = await axios.get("/api/suppl_cond_sales");
-            this.arrayServices = tabs.data;
+            this.arrayServices = tabs.data 
             this.tabs = tabs.data[0].services;
             let suppliers = await axios.get("/supplierlist");
             this.suppliers = suppliers.data;
