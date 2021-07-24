@@ -52,7 +52,7 @@
                         </label>
                     </div>
                 </div>
-                <div v-if="expenses.addressDestination" class="flex flex-wrap -mx-3 mb-6">
+                <div v-if="expenses.addressDestination !== '' " class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-1/4 px-3 mb-6 md:mb-0">
                         <label class="block text-sm">
                             <span
@@ -166,7 +166,7 @@ export default {
             }
         },
         getDataLoad(payload) {
-       
+            this.expenses.addressDestination = ''
             this.expenses.dataLoad = payload[0];
         },
         async submitForm() {
