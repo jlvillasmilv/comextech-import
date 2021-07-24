@@ -44,7 +44,7 @@ class ApplicationController extends Controller
         
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
-
+      
         if ($status <> 0) { return response()->json($status, 400); }
 
         DB::beginTransaction();
@@ -64,13 +64,8 @@ class ApplicationController extends Controller
                 ]
             );
 
-            $category_id = array();
-
-            foreach ($request->services as $key => $service) {
-                $category_id[] =  $service["id"];
-            }
-
-            $add_serv = Service::whereIn('category_service_id', $category_id)
+            
+            $add_serv = Service::whereIn('name', $request->services)
             ->select('id')
             ->pluck('id');
 
@@ -78,7 +73,7 @@ class ApplicationController extends Controller
                 ->whereNotIn('service_id', $add_serv)
                 ->where('application_id', $data->id)
                 ->delete();
-
+               
             foreach ($add_serv as $key => $id) {
 
                 ApplicationDetail::updateOrCreate(
