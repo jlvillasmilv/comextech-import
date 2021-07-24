@@ -20,7 +20,8 @@
                 </li>
             </ul>
         </div>
-        <div
+        <div v-if="item.mode_selected" >
+             <div
             v-for="(item, id) in FielFormLoad"
             :key="id"
             class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 "
@@ -236,6 +237,7 @@
                 </button>
             </div>
         </div>
+        </div>
     </div>
 </template>
 <script>
@@ -245,7 +247,7 @@ export default {
             types: ["COURIER","CARGA AEREA", "CONTAINER", "CONSOLIDADO"],
             item: {
                 mode_calculate: true,
-                mode_selected: "CARGA AEREA",
+                mode_selected:false,
                 type_load: 1,
                 type_container: 1,
                 length: "",
@@ -254,7 +256,7 @@ export default {
                 lengthUnit: "cm",
                 id: 1,
                 cbm: "",
-                weight: "",
+                weight: false,
                 weight_units: "kg",
                 stackable: false,
                 id: 0
