@@ -63,7 +63,6 @@
                             Fecha a Pagar Porcentaje</span
                         >
                         <input
-                            :disabled="discount < 0 || percentageInitial == 0"
                             v-model="form.datePay"
                             type="date"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -76,9 +75,6 @@
                         </span>
                         <div class="relative">
                             <select
-                                :disabled="
-                                    discount < 0 || percentageInitial == 0
-                                "
                                 v-model="form.typePay"
                                 class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="grid-state"
@@ -116,9 +112,6 @@
                         </span>
                         <div class="relative">
                             <select
-                                :disabled="
-                                    discount < 0 || percentageInitial == 0
-                                "
                                 v-model="form.payment_release"
                                 class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="grid-state"

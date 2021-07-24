@@ -1,7 +1,8 @@
 <template>
     <div class="container grid px-6 my-1 ">
+  
         <Load @dataForm="getDataLoad" />
-        <div>
+        <div v-if="expenses.dataLoad.weight">
             <div>
                 <div class="flex flex-wrap -mx-3">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -15,7 +16,7 @@
                                 v-model="expenses.addressOrigin"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
-                                    this.expenses.originWarehouse
+                                    expenses.originWarehouse
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
@@ -38,7 +39,7 @@
                                 v-model="expenses.addressDestination"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
-                                    this.expenses.destinacionWarehouse
+                                     expenses.destinacionWarehouse
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
@@ -51,7 +52,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="flex flex-wrap -mx-3 mb-6">
+                <div v-if="expenses.addressDestination" class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-1/4 px-3 mb-6 md:mb-0">
                         <label class="block text-sm">
                             <span
@@ -165,7 +166,8 @@ export default {
             }
         },
         getDataLoad(payload) {
-            this.expenses.dataLoad = payload;
+       
+            this.expenses.dataLoad = payload[0];
         },
         async submitForm() {
             try {
