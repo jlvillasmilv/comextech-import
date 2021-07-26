@@ -2,7 +2,7 @@
     <div class="container grid px-6 my-1 ">
   
         <Load @dataForm="getDataLoad" />
-        <div v-if="expenses.dataLoad.weight">
+        <div v-if="Load.weight">
             <div>
                 <div class="flex flex-wrap -mx-3">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -136,6 +136,7 @@ export default {
                 description: "",
                 dataLoad: []
             }),
+            Load:false
     
         };
     },
@@ -167,7 +168,9 @@ export default {
         },
         getDataLoad(payload) {
             this.expenses.addressDestination = ''
-            this.expenses.dataLoad = payload[0];
+            this.Load = payload[0]
+            this.expenses.dataLoad = payload;
+
         },
         async submitForm() {
             try {
