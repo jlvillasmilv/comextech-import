@@ -92,7 +92,7 @@
                 />
             </Container>
 
-            <Container v-if="activetab == 'Bodegaje Local'">
+            <Container v-if="activetab == 'Entrega'">
                 <internal-storage :application_id="form.application_id" />
             </Container>
         </div>
