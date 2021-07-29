@@ -120,6 +120,10 @@ export default {
             type: Number,
             required: true,
         },
+        origin_transport: {
+            type: String,
+            required: false,
+        },
     },
     data() {
         return {
@@ -130,7 +134,7 @@ export default {
                 originWarehouse: false,
                 destinacionWarehouse: false,
                 application_id: this.application_id,
-                addressOrigin: "",
+                addressOrigin: this.origin_transport,
                 addressDestination: "",
                 estimated_date: "",
                 description: "",
