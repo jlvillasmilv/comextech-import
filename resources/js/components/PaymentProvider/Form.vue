@@ -12,7 +12,7 @@
                     <h3
                         class="my-2 font-semibold text-gray-700 dark:text-gray-200"
                     >
-                        Pagos al Proveedo
+                        Pagos al Proveedor
                     </h3>
                     <h3
                         :class="[
@@ -22,7 +22,6 @@
                             ' text-xs dark:text-gray-200'
                         ]"
                     >
-                    {{ percentageInitial }}  --  {{ discount }}
                         Porcentaje Restante : {{ percentageInitial - discount }}
                     </h3>
                 </div>
@@ -36,14 +35,25 @@
                 >
                     <div class="w-full md:w-1/2 px-3 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Porcentaje de Pago Nro {{ counter + 1 }}</span
+                            Porcentaje de Pago     </span
                         >
                         <input
+                            v-if=" valuePercentage.name == 'Otros'"
                             :class="[]"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
                             placeholder="%"
                             v-model.number="discount"
                             :disabled="discount < 0 || percentageInitial == 0"
+                            step="1"
+                            type="number"
+                        />
+                        <input
+                            v-else
+                            disabled
+                            :class="[]"
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input  text-center"
+                            placeholder="%"
+                            v-model.number="discount"
                             step="1"
                             type="number"
                         />
@@ -264,7 +274,7 @@
                                 <td class="px-4 py-3 text-xs font-semibold ">
                                     {{ item.payment_release }}
                                 </td>
-                                <td>
+                                <td v-if="valuePercentage.name == 'Otros'">
                                     <svg
                                         @click="deleteRow(item)"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -301,6 +311,10 @@ export default {
             required: true
         },
         dataApplications: {
+            required: true
+        },
+        valuePercentage:{
+             type: Object,
             required: true
         }
     },
@@ -345,7 +359,7 @@ export default {
                     id: this.data.length
                 });
 
-                this.discount = 0;
+                this.discount = this.percentageInitial ;
                 this.form = {
                     percentage: "",
                     datePay: "",
@@ -385,8 +399,17 @@ export default {
         }
     },
     created() {
-        this.discount =
-            this.dataApplications.statusSuppliers == "E-commerce" ? 100 : 0;
+        if(this.dataApplications.statusSuppliers == "E-commerce"){
+            this.discount = 100
+        }else{
+            if(this.valuePercentage.name !== 'Otros'){
+                    this.discount = this.valuePercentage.valueInitial 
+            }
+        }
+        
+           
+
+            
     }
 };
 </script>

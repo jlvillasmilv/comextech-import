@@ -1,0 +1,62 @@
+[
+    {
+      "id": 1,
+      "name": "Pago Proveedor",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 1
+      }
+    },
+    {
+      "id": 3,
+      "name": "Transporte",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 3
+      }
+    },
+    {
+      "id": 4,
+      "name": "Proceso de Internación",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 4
+      }
+    },
+    {
+      "id": 5,
+      "name": "Entrega",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 5
+      }
+    },
+    {
+      "id": 7,
+      "name": "Financiamiento",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 7
+      }
+    },
+    {
+      "id": 8,
+      "name": "Tipo de Cambio",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 8
+      }
+    }
+  ]
