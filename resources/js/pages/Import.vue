@@ -38,9 +38,7 @@
                 <li
                     :class="[
                         'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                        item == activetab
-                            ? 'text-b-500 border-indigo-500'
-                            : ''
+                        item == activetab ? 'text-b-500 border-indigo-500' : ''
                     ]"
                 >
                     {{ item }}
@@ -65,7 +63,7 @@
                 </svg>
             </button>
         </ul>
-       
+
         <div class="w-full p-2 ">
             <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
                 <FormPayment
@@ -73,6 +71,8 @@
                     @incomingMenu="incomingMenu"
                     :currencies="currency"
                     :dataApplications="form"
+                    :valuePercentage="valuePercentage"
+                    
                 />
             </Container>
 
@@ -142,12 +142,14 @@
                                     >
                                 </template>
                             </v-select>
-                            <div  class="w-full md:w-full  ">
+                            <div class="w-full md:w-full  ">
                                 <input
                                     v-model="form.ecommerce_url"
                                     type="text"
                                     placeholder="Ingrese url generado por e-commerce "
-                                    :disabled="form.statusSuppliers !== 'E-commerce'"
+                                    :disabled="
+                                        form.statusSuppliers !== 'E-commerce'
+                                    "
                                     :class="[
                                         classStyle.input,
                                         classStyle.formInput,
@@ -196,46 +198,76 @@
                                 v-html="form.errors.get('supplier_id')"
                             ></span>
                         </div>
-                        <div class="dark:text-gray-200">
-                            <h3 class="my-3  text-gray-500  text-sm">
-                                Condicion de Venta del Proveedor
-                            </h3>
-                            <div class="relative">
-                                <select
-                                    v-model="selectedCondition"
-                                    @change="toogleMenuTabs()"
-                                    class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                >
-                                    <option
-                                        v-for="item in arrayServices"
-                                        :value="item"
-                                        :key="item.name"
+                        <div class="flex flex-wrap -mx-3  ">
+                            <div
+                                :class="[
+                                    form.statusSuppliers == 'with'
+                                        ? 'md:w-1/2'
+                                        : '',
+                                    'w-full px-3  md:mb-0'
+                                ]"
+                            >
+                                <h3 class="my-3  text-gray-500  text-sm">
+                                    Condicion de Venta del Proveedor
+                                </h3>
+                                <div class="relative">
+                                    <select
+                                        v-model="selectedCondition"
+                                        @change="toogleMenuTabs()"
+                                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     >
-                                        {{ item.name }}
-                                    </option>
-                                </select>
-                                <span
-                                    class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="form.errors.has('condition')"
-                                    v-html="form.errors.get('condition')"
-                                ></span>
-
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                                >
-                                    <svg
-                                        class="fill-current h-4 w-4"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
+                                        <option
+                                            v-for="item in arrayServices"
+                                            :value="item"
+                                            :key="item.name"
+                                        >
+                                            {{ item.name }}
+                                        </option>
+                                    </select>
+                                    <span
+                                        class="text-xs text-red-600 dark:text-red-400"
+                                        v-if="form.errors.has('condition')"
+                                        v-html="form.errors.get('condition')"
+                                    ></span>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
                                     >
-                                        <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-                                        />
-                                    </svg>
+                                        <svg
+                                            class="fill-current h-4 w-4"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                            />
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
+                            <div
+                                class="w-full md:w-1/2 px-3"
+                                v-show="form.statusSuppliers == 'with'"
+                            >
+                                <h3 class="my-3  text-gray-500  text-sm">
+                                    Porcentaje de Pago
+                                </h3>
+
+                                <a
+                                    v-for="(item, id) in paymentPercentage"
+                                    :key="id"
+                                    @click="handlePercentage(item)"
+                                    :class="[
+                                        item == valuePercentage
+                                            ? 'bg-blue-500 text-white '
+                                            : 'bg-transparent text-blue-700',
+                                        'hover:bg-blue-500  font-semibold hover:text-white py-1 px-1 mx-0.5 border border-blue-500 hover:border-transparent rounded'
+                                    ]"
+                                >
+                                    {{ item.name }}
+                                </a>
+                            </div>
                         </div>
-                            
+
                         <div class="flex flex-wrap -mx-3  ">
                             <div class="w-full md:w-1/2 px-3  md:mb-0">
                                 <h3 class="my-3 text-gray-500 text-sm ">
@@ -324,10 +356,32 @@
                                         v-model="form.services"
                                     />
                                     <div v-else class=" ">
-                                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                     </div>
+                                        <svg
+                                            class="w-5 h-5 text-gray-300"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            ></path>
+                                        </svg>
+                                    </div>
 
-                                    <span :class="[ !item.selected ? 'text-gray-300': '' , 'ml-2']"> {{ item.name }} </span>
+                                    <span
+                                        :class="[
+                                            !item.selected
+                                                ? 'text-gray-300'
+                                                : '',
+                                            'ml-2'
+                                        ]"
+                                    >
+                                        {{ item.name }}
+                                    </span>
                                 </div>
                             </label>
                         </div>
@@ -359,14 +413,15 @@
     </div>
 </template>
 <script>
-
-import  Modal            from "../components/Modal.vue";
-import  Container        from "../components/Container.vue";
-import  Addresses        from "../components/Transport/Addresses.vue";
-import  FormInternment   from "../components/Internment/Form.vue";
-import  FormPayment      from "../components/PaymentProvider/Form.vue";
-import  TablePayment     from "../components/PaymentProvider/Table.vue";
-import  InternalStorage  from "../components/InternalStorage.vue";
+import Modal from "../components/Modal.vue";
+import Container from "../components/Container.vue";
+import Addresses from "../components/Transport/Addresses.vue";
+import FormInternment from "../components/Internment/Form.vue";
+import FormPayment from "../components/PaymentProvider/Form.vue";
+import TablePayment from "../components/PaymentProvider/Table.vue";
+import InternalStorage from "../components/InternalStorage.vue";
+import servicedefault from "../data/services.json";
+import Button from "../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue";
 
 export default {
     data() {
@@ -377,7 +432,7 @@ export default {
                 supplier_id: "",
                 currency_id: "",
                 ecommerce_url: "",
-                condition: '',
+                condition: "",
                 description: "",
                 statusSuppliers: "with",
                 services: []
@@ -393,6 +448,8 @@ export default {
                     name: "Amazon"
                 }
             ],
+            valuePercentage: "",
+            selectedCondition: "",
             busy: false,
             selectedCondition:'',
             currency: "",
@@ -413,8 +470,8 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            formEditPayment: "",
-            deletePay: 0,
+            paymentPercentage: [{ name: "30/70",valueInitial: 70 },{name: "40/60", valueInitial: 60 }, {name: "50/50", valueInitial: 50 }, { name:"Otros", valueInitial: 50}],
+
             transportSelected: false,
             arrayServices: [],
             origin_transport:""
@@ -427,7 +484,8 @@ export default {
         FormInternment,
         FormPayment,
         TablePayment,
-        InternalStorage
+        InternalStorage,
+        Button
     },
     methods: {
         toogleMenu(value) {
@@ -449,7 +507,9 @@ export default {
                 this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
                 const { data } = await this.form.post("/applications");
+
                 this.busy = true;
+
                 if (data) {
                     Swal.fire({
                         position: "center",
@@ -459,7 +519,7 @@ export default {
                         timer: 1500
                     });
                     this.activetab = this.form.services[0];
-                    this.form.application_id =  data.id;
+                    this.form.application_id = data.id;
                     this.statusModal = !this.statusModal;
                     this.position = 0;
                     this.busy = false;
@@ -477,17 +537,20 @@ export default {
             let response = this.form.services.find(item => item == value);
             return response ? true : false;
         },
+        handlePercentage(item) {
+            this.valuePercentage = item;
+        },
         toogleMenuTabs() {
-            this.form.services = []
-            this.tabs = this.selectedCondition.services
-            this.form.condition = this.selectedCondition.name
+            this.form.services = [];
+            this.tabs = this.selectedCondition.services;
+            this.form.condition = this.selectedCondition.name;
         }
     },
     async created() {
         try {
             let tabs = await axios.get("/api/suppl_cond_sales");
-            this.arrayServices = tabs.data 
-            this.tabs = tabs.data[0].services;
+            this.arrayServices = tabs.data;
+            this.tabs = servicedefault;
             let suppliers = await axios.get("/supplierlist");
             this.suppliers = suppliers.data;
 
