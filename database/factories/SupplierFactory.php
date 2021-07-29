@@ -31,7 +31,6 @@ class SupplierFactory extends Factory
             'iban'    => $this->faker->bankAccountNumber,
             'phone'   => $this->faker->phoneNumber,
             'email'   => $this->faker->unique()->safeEmail,
-            'origin_transport' => $this->faker->address,
         ];
     }
 }

@@ -35,21 +35,16 @@ class CategoryServiceSeeder extends Seeder
             ['category_service_id' => 2, 'name' => 'Otros', 'created_at' => now() ],
             ['category_service_id' => 3, 'name' => 'Pago de Tranporte Internacional', 'created_at' => now() ],
             ['category_service_id' => 3, 'name' => 'Pago Seguro Transporte', 'created_at' => now() ],
-            ['category_service_id' => 3, 'name' => 'Otros', 'created_at' => now() ],
             ['category_service_id' => 4, 'name' => 'AGA (agente de Aduana)', 'created_at' => now() ],
             ['category_service_id' => 4, 'name' => 'IVA Internacion', 'created_at' => now() ],
             ['category_service_id' => 4, 'name' => 'Ad-Valorem', 'created_at' => now() ],
-            ['category_service_id' => 4, 'name' => 'Otros', 'created_at' => now() ], 
             ['category_service_id' => 5, 'name' => 'Bodega', 'created_at' => now() ],
             ['category_service_id' => 5, 'name' => 'Distribución Local', 'created_at' => now() ],
-            ['category_service_id' => 5, 'name' => 'Otros', 'created_at' => now() ],
             ['category_service_id' => 6, 'name' => 'Almacenaje', 'created_at' => now() ],
             ['category_service_id' => 6, 'name' => 'Transporte Local', 'created_at' => now() ],
-            ['category_service_id' => 6, 'name' => 'Otros', 'created_at' => now() ],
             ['category_service_id' => 7, 'name' => 'Financiamiento', 'created_at' => now() ],
             ['category_service_id' => 8, 'name' => 'Compra y venta', 'created_at' => now() ],
             ['category_service_id' => 8, 'name' => 'Transferencia', 'created_at' => now() ],
-            ['category_service_id' => 8, 'name' => 'Otros', 'created_at' => now() ],
         ]);
 
     }
