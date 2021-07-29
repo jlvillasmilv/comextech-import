@@ -20,10 +20,10 @@ class CategoryServiceSeeder extends Seeder
             ['name' => 'Servicios en Origen', 'user_id' => 1, 'dependence' => '4,5,7,8', 'ind_service' => false, 'sort' => 2, 'status' => false, 'created_at' => now(), ], 
             ['name' => 'Transporte', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 3,'status' => true, 'created_at' => now() ], 
             ['name' => 'Proceso de Internación', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 4,'status' => true,'created_at' => now() ], 
-            ['name' => 'Bodegaje Local', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => true, 'sort' => 5,'status' => true,'created_at' => now() ],
+            ['name' => 'Entrega', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => true, 'sort' => 5,'status' => true,'created_at' => now() ],
             ['name' => 'Transporte Local', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 6,'status' => true,'created_at' => now() ],
-            ['name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => false, 'sort' => 7,'status' => true, 'created_at' => now() ], 
-            ['name' => 'Gestion del Tipo de Cambio', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 8,'status' => true,'created_at' => now() ], 
+            ['name' => 'Tipo de Cambio', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 7,'status' => true,'created_at' => now() ], 
+            ['name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => false, 'sort' => 8,'status' => true, 'created_at' => now() ], 
         ]);
 
         \DB::table('services')->insert([

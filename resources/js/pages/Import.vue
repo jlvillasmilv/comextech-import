@@ -80,6 +80,7 @@
                 <Addresses
                     @incomingMenu="incomingMenu"
                     :application_id="form.application_id"
+                    :origin_transport="origin_transport"
                 />
             </Container>
 
@@ -91,7 +92,7 @@
                 />
             </Container>
 
-            <Container v-if="activetab == 'Bodegaje Local'">
+            <Container v-if="activetab == 'Entrega'">
                 <internal-storage :application_id="form.application_id" />
             </Container>
         </div>
@@ -401,7 +402,7 @@
                 </a>
                 <button
                     type="submit"
-                    :disabled="form.busy"
+                    :disabled="busy"
                     @click="submitFormApplications()"
                     class="transform motion-safe:hover:scale-110 w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                 >
@@ -449,6 +450,8 @@ export default {
             ],
             valuePercentage: "",
             selectedCondition: "",
+            busy: false,
+            selectedCondition:'',
             currency: "",
             position: 0,
             tabs: [],
@@ -470,7 +473,8 @@ export default {
             paymentPercentage: [{ name: "30/70",valueInitial: 70 },{name: "40/60", valueInitial: 60 }, {name: "50/50", valueInitial: 50 }, { name:"Otros", valueInitial: 50}],
 
             transportSelected: false,
-            arrayServices: []
+            arrayServices: [],
+            origin_transport:""
         };
     },
     components: {
@@ -504,6 +508,8 @@ export default {
                 this.form.currency_id = this.currency.id;
                 const { data } = await this.form.post("/applications");
 
+                this.busy = true;
+
                 if (data) {
                     Swal.fire({
                         position: "center",
@@ -516,6 +522,12 @@ export default {
                     this.form.application_id = data.id;
                     this.statusModal = !this.statusModal;
                     this.position = 0;
+                    this.busy = false;
+                    if (data.supplier_id != null ) {
+                        let provider = await axios.get("/api/provider/"+data.supplier_id);
+                        this.origin_transport = provider.data.origin_transport 
+                    }
+            
                 }
             } catch (error) {
                 console.log("error");
