@@ -2,9 +2,9 @@
     <div class="container grid px-6 my-1 ">
   
         <Load @dataForm="getDataLoad" />
-        <div v-if="Load.weight">
+        <div v-if="Load.weight" >
             <div>
-                <div class="flex flex-wrap -mx-3">
+                <div class="flex flex-wrap -mx-3 my-8 ">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label class="block text-sm">
                             <span
@@ -88,7 +88,17 @@
                             />
                         </label>
                     </div>
-                   
+                   <div class="w-1/6 mt-8">
+                        <label class="ml-6 text-gray-500 dark:text-gray-400">
+                            <input
+                                type="checkbox"
+                                class="form-checkbox h-4 w-4 text-gray-800"
+                                v-model="safe"
+                            />
+                            <span class="ml-2 text-gray-700 "> Seguro </span>
+                        </label>
+                    </div>
+                     
                 </div>
             </div>
             <div class="flex justify-center">

@@ -5,7 +5,7 @@
                 {{ title }}
             </h1>
         </div>
-        <div class="flex  mt-3 dark:text-gray-400  ">
+        <div class="flex  mt-3 mb-8   ">
             <ul class="flex  space-x-2 mt-3 ">
                 <li
                     v-for="name in types"
