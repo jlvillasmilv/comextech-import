@@ -79,13 +79,53 @@
                 </label>
                 <label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400"> Origen del Transporte </span>
-                    <textarea name="origin_transport" id="origin_transport" cols="30" rows="5" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion  Origen del Transporte" maxlength="254">{{ old('origin_transport', isset($supplier) ? $supplier->origin_transport : '') }}</textarea>
                     
-	                @if($errors->has('origin_transport'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('origin_transport') }}
-		                </span>
-	                @endif
+                    <div class="px-2" id="add_services">
+                        <div class="flex mb-4">
+                            <div class="w-1/2 mr-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Tipo:</label>
+                                <select name="services_id" id="services_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray ">
+
+                                    @foreach($place as $id => $name)
+
+                                        <option value="{{ $id }}">{{ $name }}</option>
+    
+                                    @endforeach
+                                </select>
+                                <span id="services_idError" class="text-xs text-red-600 dark:text-red-400">
+                                    <strong></strong>
+                                </span>
+                            </div>
+                           
+                            <div class="w-1/2 ml-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Direccion</label>
+
+                                <input  class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Monto Origen" id="_amount" >
+
+                                <span id="amountError" class="text-xs text-red-600 dark:text-red-400">
+                                    <strong></strong>
+                                </span>
+                                
+                            </div>
+
+                            
+                            
+                            <button id="add" type="button" class="btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue" 
+                                data-remote="#" data-id="#" autocomplete="off"
+                                title="Agregar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                     </svg>
+
+                                </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Location/City/Address</label>
+                        <input type="text" id="txtPlaces" style="width: 250px" placeholder="Enter a location" />
+                    </div>
+                  
                 </label>
                 <div class="flex  justify-start">
                         <button class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -98,4 +138,18 @@
             </div>
         </div>
     </div>
+@section('scripts')
+@parent
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_MAP_API_KEY&libraries=places®ion=in"></script>
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, 'load', function () {
+        var places = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
+        google.maps.event.addListener(places, 'place_changed', function () {
+
+        });
+    });
+</script>
+@endsection
+
 </x-app-layout>

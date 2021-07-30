@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SupplierAddress extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $table = 'supplier_addresses';
     protected $guarded = [];
@@ -19,3 +17,4 @@ class SupplierAddress extends Model
         'updated_at',
     ];
 }
+ 

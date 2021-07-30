@@ -17,7 +17,7 @@ class CreateSupplierAddressesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->string('address');
-            $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO']);
+            $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO'])->default('ALMACEN');
             $table->timestamps();
         });
     }
