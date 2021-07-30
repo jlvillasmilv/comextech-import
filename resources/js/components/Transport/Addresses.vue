@@ -144,7 +144,7 @@ export default {
                 originWarehouse: false,
                 destinacionWarehouse: false,
                 application_id: this.application_id,
-                addressOrigin: this.origin_transport,
+                addressOrigin: "",
                 addressDestination: "",
                 estimated_date: "",
                 description: "",

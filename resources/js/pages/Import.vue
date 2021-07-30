@@ -71,7 +71,7 @@
                     @incomingMenu="incomingMenu"
                     :currencies="currency"
                     :dataApplications="form"
-                    :valuePercentage="valuePercentage"
+                    :valuePercentage="form.valuePercentage"
                     
                 />
             </Container>
@@ -80,7 +80,6 @@
                 <Addresses
                     @incomingMenu="incomingMenu"
                     :application_id="form.application_id"
-                    :origin_transport="origin_transport"
                 />
             </Container>
 
@@ -257,7 +256,7 @@
                                     :key="id"
                                     @click="handlePercentage(item)"
                                     :class="[
-                                        item == valuePercentage
+                                        item == form.valuePercentage
                                             ? 'bg-blue-500 text-white '
                                             : 'bg-transparent text-blue-700',
                                         'hover:bg-blue-500  font-semibold hover:text-white py-1 px-1 mx-0.5 border border-blue-500 hover:border-transparent rounded'
@@ -435,7 +434,8 @@ export default {
                 condition: "",
                 description: "",
                 statusSuppliers: "with",
-                services: []
+                services: [],
+                valuePercentage: "",
             }),
             agencyElectronic: [
                 {
@@ -448,7 +448,7 @@ export default {
                     name: "Amazon"
                 }
             ],
-            valuePercentage: "",
+            
             selectedCondition: "",
             busy: false,
             selectedCondition:'',
@@ -470,7 +470,7 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            paymentPercentage: [{ name: "30/70",valueInitial: 70 },{name: "40/60", valueInitial: 60 }, {name: "50/50", valueInitial: 50 }, { name:"Otros", valueInitial: 50}],
+            paymentPercentage: [{ name: "30/70",valueInitial: 30 },{name: "40/60", valueInitial: 40 }, {name: "50/50", valueInitial: 50 }, { name:"Otros", valueInitial: 0}],
 
             transportSelected: false,
             arrayServices: [],
@@ -525,7 +525,7 @@ export default {
                     this.busy = false;
                     if (data.supplier_id != null ) {
                         let provider = await axios.get("/api/provider/"+data.supplier_id);
-                        this.origin_transport = provider.data.origin_transport 
+                        this.origin_transport = provider.data 
                     }
             
                 }
@@ -538,7 +538,7 @@ export default {
             return response ? true : false;
         },
         handlePercentage(item) {
-            this.valuePercentage = item;
+            this.form.valuePercentage = item;
         },
         toogleMenuTabs() {
             this.form.services = [];
