@@ -76,7 +76,8 @@ Route::get('/ecommerce', function (Request $request) {
 
 Route::get('/provider/{id}', function ($id) {
    
-    $provider = Supplier::findOrFail($id);
+    $provider = Supplier::where('id',$id)->with('supplierAddress')
+    ->first();
     
     return response()->json($provider, 200);
 })->where('id', '[0-9]+');

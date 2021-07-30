@@ -19,4 +19,9 @@ class Supplier extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function supplierAddress()
+    {
+        return $this->hasMany(SupplierAddress::class, 'supplier_id');
+    }
 }

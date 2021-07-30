@@ -28,11 +28,7 @@ class ApplicationRequest extends FormRequest
             'currency_id'              => 'required|exists:currencies,id',
             'description'              => 'nullable|max:250',
             'estimated_date'           => 'nullable|date',
-            'fee1'                     => 'nullable|numeric',
-            'fee1_date'                => 'nullable|date',
-            'fee2'                     => 'nullable|numeric',
-            'fee2_date'                => 'nullable|date',
-            'fee3'                     => 'nullable|numeric',
+            'valuePercentage'          => 'required_if:statusSuppliers,with',
             'condition'                => 'required|exists:application_cond_sales,name',
             'amount'                   => 'required|numeric|gt:0|between:1,999999999999',
             'statusSuppliers'          => 'required',
@@ -56,6 +52,7 @@ class ApplicationRequest extends FormRequest
         return [
             'supplier_id' => 'Proveedor',
             'amount'      => 'Monto Total de Operacion',
+            'valuePercentage' => 'Porcentaje de Pago',
             'condition'   => 'Condicion de Venta del Proveedor'
         ];
     }
