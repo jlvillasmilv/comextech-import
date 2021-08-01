@@ -29,7 +29,9 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
-    
+     Route::post('asupplier/remove', 'App\Http\Controllers\Web\SupplierController@remove')
+    ->name('supplier.remove'); 
+
     // Applications
     Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
 

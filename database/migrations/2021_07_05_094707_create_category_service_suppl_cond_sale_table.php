@@ -16,9 +16,9 @@ class CreateCategoryServiceSupplCondSaleTable extends Migration
         Schema::create('category_service_suppl_cond_sale', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_service_id');
-            $table->foreign('category_service_id')->references('id')->on('category_services')->onDelete('cascade');
+            $table->foreign('category_service_id', 'category_service_id_fk_1747081')->references('id')->on('category_services')->onDelete('cascade');
             $table->unsignedBigInteger('application_cond_sale_id');
-            $table->foreign('application_cond_sale_id')->references('id')->on('application_cond_sales')->onDelete('cascade');
+            $table->foreign('application_cond_sale_id', 'application_cond_sale_id_fk_1759054')->references('id')->on('application_cond_sales')->onDelete('cascade');
             $table->boolean('selected')->default(false);
             $table->timestamps();
         });

@@ -12,7 +12,16 @@ class Supplier extends Model
     use SoftDeletes;
 
     protected $table = 'suppliers';
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'name',
+        'address',
+        'bank',
+        'isin',
+        'iban',
+        'phone',
+        'email'
+    ];
 
     protected $dates = [
         'created_at',

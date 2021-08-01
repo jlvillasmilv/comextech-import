@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Supplier;
+use App\Models\{Supplier, SupplierAddress};
 use Illuminate\Http\Request;
 use App\Http\Requests\SupplierRequest;
 
@@ -38,10 +38,18 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-        $data = new Supplier;
-        $data->fill($request->all());
-        $data->user_id = auth()->user()->id;
-        $data->save();
+         // dd($request->all());
+        $supplier = new Supplier;
+        $supplier->fill($request->all());
+        $supplier->user_id = auth()->user()->id;
+        $supplier->save();
+
+        foreach ($request->input('origin_address') as $key => $value) {
+            $supplier->supplierAddress()->create([
+                  'address' => $value,
+                  'place'   => $request->place[$key],
+                ]);
+        }
 
         $notification = array(
             'message'    => 'Registro actualizado',
@@ -49,7 +57,7 @@ class SupplierController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('supplier.edit', $data->id);
+        return redirect()->route('supplier.edit', $supplier->id);
     }
 
     /**
@@ -87,6 +95,19 @@ class SupplierController extends Controller
 
         $data->fill($request->all())->save();
 
+        if($request->has('idto')){
+           SupplierAddress::whereNotIn($request->input('idto'))->delete();  
+        }
+
+        if($request->has('idto')){
+            foreach ($request->input('place') as $key => $value) {
+                $supplier->supplierAddress()->create([
+                      'address' => $$request->origin_address[$key],
+                      'place'   => $value
+                    ]);
+            }
+        }
+
         $notification = array(
             'message'    => 'Registro actualizado',
             'alert_type' => 'success',);
@@ -113,5 +134,17 @@ class SupplierController extends Controller
     {
         Supplier::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+      /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Supplier  $supplier
+     * @return \Illuminate\Http\Response
+     */
+    public function remove(Request $request)
+    {
+        SupplierAddress::findOrFail($request->id)->delete();
+        return response(null, 200);
     }
 }

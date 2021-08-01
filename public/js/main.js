@@ -28,7 +28,7 @@ $(document).ready(function () {
     }
 
 
-
+    // Agrega nuevo registro al detalle de la solicitud 
     $('#add_services').on('click', '.btn-add[data-remote]', function (e) {
           e.preventDefault();
 
