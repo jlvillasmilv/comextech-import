@@ -91,18 +91,18 @@ class SupplierController extends Controller
      */
     public function update(SupplierRequest $request, $id)
     {
-        $data = Supplier::findOrFail($id);
+        $supplier = Supplier::findOrFail($id);
 
-        $data->fill($request->all())->save();
+        $supplier->fill($request->all())->save();
 
         if($request->has('idto')){
            SupplierAddress::whereNotIn($request->input('idto'))->delete();  
         }
 
-        if($request->has('idto')){
+        if($request->has('place')){
             foreach ($request->input('place') as $key => $value) {
                 $supplier->supplierAddress()->create([
-                      'address' => $$request->origin_address[$key],
+                      'address' => $request->origin_address[$key],
                       'place'   => $value
                     ]);
             }
@@ -114,7 +114,7 @@ class SupplierController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('supplier.edit', $data->id);
+        return redirect()->route('supplier.edit', $supplier->id);
 
     }
 
