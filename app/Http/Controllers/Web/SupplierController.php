@@ -95,10 +95,6 @@ class SupplierController extends Controller
 
         $supplier->fill($request->all())->save();
 
-        if($request->has('idto')){
-           SupplierAddress::whereNotIn($request->input('idto'))->delete();  
-        }
-
         if($request->has('place')){
             foreach ($request->input('place') as $key => $value) {
                 $supplier->supplierAddress()->create([
