@@ -16,10 +16,10 @@ class CreateSupplierAddressesTable extends Migration
         Schema::create('supplier_addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supplier_id')->nullable();
-            $table->string('address');
             $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO'])->default('ALMACEN');
-            $table->timestamps();
+            $table->string('address');
         });
+            
     }
 
     /**

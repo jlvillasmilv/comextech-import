@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class SupplierAddress extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     protected $table = 'supplier_addresses';
-    protected $guarded = [];
-
-    protected $dates = [
-        'created_at',
-        'updated_at',
+    protected $fillable = [
+        'supplier_id',
+        'address',
+        'place',
     ];
+
 }
  

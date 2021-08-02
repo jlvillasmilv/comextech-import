@@ -30,9 +30,22 @@ class SupplierRequest extends FormRequest
             'phone'            => 'required|max:50', 
             'email'            => 'required|email', 
             'bank'             => 'required|max:15',    
-            'origin_transport' => 'required|max:254',
+            'place'            => 'array',
+            'place.*'          => 'required|string',
+            'origin_address'   => 'array',
+            'origin_address.*' => 'nullable|max:255',
         ];
         
         return $rules;
+    }
+
+    public function attributes()
+    {
+        return [
+            'name'        => 'Nombre Proveedor',
+            'phone'      => 'Telefono',
+            'bank'       => 'Banco',
+            'origin_address'   => 'dirección de origen'
+        ];
     }
 }
