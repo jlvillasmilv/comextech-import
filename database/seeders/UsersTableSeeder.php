@@ -43,12 +43,17 @@ class UsersTableSeeder extends Seeder
             'country_id' => '44',
             'tax_id'  => '76722268-8',
             'name'    => 'Comextech',
-            'address' => 'Augusto Leguía Sur 79, Oficina 1110. Las Condes, Chile',
             'email'   => 'info@Comex.Tech',
             'phone'   => '+56228977070',
             'contact_name'   => 'Andres Fabregat',
             'status'  => 1
         ]);
+
+        \DB::table('company_addresses')->insert([
+            ['company_id' =>'1',  'country_id' => '44', 'postal_code' => '4005', 'place' => 'OFICINA', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
+            ['company_id' =>'1',  'country_id' => '44', 'postal_code' => '4005', 'place' => 'ALMACEN', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
+        ]);
+        // 'address' => $this->faker->address,
 
         $client->ownedTeams()->save(Team::forceCreate([
             'user_id' => $client->id,

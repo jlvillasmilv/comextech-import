@@ -64,16 +64,6 @@
                     </div>
                 </div>
 
-                <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400">Dirección fiscal</span>
-                    <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="address" value="{{ old('address', isset($data) ? $data->address : '') }}" max="100" required="">
-                     @if($errors->has('address'))
-                        <span class="text-xs text-red-600 dark:text-red-400">
-                            {{ $errors->first('address') }}
-                        </span>
-                    @endif
-                </label>
-
                   <div class="px-2">
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">

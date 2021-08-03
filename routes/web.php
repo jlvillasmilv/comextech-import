@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
 
-    Route::resource('company',  'App\Http\Controllers\Web\CompnayController')->except(['destroy','create']);
+    Route::resource('company',  'App\Http\Controllers\Web\CompanyController')->except(['destroy','create']);
 
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
 
@@ -61,6 +61,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');
     Route::get('/services/summary/{id}', [ServicesController::class, 'summary'])->name('services.summary');
     Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('services.edit');
+
+    //company address
+    Route::get('/company/address/all', 'App\Http\Controllers\Web\CompanyController@address')->name('company.address');
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
 });

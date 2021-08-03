@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Company, Country};
+use App\Models\CompanyAddress;
 use Illuminate\Http\Request;
 
-class CompnayController extends Controller
+class CompanyAddressController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,7 @@ class CompnayController extends Controller
      */
     public function index()
     {
-        $data = Company::where('user_id', auth()->user()->id)->firstOrFail();
-
-        $country = Country::OrderBy('name')
-                ->select('id', 'name')
-                ->orderBy('name', 'ASC')
-                ->pluck('name','id');
-
-        return view('profile.company' , compact('data','country'));
-
+        //
     }
 
     /**
@@ -50,10 +42,10 @@ class CompnayController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show(CompanyAddress $companyAddress)
     {
         //
     }
@@ -61,10 +53,10 @@ class CompnayController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company)
+    public function edit(CompanyAddress $companyAddress)
     {
         //
     }
@@ -73,34 +65,23 @@ class CompnayController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CompanyAddress $companyAddress)
     {
-        $data = Company::findOrFail(base64_decode($id));
-
-        $data->fill($request->all())->save();
-
-        $notification = array(
-            'message'    => 'Registro actualizado',
-            'alert_type' => 'success',);
-
-        \Session::flash('notification', $notification);
-
-        return redirect()->route('company.index');
-
+        //
     }
-
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy(CompanyAddress $companyAddress)
     {
         //
     }
+
 }
