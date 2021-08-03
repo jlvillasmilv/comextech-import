@@ -48,7 +48,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
 
     Route::resource('company',  'App\Http\Controllers\Web\CompanyController')->except(['destroy','create']);
-
+    Route::resource('address',  'App\Http\Controllers\Web\CompanyAddressController');
+    
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
 
     Route::resource('custom-agents',  'App\Http\Controllers\CustomAgentController');

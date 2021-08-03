@@ -15,7 +15,8 @@ class CompanyAddressController extends Controller
      */
     public function index()
     {
-        //
+        $data = CompanyAddress::where('company_id', auth()->user()->company->id)->paginate();
+        return view('address.index' , compact('data'));
     }
 
     /**
@@ -25,7 +26,7 @@ class CompanyAddressController extends Controller
      */
     public function create()
     {
-        //
+        return view('address.form');
     }
 
     /**
@@ -36,7 +37,17 @@ class CompanyAddressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $address = new CompanyAddress;
+        $address->fill($request->all());
+        $address->save();
+
+        $notification = array(
+            'message'    => 'Registro agregado',
+            'alert_type' => 'success',);
+
+        \Session::flash('notification', $notification);
+
+        return redirect()->route('address.edit', $address->id);
     }
 
     /**
@@ -47,7 +58,7 @@ class CompanyAddressController extends Controller
      */
     public function show(CompanyAddress $companyAddress)
     {
-        //
+        return view('address.show', compact('companyAddress'));
     }
 
     /**
@@ -56,9 +67,10 @@ class CompanyAddressController extends Controller
      * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function edit(CompanyAddress $companyAddress)
+    public function edit($id)
     {
-        //
+        $companyAddress = CompanyAddress::findOrFail($id); 
+        return view('address.form', compact('companyAddress'));
     }
 
     /**
@@ -68,9 +80,20 @@ class CompanyAddressController extends Controller
      * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CompanyAddress $companyAddress)
+    public function update(Request $request, $id)
     {
-        //
+        $address = CompanyAddress::findOrFail($id);
+
+        $address->fill($request->all())->save();
+
+        $notification = array(
+            'message'    => 'Registro actualizado',
+            'alert_type' => 'success',);
+
+        \Session::flash('notification', $notification);
+
+        return redirect()->route('address.edit', $address->id);
+
     }
 
     /**
@@ -79,9 +102,18 @@ class CompanyAddressController extends Controller
      * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CompanyAddress $companyAddress)
+    public function destroy($id)
     {
-        //
+        CompanyAddress::findOrFail($id)->delete();
+        return response(null, 204);
+
+        $notification = array(
+            'message'    => 'Registro eliminado',
+            'alert_type' => 'success',);
+
+        \Session::flash('notification', $notification);
+
+        return redirect()->route('address.index');
     }
 
 }

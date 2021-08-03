@@ -8,14 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CompanyAddress extends Model
 {
     use HasFactory;
-
-    protected $table = 'company_addresses';
+    public $timestamps = false;
+    protected $table   = 'company_addresses';
     protected $guarded = [];
-
-    protected $dates = [
-        'created_at',
-        'updated_at',
-    ];
 
     public function country()
     {
