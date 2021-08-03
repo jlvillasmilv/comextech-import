@@ -34,6 +34,7 @@
                     />
                 </svg>
             </button>
+    
             <div v-for="(item, id) in form.services" :key="id">
                 <li
                     :class="[
@@ -79,7 +80,8 @@
             <Container v-if="activetab == 'Transporte'">
                 <Addresses
                     @incomingMenu="incomingMenu"
-                    :application_id="form.application_id"
+                    :application="form"
+                    :originTransport="origin_transport"
                 />
             </Container>
 
@@ -525,7 +527,7 @@ export default {
                     this.busy = false;
                     if (data.supplier_id != null ) {
                         let provider = await axios.get("/api/provider/"+data.supplier_id);
-                        this.origin_transport = provider.data 
+                        this.origin_transport = provider.data.supplier_address 
                     }
             
                 }
