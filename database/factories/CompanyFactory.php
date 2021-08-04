@@ -29,7 +29,6 @@ class CompanyFactory extends Factory
             'country_id' => Country::all()->random()->id,
             'tax_id' => $this->faker->unique()->creditCardNumber,
             'name' => $this->faker->name,
-            'address' => $this->faker->address,
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             
