@@ -17,7 +17,7 @@ class CreateCompanyAddressesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('country_id')->nullable();
-            $table->string('postal_code')->nullable();
+            $table->string('postal_code',50)->nullable();
             $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO','OFICINA'])->default('ALMACEN');
             $table->string('address');
             $table->boolean('status')->default(true);

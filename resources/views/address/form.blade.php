@@ -20,7 +20,7 @@
                   <div class="px-2" id="add_to">
                       <div class="flex mb-4">
                           <div class="w-3/4 mr-1">
-                              <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Pais:</label>
+                              <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Pais de origen:</label>
                               <select name="country_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select select2  @error('country_id') is-invalid @enderror">
   
                                 @foreach($country as $id => $name)
@@ -44,7 +44,7 @@
                           <div class="w-1/4 ml-1">
                               <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Codigo postal </label>
 
-                              <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" name="postal_code" value="{{ old('postal_code', isset($companyAddress) ? $companyAddress->postal_code : '') }}" max="25" required="">
+                              <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" name="postal_code" value="{{ old('postal_code', isset($companyAddress) ? $companyAddress->postal_code : '') }}" max="50" required="">
                               @if($errors->has('postal_code'))
                               <span class="text-xs text-red-600 dark:text-red-400">
                                    {{ $errors->first('postal_code') }}

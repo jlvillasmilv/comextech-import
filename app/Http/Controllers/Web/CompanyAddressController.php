@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\CompanyAddress;
+use App\Http\Requests\Web\CompanyAddressRequest;
 use Illuminate\Http\Request;
 
 class CompanyAddressController extends Controller
@@ -15,7 +16,8 @@ class CompanyAddressController extends Controller
      */
     public function index()
     {
-        $data = CompanyAddress::where('company_id', auth()->user()->company->id)->paginate();
+        $data = CompanyAddress::where('company_id', auth()->user()->company->id)
+        ->where('status', 1)->paginate();
         return view('address.index' , compact('data'));
     }
 
@@ -56,8 +58,9 @@ class CompanyAddressController extends Controller
      * @param  \App\Models\CompanyAddress  $companyAddress
      * @return \Illuminate\Http\Response
      */
-    public function show(CompanyAddress $companyAddress)
+    public function show($id)
     {
+        $companyAddress = CompanyAddress::findOrFail($id); 
         return view('address.show', compact('companyAddress'));
     }
 
@@ -104,8 +107,9 @@ class CompanyAddressController extends Controller
      */
     public function destroy($id)
     {
-        CompanyAddress::findOrFail($id)->delete();
-        return response(null, 204);
+        $address = CompanyAddress::findOrFail($id);
+        $address->status = 0;
+        $address->save();
 
         $notification = array(
             'message'    => 'Registro eliminado',
