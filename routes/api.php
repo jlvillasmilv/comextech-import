@@ -14,7 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Models\{Currency, CategoryService, CustomAgent, Ecommerce, Warehouse, TransCompany, ApplicationCondSale};
+use App\Models\{Application,
+     Currency, CategoryService,
+      CustomAgent, Ecommerce,
+       Warehouse, TransCompany,
+        ApplicationCondSale,
+        Supplier
+    };
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -67,3 +73,11 @@ Route::get('/ecommerce', function (Request $request) {
     
     return response()->json($e, 200);
 });
+
+Route::get('/provider/{id}', function ($id) {
+   
+    $provider = Supplier::where('id',$id)->with('supplierAddress')
+    ->first();
+    
+    return response()->json($provider, 200);
+})->where('id', '[0-9]+');

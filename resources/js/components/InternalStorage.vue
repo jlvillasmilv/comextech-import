@@ -5,7 +5,7 @@
                 class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
             >
                 <h3 class="my-2 font-semibold text-gray-700 dark:text-gray-200">
-                    Ubicacion de Bodegaje
+                    Destino
                 </h3>
                 <div class="flex flex-wrap -mx-3  ">
                     <div class="w-full px-3 md:mb-0">

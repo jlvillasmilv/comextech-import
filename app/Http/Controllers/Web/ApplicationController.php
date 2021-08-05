@@ -38,17 +38,17 @@ class ApplicationController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * validaciion de campos antes de generar solicitud
      */
     public function store(ApplicationRequest $request)
     {
-        
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
-      
+        /** Evalua la el estado de una solicitud **/
         if ($status <> 0) { return response()->json($status, 400); }
 
         DB::beginTransaction();
-       // dd($request->all());
+        
         try {
             $data =  Application::updateOrCreate(
                 ['id' => $request->application_id,
@@ -57,6 +57,7 @@ class ApplicationController extends Controller
                 [
                     'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'amount'       => $request->amount,
+                    'fee1'         => $request->valuePercentage['valueInitial'],
                     'application_statuses_id' => 1,
                     'currency_id'  => $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
@@ -69,7 +70,7 @@ class ApplicationController extends Controller
             ->select('id')
             ->pluck('id');
 
-             \DB::table('application_details')
+            \DB::table('application_details')
                 ->whereNotIn('service_id', $add_serv)
                 ->where('application_id', $data->id)
                 ->delete();
@@ -88,7 +89,7 @@ class ApplicationController extends Controller
             }
 
             DB::commit();
-
+            /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
             $user_admin = User::whereHas('roles', function ($query) {
                 $query->where('name','=', 'Admin');
             })->pluck('id');
@@ -104,7 +105,7 @@ class ApplicationController extends Controller
             return response()->json($e, 400);
         }
 
-         return response()->json($data, 200);
+        return response()->json($data, 200);
     }
 
     /**
@@ -115,14 +116,12 @@ class ApplicationController extends Controller
      */
     public function show(Supplier $supplier)
     {
-
         $data  = Application::where([
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
         return response()->json($data, 200);
-
     }
 
 
@@ -205,7 +204,7 @@ class ApplicationController extends Controller
 
     }
 
-    public function transports(TransportRequest $request)
+    public function transports(Request $request)
     {
         DB::beginTransaction();
 

@@ -1,31 +1,77 @@
 <template>
     <div class="container grid px-6 my-1 ">
-  
         <Load @dataForm="getDataLoad" />
-        <div v-if="expenses.dataLoad.weight">
+        <div v-if="Load.weight">
             <div>
-                <div class="flex flex-wrap -mx-3">
+                <div class="flex flex-wrap -mx-3 my-8 ">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label class="block text-sm">
                             <span
                                 class="text-gray-700 dark:text-gray-400 font-semibold "
                             >
-                                Origen de Envio
+                                {{
+                                    application.condition === "FOB"
+                                        ? " Puertos de Proveedor"
+                                        : " Almacen o Fabrica del Proveedor"
+                                }}
                             </span>
+
                             <input
+                                v-if="!favoriteAddress"
                                 v-model="expenses.addressOrigin"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                :placeholder="
-                                    expenses.originWarehouse
-                                        ? 'Nombre o codigo Puerto/Aeropuerto'
-                                        : 'Direccion, Codigo Postal'
-                                "
                             />
-                             <span
-                                    class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('addressOrigin')"
-                                    v-html="expenses.errors.get('addressOrigin')"
-                                ></span>
+
+                            <v-select
+                                v-else
+                                label="address"
+                                class="mt-2 text-sm"
+                                :options="Adrereses"
+                                v-model="expenses.addressOrigin"
+                                :reduce="adrereses => adrereses.id"
+                            >
+                                <template
+                                    v-slot:no-options="{ search, searching }"
+                                >
+                                    <template v-if="searching" class="text-sm">
+                                        Lo sentimos no hay opciones que
+                                        coincidan
+                                        <strong>{{ search }}</strong
+                                        >.
+                                    </template>
+                                    <em style="opacity: 0.5;" v-else>
+                                        No posee
+                                        {{
+                                            application.condition === "FOB"
+                                                ? "Puertos"
+                                                : "Almacenes o Fabricas"
+                                        }}
+                                        en tu lista</em
+                                    >
+                                </template>
+                            </v-select>
+                            <label
+                                class="inline-flex text-sm items-center mx-2 mt-2"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="form-checkbox h-4 w-4 text-gray-800"
+                                    v-model="favoriteAddress"
+                                /><span class="ml-2 text-gray-700">
+                                    Tus
+                                    {{
+                                        application.condition === "FOB"
+                                            ? "Puertos"
+                                            : "Almacenes o Fabricas"
+                                    }}
+                                    Favoritos
+                                </span>
+                            </label>
+                            <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('addressOrigin')"
+                                v-html="expenses.errors.get('addressOrigin')"
+                            ></span>
                         </label>
                     </div>
                     <div class="w-full md:w-1/2 px-3">
@@ -33,26 +79,71 @@
                             <span
                                 class="text-gray-700 dark:text-gray-400 font-semibold"
                             >
-                                Destino de Envio</span
-                            >
+                                Destino de Envio
+                            </span>
                             <input
+                                v-if="!favoriteAddressDestin"
                                 v-model="expenses.addressDestination"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
-                                     expenses.destinacionWarehouse
+                                   favoriteAddressDestin
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
-                            />
+                            /> <v-select
+                                v-else
+                                label="address"
+                                class="mt-2 text-sm"
+                                :options="addressDestination"
+                                v-model="expenses.addressDestination"
+                                :reduce="e => e.id"
+                            >
+                                <template
+                                    v-slot:no-options="{ search, searching }"
+                                >
+                                    <template v-if="searching" class="text-sm">
+                                        Lo sentimos no hay opciones que
+                                        coincidan
+                                        <strong>{{ search }}</strong
+                                        >.
+                                    </template>
+                                    <em style="opacity: 0.5;" v-else>
+                                        No posee
+                                        {{
+                                            application.condition === "FOB"
+                                                ? "Puertos"
+                                                : "Almacenes o Fabricas"
+                                        }}
+                                        en tu lista</em
+                                    >
+                                </template>
+                            </v-select>
+                            <label
+                                class="inline-flex text-sm items-center mx-2 mt-2"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="form-checkbox h-4 w-4 text-gray-800"
+                                    v-model="favoriteAddressDestin"
+                                /><span class="ml-2 text-gray-700">
+                                     
+                                    Direccion de Destino Favoritas
+                                </span>
+                            </label>
                             <span
-                                    class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('addressDestination')"
-                                    v-html="expenses.errors.get('addressDestination')"
-                                ></span>
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('addressDestination')"
+                                v-html="
+                                    expenses.errors.get('addressDestination')
+                                "
+                            ></span>
                         </label>
                     </div>
                 </div>
-                <div v-if="expenses.addressDestination !== '' " class="flex flex-wrap -mx-3 mb-6">
+                <div
+                    v-if="expenses.addressDestination !== ''"
+                    class="flex flex-wrap -mx-3 mb-6"
+                >
                     <div class="w-1/4 px-3 mb-6 md:mb-0">
                         <label class="block text-sm">
                             <span
@@ -67,10 +158,10 @@
                                 placeholder="Nombre o codigo Puerto/Aeropuerto"
                             />
                             <span
-                                    class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('estimated_date')"
-                                    v-html="expenses.errors.get('estimated_date')"
-                                ></span>
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('estimated_date')"
+                                v-html="expenses.errors.get('estimated_date')"
+                            ></span>
                         </label>
                     </div>
                     <div class="w-1/3 px-2">
@@ -88,11 +179,20 @@
                             />
                         </label>
                     </div>
-                   
+                    <div class="w-1/6 mt-8">
+                        <label class="ml-6 text-gray-500 dark:text-gray-400">
+                            <input
+                                type="checkbox"
+                                class="form-checkbox h-4 w-4 text-gray-800"
+                                v-model="safe"
+                            />
+                            <span class="ml-2 text-gray-700 "> Seguro </span>
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="flex justify-center">
-                 <!-- <button
+                <!-- <button
                     @click="$emit('incomingMenu',false)"
                     class="w-1/3 h-12 px-4 text-white transition-colors text-lg duration-150 bg-gray-700 rounded-lg focus:shadow-outline hover:bg-gray-800"
                 >
@@ -104,7 +204,6 @@
                 >
                     Cotizar
                 </button>
-                
             </div>
         </div>
     </div>
@@ -116,10 +215,14 @@ import Load from "./Load.vue";
 export default {
     components: { Load },
     props: {
-        application_id: {
-            type: Number,
-            required: true,
+        application: {
+            type: Object,
+            required: true
         },
+        originTransport: {
+            type: Array,
+            required: false
+        }
     },
     data() {
         return {
@@ -129,61 +232,58 @@ export default {
                 destinacion: false,
                 originWarehouse: false,
                 destinacionWarehouse: false,
-                application_id: this.application_id,
+                application_id: this.application.application_id,
                 addressOrigin: "",
                 addressDestination: "",
                 estimated_date: "",
                 description: "",
                 dataLoad: []
             }),
-    
+            Load: false,
+            favoriteAddress: false,
+            favoriteAddressDestin:false,
+            addressDestination:''
         };
     },
     methods: {
-        changeExpensesWarehouse(value) {
-            if (value == "origin") {
-                this.expenses.originWarehouse = !this.expenses.originWarehouse;
-                this.expenses.origin = this.expenses.originWarehouse
-                    ? true
-                    : false;
-            } else {
-                this.expenses.destinacionWarehouse = !this.expenses
-                    .destinacionWarehouse;
-                this.expenses.destinacion = this.expenses.destinacionWarehouse
-                    ? true
-                    : false;
-            }
-        },
-        changeExpenses(value) {
-            if (value == "origin") {
-                if (this.expenses.originWarehouse)
-                    this.expenses.originWarehouse = false;
-                this.$refs.origin.checked = true;
-            } else {
-                if (this.expenses.destinacionWarehouse)
-                    this.expenses.destinacionWarehouse = false;
-                this.$refs.destinacion.checked = true;
-            }
-        },
         getDataLoad(payload) {
-            this.expenses.addressDestination = ''
-            this.expenses.dataLoad = payload[0];
+            this.expenses.addressDestination = "";
+            this.Load = payload[0];
+            this.expenses.dataLoad = payload;
         },
         async submitForm() {
             try {
-            const response = await this.expenses.post("/applications/transports");
+                const response = await this.expenses.post(
+                    "/applications/transports"
+                );
 
-            Toast.fire({
-                        icon: 'success',
-                        title: 'Datos Agregados'
-                    })
+                Toast.fire({
+                    icon: "success",
+                    title: "Datos Agregados"
+                });
 
                 this.$emit("incomingMenu");
-
-             } catch (error) {
+            } catch (error) {
                 console.error(error);
             }
         }
+    },
+    computed: {
+        Adrereses() {
+            if (this.application.condiction == "FOB") {
+                return this.originTransport.filter(
+                    item => item.place == "PUERTO"
+                );
+            } else {
+                return this.originTransport.filter(
+                    item => item.place !== "PUERTO"
+                );
+            }
+        }
+    },
+    async created() {
+        let { data } = await axios.get("/company/address/all");
+        this.addressDestination = data 
     }
 };
 </script>

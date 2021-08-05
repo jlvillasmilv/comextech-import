@@ -47,8 +47,9 @@ class Company extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function details()
+    public function address()
     {
-        return $this->hasMany(Invoice::class,'application_id');
+        return $this->hasMany(CompanyAddress::class,'application_id');
     }
+
 }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Company, Country};
+use App\Models\{Company, Country, CompanyAddress};
 use Illuminate\Http\Request;
 
-class CompnayController extends Controller
+class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -102,5 +102,16 @@ class CompnayController extends Controller
     public function destroy(Company $company)
     {
         //
+    }
+
+    /**
+    * Busqueda de direeciones asociadas a una compañia.
+    *
+    */
+    public function address()
+    {
+        $address = CompanyAddress::where('company_id', auth()->user()->company->id)->get();
+
+        return response()->json($address, 200);
     }
 }
