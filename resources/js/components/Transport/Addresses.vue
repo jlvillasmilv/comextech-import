@@ -82,14 +82,54 @@
                                 Destino de Envio
                             </span>
                             <input
+                                v-if="!favoriteAddressDestin"
                                 v-model="expenses.addressDestination"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
-                                    expenses.destinacionWarehouse
+                                   favoriteAddressDestin
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
-                            />
+                            /> <v-select
+                                v-else
+                                label="address"
+                                class="mt-2 text-sm"
+                                :options="addressDestination"
+                                v-model="expenses.addressDestination"
+                                :reduce="e => e.id"
+                            >
+                                <template
+                                    v-slot:no-options="{ search, searching }"
+                                >
+                                    <template v-if="searching" class="text-sm">
+                                        Lo sentimos no hay opciones que
+                                        coincidan
+                                        <strong>{{ search }}</strong
+                                        >.
+                                    </template>
+                                    <em style="opacity: 0.5;" v-else>
+                                        No posee
+                                        {{
+                                            application.condition === "FOB"
+                                                ? "Puertos"
+                                                : "Almacenes o Fabricas"
+                                        }}
+                                        en tu lista</em
+                                    >
+                                </template>
+                            </v-select>
+                            <label
+                                class="inline-flex text-sm items-center mx-2 mt-2"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="form-checkbox h-4 w-4 text-gray-800"
+                                    v-model="favoriteAddressDestin"
+                                /><span class="ml-2 text-gray-700">
+                                     
+                                    Direccion de Destino Favoritas
+                                </span>
+                            </label>
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
                                 v-if="expenses.errors.has('addressDestination')"
@@ -200,7 +240,9 @@ export default {
                 dataLoad: []
             }),
             Load: false,
-            favoriteAddress: false
+            favoriteAddress: false,
+            favoriteAddressDestin:false,
+            addressDestination:''
         };
     },
     methods: {
@@ -238,6 +280,10 @@ export default {
                 );
             }
         }
+    },
+    async created() {
+        let { data } = await axios.get("/company/address/all");
+        this.addressDestination = data 
     }
 };
 </script>
