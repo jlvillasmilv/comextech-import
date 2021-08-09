@@ -189,15 +189,12 @@
                             <span class="ml-2 text-gray-700 "> Seguro </span>
                         </label>
                     </div>
+                    <div class="w-1/6 mt-8" v-if="safe">
+                            <span class="ml-2 text-gray-700 "> {{ application.amount }}  </span>
+                    </div>
                 </div>
             </div>
             <div class="flex justify-center">
-                <!-- <button
-                    @click="$emit('incomingMenu',false)"
-                    class="w-1/3 h-12 px-4 text-white transition-colors text-lg duration-150 bg-gray-700 rounded-lg focus:shadow-outline hover:bg-gray-800"
-                >
-                    Atras
-                </button> -->
                 <button
                     @click="submitForm()"
                     class="w-1/3 h-12 px-4 text-white transition-colors text-lg duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
