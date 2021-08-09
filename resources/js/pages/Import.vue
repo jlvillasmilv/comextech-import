@@ -266,6 +266,11 @@
                                 >
                                     {{ item.name }}
                                 </a>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="form.errors.has('valuePercentage')"
+                                    v-html="form.errors.get('valuePercentage')"
+                                ></span>
                             </div>
                         </div>
 

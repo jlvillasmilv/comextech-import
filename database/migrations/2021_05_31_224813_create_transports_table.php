@@ -16,12 +16,11 @@ class CreateTransportsTable extends Migration
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
+            $table->boolean('fav_address_origin')->default(false);
             $table->string('address_origin');
+            $table->boolean('fav_dest_address')->default(false);
             $table->string('address_destination');
-            $table->boolean('destinacion')->default(false);
-            $table->boolean('destinacion_warehouse')->default(false);
-            $table->boolean('origin')->default(false);
-            $table->boolean('origin_warehouse')->default(false);
+            $table->boolean('insurance')->default(false);
             $table->date('estimated_date')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();

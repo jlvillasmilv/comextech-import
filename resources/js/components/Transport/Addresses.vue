@@ -17,7 +17,7 @@
                             </span>
 
                             <input
-                                v-if="!favoriteAddress"
+                                v-if="!expenses.favoriteAddressOrigin"
                                 v-model="expenses.addressOrigin"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             />
@@ -56,7 +56,7 @@
                                 <input
                                     type="checkbox"
                                     class="form-checkbox h-4 w-4 text-gray-800"
-                                    v-model="favoriteAddress"
+                                    v-model="expenses.favoriteAddressOrigin"
                                 /><span class="ml-2 text-gray-700">
                                     Tus
                                     {{
@@ -82,11 +82,11 @@
                                 Destino de Envio
                             </span>
                             <input
-                                v-if="!favoriteAddressDestin"
+                                v-if="!expenses.favoriteAddressDestin"
                                 v-model="expenses.addressDestination"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
-                                   favoriteAddressDestin
+                                   expenses.favoriteAddressDestin
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
@@ -124,7 +124,7 @@
                                 <input
                                     type="checkbox"
                                     class="form-checkbox h-4 w-4 text-gray-800"
-                                    v-model="favoriteAddressDestin"
+                                    v-model="expenses.favoriteAddressDestin"
                                 /><span class="ml-2 text-gray-700">
                                      
                                     Direccion de Destino Favoritas
@@ -184,9 +184,9 @@
                             <input
                                 type="checkbox"
                                 class="form-checkbox h-4 w-4 text-gray-800"
-                                v-model="safe"
+                                v-model="expenses.insurance"
                             />
-                            <span class="ml-2 text-gray-700 "> Seguro </span>
+                            <span class="ml-2 text-gray-700 ">Seguro </span>
                         </label>
                     </div>
                 </div>
@@ -226,22 +226,19 @@ export default {
     },
     data() {
         return {
-            safe: false,
             expenses: new Form({
-                origin: false,
-                destinacion: false,
-                originWarehouse: false,
-                destinacionWarehouse: false,
                 application_id: this.application.application_id,
                 addressOrigin: "",
                 addressDestination: "",
                 estimated_date: "",
                 description: "",
-                dataLoad: []
+                dataLoad: [],
+                favoriteAddressOrigin: false,
+                favoriteAddressDestin:false,
+                insurance: false,
             }),
             Load: false,
-            favoriteAddress: false,
-            favoriteAddressDestin:false,
+           
             addressDestination:''
         };
     },
