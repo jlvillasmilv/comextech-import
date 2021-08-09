@@ -213,14 +213,13 @@ class ApplicationController extends Controller
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'address_destination'   => $request->addressDestination,
+                    'fav_address_origin'    => $request->favoriteAddressOrigin,
                     'address_origin'        => $request->addressOrigin,
-                    'destinacion'           => $request->destinacion,
-                    'destinacion_warehouse' => $request->destinacionWarehouse,
-                    'origin'                => $request->origin,
-                    'origin_warehouse'      => $request->originWarehouse,
+                    'fav_dest_address'      => $request->favoriteAddressDestin,
+                    'address_destination'   => $request->addressDestination,
                     'estimated_date'        => $request->estimated_date,
                     'description'           => $request->description,
+                    'insurance'             => $request->insurance,
                 ]
             );
 
