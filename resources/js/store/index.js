@@ -4,7 +4,8 @@ Vue.use(Vuex);
 
 const state = () => ({
     application: [],
-    currency: []
+    currency: [],
+    payment:[]
 });
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
     },
     setCurrency(state, currency) {
         state.currency = currency;
+    },
+    setPayment(state, payment) {
+        state.payment = payment;
     }
 };
 
@@ -22,6 +26,9 @@ const actions = {
     },
     getCurrency({ commit }, paylod) {
         commit("setCurrency", paylod);
+    },
+    getPayment({ commit }, paylod) {
+        commit("setPayment", paylod);
     }
 };
 
