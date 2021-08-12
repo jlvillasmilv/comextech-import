@@ -183,10 +183,10 @@
             <div class="flex ">
                 <ul class="space-y-2">
                     <li>
-                        Mercaderia - USD 2000
+                        Mercaderia - {{ $store.state.currency.code }} {{ $store.state.application.amount }}
                     </li>
                     <li>
-                        Transporte - USD 2000
+                        Transporte -  {{ ($store.state.application.amount  * 5 / 100) + ($store.state.application.amount)  }}
                     </li>
                     <li>
                         Seguro - USD 2000
@@ -213,7 +213,7 @@
                 <h1 v-if="expenses.adv">Ad Valorem (6 %) USD 20.000</h1>
             </div>
         </div>
-
+        
         <div class="my-2">
             <input
                 type="checkbox"
