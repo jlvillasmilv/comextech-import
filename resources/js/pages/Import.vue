@@ -521,7 +521,8 @@ export default {
                 this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
                 const { data } = await this.form.post("/applications");
-
+                    this.$store.dispatch('getApplications', this.form )
+                    this.$store.dispatch('getCurrency', this.currency)
                 this.busy = true;
 
                 if (data) {
