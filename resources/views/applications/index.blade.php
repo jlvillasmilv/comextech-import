@@ -67,8 +67,8 @@
                                     <p class="font-semibold  text-md">  {{$application->supplier->name}} </p>
                             </td>  
                             <td class="px-4 py-3" >
-                                {{-- <a  
-                                href="{{ route('services.summary', 1) }}" 
+                                 <a  
+                                href="{{ route('applications.show', base64_encode($application->id)) }}" 
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
@@ -81,8 +81,9 @@
                                         
                                     </svg>
                                 </a>
-                                <a  
-                                href="{{ route('services.edit', 1) }}" 
+
+                               {{--  <a  
+                                href="{{ route('services.summary', 1) }}" 
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
