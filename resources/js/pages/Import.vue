@@ -96,6 +96,10 @@
             <Container v-if="activetab == 'Entrega'">
                 <internal-storage :application_id="form.application_id" />
             </Container>
+
+            <Container v-if="activetab == 'Tipo de Cambio'">
+                <Exchange :application_id="form.application_id" />
+            </Container>
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10">
             <template v-slot:body>
@@ -419,6 +423,7 @@
     </div>
 </template>
 <script>
+
 import Modal from "../components/Modal.vue";
 import Container from "../components/Container.vue";
 import Addresses from "../components/Transport/Addresses.vue";
@@ -426,6 +431,7 @@ import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
 import TablePayment from "../components/PaymentProvider/Table.vue";
 import InternalStorage from "../components/InternalStorage.vue";
+import Exchange from "../components/Exchange";
 import servicedefault from "../data/services.json";
 import Button from "../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue";
 
@@ -492,7 +498,8 @@ export default {
         FormPayment,
         TablePayment,
         InternalStorage,
-        Button
+        Button,
+        Exchange
     },
     methods: {
         toogleMenu(value) {
