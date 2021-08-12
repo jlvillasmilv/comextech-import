@@ -1,50 +1,61 @@
 <template>
-	<div class="container grid px-6 my-1 ">
-                <div class="w-full overflow-x-auto">
-                    <table class="w-full whitespace-no-wrap">
-                        <thead>
-                            <tr
-                                class="text-xs  text-center font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-blue-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
-                            >
-                                <th class="py-3">CONCEPTO</th>
-                                <th class=" py-3">FECHA</th>
-                                <th class=" py-3">MONEDA ORIGEN (M.O.)</th>
-                                <th class=" py-3">MONTO M.O.</th>
-                                <th class=" py-3">MONTO CLP</th>
-                            </tr>
-                        </thead>
-                        <tbody
-                            class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            <tr
-                                v-for="(item, key) in data"
-                                :key="key"
-                                class="text-gray-700 dark:text-gray-400"
-                            >
-                                <td>
-                                    <div class="flex items-center text-sm">
-                                        <div>
-                                            <p class="font-semibold input">
-                                                {{ item.name }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td> {{ item.date }} </td>
-                                <td> {{ item.mo }} </td>
-                                <td> {{ item.amo }} </td>
-                                <td> {{ item.clp }} </td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-						    <tr>
-						      <td colspan="4"></td>
-						      <td>{{ totalAmount }}</td>
-						    </tr>
-						</tfoot>
-                    </table>
-                </div>
-            </div>
+	<div class="container grid grid-cols-1 px-6 my-1 ">
+            <div class="flex justify-end pb-2">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+             @click="convert('CLP')">
+              CLP
+            </button>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
 
+            @click="convert('USD')">
+              USD
+            </button>
+        </div>
+
+        <div class="w-full overflow-x-auto">
+             <table class="w-full table-fixed">
+                <thead>
+                    <tr
+                        class="text-xs text-center font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-blue-700 bg-gray-400 dark:text-gray-400 dark:bg-gray-800"
+                            >
+                            <th class="w-1/2">CONCEPTO</th>
+                            <th class="w-1/4">FECHA</th>
+                            <th class="w-1/4">MONEDA ORIGEN (M.O.)</th>
+                            <th class="w-1/4">MONTO M.O.</th>
+                            <th class="w-1/4">MONTO CLP</th>
+                        </tr>
+                </thead>
+                <tbody
+                    class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        <tr
+                            v-for="(item, key) in data"
+                            :key="key"
+                            class="text-gray-700 dark:text-gray-400"
+                        >
+                            <td class="text-left" >
+                                <div class="text-sm">
+                                    <div>
+                                        <p class="font-semibold input">
+                                            {{ item.name }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center"> {{ item.date }} </td>
+                            <td class="text-center"> {{ item.mo }} </td>
+                            <td class="text-center"> {{ item.amo }} </td>
+                            <td class="text-center"> {{ item.clp }} </td>
+                        </tr>
+                </tbody>
+                <tfoot>
+					<tr>
+						<td colspan="4"></td>
+						<td>{{ totalAmount }}</td>
+					</tr>
+				</tfoot>
+            </table>
+        </div>
+    </div>
 </template>
 <script>
 export default {
@@ -91,6 +102,11 @@ export default {
 
             ],
         };
+    },
+    methods: {
+        convert(currency) {
+            console.log(currency);
+        },
     },
     computed: {
 	    totalAmount: function () {
