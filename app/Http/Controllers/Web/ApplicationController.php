@@ -180,14 +180,25 @@ class ApplicationController extends Controller
     }
 
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * Generate a new Application
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function paymentProvider(Request $request)
     {
-        // dd($request->all());
+
         $values = collect($request);
 
-        if ($values->sum('percentage') > 100){
+        if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
             return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 401);
         }
+
+        //$application = Application::findOrFail($id); 
 
         if ($values->sum('percentage') == 100){
 
@@ -199,9 +210,9 @@ class ApplicationController extends Controller
                      [
                          'application_id'  => $data['application_id'],
                          'percentage'      => $data['percentage'],
-                         'type_pay'        => $data['typePay'],
-                 ],
+                     ],
                      [
+                         'type_pay'        => $data['typePay'],
                          'date_pay'        => $data['datePay'],
                          'payment_release' => $data['payment_release'],
                      ]
