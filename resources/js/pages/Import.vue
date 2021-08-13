@@ -34,15 +34,17 @@
                     />
                 </svg>
             </button>
-    
-            <div v-for="(item, id) in form.services" :key="id">
+
+            <div v-for="(item, id) in selectedServices" :key="id">
                 <li
                     :class="[
                         'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                        item == activetab ? 'text-b-500 border-indigo-500' : ''
+                        item.code == activetab
+                            ? 'text-b-500 border-indigo-500'
+                            : ''
                     ]"
                 >
-                    {{ item }}
+                    {{ item.name }}
                 </li>
             </div>
 
@@ -73,7 +75,6 @@
                     :currencies="currency"
                     :dataApplications="form"
                     :valuePercentage="form.valuePercentage"
-                    
                 />
             </Container>
 
@@ -358,15 +359,14 @@
                                 class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
                             >
                                 <div class="flex items-center ">
-
                                     <input
                                         v-if="item.selected"
                                         type="checkbox"
                                         class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
-                                        :value="item.code"
+                                        :value="item"
                                         v-model="form.services"
                                     />
-                                   
+
                                     <div v-else class=" ">
                                         <svg
                                             class="w-5 h-5 text-gray-300"
@@ -425,7 +425,6 @@
     </div>
 </template>
 <script>
-
 import Modal from "../components/Modal.vue";
 import Container from "../components/Container.vue";
 import Addresses from "../components/Transport/Addresses.vue";
@@ -435,7 +434,6 @@ import TablePayment from "../components/PaymentProvider/Table.vue";
 import InternalStorage from "../components/InternalStorage.vue";
 import Exchange from "../components/Exchange";
 import servicedefault from "../data/services.json";
-import Button from "../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue";
 
 export default {
     data() {
@@ -450,7 +448,7 @@ export default {
                 description: "",
                 statusSuppliers: "with",
                 services: [],
-                valuePercentage: "",
+                valuePercentage: ""
             }),
             agencyElectronic: [
                 {
@@ -463,10 +461,10 @@ export default {
                     name: "Amazon"
                 }
             ],
-            
             selectedCondition: "",
             busy: false,
-            selectedCondition:'',
+            selectedCondition: "",
+            selectedServices: "",
             currency: "",
             position: 0,
             tabs: [],
@@ -485,11 +483,16 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            paymentPercentage: [{ name: "30/70",valueInitial: 30 },{name: "40/60", valueInitial: 40 }, {name: "50/50", valueInitial: 50 }, { name:"Otros", valueInitial: 0}],
+            paymentPercentage: [
+                { name: "30/70", valueInitial: 30 },
+                { name: "40/60", valueInitial: 40 },
+                { name: "50/50", valueInitial: 50 },
+                { name: "Otros", valueInitial: 0 }
+            ],
 
             transportSelected: false,
             arrayServices: [],
-            origin_transport:""
+            origin_transport: ""
         };
     },
     components: {
@@ -500,33 +503,25 @@ export default {
         FormPayment,
         TablePayment,
         InternalStorage,
-        Button,
         Exchange
     },
     methods: {
-        toogleMenu(value) {
-            this.activetab = value.name;
-        },
-        clearSeletedTabs() {
-            this.statusModal = !this.statusModal;
-            this.tabs.map(e => (e.selected = false));
-        },
         incomingMenu(next = true) {
             if (this.position >= 0) {
                 this.position = next ? this.position + 1 : this.position - 1;
                 this.activetab = this.form.services[this.position];
             }
         },
-
         async submitFormApplications() {
             try {
                 this.transportSelected = this.serviceFind("Transporte");
+                this.$store.dispatch("getApplications", this.form);
+                this.$store.dispatch("getCurrency", this.currency);
                 this.form.currency_id = this.currency.id;
+                this.selectedServices = this.form.services;
+                this.form.services = this.servicesCode;
                 const { data } = await this.form.post("/applications");
-                    this.$store.dispatch('getApplications', this.form )
-                    this.$store.dispatch('getCurrency', this.currency)
                 this.busy = true;
-
                 if (data) {
                     Swal.fire({
                         position: "center",
@@ -540,11 +535,12 @@ export default {
                     this.statusModal = !this.statusModal;
                     this.position = 0;
                     this.busy = false;
-                    if (data.supplier_id != null ) {
-                        let provider = await axios.get("/api/provider/"+data.supplier_id);
-                        this.origin_transport = provider.data.supplier_address 
+                    if (data.supplier_id != null) {
+                        let provider = await axios.get(
+                            "/api/provider/" + data.supplier_id
+                        );
+                        this.origin_transport = provider.data.supplier_address;
                     }
-            
                 }
             } catch (error) {
                 console.log("error");
@@ -561,6 +557,11 @@ export default {
             this.form.services = [];
             this.tabs = this.selectedCondition.services;
             this.form.condition = this.selectedCondition.name;
+        }
+    },
+    computed: {
+        servicesCode() {
+            return this.form.services.map(item => item.code);
         }
     },
     async created() {
