@@ -16,8 +16,8 @@ class CreateCategoryServicesTable extends Migration
         Schema::create('category_services', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('code',5)->nullable()->unique();
             $table->string('name',100);
-            $table->string('description')->nullable();
             $table->boolean('ind_service')->default(true);
             $table->string('dependence',100)->nullable();
             $table->boolean('status')->default(true);
