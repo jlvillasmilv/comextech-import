@@ -327,7 +327,8 @@ export default {
                 payment_release: "",
                 manyPayment: "",
                 id: "",
-                application_id: this.application_id
+                application_id: this.application_id,
+                code_serv: "ICS01"
             },
             percentageInitial: 100,
             discount: "",
@@ -372,10 +373,12 @@ export default {
             }
         },
         submitPayment() {
+            this.$store.dispatch('getPayment', this.data)
             axios
                 .post("/applications/payment_provider", this.data)
                 .then(res => {
                     this.$emit("incomingMenu");
+                    
                 })
                 .catch(err => {
                     console.log(err);

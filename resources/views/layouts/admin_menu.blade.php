@@ -81,12 +81,12 @@
                 </li>
                 @endcan
 
-                @can('warehouses.index')
+                {{-- @can('warehouses.index')
                 <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                 {!! request()->routeIs('admin.category_service.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
                 <a class="w-full" href="{{route('admin.category_service.index')}}">Categorias Servicios</a>
                 </li>
-                @endcan
+                @endcan --}}
 
                 @can('trans_companies.index')
                   <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">

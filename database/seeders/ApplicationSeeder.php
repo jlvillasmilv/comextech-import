@@ -33,7 +33,7 @@ class ApplicationSeeder extends Seeder
         \DB::table('application_details')->insert([
             [
                 'application_id' => $application->id,
-                'service_id'  => 8,
+                'service_id'  => 7,
                 'amount'      =>  3990000,
                 'currency_id' => 22,
                 'amount2'     => 5700,
@@ -45,7 +45,7 @@ class ApplicationSeeder extends Seeder
         \DB::table('application_details')->insert([
             [
                 'application_id' => $application->id,
-                'service_id'  => 9,
+                'service_id'  => 8,
                 'amount'      => 99750,
                 'currency_id' => 22,
                 'amount2'     => 143,

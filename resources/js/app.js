@@ -4,6 +4,7 @@ require('./bootstrap');
 import Import  from './pages/Import'
 
 import Vue from 'vue';
+import store from './store'
 
 
 //Import Sweetalert2
@@ -37,8 +38,10 @@ import { Form} from 'vform'
 window.Form = Form;
  
 
+
 const app = new Vue({
-    el: '#app',  
+    el: '#app',
+    store,  
     components:{
         'home-import-app': Import,
     }

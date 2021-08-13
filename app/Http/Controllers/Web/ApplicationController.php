@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{User,Application, ApplicationDetail, PaymentProvider, Service, Transport, Load};
+use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
 use App\Models\{FileStore, FileStoreInternment, InternmentProcess, LocalWarehouse};
 
 use Illuminate\Support\Facades\DB;
@@ -36,6 +36,8 @@ class ApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * Generate a new Application
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * validaciion de campos antes de generar solicitud
@@ -66,7 +68,12 @@ class ApplicationController extends Controller
             );
 
             
-            $add_serv = Service::whereIn('name', $request->services)
+
+            $cat_serv = CategoryService::whereIn('name', $request->services)
+            ->select('id')
+            ->pluck('id');
+            
+            $add_serv = Service::whereIn('category_service_id', $cat_serv)
             ->select('id')
             ->pluck('id');
 
@@ -114,14 +121,17 @@ class ApplicationController extends Controller
      * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function show(Supplier $supplier)
+    public function show($id)
     {
-        $data  = Application::where([
-            ['id', '=', $id],
+
+        $application  = Application::where([
+            ['id', '=', base64_decode($id)],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
-        return response()->json($data, 200);
+        //dd($data);
+        return view('applications.show', compact('application'));
+       
     }
 
 
@@ -170,14 +180,25 @@ class ApplicationController extends Controller
     }
 
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * Generate a new Application
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function paymentProvider(Request $request)
     {
-        // dd($request->all());
+
         $values = collect($request);
 
-        if ($values->sum('percentage') > 100){
+        if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
             return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 401);
         }
+
+        //$application = Application::findOrFail($id); 
 
         if ($values->sum('percentage') == 100){
 
@@ -189,9 +210,9 @@ class ApplicationController extends Controller
                      [
                          'application_id'  => $data['application_id'],
                          'percentage'      => $data['percentage'],
-                         'type_pay'        => $data['typePay'],
-                 ],
+                     ],
                      [
+                         'type_pay'        => $data['typePay'],
                          'date_pay'        => $data['datePay'],
                          'payment_release' => $data['payment_release'],
                      ]

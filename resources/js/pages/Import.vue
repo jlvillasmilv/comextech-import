@@ -66,7 +66,7 @@
         </ul>
 
         <div class="w-full p-2 ">
-            <Container :bg="false" v-if="activetab == 'Pago Proveedor'">
+            <Container :bg="false" v-if="activetab == 'ICS01'">
                 <FormPayment
                     :application_id="form.application_id"
                     @incomingMenu="incomingMenu"
@@ -77,7 +77,7 @@
                 />
             </Container>
 
-            <Container v-if="activetab == 'Transporte'">
+            <Container v-if="activetab == 'ICS03'">
                 <Addresses
                     @incomingMenu="incomingMenu"
                     :application="form"
@@ -85,7 +85,7 @@
                 />
             </Container>
 
-            <Container v-if="activetab == 'Proceso de Internación'">
+            <Container v-if="activetab == 'ICS04'">
                 <FormInternment
                     @incomingMenu="incomingMenu"
                     :transportSelected="transportSelected"
@@ -93,8 +93,12 @@
                 />
             </Container>
 
-            <Container v-if="activetab == 'Entrega'">
+            <Container v-if="activetab == 'ICS05'">
                 <internal-storage :application_id="form.application_id" />
+            </Container>
+
+            <Container v-if="activetab == 'ICS07'">
+                <Exchange :application_id="form.application_id" />
             </Container>
         </div>
         <Modal v-if="statusModal" :title="title" class="mt-10">
@@ -354,13 +358,15 @@
                                 class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
                             >
                                 <div class="flex items-center ">
+
                                     <input
                                         v-if="item.selected"
                                         type="checkbox"
                                         class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
-                                        :value="item.name"
+                                        :value="item.code"
                                         v-model="form.services"
                                     />
+                                   
                                     <div v-else class=" ">
                                         <svg
                                             class="w-5 h-5 text-gray-300"
@@ -419,6 +425,7 @@
     </div>
 </template>
 <script>
+
 import Modal from "../components/Modal.vue";
 import Container from "../components/Container.vue";
 import Addresses from "../components/Transport/Addresses.vue";
@@ -426,6 +433,7 @@ import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
 import TablePayment from "../components/PaymentProvider/Table.vue";
 import InternalStorage from "../components/InternalStorage.vue";
+import Exchange from "../components/Exchange";
 import servicedefault from "../data/services.json";
 import Button from "../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue";
 
@@ -492,7 +500,8 @@ export default {
         FormPayment,
         TablePayment,
         InternalStorage,
-        Button
+        Button,
+        Exchange
     },
     methods: {
         toogleMenu(value) {
@@ -514,7 +523,8 @@ export default {
                 this.transportSelected = this.serviceFind("Transporte");
                 this.form.currency_id = this.currency.id;
                 const { data } = await this.form.post("/applications");
-
+                    this.$store.dispatch('getApplications', this.form )
+                    this.$store.dispatch('getCurrency', this.currency)
                 this.busy = true;
 
                 if (data) {
