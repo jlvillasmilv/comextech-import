@@ -67,9 +67,7 @@ class ApplicationController extends Controller
                 ]
             );
 
-            
-
-            $cat_serv = CategoryService::whereIn('name', $request->services)
+            $cat_serv = CategoryService::whereIn('code', $request->services)
             ->select('id')
             ->pluck('id');
             
@@ -183,7 +181,7 @@ class ApplicationController extends Controller
      /**
      * Store a newly created resource in storage.
      *
-     * Generate a new Application
+     * Generate a new Payment Provider
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
