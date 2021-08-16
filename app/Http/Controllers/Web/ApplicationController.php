@@ -179,17 +179,16 @@ class ApplicationController extends Controller
 
 
      /**
-     * Store a newly created resource in storage.
+     * @author Jorge Villasmil.
      *
-     * Generate a new Payment Provider
+     * Generate a new or update Payment Provider in storage.
      * 
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request Array
      * @return \Illuminate\Http\Response
      * 
      */
     public function paymentProvider(Request $request)
     {
-
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
@@ -223,6 +222,15 @@ class ApplicationController extends Controller
 
     }
 
+     /**
+     * @author Jorge Villasmil.
+     * 
+     * Generate a new or Update Transport register in storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function transports(Request $request)
     {
         DB::beginTransaction();
@@ -254,6 +262,16 @@ class ApplicationController extends Controller
         return response()->json($transport->id, 200);
     }
 
+
+    /**
+     * @author Jorge Villasmil.
+     *
+     * Generate a new or Update Transport register in storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
         //   dd($request->all());
