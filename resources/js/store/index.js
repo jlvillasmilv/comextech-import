@@ -47,10 +47,17 @@ const actions = {
 };
 
 const getters = {
-    findService: (state) => (code) =>{
-        let service =  state.selectedServices.filter(item => item.code == code )
-        if (service.length) return true 
-        else return false
+    findService: state => code => {
+        let service = state.selectedServices.filter(item => item.code == code);
+        if (service.length) return true;
+        else return false;
+    },
+    CIF: state => {
+        return (
+            Number(state.application.amount) +
+            Number((state.application.amount * 2) / 100) +
+            Number((state.application.amount * 5) / 100)
+        );
     }
 };
 

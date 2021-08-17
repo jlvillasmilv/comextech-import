@@ -15,7 +15,7 @@
             </button>
         </div>
 
-        {{ $store.state.application }}
+    
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
                 <table class="w-full table-fixed">
@@ -91,7 +91,7 @@
                                 <div class="text-sm">
                                     <div>
                                         <p class="font-semibold input">
-                                            IVA Internacion
+                                             
                                         </p>
                                     </div>
                                 </div>
@@ -100,16 +100,7 @@
                                 <div class="text-sm">
                                     <div>
                                         <p class="font-semibold input">
-                                            IVA Internacion
-                                        </p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-left px-4 py-3">
-                                <div class="text-sm">
-                                    <div>
-                                        <p class="font-semibold input">
-                                            IVA Internacion
+                                           {{ $store.getters.CIF * 19 }}
                                         </p>
                                     </div>
                                 </div>
@@ -121,6 +112,33 @@
                                     <div>
                                         <p class="font-semibold input">
                                             Aranceles
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-left px-4 py-3">
+                                <div class="text-sm">
+                                    <div>
+                                        <p class="font-semibold input">
+                                            
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-left px-4 py-3">
+                                <div class="text-sm">
+                                    <div>
+                                        <p class="font-semibold input">
+                                            {{ $store.getters.CIF * 6 }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-left px-4 py-3">
+                                <div class="text-sm">
+                                    <div>
+                                        <p class="font-semibold input">
+                                            
                                         </p>
                                     </div>
                                 </div>
