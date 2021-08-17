@@ -5,7 +5,9 @@ Vue.use(Vuex);
 const state = () => ({
     application: [],
     currency: [],
-    payment:[]
+    payment: [],
+    expenses: false,
+    selectedServices: false
 });
 
 const mutations = {
@@ -17,6 +19,12 @@ const mutations = {
     },
     setPayment(state, payment) {
         state.payment = payment;
+    },
+    setExpenses(state, expenses) {
+        state.expenses = expenses;
+    },
+    setServicesSelected(state, selectedServices) {
+        state.selectedServices = selectedServices;
     }
 };
 
@@ -29,10 +37,22 @@ const actions = {
     },
     getPayment({ commit }, paylod) {
         commit("setPayment", paylod);
+    },
+    getExpenses({ commit }, paylod) {
+        commit("setExpenses", paylod);
+    },
+    getSelectedServices({ commit }, paylod) {
+        commit("setServicesSelected", paylod);
     }
 };
 
-const getters = {};
+const getters = {
+    findService: (state) => (code) =>{
+        let service =  state.selectedServices.filter(item => item.code == code )
+        if (service.length) return true 
+        else return false
+    }
+};
 
 export default new Vuex.Store({
     state,
