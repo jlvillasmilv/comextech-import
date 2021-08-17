@@ -287,7 +287,7 @@
                                     <v-select
                                         label="name_code"
                                         v-model="currency"
-                                        placeholder="Moneda"
+                                        placeholder="Moneda de Pago"
                                         :options="currencies"
                                     >
                                         <template

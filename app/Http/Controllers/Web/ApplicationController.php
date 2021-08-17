@@ -266,7 +266,7 @@ class ApplicationController extends Controller
     /**
      * @author Jorge Villasmil.
      *
-     * Generate a new or Update Transport register in storage.
+     * Generate a new or Update internment processes data in storage.
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -274,7 +274,7 @@ class ApplicationController extends Controller
      */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-        //   dd($request->all());
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -285,7 +285,8 @@ class ApplicationController extends Controller
                     'custom_agent_id'       => $request->custom_agent_id,
                     'customs_house'         => $request->customs_house,
                     'agent_payment'         => $request->agent_payment,
-                    // 'certificate'           => $request->certificate,
+                    'iva'                   => $request->iva,
+                    'adv'                   => $request->adv,
                 ]
             );
 
