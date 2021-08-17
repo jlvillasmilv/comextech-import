@@ -89,7 +89,6 @@
             <Container v-if="activetab == 'ICS04'">
                 <FormInternment
                     @incomingMenu="incomingMenu"
-                    :transportSelected="transportSelected"
                     :application_id="form.application_id"
                 />
             </Container>
@@ -364,7 +363,7 @@
                                         type="checkbox"
                                         class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
                                         :value="item"
-                                        v-model="form.services"
+                                        v-model="selectedServices"
                                     />
 
                                     <div v-else class=" ">
@@ -461,10 +460,9 @@ export default {
                     name: "Amazon"
                 }
             ],
-            selectedCondition: "",
             busy: false,
             selectedCondition: "",
-            selectedServices: "",
+            selectedServices: [],
             currency: "",
             position: 0,
             tabs: [],
@@ -489,8 +487,6 @@ export default {
                 { name: "50/50", valueInitial: 50 },
                 { name: "Otros", valueInitial: 0 }
             ],
-
-            transportSelected: false,
             arrayServices: [],
             origin_transport: ""
         };
@@ -514,13 +510,12 @@ export default {
         },
         async submitFormApplications() {
             try {
-                this.transportSelected = this.serviceFind("Transporte");
                 this.$store.dispatch("getApplications", this.form);
                 this.$store.dispatch("getCurrency", this.currency);
-                this.form.currency_id = this.currency.id;
-                this.selectedServices = this.form.services;
-                this.form.services = this.servicesCode;
-                const { data } = await this.form.post("/applications");
+                this.$store.dispatch('getSelectedServices', this.selectedServices)
+                this.form.currency_id = this.currency.id
+                this.form.services = this.servicesCode
+                const { data } = await this.form.post("/applications")
                 this.busy = true;
                 if (data) {
                     Swal.fire({
@@ -554,14 +549,15 @@ export default {
             this.form.valuePercentage = item;
         },
         toogleMenuTabs() {
-            this.form.services = [];
+            this.selectedServices = [];
+            
             this.tabs = this.selectedCondition.services;
             this.form.condition = this.selectedCondition.name;
         }
     },
     computed: {
         servicesCode() {
-            return this.form.services.map(item => item.code);
+            return this.selectedServices.map(item => item.code);
         }
     },
     async created() {

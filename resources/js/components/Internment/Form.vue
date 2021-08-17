@@ -1,6 +1,6 @@
 <template>
     <div class="w-full p-4">
-        <div v-show="!transportSelected">
+        <div v-show="!$store.getters.findService('ICS03')">
             <Load @dataForm="getDataLoad" />
         </div>
         <div class="flex flex-wrap -mx-3 ">
@@ -183,16 +183,20 @@
             <div class="flex ">
                 <ul class="space-y-2">
                     <li>
-                        Mercaderia - {{ $store.state.currency.code }} {{ $store.state.application.amount }}
+                        Mercaderia - {{ $store.state.currency.code }}
+                        {{ $store.state.application.amount }}
                     </li>
                     <li>
-                        Transporte -  {{ ($store.state.application.amount  * 5 / 100) + ($store.state.application.amount)  }}
+                        Transporte - {{ $store.state.currency.code }}
+                        {{ ($store.state.application.amount * 2) / 100 }}
                     </li>
                     <li>
-                        Seguro - USD 2000
+                        Seguro - {{ $store.state.currency.code }}
+                        {{ ($store.state.application.amount * 5) / 100 }}
                     </li>
                     <li class="border-t-2 border-fuchsia-600">
-                        Valor CIF - USD 6000
+                        Valor CIF - {{ $store.state.currency.code }}
+                        {{ totalCIF }}
                     </li>
                 </ul>
             </div>
@@ -209,11 +213,12 @@
                 />
             </div>
             <div class="  w-1/7 space-y-9">
-                <h1 v-if="expenses.iva">IVA (19 %) USD 20.000</h1>
-                <h1 v-if="expenses.adv">Ad Valorem (6 %) USD 20.000</h1>
+                <h1 v-if="expenses.iva">
+                    IVA ( 19% ) {{ $store.state.currency.code }} {{ totalCIF * 19 / 100 }}
+                </h1>
+                <h1 v-if="expenses.adv">Ad Valorem ( 6% )  {{ $store.state.currency.code }}  {{ totalCIF * 6 / 100 }} </h1>
             </div>
         </div>
-        
         <div class="my-2">
             <input
                 type="checkbox"
@@ -247,10 +252,6 @@ export default {
         application_id: {
             required: true,
             type: Number
-        },
-        transportSelected: {
-            required: true,
-            default: false
         }
     },
     components: { Load },
@@ -284,7 +285,8 @@ export default {
                 dataLoad: [],
                 files: new FormData(),
                 iva: false,
-                adv: false
+                adv: false,
+                totalCIF:false
             }),
             custom_agents: [],
             showInputFile: false,
@@ -306,7 +308,6 @@ export default {
                 this.handleStatusSubmitFile();
             }
         },
-
         openWindowFileCert({ e, name: entry }) {
             this.nameFileUpload = entry;
             let value = this.certif.find(a => a.name == entry);
@@ -318,7 +319,6 @@ export default {
                 this.handleStatusCertificate();
             }
         },
-
         certificateFile() {
             const file = this.$refs.file_cert.files[0];
             if (file) {
@@ -327,7 +327,6 @@ export default {
                 this.certificate = this.nameFileUpload;
             }
         },
-
         handleFile() {
             const file = this.$refs.file.files[0];
             if (file) {
@@ -353,8 +352,8 @@ export default {
         },
         async submitForm() {
             try {
+                this.$store.dispatch("getExpenses", this.expenses);
                 const response = await this.expenses.post("/internment");
-
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
@@ -364,6 +363,15 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        }
+    },
+    computed: {
+        totalCIF() {
+            return (
+                Number(this.$store.state.application.amount) +
+                Number((this.$store.state.application.amount * 2) / 100) +
+                Number((this.$store.state.application.amount * 5) / 100)
+            );
         }
     },
     async created() {
