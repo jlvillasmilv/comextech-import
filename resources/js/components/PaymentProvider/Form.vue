@@ -77,6 +77,7 @@
                             type="date"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             placeholder="Empresa"
+                            :min="minDate"
                         />
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -330,6 +331,7 @@ export default {
                 application_id: this.application_id,
                 code_serv: "ICS01"
             },
+            minDate: new Date().toISOString().substr(0, 10),
             percentageInitial: 100,
             discount: "",
             counter: 0,
