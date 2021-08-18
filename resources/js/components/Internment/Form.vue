@@ -196,7 +196,7 @@
                     </li>
                     <li class="border-t-2 border-fuchsia-600">
                         Valor CIF - {{ $store.state.currency.code }}
-                        {{ totalCIF }}
+                        {{ $store.getters.CIF }}
                     </li>
                 </ul>
             </div>
@@ -214,9 +214,11 @@
             </div>
             <div class="  w-1/7 space-y-9">
                 <h1 v-if="expenses.iva">
-                    IVA ( 19% ) {{ $store.state.currency.code }} {{Math.round(totalCIF * 19 / 100)}}
+ 
+                    IVA ( 19% ) {{ $store.getters.CIF }}  {{Math.round($store.getters.CIF * 19 / 100)}}
+ 
                 </h1>
-                <h1 v-if="expenses.adv">Ad Valorem ( 6% )  {{ $store.state.currency.code }}  {{ totalCIF * 6 / 100 }} </h1>
+                <h1 v-if="expenses.adv">Ad Valorem ( 6% )  {{ $store.state.currency.code }}  {{  $store.getters.CIF * 6 / 100 }} </h1>
             </div>
         </div>
         <div class="my-2">
@@ -285,7 +287,6 @@ export default {
                 files: new FormData(),
                 iva: false,
                 adv: false,
-                totalCIF:false
             }),
             custom_agents: [],
             showInputFile: false,
@@ -362,15 +363,6 @@ export default {
             } catch (error) {
                 console.error(error);
             }
-        }
-    },
-    computed: {
-        totalCIF() {
-            return (
-                Number(this.$store.state.application.amount) +
-                Number((this.$store.state.application.amount * 2) / 100) +
-                Number((this.$store.state.application.amount * 5) / 100)
-            );
         }
     },
     async created() {
