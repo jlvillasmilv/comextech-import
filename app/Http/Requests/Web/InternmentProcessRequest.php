@@ -25,13 +25,13 @@ class InternmentProcessRequest extends FormRequest
     {
         $rules = [
             'application_id'          => 'required|exists:applications,id',
-            'custom_agent_id'         => 'required|exists:custom_agents,id',
-            'agent_payment'           => 'nullable|numeric|between:1,999999999999|gt:0',
+            'custom_agent_id'         => 'required_if:customs_house,false',
+            'agent_payment'           => 'nullable|numeric|between:0,999999999999|gt:-1',
             'files'                   => 'nullable|array',
             'files.*'                 => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
             'file_certificate'        => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
-            'dataLoad'                => 'required_if:transport,false',
-            "dataLoad.*.weight"       => "required_if:transport,false|numeric",
+            'dataLoad'                => 'required_if:transport,true',
+            "dataLoad.*.weight"       => "required_if:transport,true",
         ];
 
         return $rules;
@@ -47,8 +47,8 @@ class InternmentProcessRequest extends FormRequest
     public function attributes()
     {
         return [
-            'custom_agent_id'    => 'Nombre del Agente de aduana',
-            'agent_payment' => 'Monto Total de Operacion',
+            'custom_agent_id'    => 'Agente de aduana',
+            'agent_payment'      => 'Monto Total de Operacion',
         ];
     }
 

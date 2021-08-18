@@ -214,7 +214,9 @@
             </div>
             <div class="  w-1/7 space-y-9">
                 <h1 v-if="expenses.iva">
-                    IVA ( 19% ) {{ $store.getters.CIF }} {{ totalCIF * 19 / 100 }}
+ 
+                    IVA ( 19% ) {{ $store.getters.CIF }}  {{Math.round($store.getters.CIF * 19 / 100)}}
+ 
                 </h1>
                 <h1 v-if="expenses.adv">Ad Valorem ( 6% )  {{ $store.state.currency.code }}  {{  $store.getters.CIF * 6 / 100 }} </h1>
             </div>
@@ -273,8 +275,7 @@ export default {
             certificate: {},
             expenses: new Form({
                 application_id: this.application_id,
-                transport: this.transportSelected,
-                agent_name: "",
+                transport: !this.$store.getters.findService('ICS03'),
                 custom_agent_id: "",
                 agent_payment: 0,
                 treatiesSelected: [],

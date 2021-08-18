@@ -19,7 +19,9 @@ class CreateInternmentProcessesTable extends Migration
             $table->unsignedBigInteger('custom_agent_id')->nullable();
             $table->boolean('customs_house')->default(true);
             $table->decimal('agent_payment', 12, 2)->default(0)->nullable();
-            $table->enum('certificate', ['Origen', 'Fitosanitario', 'Form F'])->nullable();
+            $table->boolean('iva')->default(false);
+            $table->boolean('adv')->default(false);
+            // $table->enum('certificate', ['Origen', 'Fitosanitario', 'Form F'])->nullable();
             $table->timestamps();
             
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
