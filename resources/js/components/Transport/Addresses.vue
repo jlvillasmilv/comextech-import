@@ -279,7 +279,7 @@ export default {
             }
         }
     },
-    async created() {
+    async mounted() {
         let { data } = await axios.get("/company/address/all");
         this.addressDestination = data;
     }

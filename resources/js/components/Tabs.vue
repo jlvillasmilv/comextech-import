@@ -1,7 +1,7 @@
 <template>
     <ul class="flex justify-center items-center mt-2 ">
         <button
-            @click="statusModal = !statusModal"
+            @click="$store.state.statusModal = !$store.state.statusModal"
             class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue"
         >
             <svg
@@ -24,8 +24,9 @@
             rel="prev"
             class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
             @click="incomingMenu(false)"
+            :disabled="$store.state.positionTabs == 0"
         >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 "   fill="currentColor" viewBox="0 0 20 20">
                 <path
                     fill-rule="evenodd"
                     d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
@@ -33,12 +34,14 @@
                 />
             </svg>
         </button>
-
-        <div v-for="(item, id) in form.services" :key="id">
+        <div v-for="(item, id) in $store.state.selectedServices" :key="id">
             <li
+                @click="activeTabs(item)"
                 :class="[
                     'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                    item.code == activetab ? 'text-b-500 border-indigo-500' : ''
+                    item.code == $store.state.tabActive
+                        ? 'text-b-500 border-indigo-500'
+                        : ''
                 ]"
             >
                 {{ item.name }}
@@ -47,8 +50,12 @@
 
         <button
             rel="next"
-            @click="incomingMenu(true)"
             class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+            @click="incomingMenu(true)"
+            :disabled="
+                $store.state.positionTabs + 1 ==
+                    this.$store.state.selectedServices.length
+            "
         >
             <svg
                 class="w-4 h-4 fill-current"
@@ -67,9 +74,31 @@
 
 <script>
 export default {
-
-    
+    methods: {
+        incomingMenu(next) {
+            this.$store.state.positionTabs = next
+                ? this.$store.state.positionTabs + 1
+                : this.$store.state.positionTabs - 1;
+            this.$store.state.tabActive = this.$store.state.selectedServices[
+                this.$store.state.positionTabs
+            ].code;
+            console.log(
+                "SERVICES",
+                this.$store.state.selectedServices[
+                    this.$store.state.positionTabs
+                ]
+            );
+            console.log("CODE", this.$store.state.tabActive);
+            console.log(this.$store.state.positionTabs, "POSITION");
+        },
+        activeTabs(item) {
+            this.$store.state.tabActive = item.code;
+            this.$store.state.positionTabs = this.$store.state.selectedServices.findIndex(
+                service => service.code === item.code
+            );
+            console.log(this.$store.state.positionTabs, "POSITION");
+            console.log("CODE", this.$store.state.tabActive);
+        }
+    }
 };
 </script>
-
-<style></style>

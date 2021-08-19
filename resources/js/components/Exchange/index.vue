@@ -23,11 +23,11 @@
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                         >
-                            <th class="w-1/2 px-4 py-3">CONCEPTO</th>
-                            <th class="w-1/4">FECHA</th>
-                            <th class="w-1/4">MONEDA ORIGEN (M.O.)</th>
-                            <th class="w-1/4">MONTO M.O.</th>
-                            <th class="w-1/4">MONTO CLP</th>
+                            <th class="w-1/2 px-4 py-3"> CONCEPTO </th>
+                            <th class="w-1/4"> FECHA </th>
+                            <th class="w-1/4"> MONEDA ORIGEN (M.O.) </th>
+                            <th class="w-1/4"> MONTO M.O. </th>
+                            <th class="w-1/4"> MONTO CLP </th>
                         </tr>
                     </thead>
                     <tbody

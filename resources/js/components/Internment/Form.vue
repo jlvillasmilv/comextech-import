@@ -365,7 +365,7 @@ export default {
             }
         }
     },
-    async created() {
+    async mounted() {
         try {
             let agents = await axios.get("/agentslist"); // agente de Aduana del cliente
             let customsHouse = await axios.get("/customs_house"); // agente de Aduana que que ofrece Comextech
