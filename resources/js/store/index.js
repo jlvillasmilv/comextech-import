@@ -7,7 +7,10 @@ const state = () => ({
     currency: [],
     payment: [],
     expenses: false,
-    selectedServices: false
+    selectedServices: false,
+    tabActive: "",
+    statusModal: true,
+    positionTabs:0,
 });
 
 const mutations = {
@@ -58,6 +61,9 @@ const getters = {
             Number((state.application.amount * 2) / 100) +
             Number((state.application.amount * 5) / 100)
         );
+    },
+    codeCurrency: state => {
+        return state.currency.code;
     }
 };
 
