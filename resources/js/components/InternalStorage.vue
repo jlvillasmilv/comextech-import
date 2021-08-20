@@ -99,13 +99,11 @@ export default {
         async submitForm() {
             try {
                 const response = await this.form.post("/local_warehouse");
-
+                this.$store.dispatch("callIncomingOrNextMenu", true)
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
-
-                //  this.$emit("incomingMenu");
             } catch (error) {
                 console.error(error);
             }

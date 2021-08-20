@@ -352,14 +352,14 @@ export default {
         },
         async submitForm() {
             try {
-                this.$store.dispatch("getExpenses", this.expenses);
-                const response = await this.expenses.post("/internment");
+                
+                const { data } = await this.expenses.post("/internment");
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
-
-                this.$emit("incomingMenu");
+                this.$store.dispatch("getExpenses", this.expenses);
+                this.$store.dispatch('callIncomingOrNextMenu', true )
             } catch (error) {
                 console.error(error);
             }

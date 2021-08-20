@@ -1,6 +1,6 @@
-import Vue from "vue";
-import Vuex from "vuex";
-Vue.use(Vuex);
+import Vue from "vue"
+import Vuex from "vuex"
+Vue.use(Vuex)
 
 const state = () => ({
     application: [],
@@ -10,66 +10,81 @@ const state = () => ({
     selectedServices: false,
     tabActive: "",
     statusModal: true,
-    positionTabs:0,
-});
+    positionTabs: 0
+})
 
 const mutations = {
     setApplications(state, application) {
-        state.application = application;
+        state.application = application
     },
     setCurrency(state, currency) {
-        state.currency = currency;
+        state.currency = currency
     },
     setPayment(state, payment) {
-        state.payment = payment;
+        state.payment = payment
     },
     setExpenses(state, expenses) {
-        state.expenses = expenses;
+        state.expenses = expenses
     },
     setServicesSelected(state, selectedServices) {
-        state.selectedServices = selectedServices;
+        state.selectedServices = selectedServices
+    },
+    incomingOrNextMenu(state, isAction) {
+        state.positionTabs = isAction
+            ? state.positionTabs + 1
+            : state.positionTabs - 1
+        state.tabActive = state.selectedServices[state.positionTabs].code
+    },
+    activeTabs(state, { code }) {
+        state.tabActive = code
+        state.positionTabs = state.selectedServices.findIndex(service => service.code === code)
     }
-};
+}
 
 const actions = {
     getApplications({ commit }, paylod) {
-        commit("setApplications", paylod);
+        commit("setApplications", paylod)
     },
     getCurrency({ commit }, paylod) {
-        commit("setCurrency", paylod);
+        commit("setCurrency", paylod)
     },
     getPayment({ commit }, paylod) {
-        commit("setPayment", paylod);
+        commit("setPayment", paylod)
     },
     getExpenses({ commit }, paylod) {
-        commit("setExpenses", paylod);
+        commit("setExpenses", paylod)
     },
-    getSelectedServices({ commit }, paylod) {
-        commit("setServicesSelected", paylod);
+    callIncomingOrNextMenu({ commit }, action) {
+        commit("incomingOrNextMenu", action)
+    },
+    callActiveTabs({ commit }, service){
+        commit("activeTabs", service)
     }
-};
+    
+
+}
 
 const getters = {
     findService: state => code => {
-        let service = state.selectedServices.filter(item => item.code == code);
-        if (service.length) return true;
-        else return false;
+        let service = state.selectedServices.filter(item => item.code == code)
+        if (service.length) return true
+        else return false
     },
     CIF: state => {
         return (
             Number(state.application.amount) +
             Number((state.application.amount * 2) / 100) +
             Number((state.application.amount * 5) / 100)
-        );
+        )
     },
     codeCurrency: state => {
-        return state.currency.code;
+        return state.currency.code
     }
-};
+}
 
 export default new Vuex.Store({
     state,
     getters,
     actions,
     mutations
-});
+})

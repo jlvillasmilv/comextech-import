@@ -6,13 +6,14 @@
             >
                 <div
                     v-if="
-                        $store.state.application.statusSuppliers !== 'E-commerce'
+                        $store.state.application.statusSuppliers !==
+                            'E-commerce'
                     "
                 >
                     <h3
                         class="my-2 font-semibold text-gray-700 dark:text-gray-200"
                     >
-                        Pagos al Proveedor {{  }}
+                        Pagos al Proveedor
                     </h3>
                     <h3
                         :class="[
@@ -27,18 +28,22 @@
                 </div>
 
                 <h3 class="my-2   text-gray-400 dark:text-gray-200">
-                    Monto Total a Pagar : {{ $store.state.application.amount }} $
+                    Monto Total a Pagar :
+                    {{ $store.state.application.amount }} $
                 </h3>
                 <div
                     class="flex flex-wrap -mx-3  "
-                    v-if="$store.state.application.statusSuppliers !== 'E-commerce'"
+                    v-if="
+                        $store.state.application.statusSuppliers !==
+                            'E-commerce'
+                    "
                 >
                     <div class="w-full md:w-1/2 px-3 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Porcentaje de Pago     </span
-                        >
+                            Porcentaje de Pago
+                        </span>
                         <input
-                            v-if=" valuePercentage.name == 'Otros'"
+                            v-if="valuePercentage.name == 'Otros'"
                             :class="[]"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
                             placeholder="%"
@@ -153,7 +158,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="flex  space-x-2  px-3 mb-6 md:mb-0 my-5">
                     <button
                         :disabled="discount < 0 || percentageInitial == 0"
@@ -304,8 +308,8 @@
 <script>
 export default {
     props: {
-        valuePercentage:{
-             type: Object,
+        valuePercentage: {
+            type: Object,
             required: true
         }
     },
@@ -331,18 +335,22 @@ export default {
     },
     methods: {
         deleteRow(item) {
-            console.log(item)
             let value =
                 this.$store.state.application.statusSuppliers == "E-commerce"
                     ? 100
                     : item.percentage;
             this.discount =
-                this.$store.state.application.statusSuppliers == "E-commerce" ? 100 : 0;
+                this.$store.state.application.statusSuppliers == "E-commerce"
+                    ? 100
+                    : 0;
             this.data = this.data.filter(e => e.id !== item.id);
             this.percentajeDelete = value;
         },
         submitTable() {
-            if (this.percentageInitial - this.discount >= 0) {
+            if (
+                this.percentageInitial - this.discount >= 0 
+                
+            ) {
                 this.percentageInitial = this.percentageInitial - this.discount;
                 this.counter = ++this.counter;
 
@@ -352,7 +360,7 @@ export default {
                     id: this.data.length
                 });
 
-                this.discount = this.percentageInitial ;
+                this.discount = this.percentageInitial;
                 this.form = {
                     percentage: "",
                     datePay: "",
@@ -365,13 +373,11 @@ export default {
             }
         },
         submitPayment() {
-            this.$store.dispatch('getPayment', this.data)
+            this.$store.dispatch("getPayment", this.data);
+            this.$store.dispatch("callIncomingOrNextMenu", true);
             axios
                 .post("/applications/payment_provider", this.data)
-                .then(res => {
-                    this.$emit("incomingMenu");
-                    
-                })
+                .then(res => {})
                 .catch(err => {
                     console.log(err);
                 });
@@ -384,7 +390,7 @@ export default {
                     this.$store.state.application.amount * (this.discount / 100)
                 ) +
                 "  " +
-                 this.$store.getters.codeCurrency
+                this.$store.getters.codeCurrency
             );
         }
     },
@@ -393,14 +399,14 @@ export default {
             this.percentageInitial = this.percentageInitial + newValue;
         }
     },
-    mounted() {
-        if(this.$store.state.application.statusSuppliers == "E-commerce"){
-            this.discount = 100
-        }else{
-            if(this.valuePercentage.name !== 'Otros'){
-                    this.discount = this.valuePercentage.valueInitial 
+    created() {
+        if (this.$store.state.application.statusSuppliers == "E-commerce") {
+            this.discount = 100;
+        } else {
+            if (this.valuePercentage.name !== "Otros") {
+                this.discount = this.valuePercentage.valueInitial;
             }
-        }      
+        }
     }
 };
 </script>
