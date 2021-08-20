@@ -23,10 +23,10 @@
         <button
             rel="prev"
             class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-            @click="incomingMenu(false)"
+           @click="$store.dispatch('callIncomingOrNextMenu', false)"
             :disabled="$store.state.positionTabs == 0"
         >
-            <svg class="w-5 h-5 "   fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20">
                 <path
                     fill-rule="evenodd"
                     d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
@@ -36,7 +36,7 @@
         </button>
         <div v-for="(item, id) in $store.state.selectedServices" :key="id">
             <li
-                @click="activeTabs(item)"
+                @click="$store.dispatch('callActiveTabs', item)"
                 :class="[
                     'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
                     item.code == $store.state.tabActive
@@ -51,10 +51,10 @@
         <button
             rel="next"
             class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-            @click="incomingMenu(true)"
+            @click="$store.dispatch('callIncomingOrNextMenu', true)"
             :disabled="
                 $store.state.positionTabs + 1 ==
-                    this.$store.state.selectedServices.length
+                    $store.state.selectedServices.length
             "
         >
             <svg
@@ -72,33 +72,7 @@
     </ul>
 </template>
 
-<script>
-export default {
-    methods: {
-        incomingMenu(next) {
-            this.$store.state.positionTabs = next
-                ? this.$store.state.positionTabs + 1
-                : this.$store.state.positionTabs - 1;
-            this.$store.state.tabActive = this.$store.state.selectedServices[
-                this.$store.state.positionTabs
-            ].code;
-            console.log(
-                "SERVICES",
-                this.$store.state.selectedServices[
-                    this.$store.state.positionTabs
-                ]
-            );
-            console.log("CODE", this.$store.state.tabActive);
-            console.log(this.$store.state.positionTabs, "POSITION");
-        },
-        activeTabs(item) {
-            this.$store.state.tabActive = item.code;
-            this.$store.state.positionTabs = this.$store.state.selectedServices.findIndex(
-                service => service.code === item.code
-            );
-            console.log(this.$store.state.positionTabs, "POSITION");
-            console.log("CODE", this.$store.state.tabActive);
-        }
-    }
-};
-</script>
+ <script>
+ 
+ </script>
+
