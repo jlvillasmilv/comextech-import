@@ -26,7 +26,6 @@
                         Porcentaje Restante : {{ percentageInitial - discount }}
                     </h3>
                 </div>
-
                 <h3 class="my-2   text-gray-400 dark:text-gray-200">
                     Monto Total a Pagar :
                     {{ $store.state.application.amount }} $
@@ -331,36 +330,36 @@ export default {
             counter: 0,
             data: [],
             percentajeDelete: {}
-        };
+        }
     },
     methods: {
         deleteRow(item) {
             let value =
                 this.$store.state.application.statusSuppliers == "E-commerce"
                     ? 100
-                    : item.percentage;
+                    : item.percentage
             this.discount =
                 this.$store.state.application.statusSuppliers == "E-commerce"
                     ? 100
-                    : 0;
-            this.data = this.data.filter(e => e.id !== item.id);
-            this.percentajeDelete = value;
+                    : 0
+            this.data = this.data.filter(e => e.id !== item.id)
+            this.percentajeDelete = value
         },
         submitTable() {
             if (
                 this.percentageInitial - this.discount >= 0 
                 
             ) {
-                this.percentageInitial = this.percentageInitial - this.discount;
-                this.counter = ++this.counter;
+                this.percentageInitial = this.percentageInitial - this.discount
+                this.counter = ++this.counter
 
                 this.data.push({
                     ...this.form,
                     percentage: this.discount,
                     id: this.data.length
-                });
+                })
 
-                this.discount = this.percentageInitial;
+                this.discount = this.percentageInitial
                 this.form = {
                     percentage: "",
                     datePay: "",
@@ -369,18 +368,18 @@ export default {
                     manyPayment: "",
                     id: "",
                     application_id: this.$store.state.application.application_id
-                };
+                }
             }
         },
         submitPayment() {
-            this.$store.dispatch("getPayment", this.data);
-            this.$store.dispatch("callIncomingOrNextMenu", true);
+            this.$store.dispatch("getPayment", this.data)
+            this.$store.dispatch("callIncomingOrNextMenu", true)
             axios
                 .post("/applications/payment_provider", this.data)
                 .then(res => {})
                 .catch(err => {
-                    console.log(err);
-                });
+                    console.log(err)
+                })
         }
     },
     computed: {
@@ -391,24 +390,24 @@ export default {
                 ) +
                 "  " +
                 this.$store.getters.codeCurrency
-            );
+            )
         }
     },
     watch: {
         percentajeDelete(newValue, oldValue) {
-            this.percentageInitial = this.percentageInitial + newValue;
+            this.percentageInitial = this.percentageInitial + newValue
         }
     },
     created() {
         if (this.$store.state.application.statusSuppliers == "E-commerce") {
-            this.discount = 100;
+            this.discount = 100
         } else {
             if (this.valuePercentage.name !== "Otros") {
-                this.discount = this.valuePercentage.valueInitial;
+                this.discount = this.valuePercentage.valueInitial
             }
         }
     }
-};
+}
 </script>
 
 <style></style>

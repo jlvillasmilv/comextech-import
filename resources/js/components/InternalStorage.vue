@@ -98,8 +98,8 @@ export default {
     methods: {
         async submitForm() {
             try {
-                const response = await this.form.post("/local_warehouse");
                 this.$store.dispatch("callIncomingOrNextMenu", true)
+                const response = await this.form.post("/local_warehouse");
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
