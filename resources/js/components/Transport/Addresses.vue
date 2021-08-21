@@ -1,6 +1,7 @@
 <template>
     <div class="container grid px-6 my-1 ">
         <Load @dataForm="getDataLoad" />
+
         <div v-if="Load.weight">
             <div>
                 <div class="flex flex-wrap -mx-3 my-8 ">
@@ -86,11 +87,12 @@
                                 v-model="expenses.addressDestination"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
-                                   expenses.favoriteAddressDestin
+                                    expenses.favoriteAddressDestin
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
-                            /> <v-select
+                            />
+                            <v-select
                                 v-else
                                 label="address"
                                 class="mt-2 text-sm"
@@ -126,7 +128,6 @@
                                     class="form-checkbox h-4 w-4 text-gray-800"
                                     v-model="expenses.favoriteAddressDestin"
                                 /><span class="ml-2 text-gray-700">
-                                     
                                     Direccion de Destino Favoritas
                                 </span>
                             </label>
@@ -189,8 +190,11 @@
                             <span class="ml-2 text-gray-700 ">Seguro </span>
                         </label>
                     </div>
-                    <div class="w-1/6 mt-8" v-if="safe">
-                            <span class="ml-2 text-gray-700 "> {{ application.amount }}  </span>
+                    <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                        <span class="ml-2 text-gray-700 ">
+                            {{ $store.state.application.amount }}
+                            {{ $store.state.currency.code }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -231,12 +235,12 @@ export default {
                 description: "",
                 dataLoad: [],
                 favoriteAddressOrigin: false,
-                favoriteAddressDestin:false,
-                insurance: false,
+                favoriteAddressDestin: false,
+                insurance: false
             }),
             Load: false,
-           
-            addressDestination:''
+            safe: false,
+            addressDestination: ""
         };
     },
     methods: {
@@ -247,16 +251,13 @@ export default {
         },
         async submitForm() {
             try {
-                const response = await this.expenses.post(
-                    "/applications/transports"
-                );
-
+                this.$store.dispatch("getExpenses", this.expenses);
+                this.$store.dispatch("callIncomingOrNextMenu", true);
+                await this.expenses.post("/applications/transports");
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
-
-                this.$emit("incomingMenu");
             } catch (error) {
                 console.error(error);
             }
@@ -275,9 +276,9 @@ export default {
             }
         }
     },
-    async created() {
+    async mounted() {
         let { data } = await axios.get("/company/address/all");
-        this.addressDestination = data 
+        this.addressDestination = data;
     }
 };
 </script>

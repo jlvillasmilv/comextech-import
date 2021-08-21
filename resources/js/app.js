@@ -36,8 +36,10 @@ Vue.use(VueMask)
 //Import v-from
 import { Form} from 'vform'
 window.Form = Form;
- 
 
+//moment
+import moment from 'moment'
+Vue.use(moment)
 
 const app = new Vue({
     el: '#app',

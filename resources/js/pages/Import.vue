@@ -1,107 +1,29 @@
 <template>
     <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
-        <ul class="flex justify-center items-center mt-2 ">
-            <button
-                @click="statusModal = !statusModal"
-                class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-                    />
-                </svg>
-            </button>
-
-            <button
-                rel="prev"
-                class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-                @click="incomingMenu(false)"
-            >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        fill-rule="evenodd"
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-            </button>
-    
-            <div v-for="(item, id) in form.services" :key="id">
-                <li
-                    :class="[
-                        'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                        item == activetab ? 'text-b-500 border-indigo-500' : ''
-                    ]"
-                >
-                    {{ item }}
-                </li>
-            </div>
-
-            <button
-                rel="next"
-                @click="incomingMenu(true)"
-                class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-            >
-                <svg
-                    class="w-4 h-4 fill-current"
-                    aria-hidden="true"
-                    viewBox="0 0 20 20"
-                >
-                    <path
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd"
-                        fill-rule="evenodd"
-                    ></path>
-                </svg>
-            </button>
-        </ul>
-
+        <tabs />
         <div class="w-full p-2 ">
-            <Container :bg="false" v-if="activetab == 'ICS01'">
-                <FormPayment
-                    :application_id="form.application_id"
-                    @incomingMenu="incomingMenu"
-                    :currencies="currency"
-                    :dataApplications="form"
-                    :valuePercentage="form.valuePercentage"
-                    
-                />
-            </Container>
-
-            <Container v-if="activetab == 'ICS03'">
-                <Addresses
-                    @incomingMenu="incomingMenu"
+            <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
+                <form-payment :valuePercentage="form.valuePercentage" />
+            </container>
+            <container v-if="$store.state.tabActive == 'ICS03'">
+                <addresses
                     :application="form"
                     :originTransport="origin_transport"
                 />
-            </Container>
+            </container>
+            <container v-if="$store.state.tabActive == 'ICS04'">
+                <form-internment :application_id="form.application_id" />
+            </container>
 
-            <Container v-if="activetab == 'ICS04'">
-                <FormInternment
-                    @incomingMenu="incomingMenu"
-                    :transportSelected="transportSelected"
-                    :application_id="form.application_id"
-                />
-            </Container>
-
-            <Container v-if="activetab == 'ICS05'">
+            <container v-if="$store.state.tabActive == 'ICS05'">
                 <internal-storage :application_id="form.application_id" />
-            </Container>
+            </container>
 
-            <Container v-if="activetab == 'ICS07'">
-                <Exchange :application_id="form.application_id" />
-            </Container>
+            <container v-if="$store.state.tabActive == 'ICS07'">
+                <exchange :application_id="form.application_id" />
+            </container>
         </div>
-        <Modal v-if="statusModal" :title="title" class="mt-10">
+        <modal v-if="$store.state.statusModal" :title="title" class="mt-10">
             <template v-slot:body>
                 <div class="mt-2">
                     <form
@@ -287,7 +209,7 @@
                                     <v-select
                                         label="name_code"
                                         v-model="currency"
-                                        placeholder="Moneda"
+                                        placeholder="Moneda de Pago"
                                         :options="currencies"
                                     >
                                         <template
@@ -358,15 +280,14 @@
                                 class="flex items-center my-2 focu:otext-gray-600 dark:text-gray-400"
                             >
                                 <div class="flex items-center ">
-
                                     <input
                                         v-if="item.selected"
                                         type="checkbox"
                                         class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
-                                        :value="item.code"
-                                        v-model="form.services"
+                                        :value="item"
+                                        v-model="$store.state.selectedServices"
                                     />
-                                   
+
                                     <div v-else class=" ">
                                         <svg
                                             class="w-5 h-5 text-gray-300"
@@ -421,11 +342,10 @@
                     Aceptar
                 </button>
             </template>
-        </Modal>
+        </modal>
     </div>
 </template>
 <script>
-
 import Modal from "../components/Modal.vue";
 import Container from "../components/Container.vue";
 import Addresses from "../components/Transport/Addresses.vue";
@@ -435,7 +355,7 @@ import TablePayment from "../components/PaymentProvider/Table.vue";
 import InternalStorage from "../components/InternalStorage.vue";
 import Exchange from "../components/Exchange";
 import servicedefault from "../data/services.json";
-import Button from "../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue";
+import Tabs from "../components/Tabs.vue";
 
 export default {
     data() {
@@ -450,7 +370,7 @@ export default {
                 description: "",
                 statusSuppliers: "with",
                 services: [],
-                valuePercentage: "",
+                valuePercentage: ""
             }),
             agencyElectronic: [
                 {
@@ -463,16 +383,12 @@ export default {
                     name: "Amazon"
                 }
             ],
-            
-            selectedCondition: "",
             busy: false,
-            selectedCondition:'',
+            selectedCondition: "",
             currency: "",
             position: 0,
             tabs: [],
             suppliers: [],
-            activetab: false,
-            statusModal: true,
             title: "Servicios para Cotizacion",
             next: false,
             currencies: [],
@@ -485,11 +401,14 @@ export default {
                 formInput: " form-input",
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
-            paymentPercentage: [{ name: "30/70",valueInitial: 30 },{name: "40/60", valueInitial: 40 }, {name: "50/50", valueInitial: 50 }, { name:"Otros", valueInitial: 0}],
-
-            transportSelected: false,
+            paymentPercentage: [
+                { name: "30/70", valueInitial: 30 },
+                { name: "40/60", valueInitial: 40 },
+                { name: "50/50", valueInitial: 50 },
+                { name: "Otros", valueInitial: 0 }
+            ],
             arrayServices: [],
-            origin_transport:""
+            origin_transport: ""
         };
     },
     components: {
@@ -500,33 +419,21 @@ export default {
         FormPayment,
         TablePayment,
         InternalStorage,
-        Button,
-        Exchange
+        Exchange,
+        Tabs
     },
     methods: {
-        toogleMenu(value) {
-            this.activetab = value.name;
-        },
-        clearSeletedTabs() {
-            this.statusModal = !this.statusModal;
-            this.tabs.map(e => (e.selected = false));
-        },
-        incomingMenu(next = true) {
-            if (this.position >= 0) {
-                this.position = next ? this.position + 1 : this.position - 1;
-                this.activetab = this.form.services[this.position];
-            }
-        },
-
         async submitFormApplications() {
             try {
-                this.transportSelected = this.serviceFind("Transporte");
+                this.$store.dispatch("getApplications", this.form);
+                this.$store.dispatch("getCurrency", this.currency);
                 this.form.currency_id = this.currency.id;
+                this.form.services = this.servicesCode;
+                this.$store.state.tabActive = this.$store.state.selectedServices[
+                    this.$store.state.positionTabs
+                ].code;
                 const { data } = await this.form.post("/applications");
-                    this.$store.dispatch('getApplications', this.form )
-                    this.$store.dispatch('getCurrency', this.currency)
                 this.busy = true;
-
                 if (data) {
                     Swal.fire({
                         position: "center",
@@ -535,35 +442,38 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    this.activetab = this.form.services[0];
                     this.form.application_id = data.id;
-                    this.statusModal = !this.statusModal;
-                    this.position = 0;
+                    this.$store.dispatch("getApplications", this.form);
+                    this.$store.state.statusModal = !this.$store.state
+                        .statusModal;
+                    this.$store.state.positionTabs = 0;
                     this.busy = false;
-                    if (data.supplier_id != null ) {
-                        let provider = await axios.get("/api/provider/"+data.supplier_id);
-                        this.origin_transport = provider.data.supplier_address 
+                    if (data.supplier_id != null) {
+                        let provider = await axios.get(
+                            "/api/provider/" + data.supplier_id
+                        );
+                        this.origin_transport = provider.data.supplier_address;
                     }
-            
                 }
             } catch (error) {
-                console.log("error");
+                console.error(error);
             }
-        },
-        serviceFind(value) {
-            let response = this.form.services.find(item => item == value);
-            return response ? true : false;
         },
         handlePercentage(item) {
             this.form.valuePercentage = item;
         },
         toogleMenuTabs() {
-            this.form.services = [];
+            this.$store.state.selectedServices = [];
             this.tabs = this.selectedCondition.services;
             this.form.condition = this.selectedCondition.name;
         }
     },
-    async created() {
+    computed: {
+        servicesCode() {
+            return this.$store.state.selectedServices.map(item => item.code);
+        }
+    },
+    async mounted() {
         try {
             let tabs = await axios.get("/api/suppl_cond_sales");
             this.arrayServices = tabs.data;

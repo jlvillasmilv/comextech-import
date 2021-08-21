@@ -11,26 +11,20 @@
                     <span class="text-gray-700 dark:text-gray-400 my-2 text-sm">
                         Ubicacion de Destino
                     </span>
-                    <v-select
-                        label="address"
-                        placeholder="Nuestros Almacenes"
-                        :options="warehouses"
-                        v-model="form.warehouse_id"
-                        :reduce="warehouses => warehouses.id"
-                        class="text-sm"
-                    >
-                        ">
-                        <template v-slot:no-options="{ search, searching }">
-                            <template v-if="searching" class="text-sm">
-                                Lo sentimos no hay opciones que coincidan
-                                <strong>{{ search }}</strong
-                                >.
-                            </template>
-                            <em style="opacity: 0.5;" v-else>
-                                No posee proveedores en tu lista</em
-                            >
-                        </template>
-                    </v-select>
+                    <select
+                                        v-model="form.warehouse_id"
+                                        @change="toogleMenuTabs()"
+                                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    >
+                                        <option
+                                            v-for="item in warehouses"
+                                            :value="item"
+                                            :key="item.name"
+                                        >
+                                            {{ item.address }}
+                                        </option>
+                                    </select>
+                     
                     <span
                         class="text-xs text-red-600 dark:text-red-400"
                         v-if="form.errors.has('warehouse_id')"
@@ -104,14 +98,12 @@ export default {
     methods: {
         async submitForm() {
             try {
+                this.$store.dispatch("callIncomingOrNextMenu", true)
                 const response = await this.form.post("/local_warehouse");
-
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
-
-                //  this.$emit("incomingMenu");
             } catch (error) {
                 console.error(error);
             }
