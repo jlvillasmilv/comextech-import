@@ -251,16 +251,13 @@ export default {
         },
         async submitForm() {
             try {
-                const response = await this.expenses.post(
-                    "/applications/transports"
-                );
                 this.$store.dispatch("getExpenses", this.expenses);
+                this.$store.dispatch("callIncomingOrNextMenu", true);
+                await this.expenses.post("/applications/transports");
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
-
-                this.$emit("incomingMenu");
             } catch (error) {
                 console.error(error);
             }
