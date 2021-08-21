@@ -22,6 +22,11 @@ use App\Models\{Application,
         Supplier
     };
 
+use App\Http\Controllers\{
+    ServicesController
+};
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -81,3 +86,5 @@ Route::get('/provider/{id}', function ($id) {
     
     return response()->json($provider, 200);
 })->where('id', '[0-9]+');
+
+Route::get('/convert-currency/{amount}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrency']);
