@@ -1,6 +1,8 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import payment from './modules/payment'
+import exchange from "./modules/exchange"
+
 
 Vue.use(Vuex)
 
@@ -76,12 +78,17 @@ const getters = {
     }
 }
 
+const modules = {
+    exchange
+}
+
 export default new Vuex.Store({
     state,
     getters,
     actions,
     mutations,
     modules:{
-        payment
+        payment,
+        exchange
     }
 })

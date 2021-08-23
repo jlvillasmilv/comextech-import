@@ -37,9 +37,9 @@ Vue.use(VueMask)
 import { Form} from 'vform'
 window.Form = Form;
 
-//moment
-import moment from 'moment'
-Vue.use(moment)
+//date time Luxon
+import VueLuxon from "vue-luxon";
+Vue.use(VueLuxon);
 
 const app = new Vue({
     el: '#app',
