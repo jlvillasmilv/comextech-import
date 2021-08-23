@@ -27,8 +27,8 @@
                             class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                         >
                             <th class="w-1/2 px-4 py-3"> CONCEPTO </th>
-                            <th class="w-1/4"> FECHA </th>
-                            <th class="w-1/4"> MONEDA ORIGEN (M.O.) </th>
+                            <th class="w-1/4 text-center"> FECHA </th>
+                            <th class="w-1/4"> MONEDA ORIGEN</th>
                             <th class="w-1/4"> MONTO M.O. </th>
                         </tr>
                     </thead>
@@ -37,7 +37,7 @@
                     >
                       
                         <tr
-                            v-for="(item, key) in data"
+                            v-for="(item, key) in exchangeItem"
                             :key="key"
                             class="text-gray-700 dark:text-gray-400"
                         >
@@ -50,10 +50,10 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-left px-4 py-3">
+                            <td class="text-center px-4 py-3">
                                 {{ getHumanDate(item.date) }}
                             </td>
-                            <td class="text-left px-4 py-3">
+                            <td class="text-center px-4 py-3">
                                 {{ item.currency }}
                             </td>
                             <td class="text-left px-4 py-3">
@@ -77,7 +77,7 @@
                    <tbody
                         class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                     >
-                        <tr  v-for="(item, key) in data"
+                        <tr  v-for="(item, key) in exchangeItem"
                             :key="key"
                             class="text-gray-700 dark:text-gray-400">
                              <td class="px-4 py-3 text-center">
@@ -87,7 +87,7 @@
                     </tbody>
                      <tfoot>
                         <tr>
-                            <td class="text-center px-4 py-3"> <strong>{{  Number(totalAmount).toLocaleString() }}</strong></td>
+                            <td class="text-center px-4 py-3"> <strong>{{  Number(totalAmount).toLocaleString() }}</strong>  </td>
                         </tr>
                     </tfoot>
          </table>
@@ -103,9 +103,7 @@
     </div>
 </template>
 <script>
-
-const moment = require('moment');
-
+import { mapState } from "vuex";
 export default {
     props: {
         application_id: {
@@ -119,91 +117,18 @@ export default {
                 application_id: this.application_id
             }),
             currency_ex: 'CLP',
-            data: [
-                {
-                    id: 1,
-                    name: "A. pago proveedor",
-                    date: "2021-08-21",
-                    currency: "CNY",
-                    amo: 455000,
-                    amo2: 6000000
-                },
-                {
-                    id: 2,
-                    name: "A.1 ADELANTO",
-                    date: "2021-08-21",
-                    currency: "CNY",
-                    amo: 455000,
-                    amo2: 6000000
-                },
-                {
-                    id: 3,
-                    name: "A.1 ADELANTO",
-                    date: "2021-08-21",
-                    currency: "CNY",
-                    amo: 330000,
-                    amo2: 4000000
-                },
-                {
-                    id: 4,
-                    name: "B.- Transporte Internacional",
-                    date: "2021-10-10",
-                    currency: "USD",
-                    amo: 4000,
-                    amo2: 3000000
-                },
-                {
-                    id: 5,
-                    name: "C.- Seguro Transporte",
-                    date: "2021-10-10",
-                    currency: "USD",
-                    amo: 300,
-                    amo2: 210000
-                },
-                {
-                    id: 6,
-                    name: "D.- Servicio AGA",
-                    date: "2021-10-30",
-                    currency: "CLP",
-                    amo: 250,
-                    amo2: 3000000
-                },
-                {
-                    id: 7,
-                    name: "E.- IVA Internacion",
-                    date: "2021-10-30",
-                    currency: "CLP",
-                    amo: 2000000,
-                    amo2: 2000000
-                },
-                {
-                    id: 8,
-                    name: "F.- Aranceles",
-                    date: "2021-10-30",
-                    currency: "CLP",
-                    amo: 1000000,
-                    amo2: 1000000
-                },
-                {
-                    id: 9,
-                    name: "F.- Transporte Local",
-                    date: "2021-11-10",
-                    currency: "CLP",
-                    amo: 300000,
-                    amo2: 300000
-                },
-            ]
+            
         };
     },
     methods: {
         getHumanDate(date) {
-            return moment(date, 'YYYY-MM-DD').format('DD-MM-YY');
+            return this.$luxon(date, 'dd-MM-yy');
         },
          convert(currency) {
             
             this.currency_ex = currency;
 
-            this.data.forEach(async e => {
+            this.exchangeItem.forEach(async e => {
 
                 let currencies_api = e.currency+'_'+currency; 
                 var new_amo2 = e.amo;
@@ -212,10 +137,10 @@ export default {
                   const resp = await axios.get('/api/convert-currency/'+e.amo+'/'+e.currency+'/'+currency);
 
                     //Find index of specific object using findIndex method.    
-                   let objIndex = this.data.findIndex((obj => obj.id == e.id));
+                   let objIndex = this.exchangeItem.findIndex((obj => obj.id == e.id));
                     
                    //Update object's name property.
-                   this.data[objIndex].amo2 = resp.data;
+                   this.exchangeItem[objIndex].amo2 = resp.data;
 
                     console.log(resp.data);
                 } catch (err) {
@@ -229,9 +154,10 @@ export default {
         }
     },
     computed: {
+        ...mapState('exchange',['exchangeItem']),
         totalAmount: function() {
             var sum = 0;
-            this.data.forEach(e => {
+            this.exchangeItem.forEach(e => {
                 sum += e.amo2;
             });
             return  Number(sum);
