@@ -1,6 +1,6 @@
 <template>
     <div class=" flex w-full">
-        <div class="w-1/2 overflow-x-auto ">
+        <div class="w-2/5 overflow-x-auto ">
             <div
                 class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
             >
@@ -17,13 +17,19 @@
                     </h3>
                     <h3
                         :class="[
-                            percentageInitial - discount >= 0
+                            $store.state.payment.percentageInitial -
+                                $store.state.payment.discount >=
+                            0
                                 ? 'text-black'
                                 : 'text-red-600  ',
                             ' text-xs dark:text-gray-200'
                         ]"
                     >
-                        Porcentaje Restante : {{ percentageInitial - discount }}
+                        Porcentaje Restante :
+                        {{
+                            $store.state.payment.percentageInitial -
+                                $store.state.payment.discount
+                        }}
                     </h3>
                 </div>
                 <h3 class="my-2   text-gray-400 dark:text-gray-200">
@@ -37,32 +43,34 @@
                             'E-commerce'
                     "
                 >
-                    <div class="w-full md:w-1/2 px-3 md:mb-0">
+                    <div class="w-full md:w-auto px-3 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Porcentaje de Pago
                         </span>
                         <input
-                            v-if="valuePercentage.name == 'Otros'"
                             :class="[]"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
                             placeholder="%"
-                            v-model.number="discount"
-                            :disabled="discount < 0 || percentageInitial == 0"
+                            v-model.number="$store.state.payment.discount"
+                            :disabled="
+                                $store.state.payment.discount < 0 ||
+                                    $store.state.payment.percentageInitial == 0
+                            "
                             step="1"
                             type="number"
                         />
-                        <input
+                        <!-- <input
                             v-else
                             disabled
                             :class="[]"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input  text-center"
                             placeholder="%"
-                            v-model.number="discount"
+                            v-model.number="$store.state.payment.discount"
                             step="1"
-                            type="number"
-                        />
+                            type="number" 
+                        />-->
                     </div>
-                    <div class="w-full md:w-1/2 px-3 md:mb-0">
+                    <div class="w-full md:w-auto px-3 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Monto del Porcentaje Agregado
                         </span>
@@ -74,7 +82,7 @@
                 <div class="flex flex-wrap -mx-3  ">
                     <div class="w-full md:w-1/2 px-3">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Fecha a Pagar Porcentaje</span
+                            Fecha a Pagar Porcentaje </span
                         >
                         <input
                             v-model="form.datePay"
@@ -159,14 +167,17 @@
                 </div>
                 <div class="flex  space-x-2  px-3 mb-6 md:mb-0 my-5">
                     <button
-                        :disabled="discount < 0 || percentageInitial == 0"
+                        :disabled="
+                            $store.state.payment.discount < 0 ||
+                                $store.state.payment.percentageInitial == 0
+                        "
                         :class="[
-                            discount > 0
+                            $store.state.payment.discount > 0
                                 ? 'active:bg-purple-600 hover:bg-purple-700  bg-purple-600'
                                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
                             'flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple'
                         ]"
-                        @click="submitTable()"
+                        @click="addPayment()"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -186,9 +197,9 @@
                     </button>
 
                     <button
-                        :disabled="percentageInitial !== 0"
+                        :disabled="$store.state.payment.percentageInitial !== 0"
                         :class="[
-                            percentageInitial !== 0
+                            $store.state.payment.percentageInitial !== 0
                                 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300'
                                 : 'bg-green-600 active:bg-green-600 hover:bg-green-700',
                             'flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150  border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple'
@@ -214,7 +225,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-1/2">
+        <div class="w-3/5 overflow-x-auto ">
             <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
                 <div class="w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap">
@@ -232,11 +243,11 @@
                             </tr>
                         </thead>
                         <tbody
-                            v-if="data.length"
+                            v-if="payment.length"
                             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                         >
                             <tr
-                                v-for="(item, key) in data"
+                                v-for="(item, key) in payment"
                                 :key="key"
                                 class="text-gray-700 dark:text-gray-400"
                             >
@@ -278,9 +289,9 @@
                                 <td class="px-4 py-3 text-xs font-semibold ">
                                     {{ item.payment_release }}
                                 </td>
-                                <td v-if="valuePercentage.name == 'Otros'">
+                                <td>
                                     <svg
-                                        @click="deleteRow(item)"
+                                        @click="removedPayment(item)"
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-6 w-6"
                                         fill="none"
@@ -305,6 +316,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 export default {
     props: {
         valuePercentage: {
@@ -315,96 +328,76 @@ export default {
     data() {
         return {
             form: {
-                percentage: "",
-                datePay: "",
-                typePay: "",
-                payment_release: "",
-                manyPayment: "",
-                id: "",
+                percentage: '',
+                datePay: '',
+                typePay: '',
+                payment_release: '',
+                manyPayment: '',
+                id: '',
                 application_id: this.$store.state.application.application_id,
-                code_serv: "ICS01"
+                code_serv:'ICS01'
             },
             minDate: new Date().toISOString().substr(0, 10),
-            percentageInitial: 100,
-            discount: "",
-            counter: 0,
-            data: [],
             percentajeDelete: {}
         }
     },
     methods: {
-        deleteRow(item) {
-            let value =
-                this.$store.state.application.statusSuppliers == "E-commerce"
-                    ? 100
-                    : item.percentage
-            this.discount =
-                this.$store.state.application.statusSuppliers == "E-commerce"
-                    ? 100
-                    : 0
-            this.data = this.data.filter(e => e.id !== item.id)
-            this.percentajeDelete = value
+        removedPayment(item) {
+            if (this.$store.state.application.statusSuppliers == "E-commerce")
+                this.resetValues(100)
+            else this.resetValues(item.percentage)
+            this.$store.dispatch("payment/deletePayment", item.id)
         },
-        submitTable() {
-            if (
-                this.percentageInitial - this.discount >= 0 
-                
-            ) {
-                this.percentageInitial = this.percentageInitial - this.discount
-                this.counter = ++this.counter
+        resetValues(percentage) {
+            this.$store.state.payment.discount = percentage
+            this.$store.state.payment.percentageInitial += percentage
+        },
+        addPayment() {
+        
+            const { discount, percentageInitial } = this.$store.state.payment
 
-                this.data.push({
+            if ( percentageInitial - discount >= 0 && this.form.typePay != '' &&  this.manyPayment != ''  && this.form.datePay != '' ) {
+                this.$store.dispatch("payment/addPayment", {
                     ...this.form,
-                    percentage: this.discount,
-                    id: this.data.length
+                    percentage: discount,
+                    id: this.payment.length
                 })
-
-                this.discount = this.percentageInitial
                 this.form = {
-                    percentage: "",
-                    datePay: "",
-                    typePay: "",
-                    payment_release: "",
-                    manyPayment: "",
-                    id: "",
+                    percentage: '',
+                    datePay: '',
+                    typePay: '',
+                    payment_release: '',
+                    manyPayment: '',
+                    id: '',
                     application_id: this.$store.state.application.application_id
                 }
             }
         },
-        submitPayment() {
-            this.$store.dispatch("getPayment", this.data)
-            this.$store.dispatch("callIncomingOrNextMenu", true)
-            axios
-                .post("/applications/payment_provider", this.data)
-                .then(res => {})
-                .catch(err => {
-                    console.log(err)
-                })
+        async submitPayment() {
+            try {
+                let { data } = await axios.get("/applications/payment_provider", this.payment )
+                this.$store.dispatch("payment/getPayment", this.payment)
+                this.$store.dispatch("callIncomingOrNextMenu", true)
+            } catch (error) {
+                 console.log(error)
+            }
         }
     },
     computed: {
+        ...mapState('payment', ['payment']),
         amountRound() {
-            return (
-                Math.round(
-                    this.$store.state.application.amount * (this.discount / 100)
-                ) +
-                "  " +
-                this.$store.getters.codeCurrency
-            )
-        }
-    },
-    watch: {
-        percentajeDelete(newValue, oldValue) {
-            this.percentageInitial = this.percentageInitial + newValue
-        }
+            const { discount } = this.$store.state.payment
+            const {  amount  } = this.$store.state.application
+            return Math.round( amount * ( discount / 100)) + ' ' +  this.$store.getters.codeCurrency
+        },
+         
     },
     created() {
-        if (this.$store.state.application.statusSuppliers == "E-commerce") {
-            this.discount = 100
-        } else {
-            if (this.valuePercentage.name !== "Otros") {
-                this.discount = this.valuePercentage.valueInitial
-            }
+        const { name:typePayment, valueInitial  } = this.valuePercentage
+        if (this.$store.state.application.statusSuppliers == 'E-commerce') {
+            this.$store.state.payment.discount = 100
+        } else if (typePayment !== 'Otros') {
+            this.$store.state.payment.discount  = valueInitial
         }
     }
 }
