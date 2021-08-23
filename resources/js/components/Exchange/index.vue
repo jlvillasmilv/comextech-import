@@ -27,8 +27,8 @@
                             class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                         >
                             <th class="w-1/2 px-4 py-3"> CONCEPTO </th>
-                            <th class="w-1/4"> FECHA </th>
-                            <th class="w-1/4"> MONEDA ORIGEN (M.O.) </th>
+                            <th class="w-1/4 text-center"> FECHA </th>
+                            <th class="w-1/4"> MONEDA ORIGEN</th>
                             <th class="w-1/4"> MONTO M.O. </th>
                         </tr>
                     </thead>
@@ -50,10 +50,10 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-left px-4 py-3">
+                            <td class="text-center px-4 py-3">
                                 {{ getHumanDate(item.date) }}
                             </td>
-                            <td class="text-left px-4 py-3">
+                            <td class="text-center px-4 py-3">
                                 {{ item.currency }}
                             </td>
                             <td class="text-left px-4 py-3">
@@ -122,7 +122,7 @@ export default {
     },
     methods: {
         getHumanDate(date) {
-            return this.$luxon(date, 'dd-MM-yyyy');
+            return this.$luxon(date, 'dd-MM-yy');
         },
          convert(currency) {
             
