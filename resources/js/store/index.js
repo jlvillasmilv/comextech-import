@@ -1,5 +1,7 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import exchange from "./modules/exchange"
+
 Vue.use(Vuex)
 
 const state = () => ({
@@ -82,9 +84,14 @@ const getters = {
     }
 }
 
+const modules = {
+    exchange
+}
+
 export default new Vuex.Store({
     state,
     getters,
     actions,
-    mutations
+    mutations,
+    modules
 })

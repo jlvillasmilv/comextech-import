@@ -192,7 +192,7 @@ class ApplicationController extends Controller
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
-            return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 401);
+            return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 422);
         }
 
         //$application = Application::findOrFail($id); 
