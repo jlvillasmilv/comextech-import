@@ -78,9 +78,6 @@ const getters = {
     }
 }
 
-const modules = {
-    exchange
-}
 
 export default new Vuex.Store({
     state,
