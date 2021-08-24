@@ -189,6 +189,7 @@ class ApplicationController extends Controller
      */
     public function paymentProvider(Request $request)
     {
+        //dd($request->all());
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
