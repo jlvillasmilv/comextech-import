@@ -52,7 +52,7 @@ class ApplicationController extends Controller
         DB::beginTransaction();
         
         try {
-            $data =  Application::updateOrCreate(
+            $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
                 'user_id'   => auth()->user()->id,
                 ],
@@ -77,18 +77,18 @@ class ApplicationController extends Controller
 
             \DB::table('application_details')
                 ->whereNotIn('service_id', $add_serv)
-                ->where('application_id', $data->id)
+                ->where('application_id', $application->id)
                 ->delete();
                
             foreach ($add_serv as $key => $id) {
 
                 ApplicationDetail::updateOrCreate(
-                    ['application_id' => $data->id,
+                    ['application_id' => $application->id,
                      'service_id'   => $id,
                     ],
                     [
-                       'currency_id'  => $data->currency_id,
-                       'currency2_id' => $data->currency_id,
+                       'currency_id'  => $application->currency_id,
+                       'currency2_id' => $application->currency_id,
                     ]
                 );
             }
@@ -101,8 +101,8 @@ class ApplicationController extends Controller
 
             User::all()
                 ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($data) {
-                    $user->notify(new AdminApplicationNotification($data));
+                ->each(function (User $user) use ($application) {
+                    $user->notify(new AdminApplicationNotification($application));
                 });
 
         } catch (\Exception $e) {
@@ -110,7 +110,7 @@ class ApplicationController extends Controller
             return response()->json($e, 400);
         }
 
-        return response()->json($data, 200);
+        return response()->json($application, 200);
     }
 
     /**
@@ -189,7 +189,6 @@ class ApplicationController extends Controller
      */
     public function paymentProvider(Request $request)
     {
-        //dd($request->all());
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
@@ -275,7 +274,7 @@ class ApplicationController extends Controller
      */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-        // dd($request->all());
+        dd($request->all());
         DB::beginTransaction();
 
         try {
