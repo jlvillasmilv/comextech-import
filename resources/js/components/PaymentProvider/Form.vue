@@ -329,14 +329,14 @@ export default {
         return {
             form: {
                 percentage: '',
-                datePay: '',
+                datePay: new Date().toISOString().slice(0,10),
                 typePay: '',
                 payment_release: '',
                 manyPayment: '',
                 id: '',
-                application_id: this.$store.state.application.application_id,
-                code_serv:'ICS01'
             },
+            application_id: this.$store.state.application.application_id,
+            code_serv:'ICS01',
             minDate: new Date().toISOString().substr(0, 10),
             percentajeDelete: {}
         }
@@ -360,22 +360,23 @@ export default {
                 this.$store.dispatch("payment/addPayment", {
                     ...this.form,
                     percentage: discount,
-                    id: this.payment.length
+                    id: this.payment.length,
+                    application_id: this.$store.state.application.application_id,
+                    code_serv:'ICS01'
                 })
                 this.form = {
                     percentage: '',
-                    datePay: '',
+                    datePay: new Date().toISOString().slice(0,10),
                     typePay: '',
                     payment_release: '',
                     manyPayment: '',
                     id: '',
-                    application_id: this.$store.state.application.application_id
                 }
             }
         },
         async submitPayment() {
             try {
-                let { data } = await axios.get("/applications/payment_provider", this.payment )
+                let { data } = await axios.post("/applications/payment_provider", this.payment )
                 this.$store.dispatch("payment/getPayment", this.payment)
                 this.$store.dispatch("callIncomingOrNextMenu", true)
             } catch (error) {
