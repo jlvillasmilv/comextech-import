@@ -44,6 +44,7 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+       
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         /** Evalua la el estado de una solicitud **/
@@ -93,7 +94,33 @@ class ApplicationController extends Controller
                 );
             }
 
+
             DB::commit();
+
+             /*******case exist services previous associate********/
+
+            if(Transport::where('application_id', $application->id)->exists() && !in_array('ICS03', $request->services) ){
+                Transport::where('application_id', $application->id)->delete();
+            }
+
+            if(InternmentProcess::where('application_id', $application->id)->exists() && !in_array('ICS04', $request->services) ){
+                InternmentProcess::where('application_id', $application->id)->delete();
+            }
+
+            if(PaymentProvider::where('application_id', $application->id)->exists() && !in_array('ICS01', $request->services) ){
+                PaymentProvider::where('application_id', $application->id)->delete();
+            }
+
+            if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
+                Load::where('application_id', $application->id)->delete();
+            }
+
+            if(LocalWarehouse::where('application_id', $application->id)->exists() && !in_array('ICS05', $request->services) ){
+                LocalWarehouse::where('application_id', $application->id)->delete();
+            }
+
+
+
             /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
             $user_admin = User::whereHas('roles', function ($query) {
                 $query->where('name','=', 'Admin');
@@ -274,7 +301,6 @@ class ApplicationController extends Controller
      */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-        dd($request->all());
         DB::beginTransaction();
 
         try {
