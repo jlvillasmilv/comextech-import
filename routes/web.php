@@ -77,6 +77,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('show-notifications', 'App\Http\Controllers\HomeController@showNotifications')->name('show.notifications');
     Route::post('/mark-as-read', 'App\Http\Controllers\HomeController@markNotification')->name('markNotification');
 
+    Route::get('/convert-currency-date/{date}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrencyDate']);
+
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {
