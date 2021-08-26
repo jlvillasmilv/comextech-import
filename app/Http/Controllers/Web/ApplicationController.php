@@ -120,7 +120,6 @@ class ApplicationController extends Controller
             }
 
 
-
             /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
             $user_admin = User::whereHas('roles', function ($query) {
                 $query->where('name','=', 'Admin');
