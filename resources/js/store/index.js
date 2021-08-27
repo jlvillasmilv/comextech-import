@@ -4,6 +4,8 @@ import payment from './modules/payment'
 import exchange from "./modules/exchange"
 import load from "./modules/load"
 import address from "./modules/address"
+import internment from "./modules/internment"
+
 
 
 Vue.use(Vuex)
@@ -91,5 +93,7 @@ export default new Vuex.Store({
         exchange,
         load,
         address
+        internment
+
     }
 })

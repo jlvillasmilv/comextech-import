@@ -20,7 +20,7 @@ export default {
                 },
                 {
                     id: 3,
-                    name: "A.1 ADELANTO",
+                    name: "A.2 SALDO",
                     date: new Date().toISOString(),
                     currency: "CNY",
                     amo: 330000,
@@ -83,6 +83,26 @@ export default {
     },
   
     mutations: {
+        updateItem(state, payload) {
+
+           payload.exchangeItem.forEach(e => {
+                try {
+                   //Find index of specific object using findIndex method.    
+                   let objIndex = state.exchangeItem.findIndex((obj => obj.id == e.id));
+                    
+                   //Update object's name property.
+                    state.exchangeItem[objIndex].amo       = payload.amo;
+                    state.exchangeItem[objIndex].date      = payload.date;
+                    state.exchangeItem[objIndex].currency  = payload.currency;
+
+                } catch (err) {
+                    // Handle Error Here
+                    console.error(err);
+                }
+
+
+            });
+        }
     },
   
     actions: {
