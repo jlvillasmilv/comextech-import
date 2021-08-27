@@ -280,7 +280,7 @@ export default {
                 agent_payment: 0,
                 treatiesSelected: [],
                 file_descrip: [],
-                customs_house: false,
+                customs_house: true,
                 certificate: "Invoice",
                 file_certificate: "",
                 dataLoad: [],

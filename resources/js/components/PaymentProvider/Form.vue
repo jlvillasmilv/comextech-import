@@ -376,7 +376,7 @@ export default {
         },
         async submitPayment() {
             try {
-                let { data } = await axios.post("/applications/payment_provider", this.payment )
+                await axios.post("/applications/payment_provider", this.payment )
                 this.$store.dispatch("payment/getPayment", this.payment)
                 this.$store.dispatch("callIncomingOrNextMenu", true)
             } catch (error) {
@@ -394,7 +394,8 @@ export default {
          
     },
     created() {
-        const { name:typePayment, valueInitial  } = this.valuePercentage
+        const { name: typePayment, valueInitial  } = this.valuePercentage
+        if(!this.payment.length)
         if (this.$store.state.application.statusSuppliers == 'E-commerce') {
             this.$store.state.payment.discount = 100
         } else if (typePayment !== 'Otros') {

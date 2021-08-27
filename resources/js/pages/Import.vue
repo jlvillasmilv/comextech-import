@@ -351,7 +351,6 @@ import Container from "../components/Container.vue";
 import Addresses from "../components/Transport/Addresses.vue";
 import FormInternment from "../components/Internment/Form.vue";
 import FormPayment from "../components/PaymentProvider/Form.vue";
-import TablePayment from "../components/PaymentProvider/Table.vue";
 import InternalStorage from "../components/InternalStorage.vue";
 import Exchange from "../components/Exchange";
 import servicedefault from "../data/services.json";
@@ -417,7 +416,6 @@ export default {
         Addresses,
         FormInternment,
         FormPayment,
-        TablePayment,
         InternalStorage,
         Exchange,
         Tabs

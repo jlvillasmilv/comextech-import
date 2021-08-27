@@ -2,6 +2,8 @@ import Vue from "vue"
 import Vuex from "vuex"
 import payment from './modules/payment'
 import exchange from "./modules/exchange"
+import load from "./modules/load"
+import address from "./modules/address"
 
 
 Vue.use(Vuex)
@@ -86,6 +88,8 @@ export default new Vuex.Store({
     mutations,
     modules:{
         payment,
-        exchange
+        exchange,
+        load,
+        address
     }
 })
