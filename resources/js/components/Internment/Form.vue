@@ -243,10 +243,22 @@
         >
             Cotizar
         </button>
+     <!--     <pre>
+            {{ internment  }}
+        </pre>
+         <pre>
+            {{ expenses  }}
+        </pre>
+         <pre>
+            {{ this.application_id  }}
+        </pre> -->
     </div>
+
+   
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import Load from "../Transport/Load.vue";
 
 export default {
@@ -294,6 +306,8 @@ export default {
         };
     },
     methods: {
+        ...mapMutations('internment',['setData']),
+
         getDataLoad(payload) {
             this.expenses.dataLoad = payload;
         },
@@ -358,6 +372,7 @@ export default {
                     icon: "success",
                     title: "Datos Agregados"
                 });
+                this.setData(this.expenses)
                 this.$store.dispatch("getExpenses", this.expenses);
                 this.$store.dispatch('callIncomingOrNextMenu', true )
             } catch (error) {
@@ -370,9 +385,25 @@ export default {
             let agents = await axios.get("/agentslist"); // agente de Aduana del cliente
             let customsHouse = await axios.get("/customs_house"); // agente de Aduana que que ofrece Comextech
             this.custom_agents = agents.data;
+            this.expenses.application_id   = this.application_id;
+            this.expenses.custom_agent_id  = this.internment.custom_agent_id;
+            this.expenses.agent_payment    = this.internment.agent_payment;
+            this.expenses.treatiesSelected = this.internment.treatiesSelected;
+            this.expenses.file_descrip     = this.internment.file_descrip;
+            this.expenses.customs_house    = this.internment.customs_house;
+            this.expenses.certificate      = this.internment.certificate;
+            this.expenses.file_certificate = this.internment.file_certificate;
+            this.expenses.dataLoad         = this.internment.dataLoad;
+            this.expenses.files            = this.internment.files;
+            this.expenses.iva              = this.internment.iva;
+            this.expenses.adv              = this.internment.adv;
         } catch (error) {
             console.log(error);
         }
+    },
+
+    computed: {
+        ...mapState(['internment']),
     }
 };
 </script>

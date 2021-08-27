@@ -44,6 +44,7 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+       
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         /** Evalua la el estado de una solicitud **/
@@ -52,7 +53,7 @@ class ApplicationController extends Controller
         DB::beginTransaction();
         
         try {
-            $data =  Application::updateOrCreate(
+            $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
                 'user_id'   => auth()->user()->id,
                 ],
@@ -77,23 +78,48 @@ class ApplicationController extends Controller
 
             \DB::table('application_details')
                 ->whereNotIn('service_id', $add_serv)
-                ->where('application_id', $data->id)
+                ->where('application_id', $application->id)
                 ->delete();
                
             foreach ($add_serv as $key => $id) {
 
                 ApplicationDetail::updateOrCreate(
-                    ['application_id' => $data->id,
+                    ['application_id' => $application->id,
                      'service_id'   => $id,
                     ],
                     [
-                       'currency_id'  => $data->currency_id,
-                       'currency2_id' => $data->currency_id,
+                       'currency_id'  => $application->currency_id,
+                       'currency2_id' => $application->currency_id,
                     ]
                 );
             }
 
+
             DB::commit();
+
+             /*******case exist services previous associate********/
+
+            if(Transport::where('application_id', $application->id)->exists() && !in_array('ICS03', $request->services) ){
+                Transport::where('application_id', $application->id)->delete();
+            }
+
+            if(InternmentProcess::where('application_id', $application->id)->exists() && !in_array('ICS04', $request->services) ){
+                InternmentProcess::where('application_id', $application->id)->delete();
+            }
+
+            if(PaymentProvider::where('application_id', $application->id)->exists() && !in_array('ICS01', $request->services) ){
+                PaymentProvider::where('application_id', $application->id)->delete();
+            }
+
+            if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
+                Load::where('application_id', $application->id)->delete();
+            }
+
+            if(LocalWarehouse::where('application_id', $application->id)->exists() && !in_array('ICS05', $request->services) ){
+                LocalWarehouse::where('application_id', $application->id)->delete();
+            }
+
+
             /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
             $user_admin = User::whereHas('roles', function ($query) {
                 $query->where('name','=', 'Admin');
@@ -101,8 +127,8 @@ class ApplicationController extends Controller
 
             User::all()
                 ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($data) {
-                    $user->notify(new AdminApplicationNotification($data));
+                ->each(function (User $user) use ($application) {
+                    $user->notify(new AdminApplicationNotification($application));
                 });
 
         } catch (\Exception $e) {
@@ -110,7 +136,7 @@ class ApplicationController extends Controller
             return response()->json($e, 400);
         }
 
-        return response()->json($data, 200);
+        return response()->json($application, 200);
     }
 
     /**
@@ -189,7 +215,6 @@ class ApplicationController extends Controller
      */
     public function paymentProvider(Request $request)
     {
-        //dd($request->all());
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
@@ -275,7 +300,6 @@ class ApplicationController extends Controller
      */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-        // dd($request->all());
         DB::beginTransaction();
 
         try {
