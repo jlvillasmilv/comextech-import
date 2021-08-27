@@ -1,8 +1,7 @@
 <template>
     <div class="container grid px-6 my-1 ">
-        <Load @dataForm="getDataLoad" />
-
-        <div v-if="Load.weight">
+        <Load/>
+        <div v-show="isActivateAddress"  >
             <div>
                 <div class="flex flex-wrap -mx-3 my-8 ">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -58,6 +57,7 @@
                                     type="checkbox"
                                     class="form-checkbox h-4 w-4 text-gray-800"
                                     v-model="expenses.favoriteAddressOrigin"
+                                    @change="expenses.addressOrigin = '' "
                                 /><span class="ml-2 text-gray-700">
                                     Tus
                                     {{
@@ -127,6 +127,7 @@
                                     type="checkbox"
                                     class="form-checkbox h-4 w-4 text-gray-800"
                                     v-model="expenses.favoriteAddressDestin"
+                                    @change="expenses.addressDestination = ''"
                                 /><span class="ml-2 text-gray-700">
                                     Direccion de Destino Favoritas
                                 </span>
@@ -212,6 +213,7 @@
 
 <script>
 import Load from "./Load.vue";
+import { mapState } from "vuex"
 
 export default {
     components: { Load },
@@ -227,43 +229,26 @@ export default {
     },
     data() {
         return {
-            expenses: new Form({
-                application_id: this.application.application_id,
-                addressOrigin: "",
-                addressDestination: "",
-                estimated_date: "",
-                description: "",
-                dataLoad: [],
-                favoriteAddressOrigin: false,
-                favoriteAddressDestin: false,
-                insurance: false
-            }),
             Load: false,
             safe: false,
-            addressDestination: ""
         };
     },
     methods: {
-        getDataLoad(payload) {
-            this.expenses.addressDestination = "";
-            this.Load = payload[0];
-            this.expenses.dataLoad = payload;
-        },
         async submitForm() {
             try {
-                this.$store.dispatch("getExpenses", this.expenses);
-                this.$store.dispatch("callIncomingOrNextMenu", true);
                 await this.expenses.post("/applications/transports");
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
+                this.$store.dispatch("callIncomingOrNextMenu", true);
             } catch (error) {
                 console.error(error);
             }
         }
     },
     computed: {
+        ...mapState('address', ['expenses', 'addressDestination']),
         Adrereses() {
             if (this.application.condiction == "FOB") {
                 return this.originTransport.filter(
@@ -274,11 +259,18 @@ export default {
                     item => item.place !== "PUERTO"
                 );
             }
+        },
+        isActivateAddress(){
+            const  { loads } = this.$store.state.load
+            if(loads.length){
+                if(loads[loads.length - 1].weight)   return true
+                else false
+            }
+            return false
         }
     },
-    async mounted() {
-        let { data } = await axios.get("/company/address/all");
-        this.addressDestination = data;
+    async created() {
+           await this.$store.dispatch('address/getAddressDestination')    
     }
 };
 </script>
