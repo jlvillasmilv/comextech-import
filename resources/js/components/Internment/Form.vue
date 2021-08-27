@@ -1,7 +1,7 @@
 <template>
     <div class="w-full p-4">
         <div v-show="!$store.getters.findService('ICS03')">
-            <Load @dataForm="getDataLoad" />
+            <Load/>
         </div>
         <div class="flex flex-wrap -mx-3 ">
             <div class="w-auto px-3 mb-2 md:mb-0">
@@ -215,7 +215,7 @@
             <div class="  w-1/7 space-y-9">
                 <h1 v-if="expenses.iva">
  
-                    IVA ( 19% ) {{ $store.getters.CIF }}  {{Math.round($store.getters.CIF * 19 / 100)}}
+                    IVA ( 19% ) {{ $store.getters.CIF }}  {{ Math.round($store.getters.CIF * 19 / 100)}}
  
                 </h1>
                 <h1 v-if="expenses.adv">Ad Valorem ( 6% )  {{ $store.state.currency.code }}  {{  $store.getters.CIF * 6 / 100 }} </h1>
@@ -269,6 +269,9 @@ export default {
         }
     },
     components: { Load },
+    computed: {
+        ...mapState('internment',['expenses']),
+    },
     data() {
         return {
             certif: [
@@ -285,32 +288,12 @@ export default {
                 }
             ],
             certificate: {},
-            expenses: new Form({
-                application_id: this.application_id,
-                transport: !this.$store.getters.findService('ICS03'),
-                custom_agent_id: "",
-                agent_payment: 0,
-                treatiesSelected: [],
-                file_descrip: [],
-                customs_house: true,
-                certificate: "Invoice",
-                file_certificate: "",
-                dataLoad: [],
-                files: new FormData(),
-                iva: false,
-                adv: false,
-            }),
             custom_agents: [],
             showInputFile: false,
             nameFileUpload: ""
         };
     },
     methods: {
-        ...mapMutations('internment',['setData']),
-
-        getDataLoad(payload) {
-            this.expenses.dataLoad = payload;
-        },
         openWindowFile({ e, name: entry }) {
             this.nameFileUpload = entry;
             let value = this.treaties.find(a => a.name == entry);
@@ -366,13 +349,12 @@ export default {
         },
         async submitForm() {
             try {
-                
-                const { data } = await this.expenses.post("/internment");
+                this.expenses.dataLoad = this.$store.state.load.loads
+                await this.expenses.post("/internment");
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
-                this.setData(this.expenses)
                 this.$store.dispatch("getExpenses", this.expenses);
                 this.$store.dispatch('callIncomingOrNextMenu', true )
             } catch (error) {
@@ -382,28 +364,15 @@ export default {
     },
     async mounted() {
         try {
-            let agents = await axios.get("/agentslist"); // agente de Aduana del cliente
-            let customsHouse = await axios.get("/customs_house"); // agente de Aduana que que ofrece Comextech
+        // agente de Aduana del cliente
+            let agents = await axios.get("/agentslist");
             this.custom_agents = agents.data;
-            this.expenses.application_id   = this.application_id;
-            this.expenses.custom_agent_id  = this.internment.custom_agent_id;
-            this.expenses.agent_payment    = this.internment.agent_payment;
-            this.expenses.treatiesSelected = this.internment.treatiesSelected;
-            this.expenses.file_descrip     = this.internment.file_descrip;
-            this.expenses.customs_house    = this.internment.customs_house;
-            this.expenses.certificate      = this.internment.certificate;
-            this.expenses.file_certificate = this.internment.file_certificate;
-            this.expenses.dataLoad         = this.internment.dataLoad;
-            this.expenses.files            = this.internment.files;
-            this.expenses.iva              = this.internment.iva;
-            this.expenses.adv              = this.internment.adv;
+            //asignar id de solicitud
+            this.expenses.application_id = this.application_id
+            this.expenses.transport = !this.$store.getters.findService('ICS03')
         } catch (error) {
             console.log(error);
         }
     },
-
-    computed: {
-        ...mapState(['internment']),
-    }
 };
 </script>

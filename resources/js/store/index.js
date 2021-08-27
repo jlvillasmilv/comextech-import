@@ -5,6 +5,7 @@ import exchange from "./modules/exchange"
 import load from "./modules/load"
 import address from "./modules/address"
 import internment from "./modules/internment"
+import application from "./modules/application"
 
 
 
@@ -92,8 +93,8 @@ export default new Vuex.Store({
         payment,
         exchange,
         load,
-        address
-        internment
-
+        address,
+        internment,
+        application
     }
 })

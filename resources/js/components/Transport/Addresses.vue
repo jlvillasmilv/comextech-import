@@ -236,6 +236,7 @@ export default {
     methods: {
         async submitForm() {
             try {
+                this.expenses.dataLoad = this.$store.state.load.loads
                 await this.expenses.post("/applications/transports");
                 Toast.fire({
                     icon: "success",
@@ -270,6 +271,8 @@ export default {
         }
     },
     async created() {
+        console.log(this.application.id, 'MAURICO')
+        this.expenses.application_id = this.application.id
            await this.$store.dispatch('address/getAddressDestination')    
     }
 };
