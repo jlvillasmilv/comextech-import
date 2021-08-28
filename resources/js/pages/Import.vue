@@ -450,8 +450,8 @@ export default {
         try {
             this.tabs = servicedefault
             this.$store.dispatch('application/getSuppliers')
-            // this.$store.dispatch('application/getServices')
-            // this.$store.dispatch('application/getCurrencies')
+            this.$store.dispatch('application/getServices')
+            this.$store.dispatch('application/getCurrencies')
         } catch (error) {
             console.log(error);
         }
