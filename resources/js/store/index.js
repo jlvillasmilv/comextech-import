@@ -1,11 +1,18 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import payment from './modules/payment'
+import exchange from "./modules/exchange"
+import load from "./modules/load"
+import address from "./modules/address"
+import internment from "./modules/internment"
+
+
+
 Vue.use(Vuex)
 
 const state = () => ({
     application: [],
     currency: [],
-    payment: [],
     expenses: false,
     selectedServices: false,
     tabActive: "",
@@ -20,9 +27,7 @@ const mutations = {
     setCurrency(state, currency) {
         state.currency = currency
     },
-    setPayment(state, payment) {
-        state.payment = payment
-    },
+    
     setExpenses(state, expenses) {
         state.expenses = expenses
     },
@@ -48,9 +53,6 @@ const actions = {
     getCurrency({ commit }, paylod) {
         commit("setCurrency", paylod)
     },
-    getPayment({ commit }, paylod) {
-        commit("setPayment", paylod)
-    },
     getExpenses({ commit }, paylod) {
         commit("setExpenses", paylod)
     },
@@ -60,8 +62,6 @@ const actions = {
     callActiveTabs({ commit }, service){
         commit("activeTabs", service)
     }
-    
-
 }
 
 const getters = {
@@ -82,9 +82,18 @@ const getters = {
     }
 }
 
+
 export default new Vuex.Store({
     state,
     getters,
     actions,
-    mutations
+    mutations,
+    modules:{
+        payment,
+        exchange,
+        load,
+        address,
+        internment
+
+    }
 })

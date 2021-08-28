@@ -27,15 +27,15 @@ class CategoryServiceSeeder extends Seeder
         ]);
 
         \DB::table('services')->insert([
-            ['category_service_id' => 1, 'name' => 'Pago Adelanto ', 'created_at' => now() ],
-            ['category_service_id' => 1, 'name' => 'Pago Adelanto 2 ', 'created_at' => now() ],
+            ['category_service_id' => 1, 'name' => 'Pago Adelanto', 'created_at' => now() ],
+            ['category_service_id' => 1, 'name' => 'Pago SALDO', 'created_at' => now() ],
             ['category_service_id' => 1, 'name' => 'Otros', 'created_at' => now() ], 
             ['category_service_id' => 2, 'name' => 'Inspeccion Carga', 'created_at' => now() ],
-            ['category_service_id' => 2, 'name' => 'Bodegaje//Consolidación', 'created_at' => now() ],
+            ['category_service_id' => 2, 'name' => 'Bodegaje/Consolidación', 'created_at' => now() ],
             ['category_service_id' => 2, 'name' => 'Otros', 'created_at' => now() ],
-            ['category_service_id' => 3, 'name' => 'Pago de Tranporte Internacional', 'created_at' => now() ],
-            ['category_service_id' => 3, 'name' => 'Pago Seguro Transporte', 'created_at' => now() ],
-            ['category_service_id' => 4, 'name' => 'AGA (agente de Aduana)', 'created_at' => now() ],
+            ['category_service_id' => 3, 'name' => 'Tranporte Internacional', 'created_at' => now() ],
+            ['category_service_id' => 3, 'name' => 'Seguro Transporte', 'created_at' => now() ],
+            ['category_service_id' => 4, 'name' => 'Servicio AGA (agente de Aduana)', 'created_at' => now() ],
             ['category_service_id' => 4, 'name' => 'IVA Internacion', 'created_at' => now() ],
             ['category_service_id' => 4, 'name' => 'Ad-Valorem', 'created_at' => now() ],
             ['category_service_id' => 5, 'name' => 'Bodega', 'created_at' => now() ],

@@ -1,5 +1,6 @@
 <template>
     <div>
+         
         <div class="flex flex-wrap">
             <h1 class="flex-auto text-2xl text-blue-900 ">
                 {{ title }}
@@ -8,7 +9,7 @@
         <div class="flex  mt-3 mb-8   ">
             <ul class="flex  space-x-2 mt-3 ">
                 <li
-                    v-for="name in types"
+                    v-for="name in $store.state.load.types"
                     :key="name"
                     :class="[
                         'cursor-pointer px-5 text-gray-900 border-b-2',
@@ -22,10 +23,9 @@
         </div>
         <div v-if="item.mode_selected" >
              <div
-            v-for="(item, id) in FielFormLoad"
+            v-for="(item, id) in loads"
             :key="id"
             class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 "
-            @input="changeDataForm"
         >
             <div class="inline w-1/6" v-if="item.mode_selected != 'CONTAINER'">
                 <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
@@ -240,30 +240,11 @@
         </div>
     </div>
 </template>
+
 <script>
+import { mapState } from "vuex"
+
 export default {
-    data() {
-        return {
-            types: ["COURIER","CARGA AEREA", "CONTAINER", "CONSOLIDADO"],
-            item: {
-                mode_calculate: true,
-                mode_selected:false,
-                type_load: 1,
-                type_container: 1,
-                length: "",
-                width: "",
-                high: "",
-                lengthUnit: "cm",
-                id: 1,
-                cbm: "",
-                weight: false,
-                weight_units: "kg",
-                stackable: false,
-                id: 0
-            },
-            FielFormLoad: []
-        };
-    },
     props: {
         title: {
             require: false,
@@ -271,35 +252,31 @@ export default {
         },
     },
     methods: {
-        changeDataForm() {
-            this.$emit("dataForm", [
-                ...this.FielFormLoad,
-            ]);
-        },
         AddFielForm() {
-            this.FielFormLoad.push({ ...this.item });
-            this.changeDataForm();
+             this.$store.dispatch("load/addLoad", this.item)
         },
         deleteForm(id) {
-            this.FielFormLoad.splice(id, 1);
-            this.changeDataForm();
+            this.$store.dispatch("load/removedLoad",id)
         },
         changeMode() {
-            this.item.mode_calculate = !this.item.mode_calculate;
+            this.$store.state.load.item.mode_calculate = !this.$store.state.load.item.mode_calculate;
             this.reset();
         },
         typeSelected(value) {
-            this.item.mode_selected = value;
+            this.$store.state.load.item.mode_selected = value;
             this.reset();
         },
         reset() {
-            this.FielFormLoad = [];
-            this.FielFormLoad.push({ ...this.item });
-            this.changeDataForm();
+            this.$store.state.load.loads = [];
+            this.$store.dispatch("load/addLoad", this.item)
         }
     },
-    created() {
-        this.reset();
+    computed:{
+        ...mapState('load', ['item', 'loads']),
+    },
+    created(){
+        if(!this.loads.length)
+        this.reset()
     }
 };
 </script>
