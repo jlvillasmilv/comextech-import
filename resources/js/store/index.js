@@ -92,7 +92,7 @@ export default new Vuex.Store({
         payment,
         exchange,
         load,
-        address
+        address,
         internment
 
     }
