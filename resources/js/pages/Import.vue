@@ -355,42 +355,18 @@ import InternalStorage from "../components/InternalStorage.vue";
 import Exchange from "../components/Exchange";
 import servicedefault from "../data/services.json";
 import Tabs from "../components/Tabs.vue";
+import { mapState } from 'vuex';
 
 export default {
     data() {
         return {
-            form: new Form({
-                application_id: 0,
-                amount: 0,
-                supplier_id: "",
-                currency_id: "",
-                ecommerce_url: "",
-                condition: "",
-                description: "",
-                statusSuppliers: "with",
-                services: [],
-                valuePercentage: ""
-            }),
-            agencyElectronic: [
-                {
-                    name: "Mercado Libre"
-                },
-                {
-                    name: "Alibaba"
-                },
-                {
-                    name: "Amazon"
-                }
-            ],
             busy: false,
             selectedCondition: "",
             currency: "",
             position: 0,
             tabs: [],
-            suppliers: [],
             title: "Servicios para Cotizacion",
             next: false,
-            currencies: [],
             classStyle: {
                 span:
                     "ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ",
@@ -406,7 +382,6 @@ export default {
                 { name: "50/50", valueInitial: 50 },
                 { name: "Otros", valueInitial: 0 }
             ],
-            arrayServices: [],
             origin_transport: ""
         };
     },
@@ -423,15 +398,15 @@ export default {
     methods: {
         async submitFormApplications() {
             try {
-                this.$store.dispatch("getApplications", this.form);
-                this.$store.dispatch("getCurrency", this.currency);
-                this.form.currency_id = this.currency.id;
-                this.form.services = this.servicesCode;
+                this.$store.dispatch("getApplications", this.form)
+                this.$store.dispatch("getCurrency", this.currency)
+                this.form.currency_id = this.currency.id
+                this.form.services = this.servicesCode
                 this.$store.state.tabActive = this.$store.state.selectedServices[
                     this.$store.state.positionTabs
-                ].code;
-                const { data } = await this.form.post("/applications");
-                this.busy = true;
+                ].code
+                const { data } = await this.form.post("/applications")
+                this.busy = true
                 if (data) {
                     Swal.fire({
                         position: "center",
@@ -439,13 +414,12 @@ export default {
                         title: "Solicitud creada con exito!",
                         showConfirmButton: false,
                         timer: 1500
-                    });
-                    this.form.application_id = data.id;
-                    this.$store.dispatch("getApplications", this.form);
-                    this.$store.state.statusModal = !this.$store.state
-                        .statusModal;
-                    this.$store.state.positionTabs = 0;
-                    this.busy = false;
+                    })
+                    this.form.application_id = data.id
+                    this.$store.dispatch("getApplications", this.form)
+                    this.$store.state.statusModal = !this.$store.state.statusModal
+                    this.$store.state.positionTabs = 0
+                    this.busy = false
                     if (data.supplier_id != null) {
                         let provider = await axios.get(
                             "/api/provider/" + data.supplier_id
@@ -454,43 +428,40 @@ export default {
                     }
                 }
             } catch (error) {
-                console.error(error);
+                console.error(error)
             }
         },
         handlePercentage(item) {
-            this.form.valuePercentage = item;
+            this.form.valuePercentage = item
         },
         toogleMenuTabs() {
-            this.$store.state.selectedServices = [];
-            this.tabs = this.selectedCondition.services;
-            this.form.condition = this.selectedCondition.name;
+            this.$store.state.selectedServices = []
+            this.tabs = this.selectedCondition.services
+            this.form.condition = this.selectedCondition.name
         }
     },
     computed: {
+        ...mapState('application', ['form','agencyElectronic','suppliers', 'arrayServices', 'currencies']),
         servicesCode() {
-            return this.$store.state.selectedServices.map(item => item.code);
+            return this.$store.state.selectedServices.map(item => item.code)
         }
     },
     async mounted() {
         try {
-            let tabs = await axios.get("/api/suppl_cond_sales");
-            this.arrayServices = tabs.data;
-            this.tabs = servicedefault;
-            let suppliers = await axios.get("/supplierlist");
-            this.suppliers = suppliers.data;
-
-            let currencies = await axios.get("/api/currencies");
-            this.currencies = currencies.data;
+            this.tabs = servicedefault
+            this.$store.dispatch('application/getSuppliers')
+            this.$store.dispatch('application/getServices')
+            this.$store.dispatch('application/getCurrencies')
         } catch (error) {
             console.log(error);
         }
 
-        let application = document.getElementById("applications");
+        let application = document.getElementById("applications")
 
         if (application == null) {
-            console.log("Nueva Solicitud");
+            console.log("Nueva Solicitud")
         } else {
-            console.log("Editando", application.value);
+            console.log("Editando", application.value)
         }
     }
 };
