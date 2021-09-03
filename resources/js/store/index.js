@@ -95,6 +95,7 @@ export default new Vuex.Store({
         load,
         address,
         internment,
-        application
+        application,
+        internment
     }
 })
