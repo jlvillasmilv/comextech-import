@@ -34,7 +34,7 @@
                 </div>
                 <h3 class="my-2   text-gray-400 dark:text-gray-200">
                     Monto Total a Pagar :
-                    {{ $store.state.application.amount }} $
+                    {{ data.amount }} $
                 </h3>
                 <div
                     class="flex flex-wrap -mx-3  "
@@ -274,7 +274,7 @@
                                 <td class="px-4 py-3 text-sm">
                                     {{
                                         Math.round(
-                                            $store.state.application.amount *
+                                            data.amount *
                                                 (item.percentage / 100)
                                         )
                                     }}
@@ -319,12 +319,6 @@
 import { mapState } from "vuex"
 
 export default {
-    props: {
-        valuePercentage: {
-            type: Object,
-            required: true
-        }
-    },
     data() {
         return {
             form: {
@@ -386,15 +380,16 @@ export default {
     },
     computed: {
         ...mapState('payment', ['payment']),
+        ...mapState('application', ['data','currency']),
         amountRound() {
             const { discount } = this.$store.state.payment
-            const {  amount  } = this.$store.state.application
-            return Math.round( amount * ( discount / 100)) + ' ' +  this.$store.getters.codeCurrency
+            return Math.round( this.data.amount * ( discount / 100)) + ' ' +  this.currency.code
         },
          
     },
     created() {
-        const { name: typePayment, valueInitial  } = this.valuePercentage
+         
+        const { name: typePayment, valueInitial  } = this.data.valuePercentage
         if(!this.payment.length)
         if (this.$store.state.application.statusSuppliers == 'E-commerce') {
             this.$store.state.payment.discount = 100

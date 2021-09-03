@@ -1,7 +1,7 @@
 import Form from 'vform'
 
 const state = {
-    form: new Form({
+    data: new Form({
         application_id: 0,
         amount: 0,
         supplier_id: "",
@@ -26,9 +26,14 @@ const state = {
     ],
     suppliers: [],
     arrayServices: [],
-    currencies: []
+    currencies: [],
+    currency:''
 }
-const getters={}
+const getters={
+    codeCurrency: state => {
+        return state.currency.code
+    }
+}
 
 const mutations={
     SET_SUPPLIERS(state, payload){
