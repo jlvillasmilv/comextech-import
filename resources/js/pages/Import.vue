@@ -3,24 +3,23 @@
         <tabs />
         <div class="w-full p-2 ">
             <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
-                <form-payment :valuePercentage="form.valuePercentage" />
+                <form-payment :valuePercentage="data.valuePercentage" />
             </container>
             <container v-if="$store.state.tabActive == 'ICS03'">
                 <addresses
-                    :application="form"
-                    :originTransport="origin_transport"
+                    :application="data"
                 />
             </container>
             <container v-if="$store.state.tabActive == 'ICS04'">
-                <form-internment :application_id="form.application_id" />
+                <form-internment :application_id="data.application_id" />
             </container>
 
             <container v-if="$store.state.tabActive == 'ICS05'">
-                <internal-storage :application_id="form.application_id" />
+                <internal-storage :application_id="data.application_id" />
             </container>
 
             <container v-if="$store.state.tabActive == 'ICS07'">
-                <exchange :application_id="form.application_id" />
+                <exchange :application_id="data.application_id" />
             </container>
         </div>
         <modal v-if="$store.state.statusModal" :title="title" class="mt-10">
@@ -28,7 +27,7 @@
                 <div class="mt-2">
                     <form
                         @submit.prevent="submitFormApplications"
-                        @keydown="form.onKeydown($event)"
+                        @keydown="data.onKeydown($event)"
                     >
                         <h3
                             class="my-4  font-semibold text-gray-700 dark:text-gray-200"
@@ -40,19 +39,19 @@
                                 Proveedor
                             </h3>
                             <v-select
-                                :disabled="form.statusSuppliers == 'without'"
+                                :disabled="data.statusSuppliers == 'without'"
                                 label="name"
                                 :placeholder="
-                                    form.statusSuppliers !== 'E-commerce'
+                                    data.statusSuppliers !== 'E-commerce'
                                         ? 'Seleccionar Proveedor'
                                         : 'Seleccione E-commerce'
                                 "
                                 :options="
-                                    form.statusSuppliers !== 'E-commerce'
+                                    data.statusSuppliers !== 'E-commerce'
                                         ? suppliers
                                         : agencyElectronic
                                 "
-                                v-model="form.supplier_id"
+                                v-model="data.supplier_id"
                                 :reduce="supplier => supplier.id"
                             >
                                 <template
@@ -71,11 +70,11 @@
                             </v-select>
                             <div class="w-full md:w-full  ">
                                 <input
-                                    v-model="form.ecommerce_url"
+                                    v-model="data.ecommerce_url"
                                     type="text"
                                     placeholder="Ingrese url generado por e-commerce "
                                     :disabled="
-                                        form.statusSuppliers !== 'E-commerce'
+                                        data.statusSuppliers !== 'E-commerce'
                                     "
                                     :class="[
                                         classStyle.input,
@@ -90,8 +89,8 @@
                                         type="radio"
                                         class="form-radio"
                                         name="accountType"
-                                        v-model="form.statusSuppliers"
-                                        @change="form.supplier_id = ''"
+                                        v-model="data.statusSuppliers"
+                                        @change="data.supplier_id = ''"
                                         value="with"
                                     />
                                     <span class="ml-2"> Con Proveedor </span>
@@ -101,8 +100,8 @@
                                         type="radio"
                                         class="form-radio"
                                         name="accountType"
-                                        v-model="form.statusSuppliers"
-                                        @change="form.supplier_id = ''"
+                                        v-model="data.statusSuppliers"
+                                        @change="data.supplier_id = ''"
                                         value="E-commerce"
                                     />
                                     <span class="ml-2"> E-commerce </span>
@@ -112,8 +111,8 @@
                                         type="radio"
                                         class="form-radio"
                                         name="accountType"
-                                        v-model="form.statusSuppliers"
-                                        @change="form.supplier_id = ''"
+                                        v-model="data.statusSuppliers"
+                                        @change="data.supplier_id = ''"
                                         value="without"
                                     />
                                     <span class="ml-2"> Sin Proveedor </span>
@@ -121,14 +120,14 @@
                             </div>
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
-                                v-if="form.errors.has('supplier_id')"
-                                v-html="form.errors.get('supplier_id')"
+                                v-if="data.errors.has('supplier_id')"
+                                v-html="data.errors.get('supplier_id')"
                             ></span>
                         </div>
                         <div class="flex flex-wrap -mx-3  ">
                             <div
                                 :class="[
-                                    form.statusSuppliers == 'with'
+                                    data.statusSuppliers == 'with'
                                         ? 'md:w-1/2'
                                         : '',
                                     'w-full px-3  md:mb-0'
@@ -153,8 +152,8 @@
                                     </select>
                                     <span
                                         class="text-xs text-red-600 dark:text-red-400"
-                                        v-if="form.errors.has('condition')"
-                                        v-html="form.errors.get('condition')"
+                                        v-if="data.errors.has('condition')"
+                                        v-html="data.errors.get('condition')"
                                     ></span>
                                     <div
                                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -173,7 +172,7 @@
                             </div>
                             <div
                                 class="w-full md:w-1/2 px-3"
-                                v-show="form.statusSuppliers == 'with'"
+                                v-show="data.statusSuppliers == 'with'"
                             >
                                 <h3 class="my-3  text-gray-500  text-sm">
                                     Porcentaje de Pago
@@ -184,7 +183,7 @@
                                     :key="id"
                                     @click="handlePercentage(item)"
                                     :class="[
-                                        item == form.valuePercentage
+                                        item == data.valuePercentage
                                             ? 'bg-blue-500 text-white '
                                             : 'bg-transparent text-blue-700',
                                         'hover:bg-blue-500  font-semibold hover:text-white py-1 px-1 mx-0.5 border border-blue-500 hover:border-transparent rounded'
@@ -194,8 +193,8 @@
                                 </a>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="form.errors.has('valuePercentage')"
-                                    v-html="form.errors.get('valuePercentage')"
+                                    v-if="data.errors.has('valuePercentage')"
+                                    v-html="data.errors.get('valuePercentage')"
                                 ></span>
                             </div>
                         </div>
@@ -208,7 +207,7 @@
                                 <div class="relative">
                                     <v-select
                                         label="name_code"
-                                        v-model="currency"
+                                        v-model="$store.state.application.currency"
                                         placeholder="Moneda de Pago"
                                         :options="currencies"
                                     >
@@ -234,8 +233,8 @@
                                     </v-select>
                                     <span
                                         class="text-xs text-red-600 dark:text-red-400"
-                                        v-if="form.errors.has('currency_id')"
-                                        v-html="form.errors.get('currency_id')"
+                                        v-if="data.errors.has('currency_id')"
+                                        v-html="data.errors.get('currency_id')"
                                     ></span>
 
                                     <div
@@ -259,7 +258,7 @@
                                 </h3>
                                 <input
                                     type="number"
-                                    v-model="form.amount"
+                                    v-model="data.amount"
                                     :class="[
                                         classStyle.input,
                                         classStyle.formInput,
@@ -268,8 +267,8 @@
                                 />
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="form.errors.has('amount')"
-                                    v-html="form.errors.get('amount')"
+                                    v-if="data.errors.has('amount')"
+                                    v-html="data.errors.get('amount')"
                                 ></span>
                             </div>
                         </div>
@@ -320,8 +319,8 @@
                         </div>
                         <span
                             class="text-xs text-red-600 dark:text-red-400"
-                            v-if="form.errors.has('services')"
-                            v-html="form.errors.get('services')"
+                            v-if="data.errors.has('services')"
+                            v-html="data.errors.get('services')"
                         ></span>
                     </form>
                 </div>
@@ -362,7 +361,6 @@ export default {
         return {
             busy: false,
             selectedCondition: "",
-            currency: "",
             position: 0,
             tabs: [],
             title: "Servicios para Cotizacion",
@@ -398,16 +396,19 @@ export default {
     methods: {
         async submitFormApplications() {
             try {
-                this.$store.dispatch("getApplications", this.form)
-                this.$store.dispatch("getCurrency", this.currency)
-                this.form.currency_id = this.currency.id
-                this.form.services = this.servicesCode
+                //obtener id de la moneda seleccionada antes del submit
+                this.data.currency_id = this.$store.state.application.currency.id
+                //obtener solo los codigo de los services 
+                this.data.services = this.servicesCode
+                // Ir a la posicion 0 para mostrar el menu
                 this.$store.state.tabActive = this.$store.state.selectedServices[
                     this.$store.state.positionTabs
                 ].code
-                const { data } = await this.form.post("/applications")
+                // enviar form de data
+                const { data } = await this.data.post("/applications")
                 this.busy = true
                 if (data) {
+                    // Mostrar mensaje confirmacion
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -415,9 +416,11 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    this.form.application_id = data.id
-                    this.$store.dispatch("getApplications", this.form)
-                    this.$store.state.statusModal = !this.$store.state.statusModal
+                    // asignar id devuelta al form id
+                    this.data.application_id       = data.id
+                    //  cerrar modal
+                    this.$store.state.statusModal  = !this.$store.state.statusModal
+                     //  posicion de modal comienzan en 0
                     this.$store.state.positionTabs = 0
                     this.busy = false
                     if (data.supplier_id != null) {
@@ -432,16 +435,16 @@ export default {
             }
         },
         handlePercentage(item) {
-            this.form.valuePercentage = item
+            this.data.valuePercentage = item
         },
         toogleMenuTabs() {
             this.$store.state.selectedServices = []
             this.tabs = this.selectedCondition.services
-            this.form.condition = this.selectedCondition.name
+            this.data.condition = this.selectedCondition.name
         }
     },
     computed: {
-        ...mapState('application', ['form','agencyElectronic','suppliers', 'arrayServices', 'currencies']),
+        ...mapState('application', ['data','agencyElectronic','suppliers', 'arrayServices', 'currencies', 'currency']),
         servicesCode() {
             return this.$store.state.selectedServices.map(item => item.code)
         }
