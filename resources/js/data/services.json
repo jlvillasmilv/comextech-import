@@ -21,7 +21,7 @@
     },
     {
       "id": 4,
-      "name": "Proceso de Internación",
+      "name": "Internación",
       "selected": false,
       "aggregate": false,
       "pivot": {
@@ -51,7 +51,7 @@
     },
     {
       "id": 8,
-      "name": "Tipo de Cambio",
+      "name": "Pagos",
       "selected": false,
       "aggregate": false,
       "pivot": {

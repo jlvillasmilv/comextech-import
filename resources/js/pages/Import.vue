@@ -3,12 +3,10 @@
         <tabs />
         <div class="w-full p-2 ">
             <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
-                <form-payment :valuePercentage="data.valuePercentage" />
+                <form-payment  />
             </container>
             <container v-if="$store.state.tabActive == 'ICS03'">
-                <addresses
-                    :application="data"
-                />
+                <addresses />
             </container>
             <container v-if="$store.state.tabActive == 'ICS04'">
                 <form-internment :application_id="data.application_id" />
