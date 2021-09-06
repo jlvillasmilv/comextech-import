@@ -34,6 +34,19 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     // Applications
     Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
+    
+    //Summry Applications
+    Route::get('/application-summary/{id}', function ($id) {
+   
+        $summary = \DB::table('application_sumamries as aps')
+        ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
+        ->where('application_id', $id)
+        ->select('aps.id', 'currencies.code','aps.description','aps.fee_date','aps.amount', 'aps.amount as amo2' )
+        ->get();
+        
+        return response()->json($summary, 200);
+    })->where('id', '[0-9]+');
+    
 
     Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@paymentProvider')
     ->name('applications.payment.provider'); 

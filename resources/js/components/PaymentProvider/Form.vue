@@ -373,6 +373,7 @@ export default {
                 await axios.post("/applications/payment_provider", this.payment )
                 this.$store.dispatch("payment/getPayment", this.payment)
                 this.$store.dispatch("callIncomingOrNextMenu", true)
+                this.$store.dispatch('exchange/getSummary', this.data.application_id);
             } catch (error) {
                  console.log(error)
             }

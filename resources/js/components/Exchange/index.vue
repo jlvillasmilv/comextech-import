@@ -42,19 +42,19 @@
                                         <div class="text-xs">
                                             <div>
                                                 <p class="font-semibold input">
-                                                    {{ item.name }}
+                                                    {{ item.description }}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="text-center px-4 py-3">
-                                        {{ getHumanDate(item.date) }}
+                                        {{ getHumanDate(item.fee_date) }}
                                     </td>
                                     <td class="text-center px-4 py-3">
-                                        {{ item.currency }}
+                                        {{ item.code }}
                                     </td>
                                     <td class="text-left px-4 py-3">
-                                        {{ Number(item.amo).toLocaleString() }}
+                                        {{ Number(item.amount).toLocaleString() }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -85,7 +85,7 @@
                             <tfoot>
                                 <tr>
                                     <td class="text-center px-4 py-3">
-                                        <strong>{{
+                                        <strong>{{ currency_ex }} {{
                                             Number(totalAmount).toLocaleString()
                                         }}</strong>
                                     </td>
@@ -116,6 +116,10 @@ export default {
         }
     },
     methods: {
+        async getsummary(){
+            let summary = await axios.get("/api/application-summary/"+this.application_id);
+            this.exchangeItem = summary.data;
+        },
         getHumanDate(date) {
             return this.$luxon(date, "dd-MM-yy")
         },
@@ -123,15 +127,13 @@ export default {
             this.currency_ex = currency
 
             this.exchangeItem.forEach(async e => {
-                let currencies_api = e.currency + "_" + currency
-                var new_amo2 = e.amo
-
+                // var new_amo2 = e.amount
                 try {
                     const resp = await axios.get(
                         "/api/convert-currency/" +
-                            e.amo +
+                            e.amount +
                             "/" +
-                            e.currency +
+                            e.code +
                             "/" +
                             currency
                     )
@@ -144,7 +146,6 @@ export default {
                     //Update object's name property.
                     this.exchangeItem[objIndex].amo2 = resp.data
 
-                    console.log(resp.data)
                 } catch (err) {
                     // Handle Error Here
                     console.error(err)

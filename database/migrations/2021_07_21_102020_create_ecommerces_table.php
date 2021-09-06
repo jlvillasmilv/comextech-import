@@ -14,13 +14,13 @@ class CreateEcommercesTable extends Migration
     public function up()
     {
         Schema::create('ecommerces', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->index();
             $table->string('name',100);
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 
