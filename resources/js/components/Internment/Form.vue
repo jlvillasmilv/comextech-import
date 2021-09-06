@@ -1,11 +1,11 @@
 <template>
-    <div class="w-full p-4">
-        <div v-show="!$store.getters.findService('ICS03')">
+    <div class="w-full  p-4">
+        <div class="mb-5" v-show="!$store.getters.findService('ICS03')">
             <Load/>
         </div>
-        <div class="flex flex-wrap -mx-3 ">
-            <div class="w-auto px-3 mb-2 md:mb-0">
-                <label class="block text-sm">
+        <div class="flex flex-wrap -mx-3  " :class="[ !$store.getters.findService('ICS03') ?' ':'justify-center' ]">
+            <div class="w-auto px-3 mb-2 md:mb-0  justify-evenly">
+                <label class="block text-sm ">
                     <span
                         class="text-gray-700 dark:text-gray-400 font-semibold"
                     >
@@ -41,7 +41,7 @@
                         <input
                             v-model="expenses.customs_house"
                             type="checkbox"
-                            class="form-checkbox h-4 w-4 text-blue-600"
+                            class="form-checkbox h-5 w-5 text-blue-600"
                         /><span class="ml-2 text-xs text-black  text-gray-500">
                             Quiero que Comextech me asigne mi agente de aduana
                         </span>
@@ -179,87 +179,84 @@
                 ></span>
             </div>
         </div>
-        <div class="flex flex-wrap mt-5 ">
+        <div class="flex flex-wrap mt-5" :class="[ !$store.getters.findService('ICS03') ?' ':' justify-around' ]">
             <div class="flex ">
                 <ul class="space-y-2">
                     <li>
-                        Mercaderia - {{ $store.state.currency.code }}
-                        {{ $store.state.application.amount }}
+                        Mercaderia - {{ currency.code }}
+                        {{ data.amount }}
                     </li>
                     <li>
-                        Transporte - {{ $store.state.currency.code }}
-                        {{ ($store.state.application.amount * 2) / 100 }}
+                        Transporte - {{ currency.code }}
+                        {{ (data.amount * 2) / 100 }}
                     </li>
                     <li>
-                        Seguro - {{ $store.state.currency.code }}
-                        {{ ($store.state.application.amount * 5) / 100 }}
+                        Seguro - {{ currency.code }}
+                        {{ (data.amount * 5) / 100 }}
                     </li>
                     <li class="border-t-2 border-fuchsia-600">
-                        Valor CIF - {{ $store.state.currency.code }}
-                        {{ $store.getters.CIF }}
+                        Valor CIF - {{ currency.code }}
+                        {{ amountCIF }}
                     </li>
                 </ul>
             </div>
-            <div class="w-1/7 ml-8 mr-3">
+            <div class="flex">
+                 <div class="w-1/7 ml-8 mr-3">
                 <img
                     v-if="expenses.iva"
-                    class="flex  object-scale-down h-8 w-full mb-6"
+                    class="  h-7 w-11 mb-6 object-contain"
                     src="https://homer.sii.cl/responsive/images/logo.jpg"
                 />
                 <img
                     v-if="expenses.adv"
-                    class="flex  object-scale-down h-8 w-full"
-                    src="https://homer.sii.cl/responsive/images/logo.jpg"
+                    class="h-7 w-11 object-contain "
+                    src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
                 />
             </div>
-            <div class="  w-1/7 space-y-9">
+            <div class=" w-1/7 space-y-9">
                 <h1 v-if="expenses.iva">
- 
-                    IVA ( 19% ) {{ $store.getters.CIF }}  {{ Math.round($store.getters.CIF * 19 / 100)}}
- 
+                    IVA ( 19% )   {{ Math.round(amountCIF * 19 / 100)}}
                 </h1>
-                <h1 v-if="expenses.adv">Ad Valorem ( 6% )  {{ $store.state.currency.code }}  {{  $store.getters.CIF * 6 / 100 }} </h1>
+                <h1 v-if="expenses.adv"> Ad Valorem ( 6% )  {{  currency.code }}  {{  amountCIF * 6 / 100 }} </h1>
+            </div>
             </div>
         </div>
-        <div class="my-2">
+        <div class="flex " :class="[ !$store.getters.findService('ICS03') ?' ':' justify-center' ]" >
+                   <div class="my-2">
             <input
                 type="checkbox"
                 v-model="expenses.iva"
-                class="form-checkbox h-4 w-4 text-blue-600"
+                class="form-checkbox h-5 w-5 text-blue-600"
             /><span class="m-2 text-xs text-black  text-gray-500">
                 Requiero Financiamiento de IVA
             </span>
             <input
                 type="checkbox"
                 v-model="expenses.adv"
-                class="form-checkbox  h-4 w-4 text-blue-600"
+                class="form-checkbox  h-5 w-5 text-blue-600"
             /><span class="m-2 text-xs text-black  text-gray-500">
                 Requiero Financiamiento de Ad.V.
             </span>
         </div>
-        <button
+        </div>
+        <div class="flex justify-center">
+            <button
             @click="submitForm()"
             class="w-1/6 h-12 my-10 text-white transition-colors text-lg duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
         >
             Cotizar
         </button>
-     <!--     <pre>
-            {{ internment  }}
-        </pre>
-         <pre>
-            {{ expenses  }}
-        </pre>
-         <pre>
-            {{ this.application_id  }}
-        </pre> -->
+        </div>
+        
     </div>
 
    
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Load from "../Transport/Load.vue";
+ 
 
 export default {
     props: {
@@ -271,6 +268,7 @@ export default {
     components: { Load },
     computed: {
         ...mapState('internment',['expenses']),
+        ...mapState('application', ['data','currency']),
     },
     data() {
         return {
@@ -290,9 +288,19 @@ export default {
             certificate: {},
             custom_agents: [],
             showInputFile: false,
-            nameFileUpload: ""
+            nameFileUpload: "",
+            amountCIF:111
         };
     },
+    // computed:{
+    //     amountCIF(){
+    //         return (
+    //             Number(this.data.amount) +
+    //             Number((this.data.amount * 2) / 100) +
+    //             Number((this.data.amount * 5) / 100)
+    //         )
+    //     },
+    // },  
     methods: {
         openWindowFile({ e, name: entry }) {
             this.nameFileUpload = entry;
@@ -355,7 +363,6 @@ export default {
                     icon: "success",
                     title: "Datos Agregados"
                 });
-                this.$store.dispatch("getExpenses", this.expenses);
                 this.$store.dispatch('callIncomingOrNextMenu', true )
             } catch (error) {
                 console.error(error);

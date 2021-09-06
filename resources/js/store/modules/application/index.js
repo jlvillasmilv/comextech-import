@@ -29,11 +29,7 @@ const state = {
     currencies: [],
     currency:''
 }
-const getters={
-    codeCurrency: state => {
-        return state.currency.code
-    }
-}
+ 
 
 const mutations={
     SET_SUPPLIERS(state, payload){
@@ -73,7 +69,6 @@ const actions = {
 export default {
     namespaced: true,
     state,
-    getters,
     actions,
     mutations
 }

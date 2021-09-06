@@ -355,7 +355,7 @@ export default {
                     ...this.form,
                     percentage: discount,
                     id: this.payment.length,
-                    application_id: this.$store.state.application.application_id,
+                    application_id: this.data.application_id,
                     code_serv:'ICS01'
                 })
                 this.form = {
