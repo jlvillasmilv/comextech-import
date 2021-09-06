@@ -215,6 +215,7 @@ class ApplicationController extends Controller
      */
     public function paymentProvider(Request $request)
     {
+
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
@@ -259,6 +260,7 @@ class ApplicationController extends Controller
      */
     public function transports(Request $request)
     {
+                dd($request->all());
         DB::beginTransaction();
 
         try {

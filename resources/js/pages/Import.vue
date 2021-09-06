@@ -29,14 +29,10 @@
                         @submit.prevent="submitFormApplications"
                         @keydown="data.onKeydown($event)"
                     >
-                        <h3
-                            class="my-4  font-semibold text-gray-700 dark:text-gray-200"
-                        >
-                            Informacion de Proveedor
-                        </h3>
+                      
                         <div class="dark:text-gray-200">
                             <h3 class="my-3  text-gray-500  text-sm">
-                                Proveedor
+                                 Informacion de Proveedor
                             </h3>
                             <v-select
                                 :disabled="data.statusSuppliers == 'without'"
@@ -124,17 +120,17 @@
                                 v-html="data.errors.get('supplier_id')"
                             ></span>
                         </div>
-                        <div class="flex flex-wrap -mx-3  ">
+                        <div class="flex flex-wrap mx-1 ">
                             <div
                                 :class="[
                                     data.statusSuppliers == 'with'
-                                        ? 'md:w-1/2'
-                                        : '',
-                                    'w-full px-3  md:mb-0'
+                                        ? 'md:w-2/5'
+                                        : 'w-full',
+                                    'md:mb-0'
                                 ]"
                             >
                                 <h3 class="my-3  text-gray-500  text-sm">
-                                    Condicion de Venta del Proveedor
+                                    Condicion de Venta
                                 </h3>
                                 <div class="relative">
                                     <select
@@ -171,10 +167,10 @@
                                 </div>
                             </div>
                             <div
-                                class="w-full md:w-1/2 px-3"
+                                class="pl-3 md:w-3/5"
                                 v-show="data.statusSuppliers == 'with'"
                             >
-                                <h3 class="my-3  text-gray-500  text-sm">
+                                <h3 class="my-3 text-gray-500  text-sm">
                                     Porcentaje de Pago
                                 </h3>
 
@@ -186,7 +182,7 @@
                                         item == data.valuePercentage
                                             ? 'bg-blue-500 text-white '
                                             : 'bg-transparent text-blue-700',
-                                        'hover:bg-blue-500  font-semibold hover:text-white py-1 px-1 mx-0.5 border border-blue-500 hover:border-transparent rounded'
+                                        'hover:bg-blue-500  font-semibold hover:text-white py-1 mx-0.5 border border-blue-500 hover:border-transparent rounded'
                                     ]"
                                 >
                                     {{ item.name }}
@@ -375,6 +371,7 @@ export default {
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
             paymentPercentage: [
+                { name: "20/70", valueInitial: 20 },
                 { name: "30/70", valueInitial: 30 },
                 { name: "40/60", valueInitial: 40 },
                 { name: "50/50", valueInitial: 50 },
