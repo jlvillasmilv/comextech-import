@@ -250,6 +250,7 @@ export default {
     },
     computed: {
         ...mapState('address', ['expenses', 'addressDestination']),
+        ...mapState('application', ['data','currency']),
         Adrereses() {
             if (this.application.condiction == "FOB") {
                 return this.originTransport.filter(
@@ -271,8 +272,7 @@ export default {
         }
     },
     async created() {
-        console.log(this.application.id, 'MAURICO')
-        this.expenses.application_id = this.application.id
+           this.expenses.application_id = this.data.application_id
            await this.$store.dispatch('address/getAddressDestination')    
     }
 };
