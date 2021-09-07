@@ -34,7 +34,7 @@
                 </div>
                 <h3 class="my-2   text-gray-400 dark:text-gray-200">
                     Monto Total a Pagar :
-                    {{ data.amount }} $
+                    {{ Number(data.amount).toLocaleString() }} {{currency.code}}
                 </h3>
                 <div
                     class="flex flex-wrap -mx-3  "
@@ -235,7 +235,6 @@
                             >
                                 <th class="px-4 py-3">Pago</th>
                                 <th class="">%</th>
-                                <th class=" py-3">Moneda</th>
                                 <th class=" py-3">Monto</th>
                                 <th class=" py-3">Forma</th>
                                 <th class=" py-3">Restriccion</th>
@@ -260,7 +259,7 @@
                                             <p
                                                 class="text-xs text-gray-600 dark:text-gray-400"
                                             >
-                                                {{ item.datePay }}
+                                                {{ getHumanDate(item.datePay) }}
                                             </p>
                                         </div>
                                     </div>
@@ -268,12 +267,10 @@
                                 <td class="px-2 py-2 text-sm">
                                     {{ item.percentage }} %
                                 </td>
-                                <td class="px-4 py-3 text-sm">
-                                    {{ $store.getters.codeCurrency }}
-                                </td>
+                               
                                 <td class="px-4 py-3 text-sm">
                                     {{
-                                        Math.round(
+                                        formatPrice(
                                             data.amount *
                                                 (item.percentage / 100)
                                         )
@@ -336,6 +333,13 @@ export default {
         }
     },
     methods: {
+        formatPrice(value) {
+            let val = (value/1).toFixed(0).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        getHumanDate(date) {
+            return this.$luxon(date, "dd-MM-yy")
+        },
         removedPayment(item) {
             if (this.$store.state.application.statusSuppliers == "E-commerce")
                 this.resetValues(100)
@@ -384,7 +388,7 @@ export default {
         ...mapState('application', ['data','currency']),
         amountRound() {
             const { discount } = this.$store.state.payment
-            return Math.round( this.data.amount * ( discount / 100)) + ' ' +  this.currency.code
+            return  Number(Math.round( this.data.amount * ( discount / 100))).toLocaleString()  + ' ' +  this.currency.code
         },
          
     },

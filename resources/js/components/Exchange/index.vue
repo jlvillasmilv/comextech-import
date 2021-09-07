@@ -24,10 +24,10 @@
                                 <tr
                                     class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                                 >
-                                    <th class="w-1/2 px-4 py-3">CONCEPTO</th>
-                                    <th class="w-1/4 text-center">FECHA</th>
-                                    <th class="w-1/4">MONEDA ORIGEN</th>
-                                    <th class="w-1/4">MONTO M.O.</th>
+                                    <th class="w-2/5 px-4 py-3">CONCEPTO</th>
+                                    <th class="w-1/4 px-4 py-3 text-center">FECHA</th>
+                                    <th class="w-1/4 px-4 py-3 text-center">MONEDA<br> ORIGEN</th>
+                                    <th class="w-1/4 px-4 py-3 text-center">MONTO<br> M.O.</th>
                                 </tr>
                             </thead>
                             <tbody
@@ -54,7 +54,7 @@
                                         {{ item.code }}
                                     </td>
                                     <td class="text-left px-4 py-3">
-                                        {{ Number(item.amount).toLocaleString() }}
+                                        {{ formatPrice(item.amount, item.code) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -65,8 +65,8 @@
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                             >
-                                <th class="w-1/2 px-4 py-3 text-center">
-                                    Monto {{ currency_ex }}
+                                <th class="px-4 py-3 text-center">
+                                    Monto <br> {{ currency_ex }}
                                 </th>
                             </tr>
                             <tbody
@@ -78,7 +78,7 @@
                                     class="text-gray-700 dark:text-gray-400"
                                 >
                                     <td class="px-4 py-3 text-center">
-                                        {{ Number(item.amo2).toLocaleString() }}
+                                        {{ formatPrice(item.amo2, currency_ex)}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -86,7 +86,7 @@
                                 <tr>
                                     <td class="text-center px-4 py-3">
                                         <strong>{{ currency_ex }} {{
-                                            Number(totalAmount).toLocaleString()
+                                            formatPrice(totalAmount, currency_ex)
                                         }}</strong>
                                     </td>
                                 </tr>
@@ -116,9 +116,17 @@ export default {
         }
     },
     methods: {
-        async getsummary(){
-            let summary = await axios.get("/api/application-summary/"+this.application_id);
-            this.exchangeItem = summary.data;
+        formatPrice(value, currency) {
+
+            if(currency == 'CLP'){
+                let val = (value/1).toFixed(0).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            }
+
+            return value.toLocaleString(navigator.language, {
+                    style: "currency",
+                    currency: currency
+                });
         },
         getHumanDate(date) {
             return this.$luxon(date, "dd-MM-yy")
@@ -157,11 +165,14 @@ export default {
     computed: {
         ...mapState("exchange", ["exchangeItem"]),
         totalAmount() {
-            var sum = 0
-            this.exchangeItem.forEach(e => {
-                sum += e.amo2
-            })
-            return Number(sum)
+
+            if (!this.exchangeItem) {
+                return 0;
+            }
+            return this.exchangeItem.reduce(function (total_amount, items) {
+                return total_amount + Number(items.amo2);
+            }, 0);
+
         }
     }
 }
