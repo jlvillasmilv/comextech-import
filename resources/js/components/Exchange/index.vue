@@ -1,6 +1,12 @@
 <template>
     <div class="container grid grid-cols-1 px-6 my-1 ">
         <div class="flex justify-end pb-2">
+             <button
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                @click="clone()"
+            >
+                M O
+            </button>
             <button
                 class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                 @click="convert('CLP')"
@@ -85,7 +91,7 @@
                             <tfoot>
                                 <tr>
                                     <td class="text-center px-4 py-3">
-                                        <strong>{{ currency_ex }} {{
+                                        <strong>{{
                                             formatPrice(totalAmount, currency_ex)
                                         }}</strong>
                                     </td>
@@ -117,19 +123,30 @@ export default {
     },
     methods: {
         formatPrice(value, currency) {
-
-            if(currency == 'CLP'){
-                let val = (value/1).toFixed(0).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            }
-
             return value.toLocaleString(navigator.language, {
                     style: "currency",
-                    currency: currency
+                    currency: currency,
+                    maximumFractionDigits: currency == 'CLP' ? 0 : 2,
+                    currencyDisplay: 'symbol'
                 });
         },
         getHumanDate(date) {
             return this.$luxon(date, "dd-MM-yy")
+        },
+        clone() {
+            
+            this.exchangeItem.forEach( e => {
+                // var new_amo2 = e.amount
+
+                    //Find index of specific object using findIndex method.
+                    let objIndex = this.exchangeItem.findIndex(
+                        obj => obj.id == e.id
+                    )
+                    //Update object's name property.
+                    this.exchangeItem[objIndex].amo2 = this.formatPrice(e.amount, e.code)
+                    this.currency_ex = e.code
+            })
+            //
         },
         convert(currency) {
             this.currency_ex = currency

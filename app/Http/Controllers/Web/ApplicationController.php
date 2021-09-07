@@ -16,11 +16,11 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-
-        $data  = Application::where('user_id', auth()->user()->id)->paginate();
+        $data  = Application::where('user_id', auth()->user()->id)
+        ->orderBy('id','desc')
+        ->paginate(5);
 
         return view('applications.index' , compact('data'));
-
     }
 
     /**
