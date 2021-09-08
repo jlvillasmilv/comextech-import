@@ -179,8 +179,8 @@
                 ></span>
             </div>
         </div>
-        <div class="flex flex-wrap mt-5" :class="[ !$store.getters.findService('ICS03') ?' ':' justify-around' ]">
-            <div class="flex ">
+        <div class="flex   space-x-5 mt-5  " :class="[ !$store.getters.findService('ICS03') ?' ':' justify-start ml-64 ' ]">
+            <div class="flex mx-5">
                 <ul class="space-y-2">
                     <li>
                         Mercaderia - {{ currency.code }}
