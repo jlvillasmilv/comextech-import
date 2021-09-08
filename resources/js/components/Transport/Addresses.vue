@@ -238,6 +238,7 @@ export default {
                     icon: "success",
                     title: "Datos Agregados"
                 });
+                this.$store.dispatch('exchange/getSummary', this.data.application_id);
                 this.$store.dispatch("callIncomingOrNextMenu", true);
             } catch (error) {
                 console.error(error);

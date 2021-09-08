@@ -184,19 +184,19 @@
                 <ul class="space-y-2">
                     <li>
                         Mercaderia - {{ currency.code }}
-                        {{ data.amount }}
+                        {{ formatPrice(data.amount , currency.code) }}
                     </li>
                     <li>
                         Transporte - {{ currency.code }}
-                        {{ (data.amount * 2) / 100 }}
+                        {{ formatPrice((data.amount * 2) / 100, currency.code) }}
                     </li>
                     <li>
                         Seguro - {{ currency.code }}
-                        {{ (data.amount * 5) / 100 }}
+                        {{ formatPrice((data.amount * 5) / 100, currency.code) }}
                     </li>
                     <li class="border-t-2 border-fuchsia-600">
-                        Valor CIF - {{ currency.code }}
-                        {{ amountCIF }}
+                        Valor CIF - 
+                        {{ formatPrice(expenses.cif_amt,'CLP') }}
                     </li>
                 </ul>
             </div>
@@ -215,9 +215,9 @@
             </div>
             <div class=" w-1/7 space-y-9">
                 <h1 v-if="expenses.iva">
-                    IVA ( 19% )   {{ Math.round(amountCIF * 19 / 100)}}
+                    IVA ( 19% ) {{ formatPrice(expenses.iva_amt,'CLP') }}
                 </h1>
-                <h1 v-if="expenses.adv"> Ad Valorem ( 6% )  {{  currency.code }}  {{  amountCIF * 6 / 100 }} </h1>
+                <h1 v-if="expenses.adv"> Ad Valorem ( 6% ) {{ formatPrice(expenses.adv_amt,'CLP') }}  </h1>
             </div>
             </div>
         </div>
@@ -243,21 +243,17 @@
             <button
             @click="submitForm()"
             class="w-1/6 h-12 my-10 text-white transition-colors text-lg duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-        >
-            Cotizar
-        </button>
+        > Cotizar </button>
         </div>
         
     </div>
 
-   
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
 import Load from "../Transport/Load.vue";
  
-
 export default {
     props: {
         application_id: {
@@ -289,19 +285,16 @@ export default {
             custom_agents: [],
             showInputFile: false,
             nameFileUpload: "",
-            amountCIF:111
+            // amountCIF:111
         };
     },
-    // computed:{
-    //     amountCIF(){
-    //         return (
-    //             Number(this.data.amount) +
-    //             Number((this.data.amount * 2) / 100) +
-    //             Number((this.data.amount * 5) / 100)
-    //         )
-    //     },
-    // },  
     methods: {
+        formatPrice(value, currency) {
+            return Number(value).toLocaleString(navigator.language, { 
+                    minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+                    maximumFractionDigits: currency == 'CLP' ? 0 : 2
+                });
+        },
         openWindowFile({ e, name: entry }) {
             this.nameFileUpload = entry;
             let value = this.treaties.find(a => a.name == entry);
@@ -363,11 +356,13 @@ export default {
                     icon: "success",
                     title: "Datos Agregados"
                 });
+                this.$store.dispatch('exchange/getSummary', this.data.application_id);
                 this.$store.dispatch('callIncomingOrNextMenu', true )
+
             } catch (error) {
                 console.error(error);
             }
-        }
+        },
     },
     async mounted() {
         try {
@@ -377,6 +372,20 @@ export default {
             //asignar id de solicitud
             this.expenses.application_id = this.application_id
             this.expenses.transport = !this.$store.getters.findService('ICS03')
+
+            this.expenses.cif_amt =(
+                Number(this.data.amount) +
+                 (Number(this.data.amount) * 2) / 100) +
+                  ((Number(this.data.amount) * 5) / 100);
+
+            const resp = await axios.get(
+                `/api/convert-currency/${this.expenses.cif_amt}/${this.currency.code}/CLP`);
+
+            this.expenses.cif_amt = resp.data;
+
+            this.expenses.iva_amt = Math.round(this.expenses.cif_amt * 19 / 100);
+            this.expenses.adv_amt = (this.expenses.cif_amt * 6 / 100);
+
         } catch (error) {
             console.log(error);
         }
