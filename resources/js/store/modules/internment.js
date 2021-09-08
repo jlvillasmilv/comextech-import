@@ -16,7 +16,11 @@ export default {
             dataLoad: [],
             files: new FormData(),
             iva: false,
+            iva_amt: 0,
             adv: false,
+            adv_amt: 0,
+            cif_amt: 0,
+            code_serv:'ICS04',
         }),     
     },
     getters: {
