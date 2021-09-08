@@ -382,14 +382,11 @@ export default {
                 this.data.currency_id = this.$store.state.application.currency.id
                 //obtener solo los codigo de los services 
                 this.data.services = this.servicesCode
-                // Ir a la posicion 0 para mostrar el menu
-                this.$store.state.tabActive = this.$store.state.selectedServices[
-                    this.$store.state.positionTabs
-                ].code
                 // enviar form de data
                 const { data } = await this.data.post("/applications")
                 this.busy = true
                 if (data) {
+                    
                     // Mostrar mensaje confirmacion
                     Swal.fire({
                         position: "center",
@@ -398,6 +395,10 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     })
+                    // Ir a la posicion 0 para mostrar el menu
+                     this.$store.state.tabActive = this.$store.state.selectedServices[
+                            this.$store.state.positionTabs
+                    ].code
                     // asignar id devuelta al form id
                     this.data.application_id       = data.id
                     this.$store.dispatch('exchange/getSummary', data.id);
