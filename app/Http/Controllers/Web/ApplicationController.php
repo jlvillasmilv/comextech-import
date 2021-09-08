@@ -44,7 +44,6 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
-        //   dd($request->all());
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         /** Evalua la el estado de una solicitud **/
@@ -105,13 +104,6 @@ class ApplicationController extends Controller
                         "category_service_id" => 3, 
                         "currency_id" => $application->currency_id ,
                         "description" => "C.- Seguro Transporte",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 4, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "D.- Servicio AGA",
                         "fee_date" => date('Y-m-d')
                     ],
                     [
@@ -388,6 +380,7 @@ class ApplicationController extends Controller
     */
     public function transports(Request $request)
     {
+       
         DB::beginTransaction();
 
         try {
@@ -429,6 +422,7 @@ class ApplicationController extends Controller
      */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
+       
         DB::beginTransaction();
 
         try {
@@ -440,9 +434,47 @@ class ApplicationController extends Controller
                     'customs_house'         => $request->customs_house,
                     'agent_payment'         => $request->agent_payment,
                     'iva'                   => $request->iva,
-                    'adv'                   => $request->adv,
+                     'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
+                     'adv'                  => $request->adv,
+                     'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
+                     'cif_amt'              => round($request->cif_amt, 0),
                 ]
             );
+
+            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
+            ->where('cs.code', $request->code_serv)
+            ->select('services.id')
+            ->pluck('services.id');
+            //  dd($add_serv );
+            foreach ($add_serv as $key => $id) {
+
+                $mount = $key == 0 ? $request->agent_payment : 0 ;
+                $mount = ($key == 1 && $request->iva ) ? round($request->iva_amt, 0) : $mount ;
+                $mount = ($key > 1 && $request->adv ) ? round($request->adv_amt, 0) : $mount ;
+                
+                     ApplicationDetail::updateOrCreate([
+                     'application_id' =>  $request->application_id,
+                     'service_id' => $id
+                     ],                    
+                     [
+                        'amount' =>  $mount,
+                        'currency_id' =>  1
+                     ],
+                 );
+
+             // update application summary main description
+              $description = $key == 0 ? 'D.- Servicio AGA' :($key == 1 ? 'E.- IVA Internacion' : 'F.- Aranceles');
+              $app_summ = \DB::table('application_sumamries')
+              ->where([
+                 ["application_id", $request->application_id],
+                 ["category_service_id", 4],
+                 ["description", $description]
+                 ])
+             ->update(['amount' =>  $mount,  'currency_id' =>  1]);
+ 
+             }
+
+
 
             // agregar datos de subida de archivo
             if ($request->hasFile('files')) {
