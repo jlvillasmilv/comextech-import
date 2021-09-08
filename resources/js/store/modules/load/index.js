@@ -1,4 +1,3 @@
-import Vue from "vue";
 
 const state = {
     types: ["COURIER","CARGA AEREA", "CONTAINER", "CONSOLIDADO"],

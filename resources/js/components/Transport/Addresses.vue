@@ -10,25 +10,24 @@
                                 class="text-gray-700 dark:text-gray-400 font-semibold "
                             >
                                 {{
-                                    application.condition === "FOB"
+                                    data.condition === "FOB"
                                         ? " Puertos de Proveedor"
                                         : " Almacen o Fabrica del Proveedor"
                                 }}
                             </span>
-
+                          
                             <input
                                 v-if="!expenses.favoriteAddressOrigin"
                                 v-model="expenses.addressOrigin"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             />
-
                             <v-select
                                 v-else
                                 label="address"
                                 class="mt-2 text-sm"
-                                :options="Adrereses"
+                                :options="addreses"
                                 v-model="expenses.addressOrigin"
-                                :reduce="adrereses => adrereses.id"
+                                :reduce="addreses => addreses.id"
                             >
                                 <template
                                     v-slot:no-options="{ search, searching }"
@@ -42,7 +41,7 @@
                                     <em style="opacity: 0.5;" v-else>
                                         No posee
                                         {{
-                                            application.condition === "FOB"
+                                            data.condition === "FOB"
                                                 ? "Puertos"
                                                 : "Almacenes o Fabricas"
                                         }}
@@ -53,6 +52,7 @@
                             <label
                                 class="inline-flex text-sm items-center mx-2 mt-2"
                             >
+                            <!-- Aqui -->
                                 <input
                                     type="checkbox"
                                     class="form-checkbox h-4 w-4 text-gray-800"
@@ -61,7 +61,7 @@
                                 /><span class="ml-2 text-gray-700">
                                     Tus
                                     {{
-                                        application.condition === "FOB"
+                                        data.condition === "FOB"
                                             ? "Puertos"
                                             : "Almacenes o Fabricas"
                                     }}
@@ -112,7 +112,7 @@
                                     <em style="opacity: 0.5;" v-else>
                                         No posee
                                         {{
-                                            application.condition === "FOB"
+                                            data.condition === "FOB"
                                                 ? "Puertos"
                                                 : "Almacenes o Fabricas"
                                         }}
@@ -193,8 +193,8 @@
                     </div>
                     <div class="w-1/6 mt-8" v-if="expenses.insurance">
                         <span class="ml-2 text-gray-700 ">
-                            {{ $store.state.application.amount }}
-                            {{ $store.state.currency.code }}
+                            {{ data.amount }}
+                            {{  currency.code }}
                         </span>
                     </div>
                 </div>
@@ -218,10 +218,6 @@ import { mapState } from "vuex"
 export default {
     components: { Load },
     props: {
-        application: {
-            type: Object,
-            required: true
-        },
         originTransport: {
             type: Array,
             required: false
@@ -236,6 +232,7 @@ export default {
     methods: {
         async submitForm() {
             try {
+                this.expenses.dataLoad = this.$store.state.load.loads
                 await this.expenses.post("/applications/transports");
                 Toast.fire({
                     icon: "success",
@@ -249,13 +246,15 @@ export default {
     },
     computed: {
         ...mapState('address', ['expenses', 'addressDestination']),
-        Adrereses() {
-            if (this.application.condiction == "FOB") {
-                return this.originTransport.filter(
+        ...mapState('application', ['data','currency']),
+        addreses() {
+   
+            if (this.data.condiction == "FOB") {
+                return this.addressDestination.filter(
                     item => item.place == "PUERTO"
                 );
             } else {
-                return this.originTransport.filter(
+                return this.addressDestination.filter(
                     item => item.place !== "PUERTO"
                 );
             }
@@ -270,6 +269,7 @@ export default {
         }
     },
     async created() {
+           this.expenses.application_id = this.data.application_id
            await this.$store.dispatch('address/getAddressDestination')    
     }
 };

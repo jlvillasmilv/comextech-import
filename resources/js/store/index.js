@@ -5,15 +5,13 @@ import exchange from "./modules/exchange"
 import load from "./modules/load"
 import address from "./modules/address"
 import internment from "./modules/internment"
+import application from "./modules/application"
 
 
 
 Vue.use(Vuex)
 
 const state = () => ({
-    application: [],
-    currency: [],
-    expenses: false,
     selectedServices: false,
     tabActive: "",
     statusModal: true,
@@ -21,19 +19,6 @@ const state = () => ({
 })
 
 const mutations = {
-    setApplications(state, application) {
-        state.application = application
-    },
-    setCurrency(state, currency) {
-        state.currency = currency
-    },
-    
-    setExpenses(state, expenses) {
-        state.expenses = expenses
-    },
-    setServicesSelected(state, selectedServices) {
-        state.selectedServices = selectedServices
-    },
     incomingOrNextMenu(state, isAction) {
         state.positionTabs = isAction
             ? state.positionTabs + 1
@@ -47,15 +32,6 @@ const mutations = {
 }
 
 const actions = {
-    getApplications({ commit }, paylod) {
-        commit("setApplications", paylod)
-    },
-    getCurrency({ commit }, paylod) {
-        commit("setCurrency", paylod)
-    },
-    getExpenses({ commit }, paylod) {
-        commit("setExpenses", paylod)
-    },
     callIncomingOrNextMenu({ commit }, action) {
         commit("incomingOrNextMenu", action)
     },
@@ -70,16 +46,6 @@ const getters = {
         if (service.length) return true
         else return false
     },
-    CIF: state => {
-        return (
-            Number(state.application.amount) +
-            Number((state.application.amount * 2) / 100) +
-            Number((state.application.amount * 5) / 100)
-        )
-    },
-    codeCurrency: state => {
-        return state.currency.code
-    }
 }
 
 
@@ -93,7 +59,8 @@ export default new Vuex.Store({
         exchange,
         load,
         address,
+        internment,
+        application,
         internment
-
     }
 })

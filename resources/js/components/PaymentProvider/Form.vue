@@ -34,7 +34,7 @@
                 </div>
                 <h3 class="my-2   text-gray-400 dark:text-gray-200">
                     Monto Total a Pagar :
-                    {{ $store.state.application.amount }} $
+                    {{ Number(data.amount).toLocaleString() }} {{currency.code}}
                 </h3>
                 <div
                     class="flex flex-wrap -mx-3  "
@@ -235,7 +235,6 @@
                             >
                                 <th class="px-4 py-3">Pago</th>
                                 <th class="">%</th>
-                                <th class=" py-3">Moneda</th>
                                 <th class=" py-3">Monto</th>
                                 <th class=" py-3">Forma</th>
                                 <th class=" py-3">Restriccion</th>
@@ -260,7 +259,7 @@
                                             <p
                                                 class="text-xs text-gray-600 dark:text-gray-400"
                                             >
-                                                {{ item.datePay }}
+                                                {{ getHumanDate(item.datePay) }}
                                             </p>
                                         </div>
                                     </div>
@@ -268,13 +267,11 @@
                                 <td class="px-2 py-2 text-sm">
                                     {{ item.percentage }} %
                                 </td>
-                                <td class="px-4 py-3 text-sm">
-                                    {{ $store.getters.codeCurrency }}
-                                </td>
+                               
                                 <td class="px-4 py-3 text-sm">
                                     {{
-                                        Math.round(
-                                            $store.state.application.amount *
+                                        formatPrice(
+                                            data.amount *
                                                 (item.percentage / 100)
                                         )
                                     }}
@@ -319,12 +316,6 @@
 import { mapState } from "vuex"
 
 export default {
-    props: {
-        valuePercentage: {
-            type: Object,
-            required: true
-        }
-    },
     data() {
         return {
             form: {
@@ -342,6 +333,13 @@ export default {
         }
     },
     methods: {
+        formatPrice(value) {
+            let val = (value/1).toFixed(0).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        getHumanDate(date) {
+            return this.$luxon(date, "dd-MM-yy")
+        },
         removedPayment(item) {
             if (this.$store.state.application.statusSuppliers == "E-commerce")
                 this.resetValues(100)
@@ -361,7 +359,7 @@ export default {
                     ...this.form,
                     percentage: discount,
                     id: this.payment.length,
-                    application_id: this.$store.state.application.application_id,
+                    application_id: this.data.application_id,
                     code_serv:'ICS01'
                 })
                 this.form = {
@@ -379,6 +377,7 @@ export default {
                 await axios.post("/applications/payment_provider", this.payment )
                 this.$store.dispatch("payment/getPayment", this.payment)
                 this.$store.dispatch("callIncomingOrNextMenu", true)
+                this.$store.dispatch('exchange/getSummary', this.data.application_id);
             } catch (error) {
                  console.log(error)
             }
@@ -386,15 +385,17 @@ export default {
     },
     computed: {
         ...mapState('payment', ['payment']),
+        ...mapState('application', ['data','currency']),
         amountRound() {
             const { discount } = this.$store.state.payment
-            const {  amount  } = this.$store.state.application
-            return Math.round( amount * ( discount / 100)) + ' ' +  this.$store.getters.codeCurrency
+            return  Number(Math.round( this.data.amount * ( discount / 100))).toLocaleString()  + ' ' +  this.currency.code
         },
          
     },
     created() {
-        const { name: typePayment, valueInitial  } = this.valuePercentage
+         
+        const { name: typePayment, valueInitial  } = this.data.valuePercentage
+       
         if(!this.payment.length)
         if (this.$store.state.application.statusSuppliers == 'E-commerce') {
             this.$store.state.payment.discount = 100

@@ -16,11 +16,11 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-
-        $data  = Application::where('user_id', auth()->user()->id)->paginate();
+        $data  = Application::where('user_id', auth()->user()->id)
+        ->orderBy('id','desc')
+        ->paginate(5);
 
         return view('applications.index' , compact('data'));
-
     }
 
     /**
@@ -44,7 +44,7 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
-       
+        //   dd($request->all());
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         /** Evalua la el estado de una solicitud **/
@@ -61,12 +61,96 @@ class ApplicationController extends Controller
                     'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'amount'       => $request->amount,
                     'fee1'         => $request->valuePercentage['valueInitial'],
+                    'fee2'         => 100 - $request->valuePercentage['valueInitial'],
                     'application_statuses_id' => 1,
                     'currency_id'  => $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
                     'condition'    => $request->condition,
                 ]
             );
+            
+            if($request->application_id == 0)
+            {
+                \DB::table('application_sumamries')->insert([
+                    [   
+                        "application_id" => $application->id,
+                        "category_service_id" => 1, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "A.- Pago proveedor",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 1, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "A.1.- Adelanto",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [ 
+                        "application_id" => $application->id,
+                        "category_service_id" => 1, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "A.2.- Saldo",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 3, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "B.- Transporte Internacional",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 3, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "C.- Seguro Transporte",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 4, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "D.- Servicio AGA",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 4, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "D.- Servicio AGA",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 4, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "E.- IVA Internacion",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 4, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "F.- Aranceles",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                    [
+                        "application_id" => $application->id,
+                        "category_service_id" => 6, 
+                        "currency_id" => $application->currency_id ,
+                        "description" => "G.- Transporte Local",
+                        "fee_date" => date('Y-m-d')
+                    ],
+                ]);
+            }
+
+            if($request->application_id > 0){
+
+                \DB::table('application_sumamries')
+                ->where("application_id", $application->id)
+                ->update(['currency_id' => $application->currency_id]);
+            }
 
             $cat_serv = CategoryService::whereIn('code', $request->services)
             ->select('id')
@@ -147,7 +231,6 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-
         $application  = Application::where([
             ['id', '=', base64_decode($id)],
             ['user_id', auth()->user()->id],
@@ -215,23 +298,48 @@ class ApplicationController extends Controller
      */
     public function paymentProvider(Request $request)
     {
+       
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
             return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 422);
         }
 
-        //$application = Application::findOrFail($id); 
+        $application = Application::findOrFail($request[0]['application_id']); 
 
         if ($values->sum('percentage') == 100){
+          
+            PaymentProvider::where('application_id', $application->id)->delete();
 
-            PaymentProvider::where('application_id', $request[0]['application_id'])->delete();
+            $cat_serv = CategoryService::where('code',  $request[0]['code_serv'])
+                 ->select('id')
+                 ->pluck('id');
+
+
+            $add_serv = Service::where('category_service_id', $cat_serv)
+                 ->select('id')
+                 ->pluck('id');
+                
+            foreach ($add_serv as $key => $id) {
+                
+               if (isset($request[$key]['application_id']))
+                    ApplicationDetail::updateOrCreate([
+                    'application_id' =>  $application->id,
+                    'service_id' => $id
+                    ],                    
+                    [
+                        'amount' =>  $application->amount * ($request[$key]['percentage'] / 100),
+                        'estimated' =>  $request[$key]['datePay']
+                    ],
+                );
+
+            }
 
             foreach ($request->input() as $key => $data) {
 
                  PaymentProvider::updateOrCreate(
                      [
-                         'application_id'  => $data['application_id'],
+                         'application_id'  => $application->id,
                          'percentage'      => $data['percentage'],
                      ],
                      [
@@ -240,7 +348,28 @@ class ApplicationController extends Controller
                          'payment_release' => $data['payment_release'],
                      ]
                  );
+
+                 // update application summary
+                 $description = $key == 0 ? 'A.1.- Adelanto' :'A.2.- Saldo';
+                 $app_summ = \DB::table('application_sumamries')
+                 ->where([
+                    ["application_id", $application->id],
+                    ["category_service_id", 1],
+                    ["description", $description]
+                    ])
+                ->update(['fee_date' => $data['datePay'],
+                         'amount'    =>  $application->amount * ($data['percentage'] / 100)
+                        ]);
              }
+
+             // update application summary main description
+             $app_summ = \DB::table('application_sumamries')
+             ->where([
+                ["application_id", $application->id],
+                ["category_service_id", 1],
+                ["description", 'A.- Pago proveedor']
+                ])
+            ->update(['amount' =>  $application->amount]);
 
              return response()->json(['status' => 'OK'], 200);
         }
@@ -248,7 +377,7 @@ class ApplicationController extends Controller
 
     }
 
-     /**
+    /**
      * @author Jorge Villasmil.
      * 
      * Generate a new or Update Transport register in storage.
@@ -256,7 +385,7 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * 
-     */
+    */
     public function transports(Request $request)
     {
         DB::beginTransaction();
