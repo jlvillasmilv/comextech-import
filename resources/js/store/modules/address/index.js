@@ -2,7 +2,7 @@ import Form from 'vform'
 
 const state = {
     expenses: new Form({
-        application_id: '1',
+        application_id: 0,
         addressOrigin: "",
         addressDestination: "",
         estimated_date: "",
@@ -10,7 +10,9 @@ const state = {
         dataLoad: [],
         favoriteAddressOrigin: false,
         favoriteAddressDestin: false,
-        insurance: false
+        insurance: false,
+        code_serv:'ICS03',
+        insurance_amt:0,
     }),
     Load: false,
     safe: false,
