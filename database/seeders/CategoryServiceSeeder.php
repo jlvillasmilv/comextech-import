@@ -42,9 +42,9 @@ class CategoryServiceSeeder extends Seeder
             ['category_service_id' => 5, 'name' => 'Distribución Local', 'created_at' => now() ],
             ['category_service_id' => 6, 'name' => 'Almacenaje', 'created_at' => now() ],
             ['category_service_id' => 6, 'name' => 'Transporte Local', 'created_at' => now() ],
-            ['category_service_id' => 7, 'name' => 'Financiamiento', 'created_at' => now() ],
-            ['category_service_id' => 8, 'name' => 'Compra y venta', 'created_at' => now() ],
-            ['category_service_id' => 8, 'name' => 'Transferencia', 'created_at' => now() ],
+            ['category_service_id' => 7, 'name' => 'Compra y venta', 'created_at' => now() ],
+            ['category_service_id' => 7, 'name' => 'Transferencia', 'created_at' => now() ],
+            ['category_service_id' => 8, 'name' => 'Financiamiento', 'created_at' => now() ],
         ]);
 
     }

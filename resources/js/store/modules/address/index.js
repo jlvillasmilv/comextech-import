@@ -29,8 +29,8 @@ const mutations = {
 }
 
 const actions = {
-    addLoad({ commit  }, paylod) {
-        commit("ADD_LOAD", paylod)
+    addLoad({ commit  }, payload) {
+        commit("ADD_LOAD", payload)
     },
     async getAddressDestination({state, commit }){
          if(state.addressDestination == ''){

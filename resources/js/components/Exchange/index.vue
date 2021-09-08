@@ -1,6 +1,12 @@
 <template>
     <div class="container grid grid-cols-1 px-6 my-1 ">
         <div class="flex justify-end pb-2">
+             <button
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                @click="clone()"
+            >
+                M O
+            </button>
             <button
                 class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                 @click="convert('CLP')"
@@ -24,10 +30,10 @@
                                 <tr
                                     class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                                 >
-                                    <th class="w-1/2 px-4 py-3">CONCEPTO</th>
-                                    <th class="w-1/4 text-center">FECHA</th>
-                                    <th class="w-1/4">MONEDA ORIGEN</th>
-                                    <th class="w-1/4">MONTO M.O.</th>
+                                    <th class="w-2/5 px-4 py-3">CONCEPTO</th>
+                                    <th class="w-1/4 px-4 py-3 text-center">FECHA</th>
+                                    <th class="w-1/4 px-4 py-3 text-center">MONEDA<br> ORIGEN</th>
+                                    <th class="w-1/4 px-4 py-3 text-center">MONTO<br> M.O.</th>
                                 </tr>
                             </thead>
                             <tbody
@@ -42,19 +48,19 @@
                                         <div class="text-xs">
                                             <div>
                                                 <p class="font-semibold input">
-                                                    {{ item.name }}
+                                                    {{ item.description }}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="text-center px-4 py-3">
-                                        {{ getHumanDate(item.date) }}
+                                        {{ getHumanDate(item.fee_date) }}
                                     </td>
                                     <td class="text-center px-4 py-3">
-                                        {{ item.currency }}
+                                        {{ item.code }}
                                     </td>
                                     <td class="text-left px-4 py-3">
-                                        {{ Number(item.amo).toLocaleString() }}
+                                        {{ formatPrice(item.amount, item.code) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -65,8 +71,8 @@
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                             >
-                                <th class="w-1/2 px-4 py-3 text-center">
-                                    Monto {{ currency_ex }}
+                                <th class="px-4 py-3 text-center">
+                                    Monto <br> {{ currency_ex }}
                                 </th>
                             </tr>
                             <tbody
@@ -78,7 +84,7 @@
                                     class="text-gray-700 dark:text-gray-400"
                                 >
                                     <td class="px-4 py-3 text-center">
-                                        {{ Number(item.amo2).toLocaleString() }}
+                                        {{ formatPrice(item.amo2, currency_ex)}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -86,7 +92,7 @@
                                 <tr>
                                     <td class="text-center px-4 py-3">
                                         <strong>{{
-                                            Number(totalAmount).toLocaleString()
+                                            formatPrice(totalAmount, currency_ex)
                                         }}</strong>
                                     </td>
                                 </tr>
@@ -116,22 +122,43 @@ export default {
         }
     },
     methods: {
+        formatPrice(value, currency) {
+            return value.toLocaleString(navigator.language, {
+                    style: "currency",
+                    currency: currency,
+                    maximumFractionDigits: currency == 'CLP' ? 0 : 2,
+                    currencyDisplay: 'symbol'
+                });
+        },
         getHumanDate(date) {
             return this.$luxon(date, "dd-MM-yy")
+        },
+        clone() {
+            
+            this.exchangeItem.forEach( e => {
+                // var new_amo2 = e.amount
+
+                    //Find index of specific object using findIndex method.
+                    let objIndex = this.exchangeItem.findIndex(
+                        obj => obj.id == e.id
+                    )
+                    //Update object's name property.
+                    this.exchangeItem[objIndex].amo2 = this.formatPrice(e.amount, e.code)
+                    this.currency_ex = e.code
+            })
+            //
         },
         convert(currency) {
             this.currency_ex = currency
 
             this.exchangeItem.forEach(async e => {
-                let currencies_api = e.currency + "_" + currency
-                var new_amo2 = e.amo
-
+                // var new_amo2 = e.amount
                 try {
                     const resp = await axios.get(
                         "/api/convert-currency/" +
-                            e.amo +
+                            e.amount +
                             "/" +
-                            e.currency +
+                            e.code +
                             "/" +
                             currency
                     )
@@ -144,7 +171,6 @@ export default {
                     //Update object's name property.
                     this.exchangeItem[objIndex].amo2 = resp.data
 
-                    console.log(resp.data)
                 } catch (err) {
                     // Handle Error Here
                     console.error(err)
@@ -156,11 +182,14 @@ export default {
     computed: {
         ...mapState("exchange", ["exchangeItem"]),
         totalAmount() {
-            var sum = 0
-            this.exchangeItem.forEach(e => {
-                sum += e.amo2
-            })
-            return Number(sum)
+
+            if (!this.exchangeItem) {
+                return 0;
+            }
+            return this.exchangeItem.reduce(function (total_amount, items) {
+                return total_amount + Number(items.amo2);
+            }, 0);
+
         }
     }
 }

@@ -16,7 +16,7 @@ class CreateApplicationsTable extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->unsignedTinyInteger('type')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->index();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('application_statuses_id')->default(1);
             $table->unsignedBigInteger('currency_id')->nullable();
@@ -38,7 +38,6 @@ class CreateApplicationsTable extends Migration
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('application_statuses_id')->references('id')->on('application_statuses')->onDelete('cascade');
         });
     }

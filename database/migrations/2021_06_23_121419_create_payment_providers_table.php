@@ -16,7 +16,7 @@ class CreatePaymentProvidersTable extends Migration
         Schema::create('payment_providers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
-            $table->unsignedBigInteger('currency_id')->nullable();
+            // $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedTinyInteger('percentage')->nullable()->comment('PAGO_%');
             $table->decimal('amount', 12, 2)->default(0)->nullable();
             $table->string('type_pay')->nullable();
