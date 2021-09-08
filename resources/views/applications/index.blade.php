@@ -23,12 +23,12 @@
                     <thead class="">
                         <tr
                             class="text-xs text-center font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3"> Nro  </th>
-                            <th class="px-4 py-3"> Costo/Fecha </th>
+                            <th class="px-4 py-3"> Nro/Fecha </th>
+                            <th class="px-4 py-3"> Costo </th>
                             <th class="px-4 py-3"> Estatus </th>
                             <th class="px-4 py-3"> Firma Elect.</th>
-                             <th class="px-4 py-3"> Proveedor </th> 
-                             <th class="px-4 py-3">   </th> 
+                            <th class="px-4 py-3"> Proveedor </th> 
+                            <th class="px-4 py-3">  &nbsp; </th> 
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -39,18 +39,16 @@
                                     <!-- Avatar with inset shadow -->
                                     <div>
                                         <p class="font-semibold"> {{str_pad($application->id, 6, '0', STR_PAD_LEFT) }} </p>
-                                        <p class="text-xs font-semibold">
-                                            (Arribo)
-                                        </p>
-                                        <p class="tex-sm  text-gray-600 dark:text-gray-400 "> {{ date('d-m-Y', strtotime($application->created_at)) }} </p>
+                                     
+                                        <p class="tex-sm  text-gray-600 dark:text-gray-400 "> {{ date('d-m-y', strtotime($application->created_at)) }} </p>
                                     </div>
                          
                             </td>
                             <td class="px-2 py-2  text-sm">
                                 <ol>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> Costo Total :</strong>  MM $ 25.345 </li>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> Intereses : </strong>  MM $ 25.345 </li>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> Comision : </strong> MM $ 25.345 </li>
+                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>   </li>
+                                    {{-- <li class=" dark:text-gray-400 py-1">  <strong> Intereses : </strong>  MM $ 25.345 </li>
+                                    <li class=" dark:text-gray-400 py-1">  <strong> Comision : </strong> MM $ 25.345 </li> --}}
                                 </ol>
                             </td>
                             <td class="px-4 py-3 text-sm">
@@ -106,7 +104,7 @@
                         
                     </tbody>
                 </table>
-                
+                {{ $data->links() }}
             </div>
             
         </div>

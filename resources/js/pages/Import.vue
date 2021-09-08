@@ -29,14 +29,10 @@
                         @submit.prevent="submitFormApplications"
                         @keydown="data.onKeydown($event)"
                     >
-                        <h3
-                            class="my-4  font-semibold text-gray-700 dark:text-gray-200"
-                        >
-                            Informacion de Proveedor
-                        </h3>
+                      
                         <div class="dark:text-gray-200">
                             <h3 class="my-3  text-gray-500  text-sm">
-                                Proveedor
+                                 Informacion de Proveedor
                             </h3>
                             <v-select
                                 :disabled="data.statusSuppliers == 'without'"
@@ -124,17 +120,17 @@
                                 v-html="data.errors.get('supplier_id')"
                             ></span>
                         </div>
-                        <div class="flex flex-wrap -mx-3  ">
+                        <div class="flex flex-wrap mx-1 ">
                             <div
                                 :class="[
                                     data.statusSuppliers == 'with'
-                                        ? 'md:w-1/2'
-                                        : '',
-                                    'w-full px-3  md:mb-0'
+                                        ? 'md:w-2/5'
+                                        : 'w-full',
+                                    'md:mb-0'
                                 ]"
                             >
                                 <h3 class="my-3  text-gray-500  text-sm">
-                                    Condicion de Venta del Proveedor
+                                    Condicion de Venta
                                 </h3>
                                 <div class="relative">
                                     <select
@@ -171,10 +167,10 @@
                                 </div>
                             </div>
                             <div
-                                class="w-full md:w-1/2 px-3"
+                                class="pl-3 md:w-3/5"
                                 v-show="data.statusSuppliers == 'with'"
                             >
-                                <h3 class="my-3  text-gray-500  text-sm">
+                                <h3 class="my-3 text-gray-500  text-sm">
                                     Porcentaje de Pago
                                 </h3>
 
@@ -185,11 +181,11 @@
                                     :class="[
                                         item == data.valuePercentage
                                             ? 'bg-blue-500 text-white '
-                                            : 'bg-transparent text-blue-700',
-                                        'hover:bg-blue-500  font-semibold hover:text-white py-1 px-1 mx-0.5 border border-blue-500 hover:border-transparent rounded'
+                                            : 'bg-transparent text-blue-700 ',
+                                        'hover:bg-blue-500 font-semibold hover:text-white py-1 mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center' 
                                     ]"
-                                >
-                                    {{ item.name }}
+                                >   
+                                   {{ item.name }}
                                 </a>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
@@ -362,10 +358,11 @@ export default {
                 label: "block  text-gray-700 text-xs dark:text-gray-400"
             },
             paymentPercentage: [
+                { name: "20/80", valueInitial: 20 },
                 { name: "30/70", valueInitial: 30 },
                 { name: "40/60", valueInitial: 40 },
                 { name: "50/50", valueInitial: 50 },
-                { name: "Otros", valueInitial: 0 }
+                { name: "OTROS", valueInitial: 0 }
             ],
             origin_transport: ""
         };
@@ -405,11 +402,13 @@ export default {
                     })
                     // asignar id devuelta al form id
                     this.data.application_id       = data.id
+                    this.$store.dispatch('exchange/getSummary', data.id);
                     //  cerrar modal
                     this.$store.state.statusModal  = !this.$store.state.statusModal
                      //  posicion de modal comienzan en 0
                     this.$store.state.positionTabs = 0
                     this.busy = false
+                    
                     if (data.supplier_id != null) {
                         let provider = await axios.get(
                             "/api/provider/" + data.supplier_id
@@ -447,6 +446,8 @@ export default {
             this.$store.dispatch('application/getSuppliers')
             this.$store.dispatch('application/getServices')
             this.$store.dispatch('application/getCurrencies')
+           
+
         } catch (error) {
             console.log(error);
         }
