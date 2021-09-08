@@ -59,7 +59,7 @@
                                     <td class="text-center px-4 py-3">
                                         {{ item.code }}
                                     </td>
-                                    <td class="text-left px-4 py-3">
+                                    <td class="text-center px-4 py-3">
                                         {{ formatPrice(item.amount, item.code) }}
                                     </td>
                                 </tr>
@@ -83,16 +83,16 @@
                                     :key="key"
                                     class="text-gray-700 dark:text-gray-400"
                                 >
-                                    <td class="px-4 py-3 text-center">
-                                        {{ formatPrice(item.amo2, currency_ex)}}
+                                    <td class="px-4 py-3 text-center ">
+                                        {{ formatter(item.amo2, currency_ex)}}
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td class="text-center px-4 py-3">
-                                        <strong>{{
-                                            formatPrice(totalAmount, currency_ex)
+                                    <td class="text-center px-4 py-3 text-xs">
+                                        <strong> {{
+                                            formatter(totalAmount, currency_ex)
                                         }}</strong>
                                     </td>
                                 </tr>
@@ -123,11 +123,18 @@ export default {
     },
     methods: {
         formatPrice(value, currency) {
-            return value.toLocaleString(navigator.language, {
-                    style: "currency",
-                    currency: currency,
-                    maximumFractionDigits: currency == 'CLP' ? 0 : 2,
-                    currencyDisplay: 'symbol'
+            return Number(value).toLocaleString(navigator.language, { 
+                    minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+                    maximumFractionDigits: currency == 'CLP' ? 0 : 2
+                });
+        },
+        formatter(value, currency) {
+           return Number(value).toLocaleString(navigator.language, { 
+                    style: 'currency', 
+                    currency,
+                    currencyDisplay: "code",
+                    minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+                    maximumFractionDigits: currency == 'CLP' ? 0 : 2
                 });
         },
         getHumanDate(date) {
@@ -136,15 +143,15 @@ export default {
         clone() {
             
             this.exchangeItem.forEach( e => {
-                // var new_amo2 = e.amount
 
                     //Find index of specific object using findIndex method.
                     let objIndex = this.exchangeItem.findIndex(
                         obj => obj.id == e.id
                     )
                     //Update object's name property.
-                    this.exchangeItem[objIndex].amo2 = this.formatPrice(e.amount, e.code)
-                    this.currency_ex = e.code
+                    this.exchangeItem[objIndex].amo2 = e.amount;
+                    console.log(this.formatter(e.amount, e.code));
+                    this.currency_ex = e.code;
             })
             //
         },
@@ -152,15 +159,10 @@ export default {
             this.currency_ex = currency
 
             this.exchangeItem.forEach(async e => {
-                // var new_amo2 = e.amount
+
                 try {
                     const resp = await axios.get(
-                        "/api/convert-currency/" +
-                            e.amount +
-                            "/" +
-                            e.code +
-                            "/" +
-                            currency
+                        `/api/convert-currency/${e.amount}/${e.code}/${currency}`
                     )
 
                     //Find index of specific object using findIndex method.
@@ -169,7 +171,8 @@ export default {
                     )
 
                     //Update object's name property.
-                    this.exchangeItem[objIndex].amo2 = resp.data
+                    this.exchangeItem[objIndex].amo2 = resp.data;
+                   
 
                 } catch (err) {
                     // Handle Error Here
