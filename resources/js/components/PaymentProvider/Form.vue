@@ -395,6 +395,7 @@ export default {
     created() {
          
         const { name: typePayment, valueInitial  } = this.data.valuePercentage
+       
         if(!this.payment.length)
         if (this.$store.state.application.statusSuppliers == 'E-commerce') {
             this.$store.state.payment.discount = 100

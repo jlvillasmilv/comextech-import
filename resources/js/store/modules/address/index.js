@@ -14,7 +14,7 @@ const state = {
     }),
     Load: false,
     safe: false,
-    addressDestination: ""
+    addressDestination: []
 }
 
 const getters = {}
