@@ -3,12 +3,10 @@
         <tabs />
         <div class="w-full p-2 ">
             <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
-                <form-payment :valuePercentage="data.valuePercentage" />
+                <form-payment  />
             </container>
             <container v-if="$store.state.tabActive == 'ICS03'">
-                <addresses
-                    :application="data"
-                />
+                <addresses />
             </container>
             <container v-if="$store.state.tabActive == 'ICS04'">
                 <form-internment :application_id="data.application_id" />
@@ -129,7 +127,7 @@
                                     'md:mb-0'
                                 ]"
                             >
-                                <h3 class="my-3  text-gray-500  text-sm">
+                                <h3 class="my-2.5  text-gray-500  text-sm">
                                     Condicion de Venta
                                 </h3>
                                 <div class="relative">
@@ -182,7 +180,7 @@
                                         item == data.valuePercentage
                                             ? 'bg-blue-500 text-white '
                                             : 'bg-transparent text-blue-700 ',
-                                        'hover:bg-blue-500 font-semibold hover:text-white py-1 mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center' 
+                                        'hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center' 
                                     ]"
                                 >   
                                    {{ item.name }}
@@ -421,6 +419,7 @@ export default {
             }
         },
         handlePercentage(item) {
+            this.handleCurrency();
             this.data.valuePercentage = item
         },
         handleCurrency(){
@@ -446,14 +445,10 @@ export default {
             this.$store.dispatch('application/getSuppliers')
             this.$store.dispatch('application/getServices')
             this.$store.dispatch('application/getCurrencies')
-           
-
         } catch (error) {
             console.log(error);
         }
-
         let application = document.getElementById("applications")
-
         if (application == null) {
             console.log("Nueva Solicitud")
         } else {

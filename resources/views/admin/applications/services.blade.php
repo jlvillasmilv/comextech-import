@@ -186,7 +186,7 @@
 
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
-                <span>Proceso de Internación </span>
+                <span> Internación </span>
                 <span class="ico-plus"></span>
             </div>
         </a>
