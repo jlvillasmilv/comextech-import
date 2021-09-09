@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
         ->where('application_id', $id)
         ->select('aps.id', 'currencies.code','aps.description','aps.fee_date','aps.amount', 'aps.amount as amo2' )
+        ->orderBy('aps.id')
         ->get();
         
         return response()->json($summary, 200);
@@ -55,8 +56,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('internment', 'App\Http\Controllers\Web\ApplicationController@internmentProcesses')
     ->name('applications.internment'); 
 
-     // Bodegaje local
-    Route::post('local_warehouse', 'App\Http\Controllers\Web\ApplicationController@localWarehouse');
+     // Bodegaje local "Entrega"
+    Route::post('local-warehouse', 'App\Http\Controllers\Web\ApplicationController@localWarehouse');
     
     Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
 
