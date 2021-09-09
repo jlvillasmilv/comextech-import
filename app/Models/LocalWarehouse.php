@@ -33,7 +33,7 @@ class LocalWarehouse extends Model
 
     public function transCompany()
     {
-        return $this->belongsTo(TransCompany::class,'trans_company_id');
+        return $this->belongsTo(TransCompany::class,'trans_company_id')->withDefault(['name' => '' ]);
     }
 
 }
