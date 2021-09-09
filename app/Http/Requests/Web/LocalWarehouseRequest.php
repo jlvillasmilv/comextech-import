@@ -25,7 +25,7 @@ class LocalWarehouseRequest extends FormRequest
     {
         $rules = [
             'application_id'        => 'required|exists:applications,id',
-            'trans_company_id'      => 'required|exists:trans_companies,id',
+            // 'trans_company_id'      => 'required|exists:trans_companies,id',
             'warehouse_id'          => 'required|exists:warehouses,id',
         ];
 
@@ -37,7 +37,6 @@ class LocalWarehouseRequest extends FormRequest
         return [
             'application_id.required'   => 'Se debe tener una solicitud generada.',
             'warehouse_id.required'     => 'El campo Ubicacion de Bodegaje es obligatorio.',
-            'trans_company_id.required' => 'El campo Preferencia de Despacho es obligatorio.',
         ];
     }
 }

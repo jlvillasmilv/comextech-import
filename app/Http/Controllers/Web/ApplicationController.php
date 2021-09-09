@@ -529,10 +529,12 @@ class ApplicationController extends Controller
 
     public function localWarehouse(LocalWarehouseRequest $request)
     {
+       
         $localw =  LocalWarehouse::updateOrCreate(
             ['application_id'   => $request->application_id, ],
             [
-                'trans_company_id'  => $request->trans_company_id,
+                'peoneta_service'  => $request->peoneta_service,
+                'forklift_service'  => $request->forklift_service,
                 'warehouse_id'      => $request->warehouse_id,
             ]
         );
