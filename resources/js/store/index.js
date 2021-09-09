@@ -6,7 +6,7 @@ import load from "./modules/load"
 import address from "./modules/address"
 import internment from "./modules/internment"
 import application from "./modules/application"
-
+import internalStorage from "./modules/internalStorage"
 
 
 Vue.use(Vuex)
@@ -61,6 +61,7 @@ export default new Vuex.Store({
         address,
         internment,
         application,
-        internment
+        internment,
+        internalStorage
     }
 })

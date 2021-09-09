@@ -11,18 +11,16 @@
                     <span class="text-gray-700 dark:text-gray-400 my-2 text-sm">
                         Ubicacion de Destino
                     </span>
-                    <select
-                                        v-model="form.warehouse_id"
-                                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    >
-                                        <option
-                                            v-for="item in warehouses"
-                                            :value="item"
-                                            :key="item.name"
-                                        >
-                                            {{ item.address }}
-                                        </option>
-                                    </select>
+                    <select v-model="form.warehouse_id"
+                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                            <option
+                                v-for="item in warehouses"
+                                :value="item.id"
+                                :key="item.name"
+                            >
+                                {{ item.address }}
+                            </option>
+                    </select>
                      
                     <span
                         class="text-xs text-red-600 dark:text-red-400"
@@ -33,7 +31,9 @@
             </div>
             <div class="flex mt-6">
                 <label class="flex items-center">
-                    <input type="checkbox" class="form-checkbox" />
+                    <input type="checkbox" class="form-checkbox"
+                     v-model="form.peoneta_service"
+                      />
                     <span class="ml-2">
                         Servicio de Peonetas (4 Personas)
                     </span>
@@ -41,7 +41,10 @@
             </div>
             <div class="flex mt-6">
                 <label class="flex items-center">
-                    <input type="checkbox" class="form-checkbox" />
+                    <input type="checkbox"
+                     class="form-checkbox"
+                     v-model="form.forklift_service"
+                      />
                     <span class="ml-2">
                         Servicio Grua Horquilla
                     </span>
@@ -74,7 +77,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 export default {
+    computed: {
+          ...mapState('internalStorage', ['form']),
+          ...mapState('application', ['data']),
+    },
     props: {
         application_id: {
             type: Number,
@@ -83,12 +92,7 @@ export default {
     },
     data() {
         return {
-            form: new Form({
-                trans_company_id: "",
-                warehouse_id: "",
-                application_id: this.application_id
-            }),
-            data: [],
+            // data: [],
             percentajeDelete: {},
             warehouses: [],
             agencyTransport: []
@@ -97,12 +101,14 @@ export default {
     methods: {
         async submitForm() {
             try {
-                this.$store.dispatch("callIncomingOrNextMenu", true)
-                const response = await this.form.post("/local_warehouse");
+                const response = await this.form.post("/local-warehouse");
                 Toast.fire({
                     icon: "success",
                     title: "Datos Agregados"
                 });
+                this.form.id = response.data;
+                this.$store.dispatch('exchange/getSummary', this.data.application_id);
+                this.$store.dispatch("callIncomingOrNextMenu", true)
             } catch (error) {
                 console.error(error);
             }
@@ -114,6 +120,7 @@ export default {
             let agencyTransport = await axios.get("/api/trans_companies");
             this.warehouses = warehouses.data;
             this.agencyTransport = agencyTransport.data;
+            this.form.application_id = this.data.application_id
         } catch (error) {
             console.log(error);
         }
