@@ -245,6 +245,20 @@ class ApplicationController extends Controller
 
     }
 
+    public function getApplication($id)
+    {
+        $data  = Application::where([
+            ['id', '=', $id],
+            ['user_id', auth()->user()->id],
+        ])
+        ->with(['detailsCatregory.service.category','summary'])
+        ->firstOrFail();
+        
+
+        return response()->json($data, 200);
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
