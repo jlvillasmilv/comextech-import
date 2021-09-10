@@ -9,7 +9,7 @@ class ApplicationSumamry extends Model
 {
     use HasFactory;
 
-    protected $table = 'application_statuses';
+    protected $table = 'application_sumamries';
 
     public $timestamps = false;
 
