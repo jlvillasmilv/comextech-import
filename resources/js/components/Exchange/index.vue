@@ -44,11 +44,11 @@
                                     :key="key"
                                     class="text-gray-700 dark:text-gray-400"
                                 >
-                                    <td class="text-left px-4 py-3">
+                                    <td class="text-left px-4 py-3"  >
                                         <div class="text-xs">
                                             <div>
-                                                <p class="font-semibold input">
-                                                    {{ item.description }}
+                                                <p class="font-semibold input" :class="key == 1 || key == 2 ? 'ml-5': '' ">
+                                                    {{ item.description }}  
                                                 </p>
                                             </div>
                                         </div>

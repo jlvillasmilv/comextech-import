@@ -18,7 +18,7 @@ class ApplicationController extends Controller
     {
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
-        ->paginate(5);
+        ->paginate(7);
 
         return view('applications.index' , compact('data'));
     }
@@ -236,13 +236,12 @@ class ApplicationController extends Controller
 
     public function edit($id)
     {
-        $data  = Application::where([
-            ['id', '=', $id],
-            ['user_id', auth()->user()->id],
-        ])->firstOrFail();
-
-        return response()->json($data, 200);
-
+        // dd('mauricio');
+        // $data  = Application::where([
+        //     ['id', '=', $id],
+        //     ['user_id', auth()->user()->id],
+        // ])->firstOrFail();
+        return view('services.edit', compact('id') );    
     }
 
     /**
