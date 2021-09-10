@@ -1,5 +1,7 @@
 <template>
+
     <ul class="flex justify-center items-center mt-2 ">
+ 
         <button
             @click="$store.state.statusModal = !$store.state.statusModal"
             class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue"
@@ -34,7 +36,7 @@
                 />
             </svg>
         </button>
-        <div v-for="(item, id) in $store.state.selectedServices" :key="id">
+        <div v-for="(item, id) in sortServices" :key="id">
             <li
                 @click="$store.dispatch('callActiveTabs', item)"
                 :class="[
@@ -71,8 +73,20 @@
         </button>
     </ul>
 </template>
+<script>
+export default {
+    
+    data() {
+        return{
 
- <script>
- 
- </script>
+        }
+    },
+    computed:{
+        sortServices(){
+            if(this.$store.state.selectedServices)  return this.$store.state.selectedServices.sort((a, b) => a.id - b.id)
+            else return []
+        }
+    }
+}
+</script>
 
