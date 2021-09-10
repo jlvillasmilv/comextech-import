@@ -236,12 +236,33 @@ class ApplicationController extends Controller
 
     public function edit($id)
     {
-        // dd('mauricio');
-        // $data  = Application::where([
-        //     ['id', '=', $id],
-        //     ['user_id', auth()->user()->id],
-        // ])->firstOrFail();
-        return view('services.edit', compact('id') );    
+        return view('services.edit', compact('id'));    
+    }
+
+    public function getApplicationCategory($id)
+    {
+        $caterory = ApplicationDetail::where('application_id',$id)
+        ->join('services as s', 'application_details.service_id', 's.id')
+        ->join('category_services as cs', 's.category_service_id', 'cs.id')
+        ->groupBy('cs.code')
+        ->select('cs.code')
+        ->get()
+        ->toJson();
+
+        return response()->json($caterory, 200);
+    }
+
+    public function getApplication($id)
+    {
+        $data  = Application::where([
+            ['id', '=', $id],
+            ['user_id', auth()->user()->id],
+        ])
+        ->with('summary')
+        ->firstOrFail();
+        
+        return response()->json($data, 200);
+
     }
 
     /**
