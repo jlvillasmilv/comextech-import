@@ -83,11 +83,6 @@ class Application extends Model
         return $this->hasMany(ApplicationDetail::class,'application_id')->OrderBy('id');
     }
 
-    public function detailsCatregory()
-    {
-        return $this->hasMany(ApplicationDetail::class,'application_id');
-    }
-
     public function summary()
     {
         return $this->hasMany(ApplicationSumamry::class,'application_id')->OrderBy('id');

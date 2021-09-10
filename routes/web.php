@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     })->where('id', '[0-9]+');
 
     Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
+    Route::get('/get-application-category/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationCategory')->where('id', '[0-9]+');
 
     Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@paymentProvider')
     ->name('applications.payment.provider'); 
