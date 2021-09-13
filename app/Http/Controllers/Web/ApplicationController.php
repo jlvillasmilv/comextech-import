@@ -398,10 +398,23 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      * 
     */
-    public function transports(Request $request)
+    public function transports(TransportRequest $request)
     {
-       
+        //dd($request->all());
         DB::beginTransaction();
+
+        $address_origin = $request->addressOrigin;
+        $address_destination = $request->addressDestination;
+
+        if(is_array($request->addressOrigin))
+        {
+            $address_origin = $request->addressOrigin['route'].', '.$request->addressOrigin['locality'].', '.$request->addressOrigin['country'];
+        }
+
+        if(is_array($request->addressDestination))
+        {
+            $address_destination = $request->addressDestination['route'].', '.$request->addressDestination['locality'].', '.$request->addressDestination['country'];
+        }
 
         try {
 
@@ -409,9 +422,9 @@ class ApplicationController extends Controller
                 ['application_id'   => $request->application_id, ],
                 [
                     'fav_address_origin'    => $request->favoriteAddressOrigin,
-                    'address_origin'        => $request->addressOrigin,
+                    'address_origin'        => $address_origin,
                     'fav_dest_address'      => $request->favoriteAddressDestin,
-                    'address_destination'   => $request->addressDestination,
+                    'address_destination'   => $address_destination,
                     'estimated_date'        => $request->estimated_date,
                     'description'           => $request->description,
                     'insurance'             => $request->insurance,
