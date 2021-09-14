@@ -96,7 +96,6 @@
                           
                             <vue-google-autocomplete
                                 v-if="!expenses.favoriteAddressDestin"
-                                v-model="expenses.addressDestination"
                                 id="addressDestination"
                                 classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 :placeholder="
@@ -104,6 +103,8 @@
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
+                                types="geocode"
+                                fields="['address_component', 'formatted_address']"
                                 v-on:placechanged="getAddressDestination"
                             >
                             </vue-google-autocomplete>

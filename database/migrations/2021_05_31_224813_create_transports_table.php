@@ -17,13 +17,11 @@ class CreateTransportsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->boolean('fav_address_origin')->default(false);
-            $table->string('address_origin');
-            $table->double('address_origin_lat')->nullable();
-            $table->double('address_origin_lon')->nullable();
+            $table->string('address_origin')->nullable();
+            $table->string('origin_postal_code', 35);
             $table->boolean('fav_dest_address')->default(false);
-            $table->string('address_destination');
-            $table->double('address_dest_lat')->nullable();
-            $table->double('address_dest_lon')->nullable();
+            $table->string('address_destination')->nullable();
+            $table->string('destination_postal_code', 35);
             $table->boolean('insurance')->default(false);
             $table->date('estimated_date')->nullable();
             $table->string('description')->nullable();
