@@ -18,7 +18,7 @@ class ApplicationController extends Controller
     {
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
-        ->paginate(5);
+        ->paginate(7);
 
         return view('applications.index' , compact('data'));
     }
@@ -236,11 +236,30 @@ class ApplicationController extends Controller
 
     public function edit($id)
     {
+        return view('services.edit', compact('id'));    
+    }
+
+    public function getApplicationCategory($id)
+    {
+        $caterory = ApplicationDetail::where('application_id',$id)
+        ->join('services as s', 'application_details.service_id', 's.id')
+        ->join('category_services as cs', 's.category_service_id', 'cs.id')
+        ->groupBy('cs.code')
+        ->select('cs.code')
+        ->pluck('cs.code');
+
+        return response()->json($caterory, 200);
+    }
+
+    public function getApplication($id)
+    {
         $data  = Application::where([
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
-        ])->firstOrFail();
-
+        ])
+        ->with('summary','currency')
+        ->firstOrFail();
+        
         return response()->json($data, 200);
 
     }

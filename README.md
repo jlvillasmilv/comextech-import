@@ -30,6 +30,13 @@ php artisan storage:link
 # Run your server
 php artisan serve
 
+Now, in this process you should get your API key, which will be the key to all of this. We put it in our Laravel project’s .env file:
+
+
+API_KEY_CURRENCY = 
+GOOGLE_MAPS_API_KEY= 
+
+Warning again: As I mentioned, be extremely careful and not put that anywhere in the repository, cause you may get a bill for someone else’s project. Or, better yet, restrict your API key by domain or some other method.
 ```
 ### Project made possible thanks to:
 
