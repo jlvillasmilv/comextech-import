@@ -103,8 +103,6 @@
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
-                                types="geocode"
-                                fields="['address_component', 'formatted_address']"
                                 v-on:placechanged="getAddressDestination"
                             >
                             </vue-google-autocomplete>
@@ -279,10 +277,24 @@ export default {
             * @param {String} id Input container ID
         */
         getAddressOrigin: function (addressData, placeResultData, id) {
-                this.expenses.addressOrigin =  addressData;
+                this.expenses.addressOrigin   =  placeResultData.formatted_address;
+                this.expenses.origin_latitude = addressData.latitude;
+                this.expenses.origin_longitude = addressData.longitude;
+
+                if (typeof addressData.postal_code !== 'undefined') {
+                     this.expenses.origin_postal_code = addressData.postal_code;
+                }
+               
         },
         getAddressDestination: function (addressData, placeResultData, id) {
-                this.expenses.addressDestination =  addressData;
+                this.expenses.addressDestination   =  placeResultData.formatted_address;
+                this.expenses.dest_latitude = addressData.latitude;
+                this.expenses.dest_longitude = addressData.longitude;
+
+                if (typeof addressData.postal_code !== 'undefined') {
+                     this.expenses.dest_postal_code = addressData.postal_code;
+                }
+
         }
     },
     computed: {
