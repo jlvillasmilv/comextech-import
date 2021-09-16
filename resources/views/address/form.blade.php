@@ -42,11 +42,8 @@
                           <div class="w-1/4 ml-1">
                               <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Codigo postal </label>
 
-                              <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Codigo postal"  id='postcode' name="postal_code" value="{{ old('postal_code', isset($companyAddress) ? $companyAddress->postal_code : '') }}" max="50" required="">
+                              <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Codigo postal"  id='postal_code' name="postal_code" value="{{ old('postal_code', isset($companyAddress) ? $companyAddress->postal_code : '') }}" max="50" required="">
 
-                              <input type="hidden" name="address_latitude" id="address-latitude" value="{{ old('address_latitude', isset($companyAddress) ? $companyAddress->address_longitude : 0) }}" />
-
-                              <input type="hidden" name="address_longitude" id="address-longitude" value="{{ old('address_longitude', isset($companyAddress) ? $companyAddress->address_longitude : 0) }}" />
                               @if($errors->has('postal_code'))
                               <span class="text-xs text-red-600 dark:text-red-400">
                                    {{ $errors->first('postal_code') }}
@@ -96,8 +93,8 @@
             </label>
 
            
-            <input type="hidden" name="address_latitude" id="address-latitude" value="{{ old('address_latitude', isset($companyAddress) ? $companyAddress->address_latitude : 0) }}" />
-            <input type="hidden" name="address_longitude" id="address-longitude" value="{{ old('address_longitude', isset($companyAddress) ? $companyAddress->address_longitude : 0) }}" />
+            <input type="hidden" class="form-input" name="address_latitude" id="address_latitude" value="{{ old('address_latitude', isset($companyAddress) ? $companyAddress->address_latitude : 0) }}" />
+            <input type="hidden" class="form-input" name="address_longitude" id="address_longitude" value="{{ old('address_longitude', isset($companyAddress) ? $companyAddress->address_longitude : 0) }}" />
                
                 <div class="flex  justify-start">
                         <button type="submit" class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -126,65 +123,75 @@
 
 function initialize() {
 
-
-console.log('asssdd');
-
-
-$('form').on('keyup keypress', function(e) {
-    var keyCode = e.keyCode || e.which;
-    if (keyCode === 13) {
-        e.preventDefault();
-        return false;
-    }
-});
-const locationInputs = document.getElementsByClassName("map-input");
-
-const autocompletes = [];
-const geocoder = new google.maps.Geocoder;
-let postalField;
-postalField = document.getElementById("#postcode");
-for (let i = 0; i < locationInputs.length; i++) {
-
-    const input = locationInputs[i];
-    const fieldKey = input.id.replace("-input", "");
-    const isEdit = document.getElementById(fieldKey + "-latitude").value != '' && document.getElementById(fieldKey + "-longitude").value != '';
-
-    const latitude = parseFloat(document.getElementById(fieldKey + "-latitude").value) || -33.8688;
-    const longitude = parseFloat(document.getElementById(fieldKey + "-longitude").value) || 151.2195;
-
-    const autocomplete = new google.maps.places.Autocomplete(input);
-    autocomplete.key = fieldKey;
-    autocompletes.push({input: input, autocomplete: autocomplete});
-    console.log(autocomplete);
-}
-
-for (let i = 0; i < autocompletes.length; i++) {
-    const input = autocompletes[i].input;
-    const autocomplete = autocompletes[i].autocomplete;
-    const map = autocompletes[i].map;
-    const marker = autocompletes[i].marker;
-
-    google.maps.event.addListener(autocomplete, 'place_changed', function () {
-        // marker.setVisible(false);
-        const place = autocomplete.getPlace();
-
-        setLocationCoordinates(autocomplete.key, lat, lng);
-
-        if (!place.geometry) {
-            window.alert("No details available for input: '" + place.name + "'");
-            input.value = "";
-            return;
+    $('form').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
         }
     });
-}
+    
+    const locationInputs = document.getElementsByClassName("map-input");
+
+    const autocompletes = [];
+    const geocoder = new google.maps.Geocoder;
+    let postalField;
+
+postalField = document.querySelector("#postal_code");
+
+    for (let i = 0; i < locationInputs.length; i++) {
+
+        const input = locationInputs[i];
+        const fieldKey = input.id.replace("-input", "");
+        const isEdit = document.getElementById('address_latitude').value != '' && document.getElementById('address_longitude').value != '';
+
+        const autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.key = fieldKey;
+        autocompletes.push({input: input, autocomplete: autocomplete});
+
+    }
+
+    for (let i = 0; i < autocompletes.length; i++) {
+        const input = autocompletes[i].input;
+        const autocomplete = autocompletes[i].autocomplete;
+        const map = autocompletes[i].map;
+        const marker = autocompletes[i].marker;
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            // marker.setVisible(false);
+            const place = autocomplete.getPlace();
+            let postcode = "";
+
+            // Get each component of the address from the place details,
+            // and then fill-in the corresponding field on the form.
+            // place.address_components are google.maps.GeocoderAddressComponent objects
+            for (const component of place.address_components) {
+                const componentType = component.types[0];
+                
+                switch (componentType) {
+                
+                case "postal_code": {
+                    postcode = `${component.long_name}${postcode}`;
+                    break;
+                }
+
+                case "postal_code_suffix": {
+                    postcode = `${postcode}-${component.long_name}`;
+                    break;
+                }
+                
+                }
+            }
+
+            postalField.value = postcode;
+            
+            document.querySelector("#address_latitude").value = place.geometry['location'].lat();
+            document.querySelector("#address_longitude").value = place.geometry['location'].lng();
+
+        });
+    }
 }
 
-function setLocationCoordinates(key, lat, lng) {
-    const latitudeField = document.getElementById(key + "-" + "latitude");
-    const longitudeField = document.getElementById(key + "-" + "longitude");
-    latitudeField.value = lat;
-    longitudeField.value = lng;
-}
 
 </script>
 

@@ -4,7 +4,13 @@ const state = {
     expenses: new Form({
         application_id: 0,
         addressOrigin: "",
+        origin_latitude: 0,
+        origin_longitude: 0,
+        origin_postal_code: 0,
         addressDestination: "",
+        dest_latitude: 0,
+        dest_longitude: 0,
+        dest_postal_code: 0,
         estimated_date: "",
         description: "",
         dataLoad: [],
