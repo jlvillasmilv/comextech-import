@@ -36,20 +36,19 @@
                 />
             </svg>
         </button>
-        <div v-for="(item, id) in sortServices" :key="id">
-            <li
-                @click="$store.dispatch('callActiveTabs', item)"
-                :class="[
-                    'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                    item.code == $store.state.tabActive
-                        ? 'text-b-500 border-indigo-500'
-                        : ''
-                ]"
-            >
-                {{ item.name }}
-            </li>
-        </div>
-
+            <div v-for="(item, id) in sortServices" :key="id">
+                <li
+                    @click="$store.dispatch('callActiveTabs', item)"
+                    :class="[
+                        'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
+                        item.code == $store.state.tabActive
+                            ? 'text-b-500 border-indigo-500'
+                            : ''
+                    ]"
+                >
+                    {{ item.name }}
+                </li>
+            </div>
         <button
             rel="next"
             class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
