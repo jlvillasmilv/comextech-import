@@ -18,7 +18,7 @@ class ApplicationController extends Controller
     {
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
-        ->paginate(5);
+        ->paginate(7);
 
         return view('applications.index' , compact('data'));
     }
@@ -236,11 +236,31 @@ class ApplicationController extends Controller
 
     public function edit($id)
     {
+        return view('services.edit', compact('id'));    
+    }
+
+    public function getApplicationCategory($id)
+    {
+        $caterory = ApplicationDetail::where('application_id',$id)
+        ->join('services as s', 'application_details.service_id', 's.id')
+        ->join('category_services as cs', 's.category_service_id', 'cs.id')
+        ->groupBy('cs.code')
+        ->select('cs.code')
+        ->get()
+        ->toJson();
+
+        return response()->json($caterory, 200);
+    }
+
+    public function getApplication($id)
+    {
         $data  = Application::where([
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
-        ])->firstOrFail();
-
+        ])
+        ->with('summary')
+        ->firstOrFail();
+        
         return response()->json($data, 200);
 
     }
@@ -378,10 +398,26 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      * 
     */
-    public function transports(Request $request)
+    public function transports(TransportRequest $request)
     {
-       
         DB::beginTransaction();
+
+        $address_origin = $request->addressOrigin;
+        $address_destination = $request->addressDestination;
+        $origin_postal_code = 0;
+        $destination_postal_code = 0;
+
+        if(is_array($request->addressOrigin))
+        {
+            $address_origin = $request->addressOrigin['route'].', '.$request->addressOrigin['locality'].', '.$request->addressOrigin['country'];
+            $origin_postal_code = isset($request->addressOrigin['postal_code']) ? $request->addressOrigin['postal_code'] : 0;
+        }
+
+        if(is_array($request->addressDestination))
+        {
+            $address_destination = $request->addressDestination['route'].', '.$request->addressDestination['locality'].', '.$request->addressDestination['country'];
+            $destination_postal_code = isset($request->addressOrigin['postal_code']) ? $request->addressOrigin['postal_code'] : 0;
+        }
 
         try {
 
@@ -389,9 +425,11 @@ class ApplicationController extends Controller
                 ['application_id'   => $request->application_id, ],
                 [
                     'fav_address_origin'    => $request->favoriteAddressOrigin,
-                    'address_origin'        => $request->addressOrigin,
+                    'address_origin'        => $address_origin,
+                    'origin_postal_code'    => $origin_postal_code,
                     'fav_dest_address'      => $request->favoriteAddressDestin,
-                    'address_destination'   => $request->addressDestination,
+                    'address_destination'   => $address_destination,
+                    'destination_postal_code' => $destination_postal_code,
                     'estimated_date'        => $request->estimated_date,
                     'description'           => $request->description,
                     'insurance'             => $request->insurance,

@@ -15,12 +15,23 @@
                                         : " Almacen o Fabrica del Proveedor"
                                 }}
                             </span>
+
+                            
+                            <vue-google-autocomplete
+                                v-if="!expenses.favoriteAddressOrigin"
+                                v-model="expenses.addressOrigin"
+                                id="addressOrigin"
+                                classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                v-on:placechanged="getAddressOrigin"
+                                placeholder="Direccion, Codigo Postal"
+                            >
+                            </vue-google-autocomplete>
                           
-                            <input
+                            <!-- <input
                                 v-if="!expenses.favoriteAddressOrigin"
                                 v-model="expenses.addressOrigin"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            />
+                            /> -->
                             <v-select
                                 v-else
                                 label="address"
@@ -82,7 +93,22 @@
                             >
                                 Destino de Envio
                             </span>
-                            <input
+                          
+                            <vue-google-autocomplete
+                                v-if="!expenses.favoriteAddressDestin"
+                                id="addressDestination"
+                                classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                :placeholder="
+                                    expenses.favoriteAddressDestin
+                                        ? 'Nombre o codigo Puerto/Aeropuerto'
+                                        : 'Direccion, Codigo Postal'
+                                "
+                                types="geocode"
+                                fields="['address_component', 'formatted_address']"
+                                v-on:placechanged="getAddressDestination"
+                            >
+                            </vue-google-autocomplete>
+                            <!-- <input
                                 v-if="!expenses.favoriteAddressDestin"
                                 v-model="expenses.addressDestination"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -91,7 +117,7 @@
                                         ? 'Nombre o codigo Puerto/Aeropuerto'
                                         : 'Direccion, Codigo Postal'
                                 "
-                            />
+                            /> -->
                             <v-select
                                 v-else
                                 label="address"
@@ -212,11 +238,12 @@
 </template>
 
 <script>
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import Load from "./Load.vue";
 import { mapState } from "vuex"
 
 export default {
-    components: { Load },
+    components: { Load, VueGoogleAutocomplete},
     props: {
         originTransport: {
             type: Array,
@@ -225,6 +252,7 @@ export default {
     },
     data() {
         return {
+            address: '',
             Load: false,
             safe: false,
         };
@@ -243,6 +271,18 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        },
+        /**
+            * When the location found
+            * @param {Object} addressData Data of the found location
+            * @param {Object} placeResultData PlaceResult object
+            * @param {String} id Input container ID
+        */
+        getAddressOrigin: function (addressData, placeResultData, id) {
+                this.expenses.addressOrigin =  addressData;
+        },
+        getAddressDestination: function (addressData, placeResultData, id) {
+                this.expenses.addressDestination =  addressData;
         }
     },
     computed: {
