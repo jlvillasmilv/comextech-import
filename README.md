@@ -15,7 +15,7 @@ This project is created with [Laravel Jetstream] Framework and [Tailwind CSS](ht
 git clone https://github.com/keiwerkgvr/comextech-import.git
 
 # cd into your project directory
-cd larawind
+cd comextech-import
 
 #install composer and npm packages
 composer install
@@ -31,7 +31,6 @@ php artisan storage:link
 php artisan serve
 
 Now, in this process you should get your API key, which will be the key to all of this. We put it in our Laravel project’s .env file:
-
 
 API_KEY_CURRENCY = 
 GOOGLE_MAPS_API_KEY= 

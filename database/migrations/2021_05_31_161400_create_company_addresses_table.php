@@ -20,6 +20,8 @@ class CreateCompanyAddressesTable extends Migration
             $table->string('postal_code',50)->nullable();
             $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO','OFICINA'])->default('ALMACEN');
             $table->string('address');
+            $table->double('address_latitude')->nullable();
+            $table->double('address_longitude')->nullable();
             $table->boolean('status')->default(true);
         });
     }
