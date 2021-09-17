@@ -1,7 +1,6 @@
 <template>
 
     <ul class="flex justify-center items-center mt-2 ">
- 
         <button
             @click="$store.state.statusModal = !$store.state.statusModal"
             class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue"
@@ -36,20 +35,19 @@
                 />
             </svg>
         </button>
-        <div v-for="(item, id) in sortServices" :key="id">
-            <li
-                @click="$store.dispatch('callActiveTabs', item)"
-                :class="[
-                    'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
-                    item.code == $store.state.tabActive
-                        ? 'text-b-500 border-indigo-500'
-                        : ''
-                ]"
-            >
-                {{ item.name }}
-            </li>
-        </div>
-
+            <div v-for="(item, id) in sortServices" :key="id">
+                <li
+                    @click="$store.dispatch('callActiveTabs', item)"
+                    :class="[
+                        'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
+                        item.code == $store.state.tabActive
+                            ? 'text-b-500 border-indigo-500'
+                            : ''
+                    ]"
+                >
+                    {{ item.name }}
+                </li>
+            </div>
         <button
             rel="next"
             class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"

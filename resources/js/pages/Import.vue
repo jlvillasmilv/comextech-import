@@ -1,6 +1,6 @@
 <template>
     <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
-        <tabs />
+        <tabs />  
         <div class="w-full p-2 ">
             <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
                 <form-payment  />
@@ -118,6 +118,7 @@
                                 v-html="data.errors.get('supplier_id')"
                             ></span>
                         </div>
+                    
                         <div class="flex flex-wrap mx-1 ">
                             <div
                                 :class="[
@@ -132,7 +133,7 @@
                                 </h3>
                                 <div class="relative">
                                     <select
-                                        v-model="selectedCondition"
+                                        v-model="$store.state.application.selectedCondition"
                                         @change="toogleMenuTabs()"
                                         class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     >
@@ -177,7 +178,7 @@
                                     :key="id"
                                     @click="handlePercentage(item)"
                                     :class="[
-                                        item == data.valuePercentage
+                                        item.valueInitial == data.valuePercentage.valueInitial
                                             ? 'bg-blue-500 text-white '
                                             : 'bg-transparent text-blue-700 ',
                                         'hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center' 
@@ -200,7 +201,7 @@
                                 </h3>
                                 <div class="relative">
                                     <v-select
-                                        label="name_code"
+                                        label="name"
                                         v-model="$store.state.application.currency"
                                         placeholder="Moneda de Pago"
                                         @input="handleCurrency"
@@ -224,6 +225,9 @@
                                             <em style="opacity: 0.5;" v-else>
                                                 Moneda
                                             </em>
+                                        </template>
+                                         <template v-slot:option="currencies">
+                                            {{  `${currencies.name} (${currencies.code}) ` }}
                                         </template>
                                     </v-select>
                                     <span
@@ -253,7 +257,7 @@
                                 ></span>
                             </div>
                         </div>
-                        <div v-if="tabs.length">
+                        <div >
                             <label
                                 v-for="(item, id) in tabs"
                                 :key="id"
@@ -265,9 +269,9 @@
                                         type="checkbox"
                                         class=" focus:outline-none  form-checkbox h-5 w-5 text-green-600"
                                         :value="item"
+                                        :true-value="item.selected"
                                         v-model="$store.state.selectedServices"
                                     />
-
                                     <div v-else class=" ">
                                         <svg
                                             class="w-5 h-5 text-gray-300"
@@ -284,7 +288,6 @@
                                             ></path>
                                         </svg>
                                     </div>
-
                                     <span
                                         :class="[
                                             !item.selected
@@ -341,9 +344,7 @@ export default {
     data() {
         return {
             busy: false,
-            selectedCondition: "",
             position: 0,
-            tabs: [],
             title: "Servicios para Cotizacion",
             next: false,
             classStyle: {
@@ -430,31 +431,37 @@ export default {
         },
         toogleMenuTabs() {
             this.$store.state.selectedServices = []
-            this.tabs = this.selectedCondition.services
+            this.$store.state.application.tabs = this.selectedCondition.services
             this.data.condition = this.selectedCondition.name
         }
     },
     computed: {
-        ...mapState('application', ['data','agencyElectronic','suppliers', 'arrayServices', 'currencies', 'currency']),
+        ...mapState('application', ['tabs','data','agencyElectronic','suppliers', 'arrayServices', 'currencies', 'currency', 'selectedCondition']),
         servicesCode() {
             return this.$store.state.selectedServices.map(item => item.code)
-        }
+        },
+        
     },
     async mounted() {
         try {
-            this.tabs = servicedefault
             this.$store.dispatch('application/getSuppliers')
             this.$store.dispatch('application/getServices')
             this.$store.dispatch('application/getCurrencies')
+            
+            let application = document.getElementById("applications")
+
+            if (application !== null) {
+              this.toogleMenuTabs()
+              this.$store.dispatch('application/getData', application.value)
+              this.$store.dispatch('application/getServicesSelecteds', application.value)
+            }else{
+                this.$store.state.application.tabs = servicedefault
+            }
+
         } catch (error) {
-            console.log(error);
+          
         }
-        let application = document.getElementById("applications")
-        if (application == null) {
-            console.log("Nueva Solicitud")
-        } else {
-            console.log("Editando", application.value)
-        }
+        
     }
 };
 </script>
