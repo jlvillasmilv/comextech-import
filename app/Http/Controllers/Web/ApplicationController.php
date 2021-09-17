@@ -246,8 +246,7 @@ class ApplicationController extends Controller
         ->join('category_services as cs', 's.category_service_id', 'cs.id')
         ->groupBy('cs.code')
         ->select('cs.code')
-        ->get()
-        ->toJson();
+        ->get();
 
         return response()->json($caterory, 200);
     }
@@ -259,6 +258,9 @@ class ApplicationController extends Controller
             ['user_id', auth()->user()->id],
         ])
         ->with('summary')
+        ->with('paymentProvider')
+        ->with('transport')
+        ->with('cargo')
         ->firstOrFail();
         
         return response()->json($data, 200);
