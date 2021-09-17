@@ -1,6 +1,6 @@
 <template>
     <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
-        <tabs />  {{ $store.state.selectedServices }}
+        <tabs />  
         <div class="w-full p-2 ">
             <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
                 <form-payment  />
