@@ -257,7 +257,7 @@ class ApplicationController extends Controller
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])
-        ->with('summary','currency')
+        ->with('summary','currency','paymentProvider','transport','cargo')
         ->firstOrFail();
         
         return response()->json($data, 200);
