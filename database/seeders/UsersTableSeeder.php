@@ -50,8 +50,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
         \DB::table('company_addresses')->insert([
-            ['company_id' =>'1',  'country_id' => '15', 'postal_code' => '4005', 'place' => 'OFICINA', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
-            ['company_id' =>'1',  'country_id' => '15', 'postal_code' => '4005', 'place' => 'ALMACEN', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
+            ['company_id' =>'1',  'country_id' => '15', 'postal_code' => '755000', 'place' => 'OFICINA', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
+            ['company_id' =>'1',  'country_id' => '15', 'postal_code' => '755000', 'place' => 'ALMACEN', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
         ]);
         // 'address' => $this->faker->address,
 

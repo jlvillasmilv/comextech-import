@@ -397,9 +397,8 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      * 
     */
-    public function transports(Request $request)
+    public function transports(TransportRequest $request)
     {
-       
         DB::beginTransaction();
 
         try {
@@ -409,8 +408,14 @@ class ApplicationController extends Controller
                 [
                     'fav_address_origin'    => $request->favoriteAddressOrigin,
                     'address_origin'        => $request->addressOrigin,
+                    'origin_latitude'       => $request->origin_latitude,
+                    'origin_longitude'      => $request->origin_longitude,
+                    'origin_postal_code'    => $request->origin_postal_code,
                     'fav_dest_address'      => $request->favoriteAddressDestin,
                     'address_destination'   => $request->addressDestination,
+                    'dest_latitude'  => $request->dest_latitude,
+                    'dest_longitude' => $request->dest_longitude,
+                    'dest_postal_code' => $request->dest_postal_code,
                     'estimated_date'        => $request->estimated_date,
                     'description'           => $request->description,
                     'insurance'             => $request->insurance,
