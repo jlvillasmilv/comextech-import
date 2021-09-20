@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
-use App\Models\{FileStore, FileStoreInternment, InternmentProcess, LocalWarehouse};
+use App\Models\{Currency, FileStore, FileStoreInternment, InternmentProcess, LocalWarehouse};
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -68,74 +68,7 @@ class ApplicationController extends Controller
                 ]
             );
             
-            if($request->application_id == 0)
-            {
-                \DB::table('application_sumamries')->insert([
-                    [   
-                        "application_id" => $application->id,
-                        "category_service_id" => 1, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "A.- Pago proveedor",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 1, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "A.1.- Adelanto",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [ 
-                        "application_id" => $application->id,
-                        "category_service_id" => 1, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "A.2.- Saldo",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 3, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "B.- Transporte Internacional",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 3, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "C.- Seguro Transporte",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 4, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "D.- Servicio AGA",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 4, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "E.- IVA Internacion",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 4, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "F.- Aranceles",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 6, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "G.- Transporte Local",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                ]);
-            }
+          
 
             if($request->application_id > 0){
 
@@ -147,8 +80,31 @@ class ApplicationController extends Controller
             $cat_serv = CategoryService::whereIn('code', $request->services)
             ->select('id')
             ->pluck('id');
+
+            if($request->application_id == 0)
+            {
+                $add_sumamry = Service::where('sumamry', true)
+                ->select('id','name','category_service_id')
+                ->orderby('name')
+                ->get();
+
+                foreach ($add_sumamry as $key => $item) {
+
+                    \DB::table('application_sumamries')->insert([
+                        [   
+                            "application_id"      => $application->id,
+                            "category_service_id" => $item->category_service_id,
+                            "service_id"  => $item->id, 
+                            "currency_id" => $application->currency_id ,
+                            "description" => $item->name,
+                            "fee_date" => date('Y-m-d')
+                        ]
+                    ]);
+                }
+            }
             
             $add_serv = Service::whereIn('category_service_id', $cat_serv)
+            ->where('sumamry', false)
             ->select('id')
             ->pluck('id');
 
@@ -169,7 +125,6 @@ class ApplicationController extends Controller
                     ]
                 );
             }
-
 
             DB::commit();
 
@@ -399,7 +354,6 @@ class ApplicationController extends Controller
     */
     public function transports(TransportRequest $request)
     {
-        //dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -423,6 +377,8 @@ class ApplicationController extends Controller
                 ]
             );
 
+            $exchange = New Currency;
+            $app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
 
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)
@@ -431,7 +387,7 @@ class ApplicationController extends Controller
  
             foreach ($add_serv as $key => $id) {
 
-                $mount = $key == 0 ? $transport->application->amount * 0.15 : $transport->application->amount * 0.5 ;
+                $mount = $key == 0 ? $app_amount * 0.15 : $app_amount * 0.5 ;
 
                 ApplicationDetail::updateOrCreate([
                      'application_id' =>  $request->application_id,
@@ -439,7 +395,7 @@ class ApplicationController extends Controller
                      ],                    
                      [
                         'amount' =>  $mount,
-                        'currency_id' =>  1
+                        'currency_id' =>  8
                      ],
                  );
 
@@ -451,11 +407,9 @@ class ApplicationController extends Controller
                  ["category_service_id", 3],
                  ["description", $description]
                  ])
-             ->update(['amount' =>  $mount,  'currency_id' =>  1]);
+             ->update(['amount' =>  $mount,  'currency_id' =>  8]);
  
              }
-
-
 
             $this->load($request->input('dataLoad'),$request->application_id);
 

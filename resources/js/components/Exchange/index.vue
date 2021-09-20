@@ -2,7 +2,7 @@
     <div class="container grid grid-cols-1 px-6 my-1 ">
         <div class="flex justify-end pb-2">
              <button
-                class="bg-grey-600 hover:bg-grey-700 text-white font-bold py-2 px-4 rounded mr-2"
+                class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
                 @click="clone()"
             >
                 M O

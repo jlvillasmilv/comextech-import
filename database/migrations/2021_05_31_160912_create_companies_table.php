@@ -15,7 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->index();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->string('tax_id',100)->unique()->nullable();
             $table->string('name',100);
@@ -26,9 +26,6 @@ class CreateCompaniesTable extends Migration
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
         });
     }
 
