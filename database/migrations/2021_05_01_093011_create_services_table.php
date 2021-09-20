@@ -20,7 +20,7 @@ class CreateServicesTable extends Migration
             $table->string('name',100);
             $table->string('description')->nullable();
             $table->boolean('status')->default(true);
-            $table->boolean('sumamry')->default(false);
+            $table->boolean('summary')->default(false);
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
         });

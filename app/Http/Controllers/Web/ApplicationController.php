@@ -316,12 +316,12 @@ class ApplicationController extends Controller
                  );
 
                  // update application summary
-                 $description = $key == 0 ? 'A.1.- Adelanto' :'A.2.- Saldo';
+                 $service_id = $key == 0 ? 21 : 22;
                  $app_summ = \DB::table('application_sumamries')
                  ->where([
                     ["application_id", $application->id],
                     ["category_service_id", 1],
-                    ["description", $description]
+                    ["service_id", $service_id]
                     ])
                 ->update(['fee_date' => $data['date_pay'],
                          'amount'    =>  $application->amount * ($data['percentage'] / 100)
@@ -333,7 +333,7 @@ class ApplicationController extends Controller
              ->where([
                 ["application_id", $application->id],
                 ["category_service_id", 1],
-                ["description", 'A.- Pago proveedor']
+                ["service_id", 20]
                 ])
             ->update(['amount' =>  $application->amount]);
 
@@ -352,8 +352,9 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      * 
     */
-    public function transports(TransportRequest $request)
+    public function transports(Request $request)
     {
+        dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -361,13 +362,13 @@ class ApplicationController extends Controller
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'fav_address_origin'    => $request->fav_address_origin,
-                    'address_origin'        => $request->address_origin,
+                    'fav_address_origin'    => $request->favoriteAddressOrigin,
+                    'address_origin'        => $request->addressOrigin,
                     'origin_latitude'       => $request->origin_latitude,
                     'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
-                    'fav_dest_address'      => $request->fav_dest_address,
-                    'address_destination'   => $request->address_destination,
+                    'fav_dest_address'      => $request->favoriteAddressDestin,
+                    'address_destination'   => $request->addressDestination,
                     'dest_latitude'         => $request->dest_latitude,
                     'dest_longitude'        => $request->dest_longitude,
                     'dest_postal_code'      => $request->dest_postal_code,
@@ -400,12 +401,12 @@ class ApplicationController extends Controller
                  );
 
              // update application summary main description
-              $description = $key == 0 ? 'B.- Transporte Internacional' : 'C.- Seguro Transporte';
+              $service_id = $key == 0 ? 23 : 24;
               $app_summ = \DB::table('application_sumamries')
               ->where([
                  ["application_id", $request->application_id],
                  ["category_service_id", 3],
-                 ["description", $description]
+                 ["service_id", $service_id]
                  ])
              ->update(['amount' =>  $mount,  'currency_id' =>  8]);
  
@@ -476,12 +477,12 @@ class ApplicationController extends Controller
                  );
 
              // update application summary main description
-              $description = $key == 0 ? 'D.- Servicio AGA' :($key == 1 ? 'E.- IVA Internacion' : 'F.- Aranceles');
+              $service_id = $key == 0 ? 25 :($key == 1 ? 26 : 27);
               $app_summ = \DB::table('application_sumamries')
               ->where([
                  ["application_id", $request->application_id],
                  ["category_service_id", 4],
-                 ["description", $description]
+                 ["service_id", $service_id]
                  ])
              ->update(['amount' =>  $mount,  'currency_id' =>  1]);
  
@@ -565,7 +566,7 @@ class ApplicationController extends Controller
                 ],
 
                 [
-                    'length_unit'    => $item['length_unit'],
+                    'length_unit'    => $item['lengthUnit'],
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'high'           => $item['high'],

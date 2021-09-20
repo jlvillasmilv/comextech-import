@@ -24,8 +24,8 @@ class TransportRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'address_destination'         => 'required',
-            'address_origin'              => 'required',
+            'addressDestination'         => 'required',
+            'addressOrigin'              => 'required',
             'description'                => 'nullable|max:250',
             'destinacion'                => 'nullable|max:250',
             'estimated_date'             => 'nullable|date',
