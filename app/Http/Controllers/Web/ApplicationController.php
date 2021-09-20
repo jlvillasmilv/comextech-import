@@ -399,6 +399,7 @@ class ApplicationController extends Controller
     */
     public function transports(TransportRequest $request)
     {
+        //dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -413,14 +414,48 @@ class ApplicationController extends Controller
                     'origin_postal_code'    => $request->origin_postal_code,
                     'fav_dest_address'      => $request->favoriteAddressDestin,
                     'address_destination'   => $request->addressDestination,
-                    'dest_latitude'  => $request->dest_latitude,
-                    'dest_longitude' => $request->dest_longitude,
-                    'dest_postal_code' => $request->dest_postal_code,
+                    'dest_latitude'         => $request->dest_latitude,
+                    'dest_longitude'        => $request->dest_longitude,
+                    'dest_postal_code'      => $request->dest_postal_code,
                     'estimated_date'        => $request->estimated_date,
                     'description'           => $request->description,
                     'insurance'             => $request->insurance,
                 ]
             );
+
+
+            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
+            ->where('cs.code', $request->code_serv)
+            ->select('services.id')
+            ->pluck('services.id');
+ 
+            foreach ($add_serv as $key => $id) {
+
+                $mount = $key == 0 ? $transport->application->amount * 0.15 : $transport->application->amount * 0.5 ;
+
+                ApplicationDetail::updateOrCreate([
+                     'application_id' =>  $request->application_id,
+                     'service_id' => $id
+                     ],                    
+                     [
+                        'amount' =>  $mount,
+                        'currency_id' =>  1
+                     ],
+                 );
+
+             // update application summary main description
+              $description = $key == 0 ? 'B.- Transporte Internacional' : 'C.- Seguro Transporte';
+              $app_summ = \DB::table('application_sumamries')
+              ->where([
+                 ["application_id", $request->application_id],
+                 ["category_service_id", 3],
+                 ["description", $description]
+                 ])
+             ->update(['amount' =>  $mount,  'currency_id' =>  1]);
+ 
+             }
+
+
 
             $this->load($request->input('dataLoad'),$request->application_id);
 
@@ -469,7 +504,7 @@ class ApplicationController extends Controller
             ->where('cs.code', $request->code_serv)
             ->select('services.id')
             ->pluck('services.id');
-            //  dd($add_serv );
+ 
             foreach ($add_serv as $key => $id) {
 
                 $mount = $key == 0 ? $request->agent_payment : 0 ;
@@ -497,8 +532,6 @@ class ApplicationController extends Controller
              ->update(['amount' =>  $mount,  'currency_id' =>  1]);
  
              }
-
-
 
             // agregar datos de subida de archivo
             if ($request->hasFile('files')) {
@@ -540,7 +573,6 @@ class ApplicationController extends Controller
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
         
-
             DB::commit();
 
         } catch (\Exception $e) {
