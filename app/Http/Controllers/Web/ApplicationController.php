@@ -257,7 +257,7 @@ class ApplicationController extends Controller
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])
-        ->with('summary','currency','paymentProvider','transport','cargo')
+        ->with('summary','currency','paymentProvider','transport','loads')
         ->firstOrFail();
         
         return response()->json($data, 200);
@@ -340,7 +340,7 @@ class ApplicationController extends Controller
                     ],                    
                     [
                         'amount' =>  $application->amount * ($request[$key]['percentage'] / 100),
-                        'estimated' =>  $request[$key]['datePay']
+                        'estimated' =>  $request[$key]['date_pay']
                     ],
                 );
 
@@ -354,8 +354,8 @@ class ApplicationController extends Controller
                          'percentage'      => $data['percentage'],
                      ],
                      [
-                         'type_pay'        => $data['typePay'],
-                         'date_pay'        => $data['datePay'],
+                         'type_pay'        => $data['type_pay'],
+                         'date_pay'        => $data['date_pay'],
                          'payment_release' => $data['payment_release'],
                      ]
                  );
@@ -368,7 +368,7 @@ class ApplicationController extends Controller
                     ["category_service_id", 1],
                     ["description", $description]
                     ])
-                ->update(['fee_date' => $data['datePay'],
+                ->update(['fee_date' => $data['date_pay'],
                          'amount'    =>  $application->amount * ($data['percentage'] / 100)
                         ]);
              }
@@ -406,13 +406,13 @@ class ApplicationController extends Controller
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'fav_address_origin'    => $request->favoriteAddressOrigin,
-                    'address_origin'        => $request->addressOrigin,
+                    'fav_address_origin'    => $request->fav_address_origin,
+                    'address_origin'        => $request->address_origin,
                     'origin_latitude'       => $request->origin_latitude,
                     'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
-                    'fav_dest_address'      => $request->favoriteAddressDestin,
-                    'address_destination'   => $request->addressDestination,
+                    'fav_dest_address'      => $request->fav_dest_address,
+                    'address_destination'   => $request->address_destination,
                     'dest_latitude'  => $request->dest_latitude,
                     'dest_longitude' => $request->dest_longitude,
                     'dest_postal_code' => $request->dest_postal_code,
@@ -579,7 +579,7 @@ class ApplicationController extends Controller
                 ],
 
                 [
-                    'length_unit'    => $item['lengthUnit'],
+                    'length_unit'    => $item['length_unit'],
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'high'           => $item['high'],

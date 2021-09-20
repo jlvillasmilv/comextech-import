@@ -124,7 +124,7 @@ class Application extends Model
         return $this->hasOne(InternmentProcess::class,'application_id');
     }
 
-    public function cargo()
+    public function loads()
     {
         return $this->hasMany(Load::class,'application_id');
     }

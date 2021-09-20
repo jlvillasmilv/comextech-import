@@ -25,7 +25,7 @@
              <div
             v-for="(item, id) in loads"
             :key="id"
-            class="flex w-full justify-items-center inline-flex dark:text-gray-400 space-x-5 mt-2 "
+            class="flex w-full justify-items-center  dark:text-gray-400 space-x-5 mt-2 "
         >
             <div class="inline w-1/6" v-if="item.mode_selected != 'CONTAINER'">
                 <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
@@ -124,7 +124,7 @@
                     <label class="inline-flex text-sm items-center mx-2 mt-2">
                         <input
                             type="radio"
-                            v-model="item.lengthUnit"
+                            v-model="item.length_unit"
                             class="form-checkbox h-4 w-4 text-gray-800"
                             :id="'lengthUnit' + id"
                             value="cm"
@@ -134,7 +134,7 @@
                         <input
                             :selected="true"
                             type="radio"
-                            v-model="item.lengthUnit"
+                            v-model="item.length_unit"
                             class="form-checkbox h-4 w-4 text-gray-800"
                             :id="'lengthUnit' + id"
                             value="pulg"
@@ -275,8 +275,9 @@ export default {
         ...mapState('load', ['item', 'loads']),
     },
     created(){
-        if(!this.loads.length)
-        this.reset()
+        console.log(this.loads)
+        // if(!this.loads.length)
+        // this.reset()
     }
 };
 </script>

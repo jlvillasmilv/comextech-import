@@ -29,7 +29,8 @@ const state = {
     currencies: [],
     currency:'',
     selectedCondition:'',
-    tabs:''
+    tabs:'',
+    editing:false
 }
  
 
@@ -46,8 +47,8 @@ const mutations={
     SET_CURRENCY(state, {currency}){
         state.currency = currency
     },
-    SET_DATA(state, {fee1, fee2, condition, amount, supplier_id, currency_id, ecommerce_id, ecommerce_url, id:application_id }){
-        
+    SET_DATA(state, {fee1, fee2, condition, amount, supplier_id, currency_id, ecommerce_id, ecommerce_url, id:application_id, payment_provider }, rootState){
+        state.editing = true
         state.data = new Form({
             ...state.data,
             condition:condition,
@@ -58,6 +59,7 @@ const mutations={
             ecommerce_url: ecommerce_url,
             application_id: application_id,
             statusSuppliers: "with",
+            
             valuePercentage:{
                 name:`${fee1}/${fee2}`,
                 valueInitial:fee1
@@ -65,6 +67,7 @@ const mutations={
         }) 
         state.selectedCondition = state.arrayServices.filter(item => item.name === condition )[0]
         state.tabs =  state.selectedCondition.services
+        
     },
     SET_SERVICES_SELECTED(){
 
@@ -91,8 +94,7 @@ const actions = {
             commit('SET_CURRENCIES', data)
         }
     },
-    async getData({ commit, state }, id){
-        const { data } = await axios.get("/get-application/"+id);
+    async setData({ commit, state }, data){
         commit('SET_DATA', data)
         commit('SET_CURRENCY', data)
     },
