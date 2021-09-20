@@ -52,6 +52,8 @@ class ApplicationController extends Controller
         DB::beginTransaction();
         
         try {
+
+
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
                 'user_id'   => auth()->user()->id,
@@ -67,8 +69,14 @@ class ApplicationController extends Controller
                     'condition'    => $request->condition,
                 ]
             );
-            
-          
+
+            if($request->application_id > 0){
+
+                \DB::table('application_sumamries')
+                ->where("application_id", $application->id)
+                ->whereNotIn('service_id', [23, 24])
+                ->update(['currency_id' => $application->currency_id]);
+            }
 
             if($request->application_id > 0){
 
@@ -354,7 +362,6 @@ class ApplicationController extends Controller
     */
     public function transports(Request $request)
     {
-        dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -362,13 +369,13 @@ class ApplicationController extends Controller
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'fav_address_origin'    => $request->favoriteAddressOrigin,
-                    'address_origin'        => $request->addressOrigin,
+                    'fav_address_origin'    => $request->fav_address_origin,
+                    'address_origin'        => $request->address_origin,
                     'origin_latitude'       => $request->origin_latitude,
                     'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
-                    'fav_dest_address'      => $request->favoriteAddressDestin,
-                    'address_destination'   => $request->addressDestination,
+                    'fav_dest_address'      => $request->fav_dest_address,
+                    'address_destination'   => $request->address_destination,
                     'dest_latitude'         => $request->dest_latitude,
                     'dest_longitude'        => $request->dest_longitude,
                     'dest_postal_code'      => $request->dest_postal_code,
@@ -566,7 +573,7 @@ class ApplicationController extends Controller
                 ],
 
                 [
-                    'length_unit'    => $item['lengthUnit'],
+                    'length_unit'    => $item['length_unit'],
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'high'           => $item['high'],
