@@ -16,6 +16,7 @@ class CreateApplicationSumamriesTable extends Migration
         Schema::create('application_sumamries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
+            $table->foreignId('service_id')->references('id')->on('services')->onDelete('SET NULL');
             $table->unsignedBigInteger('category_service_id');
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->string('description',35)->nullable();

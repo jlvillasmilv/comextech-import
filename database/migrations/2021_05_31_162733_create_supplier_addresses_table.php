@@ -19,7 +19,7 @@ class CreateSupplierAddressesTable extends Migration
             $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO'])->default('ALMACEN');
             $table->double('address_latitude')->nullable();
             $table->double('address_longitude')->nullable();
-            $table->string('postal_code',50)->nullable();
+            $table->string('postal_code',25)->nullable();
             $table->string('address');
         });
             

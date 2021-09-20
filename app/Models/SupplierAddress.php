@@ -13,8 +13,11 @@ class SupplierAddress extends Model
     protected $table = 'supplier_addresses';
     protected $fillable = [
         'supplier_id',
-        'address',
         'place',
+        'address',
+        'address_latitude',
+        'address_longitude',
+        'postal_code',
     ];
 
 }
