@@ -2,7 +2,7 @@
     <div class="container grid grid-cols-1 px-6 my-1 ">
         <div class="flex justify-end pb-2">
              <button
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
                 @click="clone()"
             >
                 M O
@@ -24,7 +24,7 @@
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
                 <div class="flex space-x-4 ...">
-                    <div class="w-4/5">
+                    <div class="w-3/4">
                         <table class="w-full table-fixed">
                             <thead>
                                 <tr
@@ -45,16 +45,17 @@
                                     class="text-gray-700 dark:text-gray-400"
                                 >
                                     <td class="text-left px-4 py-3"  >
-                                        <div class="text-xs">
-                                            <div>
-                                                <p class="font-semibold input" :class="key == 1 || key == 2 ? 'ml-5': '' ">
-                                                    {{ item.description }}  
-                                                </p>
-                                            </div>
+                                        <div>
+                                            <p class="font-semibold input" :class="key == 1 || key == 2 ? 'ml-5': '' ">
+                                                {{ item.description }}  
+                                            </p>
                                         </div>
                                     </td>
                                     <td class="text-center px-4 py-3">
-                                        {{ getHumanDate(item.fee_date) }}
+                                        <div :class="key == 0 ? 'invisible': '' ">
+                                            {{ getHumanDate(item.fee_date) }}
+                                        </div>
+                                        
                                     </td>
                                     <td class="text-center px-4 py-3">
                                         {{ item.code }}
@@ -66,7 +67,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="w-1/5">
+                    <div class="w-1/4">
                         <table class="w-full table-fixed">
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
@@ -90,7 +91,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td class="text-center px-4 py-3 text-xs">
+                                    <td class="text-center px-4 py-3">
                                         <strong> {{
                                             formatter(totalAmount, currency_ex)
                                         }}</strong>

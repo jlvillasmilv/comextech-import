@@ -1,10 +1,10 @@
 <x-app-layout title="Import">
     <div class="container px-6 mx-auto ">
-        <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <h2 class="mt-5 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             <a href="{{route('address.index')}}">Direcciones de destino</a>  
         </h2>
         <div class="flex justify-center px-6 m-auto my-2 ">
-            <div class=" w-2/3 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
+            <div class="w-2/3 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
                 <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
                     Nueva direccion
                 </h3>
@@ -120,78 +120,6 @@
    initialize() 
 
 })();
-
-function initialize() {
-
-    $('form').on('keyup keypress', function(e) {
-        var keyCode = e.keyCode || e.which;
-        if (keyCode === 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
-    
-    const locationInputs = document.getElementsByClassName("map-input");
-
-    const autocompletes = [];
-    const geocoder = new google.maps.Geocoder;
-    let postalField;
-
-postalField = document.querySelector("#postal_code");
-
-    for (let i = 0; i < locationInputs.length; i++) {
-
-        const input = locationInputs[i];
-        const fieldKey = input.id.replace("-input", "");
-        const isEdit = document.getElementById('address_latitude').value != '' && document.getElementById('address_longitude').value != '';
-
-        const autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.key = fieldKey;
-        autocompletes.push({input: input, autocomplete: autocomplete});
-
-    }
-
-    for (let i = 0; i < autocompletes.length; i++) {
-        const input = autocompletes[i].input;
-        const autocomplete = autocompletes[i].autocomplete;
-        const map = autocompletes[i].map;
-        const marker = autocompletes[i].marker;
-
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            // marker.setVisible(false);
-            const place = autocomplete.getPlace();
-            let postcode = "";
-
-            // Get each component of the address from the place details,
-            // and then fill-in the corresponding field on the form.
-            // place.address_components are google.maps.GeocoderAddressComponent objects
-            for (const component of place.address_components) {
-                const componentType = component.types[0];
-                
-                switch (componentType) {
-                
-                case "postal_code": {
-                    postcode = `${component.long_name}${postcode}`;
-                    break;
-                }
-
-                case "postal_code_suffix": {
-                    postcode = `${postcode}-${component.long_name}`;
-                    break;
-                }
-                
-                }
-            }
-
-            postalField.value = postcode;
-            
-            document.querySelector("#address_latitude").value = place.geometry['location'].lat();
-            document.querySelector("#address_longitude").value = place.geometry['location'].lng();
-
-        });
-    }
-}
-
 
 </script>
 
