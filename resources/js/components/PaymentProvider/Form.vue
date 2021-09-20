@@ -85,7 +85,7 @@
                             Fecha a Pagar Porcentaje </span
                         >
                         <input
-                            v-model="form.datePay"
+                            v-model="form.date_pay"
                             type="date"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             placeholder="Empresa"
@@ -98,7 +98,7 @@
                         </span>
                         <div class="relative">
                             <select
-                                v-model="form.typePay"
+                                v-model="form.type_pay"
                                 class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="grid-state"
                             >
@@ -259,7 +259,7 @@
                                             <p
                                                 class="text-xs text-gray-600 dark:text-gray-400"
                                             >
-                                                {{ getHumanDate(item.datePay) }}
+                                                {{ getHumanDate(item.date_pay) }}
                                             </p>
                                         </div>
                                     </div>
@@ -280,7 +280,7 @@
                                     <span
                                         class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:text-white dark:bg-green-600"
                                     >
-                                        {{ item.typePay }}
+                                        {{ item.type_pay }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-xs font-semibold ">
@@ -320,8 +320,8 @@ export default {
         return {
             form: {
                 percentage: '',
-                datePay: new Date().toISOString().slice(0,10),
-                typePay: '',
+                date_pay: new Date().toISOString().slice(0,10),
+                type_pay: '',
                 payment_release: '',
                 manyPayment: '',
                 id: '',
@@ -346,7 +346,7 @@ export default {
             else this.resetValues(item.percentage)
             this.$store.dispatch("payment/deletePayment", item.id)
         },
-        resetValues(percentage) {
+        resetValues(percentage, percentageInitial = false) {
             this.$store.state.payment.discount = percentage
             this.$store.state.payment.percentageInitial += percentage
         },
@@ -354,7 +354,7 @@ export default {
         
             const { discount, percentageInitial } = this.$store.state.payment
 
-            if ( percentageInitial - discount >= 0 && this.form.typePay != '' &&  this.manyPayment != ''  && this.form.datePay != '' ) {
+            if ( percentageInitial - discount >= 0 && this.form.type_pay != '' &&  this.manyPayment != ''  && this.form.date_pay != '' ) {
                 this.$store.dispatch("payment/addPayment", {
                     ...this.form,
                     percentage: discount,
@@ -364,8 +364,8 @@ export default {
                 })
                 this.form = {
                     percentage: '',
-                    datePay: new Date().toISOString().slice(0,10),
-                    typePay: '',
+                    date_pay: new Date().toISOString().slice(0,10),
+                    type_pay: '',
                     payment_release: '',
                     manyPayment: '',
                     id: '',
@@ -385,7 +385,7 @@ export default {
     },
     computed: {
         ...mapState('payment', ['payment']),
-        ...mapState('application', ['data','currency']),
+        ...mapState('application', ['data','currency', 'editing']),
         amountRound() {
             const { discount } = this.$store.state.payment
             return  Number(Math.round( this.data.amount * ( discount / 100))).toLocaleString()  + ' ' +  this.currency.code
@@ -393,15 +393,19 @@ export default {
          
     },
     created() {
-         
         const { name: typePayment, valueInitial  } = this.data.valuePercentage
-       
-        if(!this.payment.length)
-        if (this.$store.state.application.statusSuppliers == 'E-commerce') {
-            this.$store.state.payment.discount = 100
-        } else if (typePayment !== 'Otros') {
-            this.$store.state.payment.discount  = valueInitial
+
+        if(this.editing && this.payment.length){
+             this.$store.state.payment.discount = 0
+            return this.$store.state.payment.percentageInitial  = 0
         }
+        if(!this.payment.length && !this.editing)
+            return false
+        else if (this.$store.state.application.statusSuppliers == 'E-commerce')  
+            this.$store.state.payment.discount = 100
+        else if (typePayment !== 'Otros')  
+            this.$store.state.payment.discount  = valueInitial
+         
     }
 }
 </script>

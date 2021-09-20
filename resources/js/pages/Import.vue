@@ -27,7 +27,6 @@
                         @submit.prevent="submitFormApplications"
                         @keydown="data.onKeydown($event)"
                     >
-                      
                         <div class="dark:text-gray-200">
                             <h3 class="my-3  text-gray-500  text-sm">
                                  Informacion de Proveedor
@@ -452,7 +451,12 @@ export default {
 
             if (application !== null) {
               this.toogleMenuTabs()
-              this.$store.dispatch('application/getData', application.value)
+              const { data } = await axios.get("/get-application/" + application.value);
+   
+              this.$store.dispatch('application/setData', data)
+              this.$store.dispatch('payment/setPayment', data.payment_provider )
+              this.$store.dispatch('load/setLoad', data )
+              this.$store.dispatch('address/setTransport', data )
               this.$store.dispatch('application/getServicesSelecteds', application.value)
             }else{
                 this.$store.state.application.tabs = servicedefault
