@@ -44,11 +44,16 @@ class SupplierController extends Controller
         $supplier->user_id = auth()->user()->id;
         $supplier->save();
 
-        foreach ($request->input('origin_address') as $key => $value) {
-            $supplier->supplierAddress()->create([
-                  'address' => $value,
-                  'place'   => $request->place[$key],
-                ]);
+        if($request->has('origin_address')){
+            foreach ($request->input('origin_address') as $key => $value) {
+                $supplier->supplierAddress()->create([
+                    'address' => $value,
+                    'place'   => $request->place[$key],
+                    'address_latitude'  => $request->address_latitude[$key],
+                    'address_longitude' => $request->address_longitude[$key],
+                    'postal_code'       => $request->postal_code[$key],
+                    ]);
+            }
         }
 
         $notification = array(
@@ -95,11 +100,14 @@ class SupplierController extends Controller
 
         $supplier->fill($request->all())->save();
 
-        if($request->has('place')){
-            foreach ($request->input('place') as $key => $value) {
+        if($request->has('origin_address')){
+            foreach ($request->input('origin_address') as $key => $value) {
                 $supplier->supplierAddress()->create([
-                      'address' => $request->origin_address[$key],
-                      'place'   => $value
+                    'address' => $value,
+                    'place'   => $request->place[$key],
+                    'address_latitude'  => $request->address_latitude[$key],
+                    'address_longitude' => $request->address_longitude[$key],
+                    'postal_code'       => $request->postal_code[$key],
                     ]);
             }
         }
@@ -129,7 +137,7 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         Supplier::findOrFail($id)->delete();
-        return response(null, 204);
+        return  response()->json(null, 204);
     }
 
       /**
@@ -141,6 +149,6 @@ class SupplierController extends Controller
     public function remove(Request $request)
     {
         SupplierAddress::findOrFail($request->id)->delete();
-        return response(null, 200);
+        return  response()->json(null, 200);
     }
 }
