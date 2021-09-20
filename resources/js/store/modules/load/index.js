@@ -9,7 +9,7 @@ const state = {
         length: "",
         width: "",
         high: "",
-        lengthUnit: "cm",
+        length_unit: "cm",
         id: 1,
         cbm: "",
         weight: false,
@@ -30,6 +30,9 @@ const mutations = {
     },
     REMOVED_LOAD(state, id){
         state.loads.splice(id, 1);
+    }, 
+    SET_LOAD(state, data){
+        console.log(data, 'LOAD')
     }
 };
 
@@ -39,7 +42,11 @@ const actions = {
     }, 
     removedLoad({commit }, id){
         commit("REMOVED_LOAD", id);
-    }
+    },
+    setLoad({commit }, data){
+        commit("SET_LOAD", data);
+    },
+   
 };
 
 export default {
