@@ -72,7 +72,7 @@ class ApplicationController extends Controller
 
             if($request->application_id > 0){
 
-                \DB::table('application_sumamries')
+                \DB::table('application_summaries')
                 ->where("application_id", $application->id)
                 ->whereNotIn('service_id', [23, 24])
                 ->update(['currency_id' => $application->currency_id]);
@@ -80,7 +80,7 @@ class ApplicationController extends Controller
 
             if($request->application_id > 0){
 
-                \DB::table('application_sumamries')
+                \DB::table('application_summaries')
                 ->where("application_id", $application->id)
                 ->update(['currency_id' => $application->currency_id]);
             }
@@ -91,14 +91,14 @@ class ApplicationController extends Controller
 
             if($request->application_id == 0)
             {
-                $add_sumamry = Service::where('sumamry', true)
+                $add_summary = Service::where('summary', true)
                 ->select('id','name','category_service_id')
                 ->orderby('name')
                 ->get();
 
-                foreach ($add_sumamry as $key => $item) {
+                foreach ($add_summary as $key => $item) {
 
-                    \DB::table('application_sumamries')->insert([
+                    \DB::table('application_summaries')->insert([
                         [   
                             "application_id"      => $application->id,
                             "category_service_id" => $item->category_service_id,
@@ -112,7 +112,7 @@ class ApplicationController extends Controller
             }
             
             $add_serv = Service::whereIn('category_service_id', $cat_serv)
-            ->where('sumamry', false)
+            ->where('summary', false)
             ->select('id')
             ->pluck('id');
 
@@ -153,7 +153,7 @@ class ApplicationController extends Controller
             if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
                // Load::where('application_id', $application->id)->delete();
 
-               dd(!in_array(['ICS01','ICS03','ICS04'], $request->services));
+               // dd(!in_array(['ICS01','ICS03','ICS04'], $request->services));
             }
 
             if(LocalWarehouse::where('application_id', $application->id)->exists() && !in_array('ICS05', $request->services) ){
@@ -327,7 +327,7 @@ class ApplicationController extends Controller
 
                  // update application summary
                  $service_id = $key == 0 ? 21 : 22;
-                 $app_summ = \DB::table('application_sumamries')
+                 $app_summ = \DB::table('application_summaries')
                  ->where([
                     ["application_id", $application->id],
                     ["category_service_id", 1],
@@ -339,7 +339,7 @@ class ApplicationController extends Controller
              }
 
              // update application summary main description
-             $app_summ = \DB::table('application_sumamries')
+             $app_summ = \DB::table('application_summaries')
              ->where([
                 ["application_id", $application->id],
                 ["category_service_id", 1],
@@ -411,7 +411,7 @@ class ApplicationController extends Controller
 
              // update application summary main description
               $service_id = $key == 0 ? 23 : 24;
-              $app_summ = \DB::table('application_sumamries')
+              $app_summ = \DB::table('application_summaries')
               ->where([
                  ["application_id", $request->application_id],
                  ["category_service_id", 3],
@@ -487,7 +487,7 @@ class ApplicationController extends Controller
 
              // update application summary main description
               $service_id = $key == 0 ? 25 :($key == 1 ? 26 : 27);
-              $app_summ = \DB::table('application_sumamries')
+              $app_summ = \DB::table('application_summaries')
               ->where([
                  ["application_id", $request->application_id],
                  ["category_service_id", 4],
@@ -591,7 +591,5 @@ class ApplicationController extends Controller
 
         return true;
     }
-
-
 
 }

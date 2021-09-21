@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ApplicationSumamry extends Model
+class ApplicationSummary extends Model
 {
     use HasFactory;
 
-    protected $table = 'application_sumamries';
+    protected $table = 'application_summaries';
 
     public $timestamps = false;
 
@@ -19,5 +19,4 @@ class ApplicationSumamry extends Model
     {
         return $this->belongsTo(Application::class,'application_id');
     }
-
 }

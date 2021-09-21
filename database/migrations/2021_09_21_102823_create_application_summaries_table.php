@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApplicationSumamriesTable extends Migration
+class CreateApplicationSummariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateApplicationSumamriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('application_sumamries', function (Blueprint $table) {
+        Schema::create('application_summaries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->foreignId('service_id')->references('id')->on('services')->onDelete('SET NULL');
@@ -32,6 +32,6 @@ class CreateApplicationSumamriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('application_sumamries');
+        Schema::dropIfExists('application_summaries');
     }
 }
