@@ -19,4 +19,14 @@ class ApplicationSummary extends Model
     {
         return $this->belongsTo(Application::class,'application_id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(CategoryService::class, 'category_service_id');
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 }
