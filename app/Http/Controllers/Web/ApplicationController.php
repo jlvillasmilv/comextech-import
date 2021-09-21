@@ -44,6 +44,7 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+        //dd($request->all());
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         /** Evalua la el estado de una solicitud **/
@@ -133,7 +134,7 @@ class ApplicationController extends Controller
                 );
             }
 
-            DB::commit();
+           
 
              /*******case exist services previous associate********/
 
@@ -149,15 +150,17 @@ class ApplicationController extends Controller
                 PaymentProvider::where('application_id', $application->id)->delete();
             }
 
-            // if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
-            //     Load::where('application_id', $application->id)->delete();
-            // }
+            if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
+               // Load::where('application_id', $application->id)->delete();
+
+               dd(!in_array(['ICS01','ICS03','ICS04'], $request->services));
+            }
 
             if(LocalWarehouse::where('application_id', $application->id)->exists() && !in_array('ICS05', $request->services) ){
                 LocalWarehouse::where('application_id', $application->id)->delete();
             }
 
-
+            DB::commit();
             /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
             $user_admin = User::whereHas('roles', function ($query) {
                 $query->where('name','=', 'Admin');
