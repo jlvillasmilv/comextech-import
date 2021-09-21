@@ -82,27 +82,7 @@ class ApplicationController extends Controller
             ->select('id')
             ->pluck('id');
 
-            if($request->application_id == 0)
-            {
-                $add_summary = Service::where('summary', true)
-                ->select('id','name','category_service_id')
-                ->orderby('name')
-                ->get();
-
-                foreach ($add_summary as $key => $item) {
-
-                    \DB::table('application_summaries')->insert([
-                        [   
-                            "application_id"      => $application->id,
-                            "category_service_id" => $item->category_service_id,
-                            "service_id"  => $item->id, 
-                            "currency_id" => $application->currency_id,
-                            "fee_date" => date('Y-m-d')
-                        ]
-                    ]);
-                }
-            }
-            
+                       
             $add_serv = Service::whereIn('category_service_id', $cat_serv)
             ->where('summary', false)
             ->select('id')
@@ -173,17 +153,40 @@ class ApplicationController extends Controller
                 LocalWarehouse::where('application_id', $application->id)->delete();
             }
 
+            if($request->application_id == 0)
+            {
+                $add_summary = Service::where('summary', true)
+                ->select('id','name','category_service_id')
+                ->orderby('name')
+                ->get();
+
+                foreach ($add_summary as $key => $item) {
+
+                    \DB::table('application_summaries')->insert([
+                        [   
+                            "application_id"      => $application->id,
+                            "category_service_id" => $item->category_service_id,
+                            "service_id"  => $item->id, 
+                            "currency_id" => $application->currency_id,
+                            "fee_date" => date('Y-m-d')
+                        ]
+                    ]);
+                }
+
+                $user_admin = User::whereHas('roles', function ($query) {
+                    $query->where('name','=', 'Admin');
+                })->pluck('id');
+    
+                User::all()
+                    ->whereIn('id', $user_admin)
+                    ->each(function (User $user) use ($application) {
+                        $user->notify(new AdminApplicationNotification($application));
+                });
+            }
+
             DB::commit();
             /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
-            $user_admin = User::whereHas('roles', function ($query) {
-                $query->where('name','=', 'Admin');
-            })->pluck('id');
-
-            User::all()
-                ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($application) {
-                    $user->notify(new AdminApplicationNotification($application));
-                });
+           
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -430,7 +433,7 @@ class ApplicationController extends Controller
                  ["category_service_id", 3],
                  ["service_id", $service_id]
                  ])
-             ->update(['amount' =>  $mount,  'currency_id' =>  8]);
+             ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
  
              }
 
