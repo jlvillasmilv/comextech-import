@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     //Summry Applications
     Route::get('/application-summary/{id}', function ($id) {
    
-        $summary = \DB::table('application_sumamries as aps')
+        $summary = \DB::table('application_summaries as aps')
         ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
         ->where('application_id', $id)
         ->select('aps.id', 'currencies.code','aps.description','aps.fee_date','aps.amount', 'aps.amount as amo2' )

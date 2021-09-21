@@ -85,7 +85,7 @@ class Application extends Model
 
     public function summary()
     {
-        return $this->hasMany(ApplicationSumamry::class,'application_id')->OrderBy('id');
+        return $this->hasMany(ApplicationSummary::class,'application_id')->OrderBy('id');
     }
 
     public function requirements()
