@@ -53,7 +53,6 @@ class ApplicationController extends Controller
         
         try {
 
-
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
                 'user_id'   => auth()->user()->id,
@@ -150,9 +149,9 @@ class ApplicationController extends Controller
                 PaymentProvider::where('application_id', $application->id)->delete();
             }
 
-            if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
-                Load::where('application_id', $application->id)->delete();
-            }
+            // if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
+            //     Load::where('application_id', $application->id)->delete();
+            // }
 
             if(LocalWarehouse::where('application_id', $application->id)->exists() && !in_array('ICS05', $request->services) ){
                 LocalWarehouse::where('application_id', $application->id)->delete();
