@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Application;
+use App\Models\{Application,Service};
 
 class ApplicationSeeder extends Seeder
 {
@@ -37,21 +37,38 @@ class ApplicationSeeder extends Seeder
                 'amount'      =>  3990000,
                 'currency_id' => 1,
                 'amount2'     => 5700,
-                'currency2_id' => 2,
+                'currency2_id' => 8,
                 'estimated'   => date('Y-m-d'),
             ],
-        ]);
-
-        \DB::table('application_details')->insert([
             [
                 'application_id' => $application->id,
                 'service_id'  => 8,
                 'amount'      => 99750,
                 'currency_id' => 1,
                 'amount2'     => 143,
-                'currency2_id' => 2,
+                'currency2_id' => 8,
                 'estimated'   => date('Y-m-d'),
             ],
         ]);
+
+        $add_summary = Service::where('summary', true)
+        ->select('id','name','category_service_id')
+        ->orderby('name')
+        ->get();
+
+        foreach ($add_summary as $key => $item) {
+
+            \DB::table('application_summaries')->insert([
+                [   
+                    "application_id"      => $application->id,
+                    "category_service_id" => $item->category_service_id,
+                    "service_id"  => $item->id, 
+                    "currency_id" => 8,
+                    "fee_date" => date('Y-m-d')
+                ]
+            ]);
+        }
+
+        
     }
 }

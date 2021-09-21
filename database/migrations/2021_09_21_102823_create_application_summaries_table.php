@@ -19,7 +19,6 @@ class CreateApplicationSummariesTable extends Migration
             $table->foreignId('service_id')->references('id')->on('services')->onDelete('SET NULL');
             $table->unsignedBigInteger('category_service_id');
             $table->unsignedBigInteger('currency_id')->nullable();
-            $table->string('description',35)->nullable();
             $table->date('fee_date')->nullable();
             $table->decimal('amount', 12, 2)->default(0)->nullable();
         });

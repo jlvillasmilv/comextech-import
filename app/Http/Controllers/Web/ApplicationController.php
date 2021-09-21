@@ -74,14 +74,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereNotIn('service_id', [23, 24])
-                ->update(['currency_id' => $application->currency_id]);
-            }
-
-            if($request->application_id > 0){
-
-                \DB::table('application_summaries')
-                ->where("application_id", $application->id)
+                ->whereIn('service_id', [20, 21,22])
                 ->update(['currency_id' => $application->currency_id]);
             }
 
@@ -89,28 +82,7 @@ class ApplicationController extends Controller
             ->select('id')
             ->pluck('id');
 
-            if($request->application_id == 0)
-            {
-                $add_summary = Service::where('summary', true)
-                ->select('id','name','category_service_id')
-                ->orderby('name')
-                ->get();
-
-                foreach ($add_summary as $key => $item) {
-
-                    \DB::table('application_summaries')->insert([
-                        [   
-                            "application_id"      => $application->id,
-                            "category_service_id" => $item->category_service_id,
-                            "service_id"  => $item->id, 
-                            "currency_id" => $application->currency_id ,
-                            "description" => $item->name,
-                            "fee_date" => date('Y-m-d')
-                        ]
-                    ]);
-                }
-            }
-            
+                       
             $add_serv = Service::whereIn('category_service_id', $cat_serv)
             ->where('summary', false)
             ->select('id')
@@ -134,43 +106,87 @@ class ApplicationController extends Controller
                 );
             }
 
-           
+            /*******case exist services previous associate delete and amoutn summary 0********/
 
-             /*******case exist services previous associate********/
+            if(PaymentProvider::where('application_id', $application->id)->exists() && !in_array('ICS01', $request->services) ){
+
+                PaymentProvider::where('application_id', $application->id)->delete();
+
+                \DB::table('application_summaries')
+                ->where("application_id", $application->id)
+                ->whereIn('service_id', [20, 21,22])
+                ->update(['amount' => 0]);
+            }
 
             if(Transport::where('application_id', $application->id)->exists() && !in_array('ICS03', $request->services) ){
+
                 Transport::where('application_id', $application->id)->delete();
+
+                \DB::table('application_summaries')
+                ->where("application_id", $application->id)
+                ->whereIn('service_id', [23, 24])
+                ->update(['amount' => 0]);
             }
 
             if(InternmentProcess::where('application_id', $application->id)->exists() && !in_array('ICS04', $request->services) ){
+                
                 InternmentProcess::where('application_id', $application->id)->delete();
+
+                \DB::table('application_summaries')
+                ->where("application_id", $application->id)
+                ->whereIn('service_id', [25, 26,27])
+                ->update(['amount' => 0]);
             }
 
-            if(PaymentProvider::where('application_id', $application->id)->exists() && !in_array('ICS01', $request->services) ){
-                PaymentProvider::where('application_id', $application->id)->delete();
-            }
+            if(Load::where('application_id', $application->id)->exists() && !in_array('ICS03', $request->services)){
+                //'ICS01','ICS03','ICS04'
+                if(Load::where('application_id', $application->id)->exists() && in_array('ICS04', $request->services)){
 
-            if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
-               // Load::where('application_id', $application->id)->delete();
+                }
+                else{
+                    Load::where('application_id', $application->id)->delete();
+                }
 
-               // dd(!in_array(['ICS01','ICS03','ICS04'], $request->services));
             }
 
             if(LocalWarehouse::where('application_id', $application->id)->exists() && !in_array('ICS05', $request->services) ){
                 LocalWarehouse::where('application_id', $application->id)->delete();
             }
 
+            if($request->application_id == 0)
+            {
+                $add_summary = Service::where('summary', true)
+                ->select('id','name','category_service_id')
+                ->orderby('name')
+                ->get();
+
+                foreach ($add_summary as $key => $item) {
+
+                    \DB::table('application_summaries')->insert([
+                        [   
+                            "application_id"      => $application->id,
+                            "category_service_id" => $item->category_service_id,
+                            "service_id"  => $item->id, 
+                            "currency_id" => $application->currency_id,
+                            "fee_date" => date('Y-m-d')
+                        ]
+                    ]);
+                }
+
+                $user_admin = User::whereHas('roles', function ($query) {
+                    $query->where('name','=', 'Admin');
+                })->pluck('id');
+    
+                User::all()
+                    ->whereIn('id', $user_admin)
+                    ->each(function (User $user) use ($application) {
+                        $user->notify(new AdminApplicationNotification($application));
+                });
+            }
+
             DB::commit();
             /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
-            $user_admin = User::whereHas('roles', function ($query) {
-                $query->where('name','=', 'Admin');
-            })->pluck('id');
-
-            User::all()
-                ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($application) {
-                    $user->notify(new AdminApplicationNotification($application));
-                });
+           
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -338,7 +354,7 @@ class ApplicationController extends Controller
                         ]);
              }
 
-             // update application summary main description
+             // update application summary
              $app_summ = \DB::table('application_summaries')
              ->where([
                 ["application_id", $application->id],
@@ -409,7 +425,7 @@ class ApplicationController extends Controller
                      ],
                  );
 
-             // update application summary main description
+             // update application summary
               $service_id = $key == 0 ? 23 : 24;
               $app_summ = \DB::table('application_summaries')
               ->where([
@@ -417,7 +433,7 @@ class ApplicationController extends Controller
                  ["category_service_id", 3],
                  ["service_id", $service_id]
                  ])
-             ->update(['amount' =>  $mount,  'currency_id' =>  8]);
+             ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
  
              }
 
@@ -453,14 +469,14 @@ class ApplicationController extends Controller
             $internment = InternmentProcess::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'custom_agent_id'       => $request->custom_agent_id,
-                    'customs_house'         => $request->customs_house,
-                    'agent_payment'         => $request->agent_payment,
-                    'iva'                   => $request->iva,
-                     'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
-                     'adv'                  => $request->adv,
-                     'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
-                     'cif_amt'              => round($request->cif_amt, 0),
+                    'custom_agent_id'      => $request->custom_agent_id,
+                    'customs_house'        => $request->customs_house,
+                    'agent_payment'        => $request->agent_payment,
+                    'iva'                  => $request->iva,
+                    'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
+                    'adv'                  => $request->adv,
+                    'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
+                    'cif_amt'              => round($request->cif_amt, 0),
                 ]
             );
 
@@ -485,7 +501,7 @@ class ApplicationController extends Controller
                      ],
                  );
 
-             // update application summary main description
+             // update application summary
               $service_id = $key == 0 ? 25 :($key == 1 ? 26 : 27);
               $app_summ = \DB::table('application_summaries')
               ->where([
@@ -549,7 +565,6 @@ class ApplicationController extends Controller
 
     public function localWarehouse(LocalWarehouseRequest $request)
     {
-       
         $localw =  LocalWarehouse::updateOrCreate(
             ['application_id'   => $request->application_id, ],
             [
