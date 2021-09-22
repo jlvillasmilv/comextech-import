@@ -18,6 +18,8 @@ class Application extends Model
                            'supplier_id',
                            'application_statuses_id',
                            'currency_id',
+                           'ecommerce_id',
+                           'ecommerce_url',
                            'description',
                            'condition',
                            'fee1',
