@@ -52,7 +52,7 @@ class ApplicationController extends Controller
 
         DB::beginTransaction();
         
-        try {
+         try {
 
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
@@ -64,11 +64,17 @@ class ApplicationController extends Controller
                     'fee1'         => $request->valuePercentage['valueInitial'],
                     'fee2'         => 100 - $request->valuePercentage['valueInitial'],
                     'application_statuses_id' => 1,
-                    'currency_id'  => $request->currency_id,
+                    'currency_id'   => $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
-                    'condition'    => $request->condition,
+                    'ecommerce_id'  => $request->statusSuppliers == 'E-commerce' ? $request->supplier_id : null,
+                    'condition'     => $request->condition,
                 ]
             );
+
+            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
+            ->whereIn('cs.code', $request->services)
+            ->where('summary', false)
+            ->select('services.id as service_id','cs.id as category_id');
 
             if($request->application_id > 0){
 
@@ -76,34 +82,28 @@ class ApplicationController extends Controller
                 ->where("application_id", $application->id)
                 ->whereIn('service_id', [20, 21,22])
                 ->update(['currency_id' => $application->currency_id]);
-            }
 
-            $cat_serv = CategoryService::whereIn('code', $request->services)
-            ->select('id')
-            ->pluck('id');
-
-                       
-            $add_serv = Service::whereIn('category_service_id', $cat_serv)
-            ->where('summary', false)
-            ->select('id')
-            ->pluck('id');
-
-            \DB::table('application_details')
-                ->whereNotIn('service_id', $add_serv)
+                \DB::table('application_details')
+                ->whereNotIn('service_id', $add_serv->pluck('services.id as service_id'))
                 ->where('application_id', $application->id)
                 ->delete();
-               
-            foreach ($add_serv as $key => $id) {
+            }
 
+
+            foreach ($add_serv->get() as $key => $item) {
+                
                 ApplicationDetail::updateOrCreate(
                     ['application_id' => $application->id,
-                     'service_id'   => $id,
+                     'service_id'     => $item->service_id,
                     ],
                     [
+                       'category_service_id' => $item->category_id,
                        'currency_id'  => $application->currency_id,
                        'currency2_id' => $application->currency_id,
                     ]
                 );
+
+                //dd( $item->service_id);
             }
 
             /*******case exist services previous associate delete and amoutn summary 0********/
@@ -238,7 +238,7 @@ class ApplicationController extends Controller
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])
-        ->with('summary','currency','paymentProvider','transport','loads')
+        ->with('summary','currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
         ->firstOrFail();
         
         return response()->json($data, 200);
@@ -309,6 +309,7 @@ class ApplicationController extends Controller
 
 
             $add_serv = Service::where('category_service_id', $cat_serv)
+                 ->where('summary', false)
                  ->select('id')
                  ->pluck('id');
                 
@@ -408,6 +409,7 @@ class ApplicationController extends Controller
 
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)
+            ->where('services.summary', false)
             ->select('services.id')
             ->pluck('services.id');
  
@@ -482,6 +484,7 @@ class ApplicationController extends Controller
 
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)
+            ->where('services.summary', false)
             ->select('services.id')
             ->pluck('services.id');
  
