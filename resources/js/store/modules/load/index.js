@@ -32,7 +32,8 @@ const mutations = {
         state.loads.splice(id, 1);
     }, 
     SET_LOAD(state, data){
-        console.log(data, 'LOAD')
+        state.loads = data
+        state.item.mode_selected = data[0].mode_selected
     }
 };
 
@@ -44,7 +45,7 @@ const actions = {
         commit("REMOVED_LOAD", id);
     },
     setLoad({commit }, data){
-        commit("SET_LOAD", data);
+        commit("SET_LOAD", data.loads);
     },
    
 };

@@ -106,16 +106,6 @@
                                 v-on:placechanged="getAddressDestination"
                             >
                             </vue-google-autocomplete>
-                            <!-- <input
-                                v-if="!expenses.fav_dest_address"
-                                v-model="expenses.addressDestination"
-                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                :placeholder="
-                                    expenses.fav_dest_address
-                                        ? 'Nombre o codigo Puerto/Aeropuerto'
-                                        : 'Direccion, Codigo Postal'
-                                "
-                            /> -->
                             <v-select
                                 v-else
                                 label="address"
