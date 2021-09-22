@@ -26,7 +26,7 @@ class ApplicationSeeder extends Seeder
             'amount'                  => '50000',
             'fee1'                    => '20',
             'fee2'                    => '80',
-            'condition'               => 'FBO',
+            'condition'               => 'EXW',
         ]);
 
 
