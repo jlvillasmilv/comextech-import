@@ -399,7 +399,7 @@ export default {
              this.$store.state.payment.discount = 0
             return this.$store.state.payment.percentageInitial  = 0
         }
-        if(!this.payment.length && !this.editing)
+        if(this.payment.length && !this.editing)
             return false
         else if (this.$store.state.application.statusSuppliers == 'E-commerce')  
             this.$store.state.payment.discount = 100

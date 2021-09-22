@@ -1,6 +1,5 @@
 <template>
     <div>
-         
         <div class="flex flex-wrap">
             <h1 class="flex-auto text-2xl text-blue-900 ">
                 {{ title }}
@@ -17,7 +16,7 @@
                     ]"
                     @click="typeSelected(name)"
                 >
-                    {{ name }}
+                    {{ name }}  
                 </li>
             </ul>
         </div>
@@ -264,7 +263,8 @@ export default {
         },
         typeSelected(value) {
             this.$store.state.load.item.mode_selected = value;
-            this.reset();
+                this.reset();      
+            
         },
         reset() {
             this.$store.state.load.loads = [];
@@ -275,9 +275,8 @@ export default {
         ...mapState('load', ['item', 'loads']),
     },
     created(){
-        console.log(this.loads)
-        // if(!this.loads.length)
-        // this.reset()
+        if(!this.loads.length)
+        this.reset()
     }
 };
 </script>

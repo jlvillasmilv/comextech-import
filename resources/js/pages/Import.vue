@@ -446,22 +446,18 @@ export default {
             this.$store.dispatch('application/getSuppliers')
             this.$store.dispatch('application/getServices')
             this.$store.dispatch('application/getCurrencies')
-            
             let application = document.getElementById("applications")
-
             if (application !== null) {
-              this.toogleMenuTabs()
-              const { data } = await axios.get("/get-application/" + application.value);
-   
-              this.$store.dispatch('application/setData', data)
-              this.$store.dispatch('payment/setPayment', data.payment_provider )
-              this.$store.dispatch('load/setLoad', data )
-              this.$store.dispatch('address/setTransport', data )
-              this.$store.dispatch('application/getServicesSelecteds', application.value)
+                this.toogleMenuTabs()
+                const { data } = await axios.get("/get-application/" + application.value);
+                this.$store.dispatch('application/setData', data)
+                this.$store.dispatch('payment/setPayment', data.payment_provider )
+                this.$store.dispatch('load/setLoad', data )
+                this.$store.dispatch('address/setTransport', data )
+                this.$store.dispatch('application/getServicesSelecteds', application.value)
             }else{
                 this.$store.state.application.tabs = servicedefault
             }
-
         } catch (error) {
           
         }

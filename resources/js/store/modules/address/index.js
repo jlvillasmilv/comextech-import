@@ -1,6 +1,7 @@
 import Form from 'vform'
 
 const state = {
+    
     expenses: new Form({
         application_id: 0,
         address_origin: "",
@@ -35,7 +36,7 @@ const mutations = {
         state.addressDestination = payload
     },
     SET_TRANSPORT(state, { transport }) {
-       console.log('SET_TRANSPORT', transport)
+       state.expenses = new Form(transport) 
     }
 
 }
