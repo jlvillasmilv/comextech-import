@@ -209,11 +209,9 @@ class ApplicationController extends Controller
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
-        //dd($data);
         return view('applications.show', compact('application'));
        
     }
-
 
     public function edit($id)
     {
@@ -238,7 +236,7 @@ class ApplicationController extends Controller
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])
-        ->with('summary','currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
+        ->with('currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
         ->firstOrFail();
         
         return response()->json($data, 200);
