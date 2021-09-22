@@ -52,7 +52,7 @@ class ApplicationController extends Controller
 
         DB::beginTransaction();
         
-         try {
+        try {
 
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
@@ -61,8 +61,8 @@ class ApplicationController extends Controller
                 [
                     'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'amount'       => $request->amount,
-                    'fee1'         => $request->valuePercentage['valueInitial'],
-                    'fee2'         => 100 - $request->valuePercentage['valueInitial'],
+                    'fee1'         => $request->statusSuppliers == 'with' ? $request->valuePercentage['valueInitial'] : 0,
+                    'fee2'         => $request->statusSuppliers == 'with' ? 100 - $request->valuePercentage['valueInitial'] : 0,
                     'application_statuses_id' => 1,
                     'currency_id'   => $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
@@ -102,8 +102,6 @@ class ApplicationController extends Controller
                        'currency2_id' => $application->currency_id,
                     ]
                 );
-
-                //dd( $item->service_id);
             }
 
             /*******case exist services previous associate delete and amoutn summary 0********/
