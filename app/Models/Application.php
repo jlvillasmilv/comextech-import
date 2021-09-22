@@ -113,17 +113,17 @@ class Application extends Model
 
     public function paymentProvider()
     {
-        return $this->hasMany(PaymentProvider::class,'application_id')->orderBy('id');
+        return $this->hasMany(PaymentProvider::class,'application_id')->orderBy('id')->select('*',\DB::raw("'ICS01' as code_serv"));
     }
 
     public function transport()
     {
-        return $this->hasOne(Transport::class,'application_id');
+        return $this->hasOne(Transport::class,'application_id')->select('*',\DB::raw("'ICS03' as code_serv"));
     }
 
     public function internmentProcess()
     {
-        return $this->hasOne(InternmentProcess::class,'application_id');
+        return $this->hasOne(InternmentProcess::class,'application_id')->select('*',\DB::raw("'ICS04' as code_serv"));
     }
 
     public function loads()
@@ -133,7 +133,7 @@ class Application extends Model
 
     public function localWarehouse()
     {
-        return $this->hasOne(LocalWarehouse::class,'application_id');
+        return $this->hasOne(LocalWarehouse::class,'application_id')->select('*',\DB::raw("'ICS05' as code_serv"));
     }
 
 }

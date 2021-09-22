@@ -54,16 +54,15 @@ class ApplicationSeeder extends Seeder
         ]);
 
         \DB::table('transports')->insert([
-            
-                [
-                    'application_id'        => $application->id,
-                    'fav_address_origin'    => true,
-                    'address_origin'        => 1,
-                    'fav_dest_address'      => true,
-                    'address_destination'   => 2,
-                    'estimated_date'        => date('Y-m-d'),
-                    'description'           => 'Carga',
-                ]
+            [
+                'application_id'        => $application->id,
+                'fav_address_origin'    => true,
+                'address_origin'        => 1,
+                'fav_dest_address'      => true,
+                'address_destination'   => 2,
+                'estimated_date'        => date('Y-m-d'),
+                'description'           => 'Carga',
+            ]
         ]);
 
         $add_summary = Service::where('summary', true)
