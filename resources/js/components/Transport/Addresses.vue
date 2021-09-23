@@ -128,7 +128,7 @@
                   type="checkbox"
                   class="form-checkbox h-4 w-4 text-gray-800"
                   v-model="expenses.fav_dest_address"
-                  @change="expenses.addressDestination = ''"
+                  @change="expenses.address_destination = ''"
                 /><span class="ml-2 text-gray-700">
                   Direccion de Destino Favoritas
                 </span>
@@ -295,7 +295,7 @@ export default {
       }
     },
     getAddressDestination: function (addressData, placeResultData, id) {
-      this.expenses.addressDestination = placeResultData.formatted_address;
+      this.expenses.address_destination = placeResultData.formatted_address;
       this.expenses.dest_latitude = addressData.latitude;
       this.expenses.dest_longitude = addressData.longitude;
 
