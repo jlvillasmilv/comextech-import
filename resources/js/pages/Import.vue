@@ -401,15 +401,15 @@ export default {
       ],
       origin_transport: "",
       objectPayment:{
-            "id": 8,
-            "name": "Pagos",
-            "selected": true,
-            "aggregate": false,
-            "pivot": {
-              "application_cond_sale_id": 1,
-              "category_service_id": 8
-            }
-          }
+        "id": 8,
+        "name": "Pagos",
+        "code": "ICS07",
+        "selected": true,
+        "pivot": {
+          "application_cond_sale_id": 1,
+          "category_service_id": 8
+        }
+      }
     };
   },
   components: {
