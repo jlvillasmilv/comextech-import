@@ -344,7 +344,6 @@ export default {
           submit: false,
         },
       ],
-
       treaties: [
         {
           name: "Otro Documento",
@@ -355,7 +354,6 @@ export default {
       custom_agents: [],
       showInputFile: false,
       nameFileUpload: "",
-      // amountCIF:111
     };
   },
   methods: {
