@@ -1,6 +1,7 @@
 <template>
   <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
     <tabs />
+ 
     <div class="w-full p-2">
       <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
         <form-payment />
@@ -399,6 +400,16 @@ export default {
         { name: "OTROS", valueInitial: 0 },
       ],
       origin_transport: "",
+      objectPayment:{
+        "id": 8,
+        "name": "Pagos",
+        "code": "ICS07",
+        "selected": true,
+        "pivot": {
+          "application_cond_sale_id": 1,
+          "category_service_id": 8
+        }
+      }
     };
   },
   components: {
@@ -433,6 +444,7 @@ export default {
         const { data } = await this.data.post("/applications");
         this.busy = true;
         if (data) {
+          this.$store.state.selectedServices.push(this.objectPayment)
           // Mostrar mensaje confirmacion
           Swal.fire({
             position: "center",
@@ -449,6 +461,7 @@ export default {
           // asignar id devuelta al form id
           this.data.application_id = data.id;
           this.$store.dispatch("exchange/getSummary", data.id);
+          
           //  cerrar modal
           this.$store.state.statusModal = !this.$store.state.statusModal;
           //  posicion de modal comienzan en 0
