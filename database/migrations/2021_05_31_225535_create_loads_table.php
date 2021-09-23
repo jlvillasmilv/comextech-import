@@ -22,9 +22,9 @@ class CreateLoadsTable extends Migration
             $table->boolean('mode_calculate')->default(false);
             $table->string('cbm',20)->nullable();
             $table->string('length_unit',10)->nullable();
-            $table->decimal('length',12,2)->nullable(); 
-            $table->decimal('width',12,2)->nullable(); 
-            $table->decimal('high',12,2)->nullable(); 
+            $table->unsignedSmallInteger('length')->nullable(); 
+            $table->unsignedSmallInteger('width')->nullable(); 
+            $table->unsignedSmallInteger('high')->nullable(); 
             $table->string('weight', 12)->nullable();
             $table->string('weight_units',10)->nullable();
             $table->boolean('stackable')->default(false);

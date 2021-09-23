@@ -96,9 +96,8 @@
                     @endforelse
                     </tbody>
                 </table>
-                
+                {{ $data->links() }}
             </div>
-              {{ $data->links() }}
         </div>
     </div>
     

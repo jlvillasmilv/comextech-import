@@ -1,330 +1,334 @@
 <template>
-    <div class="container grid px-6 my-1 ">
-        <Load/>
-        <div v-show="isActivateAddress"  >
-            <div>
-                <div class="flex flex-wrap -mx-3 my-8 ">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm">
-                            <span
-                                class="text-gray-700 dark:text-gray-400 font-semibold "
-                            >
-                                {{
-                                    data.condition === "FOB"
-                                        ? " Puertos de Proveedor"
-                                        : " Almacen o Fabrica del Proveedor"
-                                }}
-                            </span>
+  <div class="container grid px-6 my-1">
+    <Load />
+    <div v-show="isActivateAddress">
+      <div>
+        <div class="flex flex-wrap -mx-3 my-8">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400 font-semibold">
+                {{
+                  data.condition === "FOB"
+                    ? " Puertos de Proveedor"
+                    : " Almacen o Fabrica del Proveedor"
+                }}
+              </span>
+              <vue-google-autocomplete
+                v-if="!expenses.fav_address_origin"
+                v-model="expenses.address_origin"
+                id="addressOrigin"
+                classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                v-on:placechanged="getAddressOrigin"
+                placeholder="Direccion, Codigo Postal"
+              >
+              </vue-google-autocomplete>
+              <div v-else class="relative">
+                <select
+                  v-model="expenses.address_origin"
+                  class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      mt-1
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                  "
+                >
+                  <option
+                    v-for="item in addreses"
+                    :value="item.id"
+                    :key="item.id"
+                    class=" "
+                  >
+                  
+                         {{ item.address }}
+                   
+                  </option>
+                </select>
+              </div>
+              <label class="inline-flex text-sm items-center mx-2 mt-2">
+                <!-- Aqui -->
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-gray-800"
+                  v-model="expenses.fav_address_origin"
+                  @change="expenses.address_origin = ''"
+                /><span class="ml-2 text-gray-700">
+                  Tus
+                  {{
+                    data.condition === "FOB"
+                      ? "Puertos"
+                      : "Almacenes o Fabricas"
+                  }}
+                  Favoritos
+                </span>
+              </label>
+              <span
+                class="text-xs text-red-600 dark:text-red-400"
+                v-if="expenses.errors.has('address_origin')"
+                v-html="expenses.errors.get('address_origin')"
+              ></span>
+            </label>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400 font-semibold">
+                Destino de Envio
+              </span>
+ 
+              <vue-google-autocomplete
+                v-if="!expenses.fav_dest_address"
+                id="addressDestination"
+                classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                :placeholder="
+                  expenses.fav_dest_address
+                    ? 'Nombre o codigo Puerto/Aeropuerto'
+                    : 'Direccion, Codigo Postal'
+                "
+                v-on:placechanged="getAddressDestination"
+              >
+              </vue-google-autocomplete>
 
-                            
-                            <vue-google-autocomplete
-                                v-if="!expenses.favoriteAddressOrigin"
-                                v-model="expenses.addressOrigin"
-                                id="addressOrigin"
-                                classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                v-on:placechanged="getAddressOrigin"
-                                placeholder="Direccion, Codigo Postal"
-                            >
-                            </vue-google-autocomplete>
-                          
-                            <!-- <input
-                                v-if="!expenses.favoriteAddressOrigin"
-                                v-model="expenses.addressOrigin"
-                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            /> -->
-                            <v-select
-                                v-else
-                                label="address"
-                                class="mt-2 text-sm"
-                                :options="addreses"
-                                v-model="expenses.addressOrigin"
-                                :reduce="addreses => addreses.id"
-                            >
-                                <template
-                                    v-slot:no-options="{ search, searching }"
-                                >
-                                    <template v-if="searching" class="text-sm">
-                                        Lo sentimos no hay opciones que
-                                        coincidan
-                                        <strong>{{ search }}</strong
-                                        >.
-                                    </template>
-                                    <em style="opacity: 0.5;" v-else>
-                                        No posee
-                                        {{
-                                            data.condition === "FOB"
-                                                ? "Puertos"
-                                                : "Almacenes o Fabricas"
-                                        }}
-                                        en tu lista</em
-                                    >
-                                </template>
-                            </v-select>
-                            <label
-                                class="inline-flex text-sm items-center mx-2 mt-2"
-                            >
-                            <!-- Aqui -->
-                                <input
-                                    type="checkbox"
-                                    class="form-checkbox h-4 w-4 text-gray-800"
-                                    v-model="expenses.favoriteAddressOrigin"
-                                    @change="expenses.addressOrigin = '' "
-                                /><span class="ml-2 text-gray-700">
-                                    Tus
-                                    {{
-                                        data.condition === "FOB"
-                                            ? "Puertos"
-                                            : "Almacenes o Fabricas"
-                                    }}
-                                    Favoritos
-                                </span>
-                            </label>
-                            <span
-                                class="text-xs text-red-600 dark:text-red-400"
-                                v-if="expenses.errors.has('addressOrigin')"
-                                v-html="expenses.errors.get('addressOrigin')"
-                            ></span>
-                        </label>
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label class="block text-sm">
-                            <span
-                                class="text-gray-700 dark:text-gray-400 font-semibold"
-                            >
-                                Destino de Envio
-                            </span>
-                          
-                            <vue-google-autocomplete
-                                v-if="!expenses.favoriteAddressDestin"
-                                id="addressDestination"
-                                classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                :placeholder="
-                                    expenses.favoriteAddressDestin
-                                        ? 'Nombre o codigo Puerto/Aeropuerto'
-                                        : 'Direccion, Codigo Postal'
-                                "
-                                v-on:placechanged="getAddressDestination"
-                            >
-                            </vue-google-autocomplete>
-                            <!-- <input
-                                v-if="!expenses.favoriteAddressDestin"
-                                v-model="expenses.addressDestination"
-                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                :placeholder="
-                                    expenses.favoriteAddressDestin
-                                        ? 'Nombre o codigo Puerto/Aeropuerto'
-                                        : 'Direccion, Codigo Postal'
-                                "
-                            /> -->
-                            <v-select
-                                v-else
-                                label="address"
-                                class="mt-2 text-sm"
-                                :options="addressDestination"
-                                v-model="expenses.addressDestination"
-                                :reduce="e => e.id"
-                            >
-                                <template
-                                    v-slot:no-options="{ search, searching }"
-                                >
-                                    <template v-if="searching" class="text-sm">
-                                        Lo sentimos no hay opciones que
-                                        coincidan
-                                        <strong>{{ search }}</strong
-                                        >.
-                                    </template>
-                                    <em style="opacity: 0.5;" v-else>
-                                        No posee
-                                        {{
-                                            data.condition === "FOB"
-                                                ? "Puertos"
-                                                : "Almacenes o Fabricas"
-                                        }}
-                                        en tu lista</em
-                                    >
-                                </template>
-                            </v-select>
-                            <label
-                                class="inline-flex text-sm items-center mx-2 mt-2"
-                            >
-                                <input
-                                    type="checkbox"
-                                    class="form-checkbox h-4 w-4 text-gray-800"
-                                    v-model="expenses.favoriteAddressDestin"
-                                    @change="expenses.addressDestination = ''"
-                                /><span class="ml-2 text-gray-700">
-                                    Direccion de Destino Favoritas
-                                </span>
-                            </label>
-                            <span
-                                class="text-xs text-red-600 dark:text-red-400"
-                                v-if="expenses.errors.has('addressDestination')"
-                                v-html="
-                                    expenses.errors.get('addressDestination')
-                                "
-                            ></span>
-                        </label>
-                    </div>
-                </div>
-                <div
-                    v-if="expenses.addressDestination !== ''"
-                    class="flex flex-wrap -mx-3 mb-6"
+                <div v-else class="relative">
+                <select
+                  v-model="expenses.address_destination"
+                  class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      pr-8
+                      rounded
+                      mt-1
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                  "
                 >
-                    <div class="w-1/4 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm">
-                            <span
-                                class="text-gray-700 dark:text-gray-400 font-semibold"
-                            >
-                                Fecha Estimada de Embarcacion
-                            </span>
-                            <input
-                                type="date"
-                                v-model="expenses.estimated_date"
-                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                placeholder="Nombre o codigo Puerto/Aeropuerto"
-                            />
-                            <span
-                                class="text-xs text-red-600 dark:text-red-400"
-                                v-if="expenses.errors.has('estimated_date')"
-                                v-html="expenses.errors.get('estimated_date')"
-                            ></span>
-                        </label>
-                    </div>
-                    <div class="w-1/3 px-2">
-                        <label class="block text-sm">
-                            <span
-                                class="text-gray-700 dark:text-gray-400 font-semibold"
-                            >
-                                Descripcion de la carga
-                            </span>
-                            <input
-                                v-model="expenses.description"
-                                maxlength="250"
-                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                placeholder="Introduzca la descripcion aqui"
-                            />
-                        </label>
-                    </div>
-                    <div class="w-1/6 mt-8">
-                        <label class="ml-6 text-gray-500 dark:text-gray-400">
-                            <input
-                                type="checkbox"
-                                class="form-checkbox h-4 w-4 text-gray-800"
-                                v-model="expenses.insurance"
-                            />
-                            <span class="ml-2 text-gray-700 ">Seguro </span>
-                        </label>
-                    </div>
-                    <div class="w-1/6 mt-8" v-if="expenses.insurance">
-                        <span class="ml-2 text-gray-700 ">
-                            {{ data.amount }}
-                            {{  currency.code }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <button
-                    @click="submitForm()"
-                    class="w-1/3 h-12 px-4 text-white transition-colors text-lg duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-                >
-                    Cotizar
-                </button>
-            </div>
+                  <option
+                    v-for="item in addressDestination"
+                    :value="item.id"
+                    :key="item.id"
+                    class=" "
+                  >
+                         {{ item.address }}
+                  </option>
+                </select>
+              </div>
+              <label class="inline-flex text-sm items-center mx-2 mt-2">
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4 text-gray-800"
+                  v-model="expenses.fav_dest_address"
+                  @change="expenses.addressDestination = ''"
+                /><span class="ml-2 text-gray-700">
+                  Direccion de Destino Favoritas
+                </span>
+              </label>
+              <span
+                class="text-xs text-red-600 dark:text-red-400"
+                v-if="expenses.errors.has('address_destination')"
+                v-html="expenses.errors.get('address_destination')"
+              ></span>
+            </label>
+          </div>
         </div>
+        <div
+          v-if="expenses.address_destination !== ''"
+          class="flex flex-wrap -mx-3 mb-6"
+        >
+          <div class="w-1/4 px-3 mb-6 md:mb-0">
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400 font-semibold">
+                Fecha Estimada de Embarcacion
+              </span>
+              <input
+                type="date"
+                v-model="expenses.estimated_date"
+                class="
+                  block
+                  w-full
+                  mt-1
+                  text-sm
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  focus:border-purple-400
+                  focus:outline-none
+                  focus:shadow-outline-purple
+                  dark:text-gray-300
+                  dark:focus:shadow-outline-gray
+                  form-input
+                "
+                placeholder="Nombre o codigo Puerto/Aeropuerto"
+              />
+              <span
+                class="text-xs text-red-600 dark:text-red-400"
+                v-if="expenses.errors.has('estimated_date')"
+                v-html="expenses.errors.get('estimated_date')"
+              ></span>
+            </label>
+          </div>
+          <div class="w-1/3 px-2">
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400 font-semibold">
+                Descripcion de la carga
+              </span>
+              <input
+                v-model="expenses.description"
+                maxlength="250"
+                class="
+                  block
+                  w-full
+                  mt-1
+                  text-sm
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  focus:border-purple-400
+                  focus:outline-none
+                  focus:shadow-outline-purple
+                  dark:text-gray-300
+                  dark:focus:shadow-outline-gray
+                  form-input
+                "
+                placeholder="Introduzca la descripcion aqui"
+              />
+            </label>
+          </div>
+          <div class="w-1/6 mt-8">
+            <label class="ml-6 text-gray-500 dark:text-gray-400">
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-gray-800"
+                v-model="expenses.insurance"
+              />
+              <span class="ml-2 text-gray-700">Seguro </span>
+            </label>
+          </div>
+          <div class="w-1/6 mt-8" v-if="expenses.insurance">
+            <span class="ml-2 text-gray-700">
+              {{ data.amount }}
+              {{ currency.code }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <button
+          @click="submitForm()"
+          class="
+            w-1/3
+            h-12
+            px-4
+            text-white
+            transition-colors
+            text-lg
+            duration-150
+            bg-green-700
+            rounded-lg
+            focus:shadow-outline
+            hover:bg-green-800
+          "
+        >
+          Cotizar
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import VueGoogleAutocomplete from 'vue-google-autocomplete'
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 import Load from "./Load.vue";
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 
 export default {
-    components: { Load, VueGoogleAutocomplete},
-    props: {
-        originTransport: {
-            type: Array,
-            required: false
-        }
+  components: { Load, VueGoogleAutocomplete },
+  props: {
+    originTransport: {
+      type: Array,
+      required: false,
     },
-    data() {
-        return {
-            address: '',
-            Load: false,
-            safe: false,
-        };
+  },
+  data() {
+    return {
+      address: "",
+      Load: false,
+      safe: false,
+    };
+  },
+  methods: {
+    async submitForm() {
+      try {
+        this.expenses.dataLoad = this.$store.state.load.loads;
+        await this.expenses.post("/applications/transports");
+        Toast.fire({
+          icon: "success",
+          title: "Datos Agregados",
+        });
+        this.$store.dispatch("exchange/getSummary", this.data.application_id);
+        this.$store.dispatch("callIncomingOrNextMenu", true);
+      } catch (error) {
+        console.error(error);
+      }
     },
-    methods: {
-        async submitForm() {
-            try {
-                this.expenses.dataLoad = this.$store.state.load.loads
-                await this.expenses.post("/applications/transports");
-                Toast.fire({
-                    icon: "success",
-                    title: "Datos Agregados"
-                });
-                this.$store.dispatch('exchange/getSummary', this.data.application_id);
-                this.$store.dispatch("callIncomingOrNextMenu", true);
-            } catch (error) {
-                console.error(error);
-            }
-        },
-        /**
-            * When the location found
-            * @param {Object} addressData Data of the found location
-            * @param {Object} placeResultData PlaceResult object
-            * @param {String} id Input container ID
-        */
-        getAddressOrigin: function (addressData, placeResultData, id) {
-                this.expenses.addressOrigin   =  placeResultData.formatted_address;
-                this.expenses.origin_latitude = addressData.latitude;
-                this.expenses.origin_longitude = addressData.longitude;
+    /**
+     * When the location found
+     * @param {Object} addressData Data of the found location
+     * @param {Object} placeResultData PlaceResult object
+     * @param {String} id Input container ID
+     */
+    getAddressOrigin: function (addressData, placeResultData, id) {
+      this.expenses.address_origin = placeResultData.formatted_address;
+      this.expenses.origin_latitude = addressData.latitude;
+      this.expenses.origin_longitude = addressData.longitude;
 
-                if (typeof addressData.postal_code !== 'undefined') {
-                     this.expenses.origin_postal_code = addressData.postal_code;
-                }
-               
-        },
-        getAddressDestination: function (addressData, placeResultData, id) {
-                this.expenses.addressDestination   =  placeResultData.formatted_address;
-                this.expenses.dest_latitude = addressData.latitude;
-                this.expenses.dest_longitude = addressData.longitude;
-
-                if (typeof addressData.postal_code !== 'undefined') {
-                     this.expenses.dest_postal_code = addressData.postal_code;
-                }
-
-        }
+      if (typeof addressData.postal_code !== "undefined") {
+        this.expenses.origin_postal_code = addressData.postal_code;
+      }
     },
-    computed: {
-        ...mapState('address', ['expenses', 'addressDestination']),
-        ...mapState('application', ['data','currency']),
-        addreses() {
-   
-            if (this.data.condiction == "FOB") {
-                return this.addressDestination.filter(
-                    item => item.place == "PUERTO"
-                );
-            } else {
-                return this.addressDestination.filter(
-                    item => item.place !== "PUERTO"
-                );
-            }
-        },
-        isActivateAddress(){
-            const  { loads } = this.$store.state.load
-            if(loads.length){
-                if(loads[loads.length - 1].weight)   return true
-                else false
-            }
-            return false
-        }
+    getAddressDestination: function (addressData, placeResultData, id) {
+      this.expenses.addressDestination = placeResultData.formatted_address;
+      this.expenses.dest_latitude = addressData.latitude;
+      this.expenses.dest_longitude = addressData.longitude;
+
+      if (typeof addressData.postal_code !== "undefined") {
+        this.expenses.dest_postal_code = addressData.postal_code;
+      }
     },
-    async created() {
-           this.expenses.application_id = this.data.application_id
-           await this.$store.dispatch('address/getAddressDestination')    
-    }
+  },
+  computed: {
+    ...mapState("address", ["expenses", "addressDestination"]),
+    ...mapState("application", ["data", "currency"]),
+    addreses() {
+      if (this.data.condiction == "FOB") {
+        return this.addressDestination.filter((item) => item.place == "PUERTO");
+      } else {
+        return this.addressDestination.filter(
+          (item) => item.place !== "PUERTO"
+        );
+      }
+    },
+    isActivateAddress() {
+      const { loads } = this.$store.state.load;
+      if (loads.length) {
+        if (loads[loads.length - 1].weight) return true;
+        else false;
+      }
+      return false;
+    },
+  },
+  async created() {
+    this.expenses.application_id = this.data.application_id;
+    await this.$store.dispatch("address/getAddressDestination");
+  },
 };
 </script>
 

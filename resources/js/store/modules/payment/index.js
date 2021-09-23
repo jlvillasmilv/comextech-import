@@ -29,7 +29,7 @@ const mutations = {
 };
 
 const actions = {
-    getPayment({ commit }, paylod) {
+    setPayment({ commit }, paylod) {
         commit("SET_PAYMENT", paylod);
     },
     addPayment({ commit }, paylod) {

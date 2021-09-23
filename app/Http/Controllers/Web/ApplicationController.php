@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
-use App\Models\{FileStore, FileStoreInternment, InternmentProcess, LocalWarehouse};
+use App\Models\{Currency, FileStore, FileStoreInternment, InternmentProcess, LocalWarehouse};
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -44,6 +44,7 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+        //dd($request->all());
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         /** Evalua la el estado de una solicitud **/
@@ -52,6 +53,7 @@ class ApplicationController extends Controller
         DB::beginTransaction();
         
         try {
+
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
                 'user_id'   => auth()->user()->id,
@@ -59,153 +61,130 @@ class ApplicationController extends Controller
                 [
                     'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'amount'       => $request->amount,
-                    'fee1'         => $request->valuePercentage['valueInitial'],
-                    'fee2'         => 100 - $request->valuePercentage['valueInitial'],
+                    'fee1'         => $request->statusSuppliers == 'with' ? $request->valuePercentage['valueInitial'] : 0,
+                    'fee2'         => $request->statusSuppliers == 'with' ? 100 - $request->valuePercentage['valueInitial'] : 0,
                     'application_statuses_id' => 1,
-                    'currency_id'  => $request->currency_id,
+                    'currency_id'   => $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
-                    'condition'    => $request->condition,
+                    'ecommerce_id'  => $request->statusSuppliers == 'E-commerce' ? $request->supplier_id : null,
+                    'condition'     => $request->condition,
                 ]
             );
-            
-            if($request->application_id == 0)
-            {
-                \DB::table('application_sumamries')->insert([
-                    [   
-                        "application_id" => $application->id,
-                        "category_service_id" => 1, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "A.- Pago proveedor",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 1, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "A.1.- Adelanto",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [ 
-                        "application_id" => $application->id,
-                        "category_service_id" => 1, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "A.2.- Saldo",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 3, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "B.- Transporte Internacional",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 3, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "C.- Seguro Transporte",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 4, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "D.- Servicio AGA",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 4, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "E.- IVA Internacion",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 4, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "F.- Aranceles",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                    [
-                        "application_id" => $application->id,
-                        "category_service_id" => 6, 
-                        "currency_id" => $application->currency_id ,
-                        "description" => "G.- Transporte Local",
-                        "fee_date" => date('Y-m-d')
-                    ],
-                ]);
-            }
+
+            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
+            ->whereIn('cs.code', $request->services)
+            ->where('summary', false)
+            ->select('services.id as service_id','cs.id as category_id');
 
             if($request->application_id > 0){
 
-                \DB::table('application_sumamries')
+                \DB::table('application_summaries')
                 ->where("application_id", $application->id)
+                ->whereIn('service_id', [20, 21,22])
                 ->update(['currency_id' => $application->currency_id]);
-            }
 
-            $cat_serv = CategoryService::whereIn('code', $request->services)
-            ->select('id')
-            ->pluck('id');
-            
-            $add_serv = Service::whereIn('category_service_id', $cat_serv)
-            ->select('id')
-            ->pluck('id');
-
-            \DB::table('application_details')
-                ->whereNotIn('service_id', $add_serv)
+                \DB::table('application_details')
+                ->whereNotIn('service_id', $add_serv->pluck('services.id as service_id'))
                 ->where('application_id', $application->id)
                 ->delete();
-               
-            foreach ($add_serv as $key => $id) {
+            }
 
+
+            foreach ($add_serv->get() as $key => $item) {
+                
                 ApplicationDetail::updateOrCreate(
                     ['application_id' => $application->id,
-                     'service_id'   => $id,
+                     'service_id'     => $item->service_id,
                     ],
                     [
+                       'category_service_id' => $item->category_id,
                        'currency_id'  => $application->currency_id,
                        'currency2_id' => $application->currency_id,
                     ]
                 );
             }
 
+            /*******case exist services previous associate delete and amoutn summary 0********/
 
-            DB::commit();
+            if(PaymentProvider::where('application_id', $application->id)->exists() && !in_array('ICS01', $request->services) ){
 
-             /*******case exist services previous associate********/
+                PaymentProvider::where('application_id', $application->id)->delete();
+
+                \DB::table('application_summaries')
+                ->where("application_id", $application->id)
+                ->whereIn('service_id', [20, 21,22])
+                ->update(['amount' => 0]);
+            }
 
             if(Transport::where('application_id', $application->id)->exists() && !in_array('ICS03', $request->services) ){
+
                 Transport::where('application_id', $application->id)->delete();
+
+                \DB::table('application_summaries')
+                ->where("application_id", $application->id)
+                ->whereIn('service_id', [23, 24])
+                ->update(['amount' => 0]);
             }
 
             if(InternmentProcess::where('application_id', $application->id)->exists() && !in_array('ICS04', $request->services) ){
+                
                 InternmentProcess::where('application_id', $application->id)->delete();
+
+                \DB::table('application_summaries')
+                ->where("application_id", $application->id)
+                ->whereIn('service_id', [25, 26,27])
+                ->update(['amount' => 0]);
             }
 
-            if(PaymentProvider::where('application_id', $application->id)->exists() && !in_array('ICS01', $request->services) ){
-                PaymentProvider::where('application_id', $application->id)->delete();
-            }
+            if(Load::where('application_id', $application->id)->exists() && !in_array('ICS03', $request->services)){
+                //'ICS01','ICS03','ICS04'
+                if(Load::where('application_id', $application->id)->exists() && in_array('ICS04', $request->services)){
 
-            if(Load::where('application_id', $application->id)->exists() && !in_array(['ICS01','ICS03','ICS04'], $request->services) ){
-                Load::where('application_id', $application->id)->delete();
+                }
+                else{
+                    Load::where('application_id', $application->id)->delete();
+                }
+
             }
 
             if(LocalWarehouse::where('application_id', $application->id)->exists() && !in_array('ICS05', $request->services) ){
                 LocalWarehouse::where('application_id', $application->id)->delete();
             }
 
+            if($request->application_id == 0)
+            {
+                $add_summary = Service::where('summary', true)
+                ->select('id','name','category_service_id')
+                ->orderby('name')
+                ->get();
 
-            /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
-            $user_admin = User::whereHas('roles', function ($query) {
-                $query->where('name','=', 'Admin');
-            })->pluck('id');
+                foreach ($add_summary as $key => $item) {
 
-            User::all()
-                ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($application) {
-                    $user->notify(new AdminApplicationNotification($application));
+                    \DB::table('application_summaries')->insert([
+                        [   
+                            "application_id"      => $application->id,
+                            "category_service_id" => $item->category_service_id,
+                            "service_id"  => $item->id, 
+                            "currency_id" => $application->currency_id,
+                            "fee_date" => date('Y-m-d')
+                        ]
+                    ]);
+                }
+
+                $user_admin = User::whereHas('roles', function ($query) {
+                    $query->where('name','=', 'Admin');
+                })->pluck('id');
+    
+                User::all()
+                    ->whereIn('id', $user_admin)
+                    ->each(function (User $user) use ($application) {
+                        $user->notify(new AdminApplicationNotification($application));
                 });
+            }
+
+            DB::commit();
+            /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
+           
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -228,11 +207,9 @@ class ApplicationController extends Controller
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
-        //dd($data);
         return view('applications.show', compact('application'));
        
     }
-
 
     public function edit($id)
     {
@@ -257,7 +234,7 @@ class ApplicationController extends Controller
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])
-        ->with('summary','currency')
+        ->with('currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
         ->firstOrFail();
         
         return response()->json($data, 200);
@@ -328,6 +305,7 @@ class ApplicationController extends Controller
 
 
             $add_serv = Service::where('category_service_id', $cat_serv)
+                 ->where('summary', false)
                  ->select('id')
                  ->pluck('id');
                 
@@ -340,7 +318,7 @@ class ApplicationController extends Controller
                     ],                    
                     [
                         'amount' =>  $application->amount * ($request[$key]['percentage'] / 100),
-                        'estimated' =>  $request[$key]['datePay']
+                        'estimated' =>  $request[$key]['date_pay']
                     ],
                 );
 
@@ -354,31 +332,31 @@ class ApplicationController extends Controller
                          'percentage'      => $data['percentage'],
                      ],
                      [
-                         'type_pay'        => $data['typePay'],
-                         'date_pay'        => $data['datePay'],
+                         'type_pay'        => $data['type_pay'],
+                         'date_pay'        => $data['date_pay'],
                          'payment_release' => $data['payment_release'],
                      ]
                  );
 
                  // update application summary
-                 $description = $key == 0 ? 'A.1.- Adelanto' :'A.2.- Saldo';
-                 $app_summ = \DB::table('application_sumamries')
+                 $service_id = $key == 0 ? 21 : 22;
+                 $app_summ = \DB::table('application_summaries')
                  ->where([
                     ["application_id", $application->id],
                     ["category_service_id", 1],
-                    ["description", $description]
+                    ["service_id", $service_id]
                     ])
-                ->update(['fee_date' => $data['datePay'],
+                ->update(['fee_date' => $data['date_pay'],
                          'amount'    =>  $application->amount * ($data['percentage'] / 100)
                         ]);
              }
 
-             // update application summary main description
-             $app_summ = \DB::table('application_sumamries')
+             // update application summary
+             $app_summ = \DB::table('application_summaries')
              ->where([
                 ["application_id", $application->id],
                 ["category_service_id", 1],
-                ["description", 'A.- Pago proveedor']
+                ["service_id", 20]
                 ])
             ->update(['amount' =>  $application->amount]);
 
@@ -397,7 +375,7 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      * 
     */
-    public function transports(TransportRequest $request)
+    public function transports(Request $request)
     {
         DB::beginTransaction();
 
@@ -406,21 +384,56 @@ class ApplicationController extends Controller
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'fav_address_origin'    => $request->favoriteAddressOrigin,
-                    'address_origin'        => $request->addressOrigin,
+                    'fav_address_origin'    => $request->fav_address_origin,
+                    'address_origin'        => $request->address_origin,
                     'origin_latitude'       => $request->origin_latitude,
                     'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
-                    'fav_dest_address'      => $request->favoriteAddressDestin,
-                    'address_destination'   => $request->addressDestination,
-                    'dest_latitude'  => $request->dest_latitude,
-                    'dest_longitude' => $request->dest_longitude,
-                    'dest_postal_code' => $request->dest_postal_code,
+                    'fav_dest_address'      => $request->fav_dest_address,
+                    'address_destination'   => $request->address_destination,
+                    'dest_latitude'         => $request->dest_latitude,
+                    'dest_longitude'        => $request->dest_longitude,
+                    'dest_postal_code'      => $request->dest_postal_code,
                     'estimated_date'        => $request->estimated_date,
                     'description'           => $request->description,
                     'insurance'             => $request->insurance,
                 ]
             );
+
+            $exchange = New Currency;
+            $app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
+
+            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
+            ->where('cs.code', $request->code_serv)
+            ->where('services.summary', false)
+            ->select('services.id')
+            ->pluck('services.id');
+ 
+            foreach ($add_serv as $key => $id) {
+
+                $mount = $key == 0 ? $app_amount * 0.15 : $app_amount * 0.5 ;
+
+                ApplicationDetail::updateOrCreate([
+                     'application_id' =>  $request->application_id,
+                     'service_id' => $id
+                     ],                    
+                     [
+                        'amount' =>  $mount,
+                        'currency_id' =>  8
+                     ],
+                 );
+
+             // update application summary
+              $service_id = $key == 0 ? 23 : 24;
+              $app_summ = \DB::table('application_summaries')
+              ->where([
+                 ["application_id", $request->application_id],
+                 ["category_service_id", 3],
+                 ["service_id", $service_id]
+                 ])
+             ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+ 
+             }
 
             $this->load($request->input('dataLoad'),$request->application_id);
 
@@ -454,22 +467,23 @@ class ApplicationController extends Controller
             $internment = InternmentProcess::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
-                    'custom_agent_id'       => $request->custom_agent_id,
-                    'customs_house'         => $request->customs_house,
-                    'agent_payment'         => $request->agent_payment,
-                    'iva'                   => $request->iva,
-                     'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
-                     'adv'                  => $request->adv,
-                     'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
-                     'cif_amt'              => round($request->cif_amt, 0),
+                    'custom_agent_id'      => $request->custom_agent_id,
+                    'customs_house'        => $request->customs_house,
+                    'agent_payment'        => $request->agent_payment,
+                    'iva'                  => $request->iva,
+                    'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
+                    'adv'                  => $request->adv,
+                    'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
+                    'cif_amt'              => round($request->cif_amt, 0),
                 ]
             );
 
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)
+            ->where('services.summary', false)
             ->select('services.id')
             ->pluck('services.id');
-            //  dd($add_serv );
+ 
             foreach ($add_serv as $key => $id) {
 
                 $mount = $key == 0 ? $request->agent_payment : 0 ;
@@ -486,19 +500,17 @@ class ApplicationController extends Controller
                      ],
                  );
 
-             // update application summary main description
-              $description = $key == 0 ? 'D.- Servicio AGA' :($key == 1 ? 'E.- IVA Internacion' : 'F.- Aranceles');
-              $app_summ = \DB::table('application_sumamries')
+             // update application summary
+              $service_id = $key == 0 ? 25 :($key == 1 ? 26 : 27);
+              $app_summ = \DB::table('application_summaries')
               ->where([
                  ["application_id", $request->application_id],
                  ["category_service_id", 4],
-                 ["description", $description]
+                 ["service_id", $service_id]
                  ])
              ->update(['amount' =>  $mount,  'currency_id' =>  1]);
  
              }
-
-
 
             // agregar datos de subida de archivo
             if ($request->hasFile('files')) {
@@ -540,7 +552,6 @@ class ApplicationController extends Controller
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
         
-
             DB::commit();
 
         } catch (\Exception $e) {
@@ -553,7 +564,6 @@ class ApplicationController extends Controller
 
     public function localWarehouse(LocalWarehouseRequest $request)
     {
-       
         $localw =  LocalWarehouse::updateOrCreate(
             ['application_id'   => $request->application_id, ],
             [
@@ -579,7 +589,7 @@ class ApplicationController extends Controller
                 ],
 
                 [
-                    'length_unit'    => $item['lengthUnit'],
+                    'length_unit'    => $item['length_unit'],
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'high'           => $item['high'],
@@ -595,7 +605,5 @@ class ApplicationController extends Controller
 
         return true;
     }
-
-
 
 }

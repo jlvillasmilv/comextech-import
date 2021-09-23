@@ -17,6 +17,12 @@ class Load extends Model
         'updated_at',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+    
     public function application()
     {
         return $this->belongsTo(Application::class,'application_id');

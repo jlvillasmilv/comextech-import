@@ -18,6 +18,8 @@ class Application extends Model
                            'supplier_id',
                            'application_statuses_id',
                            'currency_id',
+                           'ecommerce_id',
+                           'ecommerce_url',
                            'description',
                            'condition',
                            'fee1',
@@ -85,7 +87,7 @@ class Application extends Model
 
     public function summary()
     {
-        return $this->hasMany(ApplicationSumamry::class,'application_id')->OrderBy('id');
+        return $this->hasMany(ApplicationSummary::class,'application_id')->OrderBy('id');
     }
 
     public function requirements()
@@ -111,27 +113,27 @@ class Application extends Model
 
     public function paymentProvider()
     {
-        return $this->hasMany(PaymentProvider::class,'application_id')->orderBy('id');
+        return $this->hasMany(PaymentProvider::class,'application_id')->orderBy('id')->select('*',\DB::raw("'ICS01' as code_serv"));
     }
 
     public function transport()
     {
-        return $this->hasOne(Transport::class,'application_id');
+        return $this->hasOne(Transport::class,'application_id')->select('*',\DB::raw("'ICS03' as code_serv"));
     }
 
     public function internmentProcess()
     {
-        return $this->hasOne(InternmentProcess::class,'application_id');
+        return $this->hasOne(InternmentProcess::class,'application_id')->select('*',\DB::raw("'ICS04' as code_serv"));
     }
 
-    public function cargo()
+    public function loads()
     {
         return $this->hasMany(Load::class,'application_id');
     }
 
     public function localWarehouse()
     {
-        return $this->hasOne(LocalWarehouse::class,'application_id');
+        return $this->hasOne(LocalWarehouse::class,'application_id')->select('*',\DB::raw("'ICS05' as code_serv"));
     }
 
 }

@@ -4,9 +4,9 @@ const state = {
     data: new Form({
         application_id: 0,
         amount: 0,
-        supplier_id: "",
-        currency_id: "",
-        ecommerce_url: "",
+        supplier_id: null,
+        currency_id: null,
+        ecommerce_url: null,
         condition: "",
         description: "",
         statusSuppliers: "with",
@@ -15,12 +15,15 @@ const state = {
     }),
     agencyElectronic: [
         {
+            id:1,
             name: "Mercado Libre"
         },
         {
+            id:2,
             name: "Alibaba"
         },
         {
+            id:3,
             name: "Amazon"
         }
     ],
@@ -29,7 +32,8 @@ const state = {
     currencies: [],
     currency:'',
     selectedCondition:'',
-    tabs:''
+    tabs:'',
+    editing:false
 }
  
 
@@ -46,18 +50,16 @@ const mutations={
     SET_CURRENCY(state, {currency}){
         state.currency = currency
     },
-    SET_DATA(state, {fee1, fee2, condition, amount, supplier_id, currency_id, ecommerce_id, ecommerce_url, id:application_id }){
-        
+    SET_DATA(state, {fee1, fee2, condition, amount, supplier_id, currency_id, ecommerce_id, ecommerce_url, id:application_id, payment_provider }, rootState){
+        state.editing = true
         state.data = new Form({
             ...state.data,
             condition:condition,
             amount: amount,
-            supplier_id: supplier_id,
+            supplier_id: supplier_id == null ? ecommerce_id : supplier_id,
             currency_id: currency_id,
-            ecommerce_id: ecommerce_id,
             ecommerce_url: ecommerce_url,
             application_id: application_id,
-            statusSuppliers: "with",
             valuePercentage:{
                 name:`${fee1}/${fee2}`,
                 valueInitial:fee1
@@ -65,14 +67,19 @@ const mutations={
         }) 
         state.selectedCondition = state.arrayServices.filter(item => item.name === condition )[0]
         state.tabs =  state.selectedCondition.services
+        
     },
-    SET_SERVICES_SELECTED(){
-
+    SET_SUPPLIER_TYPE(state, { ecommerce_url, supplier_id }){
+        if(ecommerce_url) 
+            return state.data.statusSuppliers = 'E-commerce'
+        else if(supplier_id)
+            return state.data.statusSuppliers = 'with'
+        else
+            return state.data.statusSuppliers = 'without'
     }
 }
 const actions = {
     async getSuppliers({ commit, state }){
-        
         if(!state.suppliers.length){
             const  { data }  = await axios.get("/supplierlist");
             commit('SET_SUPPLIERS', data)
@@ -83,7 +90,6 @@ const actions = {
             const { data } = await axios.get("/api/suppl_cond_sales");
             commit('SET_SERVICES',  data)
         }
-        
     },
     async getCurrencies({ commit, state }){
         if(!state.currencies.length){
@@ -91,14 +97,11 @@ const actions = {
             commit('SET_CURRENCIES', data)
         }
     },
-    async getData({ commit, state }, id){
-        const { data } = await axios.get("/get-application/"+id);
+    async setData({ commit }, data){
         commit('SET_DATA', data)
         commit('SET_CURRENCY', data)
+        commit('SET_SUPPLIER_TYPE', data)
     },
-    getServicesSelecteds({ commit, state }){
-        commit('UPDATE_TABS', data)     
-    }
 }
 
 
