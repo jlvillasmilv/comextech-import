@@ -87,39 +87,6 @@
                   />
                   <span class="m-2"> {{ item.description }} </span>
                 </label>
-                <!-- <label class="inline-flex items-center">
-                  <input
-                    type="radio"
-                    class="form-radio"
-                    name="accountType"
-                    v-model="data.statusSuppliers"
-                    @change="data.supplier_id = ''"
-                    value="with"
-                  />
-                  <span class="ml-2"> Con Proveedor </span>
-                </label>
-                <label class="inline-flex items-center ml-6">
-                  <input
-                    type="radio"
-                    class="form-radio"
-                    name="accountType"
-                    v-model="data.statusSuppliers"
-                    @change="data.supplier_id = ''"
-                    value="E-commerce"
-                  />
-                  <span class="ml-2"> E-commerce </span>
-                </label>
-                <label class="inline-flex items-center ml-6">
-                  <input
-                    type="radio"
-                    class="form-radio"
-                    name="accountType"
-                    v-model="data.statusSuppliers"
-                    @change="data.supplier_id = ''"
-                    value="without"
-                  />
-                  <span class="ml-2"> Sin Proveedor </span>
-                </label> -->
               </div>
               <span
                 class="text-xs text-red-600 dark:text-red-400"
@@ -127,7 +94,6 @@
                 v-html="data.errors.get('supplier_id')"
               ></span>
             </div>
-
             <div class="flex flex-wrap mx-1">
               <div
                 :class="[
@@ -219,7 +185,6 @@
                 ></span>
               </div>
             </div>
-
             <div class="flex flex-wrap -mx-3">
               <div class="w-full md:w-1/2 px-3 md:mb-0">
                 <h3 class="my-3 text-gray-500 text-sm">Moneda de Pago</h3>
@@ -271,6 +236,7 @@
               </div>
             </div>
             <div>
+              <h3 class="my-3 text-green-700 text-lg"> Servicios a Cotizar</h3>
               <label
                 v-for="(item, id) in tabs"
                 :key="id"
@@ -282,6 +248,7 @@
                   dark:text-gray-400
                 "
               >
+               <!-- data.statusSuppliers == 'with' -->
                 <div class="flex items-center">
                   <input
                     v-if="item.selected"
