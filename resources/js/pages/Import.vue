@@ -82,7 +82,7 @@
                     class="form-radio"
                     name="accountType"
                     v-model="data.statusSuppliers"
-                    @change="data.supplier_id = ''"
+                    @click="toDisableProviderPayment(item.name)"
                     :value="item.name"
                   />
                   <span class="m-2"> {{ item.description }} </span>
@@ -412,6 +412,17 @@ export default {
     Tabs,
   },
   methods: {
+    toDisableProviderPayment(value){
+        this.data.ecommerce_url = ''
+        this.data.supplier_id = ''
+        if(value  == 'without'){
+          this.$store.state.application.tabs = this.tabs.map(item => item.code  == "ICS01" ? { ...item, selected : false } : item )
+          this.clearSelectedServices();
+        }else{
+          this.clearSelectedServices();
+          this.$store.state.application.tabs = this.selectedCondition.services;
+        }
+    },
     async submitFormApplications() {
       try {
         //obtener id de la moneda seleccionada antes del submit
@@ -453,6 +464,9 @@ export default {
         console.error(error);
       }
     },
+    clearSelectedServices(){
+       this.$store.state.selectedServices = [];
+    },
     handlePercentage(item) {
       this.handleCurrency();
       this.data.valuePercentage = item;
@@ -463,9 +477,10 @@ export default {
       this.data.amount = 0;
     },
     toogleMenuTabs() {
-      this.$store.state.selectedServices = [];
+      this.clearSelectedServices();
       this.$store.state.application.tabs = this.selectedCondition.services;
       this.data.condition = this.selectedCondition.name;
+      this.toDisableProviderPayment(this.data.statusSuppliers)
     },
   },
   computed: {
