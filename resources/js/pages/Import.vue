@@ -83,7 +83,7 @@
                     class="form-radio"
                     name="accountType"
                     v-model="data.statusSuppliers"
-                    @click="toDisableProviderPayment(item.name)"
+                    @click="toDisableProviderPayment(item.name, true)"
                     :value="item.name"
                   />
                   <span class="m-2"> {{ item.description }} </span>
@@ -423,9 +423,8 @@ export default {
     Tabs,
   },
   methods: {
-    toDisableProviderPayment(value){
-        this.data.ecommerce_url = ''
-        this.data.supplier_id = ''
+    toDisableProviderPayment(value, provider = false){
+        this.clearEcommerceSupplier(provider)
         if(value  == 'without'){
           this.$store.state.application.tabs = this.tabs.map(item => item.code  == "ICS01" ? { ...item, selected : false } : item )
           this.clearSelectedServices();
@@ -434,6 +433,17 @@ export default {
           this.$store.state.application.tabs = this.selectedCondition.services;
         }
     },
+    clearEcommerceSupplier(provider){
+        if(provider)
+          this.data.ecommerce_url = ''
+          this.data.supplier_id = ''
+    },
+    insertPaymentsToServices(){
+      const { selectedServices } = this.$store.state
+      // Verificar si pagos ya esta agregado a servicios
+      const exchange = selectedServices.find(e => e.code == 'ICS07')
+      if(exchange) selectedServices.push(this.objectPayment)
+3    },  
     async submitFormApplications() {
       try {
         //obtener id de la moneda seleccionada antes del submit
@@ -444,7 +454,7 @@ export default {
         const { data } = await this.data.post("/applications");
         this.busy = true;
         if (data) {
-          this.$store.state.selectedServices.push(this.objectPayment)
+          this.insertPaymentsToServices();
           // Mostrar mensaje confirmacion
           Swal.fire({
             position: "center",
