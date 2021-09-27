@@ -3,6 +3,7 @@
     <div class="mb-5" v-show="!$store.getters.findService('ICS03')">
       <Load />
     </div>
+ 
     <div
       class="flex flex-wrap -mx-3"
       :class="[!$store.getters.findService('ICS03') ? ' ' : 'justify-center']"
@@ -50,6 +51,7 @@
           <div>
             <input
               v-model="expenses.customs_house"
+               
               type="checkbox"
               class="form-checkbox h-5 w-5 text-blue-600"
             /><span class="ml-2 text-xs text-black text-gray-500">
@@ -363,6 +365,9 @@ export default {
         maximumFractionDigits: currency == "CLP" ? 0 : 2,
       });
     },
+    changeCustomHouse(){
+
+    },  
     openWindowFile({ e, name: entry }) {
       this.nameFileUpload = entry;
       let value = this.treaties.find((a) => a.name == entry);
@@ -419,6 +424,7 @@ export default {
     async submitForm() {
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
+        console.log(this.$store.state.load.loads, ' ENVIO DE INTERNAMIA')
         await this.expenses.post("/internment");
         Toast.fire({
           icon: "success",
@@ -431,6 +437,15 @@ export default {
       }
     },
   },
+   watch: {
+        'expenses.customs_house': {
+            handler (after, before) {
+                this.expenses.custom_agent_id = ""
+                this.expenses.agent_payment = 0 
+            },
+            deep: true
+        }
+    },
   async mounted() {
     try {
       // agente de Aduana del cliente

@@ -268,6 +268,7 @@ export default {
     async submitForm() {
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
+         console.log(this.$store.state.load.loads, ' ENVIO DE INTERNAMIA')
         await this.expenses.post("/applications/transports");
         Toast.fire({
           icon: "success",

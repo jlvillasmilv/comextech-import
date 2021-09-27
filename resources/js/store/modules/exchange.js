@@ -9,7 +9,6 @@ export default {
     },
   
     mutations: {
-
         SET_SUMMARY( state , payload){
             state.exchangeItem = payload
         },
@@ -17,7 +16,6 @@ export default {
   
     actions: {
         async getSummary({ commit }, payload){
-            console.log(payload);
             let { data } = await axios.get("/application-summary/"+payload);
             commit('SET_SUMMARY', data)
         },

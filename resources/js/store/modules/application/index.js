@@ -54,12 +54,12 @@ const mutations={
         state.editing = true
         state.data = new Form({
             ...state.data,
-            condition:condition,
-            amount: amount,
+            condition,
+            amount,
             supplier_id: supplier_id == null ? ecommerce_id : supplier_id,
-            currency_id: currency_id,
-            ecommerce_url: ecommerce_url,
-            application_id: application_id,
+            currency_id,
+            ecommerce_url,
+            application_id,
             valuePercentage:{
                 name:`${fee1}/${fee2}`,
                 valueInitial:fee1

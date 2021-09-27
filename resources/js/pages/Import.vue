@@ -262,7 +262,7 @@
                       text-green-600
                     "
                     :value="item"
-                    :true-value="item.selected"
+                    :checked="item.selected"
                     v-model="$store.state.selectedServices"
                   />
                   <div v-else class="">
@@ -425,11 +425,10 @@ export default {
   methods: {
     toDisableProviderPayment(value, provider = false){
         this.clearEcommerceSupplier(provider)
+        this.clearSelectedServices();
         if(value  == 'without'){
           this.$store.state.application.tabs = this.tabs.map(item => item.code  == "ICS01" ? { ...item, selected : false } : item )
-          this.clearSelectedServices();
         }else{
-          this.clearSelectedServices();
           this.$store.state.application.tabs = this.selectedCondition.services;
         }
     },
@@ -439,11 +438,12 @@ export default {
           this.data.supplier_id = ''
     },
     insertPaymentsToServices(){
+    
       const { selectedServices } = this.$store.state
       // Verificar si pagos ya esta agregado a servicios
       const exchange = selectedServices.find(e => e.code == 'ICS07')
-      if(exchange) selectedServices.push(this.objectPayment)
-3    },  
+      if(!exchange) selectedServices.push(this.objectPayment)
+    },  
     async submitFormApplications() {
       try {
         //obtener id de la moneda seleccionada antes del submit
@@ -487,6 +487,12 @@ export default {
         console.error(error);
       }
     },
+    clearEcommerceSupplier(provider){
+        if(provider){
+          this.data.ecommerce_url = ''
+          this.data.supplier_id = ''
+        }
+    },
     clearSelectedServices(){
        this.$store.state.selectedServices = [];
     },
@@ -518,7 +524,7 @@ export default {
       "selectedCondition",
     ]),
     servicesCode() {
-      return this.$store.state.selectedServices.map((item) => item.code);
+        return this.$store.state.selectedServices.map((item) => item.code);
     },
   },
   async mounted() {
@@ -526,20 +532,19 @@ export default {
       this.$store.dispatch("application/getSuppliers");
       this.$store.dispatch("application/getServices");
       this.$store.dispatch("application/getCurrencies");
+      
       let application = document.getElementById("applications");
+
       if (application !== null) {
         this.toogleMenuTabs();
-        const { data } = await axios.get(
-          "/get-application/" + application.value
-        );
+        const { data } = await axios.get("/get-application/" + application.value);
+
         this.$store.dispatch("application/setData", data);
         this.$store.dispatch("payment/setPayment", data.payment_provider);
         this.$store.dispatch("load/setLoad", data);
         this.$store.dispatch("address/setTransport", data);
-        this.$store.dispatch(
-          "application/getServicesSelecteds",
-          application.value
-        );
+        this.$store.dispatch("internment/setData", data);
+        this.$store.dispatch("application/getServicesSelecteds", application.value);
       } else {
         this.$store.state.application.tabs = servicedefault;
       }

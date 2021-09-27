@@ -26,7 +26,20 @@ export default {
     getters: {
      
     },
+    mutations: {
+        SET_DATA(state, { application_id, custom_agent_id, customs_house, iva, adv,agent_payment  }){
+            state.expenses.application_id = application_id 
+            state.expenses.customs_house = customs_house 
+            state.expenses.iva = iva 
+            state.expenses.adv = adv 
+            state.expenses.agent_payment = agent_payment
+            state.expenses.custom_agent_id = custom_agent_id
+        },
+    },
     actions:{
-        
+        setData({ commit }, {internment_process }){
+            
+            commit("SET_DATA", internment_process);
+        }
     }
   }
