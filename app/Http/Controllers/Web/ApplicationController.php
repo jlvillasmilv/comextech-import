@@ -457,7 +457,7 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * 
-     */
+    */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
        
