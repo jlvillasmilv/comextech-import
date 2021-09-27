@@ -291,18 +291,57 @@ export default {
       this.expenses.origin_latitude = addressData.latitude;
       this.expenses.origin_longitude = addressData.longitude;
 
-      if (typeof addressData.postal_code !== "undefined") {
-        this.expenses.origin_postal_code = addressData.postal_code;
+
+      for (const component of placeResultData.address_components) {
+        const componentType = component.types[0];
+
+        switch (componentType) {
+         
+          case "country":
+            this.expenses.origin_ctry_code = component.short_name;
+            break;
+
+          case "postal_code": {
+              this.expenses.origin_postal_code = `${component.long_name}${this.expenses.origin_postal_code}`;
+              break;
+          }
+
+          case "postal_code_suffix": {
+             this.expenses.origin_postal_code = `${this.expenses.origin_postal_code}-${component.long_name}`;
+             break;
+          }
+        }
       }
     },
     getAddressDestination: function (addressData, placeResultData, id) {
+
+      for (const component of placeResultData.address_components) {
+        const componentType = component.types[0];
+
+        switch (componentType) {
+         
+          case "country":
+            console.log(component.short_name);
+            this.expenses.dest_ctry_code = component.short_name;
+            break;
+
+          case "postal_code": {
+              this.expenses.dest_postal_code = `${component.long_name}${this.expenses.dest_postal_code}`;
+              break;
+          }
+
+          case "postal_code_suffix": {
+             this.expenses.dest_postal_code = `${this.expenses.dest_postal_code}-${component.long_name}`;
+             break;
+          }
+        }
+      }
+
       this.expenses.address_destination = placeResultData.formatted_address;
       this.expenses.dest_latitude = addressData.latitude;
       this.expenses.dest_longitude = addressData.longitude;
+      //this.expenses.dest_ctry_code = placeResultData.address_components.
 
-      if (typeof addressData.postal_code !== "undefined") {
-        this.expenses.dest_postal_code = addressData.postal_code;
-      }
     },
   },
   computed: {
