@@ -76,6 +76,13 @@ const mutations={
             return state.data.statusSuppliers = 'with'
         else
             return state.data.statusSuppliers = 'without'
+    },
+    TOOGLE_TABS(state, services){
+        state.tabs = state.tabs.map( item =>  
+            services.find(e => e == item.code) 
+            ? {...item , checked: true} 
+            : item 
+        )
     }
 }
 const actions = {
@@ -101,6 +108,10 @@ const actions = {
         commit('SET_DATA', data)
         commit('SET_CURRENCY', data)
         commit('SET_SUPPLIER_TYPE', data)
+    },
+    async getServicesSelecteds({ commit }, id){
+        const { data } = await axios.get("/get-application-category/" + id);
+        commit('TOOGLE_TABS', data)
     },
 }
 
