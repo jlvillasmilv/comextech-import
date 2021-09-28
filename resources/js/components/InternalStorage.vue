@@ -12,7 +12,7 @@
                         Ubicacion de Destino
                     </span>
                     <select v-model="form.warehouse_id"
-                        class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                        class="block  w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                             <option
                                 v-for="item in warehouses"
                                 :value="item.id"

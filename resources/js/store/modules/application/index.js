@@ -54,12 +54,12 @@ const mutations={
         state.editing = true
         state.data = new Form({
             ...state.data,
-            condition:condition,
-            amount: amount,
+            condition,
+            amount,
             supplier_id: supplier_id == null ? ecommerce_id : supplier_id,
-            currency_id: currency_id,
-            ecommerce_url: ecommerce_url,
-            application_id: application_id,
+            currency_id,
+            ecommerce_url,
+            application_id,
             valuePercentage:{
                 name:`${fee1}/${fee2}`,
                 valueInitial:fee1
@@ -76,6 +76,13 @@ const mutations={
             return state.data.statusSuppliers = 'with'
         else
             return state.data.statusSuppliers = 'without'
+    },
+    TOOGLE_TABS(state, services){
+        state.tabs = state.tabs.map( item =>  
+            services.find(e => e == item.code) 
+            ? {...item , checked: true} 
+            : item 
+        )
     }
 }
 const actions = {
@@ -101,6 +108,10 @@ const actions = {
         commit('SET_DATA', data)
         commit('SET_CURRENCY', data)
         commit('SET_SUPPLIER_TYPE', data)
+    },
+    async getServicesSelecteds({ commit }, id){
+        const { data } = await axios.get("/get-application-category/" + id);
+        commit('TOOGLE_TABS', data)
     },
 }
 

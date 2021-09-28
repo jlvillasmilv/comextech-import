@@ -44,7 +44,6 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
-        //dd($request->all());
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         /** Evalua la el estado de una solicitud **/
@@ -286,7 +285,6 @@ class ApplicationController extends Controller
      */
     public function paymentProvider(Request $request)
     {
-       
         $values = collect($request);
 
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
@@ -363,7 +361,6 @@ class ApplicationController extends Controller
              return response()->json(['status' => 'OK'], 200);
         }
 
-
     }
 
     /**
@@ -377,6 +374,7 @@ class ApplicationController extends Controller
     */
     public function transports(Request $request)
     {
+
         DB::beginTransaction();
 
         try {
@@ -389,11 +387,13 @@ class ApplicationController extends Controller
                     'origin_latitude'       => $request->origin_latitude,
                     'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
+                    'origin_ctry_code'      => $request->origin_ctry_code,
                     'fav_dest_address'      => $request->fav_dest_address,
                     'address_destination'   => $request->address_destination,
                     'dest_latitude'         => $request->dest_latitude,
                     'dest_longitude'        => $request->dest_longitude,
                     'dest_postal_code'      => $request->dest_postal_code,
+                    'dest_ctry_code'        => $request->dest_ctry_code,
                     'estimated_date'        => $request->estimated_date,
                     'description'           => $request->description,
                     'insurance'             => $request->insurance,
@@ -433,7 +433,7 @@ class ApplicationController extends Controller
                  ])
              ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
  
-             }
+            }
 
             $this->load($request->input('dataLoad'),$request->application_id);
 
@@ -456,10 +456,9 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * 
-     */
+    */
     public function internmentProcesses(InternmentProcessRequest $request)
     {
-       
         DB::beginTransaction();
 
         try {
@@ -547,7 +546,7 @@ class ApplicationController extends Controller
             }
 
             //Agrega datos a carga de transporte
-            if(!$request->input('transport')){
+            if($request->input('transport')){
                
                 $this->load($request->input('dataLoad'),$request->application_id);
             }
