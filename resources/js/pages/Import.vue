@@ -252,20 +252,33 @@
                <!-- data.statusSuppliers == 'with' -->
                 <div class="flex items-center">
                   <input
-                    v-if="item.selected"
+                    v-if="item.selected && !item.checked"
                     type="checkbox"
                     class="
                       focus:outline-none
                       form-checkbox
-                      h-5
+                      h-5 222 11
                       w-5
                       text-green-600
                     "
                     :value="item"
-                    :checked="item.selected"
                     v-model="$store.state.selectedServices"
                   />
-                  <div v-else class="">
+                  <input
+                    v-if="item.checked"
+                    type="checkbox"
+                    class="
+                      focus:outline-none
+                      form-checkbox
+                      h-5 2 2222 7
+                      w-5
+                      text-green-600
+                    "
+                    @click="deleteService(item)"
+                    :value="item"
+                    :checked="item.checked"
+                  />
+                  <div v-else-if="!item.selected" class="">
                     <svg
                       class="w-5 h-5 text-gray-300"
                       fill="none"
@@ -361,16 +374,16 @@
   </div>
 </template>
 <script>
-import Modal from "../components/Modal.vue";
-import Container from "../components/Container.vue";
-import Addresses from "../components/Transport/Addresses.vue";
-import FormInternment from "../components/Internment/Form.vue";
-import FormPayment from "../components/PaymentProvider/Form.vue";
-import InternalStorage from "../components/InternalStorage.vue";
-import Exchange from "../components/Exchange";
-import servicedefault from "../data/services.json";
-import Tabs from "../components/Tabs.vue";
-import { mapState } from "vuex";
+import Modal from "../components/Modal.vue"
+import Container from "../components/Container.vue"
+import Addresses from "../components/Transport/Addresses.vue"
+import FormInternment from "../components/Internment/Form.vue"
+import FormPayment from "../components/PaymentProvider/Form.vue"
+import InternalStorage from "../components/InternalStorage.vue"
+import Exchange from "../components/Exchange"
+import servicedefault from "../data/services.json"
+import Tabs from "../components/Tabs.vue"
+import { mapState } from "vuex"
 
 export default {
   data() {
@@ -401,7 +414,7 @@ export default {
       ],
       origin_transport: "",
       objectPayment:{
-        "id": 8,
+        "id": 11,
         "name": "Pagos",
         "code": "ICS07",
         "selected": true,
@@ -410,7 +423,7 @@ export default {
           "category_service_id": 8
         }
       }
-    };
+    }
   },
   components: {
     Modal,
@@ -423,13 +436,18 @@ export default {
     Tabs,
   },
   methods: {
+    deleteService({ id }){
+   
+        this.$store.state.selectedServices = this.$store.state.selectedServices.filter(item => item.id !== id)
+        this.$store.state.application.tabs = this.$store.state.application.tabs.map(tab => tab.id  == id ? {...tab , checked: false } : tab )
+    },
     toDisableProviderPayment(value, provider = false){
         this.clearEcommerceSupplier(provider)
-        this.clearSelectedServices();
+        this.clearSelectedServices()
         if(value  == 'without'){
           this.$store.state.application.tabs = this.tabs.map(item => item.code  == "ICS01" ? { ...item, selected : false } : item )
         }else{
-          this.$store.state.application.tabs = this.selectedCondition.services;
+          this.$store.state.application.tabs = this.selectedCondition.services
         }
     },
     clearEcommerceSupplier(provider){
@@ -438,7 +456,6 @@ export default {
           this.data.supplier_id = ''
     },
     insertPaymentsToServices(){
-    
       const { selectedServices } = this.$store.state
       // Verificar si pagos ya esta agregado a servicios
       const exchange = selectedServices.find(e => e.code == 'ICS07')
@@ -447,14 +464,14 @@ export default {
     async submitFormApplications() {
       try {
         //obtener id de la moneda seleccionada antes del submit
-        this.data.currency_id = this.$store.state.application.currency.id;
+        this.data.currency_id = this.$store.state.application.currency.id
         //obtener solo los codigo de los services
-        this.data.services = this.servicesCode;
+        this.data.services = this.servicesCode
         // enviar form de data
-        const { data } = await this.data.post("/applications");
-        this.busy = true;
+        const { data } = await this.data.post("/applications")
+        this.busy = true
         if (data) {
-          this.insertPaymentsToServices();
+          this.insertPaymentsToServices()
           // Mostrar mensaje confirmacion
           Swal.fire({
             position: "center",
@@ -462,29 +479,29 @@ export default {
             title: "Solicitud creada con exito!",
             showConfirmButton: false,
             timer: 1500,
-          });
+          })
           // Ir a la posicion 0 para mostrar el menu
           this.$store.state.tabActive =
             this.$store.state.selectedServices[
               this.$store.state.positionTabs
-            ].code;
+            ].code
           // asignar id devuelta al form id
-          this.data.application_id = data.id;
-          this.$store.dispatch("exchange/getSummary", data.id);
+          this.data.application_id = data.id
+          this.$store.dispatch("exchange/getSummary", data.id)
           
           //  cerrar modal
-          this.$store.state.statusModal = !this.$store.state.statusModal;
+          this.$store.state.statusModal = !this.$store.state.statusModal
           //  posicion de modal comienzan en 0
-          this.$store.state.positionTabs = 0;
-          this.busy = false;
+          this.$store.state.positionTabs = 0
+          this.busy = false
 
           if (data.supplier_id != null) {
-            let provider = await axios.get("/api/provider/" + data.supplier_id);
-            this.origin_transport = provider.data.supplier_address;
+            let provider = await axios.get("/api/provider/" + data.supplier_id)
+            this.origin_transport = provider.data.supplier_address
           }
         }
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     },
     clearEcommerceSupplier(provider){
@@ -494,21 +511,21 @@ export default {
         }
     },
     clearSelectedServices(){
-       this.$store.state.selectedServices = [];
+       this.$store.state.selectedServices = []
     },
     handlePercentage(item) {
-      this.handleCurrency();
-      this.data.valuePercentage = item;
+      this.handleCurrency()
+      this.data.valuePercentage = item
     },
     handleCurrency() {
-      this.$store.state.payment.payment = [];
-      this.$store.state.payment.percentageInitial = 100;
-      this.data.amount = 0;
+      this.$store.state.payment.payment = []
+      this.$store.state.payment.percentageInitial = 100
+      this.data.amount = 0
     },
     toogleMenuTabs() {
-      this.clearSelectedServices();
-      this.$store.state.application.tabs = this.selectedCondition.services;
-      this.data.condition = this.selectedCondition.name;
+      this.clearSelectedServices()
+      this.$store.state.application.tabs = this.selectedCondition.services
+      this.data.condition = this.selectedCondition.name
       this.toDisableProviderPayment(this.data.statusSuppliers)
     },
   },
@@ -536,19 +553,25 @@ export default {
       let application = document.getElementById("applications");
 
       if (application !== null) {
+        const id = application.value
         this.toogleMenuTabs();
-        const { data } = await axios.get("/get-application/" + application.value);
+        const { data } = await axios.get("/get-application/" + id )
+        this.$store.dispatch("application/setData", data)
+        await this.$store.dispatch("application/getServicesSelecteds", id)
+        this.$store.state.selectedServices = this.tabs.filter(e => e.checked)
+        this.$store.dispatch("payment/setPayment", data.payment_provider)
+        this.$store.dispatch("load/setLoad", data)
+        this.$store.dispatch("address/setTransport", data)
+        this.$store.dispatch("internment/setData", data)
+        
 
-        this.$store.dispatch("application/setData", data);
-        this.$store.dispatch("payment/setPayment", data.payment_provider);
-        this.$store.dispatch("load/setLoad", data);
-        this.$store.dispatch("address/setTransport", data);
-        this.$store.dispatch("internment/setData", data);
-        this.$store.dispatch("application/getServicesSelecteds", application.value);
       } else {
-        this.$store.state.application.tabs = servicedefault;
+        this.$store.state.application.tabs = servicedefault
       }
     } catch (error) {}
   },
-};
+   
+   
+  
+}
 </script>
