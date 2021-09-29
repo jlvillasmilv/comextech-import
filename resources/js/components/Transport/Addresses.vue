@@ -57,7 +57,7 @@
                 <input
                   type="checkbox"
                   class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.address_origin"
+                  v-model="expenses.fav_address_origin"
                   @change="expenses.address_origin = ''"
                 /><span class="ml-2 text-gray-700">
                   Tus
