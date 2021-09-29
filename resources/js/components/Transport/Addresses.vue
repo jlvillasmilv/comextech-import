@@ -57,7 +57,7 @@
                 <input
                   type="checkbox"
                   class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_address_origin"
+                  v-model="expenses.address_origin"
                   @change="expenses.address_origin = ''"
                 /><span class="ml-2 text-gray-700">
                   Tus
@@ -76,6 +76,7 @@
               ></span>
             </label>
           </div>
+          <!-- Destino de Envio -->
           <div class="w-full md:w-1/2 px-3">
             <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400 font-semibold">
@@ -83,7 +84,8 @@
               </span>
  
               <vue-google-autocomplete
-                v-if="!expenses.fav_dest_address"
+                 v-if="!expenses.fav_dest_address"
+                v-model="expenses.address_destination"
                 id="addressDestination"
                 classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                 :placeholder="
