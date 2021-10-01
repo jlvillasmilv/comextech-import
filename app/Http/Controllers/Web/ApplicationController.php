@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
-use App\Models\{Currency, FileStore, FileStoreInternment, InternmentProcess, LocalWarehouse};
+use App\Models\{Currency, FileStore, FedexApi, FileStoreInternment, InternmentProcess, LocalWarehouse};
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -374,7 +374,7 @@ class ApplicationController extends Controller
     */
     public function transports(Request $request)
     {
-
+        dd($request->input('dataLoad'));
         DB::beginTransaction();
 
         try {
@@ -545,6 +545,8 @@ class ApplicationController extends Controller
 
             }
 
+            
+
             //Agrega datos a carga de transporte
             if($request->input('transport')){
                
@@ -605,6 +607,45 @@ class ApplicationController extends Controller
         return true;
     }
 
+    public function test()
+    {
+        $load=  [
+             [
+              "id" => 1,
+              "application_id" => 1,
+              "type_container" => "1",
+              "type_load" => "1",
+              "mode_selected" => "COURIER",
+              "mode_calculate" => true,
+              "cbm" => 0.1728,
+              "length_unit" => "cm",
+              "length" => 12,
+              "width" => 12,
+              "high" => 12,
+              "weight" => 45,
+              "weight_units" => "KG",
+              "stackable" => false
+             ],
+             [
+              "mode_calculate" => true,
+              "mode_selected" => "COURIER",
+              "type_load" => 1,
+              "type_container" => 1,
+              "length" => 20,
+              "width" => 10,
+              "high" => 10,
+              "length_unit" => "cm",
+              "id" => 0,
+              "cbm" => 0.2,
+              "weight" => 62,
+              "weight_units" => "KG",
+              "stackable" => false
+            ]
+        ];
+        
+        $connect = new FedexApi;
+        $connect->rateApi($load);
 
+    }
 
 }
