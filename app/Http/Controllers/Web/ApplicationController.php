@@ -374,10 +374,11 @@ class ApplicationController extends Controller
     */
     public function transports(Request $request)
     {
-        dd($request->input('dataLoad'));
+
+       //dd($request->all());
         DB::beginTransaction();
 
-        try {
+         try {
 
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
@@ -400,6 +401,12 @@ class ApplicationController extends Controller
                 ]
             );
 
+            $this->load($request->input('dataLoad'),$request->application_id);
+
+            //Fedex API
+            // $connect = new FedexApi;
+            // $total= $connect->rateApi($request->input('dataLoad'), $transport);
+
             $exchange = New Currency;
             $app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
 
@@ -408,7 +415,7 @@ class ApplicationController extends Controller
             ->where('services.summary', false)
             ->select('services.id')
             ->pluck('services.id');
- 
+
             foreach ($add_serv as $key => $id) {
 
                 $mount = $key == 0 ? $app_amount * 0.15 : $app_amount * 0.5 ;
@@ -416,7 +423,7 @@ class ApplicationController extends Controller
                 ApplicationDetail::updateOrCreate([
                      'application_id' =>  $request->application_id,
                      'service_id' => $id
-                     ],                    
+                     ],
                      [
                         'amount' =>  $mount,
                         'currency_id' =>  8
@@ -432,17 +439,15 @@ class ApplicationController extends Controller
                  ["service_id", $service_id]
                  ])
              ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
- 
-            }
 
-            $this->load($request->input('dataLoad'),$request->application_id);
+            }
 
          DB::commit();
 
-        } catch (\Exception $e) {
-            DB::rollback();
+         } catch (\Exception $e) {
+             DB::rollback();
             return response()->json(['status' => 'Error'], 400);
-        }
+         }
 
         return response()->json($transport->id, 200);
     }
@@ -642,9 +647,11 @@ class ApplicationController extends Controller
               "stackable" => false
             ]
         ];
-        
+
+        $transport =  Transport::where('id', 2)->firstOrFail();
+
         $connect = new FedexApi;
-        $connect->rateApi($load);
+        $connect->rateApi($load, $transport);
 
     }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a86e845bcb9eed45219c59b88b840c64",
+    "content-hash": "c07f5dfd261454ee07abff381d130e41",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1447,61 +1447,6 @@
                 }
             ],
             "time": "2020-06-13T08:05:20+00:00"
-        },
-        {
-            "name": "jeremy-dunn/php-fedex-api-wrapper",
-            "version": "5.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JeremyDunn/php-fedex-api-wrapper.git",
-                "reference": "cc77867e2df0aa2e4d2654673a3e86dfa352a490"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JeremyDunn/php-fedex-api-wrapper/zipball/cc77867e2df0aa2e4d2654673a3e86dfa352a490",
-                "reference": "cc77867e2df0aa2e4d2654673a3e86dfa352a490",
-                "shasum": ""
-            },
-            "require": {
-                "ext-soap": "*"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "^1.5",
-                "phpunit/phpunit": "^9.5",
-                "squizlabs/php_codesniffer": "^3.5",
-                "symfony/console": "^5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FedEx\\": "src/FedEx/",
-                    "FedEx\\Utility\\": "util/",
-                    "FedEx\\Tests\\": "tests/FedEx/Tests"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeremy Dunn",
-                    "email": "jeremy@jsdunn.info",
-                    "homepage": "http://www.jsdunn.info"
-                }
-            ],
-            "description": "API Wrapper for Fedex web services",
-            "homepage": "https://github.com/JeremyDunn/php-fedex-api-wrapper",
-            "keywords": [
-                "FedEx",
-                "shipping",
-                "soap"
-            ],
-            "support": {
-                "issues": "https://github.com/JeremyDunn/php-fedex-api-wrapper/issues",
-                "source": "https://github.com/JeremyDunn/php-fedex-api-wrapper/tree/5.0.2"
-            },
-            "time": "2021-08-18T21:02:26+00:00"
         },
         {
             "name": "laravel/fortify",

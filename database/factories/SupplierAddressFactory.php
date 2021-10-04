@@ -29,7 +29,8 @@ class SupplierAddressFactory extends Factory
             'address'           => $this->faker->address.', '.$this->faker->country,
             'address_latitude'  => $this->faker->latitude,
             'address_longitude' => $this->faker->longitude,
-            'postal_code'       => $this->faker->postcode,
+            'postal_code'       => 38017,
+            'country_code'      => "US",
             'place'             => $this->faker->randomElement(['ALMACEN', 'FABRICA', 'PUERTO']),
         ];
     }

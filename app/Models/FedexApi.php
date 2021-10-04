@@ -10,9 +10,8 @@ class FedexApi extends Model
 {
     use HasFactory;
 
-    public function rateApi($load, $requested_shipment=null)
+    public function rateApi($load, $transport = null)
     {
-       // dd($load);
         $package_line_items = array();
         foreach ($load as $key => $item) {
 
@@ -23,7 +22,31 @@ class FedexApi extends Model
             array_push($package_line_items, $package );
         }
 
-        //dd(json_encode($package_line_items));
+        $shipper_postal_code = $transport->origin_postal_code;
+        $shipper_country_code = $transport->origin_ctry_code;
+
+        if($transport->fav_address_origin){
+
+          $address = SupplierAddress::where('id', $transport->address_origin)->firstOrFail();
+
+          $shipper_postal_code = $address->postal_code;
+          $shipper_country_code = $address->country_code;
+
+        }
+
+        $recipient_postal_code = $transport->origin_postal_code;
+        $recipient_country_code = $transport->dest_ctry_code;
+
+        if($transport->fav_dest_address){
+
+          $address = CompanyAddress::where('id', $transport->address_destination)->firstOrFail();
+
+          $recipient_postal_code = $address->postal_code;
+          $recipient_country_code = $address->country->code;
+          
+        }
+
+        //dd(json_encode($shipper_postal_code));
 
       //generate token
       $credential = 'grant_type=client_credentials&client_id='.env('FEDEX_KEY').'&client_secret='.env('FEDEX_PASSWORD');
@@ -38,33 +61,46 @@ class FedexApi extends Model
       if(isset($token->access_token)){
   
         $body = '{
-                  "accountNumber": {
-                    "value": "'.env('FEDEX_ACCOUNT_NUMBER').'"
-                  },
-                  "requestedShipment": {
-                    "shipper": {
-                      "address": {
-                       
-                        "postalCode": 38017,
-                        "countryCode": "US",
-                        "residential":false
-                      }
-                    },
-                    "recipient": {
-                      "address": {
-                        
-                        "postalCode": 755000,
-                        "countryCode": "CL"
-                      }
-                    },
-                    "pickupType": "DROPOFF_AT_FEDEX_LOCATION",
-                    "serviceType": "INTERNATIONAL_PRIORITY",
-                    "preferredCurrency":"USD",
-                    "rateRequestType": ["LIST","ACCOUNT"],
-                    "shipDateStamp":"2021-10-06",
-                    "requestedPackageLineItems": '.json_encode($package_line_items).'
-                    }
-                }';
+          "accountNumber": {
+            "value": "'.env('FEDEX_ACCOUNT_NUMBER').'"
+          },
+          "requestedShipment": {
+            "shipper": {
+              "address": {
+                "postalCode": '.$shipper_postal_code.',
+                "countryCode": "'.$shipper_country_code.'",
+                "residential":false
+              }
+            },
+            "recipient": {
+              "address": {
+                
+                "postalCode": 755000,
+                "countryCode": "'.$recipient_country_code.'"
+              }
+            },
+            "pickupType": "DROPOFF_AT_FEDEX_LOCATION",
+            "serviceType": "INTERNATIONAL_PRIORITY",
+            "preferredCurrency":"USD",
+            "rateRequestType": ["LIST","ACCOUNT"],
+            "shipDateStamp":"2021-10-06",
+            "requestedPackageLineItems": '.json_encode($package_line_items).'
+            }
+        }';
+
+        //dd($body);
+
+            //     "postalCode": '.$shipper_postal_code.',
+            //     "countryCode": "'.$shipper_country_code.'",
+            //     "residential":false
+            //   }
+            // },
+            // "recipient": {
+            //   "address": {
+                
+            //     "postalCode": '.$recipient_postal_code.',
+            //     "countryCode": "'.$recipient_country_code.'"
+            //   }
 
                 // $example = '{
                 //     "accountNumber": {
