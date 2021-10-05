@@ -648,7 +648,7 @@ class ApplicationController extends Controller
             ]
         ];
 
-        $transport =  Transport::where('id', 2)->firstOrFail();
+        $transport =  Transport::where('id', 1)->firstOrFail();
 
         $connect = new FedexApi;
         $connect->rateApi($load, $transport);
