@@ -67,22 +67,23 @@ class FedexApi extends Model
       $rateRequest->Version->Intermediate = 0;
 
       $rateRequest->ReturnTransitAndCommit = true;
-      $rateRequest->RequestedShipment->PreferredCurrency = 'USD';
-      //$rateRequest->RequestedShipment->ServiceType = 'INTERNATIONAL_PRIORITY';
+      $rateRequest->RequestedShipment->ServiceType = (new SimpleType\ServiceType(SimpleType\ServiceType::_INTERNATIONAL_ECONOMY_FREIGHT));
       
-      //shipper
-      // dd($shipper_postal_code.' '.$shipper_country_code);
-      // $rateRequest->RequestedShipment->Shipper->Address->StreetLines = ['10 Fed Ex Pkwy'];
-      // $rateRequest->RequestedShipment->Shipper->Address->City = 'Memphis';
-      // $rateRequest->RequestedShipment->Shipper->Address->StateOrProvinceCode = 'TN';
-      $rateRequest->RequestedShipment->Shipper->Address->PostalCode = $shipper_postal_code;
-      $rateRequest->RequestedShipment->Shipper->Address->CountryCode = $shipper_country_code;
 
-      // $rateRequest->RequestedShipment->Recipient->Address->StreetLines = ['13450 Farmcrest Ct'];
-      // $rateRequest->RequestedShipment->Recipient->Address->City = 'Herndon';
-      // $rateRequest->RequestedShipment->Recipient->Address->StateOrProvinceCode = 'VA';
-      $rateRequest->RequestedShipment->Recipient->Address->PostalCode = 32789;
-      $rateRequest->RequestedShipment->Recipient->Address->CountryCode = 'US';
+    //shipper
+    $rateRequest->RequestedShipment->PreferredCurrency = 'USD';
+    // $rateRequest->RequestedShipment->Shipper->Address->StreetLines = ['10 Fed Ex Pkwy'];
+    // $rateRequest->RequestedShipment->Shipper->Address->City = 'Memphis';
+    // $rateRequest->RequestedShipment->Shipper->Address->StateOrProvinceCode = 'TN';
+    $rateRequest->RequestedShipment->Shipper->Address->PostalCode = $shipper_postal_code;
+    $rateRequest->RequestedShipment->Shipper->Address->CountryCode = $shipper_country_code;
+
+    //recipient
+     $rateRequest->RequestedShipment->Recipient->Address->StreetLines = ['Augusto leguia'];
+     $rateRequest->RequestedShipment->Recipient->Address->City = 'Las Condes';
+     //$rateRequest->RequestedShipment->Recipient->Address->StateOrProvinceCode = 'RM';
+     //$rateRequest->RequestedShipment->Recipient->Address->PostalCode = $recipient_postal_code;
+     $rateRequest->RequestedShipment->Recipient->Address->CountryCode = 'CL';
 
       $rateRequest->RequestedShipment->ShippingChargesPayment->PaymentType = SimpleType\PaymentType::_SENDER;
 
@@ -92,16 +93,16 @@ class FedexApi extends Model
 
       $rateRequest->RequestedShipment->RequestedPackageLineItems = [new ComplexType\RequestedPackageLineItem(), new ComplexType\RequestedPackageLineItem()];
 
-      $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Value = 2;
-      $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Units = SimpleType\WeightUnits::_LB;
+      $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Value = 150;
+      $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Units = SimpleType\WeightUnits::_KG;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Length = 10;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Width = 10;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Height = 3;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Units = SimpleType\LinearUnits::_IN;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[0]->GroupPackageCount = 1;
 
-      $rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Weight->Value = 5;
-      $rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Weight->Units = SimpleType\WeightUnits::_LB;
+      $rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Weight->Value = 150;
+      $rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Weight->Units = SimpleType\WeightUnits::_KG;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Dimensions->Length = 20;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Dimensions->Width = 20;
       $rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Dimensions->Height = 10;
@@ -124,7 +125,7 @@ class FedexApi extends Model
               echo "<hr />";
           }
       }
-      dd($rateReply->RateReplyDetails);
+      dd($rateReply );
       //var_dump($rateReply);
 
   }

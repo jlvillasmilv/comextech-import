@@ -26,10 +26,11 @@ class SupplierAddressFactory extends Factory
             'supplier_id' => function () {
                 return  \App\Models\Supplier::factory()->create()->id;
             },
-            'address'           => $this->faker->address.', '.$this->faker->country,
+            'address'           => $this->faker->address,
             'address_latitude'  => $this->faker->latitude,
             'address_longitude' => $this->faker->longitude,
             'postal_code'       => 38017,
+            'locality'          => 'Memphis',
             'country_code'      => "US",
             'place'             => $this->faker->randomElement(['ALMACEN', 'FABRICA', 'PUERTO']),
         ];
