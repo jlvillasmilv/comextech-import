@@ -69,10 +69,10 @@ class ApplicationSeeder extends Seeder
             [  'application_id'  => $application->id,
                 'cbm'            => 0.1728,
                 'stackable'      => 0,
-                'length_unit'    => 'cm',
-                'length'         => 12,
-                'width'          => 12,
-                'high'           => 12,
+                'length_unit'    => 'CM',
+                'length'         => 10,
+                'width'          => 10,
+                'height'         => 12,
                 'mode_calculate' => 1,
                 'mode_selected'  => 'COURIER',
                 'type_container' => 1,
@@ -93,9 +93,9 @@ class ApplicationSeeder extends Seeder
                 [   
                     "application_id"      => $application->id,
                     "category_service_id" => $item->category_service_id,
-                    "service_id"  => $item->id, 
-                    "currency_id" => 8,
-                    "fee_date" => date('Y-m-d')
+                    "service_id"          => $item->id, 
+                    "currency_id"         => 8,
+                    "fee_date"            => date('Y-m-d')
                 ]
             ]);
         }

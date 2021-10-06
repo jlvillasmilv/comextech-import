@@ -114,7 +114,7 @@
                             placeholder="W"
                         />
                         <input
-                            v-model.number="item.high"
+                            v-model.number="item.height"
                             type="number"
                             class="h-9 w-13 focus:outline-none border rounded-r-lg flex items-center text-center  text-sm"
                             placeholder="H"
@@ -126,7 +126,7 @@
                             v-model="item.length_unit"
                             class="form-checkbox h-4 w-4 text-gray-800"
                             :id="'lengthUnit' + id"
-                            value="cm"
+                            value="CM"
                         /><span class="ml-2 text-gray-700"> cm </span>
                     </label>
                     <label class="inline-flex text-sm items-center mx-2  mt-2">
@@ -136,7 +136,7 @@
                             v-model="item.length_unit"
                             class="form-checkbox h-4 w-4 text-gray-800"
                             :id="'lengthUnit' + id"
-                            value="pulg"
+                            value="IN"
                         /><span class="ml-2 text-gray-700"> pulg </span>
                     </label>
                 </div>
@@ -152,7 +152,7 @@
                     v-if="item.mode_calculate"
                     :value="
                         (item.cbm =
-                            (item.length * item.width * item.high) / 10000)
+                            (item.length * item.width * item.height) / 10000)
                     "
                     class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"
                     :disabled="item.mode_calculate"
