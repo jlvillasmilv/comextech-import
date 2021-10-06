@@ -147,34 +147,34 @@ function initialize() {
   const locationInputs = document.getElementsByClassName("map-input");
 
   const autocompletes = [];
-  const geocoder = new google.maps.Geocoder;
   let postalField;
+  let placeId;
 
-postalField = document.querySelector("#postal_code");
+  postalField = document.querySelector("#postal_code");
 
   for (let i = 0; i < locationInputs.length; i++) {
 
       const input = locationInputs[i];
       const fieldKey = input.id.replace("-input", "");
-     // const isEdit = document.getElementById('address_latitude').value != '' && document.getElementById('address_longitude').value != '';
 
-      const autocomplete = new google.maps.places.Autocomplete(input);
+      const autocomplete = new google.maps.places.Autocomplete(input,{
+        fields: ["address_components", "geometry"],
+        types: ["address"],
+      });
       autocomplete.key = fieldKey;
       autocompletes.push({input: input, autocomplete: autocomplete});
 
   }
 
   for (let i = 0; i < autocompletes.length; i++) {
-      const input = autocompletes[i].input;
+
       const autocomplete = autocompletes[i].autocomplete;
-      const map = autocompletes[i].map;
-      const marker = autocompletes[i].marker;
-
+      
       google.maps.event.addListener(autocomplete, 'place_changed', function () {
-          // marker.setVisible(false);
           const place = autocomplete.getPlace();
+         
           let postcode = "";
-
+          let placId = place.place_id;
           // Get each component of the address from the place details,
           // and then fill-in the corresponding field on the form.
           // place.address_components are google.maps.GeocoderAddressComponent objects
@@ -197,10 +197,13 @@ postalField = document.querySelector("#postal_code");
           }
 
           postalField.value = postcode;
+          placeId = placId;
           
           document.querySelector("#address_latitude").value = place.geometry['location'].lat();
           document.querySelector("#address_longitude").value = place.geometry['location'].lng();
 
       });
   }
+
+
 }

@@ -17,7 +17,7 @@ class CountrySeeder extends Seeder
 
 		$countries = array(
 			array('code' => 'US', 'name' => 'United States'),
-			// array('code' => 'CA', 'name' => 'Canada'),
+			array('code' => 'CA', 'name' => 'Canada'),
 			// array('code' => 'AF', 'name' => 'Afghanistan'),
 			// array('code' => 'AL', 'name' => 'Albania'),
 			// array('code' => 'DZ', 'name' => 'Algeria'),
@@ -95,7 +95,7 @@ class CountrySeeder extends Seeder
 			// array('code' => 'GA', 'name' => 'Gabon'),
 			// array('code' => 'GM', 'name' => 'Gambia'),
 			// array('code' => 'GE', 'name' => 'Georgia'),
-			// array('code' => 'DE', 'name' => 'Germany'),
+			 array('code' => 'DE', 'name' => 'Alemania'),
 			// array('code' => 'GH', 'name' => 'Ghana'),
 			// array('code' => 'GI', 'name' => 'Gibraltar'),
 			// array('code' => 'GR', 'name' => 'Greece'),

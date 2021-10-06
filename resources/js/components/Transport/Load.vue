@@ -185,9 +185,9 @@
                         :name="'weight_units' + id"
                         class="form-checkbox h-4 w-4 text-gray-800"
                         checked
-                        value="kg"
+                        value="KG"
                     />
-                    <span class="ml-2 text-gray-700"> kg </span>
+                    <span class="ml-2 text-gray-700"> Kg </span>
                 </label>
                 <label class="inline-flex text-sm items-center mx-2  mt-2">
                     <input
@@ -196,9 +196,9 @@
                         :id="'weight_units' + id"
                         :name="'weight_units' + id"
                         class="form-checkbox h-4 w-4 text-gray-800"
-                        value="lbs"
+                        value="LB"
                     />
-                    <span class="ml-2 text-gray-700"> lbs </span>
+                    <span class="ml-2 text-gray-700"> Lbs </span>
                 </label>
             </div>
             <div class="flex">

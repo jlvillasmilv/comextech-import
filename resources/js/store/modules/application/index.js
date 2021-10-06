@@ -11,7 +11,7 @@ const state = {
         description: "",
         statusSuppliers: "with",
         services: [],
-        valuePercentage: ""
+        valuePercentage: "",
     }),
     agencyElectronic: [
         {
@@ -30,6 +30,7 @@ const state = {
     suppliers: [],
     arrayServices: [],
     currencies: [],
+    origin_transport: [],
     currency:'',
     selectedCondition:'',
     tabs:'',
@@ -49,6 +50,10 @@ const mutations={
     },
     SET_CURRENCY(state, {currency}){
         state.currency = currency
+    },
+    SET_ORIGIN_TRANSPORT(state, payload){
+        console.log(payload.supplier_address);
+        state.origin_transport = payload.supplier_address;
     },
     SET_DATA(state, {fee1, fee2, condition, amount, supplier_id, currency_id, ecommerce_id, ecommerce_url, id:application_id, payment_provider }, rootState){
         state.editing = true
@@ -103,6 +108,10 @@ const actions = {
             const { data } = await axios.get("/api/currencies");
             commit('SET_CURRENCIES', data)
         }
+    },
+    async getOriginTransport({ commit }, id){
+        const { data } = await axios.get("/api/provider/" + id);
+        commit('SET_ORIGIN_TRANSPORT', data)
     },
     async setData({ commit }, data){
         commit('SET_DATA', data)

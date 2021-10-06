@@ -38,10 +38,9 @@
                       focus:outline-none
                       focus:bg-white
                       focus:border-gray-500
-                  "
-                >
+                  ">
                   <option
-                    v-for="item in addreses"
+                    v-for="item in origin_transport"
                     :value="item.id"
                     :key="item.id"
                     class=" "
@@ -84,7 +83,7 @@
               </span>
  
               <vue-google-autocomplete
-                 v-if="!expenses.fav_dest_address"
+                v-if="!expenses.fav_dest_address"
                 v-model="expenses.address_destination"
                 id="addressDestination"
                 classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -135,12 +134,15 @@
                   Direccion de Destino Favoritas
                 </span>
               </label>
-              <span
+             
+            </label>
+
+             <span
                 class="text-xs text-red-600 dark:text-red-400"
                 v-if="expenses.errors.has('address_destination')"
                 v-html="expenses.errors.get('address_destination')"
               ></span>
-            </label>
+            
           </div>
         </div>
         <div
@@ -323,7 +325,6 @@ export default {
         switch (componentType) {
          
           case "country":
-            console.log(component.short_name);
             this.expenses.dest_ctry_code = component.short_name;
             break;
 
@@ -348,7 +349,7 @@ export default {
   },
   computed: {
     ...mapState("address", ["expenses", "addressDestination"]),
-    ...mapState("application", ["data", "currency"]),
+    ...mapState("application", ["data", "currency","origin_transport"]),
     addreses() {
       if (this.data.condiction == "FOB") {
         return this.addressDestination.filter((item) => item.place == "PUERTO");
