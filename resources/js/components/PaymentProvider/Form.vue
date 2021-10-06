@@ -444,14 +444,14 @@ export default {
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
         getHumanDate(date) {
-            /* Expresion regular para cambiar el formato de la fecha */
+            /* Regular expression to change the date format */
             let dateConvert = date.match(/\d+/g);
-            let year = dateConvert[0].substring(2); // cantidad de digitos para el año (0 año completo)
+            let year = dateConvert[0].substring(2); // number of digits for the year (0 full year)
             let month = dateConvert[1];
             let day = dateConvert[2];
             return `${day}-${month}-${year}`;
 
-            // return this.$luxon(date, "dd-MM-yyyy"); // anteriormente estaba asi
+            // return this.$luxon(date, "dd-MM-yyyy"); // before it was like this
         },
         removedPayment(item) {
             if (this.$store.state.application.statusSuppliers == "E-commerce")
