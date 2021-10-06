@@ -56,7 +56,7 @@ class UsersTableSeeder extends Seeder
               'locality'    => 'Las Condes',
               'place'       => 'ALMACEN',
               'address'     => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'
-            ]
+            ],
         ]);
 
         $client->ownedTeams()->save(Team::forceCreate([

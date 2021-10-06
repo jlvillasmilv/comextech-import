@@ -59,7 +59,7 @@ class ApplicationSeeder extends Seeder
                 'fav_address_origin'    => true,
                 'address_origin'        => 1,
                 'fav_dest_address'      => true,
-                'address_destination'   => 2,
+                'address_destination'   => 1,
                 'estimated_date'        => date('Y-m-d'),
                 'description'           => 'Carga',
             ]
