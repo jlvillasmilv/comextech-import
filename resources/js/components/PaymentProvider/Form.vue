@@ -1,8 +1,17 @@
 <template>
-    <div class=" flex w-full">
-        <div class="w-2/5 overflow-x-auto ">
+    <div class="flex w-full">
+        <div class="w-2/5 overflow-x-auto">
             <div
-                class="  mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800    "
+                class="
+          mx-3
+          px-4
+          py-3
+          mb-8
+          bg-white
+          rounded-lg
+          shadow-md
+          dark:bg-gray-800
+        "
             >
                 <div
                     v-if="
@@ -32,12 +41,13 @@
                         }}
                     </h3>
                 </div>
-                <h3 class="my-2   text-gray-400 dark:text-gray-200">
+                <h3 class="my-2 text-gray-400 dark:text-gray-200">
                     Monto Total a Pagar :
-                    {{ Number(data.amount).toLocaleString() }} {{currency.code}}
+                    {{ Number(data.amount).toLocaleString() }}
+                    {{ currency.code }}
                 </h3>
                 <div
-                    class="flex flex-wrap -mx-3  "
+                    class="flex flex-wrap -mx-3"
                     v-if="
                         $store.state.application.statusSuppliers !==
                             'E-commerce'
@@ -49,7 +59,21 @@
                         </span>
                         <input
                             :class="[]"
-                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+                            class="
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600
+                dark:bg-gray-700
+                focus:border-purple-400
+                focus:outline-none
+                focus:shadow-outline-purple
+                dark:text-gray-300
+                dark:focus:shadow-outline-gray
+                form-input
+                text-center
+              "
                             placeholder="%"
                             v-model.number="$store.state.payment.discount"
                             :disabled="
@@ -74,20 +98,33 @@
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Monto del Porcentaje Agregado
                         </span>
-                        <span class="block w-full mt-1 text-lg  text-center">
+                        <span class="block w-full mt-1 text-lg text-center">
                             {{ amountRound }}
                         </span>
                     </div>
                 </div>
-                <div class="flex flex-wrap -mx-3  ">
+                <div class="flex flex-wrap -mx-3">
                     <div class="w-full md:w-1/2 px-3">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Fecha a Pagar Porcentaje </span
-                        >
+                            Fecha a Pagar Porcentaje
+                        </span>
                         <input
                             v-model="form.date_pay"
                             type="date"
-                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            class="
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600
+                dark:bg-gray-700
+                focus:border-purple-400
+                focus:outline-none
+                focus:shadow-outline-purple
+                dark:text-gray-300
+                dark:focus:shadow-outline-gray
+                form-input
+              "
                             placeholder="Empresa"
                             :min="minDate"
                         />
@@ -99,21 +136,44 @@
                         <div class="relative">
                             <select
                                 v-model="form.type_pay"
-                                class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                class="
+                  block
+                  appearance-none
+                  w-full
+                  border border-gray-150
+                  dark:border-gray-600
+                  text-gray-700
+                  p-2
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none
+                  focus:bg-white
+                  focus:border-gray-500
+                "
                                 id="grid-state"
                             >
-                                <option value="Transferencia">
-                                    Transferencia
-                                </option>
+                                <option value="Transferencia"
+                                    >Transferencia</option
+                                >
                                 <option value="Cobranza Documentaria">
                                     Cobranza Documentaria
                                 </option>
-                                <option value="Carta de Credito">
-                                    Carta de Credito
-                                </option>
+                                <option value="Carta de Credito"
+                                    >Carta de Credito</option
+                                >
                             </select>
                             <div
-                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                                class="
+                  pointer-events-none
+                  absolute
+                  inset-y-0
+                  right-0
+                  flex
+                  items-center
+                  px-2
+                  text-gray-700
+                "
                             >
                                 <svg
                                     class="fill-current h-4 w-4"
@@ -128,7 +188,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-wrap -mx-3  ">
+                <div class="flex flex-wrap -mx-3">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Restricion de Liberacion de pago
@@ -136,21 +196,44 @@
                         <div class="relative">
                             <select
                                 v-model="form.payment_release"
-                                class="block appearance-none w-full border border-gray-150 dark:border-gray-600  text-gray-700 p-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                class="
+                  block
+                  appearance-none
+                  w-full
+                  border border-gray-150
+                  dark:border-gray-600
+                  text-gray-700
+                  p-2
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none
+                  focus:bg-white
+                  focus:border-gray-500
+                "
                                 id="grid-state"
                             >
-                                <option value="Sin Restricción">
-                                    Sin Restricción
-                                </option>
-                                <option value="Contra Documento">
-                                    Ante Inspeccion
-                                </option>
-                                <option value="Contra Inspeccion">
-                                    Ante copia BL
-                                </option>
+                                <option value="Sin Restricción"
+                                    >Sin Restricción</option
+                                >
+                                <option value="Contra Documento"
+                                    >Ante Inspeccion</option
+                                >
+                                <option value="Contra Inspeccion"
+                                    >Ante copia BL</option
+                                >
                             </select>
                             <div
-                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                                class="
+                  pointer-events-none
+                  absolute
+                  inset-y-0
+                  right-0
+                  flex
+                  items-center
+                  px-2
+                  text-gray-700
+                "
                             >
                                 <svg
                                     class="fill-current h-4 w-4"
@@ -165,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex  space-x-2  px-3 mb-6 md:mb-0 my-5">
+                <div class="flex space-x-2 px-3 mb-6 md:mb-0 my-5">
                     <button
                         :disabled="
                             $store.state.payment.discount < 0 ||
@@ -225,20 +308,31 @@
                 </div>
             </div>
         </div>
-        <div class="w-3/5 overflow-x-auto ">
+        <div class="w-3/5 overflow-x-auto">
             <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
                 <div class="w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap">
                         <thead>
                             <tr
-                                class="text-xs  text-center font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                                class="
+                  text-xs text-center
+                  font-semibold
+                  tracking-wide
+                  text-left text-white
+                  uppercase
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400
+                  dark:bg-gray-800
+                "
                             >
                                 <th class="px-4 py-3">Pago</th>
                                 <th class="">%</th>
-                                <th class=" py-3">Monto</th>
-                                <th class=" py-3">Forma</th>
-                                <th class=" py-3">Restriccion</th>
-                                <th class=" py-3"></th>
+                                <th class="py-3">Monto</th>
+                                <th class="py-3">Forma</th>
+                                <th class="py-3">Restriccion</th>
+                                <th class="py-3"></th>
                             </tr>
                         </thead>
                         <tbody
@@ -259,7 +353,9 @@
                                             <p
                                                 class="text-xs text-gray-600 dark:text-gray-400"
                                             >
-                                                {{ getHumanDate(item.date_pay) }}
+                                                {{
+                                                    getHumanDate(item.date_pay)
+                                                }}
                                             </p>
                                         </div>
                                     </div>
@@ -267,7 +363,7 @@
                                 <td class="px-2 py-2 text-sm">
                                     {{ item.percentage }} %
                                 </td>
-                               
+
                                 <td class="px-4 py-3 text-sm">
                                     {{
                                         formatPrice(
@@ -278,12 +374,22 @@
                                 </td>
                                 <td class="px-4 py-3 text-xs">
                                     <span
-                                        class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:text-white dark:bg-green-600"
+                                        class="
+                      px-2
+                      py-1
+                      font-semibold
+                      leading-tight
+                      text-green-700
+                      bg-green-100
+                      rounded-full
+                      dark:text-white
+                      dark:bg-green-600
+                    "
                                     >
                                         {{ item.type_pay }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3 text-xs font-semibold ">
+                                <td class="px-4 py-3 text-xs font-semibold">
                                     {{ item.payment_release }}
                                 </td>
                                 <td>
@@ -313,101 +419,121 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 
 export default {
     data() {
         return {
             form: {
-                percentage: '',
-                date_pay: new Date().toISOString().slice(0,10),
-                type_pay: '',
-                payment_release: '',
-                manyPayment: '',
-                id: '',
+                percentage: "",
+                date_pay: new Date().toISOString().slice(0, 10),
+                type_pay: "",
+                payment_release: "",
+                manyPayment: "",
+                id: ""
             },
             application_id: this.$store.state.application.application_id,
-            code_serv:'ICS01',
+            code_serv: "ICS01",
             minDate: new Date().toISOString().substr(0, 10),
             percentajeDelete: {}
-        }
+        };
     },
     methods: {
         formatPrice(value) {
-            let val = (value/1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            let val = (value / 1).toFixed(0).replace(".", ",");
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
         getHumanDate(date) {
-            return this.$luxon(date, "dd-MM-yy")
+            /* Regular expression to change the date format */
+            let dateConvert = date.match(/\d+/g);
+            let year = dateConvert[0].substring(2); // number of digits for the year (0 full year)
+            let month = dateConvert[1];
+            let day = dateConvert[2];
+            return `${day}-${month}-${year}`;
+
+            // return this.$luxon(date, "dd-MM-yyyy"); // before it was like this
         },
         removedPayment(item) {
             if (this.$store.state.application.statusSuppliers == "E-commerce")
-                this.resetValues(100)
-            else this.resetValues(item.percentage)
-            this.$store.dispatch("payment/deletePayment", item.id)
+                this.resetValues(100);
+            else this.resetValues(item.percentage);
+            this.$store.dispatch("payment/deletePayment", item.id);
         },
         resetValues(percentage, percentageInitial = false) {
-            this.$store.state.payment.discount = percentage
-            this.$store.state.payment.percentageInitial += percentage
+            this.$store.state.payment.discount = percentage;
+            this.$store.state.payment.percentageInitial += percentage;
         },
         addPayment() {
-        
-            const { discount, percentageInitial } = this.$store.state.payment
+            const { discount, percentageInitial } = this.$store.state.payment;
 
-            if ( percentageInitial - discount >= 0 && this.form.type_pay != '' &&  this.manyPayment != ''  && this.form.date_pay != '' ) {
+            if (
+                percentageInitial - discount >= 0 &&
+                this.form.type_pay != "" &&
+                this.manyPayment != "" &&
+                this.form.date_pay != ""
+            ) {
                 this.$store.dispatch("payment/addPayment", {
                     ...this.form,
                     percentage: discount,
                     id: this.payment.length,
                     application_id: this.data.application_id,
-                    code_serv:'ICS01'
-                })
+                    code_serv: "ICS01"
+                });
                 this.form = {
-                    percentage: '',
-                    date_pay: new Date().toISOString().slice(0,10),
-                    type_pay: '',
-                    payment_release: '',
-                    manyPayment: '',
-                    id: '',
-                }
+                    percentage: "",
+                    date_pay: new Date().toISOString().slice(0, 10),
+                    type_pay: "",
+                    payment_release: "",
+                    manyPayment: "",
+                    id: ""
+                };
             }
         },
         async submitPayment() {
             try {
-                await axios.post("/applications/payment_provider", this.payment )
-                this.$store.dispatch("payment/getPayment", this.payment)
-                this.$store.dispatch("callIncomingOrNextMenu", true)
-                this.$store.dispatch('exchange/getSummary', this.data.application_id);
+                await axios.post(
+                    "/applications/payment_provider",
+                    this.payment
+                );
+                this.$store.dispatch("payment/getPayment", this.payment);
+                this.$store.dispatch("callIncomingOrNextMenu", true);
+                this.$store.dispatch(
+                    "exchange/getSummary",
+                    this.data.application_id
+                );
             } catch (error) {
-                 console.log(error)
+                console.log(error);
             }
         }
     },
     computed: {
-        ...mapState('payment', ['payment']),
-        ...mapState('application', ['data','currency', 'editing']),
+        ...mapState("payment", ["payment"]),
+        ...mapState("application", ["data", "currency", "editing"]),
         amountRound() {
-            const { discount } = this.$store.state.payment
-            return  Number(Math.round( this.data.amount * ( discount / 100))).toLocaleString()  + ' ' +  this.currency.code
-        },
-         
+            const { discount } = this.$store.state.payment;
+            return (
+                Number(
+                    Math.round(this.data.amount * (discount / 100))
+                ).toLocaleString() +
+                " " +
+                this.currency.code
+            );
+        }
     },
     created() {
-        const { name: typePayment, valueInitial  } = this.data.valuePercentage
+        const { name: typePayment, valueInitial } = this.data.valuePercentage;
 
-        if(this.editing && this.payment.length){
-             this.$store.state.payment.discount = 0
-            return this.$store.state.payment.percentageInitial  = 0
+        if (this.editing && this.payment.length) {
+            this.$store.state.payment.discount = 0;
+            return (this.$store.state.payment.percentageInitial = 0);
         }
-        if(this.payment.length && !this.editing)
-            return false
-        else if (this.$store.state.application.statusSuppliers == 'E-commerce')  
-            this.$store.state.payment.discount = 100
-        else if (typePayment !== 'Otros')  
-            this.$store.state.payment.discount  = valueInitial
-         
+        if (this.payment.length && !this.editing) return false;
+        else if (this.$store.state.application.statusSuppliers == "E-commerce")
+            this.$store.state.payment.discount = 100;
+        else if (typePayment !== "Otros")
+            this.$store.state.payment.discount = valueInitial;
     }
-}
+};
 </script>
 
 <style></style>
