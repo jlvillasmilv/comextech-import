@@ -20,7 +20,8 @@ class CreateSupplierAddressesTable extends Migration
             $table->double('address_latitude')->nullable();
             $table->double('address_longitude')->nullable();
             $table->string('postal_code',25)->nullable();
-            $table->string('country_code',5)->nullable();
+            $table->string('locality', 25)->nullable();
+            $table->string('country_code',4)->nullable();
             $table->string('address');
         });
             

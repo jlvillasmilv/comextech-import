@@ -13,7 +13,7 @@ const state = {
         id: 1,
         cbm: "",
         weight: false,
-        weight_units: "kg",
+        weight_units: "KG",
         stackable: false,
         id: 0,
     },

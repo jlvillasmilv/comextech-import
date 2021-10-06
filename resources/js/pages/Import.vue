@@ -412,7 +412,6 @@ export default {
         { name: "50/50", valueInitial: 50 },
         { name: "OTROS", valueInitial: 0 },
       ],
-      origin_transport: "",
       objectPayment:{
         "id": 11,
         "name": "Pagos",
@@ -496,8 +495,7 @@ export default {
           this.busy = false
 
           if (data.supplier_id != null) {
-            let provider = await axios.get("/api/provider/" + data.supplier_id)
-            this.origin_transport = provider.data.supplier_address
+            this.$store.dispatch("application/getOriginTransport", data.id)
           }
         }
       } catch (error) {
@@ -537,6 +535,7 @@ export default {
       "suppliers",
       "arrayServices",
       "currencies",
+      "origin_transport",
       "currency",
       "selectedCondition",
     ]),

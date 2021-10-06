@@ -40,7 +40,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $client->company()->create([
-            'country_id' => '15',
+            'country_id' => 6,
             'tax_id'  => '76722268-8',
             'name'    => 'Comextech',
             'email'   => 'info@Comex.Tech',
@@ -50,10 +50,14 @@ class UsersTableSeeder extends Seeder
         ]);
 
         \DB::table('company_addresses')->insert([
-            ['company_id' =>'1',  'country_id' => '15', 'postal_code' => '755000', 'place' => 'OFICINA', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
-            ['company_id' =>'1',  'country_id' => '15', 'postal_code' => '755000', 'place' => 'ALMACEN', 'address' => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'],
+            [ 'company_id'  => '1',
+              'country_id'  => '6',
+              'postal_code' => '7550214',
+              'locality'    => 'Las Condes',
+              'place'       => 'ALMACEN',
+              'address'     => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'
+            ],
         ]);
-        // 'address' => $this->faker->address,
 
         $client->ownedTeams()->save(Team::forceCreate([
             'user_id' => $client->id,

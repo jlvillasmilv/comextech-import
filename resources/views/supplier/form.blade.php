@@ -4,7 +4,7 @@
             <a href="{{route('supplier.index')}}">Proveedores</a>  
         </h2>
         <div class="flex justify-center px-6 m-auto my-2 ">
-            <div class="w-2/3 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div class="w-3/4 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="my-4 font-semibold text-gray-700 dark:text-gray-200">
                     Nuevo Proveedor
                 </h3>
@@ -109,12 +109,19 @@
 
                                   <input type="hidden" class="form-input" name="latitude" id="address_latitude" value="{{ old('latitude') }}" />
                                   <input type="hidden" class="form-input" name="longitude" id="address_longitude" value="{{ old('longitude') }}" />
-                                  <input type="hidden" class="form-input" placeholder="Codigo postal" id='postal_code' name="post_code" value="{{ old('post_code') }}">
+                                  
 
                                 <span id="amountError" class="text-xs text-red-600 dark:text-red-400">
                                     <strong></strong>
                                 </span>
                                 
+                            </div>
+
+                            <div class="w-1/4 ml-1">
+                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Cod Postal </label>
+
+                                <input type="text" placeholder="Codigo postal" id='postal_code' name="post_code" value="{{ old('post_code') }}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+
                             </div>
 
                             <button id="add" type="button" class="btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue" 
@@ -224,13 +231,13 @@
         const logit    = document.getElementById("address_longitude").value; 
         const post_cod = document.getElementById("postal_code").value;  
 
-        if (address.length <= 0) { return;  }
+        if (address.length <= 0 || post_cod.length <= 0 ) { return;  }
 
         tbodyEl.innerHTML += `
             <tr id="${Date.now()}">
                 <td><input type="hidden" name="place[]" value="${value}">  ${value}</td>
                 <td>
-                    <input type="hidden" name="origin_address[]" value="${address}"> ${address}
+                    <input type="hidden" name="origin_address[]" value="${address}"> ${address} ${post_cod}
                     <input type="hidden" class="form-input" name="address_latitude[]" id="address_latitude" value="${latit}" />
                     <input type="hidden" class="form-input" name="address_longitude[]" id="address_longitude" value="${logit}" />
                     <input type="hidden" class="form-input" name="postal_code[]" id="address_longitude" value="${post_cod}" />

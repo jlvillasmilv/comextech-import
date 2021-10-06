@@ -15,8 +15,8 @@ class CreateApplicationSummariesTable extends Migration
     {
         Schema::create('application_summaries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('application_id');
-            $table->foreignId('service_id')->references('id')->on('services')->onDelete('SET NULL');
+             $table->foreignId('application_id')->references('id')->on('applications');
+            $table->foreignId('service_id')->nullable()->references('id')->on('services')->onDelete('SET NULL');
             $table->unsignedBigInteger('category_service_id');
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->date('fee_date')->nullable();
