@@ -1,7 +1,7 @@
 <template>
   <div class="container grid px-6 my-1">
     <Load />
-     <!-- Notification validation error -->
+      <!-- Notification validation error -->
       <span
         class="text-xs text-red-600 dark:text-red-400"
         v-if="expenses.errors.has('dataLoad.0.length')"
