@@ -372,13 +372,13 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      * 
     */
-    public function transports(Request $request)
+    public function transports(TransportRequest $request)
     {
         DB::beginTransaction();
 
         try {
             $app_amount = 0;
-            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA')
+            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
                 //Fedex API
                 $connect = new FedexApi;
@@ -390,15 +390,13 @@ class ApplicationController extends Controller
                         # code...
                         $notifications[] = $notification->Message;
                     }
-                    return response()->json(['fedex' => $notifications], 422);
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
                 }
 
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
                     $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
                 }
             }
-
-            //dd($app_amount);
 
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
