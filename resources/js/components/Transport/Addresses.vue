@@ -1,26 +1,26 @@
 <template>
   <div class="container grid px-6 my-1">
     <Load />
-     <!-- Notification validation error -->
+      <!-- Notification validation error -->
       <span
         class="text-xs text-red-600 dark:text-red-400"
-        v-if="expenses.errors.has('length')"
-        v-html="expenses.errors.get('length')"
+        v-if="expenses.errors.has('dataLoad.0.length')"
+        v-html="expenses.errors.get('dataLoad.0.length')"
       ></span>
       <span
         class="text-xs text-red-600 dark:text-red-400"
-        v-if="expenses.errors.has('width')"
-        v-html="expenses.errors.get('width')"
+        v-if="expenses.errors.has('dataLoad.0.width')"
+        v-html="expenses.errors.get('dataLoad.0.width')"
       ></span>
       <span
         class="text-xs text-red-600 dark:text-red-400"
-        v-if="expenses.errors.has('height')"
-        v-html="expenses.errors.get('height')"
+        v-if="expenses.errors.has('dataLoad.0.height')"
+        v-html="expenses.errors.get('dataLoad.0.height')"
       ></span>
       <span
         class="text-xs text-red-600 dark:text-red-400"
-        v-if="expenses.errors.has('weight')"
-        v-html="expenses.errors.get('weight')"
+        v-if="expenses.errors.has('dataLoad.0.weight')"
+        v-html="expenses.errors.get('dataLoad.0.weight')"
       ></span>
       <span
         class="text-xs text-red-600 dark:text-red-400"
@@ -274,7 +274,9 @@
         >
           Cotizar
         </button>
+        
       </div>
+      <div v-if="expenses.progress">Progress: {{ expenses.progress.percentage }}%</div>
     </div>
   </div>
 </template>
