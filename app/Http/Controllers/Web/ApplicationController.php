@@ -384,15 +384,17 @@ class ApplicationController extends Controller
                 $connect = new FedexApi;
                 $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
 
-                $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
-
                 if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
                     $notifications = array();
-                    foreach ($api->Notifications as $key => $notification) {
+                    foreach ($fedex_response->Notifications as $key => $notification) {
                         # code...
                         $notifications[] = $notification->Message;
                     }
-                    return response()->json(['errors' => 'Paasword does not match'], 422);
+                    return response()->json(['fedex' => $notifications], 422);
+                }
+
+                if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
+                    $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
                 }
             }
 
