@@ -77,19 +77,12 @@
                             placeholder="%"
                             v-model.number="$store.state.payment.discount"
                             :disabled="
-                                $store.state.payment.discount < 0 ||
-                                    $store.state.payment.percentageInitial == 0
+                                $store.state.payment.percentageInitial == 0
                             "
                             step="1"
                             type="number"
                         />
                         <!-- valid if the field is empty -->
-                        <span
-                            v-if="$store.state.payment.discount == ''"
-                            class="text-red-600 text-xs"
-                        >
-                            Este campo no puede estar vacio
-                        </span>
                         <!-- <input
                             v-else
                             disabled
@@ -135,12 +128,6 @@
                             placeholder="Empresa"
                             :min="minDate"
                         />
-                        <span
-                            v-if="!form.date_pay"
-                            class="text-red-600 text-xs"
-                        >
-                            Fecha inválida
-                        </span>
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
@@ -176,12 +163,6 @@
                                     >Carta de Credito</option
                                 >
                             </select>
-                            <span
-                                v-if="!form.type_pay"
-                                class="text-red-600 text-xs"
-                            >
-                                Este campo no puede estar vacio
-                            </span>
                             <div
                                 class="
                   pointer-events-none
@@ -242,12 +223,6 @@
                                     >Ante copia BL</option
                                 >
                             </select>
-                            <span
-                                v-if="!form.payment_release"
-                                class="text-red-600 text-xs"
-                            >
-                                Este campo no puede estar vacio
-                            </span>
                             <div
                                 class="
                   pointer-events-none
@@ -273,14 +248,32 @@
                         </div>
                     </div>
                 </div>
+                <span
+                    v-if="
+                        $store.state.payment.discount <= 0 ||
+                            $store.state.payment.percentageInitial == 0 ||
+                            !form.date_pay ||
+                            form.type_pay == '' ||
+                            form.payment_release == ''
+                    "
+                    class="text-center text-red-600 text-xs"
+                    >Complete todos los campos*</span
+                >
                 <div class="flex space-x-2 px-3 mb-6 md:mb-0 my-5">
                     <button
                         :disabled="
                             $store.state.payment.discount < 0 ||
-                                $store.state.payment.percentageInitial == 0
+                                $store.state.payment.percentageInitial == 0 ||
+                                !form.date_pay ||
+                                form.type_pay == '' ||
+                                form.payment_release == ''
                         "
                         :class="[
-                            $store.state.payment.discount > 0
+                            $store.state.payment.discount > 0 &&
+                            $store.state.payment.percentageInitial != 0 &&
+                            form.date_pay &&
+                            form.type_pay != '' &&
+                            form.payment_release != ''
                                 ? 'active:bg-purple-600 hover:bg-purple-700  bg-purple-600'
                                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
                             'flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple'
@@ -489,9 +482,11 @@ export default {
             this.$store.state.payment.percentageInitial += percentage;
         },
         addPayment() {
+            console.log('aqui', this.$store.state.payment);
             const { discount, percentageInitial } = this.$store.state.payment;
 
             if (
+                discount != 0 &&
                 percentageInitial - discount >= 0 &&
                 this.form.type_pay != '' &&
                 this.manyPayment != '' &&
