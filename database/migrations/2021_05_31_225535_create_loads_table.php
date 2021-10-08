@@ -24,7 +24,7 @@ class CreateLoadsTable extends Migration
             $table->string('length_unit',10)->nullable();
             $table->unsignedSmallInteger('length')->nullable(); 
             $table->unsignedSmallInteger('width')->nullable(); 
-            $table->unsignedSmallInteger('high')->nullable(); 
+            $table->unsignedSmallInteger('height')->nullable(); 
             $table->string('weight', 12)->nullable();
             $table->string('weight_units',10)->nullable();
             $table->boolean('stackable')->default(false);
