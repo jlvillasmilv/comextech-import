@@ -83,6 +83,13 @@
                             step="1"
                             type="number"
                         />
+                        <!-- valid if the field is empty -->
+                        <span
+                            v-if="$store.state.payment.discount == ''"
+                            class="text-red-600 text-xs"
+                        >
+                            Este campo no puede estar vacio
+                        </span>
                         <!-- <input
                             v-else
                             disabled
@@ -128,6 +135,12 @@
                             placeholder="Empresa"
                             :min="minDate"
                         />
+                        <span
+                            v-if="!form.date_pay"
+                            class="text-red-600 text-xs"
+                        >
+                            Fecha inválida
+                        </span>
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
@@ -163,6 +176,12 @@
                                     >Carta de Credito</option
                                 >
                             </select>
+                            <span
+                                v-if="!form.type_pay"
+                                class="text-red-600 text-xs"
+                            >
+                                Este campo no puede estar vacio
+                            </span>
                             <div
                                 class="
                   pointer-events-none
@@ -223,6 +242,12 @@
                                     >Ante copia BL</option
                                 >
                             </select>
+                            <span
+                                v-if="!form.payment_release"
+                                class="text-red-600 text-xs"
+                            >
+                                Este campo no puede estar vacio
+                            </span>
                             <div
                                 class="
                   pointer-events-none
@@ -470,7 +495,8 @@ export default {
                 percentageInitial - discount >= 0 &&
                 this.form.type_pay != "" &&
                 this.manyPayment != "" &&
-                this.form.date_pay != ""
+                this.form.date_pay != "" &&
+                this.form.payment_release != ""
             ) {
                 this.$store.dispatch("payment/addPayment", {
                     ...this.form,
