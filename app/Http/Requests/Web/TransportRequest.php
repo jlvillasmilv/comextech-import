@@ -24,6 +24,7 @@ class TransportRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'application_id'             => 'required|exists:applications,id',
             'address_destination'        => 'required',
             'address_origin'             => 'required',
             'description'                => 'nullable|max:250',
@@ -40,5 +41,23 @@ class TransportRequest extends FormRequest
         ];
 
         return $rules;
+    }
+
+    public function attributes()
+    {
+        return [
+            'application_id'             => 'Nro. Solicitud',
+            'address_destination'        => 'Origen',
+            'address_origin'             => 'Destino',
+            'estimated_date'             => 'Fecha estimada',
+            'dataLoad'                   => 'Datos de carga',
+            'dataLoad.*.mode_selected'   => 'Tipo de entrega',
+            'dataLoad.*.length'          => 'Largo',
+            'dataLoad.*.width'           => 'Archo',
+            "dataLoad.*.height"          => "Altura",
+            "dataLoad.*.weight"          => 'Peso',
+            "dataLoad.*.type_load"       => 'Tipo de carga',
+            "dataLoad.*.type_container"  => 'Container',
+        ];
     }
 }
