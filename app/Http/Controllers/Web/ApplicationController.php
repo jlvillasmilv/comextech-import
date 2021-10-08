@@ -372,13 +372,31 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\Response
      * 
     */
-    public function transports(Request $request)
+    public function transports(TransportRequest $request)
     {
-
-       //dd($request->all());
         DB::beginTransaction();
 
-         try {
+        try {
+            $app_amount = 0;
+            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            {   
+                //Fedex API
+                $connect = new FedexApi;
+                $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
+
+                if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
+                    $notifications = array();
+                    foreach ($fedex_response->Notifications as $key => $notification) {
+                        # code...
+                        $notifications[] = $notification->Message;
+                    }
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
+                }
+
+                if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
+                    $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
+                }
+            }
 
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
@@ -403,12 +421,8 @@ class ApplicationController extends Controller
 
             $this->load($request->input('dataLoad'),$request->application_id);
 
-            //Fedex API
-            // $connect = new FedexApi;
-            // $total= $connect->rateApi($request->input('dataLoad'), $transport);
-
-            $exchange = New Currency;
-            $app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
+            //$exchange = New Currency;
+            //$app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
 
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)
@@ -418,7 +432,7 @@ class ApplicationController extends Controller
 
             foreach ($add_serv as $key => $id) {
 
-                $mount = $key == 0 ? $app_amount * 0.15 : $app_amount * 0.5 ;
+                $mount = $key == 0 ? $app_amount : $app_amount * 0.5 ;
 
                 ApplicationDetail::updateOrCreate([
                      'application_id' =>  $request->application_id,
@@ -444,10 +458,10 @@ class ApplicationController extends Controller
 
          DB::commit();
 
-         } catch (\Exception $e) {
-             DB::rollback();
+        } catch (\Exception $e) {
+            DB::rollback();
             return response()->json(['status' => 'Error'], 400);
-         }
+        }
 
         return response()->json($transport->id, 200);
     }
@@ -598,7 +612,7 @@ class ApplicationController extends Controller
                     'length_unit'    => $item['length_unit'],
                     'length'         => $item['length'],
                     'width'          => $item['width'],
-                    'high'           => $item['high'],
+                    'height'         => $item['height'],
                     'mode_calculate' => $item['mode_calculate'],
                     'mode_selected'  => $item['mode_selected'],
                     'type_container' => $item['type_container'],
@@ -614,43 +628,64 @@ class ApplicationController extends Controller
 
     public function test()
     {
-        $load=  [
-             [
-              "id" => 1,
-              "application_id" => 1,
-              "type_container" => "1",
-              "type_load" => "1",
-              "mode_selected" => "COURIER",
-              "mode_calculate" => true,
-              "cbm" => 0.1728,
-              "length_unit" => "cm",
-              "length" => 12,
-              "width" => 12,
-              "high" => 12,
-              "weight" => 45,
-              "weight_units" => "KG",
-              "stackable" => false
-             ],
-             [
-              "mode_calculate" => true,
-              "mode_selected" => "COURIER",
-              "type_load" => 1,
-              "type_container" => 1,
-              "length" => 20,
-              "width" => 10,
-              "high" => 10,
-              "length_unit" => "cm",
-              "id" => 0,
-              "cbm" => 0.2,
-              "weight" => 62,
-              "weight_units" => "KG",
-              "stackable" => false
+
+        $data = [
+            "fav_address_origin" => true,
+            "address_origin" => "1",
+            "origin_latitude" => null,
+            "origin_longitude" => null,
+            "origin_postal_code" => null,
+            "origin_locality" => null,
+            "origin_ctry_code" => null,
+            "fav_dest_address" => true,
+            "address_destination" => "1",
+            "dest_latitude" => null,
+            "dest_longitude" => null,
+            "dest_postal_code" => null,
+            "dest_locality" => null,
+            "dest_ctry_code" => null,
+            "insurance" => false,
+            "estimated_date" => "2021-10-06",
+            "description" => "Carga",
+            "dataLoad" => [
+               [
+                "mode_calculate" => true,
+                "mode_selected" => "CARGA AEREA",
+                "type_load" => 1,
+                "type_container" => 1,
+                "length" => 10,
+                "width"  => 10,
+                "height" => 10,
+                "length_unit" => "CM",
+                "id" => 0,
+                "cbm" => 0.1728,
+                "weight" => 15,
+                "weight_units" => "KG",
+                "stackable" => false
+               ],
+            //    [
+            //     "mode_calculate" => true,
+            //     "mode_selected" => "CARGA AEREA",
+            //     "type_load" => 1,
+            //     "type_container" => 1,
+            //     "length" => 12,
+            //     "width" => 12,
+            //     "height" => 12,
+            //     "length_unit" => "CM",
+            //     "id" => 0,
+            //     "cbm" => 0.1728,
+            //     "weight" => 25,
+            //     "weight_units" => "KG",
+            //     "stackable" => false
+            //    ],
+               
             ]
         ];
-
-        $transport =  Transport::where('id', 1)->firstOrFail();
+       
         $connect = new FedexApi;
-        $connect->rateApi($load, $transport);
+        $api = $connect->rateApi($data);
+
+        dd($api);
 
     }
 

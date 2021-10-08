@@ -1,6 +1,32 @@
 <template>
   <div class="container grid px-6 my-1">
     <Load />
+      <!-- Notification validation error -->
+      <span
+        class="text-xs text-red-600 dark:text-red-400"
+        v-if="expenses.errors.has('dataLoad.0.length')"
+        v-html="expenses.errors.get('dataLoad.0.length')"
+      ></span>
+      <span
+        class="text-xs text-red-600 dark:text-red-400"
+        v-if="expenses.errors.has('dataLoad.0.width')"
+        v-html="expenses.errors.get('dataLoad.0.width')"
+      ></span>
+      <span
+        class="text-xs text-red-600 dark:text-red-400"
+        v-if="expenses.errors.has('dataLoad.0.height')"
+        v-html="expenses.errors.get('dataLoad.0.height')"
+      ></span>
+      <span
+        class="text-xs text-red-600 dark:text-red-400"
+        v-if="expenses.errors.has('dataLoad.0.weight')"
+        v-html="expenses.errors.get('dataLoad.0.weight')"
+      ></span>
+      <span
+        class="text-xs text-red-600 dark:text-red-400"
+        v-if="expenses.errors.has('fedex')"
+        v-html="expenses.errors.get('fedex')"
+      ></span>
     <div v-show="isActivateAddress">
       <div>
         <div class="flex flex-wrap -mx-3 my-8">
@@ -152,7 +178,7 @@
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                Fecha Estimada de Embarcacion
+                Fecha Estimada
               </span>
               <input
                 type="date"
@@ -205,6 +231,11 @@
                 placeholder="Introduzca la descripcion aqui"
               />
             </label>
+            <span
+                class="text-xs text-red-600 dark:text-red-400"
+                v-if="expenses.errors.has('description')"
+                v-html="expenses.errors.get('description')"
+              ></span>
           </div>
           <div class="w-1/6 mt-8">
             <label class="ml-6 text-gray-500 dark:text-gray-400">
@@ -243,7 +274,9 @@
         >
           Cotizar
         </button>
+        
       </div>
+      <div v-if="expenses.progress">Progress: {{ expenses.progress.percentage }}%</div>
     </div>
   </div>
 </template>

@@ -77,12 +77,12 @@
                             placeholder="%"
                             v-model.number="$store.state.payment.discount"
                             :disabled="
-                                $store.state.payment.discount < 0 ||
-                                    $store.state.payment.percentageInitial == 0
+                                $store.state.payment.percentageInitial == 0
                             "
                             step="1"
                             type="number"
                         />
+                        <!-- valid if the field is empty -->
                         <!-- <input
                             v-else
                             disabled
@@ -248,14 +248,32 @@
                         </div>
                     </div>
                 </div>
+                <span
+                    v-if="
+                        $store.state.payment.discount <= 0 ||
+                            $store.state.payment.percentageInitial == 0 ||
+                            !form.date_pay ||
+                            form.type_pay == '' ||
+                            form.payment_release == ''
+                    "
+                    class="text-center text-red-600 text-xs"
+                    >Complete todos los campos*</span
+                >
                 <div class="flex space-x-2 px-3 mb-6 md:mb-0 my-5">
                     <button
                         :disabled="
                             $store.state.payment.discount < 0 ||
-                                $store.state.payment.percentageInitial == 0
+                                $store.state.payment.percentageInitial == 0 ||
+                                !form.date_pay ||
+                                form.type_pay == '' ||
+                                form.payment_release == ''
                         "
                         :class="[
-                            $store.state.payment.discount > 0
+                            $store.state.payment.discount > 0 &&
+                            $store.state.payment.percentageInitial != 0 &&
+                            form.date_pay &&
+                            form.type_pay != '' &&
+                            form.payment_release != ''
                                 ? 'active:bg-purple-600 hover:bg-purple-700  bg-purple-600'
                                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
                             'flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple'
@@ -419,29 +437,29 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
     data() {
         return {
             form: {
-                percentage: "",
+                percentage: '',
                 date_pay: new Date().toISOString().slice(0, 10),
-                type_pay: "",
-                payment_release: "",
-                manyPayment: "",
-                id: ""
+                type_pay: '',
+                payment_release: '',
+                manyPayment: '',
+                id: ''
             },
             application_id: this.$store.state.application.application_id,
-            code_serv: "ICS01",
+            code_serv: 'ICS01',
             minDate: new Date().toISOString().substr(0, 10),
             percentajeDelete: {}
         };
     },
     methods: {
         formatPrice(value) {
-            let val = (value / 1).toFixed(0).replace(".", ",");
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            let val = (value / 1).toFixed(0).replace('.', ',');
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         },
         getHumanDate(date) {
             /* Regular expression to change the date format */
@@ -454,51 +472,54 @@ export default {
             // return this.$luxon(date, "dd-MM-yyyy"); // before it was like this
         },
         removedPayment(item) {
-            if (this.$store.state.application.statusSuppliers == "E-commerce")
+            if (this.$store.state.application.statusSuppliers == 'E-commerce')
                 this.resetValues(100);
             else this.resetValues(item.percentage);
-            this.$store.dispatch("payment/deletePayment", item.id);
+            this.$store.dispatch('payment/deletePayment', item.id);
         },
         resetValues(percentage, percentageInitial = false) {
             this.$store.state.payment.discount = percentage;
             this.$store.state.payment.percentageInitial += percentage;
         },
         addPayment() {
+            console.log('aqui', this.$store.state.payment);
             const { discount, percentageInitial } = this.$store.state.payment;
 
             if (
+                discount != 0 &&
                 percentageInitial - discount >= 0 &&
-                this.form.type_pay != "" &&
-                this.manyPayment != "" &&
-                this.form.date_pay != ""
+                this.form.type_pay != '' &&
+                this.manyPayment != '' &&
+                this.form.date_pay != '' &&
+                this.form.payment_release != ''
             ) {
-                this.$store.dispatch("payment/addPayment", {
+                this.$store.dispatch('payment/addPayment', {
                     ...this.form,
                     percentage: discount,
                     id: this.payment.length,
                     application_id: this.data.application_id,
-                    code_serv: "ICS01"
+                    code_serv: 'ICS01'
                 });
                 this.form = {
-                    percentage: "",
+                    percentage: '',
                     date_pay: new Date().toISOString().slice(0, 10),
-                    type_pay: "",
-                    payment_release: "",
-                    manyPayment: "",
-                    id: ""
+                    type_pay: '',
+                    payment_release: '',
+                    manyPayment: '',
+                    id: ''
                 };
             }
         },
         async submitPayment() {
             try {
                 await axios.post(
-                    "/applications/payment_provider",
+                    '/applications/payment_provider',
                     this.payment
                 );
-                this.$store.dispatch("payment/getPayment", this.payment);
-                this.$store.dispatch("callIncomingOrNextMenu", true);
+                this.$store.dispatch('payment/getPayment', this.payment);
+                this.$store.dispatch('callIncomingOrNextMenu', true);
                 this.$store.dispatch(
-                    "exchange/getSummary",
+                    'exchange/getSummary',
                     this.data.application_id
                 );
             } catch (error) {
@@ -507,15 +528,15 @@ export default {
         }
     },
     computed: {
-        ...mapState("payment", ["payment"]),
-        ...mapState("application", ["data", "currency", "editing"]),
+        ...mapState('payment', ['payment']),
+        ...mapState('application', ['data', 'currency', 'editing']),
         amountRound() {
             const { discount } = this.$store.state.payment;
             return (
                 Number(
                     Math.round(this.data.amount * (discount / 100))
                 ).toLocaleString() +
-                " " +
+                ' ' +
                 this.currency.code
             );
         }
@@ -528,9 +549,9 @@ export default {
             return (this.$store.state.payment.percentageInitial = 0);
         }
         if (this.payment.length && !this.editing) return false;
-        else if (this.$store.state.application.statusSuppliers == "E-commerce")
+        else if (this.$store.state.application.statusSuppliers == 'E-commerce')
             this.$store.state.payment.discount = 100;
-        else if (typePayment !== "Otros")
+        else if (typePayment !== 'Otros')
             this.$store.state.payment.discount = valueInitial;
     }
 };
