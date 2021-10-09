@@ -376,14 +376,14 @@ class ApplicationController extends Controller
     {
         DB::beginTransaction();
 
-        try {
+         try {
             $app_amount = 0;
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
                 //Fedex API
                 $connect = new FedexApi;
                 $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
-
+                
                 if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
                     $notifications = array();
                     foreach ($fedex_response->Notifications as $key => $notification) {
@@ -460,7 +460,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['status' => 'Error'], 400);
+            return response()->json(['status' => $e], 400);
         }
 
         return response()->json($transport->id, 200);
