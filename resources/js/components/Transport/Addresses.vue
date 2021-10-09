@@ -338,15 +338,16 @@ export default {
             this.expenses.origin_ctry_code = component.short_name;
             break;
 
+          case "locality":
+            this.expenses.dest_locality = component.long_name;
+          break;
+
           case "postal_code": {
-              this.expenses.origin_postal_code = `${component.long_name}${this.expenses.origin_postal_code}`;
+              this.expenses.origin_postal_code = component.long_name;
               break;
           }
 
-          case "postal_code_suffix": {
-             this.expenses.origin_postal_code = `${this.expenses.origin_postal_code}-${component.long_name}`;
-             break;
-          }
+         
         }
       }
     },
@@ -361,15 +362,15 @@ export default {
             this.expenses.dest_ctry_code = component.short_name;
             break;
 
+          case "locality":
+            this.expenses.dest_locality = component.long_name;
+            break;
+
           case "postal_code": {
-              this.expenses.dest_postal_code = `${component.long_name}${this.expenses.dest_postal_code}`;
+              this.expenses.dest_postal_code = component.long_name;
               break;
           }
 
-          case "postal_code_suffix": {
-             this.expenses.dest_postal_code = `${this.expenses.dest_postal_code}-${component.long_name}`;
-             break;
-          }
         }
       }
 
