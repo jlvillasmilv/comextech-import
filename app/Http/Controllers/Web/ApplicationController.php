@@ -645,7 +645,7 @@ class ApplicationController extends Controller
             "dest_locality" => null,
             "dest_ctry_code" => null,
             "insurance" => false,
-            "estimated_date" => "2021-10-06",
+            "estimated_date" => "2021-10-07",
             "description" => "Carga",
             "dataLoad" => [
                [
