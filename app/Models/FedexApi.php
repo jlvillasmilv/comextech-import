@@ -86,7 +86,6 @@ class FedexApi extends Model
 
       $shipDate  = new \DateTime();
       $ship_date = is_null($data['estimated_date']) ? $shipDate->format('c') : date('c',strtotime($data['estimated_date'])) ;
-      
       //shipper
       $rateRequest->RequestedShipment->PreferredCurrency = 'USD';
       $rateRequest->RequestedShipment->ShipTimestamp =  $ship_date;
@@ -134,13 +133,13 @@ class FedexApi extends Model
       $rateReply = $rateServiceRequest->getGetRatesReply($rateRequest); 
 
       $response = array();
-     
+     //dd($rateReply->RateReplyDetails);
       if (!empty($rateReply->RateReplyDetails)) {
           foreach ($rateReply->RateReplyDetails as $rateReplyDetail) {
              // var_dump($rateReplyDetail->ServiceType);
               $response['ServiceType'] = $rateReplyDetail->ServiceType;
               $response['DeliveryTimestamp'] = $rateReplyDetail->DeliveryTimestamp;
-
+             
               if (!empty($rateReplyDetail->RatedShipmentDetails)) {
 
                   foreach ($rateReplyDetail->RatedShipmentDetails as $ratedShipmentDetail) {
