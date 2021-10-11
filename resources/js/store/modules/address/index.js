@@ -16,7 +16,7 @@ const state = {
         dest_postal_code: "",
         dest_locality: "",
         dest_ctry_code: "",
-        estimated_date: "",
+        estimated_date: new Date().toISOString().slice(0, 10),
         description: "",
         dataLoad: [],
         fav_address_origin: false,

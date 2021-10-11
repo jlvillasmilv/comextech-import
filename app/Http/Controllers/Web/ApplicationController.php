@@ -635,7 +635,7 @@ class ApplicationController extends Controller
                 //Fedex API
                 $connect = new FedexApi;
                 $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
-                    
+
                 if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
                     $notifications = array();
                     foreach ($fedex_response->Notifications as $key => $notification) {
@@ -645,11 +645,13 @@ class ApplicationController extends Controller
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
                 }
 
-                dd($fedex_response);
+
+                $quote = array();
+
+                $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
 
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
-                    $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
@@ -684,7 +686,7 @@ class ApplicationController extends Controller
             "dest_locality" => null,
             "dest_ctry_code" => null,
             "insurance" => false,
-            "estimated_date" => "2021-10-07",
+            "estimated_date" => "2021-10-13",
             "description" => "Carga",
             "dataLoad" => [
                [
@@ -719,7 +721,7 @@ class ApplicationController extends Controller
 
         //  //Surcharges
         
-        dd(json_encode($quote));
+        dd($quote);
 
     }
 
