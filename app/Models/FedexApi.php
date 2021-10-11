@@ -134,7 +134,7 @@ class FedexApi extends Model
       $rateReply = $rateServiceRequest->getGetRatesReply($rateRequest); 
 
       $response = array();
-      //dd($rateReply);
+     
       if (!empty($rateReply->RateReplyDetails)) {
           foreach ($rateReply->RateReplyDetails as $rateReplyDetail) {
              // var_dump($rateReplyDetail->ServiceType);
@@ -159,7 +159,6 @@ class FedexApi extends Model
               }
              
           }
-         
           return $response; 
       }
 
