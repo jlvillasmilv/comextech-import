@@ -394,7 +394,7 @@ class ApplicationController extends Controller
                 }
 
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
-                    $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
+                    $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['TotalNetCharge'];
                 }
             }
 
@@ -626,6 +626,43 @@ class ApplicationController extends Controller
         return true;
     }
 
+    public function quotes(TransportRequest $request)
+    {
+        try {
+
+            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            {   
+                //Fedex API
+                $connect = new FedexApi;
+                $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
+                    
+                if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
+                    $notifications = array();
+                    foreach ($fedex_response->Notifications as $key => $notification) {
+                            # code...
+                            $notifications[] = $notification->Message;
+                    }
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
+                }
+
+                if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
+
+                    $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
+
+                    foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
+                        $quote[$item->SurchargeType] = $item->Amount->Amount;
+                    }
+            
+                    return response()->json($quote, 200);
+                }
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => $e], 400);
+        }
+
+    }
+
     public function test()
     {
 
@@ -663,21 +700,6 @@ class ApplicationController extends Controller
                 "weight_units" => "KG",
                 "stackable" => false
                ],
-            //    [
-            //     "mode_calculate" => true,
-            //     "mode_selected" => "CARGA AEREA",
-            //     "type_load" => 1,
-            //     "type_container" => 1,
-            //     "length" => 12,
-            //     "width" => 12,
-            //     "height" => 12,
-            //     "length_unit" => "CM",
-            //     "id" => 0,
-            //     "cbm" => 0.1728,
-            //     "weight" => 25,
-            //     "weight_units" => "KG",
-            //     "stackable" => false
-            //    ],
                
             ]
         ];
@@ -685,7 +707,15 @@ class ApplicationController extends Controller
         $connect = new FedexApi;
         $api = $connect->rateApi($data);
 
-        dd($api);
+        $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
+
+        foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
+            $quote[$item->SurchargeType] = $item->Amount->Amount;
+        }
+
+        //  //Surcharges
+        
+        dd(json_encode($quote));
 
     }
 

@@ -134,14 +134,26 @@ class FedexApi extends Model
       $rateReply = $rateServiceRequest->getGetRatesReply($rateRequest); 
 
       $response = array();
-      dd($rateReply);
+      //dd($rateReply);
       if (!empty($rateReply->RateReplyDetails)) {
           foreach ($rateReply->RateReplyDetails as $rateReplyDetail) {
              // var_dump($rateReplyDetail->ServiceType);
+              $response['ServiceType'] = $rateReplyDetail->ServiceType;
+              $response['DeliveryTimestamp'] = $rateReplyDetail->DeliveryTimestamp;
+
               if (!empty($rateReplyDetail->RatedShipmentDetails)) {
+
                   foreach ($rateReplyDetail->RatedShipmentDetails as $ratedShipmentDetail) {
                     //var_dump('<pre>'.$ratedShipmentDetail->ShipmentRateDetail->RateType . ": " . $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount. ": " .$ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Currency.'</pre>');
-                      $response[$ratedShipmentDetail->ShipmentRateDetail->RateType ] = $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount; 
+                      $response[$ratedShipmentDetail->ShipmentRateDetail->RateType ] = 
+                      [
+                        'TotalNetCharge'  => $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount,
+                        'TotalBaseCharge' => $ratedShipmentDetail->ShipmentRateDetail->TotalBaseCharge->Amount,
+                        'TotalBaseCharge' => $ratedShipmentDetail->ShipmentRateDetail->TotalBaseCharge->Amount,
+                        'TotalFreightDiscounts' => $ratedShipmentDetail->ShipmentRateDetail->TotalFreightDiscounts->Amount,
+                        'Surcharges' => $ratedShipmentDetail->ShipmentRateDetail->Surcharges,
+                      ]; 
+                      
                   }
 
               }
