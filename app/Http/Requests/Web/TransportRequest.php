@@ -29,7 +29,7 @@ class TransportRequest extends FormRequest
             'address_origin'             => 'required',
             'description'                => 'nullable|max:250',
             'destinacion'                => 'nullable|max:250',
-            'estimated_date'             => 'nullable|date',
+            'estimated_date'             => 'required|date',
             'dataLoad'                   => 'required|array',
             'dataLoad.*.mode_selected'   => 'required|string',
             "dataLoad.*.length"          => "required_if:dataLoad.*.mode_selected,in:COURIER,CARGA AEREA,CONSOLIDADO",
