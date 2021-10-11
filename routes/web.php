@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     })->where('id', '[0-9]+');
 
     Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
+    Route::post('/get-fedex-rate','App\Http\Controllers\Web\ApplicationController@fedexRate');
     Route::get('/test-fedex','App\Http\Controllers\Web\ApplicationController@test');
     Route::get('/get-application-category/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationCategory')->where('id', '[0-9]+');
 

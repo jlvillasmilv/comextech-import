@@ -626,7 +626,7 @@ class ApplicationController extends Controller
         return true;
     }
 
-    public function quotes(TransportRequest $request)
+    public function fedexRate(TransportRequest $request)
     {
         try {
 
@@ -645,10 +645,12 @@ class ApplicationController extends Controller
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
                 }
 
+                dd($fedex_response);
+
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
                     $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
-
+                    $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
                     }
@@ -712,6 +714,8 @@ class ApplicationController extends Controller
         foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
             $quote[$item->SurchargeType] = $item->Amount->Amount;
         }
+
+        $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
 
         //  //Surcharges
         

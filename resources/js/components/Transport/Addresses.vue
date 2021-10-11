@@ -305,14 +305,15 @@ export default {
     async submitForm() {
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
-         console.log(this.$store.state.load.loads, ' ENVIO DE INTERNAMIA')
-        await this.expenses.post("/applications/transports");
-        Toast.fire({
-          icon: "success",
-          title: "Datos Agregados",
-        });
-        this.$store.dispatch("exchange/getSummary", this.data.application_id);
-        this.$store.dispatch("callIncomingOrNextMenu", true);
+        await this.expenses.post("/get-fedex-rate");
+        //console.log(this.$store.state.load.loads, ' ENVIO DE INTERNAMIA')
+        // await this.expenses.post("/applications/transports");
+        // Toast.fire({
+        //   icon: "success",
+        //   title: "Datos Agregados",
+        // });
+        // this.$store.dispatch("exchange/getSummary", this.data.application_id);
+        // this.$store.dispatch("callIncomingOrNextMenu", true);
       } catch (error) {
         console.error(error);
       }
