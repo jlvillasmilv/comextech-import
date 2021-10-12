@@ -30,4 +30,9 @@ class Transport extends Model
         return $this->belongsTo(Application::class,'application_id');
     }
 
+    public function transCompany()
+    {
+        return $this->belongsTo(TransCompany::class,'trans_company_id');
+    }
+
 }

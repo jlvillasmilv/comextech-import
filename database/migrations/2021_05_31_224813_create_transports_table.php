@@ -16,6 +16,7 @@ class CreateTransportsTable extends Migration
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
+            $table->unsignedBigInteger('trans_company_id')->nullable();
             $table->boolean('fav_address_origin')->default(false);
             $table->string('address_origin')->nullable();
             $table->double('origin_latitude')->nullable();

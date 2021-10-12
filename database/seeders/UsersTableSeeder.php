@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder
 
         \DB::table('company_addresses')->insert([
             [ 'company_id'  => '1',
-              'country_id'  => '7',
+              'country_id'  => '41',
               'postal_code' => '7550214',
               'locality'    => 'Las Condes',
               'place'       => 'ALMACEN',
