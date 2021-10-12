@@ -148,7 +148,6 @@ class FedexApi extends Model
                       [
                         'TotalNetCharge'  => $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount,
                         'TotalBaseCharge' => $ratedShipmentDetail->ShipmentRateDetail->TotalBaseCharge->Amount,
-                        'TotalBaseCharge' => $ratedShipmentDetail->ShipmentRateDetail->TotalBaseCharge->Amount,
                         'TotalFreightDiscounts' => $ratedShipmentDetail->ShipmentRateDetail->TotalFreightDiscounts->Amount,
                         'Surcharges' => $ratedShipmentDetail->ShipmentRateDetail->Surcharges,
                       ]; 

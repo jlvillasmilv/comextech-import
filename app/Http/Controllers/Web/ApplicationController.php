@@ -653,6 +653,8 @@ class ApplicationController extends Controller
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
+                    $quote['ServiceType'] = $fedex_response['ServiceType'];
+
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
                     }
