@@ -15,7 +15,7 @@ class CreateTransCompaniesTable extends Migration
     {
         Schema::create('trans_companies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->index();
             $table->string('name',100);
             $table->string('description')->nullable();
             $table->string('url')->nullable();
@@ -23,7 +23,6 @@ class CreateTransCompaniesTable extends Migration
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

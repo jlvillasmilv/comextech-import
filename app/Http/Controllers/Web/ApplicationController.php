@@ -628,7 +628,6 @@ class ApplicationController extends Controller
 
     public function fedexRate(TransportRequest $request)
     {
-        dd($request->all());
         try {
 
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
