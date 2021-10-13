@@ -377,26 +377,26 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
          try {
-            $app_amount = 0;
-            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
-            {   
-                //Fedex API
-                $connect = new FedexApi;
-                $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
+            $app_amount = is_null($request->app_amount) ? $request->app_amount : 0;
+            // if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            // {   
+            //     //Fedex API
+            //     $connect = new FedexApi;
+            //     $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
                 
-                if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
-                    $notifications = array();
-                    foreach ($fedex_response->Notifications as $key => $notification) {
-                        # code...
-                        $notifications[] = $notification->Message;
-                    }
-                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
-                }
+            //     if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
+            //         $notifications = array();
+            //         foreach ($fedex_response->Notifications as $key => $notification) {
+            //             # code...
+            //             $notifications[] = $notification->Message;
+            //         }
+            //         return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
+            //     }
 
-                if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
-                    $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['TotalNetCharge'];
-                }
-            }
+            //     if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
+            //         $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['TotalNetCharge'];
+            //     }
+            // }
 
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
@@ -710,8 +710,18 @@ class ApplicationController extends Controller
             ]
         ];
        
+         //dhl
          $connect = new DHL;
          $api = $connect->quoteApi($data);
+  
+
+         $objJsonDocument = json_encode($api);
+         $arrOutput = json_decode($objJsonDocument, TRUE);
+
+           if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+                dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+           }
+
 
         // $connect = new FedexApi;
         // $api = $connect->rateApi($data);
