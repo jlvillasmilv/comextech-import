@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a86e845bcb9eed45219c59b88b840c64",
+    "content-hash": "e769457902d7e5bff9f210cd0db74dcc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1397,6 +1397,64 @@
                 }
             ],
             "time": "2021-10-05T13:56:00+00:00"
+        },
+        {
+            "name": "jackbayliss/laravel-dhl-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jackbayliss/laravel-dhl-api.git",
+                "reference": "7985d1a5ba46ebb1d5d363a83d5876aa950f834c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jackbayliss/laravel-dhl-api/zipball/7985d1a5ba46ebb1d5d363a83d5876aa950f834c",
+                "reference": "7985d1a5ba46ebb1d5d363a83d5876aa950f834c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "jackbayliss\\DHLApi\\DHLAPIProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "jackbayliss\\DHLApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Bayliss",
+                    "email": "jack@jackbayliss.com"
+                },
+                {
+                    "name": "Duwayne Brown",
+                    "email": "duwayne@hashtec.co.za"
+                }
+            ],
+            "description": "DHL XML Wrapper for Laravel",
+            "keywords": [
+                "dhl xml",
+                "dhml xml api",
+                "laravel",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/jackbayliss/laravel-dhl-api/issues",
+                "source": "https://github.com/jackbayliss/laravel-dhl-api/tree/master"
+            },
+            "time": "2020-07-16T13:18:54+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -9759,6 +9817,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "jackbayliss/laravel-dhl-api": 20,
         "mediconesystems/livewire-datatables": 20
     },
     "prefer-stable": true,

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
 use App\Models\{Currency, FileStore, FedexApi, FileStoreInternment, InternmentProcess, LocalWarehouse};
-
+use App\Models\services\DHL;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -710,20 +710,23 @@ class ApplicationController extends Controller
             ]
         ];
        
-        $connect = new FedexApi;
-        $api = $connect->rateApi($data);
+         $connect = new DHL;
+         $api = $connect->quoteApi($data);
 
-        $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
+        // $connect = new FedexApi;
+        // $api = $connect->rateApi($data);
 
-        foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
-            $quote[$item->SurchargeType] = $item->Amount->Amount;
-        }
+        // $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
 
-        $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
+        // foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
+        //     $quote[$item->SurchargeType] = $item->Amount->Amount;
+        // }
 
-        //  //Surcharges
+        // $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
+
+        // //  //Surcharges
         
-        dd($quote);
+        // dd($quote);
 
     }
 
