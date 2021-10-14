@@ -377,7 +377,7 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
          try {
-            $app_amount = is_null($request->app_amount) ? $request->app_amount : 0;
+            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
             // if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             // {   
             //     //Fedex API
@@ -626,6 +626,15 @@ class ApplicationController extends Controller
         return true;
     }
 
+    /**
+     * @author Jorge Villasmil.
+     * 
+     * Connect with fedex, dhl apis
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
     public function fedexRate(TransportRequest $request)
     {
         try {
@@ -653,7 +662,7 @@ class ApplicationController extends Controller
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
-                    $quote['ServiceType'] = $fedex_response['ServiceType'];
+                    $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
 
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
@@ -669,9 +678,36 @@ class ApplicationController extends Controller
 
     }
 
+     /**
+     * @author Jorge Villasmil.
+     * 
+     * Connect with dhl apis
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
+    public function dhlQuote(TransportRequest $request)
+    {
+        try {
+            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            {   
+                $objJsonDocument = json_encode($api);
+                $arrOutput = json_decode($objJsonDocument, TRUE);
+
+                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+                    dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+                }
+            }
+
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => $e], 400);
+        }
+    }
+
     public function test()
     {
-
         $data = [
             "fav_address_origin" => true,
             "address_origin" => "1",
@@ -710,33 +746,33 @@ class ApplicationController extends Controller
             ]
         ];
        
-         //dhl
-         $connect = new DHL;
-         $api = $connect->quoteApi($data);
+        //  //dhl
+        //  $connect = new DHL;
+        //  $api = $connect->quoteApi($data);
   
 
-         $objJsonDocument = json_encode($api);
-         $arrOutput = json_decode($objJsonDocument, TRUE);
+        //  $objJsonDocument = json_encode($api);
+        //  $arrOutput = json_decode($objJsonDocument, TRUE);
 
-           if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
-                dd($arrOutput['GetQuoteResponse']['BkgDetails']);
-           }
+        //    if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+        //         dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+        //    }
 
 
-        // $connect = new FedexApi;
-        // $api = $connect->rateApi($data);
+        $connect = new FedexApi;
+        $api = $connect->rateApi($data);
 
-        // $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
+        $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
 
-        // foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
-        //     $quote[$item->SurchargeType] = $item->Amount->Amount;
-        // }
+        foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
+            $quote[$item->SurchargeType] = $item->Amount->Amount;
+        }
 
-        // $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
-
+        $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
+        $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$api['ServiceType'])));
         // //  //Surcharges
         
-        // dd($quote);
+         dd($quote);
 
     }
 
