@@ -56,6 +56,9 @@ class CreateNewUser implements CreatesNewUsers
             'name'    => $input['company_name'],
             'status'  => 1
         ]);
+        $user->discount()->create([
+            'imp_a' => 60
+        ]);
         // $user->ownedTeams()->save(Team::forceCreate([
         //     'user_id' => $user->id,
         //     'name' => explode(' ', $user->name, 2)[0]."'s Team",

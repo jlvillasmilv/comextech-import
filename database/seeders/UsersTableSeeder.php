@@ -49,6 +49,10 @@ class UsersTableSeeder extends Seeder
             'status'  => 1
         ]);
 
+        $client->discount()->create([
+            'imp_a' => 60
+        ]);
+
         \DB::table('company_addresses')->insert([
             [ 'company_id'  => '1',
               'country_id'  => '41',
