@@ -377,27 +377,7 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
          try {
-            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
-            // if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
-            // {   
-            //     //Fedex API
-            //     $connect = new FedexApi;
-            //     $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
-                
-            //     if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
-            //         $notifications = array();
-            //         foreach ($fedex_response->Notifications as $key => $notification) {
-            //             # code...
-            //             $notifications[] = $notification->Message;
-            //         }
-            //         return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
-            //     }
-
-            //     if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
-            //         $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['TotalNetCharge'];
-            //     }
-            // }
-
+                      
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
@@ -420,6 +400,8 @@ class ApplicationController extends Controller
             );
 
             $this->load($request->input('dataLoad'),$request->application_id);
+
+            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
 
             //$exchange = New Currency;
             //$app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
@@ -746,33 +728,20 @@ class ApplicationController extends Controller
             ]
         ];
        
-        //  //dhl
-        //  $connect = new DHL;
-        //  $api = $connect->quoteApi($data);
-  
+        // $connect = new FedexApi;
+        // $api = $connect->rateApi($data);
 
-        //  $objJsonDocument = json_encode($api);
-        //  $arrOutput = json_decode($objJsonDocument, TRUE);
+        // $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
 
-        //    if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
-        //         dd($arrOutput['GetQuoteResponse']['BkgDetails']);
-        //    }
+        // foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
+        //     $quote[$item->SurchargeType] = $item->Amount->Amount;
+        // }
 
-
-        $connect = new FedexApi;
-        $api = $connect->rateApi($data);
-
-        $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
-
-        foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
-            $quote[$item->SurchargeType] = $item->Amount->Amount;
-        }
-
-        $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
-        $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$api['ServiceType'])));
+        // $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
+        // $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$api['ServiceType'])));
         // //  //Surcharges
         
-         dd($quote);
+        // dd($quote);
 
     }
 
