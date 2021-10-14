@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
 use App\Models\{Currency, FileStore, FedexApi, FileStoreInternment, InternmentProcess, LocalWarehouse};
-
+use App\Models\services\DHL;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -377,26 +377,26 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
          try {
-            $app_amount = 0;
-            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
-            {   
-                //Fedex API
-                $connect = new FedexApi;
-                $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
+            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
+            // if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            // {   
+            //     //Fedex API
+            //     $connect = new FedexApi;
+            //     $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
                 
-                if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
-                    $notifications = array();
-                    foreach ($fedex_response->Notifications as $key => $notification) {
-                        # code...
-                        $notifications[] = $notification->Message;
-                    }
-                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
-                }
+            //     if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
+            //         $notifications = array();
+            //         foreach ($fedex_response->Notifications as $key => $notification) {
+            //             # code...
+            //             $notifications[] = $notification->Message;
+            //         }
+            //         return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
+            //     }
 
-                if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
-                    $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['TotalNetCharge'];
-                }
-            }
+            //     if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
+            //         $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['TotalNetCharge'];
+            //     }
+            // }
 
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
@@ -626,6 +626,15 @@ class ApplicationController extends Controller
         return true;
     }
 
+    /**
+     * @author Jorge Villasmil.
+     * 
+     * Connect with fedex, dhl apis
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
     public function fedexRate(TransportRequest $request)
     {
         try {
@@ -653,7 +662,7 @@ class ApplicationController extends Controller
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
-                    $quote['ServiceType'] = $fedex_response['ServiceType'];
+                    $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
 
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
@@ -669,9 +678,36 @@ class ApplicationController extends Controller
 
     }
 
+     /**
+     * @author Jorge Villasmil.
+     * 
+     * Connect with dhl apis
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
+    public function dhlQuote(TransportRequest $request)
+    {
+        try {
+            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            {   
+                $objJsonDocument = json_encode($api);
+                $arrOutput = json_decode($objJsonDocument, TRUE);
+
+                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+                    dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+                }
+            }
+
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => $e], 400);
+        }
+    }
+
     public function test()
     {
-
         $data = [
             "fav_address_origin" => true,
             "address_origin" => "1",
@@ -710,6 +746,19 @@ class ApplicationController extends Controller
             ]
         ];
        
+        //  //dhl
+        //  $connect = new DHL;
+        //  $api = $connect->quoteApi($data);
+  
+
+        //  $objJsonDocument = json_encode($api);
+        //  $arrOutput = json_decode($objJsonDocument, TRUE);
+
+        //    if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+        //         dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+        //    }
+
+
         $connect = new FedexApi;
         $api = $connect->rateApi($data);
 
@@ -720,10 +769,10 @@ class ApplicationController extends Controller
         }
 
         $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
-
-        //  //Surcharges
+        $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$api['ServiceType'])));
+        // //  //Surcharges
         
-        dd($quote);
+         dd($quote);
 
     }
 
