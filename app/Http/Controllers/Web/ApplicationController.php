@@ -671,21 +671,25 @@ class ApplicationController extends Controller
     */
     public function dhlQuote(TransportRequest $request)
     {
-        try {
+
+       // try {
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
+                $connect = new DHL;
+                $api = $connect->quoteApi($request->except(['id','application_id','code_serv']));
                 $objJsonDocument = json_encode($api);
                 $arrOutput = json_decode($objJsonDocument, TRUE);
 
                 if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
-                    dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+                    //dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+                    return response()->json($arrOutput['GetQuoteResponse']['BkgDetails'], 200);
                 }
             }
 
 
-        } catch (\Exception $e) {
-            return response()->json(['status' => $e], 400);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => $e], 400);
+        // }
     }
 
     public function test()
@@ -706,7 +710,7 @@ class ApplicationController extends Controller
             "dest_locality" => null,
             "dest_ctry_code" => null,
             "insurance" => false,
-            "estimated_date" => "2021-10-13",
+            "estimated_date" => "2021-10-16",
             "description" => "Carga",
             "dataLoad" => [
                [
@@ -727,6 +731,11 @@ class ApplicationController extends Controller
                
             ]
         ];
+
+        $connect = new DHL;
+        $api = $connect->quoteApi($data);
+
+        dd($api);
        
         // $connect = new FedexApi;
         // $api = $connect->rateApi($data);
