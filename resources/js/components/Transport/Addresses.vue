@@ -520,14 +520,13 @@ export default {
                     this.fedex.DeliveryTimestamp
                 );
 
-                const dhl = await this.expenses.post('/get-dhl-quote'); // get data from fedex quote and rate api
-
-                // console.log(dhl.data);
-
-                this.transporte =
+                this.transportationRate =
                     this.fedex.TotalBaseCharge -
                     this.fedex.TotalFreightDiscounts;
                 this.transportationRate = this.transportationRate.toFixed(2); // transformando la tarifa de transporte en 2 decimales
+
+                const dhl = await this.expenses.post('/get-dhl-quote'); // get data from fedex quote and rate api
+                console.log(dhl.data);
 
                 console.log(
                     this.$store.state.load.loads,
