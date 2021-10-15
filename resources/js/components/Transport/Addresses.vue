@@ -352,7 +352,7 @@
                         class="mt-12 mb-4"
                     />
                     <button
-                        @click="fedexCotizacion()"
+                        @click="fedexCotizacion(fedex.TotalNetCharge, 2)"
                         class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                     >
                         Cotizar FEDEX
@@ -548,7 +548,9 @@ export default {
                 .Load; /* Ocultar/Mostrar formulario de cargas y dimensiones */
         },
 
-        async fedexCotizacion() {
+        async fedexCotizacion(appAmount, transCompanyId) {
+            this.expenses.app_amount = appAmount;
+            this.expenses.trans_company_id = transCompanyId;
             try {
                 await this.expenses.post('/applications/transports');
                 Toast.fire({
