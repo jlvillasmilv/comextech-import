@@ -482,7 +482,6 @@ export default {
             this.$store.state.payment.percentageInitial += percentage;
         },
         addPayment() {
-            console.log('aqui', this.$store.state.payment);
             const { discount, percentageInitial } = this.$store.state.payment;
 
             if (
