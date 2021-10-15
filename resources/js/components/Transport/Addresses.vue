@@ -517,11 +517,15 @@ export default {
                 this.Load = false; /* Ocultar formulario de cargas y dimensiones */
 
                 this.expenses.dataLoad = this.$store.state.load.loads;
-                const { data } = await this.expenses.post('/get-fedex-rate');
+                const { data } = await this.expenses.post('/get-fedex-rate'); // get data from fedex quote and rate api
                 this.fedex = data;
                 this.fedex.DeliveryTimestamp = this.$luxon(
                     this.fedex.DeliveryTimestamp
                 );
+
+                const dhl  = await this.expenses.post('/get-dhl-quote'); // get data from fedex quote and rate api
+
+               // console.log(dhl.data);
 
                 this.transporte =
                     this.fedex.TotalBaseCharge -
@@ -584,7 +588,7 @@ export default {
                         break;
 
                     case 'locality':
-                        this.expenses.dest_locality = component.long_name;
+                        this.expenses.origin_locality = component.long_name;
                         break;
 
                     case 'postal_code': {
