@@ -11,6 +11,7 @@ use App\Models\services\Api\DHLAbstractAPI;
 
         private $toCountryCode;
         private $toPostalCode;
+        private $toCity;
 
         private $shipDate;
         private $timeZone;
@@ -64,7 +65,8 @@ use App\Models\services\Api\DHLAbstractAPI;
             $xml->endElement();
             $xml->startElement('From');
             $xml->writeElement('CountryCode', $this->fromCountryCode); 
-            $xml->writeElement('Postalcode', $this->fromPostalCode); 
+            $xml->writeElement('Postalcode', $this->fromPostalCode);
+            $xml->writeElement('City', $this->fromCity);  
             $xml->endElement();
             $xml->startElement('BkgDetails');
             $xml->writeElement('PaymentCountryCode', $this->fromCountryCode);
@@ -101,6 +103,7 @@ use App\Models\services\Api\DHLAbstractAPI;
             $xml->startElement('To');
             $xml->writeElement('CountryCode',$this->toCountryCode); 
             $xml->writeElement('Postalcode', $this->toPostalCode); 
+            $xml->writeElement('City', $this->toCity);
             $xml->endElement();
             $xml->startElement('Dutiable');
             $xml->writeElement('DeclaredCurrency', $this->currency); 
@@ -130,6 +133,17 @@ use App\Models\services\Api\DHLAbstractAPI;
             }
 
             $this->toPostalCode = $value;
+
+            return $this;
+        }
+
+        public function toCity($value = NULL): self
+        {
+            if (empty($value)) {
+                return $this->toCity;
+            }
+
+            $this->toCity = $value;
 
             return $this;
         }

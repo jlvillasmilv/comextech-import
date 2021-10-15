@@ -19,6 +19,7 @@ class DHL extends Model
         $to_city         = $data['dest_locality'];
         $to_street_lines = $data['address_destination'];
         
+        
   
          // if favorite address origin is true find en storage
         if($data['fav_address_origin']){
@@ -63,8 +64,10 @@ class DHL extends Model
         ->shipDate($shipDate->format('Y-m-d'))
         ->fromCountryCode($from_country_code)
         ->fromPostalCode($from_postal_code)
-        ->toCountryCode("DE")
-        ->toPostalCode("91056")
+        ->fromCity($from_city)
+        ->toCountryCode($to_country_code)
+        ->toPostalCode($to_postal_code)
+        ->toCity($to_city)
         ->weightUnit($data['dataLoad'][0]['weight_units'])
         ->dimensionUnit($data['dataLoad'][0]['length_unit'])
         ->setPieces($pieces);
