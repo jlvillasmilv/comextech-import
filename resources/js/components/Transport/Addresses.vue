@@ -329,6 +329,7 @@
                     <div class="pl-10">
                         <span>Recargo por alta demanda</span>
                     </div>
+                    <div class="pl-10">Descuento</div>
                     <div class="pl-10">Total Estimado</div>
                 </div>
 
@@ -339,8 +340,9 @@
                     <div class="text-right">{{ transportationRate }}</div>
                     <div class="text-right">{{ fedex.FUEL }}</div>
                     <div class="text-right">{{ fedex.PEAK }}</div>
+                    <div class="text-right">-{{ fedex.Discount }}</div>
                     <div class="text-right">
-                        {{ fedex.TotalNetCharge }}
+                        {{ TotalEstimed }}
                     </div>
                 </div>
                 <div class="grid col-span-2 flex justify-items-center ml-20">
@@ -398,8 +400,9 @@
                     <div class="text-right">{{ transportationRate }}</div>
                     <div class="text-right">{{ fedex.FUEL }}</div>
                     <div class="text-right">{{ fedex.PEAK }}</div>
+                    <div class="text-right">-{{ fedex.Discount }}</div>
                     <div class="text-right">
-                        {{ fedex.TotalNetCharge }}
+                        {{ TotalEstimed }}
                     </div>
                 </div>
                 <div class="grid col-span-2 flex justify-items-center ml-20">
@@ -456,8 +459,9 @@
                     <div class="text-right">{{ transportationRate }}</div>
                     <div class="text-right">{{ fedex.FUEL }}</div>
                     <div class="text-right">{{ fedex.PEAK }}</div>
+                    <div class="text-right">-{{ fedex.Discount }}</div>
                     <div class="text-right">
-                        {{ fedex.TotalNetCharge }}
+                        {{ TotalEstimed }}
                     </div>
                 </div>
                 <div class="grid col-span-2 flex justify-items-center ml-20">
@@ -502,6 +506,7 @@ export default {
             safe: false,
             fedex: Object,
             transportationRate: '',
+            TotalEstimed: '',
             formAdress: true,
             adressDate: false
         };
@@ -516,14 +521,30 @@ export default {
                 this.expenses.dataLoad = this.$store.state.load.loads;
                 const { data } = await this.expenses.post('/get-fedex-rate'); // get data from fedex quote and rate api
                 this.fedex = data;
+
                 this.fedex.DeliveryTimestamp = this.$luxon(
+                    /* transformando la hora en formato "day-month-yyyy" */
                     this.fedex.DeliveryTimestamp
                 );
 
                 this.transportationRate =
                     this.fedex.TotalBaseCharge -
                     this.fedex.TotalFreightDiscounts;
-                this.transportationRate = this.transportationRate.toFixed(2); // transformando la tarifa de transporte en 2 decimales
+                this.transportationRate = this.transportationRate.toFixed(
+                    2
+                ); /* transformando la tarifa de transporte en 2 decimales */
+
+                this.fedex.Discount =
+                    this.fedex.TotalNetCharge * (this.fedex.Discount / 100);
+                this.fedex.Discount = this.fedex.Discount.toFixed(
+                    2
+                ); /* transformando el descuento en 2 decimales */
+
+                this.TotalEstimed =
+                    this.fedex.TotalNetCharge - this.fedex.Discount;
+                this.TotalEstimed = this.TotalEstimed.toFixed(
+                    2
+                ); /* transformando el total estimado en 2 decimales */
 
                 const dhl = await this.expenses.post('/get-dhl-quote'); // get data from fedex quote and rate api
                 console.log(dhl.data);
@@ -546,15 +567,12 @@ export default {
                 .adressDate; /* Ocultar/Mostrar formulario de fecha y descripcion */
             this.Load = !this
                 .Load; /* Ocultar/Mostrar formulario de cargas y dimensiones */
+            this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
         },
 
         async fedexCotizacion(appAmount, transCompanyId) {
             this.expenses.app_amount = appAmount;
-<<<<<<< HEAD
             this.expenses.trans_company_id = transCompanyId;
-=======
-
->>>>>>> 4be1fbfe5272e183dbbb739ffd7b3ffac8d71e60
             try {
                 await this.expenses.post('/applications/transports');
                 Toast.fire({
