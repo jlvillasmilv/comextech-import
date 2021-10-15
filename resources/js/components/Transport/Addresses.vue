@@ -30,10 +30,7 @@
         <div v-show="isActivateAddress">
             <div>
                 <div
-                    v-if="
-                        expenses.dataLoad.length == 0 ||
-                            MostrarDirecciion == true
-                    "
+                    v-if="expenses.dataLoad.length == 0 || formAdress == true"
                     class="flex flex-wrap -mx-3 my-8"
                 >
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -186,7 +183,7 @@
                     v-if="
                         (expenses.address_destination !== '' &&
                             expenses.dataLoad.length <= 0) ||
-                            MostrarFecha == true
+                            adressDate == true
                     "
                     class="flex flex-wrap -mx-3 mb-6"
                 >
@@ -339,7 +336,7 @@
                     <div class="mb-8 text-center text-sm font-semibold">
                         <span>TARIFA</span>
                     </div>
-                    <div class="text-right">{{ transporte }}</div>
+                    <div class="text-right">{{ transportationRate }}</div>
                     <div class="text-right">{{ fedex.FUEL }}</div>
                     <div class="text-right">{{ fedex.PEAK }}</div>
                     <div class="text-right">
@@ -398,7 +395,7 @@
                     <div class="mb-8 text-center text-sm font-semibold">
                         <span>TARIFA</span>
                     </div>
-                    <div class="text-right">{{ transporte }}</div>
+                    <div class="text-right">{{ transportationRate }}</div>
                     <div class="text-right">{{ fedex.FUEL }}</div>
                     <div class="text-right">{{ fedex.PEAK }}</div>
                     <div class="text-right">
@@ -456,7 +453,7 @@
                     <div class="mb-8 text-center text-sm font-semibold">
                         <span>TARIFA</span>
                     </div>
-                    <div class="text-right">{{ transporte }}</div>
+                    <div class="text-right">{{ transportationRate }}</div>
                     <div class="text-right">{{ fedex.FUEL }}</div>
                     <div class="text-right">{{ fedex.PEAK }}</div>
                     <div class="text-right">
@@ -504,16 +501,16 @@ export default {
             Load: true,
             safe: false,
             fedex: Object,
-            transporte: '',
-            MostrarDirecciion: true,
-            MostrarFecha: false
+            transportationRate: '',
+            formAdress: true,
+            adressDate: false
         };
     },
     methods: {
         async submitForm() {
             try {
-                this.MostrarDirecciion = false; /* Ocultar formulario de direccion */
-                this.MostrarFecha = false; /* Ocultar formulario de fecha y descripcion */
+                this.formAdress = false; /* Ocultar formulario de direccion */
+                this.adressDate = false; /* Ocultar formulario de fecha y descripcion */
                 this.Load = false; /* Ocultar formulario de cargas y dimensiones */
 
                 this.expenses.dataLoad = this.$store.state.load.loads;
@@ -523,10 +520,10 @@ export default {
                     this.fedex.DeliveryTimestamp
                 );
 
-                this.transporte =
+                this.transportationRate =
                     this.fedex.TotalBaseCharge -
                     this.fedex.TotalFreightDiscounts;
-                this.transporte = this.transporte.toFixed(2); // transformando la tarifa de transporte en 2 decimales
+                this.transportationRate = this.transportationRate.toFixed(2); // transformando la tarifa de transporte en 2 decimales
 
                 console.log(
                     this.$store.state.load.loads,
@@ -540,10 +537,10 @@ export default {
          * Show from address
          */
         showDireccion() {
-            this.MostrarDirecciion = !this
-                .MostrarDirecciion; /* Ocultar/Mostrar formulario de direccion */
-            this.MostrarFecha = !this
-                .MostrarFecha; /* Ocultar/Mostrar formulario de fecha y descripcion */
+            this.formAdress = !this
+                .formAdress; /* Ocultar/Mostrar formulario de direccion */
+            this.adressDate = !this
+                .adressDate; /* Ocultar/Mostrar formulario de fecha y descripcion */
             this.Load = !this
                 .Load; /* Ocultar/Mostrar formulario de cargas y dimensiones */
         },
