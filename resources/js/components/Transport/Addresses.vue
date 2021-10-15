@@ -410,7 +410,7 @@
                         height="80%"
                     />
                     <button
-                        @click="fedexCotizacion()"
+                        @click="fedexCotizacion(fedex.TotalNetCharge, 2)"
                         class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                     >
                         Cotizar DHL
@@ -550,7 +550,11 @@ export default {
 
         async fedexCotizacion(appAmount, transCompanyId) {
             this.expenses.app_amount = appAmount;
+<<<<<<< HEAD
             this.expenses.trans_company_id = transCompanyId;
+=======
+
+>>>>>>> 4be1fbfe5272e183dbbb739ffd7b3ffac8d71e60
             try {
                 await this.expenses.post('/applications/transports');
                 Toast.fire({

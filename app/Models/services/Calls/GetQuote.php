@@ -29,8 +29,9 @@ use App\Models\services\Api\DHLAbstractAPI;
         {
             parent::__construct();
             // $this->fromCountryCode = config('dhlapiconfig.from_country_code')?: getenv("DHL_FROM_COUNTRYCODE");
-            // $this->fromPostalCode =  config('dhlapiconfig.from_post_code')?: getenv("DHL_FROM_POSTCODE");
-            $this->timeZone = "+02:00";
+            // $this->fromPostalCode =  0;
+           // $this->toPostalCode =  '8330182';
+            $this->timeZone = "-04:00";
             $this->dimensionUnit = 'CM';
             $this->weightUnit = 'KG';
         }
@@ -117,10 +118,6 @@ use App\Models\services\Api\DHLAbstractAPI;
 
         public function toCountryCode($value = NULL):Self
         {
-            if (empty($value)) {
-                return $this->toCountryCode;
-            }
-
             $this->toCountryCode = $value;
 
             return $this;
@@ -128,10 +125,6 @@ use App\Models\services\Api\DHLAbstractAPI;
 
         public function toPostalCode($value = NULL):Self
         {
-            if (empty($value)) {
-                return $this->toPostalCode;
-            }
-
             $this->toPostalCode = $value;
 
             return $this;
@@ -139,10 +132,6 @@ use App\Models\services\Api\DHLAbstractAPI;
 
         public function toCity($value = NULL): self
         {
-            if (empty($value)) {
-                return $this->toCity;
-            }
-
             $this->toCity = $value;
 
             return $this;
@@ -150,21 +139,13 @@ use App\Models\services\Api\DHLAbstractAPI;
 
         public function fromCountryCode($value = NULL):Self
         {
-            if (empty($value)) {
-                return $this->fromCountryCode;
-            }
-
-            $this->fromCountryCode = $value;
+             $this->fromCountryCode = $value;
 
             return $this;
         }
 
         public function fromPostalCode($value = NULL):Self 
         {
-            
-            if (empty($value)) {
-                return $this->fromPostalCode;
-            }
 
             $this->fromPostalCode = $value;
 

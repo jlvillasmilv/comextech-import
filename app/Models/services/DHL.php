@@ -9,7 +9,7 @@ class DHL extends Model
 {
     public function quoteApi($data)
     {
-        $from_postal_code     = $data['origin_postal_code'];
+        $from_postal_code  = is_null($data['origin_postal_code']) ? '0' : $data['origin_postal_code'] ;
         $from_country_code = $data['origin_ctry_code'];
         $from_city         = $data['origin_locality'];
         $from_street_lines = $data['address_origin'];
