@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
 use App\Models\{Currency, FileStore, FedexApi, FileStoreInternment, InternmentProcess, LocalWarehouse};
-
+use App\Models\services\DHL;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -377,30 +377,11 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
          try {
-            $app_amount = 0;
-            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
-            {   
-                //Fedex API
-                $connect = new FedexApi;
-                $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
-                
-                if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
-                    $notifications = array();
-                    foreach ($fedex_response->Notifications as $key => $notification) {
-                        # code...
-                        $notifications[] = $notification->Message;
-                    }
-                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
-                }
-
-                if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
-                    $app_amount = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
-                }
-            }
-
+                      
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
+                    'trans_company_id'      => $request->trans_company_id,
                     'fav_address_origin'    => $request->fav_address_origin,
                     'address_origin'        => $request->address_origin,
                     'origin_latitude'       => $request->origin_latitude,
@@ -420,6 +401,8 @@ class ApplicationController extends Controller
             );
 
             $this->load($request->input('dataLoad'),$request->application_id);
+
+            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
 
             //$exchange = New Currency;
             //$app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
@@ -626,9 +609,92 @@ class ApplicationController extends Controller
         return true;
     }
 
-    public function test()
+    /**
+     * @author Jorge Villasmil.
+     * 
+     * Connect with fedex, dhl apis
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
+    public function fedexRate(TransportRequest $request)
+    {
+        try {
+
+            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            {   
+                //Fedex API
+                $connect = new FedexApi;
+                $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
+
+                if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
+                    $notifications = array();
+                    foreach ($fedex_response->Notifications as $key => $notification) {
+                            # code...
+                            $notifications[] = $notification->Message;
+                    }
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
+                }
+
+
+                $quote = array();
+
+                $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
+
+                if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
+
+                    $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
+                    $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
+
+                    foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
+                        $quote[$item->SurchargeType] = $item->Amount->Amount;
+                    }
+            
+                    return response()->json($quote, 200);
+                }
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => $e], 400);
+        }
+
+    }
+
+     /**
+     * @author Jorge Villasmil.
+     * 
+     * Connect with dhl apis
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
+    public function dhlQuote(TransportRequest $request)
     {
 
+       // try {
+            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            {   
+                $connect = new DHL;
+                $api = $connect->quoteApi($request->except(['id','application_id','code_serv']));
+                $objJsonDocument = json_encode($api);
+                $arrOutput = json_decode($objJsonDocument, TRUE);
+
+                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+                    //dd($arrOutput['GetQuoteResponse']['BkgDetails']);
+                    return response()->json($arrOutput['GetQuoteResponse']['BkgDetails'], 200);
+                }
+            }
+
+
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => $e], 400);
+        // }
+    }
+
+    public function test()
+    {
         $data = [
             "fav_address_origin" => true,
             "address_origin" => "1",
@@ -645,7 +711,7 @@ class ApplicationController extends Controller
             "dest_locality" => null,
             "dest_ctry_code" => null,
             "insurance" => false,
-            "estimated_date" => "2021-10-06",
+            "estimated_date" => "2021-10-16",
             "description" => "Carga",
             "dataLoad" => [
                [
@@ -663,29 +729,29 @@ class ApplicationController extends Controller
                 "weight_units" => "KG",
                 "stackable" => false
                ],
-            //    [
-            //     "mode_calculate" => true,
-            //     "mode_selected" => "CARGA AEREA",
-            //     "type_load" => 1,
-            //     "type_container" => 1,
-            //     "length" => 12,
-            //     "width" => 12,
-            //     "height" => 12,
-            //     "length_unit" => "CM",
-            //     "id" => 0,
-            //     "cbm" => 0.1728,
-            //     "weight" => 25,
-            //     "weight_units" => "KG",
-            //     "stackable" => false
-            //    ],
                
             ]
         ];
-       
-        $connect = new FedexApi;
-        $api = $connect->rateApi($data);
+
+        $connect = new DHL;
+        $api = $connect->quoteApi($data);
 
         dd($api);
+       
+        // $connect = new FedexApi;
+        // $api = $connect->rateApi($data);
+
+        // $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
+
+        // foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
+        //     $quote[$item->SurchargeType] = $item->Amount->Amount;
+        // }
+
+        // $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
+        // $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$api['ServiceType'])));
+        // //  //Surcharges
+        
+        // dd($quote);
 
     }
 

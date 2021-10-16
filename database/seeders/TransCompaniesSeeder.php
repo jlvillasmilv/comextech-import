@@ -32,6 +32,12 @@ class TransCompaniesSeeder extends Seeder
              'url' => 'https://www.dhl.com/cl-es/home.html',
              'created_at' => now()
              ],
+             ['user_id'   => 1,
+             'name' => 'UPS',
+             'description' => 'Empresa de transporte de paquetes',
+             'url' => 'https://www.ups.com/',
+             'created_at' => now()
+             ],
 
 
         ]);

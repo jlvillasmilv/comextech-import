@@ -26,11 +26,11 @@ class CompanyFactory extends Factory
             'user_id' => function () {
                 return  \App\Models\User::factory()->create()->id;
             },
-            'country_id' => Country::all()->random()->id,
+            'country_id' => '223',
             'tax_id' => $this->faker->unique()->creditCardNumber,
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'phone' => $this->faker->phoneNumber,
+            'name'   => $this->faker->name,
+            'email'  => $this->faker->unique()->safeEmail,
+            'phone'  => $this->faker->phoneNumber,
             
         ];
     }

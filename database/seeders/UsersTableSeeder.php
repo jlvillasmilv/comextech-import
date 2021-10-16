@@ -49,9 +49,13 @@ class UsersTableSeeder extends Seeder
             'status'  => 1
         ]);
 
+        $client->discount()->create([
+            'imp_a' => 60
+        ]);
+
         \DB::table('company_addresses')->insert([
             [ 'company_id'  => '1',
-              'country_id'  => '7',
+              'country_id'  => '41',
               'postal_code' => '7550214',
               'locality'    => 'Las Condes',
               'place'       => 'ALMACEN',

@@ -26,6 +26,7 @@ class FedexApi extends Model
   public function rateApi($data)
   {
     // 
+     
       $shipper_postal_code  = $data['origin_postal_code'];
       $shipper_country_code = $data['origin_ctry_code'];
       $shipper_city         = $data['origin_locality'];
@@ -59,6 +60,8 @@ class FedexApi extends Model
           
       }
 
+      $import_zone = Country::where('code', $shipper_country_code)->first();
+
       $rateRequest = new ComplexType\RateRequest();
 
       //authentication & client details
@@ -79,15 +82,23 @@ class FedexApi extends Model
 
       $rateRequest->RequestedShipment->ServiceType = SimpleType\ServiceType::_INTERNATIONAL_PRIORITY;
 
+      $zone = is_null($import_zone->IP) ? 'F' : $import_zone->IP ;
+
       if(($data['dataLoad'][0]['weight'] > 68 && $data['dataLoad'][0]['weight_units'] == 'KG') || ($data['dataLoad'][0]['weight'] > 150 && $data['dataLoad'][0]['weight_units'] == 'LB')){ 
         $rateRequest->RequestedShipment->ServiceType = SimpleType\ServiceType::_INTERNATIONAL_PRIORITY_FREIGHT;
+        $zone = is_null($import_zone->IPF) ? 'F' : $import_zone->IPF ;
       }
-      
+
+      $zone = 'imp_'.strtolower($zone);
+     
+
+      $shipDate  = is_null($data['estimated_date']) ? new \DateTime() : new \DateTime($data['estimated_date']);
+
       //shipper
       $rateRequest->RequestedShipment->PreferredCurrency = 'USD';
-
+      $rateRequest->RequestedShipment->setShipTimestamp($shipDate->format('c'));
       $rateRequest->RequestedShipment->Shipper->Address->StreetLines = [ $shipper_street_lines];
-      $rateRequest->RequestedShipment->Shipper->Address->City = $recipient_city;
+      $rateRequest->RequestedShipment->Shipper->Address->City = $shipper_city;
       $rateRequest->RequestedShipment->Shipper->Address->PostalCode = $shipper_postal_code;
       $rateRequest->RequestedShipment->Shipper->Address->CountryCode = $shipper_country_code;
 
@@ -130,20 +141,31 @@ class FedexApi extends Model
       $rateReply = $rateServiceRequest->getGetRatesReply($rateRequest); 
 
       $response = array();
-      //dd($rateReply);
+     //dd($rateReply->RateReplyDetails);
       if (!empty($rateReply->RateReplyDetails)) {
           foreach ($rateReply->RateReplyDetails as $rateReplyDetail) {
              // var_dump($rateReplyDetail->ServiceType);
+              $response['ServiceType'] = $rateReplyDetail->ServiceType;
+              $response['DeliveryTimestamp'] = empty($rateReplyDetail->DeliveryTimestamp) ? date('c',strtotime($data['estimated_date']. ' + 2 day')) :  $rateReplyDetail->DeliveryTimestamp;
+             
               if (!empty($rateReplyDetail->RatedShipmentDetails)) {
+
                   foreach ($rateReplyDetail->RatedShipmentDetails as $ratedShipmentDetail) {
                     //var_dump('<pre>'.$ratedShipmentDetail->ShipmentRateDetail->RateType . ": " . $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount. ": " .$ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Currency.'</pre>');
-                      $response[$ratedShipmentDetail->ShipmentRateDetail->RateType ] = $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount; 
+                      $response[$ratedShipmentDetail->ShipmentRateDetail->RateType ] = 
+                      [
+                        'TotalNetCharge'  => $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount,
+                        'TotalBaseCharge' => $ratedShipmentDetail->ShipmentRateDetail->TotalBaseCharge->Amount,
+                        'TotalFreightDiscounts' => $ratedShipmentDetail->ShipmentRateDetail->TotalFreightDiscounts->Amount,
+                        'Surcharges' => $ratedShipmentDetail->ShipmentRateDetail->Surcharges,
+                        'Discount'   =>  auth()->user()->discount->$zone,
+                      ]; 
+                      
                   }
 
               }
              
           }
-         
           return $response; 
       }
 
