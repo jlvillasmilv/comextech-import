@@ -196,6 +196,12 @@
                                 : ' w-17'
                         ]"
                     />
+                    <span
+                        v-if="validateweight"
+                        class="text-center text-red-600 text-xs"
+                        >{{ validateweight }}</span
+                    >
+                    <br v-if="validateweight" />
                     <label class="inline-flex text-sm items-center mx-2 mt-2">
                         <input
                             type="radio"
@@ -291,7 +297,42 @@ export default {
         }
     },
     computed: {
-        ...mapState('load', ['item', 'loads'])
+        ...mapState('load', ['item', 'loads']),
+        validateweight() {
+            const { loads } = this.$store.state.load;
+
+            /* switch case para peso unitario en KG y LB */
+            switch (
+                (loads.length &&
+                    loads[loads.length - 1].weight_units == 'KG') ||
+                loads[loads.length - 1].weight_units == 'LB'
+            ) {
+                case loads[loads.length - 1].weight == '':
+                    return '';
+                case loads[loads.length - 1].weight_units == 'KG' &&
+                    loads[loads.length - 1].weight < 2:
+                    return 'Limite minimo de peso: 2 KG';
+                case loads[loads.length - 1].weight_units == 'LB' &&
+                    loads[loads.length - 1].weight < 4.4:
+                    return 'Limite minimo de peso: 4.4 LB';
+                case loads[loads.length - 1].weight_units == 'KG' &&
+                    loads[loads.length - 1].weight > 2268:
+                    return 'Excede limite maximo de peso: 2268 KG';
+                case loads[loads.length - 1].weight_units == 'LB' &&
+                    loads[loads.length - 1].weight > 5000:
+                    return 'Excede limite maximo de peso: 5000 LB';
+                case loads[loads.length - 1].weight_units == 'KG' &&
+                    loads[loads.length - 1].weight >= 2:
+                    return '';
+                case loads[loads.length - 1].weight_units == 'LB' &&
+                    loads[loads.length - 1].weight >= 4.4:
+                    return '';
+                default:
+                    false;
+                    break;
+            }
+            return false;
+        }
     },
     created() {
         if (!this.loads.length) this.reset();

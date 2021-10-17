@@ -30,7 +30,11 @@
         <div v-show="isActivateAddress">
             <div>
                 <div
-                    v-if="expenses.dataLoad.length == 0 || formAdress == true"
+                    v-if="
+                        !expenses.dataLoad ||
+                            expenses.dataLoad.length == 0 ||
+                            formAdress == true
+                    "
                     class="flex flex-wrap -mx-3 my-8"
                 >
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -84,7 +88,6 @@
                             <label
                                 class="inline-flex text-sm items-center mx-2 mt-2"
                             >
-                                <!-- Aqui -->
                                 <input
                                     type="checkbox"
                                     class="form-checkbox h-4 w-4 text-gray-800"
@@ -181,8 +184,10 @@
                 </div>
                 <div
                     v-if="
-                        (expenses.address_destination !== '' &&
-                            expenses.dataLoad.length <= 0) ||
+                        (!expenses.dataLoad &&
+                            expenses.address_destination !== '') ||
+                            (expenses.address_destination !== '' &&
+                                expenses.dataLoad.length <= 0) ||
                             adressDate == true
                     "
                     class="flex flex-wrap -mx-3 mb-6"
@@ -273,13 +278,21 @@
             </div>
             <div
                 :class="[
-                    expenses.dataLoad.length <= 0
+                    !expenses.dataLoad || expenses.dataLoad.length <= 0
                         ? 'flex justify-center'
                         : 'flex justify-center my-12 innline w-1/7 mt-5'
                 ]"
             >
                 <button
-                    v-show="expenses.dataLoad.length > 0"
+                    v-if="!expenses.dataLoad"
+                    class="hidden"
+                    @click="showDireccion()"
+                >
+                    Editar
+                </button>
+
+                <button
+                    v-else-if="expenses.dataLoad.length > 0"
                     @click="showDireccion()"
                     class="mr-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                 >
@@ -289,7 +302,9 @@
                 <button
                     @click="submitForm()"
                     :class="[
-                        expenses.dataLoad.length <= 0
+                        !expenses.dataLoad
+                            ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+                            : expenses.dataLoad.length <= 0
                             ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
                             : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
                     ]"
@@ -303,8 +318,12 @@
 
             <!-- Bloque cotizacion de fedex -->
             <div
-                v-if="expenses.dataLoad.length > 0"
-                class="grid grid-cols-12 gap-7 py-8 my-14 focus:outline-none border rounded-sm"
+                v-if="!expenses.dataLoad || expenses.dataLoad.length > 0"
+                :class="[
+                    !expenses.dataLoad
+                        ? 'hidden'
+                        : 'grid grid-cols-12 gap-7 py-8 my-14 focus:outline-none border rounded-sm'
+                ]"
             >
                 <div class="col-span-2 text-center px-2">
                     <div class="mb-8 text-sm font-semibold">
@@ -364,8 +383,12 @@
 
             <!-- Bloque cotizacion de DHL -->
             <div
-                v-if="expenses.dataLoad.length > 0"
-                class="grid grid-cols-12 gap-7 py-8 my-14 focus:outline-none border rounded-sm"
+                v-if="!expenses.dataLoad || expenses.dataLoad.length > 0"
+                :class="[
+                    !expenses.dataLoad
+                        ? 'hidden'
+                        : 'grid grid-cols-12 gap-7 py-8 my-14 focus:outline-none border rounded-sm'
+                ]"
             >
                 <div class="col-span-2 text-center px-2">
                     <div class="mb-8 text-sm font-semibold">
@@ -423,8 +446,12 @@
 
             <!-- Bloque cotizacion de UPS -->
             <div
-                v-if="expenses.dataLoad.length > 0"
-                class="grid grid-cols-12 gap-7 py-8 my-14 focus:outline-none border rounded-sm"
+                v-if="!expenses.dataLoad || expenses.dataLoad.length > 0"
+                :class="[
+                    !expenses.dataLoad
+                        ? 'hidden'
+                        : 'grid grid-cols-12 gap-7 py-8 my-14 focus:outline-none border rounded-sm'
+                ]"
             >
                 <div class="col-span-2 text-center px-2">
                     <div class="mb-8 text-sm font-semibold">
@@ -508,43 +535,40 @@ export default {
             transportationRate: '',
             TotalEstimed: '',
             formAdress: true,
-            adressDate: false
+            adressDate: false,
+            NotDataLoad: true
         };
     },
     methods: {
         async submitForm() {
+            this.formAdress = false; /* Ocultar formulario de direccion */
+            this.adressDate = false; /* Ocultar formulario de fecha y descripcion */
+            this.Load = false; /* Ocultar formulario de cargas y dimensiones */
             try {
-                this.formAdress = false; /* Ocultar formulario de direccion */
-                this.adressDate = false; /* Ocultar formulario de fecha y descripcion */
-                this.Load = false; /* Ocultar formulario de cargas y dimensiones */
-
                 this.expenses.dataLoad = this.$store.state.load.loads;
                 const { data } = await this.expenses.post('/get-fedex-rate'); // get data from fedex quote and rate api
                 this.fedex = data;
 
+                /* transformando la hora en formato "day-month-yyyy" */
                 this.fedex.DeliveryTimestamp = this.$luxon(
-                    /* transformando la hora en formato "day-month-yyyy" */
                     this.fedex.DeliveryTimestamp
                 );
 
+                /* transformando la tarifa de transporte en 2 decimales */
                 this.transportationRate =
                     this.fedex.TotalBaseCharge -
                     this.fedex.TotalFreightDiscounts;
-                this.transportationRate = this.transportationRate.toFixed(
-                    2
-                ); /* transformando la tarifa de transporte en 2 decimales */
+                this.transportationRate = this.transportationRate.toFixed(2);
 
+                /* Calculando el descuento en el total estimado */
                 this.fedex.Discount =
                     this.fedex.TotalNetCharge * (this.fedex.Discount / 100);
-                this.fedex.Discount = this.fedex.Discount.toFixed(
-                    2
-                ); /* transformando el descuento en 2 decimales */
+                this.fedex.Discount = this.fedex.Discount.toFixed(2);
 
+                /* Aplicando el descuento en el total estimado */
                 this.TotalEstimed =
                     this.fedex.TotalNetCharge - this.fedex.Discount;
-                this.TotalEstimed = this.TotalEstimed.toFixed(
-                    2
-                ); /* transformando el total estimado en 2 decimales */
+                this.TotalEstimed = this.TotalEstimed.toFixed(2);
 
                 const dhl = await this.expenses.post('/get-dhl-quote'); // get data from fedex quote and rate api
                 console.log(dhl.data);
@@ -661,8 +685,31 @@ export default {
         },
         isActivateAddress() {
             const { loads } = this.$store.state.load;
+
+            /* Condicionales para mostrar el formulario de addresses dependiendo de la validacion del peso */
             if (loads.length) {
-                if (loads[loads.length - 1].weight) return true;
+                if (
+                    loads[loads.length - 1].weight_units == 'KG' &&
+                    loads[loads.length - 1].weight < 2
+                )
+                    return false;
+                if (
+                    loads[loads.length - 1].weight_units == 'KG' &&
+                    loads[loads.length - 1].weight >= 2 &&
+                    loads[loads.length - 1].weight <= 2268
+                )
+                    return true;
+                if (
+                    loads[loads.length - 1].weight_units == 'LB' &&
+                    loads[loads.length - 1].weight < 4.4
+                )
+                    return false;
+                if (
+                    loads[loads.length - 1].weight_units == 'LB' &&
+                    loads[loads.length - 1].weight >= 4.4 &&
+                    loads[loads.length - 1].weight <= 5000
+                )
+                    return true;
                 else false;
             }
             return false;
