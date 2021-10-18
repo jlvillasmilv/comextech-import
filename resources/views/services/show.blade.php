@@ -1,5 +1,6 @@
 <x-app-layout title="Services">
-
-    <home-import-app></home-import-app>
+    <div class="container">
+            <home-import-app></home-import-app>
+    </div>
     
 </x-app-layout>
