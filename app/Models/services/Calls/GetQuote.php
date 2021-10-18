@@ -63,6 +63,12 @@ use App\Models\services\Api\DHLAbstractAPI;
             $xml->writeElement('SiteID', $this->siteid);
             $xml->writeElement('Password', $this->password);
             $xml->endElement();
+            // MetaData
+            // $xml->startElement('MetaData');
+            // $xml->writeElement('SoftwareName', "3PV"); 
+            // $xml->writeElement('SoftwareVersion', "1.0");
+            // $xml->endElement();
+
             $xml->endElement();
             $xml->startElement('From');
             $xml->writeElement('CountryCode', $this->fromCountryCode); 
@@ -81,26 +87,41 @@ use App\Models\services\Api\DHLAbstractAPI;
             foreach($this->pieces as $key => $piece){
                 $piece = (object)$piece;
                 $xml->startElement("Piece");
-                $xml->writeElement('PieceID',$key); 
+                $xml->writeElement('PieceID',$key+1); 
                 $xml->writeElement('Height', $piece->height); 
                 $xml->writeElement('Depth', $piece->depth); 
                 $xml->writeElement('Width', $piece->width); 
                 $xml->writeElement('Weight', $piece->weight); 
                 $xml->endElement();
             }
+
             $xml->endElement();
 
-            $xml->writeElement('PaymentAccountNumber',$this->accountNumber); 
+            $xml->writeElement('PaymentAccountNumber',$this->accountNumber);
+          
             // if EU none duitable
             if(in_array($this->toCountryCode,$this->euCountries)){
                 $xml->writeElement('IsDutiable', 'N');
                 $xml->writeElement('NetworkTypeCode', 'AL');
+                 //QtdShp
+                $xml->startElement('QtdShp');
+                $xml->writeElement('GlobalProductCode',"P"); 
+                $xml->writeElement('LocalProductCode', 'P');
+                $xml->endElement(); 
+                //endQtdShp 
                 $xml->endElement();
             }else{
                 $xml->writeElement('IsDutiable', 'Y');
                 $xml->writeElement('NetworkTypeCode', 'AL');
+                //QtdShp
+                $xml->startElement('QtdShp');
+                $xml->writeElement('GlobalProductCode',"P"); 
+                $xml->writeElement('LocalProductCode', 'P'); 
+                $xml->endElement(); 
+                //endQtdShp
                 $xml->endElement();
             }
+
             $xml->startElement('To');
             $xml->writeElement('CountryCode',$this->toCountryCode); 
             $xml->writeElement('Postalcode', $this->toPostalCode); 
@@ -113,6 +134,7 @@ use App\Models\services\Api\DHLAbstractAPI;
             $xml->endElement();
             $xml->endElement();
             $xml->endDocument();
+            //dd($xml->outputMemory());
             return $this->xmlRequest = $xml->outputMemory();
         }
 
