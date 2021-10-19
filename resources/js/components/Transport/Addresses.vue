@@ -286,14 +286,14 @@
                 <button
                     v-if="!expenses.dataLoad"
                     class="hidden"
-                    @click="showDireccion()"
+                    @click="HideAddress()"
                 >
                     Editar
                 </button>
 
                 <button
                     v-else-if="expenses.dataLoad.length > 0"
-                    @click="showDireccion()"
+                    @click="HideAddress()"
                     class="mr-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                 >
                     Editar
@@ -318,7 +318,18 @@
 
             <!-- Bloque cotizacion de fedex -->
             <div
-                v-if="!expenses.dataLoad || expenses.dataLoad.length > 0"
+                v-if="
+                    showApisQuote == true &&
+                        fedex.DeliveryTimestamp &&
+                        fedex.ServiceType &&
+                        transportationRate &&
+                        fedex.FUEL &&
+                        fedex.PEAK &&
+                        fedex.Discount &&
+                        TotalEstimed &&
+                        fedex.TotalNetCharge &&
+                        (!expenses.dataLoad || expenses.dataLoad.length > 0)
+                "
                 :class="[
                     !expenses.dataLoad
                         ? 'hidden'
@@ -373,7 +384,7 @@
                         class="mt-12 mb-4"
                     />
                     <button
-                        @click="fedexCotizacion(fedex.TotalNetCharge, 2)"
+                        @click="submitQuote(fedex.TotalNetCharge, 2)"
                         class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                     >
                         Cotizar FEDEX
@@ -383,7 +394,18 @@
 
             <!-- Bloque cotizacion de DHL -->
             <div
-                v-if="!expenses.dataLoad || expenses.dataLoad.length > 0"
+                v-if="
+                    showApisQuote == true &&
+                        fedex.DeliveryTimestamp &&
+                        fedex.ServiceType &&
+                        transportationRate &&
+                        fedex.FUEL &&
+                        fedex.PEAK &&
+                        fedex.Discount &&
+                        TotalEstimed &&
+                        fedex.TotalNetCharge &&
+                        (!expenses.dataLoad || expenses.dataLoad.length > 0)
+                "
                 :class="[
                     !expenses.dataLoad
                         ? 'hidden'
@@ -436,7 +458,7 @@
                         height="80%"
                     />
                     <button
-                        @click="fedexCotizacion(fedex.TotalNetCharge, 2)"
+                        @click="submitQuote(fedex.TotalNetCharge, 2)"
                         class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                     >
                         Cotizar DHL
@@ -446,7 +468,18 @@
 
             <!-- Bloque cotizacion de UPS -->
             <div
-                v-if="!expenses.dataLoad || expenses.dataLoad.length > 0"
+                v-if="
+                    showApisQuote == true &&
+                        fedex.DeliveryTimestamp &&
+                        fedex.ServiceType &&
+                        transportationRate &&
+                        fedex.FUEL &&
+                        fedex.PEAK &&
+                        fedex.Discount &&
+                        TotalEstimed &&
+                        fedex.TotalNetCharge &&
+                        (!expenses.dataLoad || expenses.dataLoad.length > 0)
+                "
                 :class="[
                     !expenses.dataLoad
                         ? 'hidden'
@@ -499,7 +532,7 @@
                         class="mt-2 mb-2"
                     />
                     <button
-                        @click="fedexCotizacion()"
+                        @click="submitQuote()"
                         class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                     >
                         Cotizar UPS
@@ -531,44 +564,55 @@ export default {
             address: '',
             Load: true,
             safe: false,
-            fedex: Object,
-            transportationRate: '',
-            TotalEstimed: '',
-            formAdress: true,
-            adressDate: false,
-            NotDataLoad: true
+            fedex: {} /* response object api fedex */,
+            transportationRate: '' /* transportation rate Fedex */,
+            TotalEstimed: '' /* estimated total Fedex */,
+            formAdress: true /* Form addresses */,
+            adressDate: false /* Form date and description */,
+            showApisQuote: false /* api quote block */
         };
     },
     methods: {
+        /* Quote to wait for the apis (button cotizar) */
         async submitForm() {
-            this.formAdress = false; /* Ocultar formulario de direccion */
-            this.adressDate = false; /* Ocultar formulario de fecha y descripcion */
-            this.Load = false; /* Ocultar formulario de cargas y dimensiones */
+            this.formAdress = false; /* Hide address form */
+            this.adressDate = false; /* Hide date and description form */
+            this.Load = false; /* Hide form loads and dimensions */
             try {
+                /* get data from fedex quote and rate api */
                 this.expenses.dataLoad = this.$store.state.load.loads;
-                const { data } = await this.expenses.post('/get-fedex-rate'); // get data from fedex quote and rate api
-                this.fedex = data;
+                const fedexApi = await this.expenses.post('/get-fedex-rate');
 
-                /* transformando la hora en formato "day-month-yyyy" */
-                this.fedex.DeliveryTimestamp = this.$luxon(
-                    this.fedex.DeliveryTimestamp
-                );
+                /* It is validated if the request was successful to show the quote block (FEDEX) */
+                if (fedexApi.status == 200) {
+                    this.showApisQuote = true;
 
-                /* transformando la tarifa de transporte en 2 decimales */
-                this.transportationRate =
-                    this.fedex.TotalBaseCharge -
-                    this.fedex.TotalFreightDiscounts;
-                this.transportationRate = this.transportationRate.toFixed(2);
+                    /* The variable is equalized to later use it in the template */
+                    this.fedex = fedexApi.data;
 
-                /* Calculando el descuento en el total estimado */
-                this.fedex.Discount =
-                    this.fedex.TotalNetCharge * (this.fedex.Discount / 100);
-                this.fedex.Discount = this.fedex.Discount.toFixed(2);
+                    /* transforming the time into format "day-month-yyyy" */
+                    this.fedex.DeliveryTimestamp = this.$luxon(
+                        this.fedex.DeliveryTimestamp
+                    );
 
-                /* Aplicando el descuento en el total estimado */
-                this.TotalEstimed =
-                    this.fedex.TotalNetCharge - this.fedex.Discount;
-                this.TotalEstimed = this.TotalEstimed.toFixed(2);
+                    /* transforming the transport rate to 2 decimal places */
+                    this.transportationRate =
+                        this.fedex.TotalBaseCharge -
+                        this.fedex.TotalFreightDiscounts;
+                    this.transportationRate = this.transportationRate.toFixed(
+                        2
+                    );
+
+                    /* Calculating the discount on the estimated total */
+                    this.fedex.Discount =
+                        this.fedex.TotalNetCharge * (this.fedex.Discount / 100);
+                    this.fedex.Discount = this.fedex.Discount.toFixed(2);
+
+                    /* Applying the discount on the estimated total */
+                    this.TotalEstimed =
+                        this.fedex.TotalNetCharge - this.fedex.Discount;
+                    this.TotalEstimed = this.TotalEstimed.toFixed(2);
+                }
 
                 const dhl = await this.expenses.post('/get-dhl-quote'); // get data from fedex quote and rate api
                 console.log(dhl.data);
@@ -582,19 +626,26 @@ export default {
             }
         },
         /**
-         * Show from address
+         * Show / Hide from address (button "Editar")
          */
-        showDireccion() {
-            this.formAdress = !this
-                .formAdress; /* Ocultar/Mostrar formulario de direccion */
+        HideAddress() {
+            this.formAdress = !this.formAdress; /* Hide / Show Address Form */
             this.adressDate = !this
-                .adressDate; /* Ocultar/Mostrar formulario de fecha y descripcion */
-            this.Load = !this
-                .Load; /* Ocultar/Mostrar formulario de cargas y dimensiones */
+                .adressDate; /* Hide / Show date and description form */
+            this.Load = !this.Load; /* Hide / Show loads and dimensions form */
+            /* Here the dataLoad is set to 0 to edit the view */
             this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
         },
 
-        async fedexCotizacion(appAmount, transCompanyId) {
+        /**
+         * Send api quote (button Cotizar fedex, dhl, ups)
+         * @param {Number} appAmount selected service amount if fedex, dhl or ups
+         * @param {Number} transCompanyId number of the service that is selected:
+         * @param {2} FEDEX
+         * @param {3} DHL
+         * @param {4} UPS
+         */
+        async submitQuote(appAmount, transCompanyId) {
             this.expenses.app_amount = appAmount;
             this.expenses.trans_company_id = transCompanyId;
             try {
