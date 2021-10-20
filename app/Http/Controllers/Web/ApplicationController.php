@@ -631,7 +631,6 @@ class ApplicationController extends Controller
                 if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
                     $notifications = array();
                     foreach ($fedex_response->Notifications as $key => $notification) {
-                            # code...
                             $notifications[] = $notification->Message;
                     }
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
@@ -672,8 +671,7 @@ class ApplicationController extends Controller
     */
     public function dhlQuote(TransportRequest $request)
     {
-
-       // try {
+       try {
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
                 $connect = new DHL;
@@ -686,11 +684,9 @@ class ApplicationController extends Controller
                     return response()->json($arrOutput['GetQuoteResponse']['BkgDetails'], 200);
                 }
             }
-
-
-        // } catch (\Exception $e) {
-        //     return response()->json(['status' => $e], 400);
-        // }
+        } catch (\Exception $e) {
+            return response()->json(['status' => $e], 400);
+        }
     }
 
     public function test()
@@ -711,7 +707,7 @@ class ApplicationController extends Controller
             "dest_locality" => null,
             "dest_ctry_code" => null,
             "insurance" => false,
-            "estimated_date" => "2021-10-16",
+            "estimated_date" => "2021-10-19",
             "description" => "Carga",
             "dataLoad" => [
                [
@@ -719,13 +715,13 @@ class ApplicationController extends Controller
                 "mode_selected" => "CARGA AEREA",
                 "type_load" => 1,
                 "type_container" => 1,
-                "length" => 10,
-                "width"  => 10,
-                "height" => 10,
+                "length" => 50,
+                "width"  => 70,
+                "height" => 100,
                 "length_unit" => "CM",
                 "id" => 0,
                 "cbm" => 0.1728,
-                "weight" => 15,
+                "weight" => 66,
                 "weight_units" => "KG",
                 "stackable" => false
                ],
