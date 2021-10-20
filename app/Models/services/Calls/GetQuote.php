@@ -134,7 +134,6 @@ use App\Models\services\Api\DHLAbstractAPI;
             $xml->endElement();
             $xml->endElement();
             $xml->endDocument();
-            dd($xml->outputMemory());
             return $this->xmlRequest = $xml->outputMemory();
         }
 
