@@ -21,9 +21,9 @@
         <exchange :application_id="data.application_id" />
       </container>
     </div>
-    <modal v-if="$store.state.statusModal" :title="title" class="mt-10">
+    <modal v-if="$store.state.statusModal" :title="title" class="transition ease-out duration-150">
       <template v-slot:body>
-        <div class="mt-2">
+        <div class="mt-1">
           <form
             @submit.prevent="submitFormApplications"
             @keydown="data.onKeydown($event)"
@@ -186,10 +186,10 @@
                 ></span>
               </div>
             </div>
-            <div class="flex flex-wrap -mx-3">
-              <div class="w-full md:w-1/2 px-3 md:mb-0">
+            <div class="flex justify-between -mx-3">
+              <div class="sm:w-1/2 md:w-1/2 px-3 md:mb-0">
                 <h3 class="my-3 text-gray-500 text-sm">Moneda de Pago</h3>
-                <div class="relative">
+                
                   <v-select
                     label="name"
                     v-model="$store.state.application.currency"
@@ -214,11 +214,11 @@
                     v-if="data.errors.has('currency_id')"
                     v-html="data.errors.get('currency_id')"
                   ></span>
-                </div>
+               
               </div>
-              <div class="w-full md:w-1/2 px-3">
+              <div class="md:w-1/2 sm:w-1/2 px-3">
                 <h3 class="my-3 text-gray-500 text-sm">
-                  Monto Total de Operacion
+                  Monto de Operacion
                 </h3>
                 <input
                   type="number"

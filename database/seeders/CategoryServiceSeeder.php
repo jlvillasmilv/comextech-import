@@ -23,7 +23,7 @@ class CategoryServiceSeeder extends Seeder
             ['code' => 'ICS05','name' => 'Entrega', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => true, 'sort' => 5,'status' => true,'created_at' => now() ],
             ['code' => 'ICS06','name' => 'Transporte Local', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 6,'status' => true,'created_at' => now() ],
             ['code' => 'ICS07','name' => 'Pagos', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 7,'status' => false,'created_at' => now() ], 
-            ['code' => 'ICS08','name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => false, 'sort' => 8,'status' => true, 'created_at' => now() ], 
+            ['code' => 'ICS08','name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => false, 'sort' => 8,'status' => false, 'created_at' => now() ], 
         ]);
 
         \DB::table('services')->insert([
