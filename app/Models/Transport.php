@@ -35,4 +35,5 @@ class Transport extends Model
         return $this->belongsTo(TransCompany::class,'trans_company_id');
     }
 
+
 }
