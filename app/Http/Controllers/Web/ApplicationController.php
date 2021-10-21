@@ -620,7 +620,7 @@ class ApplicationController extends Controller
     */
     public function fedexRate(TransportRequest $request)
     {
-        try {
+        // try {
 
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
@@ -644,8 +644,9 @@ class ApplicationController extends Controller
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
-                    $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
-
+                    $quote['ServiceType']       = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
+                    $quote['Discount']          = auth()->user()->discountImport($request->except(['id','application_id','code_serv']));
+                    
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
                     }
@@ -654,9 +655,9 @@ class ApplicationController extends Controller
                 }
             }
 
-        } catch (\Exception $e) {
-            return response()->json(['status' => $e], 400);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => $e], 400);
+        // }
 
     }
 
@@ -679,10 +680,36 @@ class ApplicationController extends Controller
                 $objJsonDocument = json_encode($api);
                 $arrOutput = json_decode($objJsonDocument, TRUE);
 
-                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
-                    //dd($arrOutput['GetQuoteResponse']['BkgDetails']);
-                    return response()->json($arrOutput['GetQuoteResponse']['BkgDetails'], 200);
+                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['Note'])) {
+                    $notifications = array();
+                   
+                    $notifications['ConditionData'] = $notification['ConditionData'];
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
                 }
+
+                $quote = array();
+                // $discount = new Transport;
+                
+                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+
+                    $quote['ProductShortName']  = ucwords(strtolower($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ProductShortName']));
+                    $quote['DeliveryDate']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryDate'];
+                    $quote['DeliveryTime']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryTime'];
+                    $quote['PickupCutoffTime']  = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['PickupCutoffTime'];
+                    $quote['BookingTime']       = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['BookingTime'];
+                    $quote['WeightCharge']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'];
+                    $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+                    $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
+                    $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge']; 
+                    $quote['Discount']          = auth()->user()->discountImport($request->except(['id','application_id','code_serv']));
+        
+                    foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
+                        $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+                    }
+                }
+                
+                return response()->json($quote, 200);
+
             }
         } catch (\Exception $e) {
             return response()->json(['status' => $e], 400);
@@ -707,7 +734,7 @@ class ApplicationController extends Controller
             "dest_locality" => null,
             "dest_ctry_code" => null,
             "insurance" => false,
-            "estimated_date" => "2021-10-19",
+            "estimated_date" => "2021-10-20",
             "description" => "Carga",
             "dataLoad" => [
                [
@@ -715,13 +742,13 @@ class ApplicationController extends Controller
                 "mode_selected" => "CARGA AEREA",
                 "type_load" => 1,
                 "type_container" => 1,
-                "length" => 50,
-                "width"  => 70,
-                "height" => 100,
+                "length" => 30,
+                "width"  => 30,
+                "height" => 30,
                 "length_unit" => "CM",
                 "id" => 0,
                 "cbm" => 0.1728,
-                "weight" => 66,
+                "weight" => 16,
                 "weight_units" => "KG",
                 "stackable" => false
                ],
@@ -729,25 +756,46 @@ class ApplicationController extends Controller
             ]
         ];
 
+        //dd(auth()->user()->discountImport($data));
+
         $connect = new DHL;
         $api = $connect->quoteApi($data);
 
-        dd($api);
+        $objJsonDocument = json_encode($api);
+        $arrOutput = json_decode($objJsonDocument, TRUE);
+
+        //dd($arrOutput);
+
+        $quote = array();
+
+        if (!empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['Note'])) {
+            $notifications = array();
+           
+            $notifications['ConditionData'] = $notification['ConditionData'];
+            return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
+        }
+
        
-        // $connect = new FedexApi;
-        // $api = $connect->rateApi($data);
 
-        // $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
+        if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+            $quote['ProductShortName']  = ucwords(strtolower($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ProductShortName']));
+            $quote['DeliveryDate']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryDate'];
+            $quote['DeliveryTime']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryTime'];
+            $quote['PickupCutoffTime']  = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['PickupCutoffTime'];
+            $quote['BookingTime']       = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['BookingTime'];
+            $quote['WeightCharge']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'];
+            $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+            $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
+            $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge'];
+            $quote['Discount']          = auth()->user()->discountImport($data); 
 
-        // foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
-        //     $quote[$item->SurchargeType] = $item->Amount->Amount;
-        // }
+            foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
+                $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+            }
+        }
 
-        // $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
-        // $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$api['ServiceType'])));
-        // //  //Surcharges
-        
-        // dd($quote);
+        dd($quote);
+       
 
     }
 

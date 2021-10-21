@@ -58,7 +58,7 @@ class DHL extends Model
           }
 
         $quote = new Calls\GetQuote();
-        $quote->declaredValue(10)
+        $quote->declaredValue(1)
         ->reference("1234567890123456789012345678901")
         ->currency("USD")
         ->shipDate($shipDate->format('Y-m-d'))
