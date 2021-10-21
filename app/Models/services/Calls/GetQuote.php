@@ -76,7 +76,7 @@ use App\Models\services\Api\DHLAbstractAPI;
             $xml->writeElement('City', $this->fromCity);  
             $xml->endElement();
             $xml->startElement('BkgDetails');
-            $xml->writeElement('PaymentCountryCode', $this->fromCountryCode);
+            $xml->writeElement('PaymentCountryCode', $this->toCountryCode);
             $xml->writeElement('Date', $this->shipDate);
             $xml->writeElement('ReadyTime', 'PT10H21M');
             $xml->writeElement('ReadyTimeGMTOffset', '+01:00');
@@ -114,6 +114,7 @@ use App\Models\services\Api\DHLAbstractAPI;
                 $xml->writeElement('IsDutiable', 'Y');
                 $xml->writeElement('NetworkTypeCode', 'AL');
                 //QtdShp
+                // $weight <= 1000 kg P weight > 1000 kg
                 $xml->startElement('QtdShp');
                 $xml->writeElement('GlobalProductCode',"P"); 
                 $xml->writeElement('LocalProductCode', 'P'); 
