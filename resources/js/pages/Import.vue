@@ -59,7 +59,7 @@
                   >
                 </template>
               </v-select>
-              <div class="w-full md:w-full">
+              <div class="w-full md:w-full" v-show="data.statusSuppliers == 'E-commerce'">
                 <input
                   v-model="data.ecommerce_url"
                   type="text"
@@ -95,7 +95,7 @@
                 v-html="data.errors.get('supplier_id')"
               ></span>
             </div>
-            <div class="flex flex-wrap mx-1">
+            <div class="flex justify-between flex-wrap">
               <div
                 :class="[
                   data.statusSuppliers == 'with' ? 'md:w-2/5' : 'w-full',
@@ -161,7 +161,7 @@
                 </div>
               </div>
               <div
-                class="pl-3 md:w-3/5"
+                class="sm:w-full md:w-3/5 md:pl-3"
                 v-show="data.statusSuppliers == 'with'"
               >
                 <h3 class="my-3 text-gray-500 text-sm">Porcentaje de Pago</h3>
@@ -187,7 +187,7 @@
               </div>
             </div>
             <div class="flex justify-between -mx-3">
-              <div class="sm:w-1/2 md:w-1/2 px-3 md:mb-0">
+              <div class="sm:w-1/2 md:w-1/2 px-3 ">
                 <h3 class="my-3 text-gray-500 text-sm">Moneda de Pago</h3>
                 
                   <v-select
