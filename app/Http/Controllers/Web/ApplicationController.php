@@ -692,6 +692,10 @@ class ApplicationController extends Controller
                 
                 if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
 
+                    $discount = auth()->user()->discountImport($request->except(['id','application_id','code_serv']));
+                    $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
+                    $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+
                     $quote['ProductShortName']  = ucwords(strtolower($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ProductShortName']));
                     $quote['DeliveryDate']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryDate'];
                     $quote['DeliveryTime']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryTime'];
@@ -701,11 +705,18 @@ class ApplicationController extends Controller
                     $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
                     $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
                     $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge']; 
-                    $quote['Discount']          = auth()->user()->discountImport($request->except(['id','application_id','code_serv']));
-        
+                    $quote['Discount']          = $discount;
+                    
+                    $total_discount = ($total__net_charge * $discount) / 100;
+
+                    $total =  $total__net_charge - $total_discount;
+                    
                     foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
                         $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+                        $total = $total + $qtdShp_exchrg['ChargeValue'];
                     }
+
+                    $quote['ComextechDiscount'] =  $total;
                 }
                 
                 return response()->json($quote, 200);
@@ -778,6 +789,10 @@ class ApplicationController extends Controller
        
 
         if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+            $discount = auth()->user()->discountImport($data);
+            $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
+            $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+
             $quote['ProductShortName']  = ucwords(strtolower($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ProductShortName']));
             $quote['DeliveryDate']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryDate'];
             $quote['DeliveryTime']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryTime'];
@@ -786,12 +801,19 @@ class ApplicationController extends Controller
             $quote['WeightCharge']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'];
             $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
             $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
-            $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge'];
-            $quote['Discount']          = auth()->user()->discountImport($data); 
+            $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge']; 
+            $quote['Discount']          = $discount;
+            
+            $total_discount = ($total__net_charge * $discount) / 100;
 
+            $total =  $total__net_charge - $total_discount;
+            
             foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
                 $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+                $total = $total + $qtdShp_exchrg['ChargeValue'];
             }
+
+            $quote['ComextechDiscount'] =  $total;
         }
 
         dd($quote);
