@@ -106,6 +106,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserDiscount::class);
     }
 
+    public function credential()
+    {
+        return $this->hasOne(UserCredential::class);
+    }
+
     public function discountImport($data, $company = 'FEDEX')
     {
         $trans_company_id = TransCompany::where('name', $company)->first();
