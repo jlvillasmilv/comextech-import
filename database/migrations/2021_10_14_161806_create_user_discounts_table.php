@@ -16,6 +16,7 @@ class CreateUserDiscountsTable extends Migration
         Schema::create('user_discounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
+            $table->foreignId('trans_company_id')->nullable()->references('id')->on('trans_companies')->onDelete('SET NULL');
             $table->smallinteger('imp_a')->default(60);
             $table->smallinteger('imp_b')->default(60);
             $table->smallinteger('imp_c')->default(60);

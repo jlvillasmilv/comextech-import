@@ -3,7 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\Team;
-use App\Models\User;
+use App\Models\{User, TransCompany};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -56,9 +56,16 @@ class CreateNewUser implements CreatesNewUsers
             'name'    => $input['company_name'],
             'status'  => 1
         ]);
-        $user->discount()->create([
-            'imp_a' => 60
-        ]);
+
+        $trans_company  = TransCompany::get();
+
+        foreach ($trans_company as $key => $company) {
+            $user->discount()->create([
+                'trans_company_id' => $company->id,
+                'imp_a' => 60
+            ]);
+        }
+    
         // $user->ownedTeams()->save(Team::forceCreate([
         //     'user_id' => $user->id,
         //     'name' => explode(' ', $user->name, 2)[0]."'s Team",

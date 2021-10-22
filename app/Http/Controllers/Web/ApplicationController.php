@@ -636,16 +636,19 @@ class ApplicationController extends Controller
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
                 }
 
-
+                
                 $quote = array();
-
                 $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
 
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
+                    // obtaining discount %
+                    $discount = auth()->user()
+                    ->discountImport($request->except(['id','application_id','code_serv']),'FEDEX');
+
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
                     $quote['ServiceType']       = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
-                    $quote['Discount']          = auth()->user()->discountImport($request->except(['id','application_id','code_serv']));
+                    $quote['Discount']          = $discount;
                     
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
@@ -680,6 +683,7 @@ class ApplicationController extends Controller
                 $objJsonDocument = json_encode($api);
                 $arrOutput = json_decode($objJsonDocument, TRUE);
 
+                // validate data from DHL return errors
                 if (!empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['Note'])) {
                     $notifications = array();
                    
@@ -688,11 +692,13 @@ class ApplicationController extends Controller
                 }
 
                 $quote = array();
-                // $discount = new Transport;
-                
+               
+                // validate data from DHL
                 if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+                    // obtaining discount %
+                    $discount = auth()->user()
+                    ->discountImport($request->except(['id','application_id','code_serv']),'DHL');
 
-                    $discount = auth()->user()->discountImport($request->except(['id','application_id','code_serv']));
                     $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
                     $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
 
@@ -767,8 +773,6 @@ class ApplicationController extends Controller
             ]
         ];
 
-        //dd(auth()->user()->discountImport($data));
-
         $connect = new DHL;
         $api = $connect->quoteApi($data);
 
@@ -789,7 +793,7 @@ class ApplicationController extends Controller
        
 
         if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
-            $discount = auth()->user()->discountImport($data);
+            $discount = auth()->user()->discountImport($data,'DHL');
             $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
             $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
 

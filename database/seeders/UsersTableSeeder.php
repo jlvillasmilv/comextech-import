@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\{User, TransCompany};
 use App\Models\Team;
 use Illuminate\Support\Str;
 
@@ -49,9 +49,14 @@ class UsersTableSeeder extends Seeder
             'status'  => 1
         ]);
 
+       $trans_company  = TransCompany::get();
+
+       foreach ($trans_company as $key => $company) {
         $client->discount()->create([
+            'trans_company_id' => $company->id,
             'imp_a' => 60
         ]);
+       }
 
         \DB::table('company_addresses')->insert([
             [ 'company_id'  => '1',
