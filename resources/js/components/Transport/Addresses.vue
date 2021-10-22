@@ -298,7 +298,7 @@
                 :class="[
                     !expenses.dataLoad || expenses.dataLoad.length <= 0
                         ? 'flex justify-center'
-                        : 'flex justify-center my-12 innline w-1/7 mt-5'
+                        : 'flex justify-center my-5 innline w-1/7 mt-5'
                 ]"
             >
                 <button
@@ -342,7 +342,6 @@
                             showApisQuote == true &&
                                 fedex.DeliveryTimestamp &&
                                 fedex.ServiceType &&
-                                transportationRate &&
                                 fedex.FUEL &&
                                 fedex.PEAK &&
                                 fedex.Discount &&
@@ -354,7 +353,7 @@
                         :class="[
                             !expenses.dataLoad
                                 ? 'hidden'
-                                : 'w-10/12 py-4 my-4 focus:outline-none border rounded-sm'
+                                : 'w-9/12 py-4 my-4 focus:outline-none border rounded-sm'
                         ]"
                     >
                         <div
@@ -375,92 +374,96 @@
                             <span>{{ fedex.ServiceType }}</span>
                         </div>
 
-                        <div class="w-3/12 inline-block align-top text-sm">
-                            <div class="mb-8 text-center text-sm font-semibold">
-                                CONCEPTOS
-                            </div>
-                            <div>
-                                <table>
+                        <div class="w-5/12 inline-block align-top">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td class="pl-4">
+                                        <th class="text-sm font-semibold">
+                                            <div
+                                                class="mb-8 text-sm font-semibold"
+                                            >
+                                                <span>CONCEPTOS</span>
+                                            </div>
+                                        </th>
+                                        <th class="w-28 text-sm font-semibold">
+                                            <div
+                                                class="mb-8 text-sm font-semibold"
+                                            >
+                                                <span>TARIFA</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left text-sm">
                                             Tarifa Transporte
                                         </td>
+                                        <td class="text-right text-sm">
+                                            {{ fedex.TotalNetCharge }}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">
+                                        <td class="text-left text-sm">
                                             Recargo Combustible
                                         </td>
+                                        <td class="text-right text-sm">
+                                            {{ fedex.FUEL }}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">
+                                        <td class="text-left text-sm">
                                             Recargo por alta demanda
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pl-4">Descuento</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pl-4">
-                                            Total Estimado
+                                        <td class="text-right text-sm">
+                                            {{ fedex.PEAK }}
                                         </td>
                                     </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="w-2/12 inline-block align-top text-sm">
-                            <div class="mb-8 text-center text-sm font-semibold">
-                                <span>TARIFA</span>
-                            </div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <p class="text-right">
-                                            {{ transportationRate }}
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ fedex.FUEL }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ fedex.PEAK }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ fedex.Discount }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ TotalEstimed }}</td>
-                                </tr>
+                                    <tr>
+                                        <td class="text-left text-sm">
+                                            Descuento
+                                        </td>
+                                        <td class="text-right text-sm">
+                                            {{ fedex.Discount }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left text-sm">
+                                            Total Estimado
+                                        </td>
+                                        <td class="text-right text-sm">
+                                            {{ TotalEstimed }}
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
-
-                            <!-- <div class="text-right">
-                                
-                            </div>
-                            <div class="text-right"></div>
-                            <div class="text-right">{{ fedex.PEAK }}</div>
-                            <div class="text-right">-{{ fedex.Discount }}</div>
-                            <div class="text-right">
-                                {{ TotalEstimed }}
-                            </div> -->
                         </div>
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm px-2"
+                            class="w-2/12 h-full inline-block align-top text-center text-sm px-2"
                         >
-                            <img
-                                src="../../../../public/img/fedex-logo.png"
-                                alt="fedex-logo"
-                                width="47%"
-                                height="47%"
-                                class="mt-12 mb-4"
-                            />
-
-                            <button
-                                @click="submitQuote(fedex.TotalNetCharge, 2)"
-                                class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-                            >
-                                Cotizar FEDEX
-                            </button>
+                            <div class="flex flex-col h-full justify-around">
+                                <div
+                                    class="flex flex-auto self-end items-center"
+                                >
+                                    <img
+                                        src="../../../../public/img/fedex-logo.png"
+                                        alt="fedex-logo"
+                                        width="70%"
+                                        height="70%"
+                                        class="mx-auto"
+                                    />
+                                </div>
+                                <div
+                                    class="flex flex-auto items-center justify-center"
+                                >
+                                    <button
+                                        @click="submitQuote(TotalEstimed, 2)"
+                                        class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                                    >
+                                        Cotizar FEDEX
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -474,13 +477,19 @@
                             showApisQuote == true &&
                                 dhl.DeliveryDate &&
                                 dhl.DeliveryTime &&
+                                dhl.ProductShortName &&
+                                dhl.WeightCharge &&
+                                dhl['FUEL SURCHARGE'] &&
+                                dhl['EMERGENCY SITUATION'] &&
+                                dhl.Discount &&
+                                dhl.ComextechDiscount &&
                                 (!expenses.dataLoad ||
                                     expenses.dataLoad.length > 0)
                         "
                         :class="[
                             !expenses.dataLoad
                                 ? 'hidden'
-                                : 'w-10/12 py-4 my-4 focus:outline-none border rounded-sm'
+                                : 'w-9/12 py-4 my-4 focus:outline-none border rounded-sm'
                         ]"
                     >
                         <div
@@ -494,7 +503,7 @@
                         </div>
 
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm"
+                            class="px-2 w-2/12 inline-block align-top text-center text-sm"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>SERVICIO</span>
@@ -502,92 +511,101 @@
                             <span>{{ dhl.ProductShortName }}</span>
                         </div>
 
-                        <div class="w-3/12 inline-block align-top text-sm">
-                            <div class="mb-8 text-center text-sm font-semibold">
-                                CONCEPTOS
-                            </div>
-                            <div>
-                                <table>
+                        <div class="w-5/12 inline-block align-top">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td class="pl-4">
+                                        <th class="text-sm font-semibold">
+                                            <div
+                                                class="mb-8 text-sm font-semibold"
+                                            >
+                                                <span>CONCEPTOS</span>
+                                            </div>
+                                        </th>
+                                        <th class="w-28 text-sm font-semibold">
+                                            <div
+                                                class="mb-8 text-sm font-semibold"
+                                            >
+                                                <span>TARIFA</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left text-sm">
                                             Tarifa Transporte
                                         </td>
+                                        <td class="text-right text-sm">
+                                            {{ transportDHL }}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">
+                                        <td class="text-left text-sm">
                                             Recargo Combustible
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pl-4">
-                                            Recargo por alta demanda
+                                        <td class="text-right text-sm">
+                                            {{ dhl['FUEL SURCHARGE'] }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">Descuento</td>
+                                        <td class="text-left text-sm">
+                                            Situación de emergencia
+                                        </td>
+                                        <td class="text-right text-sm">
+                                            {{ dhl['EMERGENCY SITUATION'] }}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">
+                                        <td class="text-left text-sm">
+                                            Descuento
+                                        </td>
+                                        <td class="text-right text-sm">
+                                            {{ dhl.Discount }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left text-sm">
                                             Total Estimado
                                         </td>
+                                        <td class="text-right text-sm">
+                                            {{ dhl.ComextechDiscount }}
+                                        </td>
                                     </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="w-2/12 inline-block align-top text-sm">
-                            <div class="mb-8 text-center text-sm font-semibold">
-                                <span>TARIFA</span>
-                            </div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <p class="text-right">
-                                            {{ dhl.ShippingCharge }}
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ dhl['FUEL SURCHARGE'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ dhl.WeightCharge }}</td>
-                                </tr>
-                                <tr>
-                                    <td>- {{ dhl.Discount }}%</td>
-                                </tr>
-                                <tr>
-                                    <td>{{}}</td>
-                                </tr>
+                                </tbody>
                             </table>
-
-                            <!-- <div class="text-right">
-                                
-                            </div>
-                            <div class="text-right"></div>
-                            <div class="text-right">{{ fedex.PEAK }}</div>
-                            <div class="text-right">-{{ fedex.Discount }}</div>
-                            <div class="text-right">
-                                {{ TotalEstimed }}
-                            </div> -->
                         </div>
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm px-2"
+                            class="w-2/12 h-full inline-block align-top text-center text-sm px-2"
                         >
-                            <img
-                                src="../../../../public/img/dhl-express.jpg"
-                                alt="fedex-logo"
-                                width="47%"
-                                height="47%"
-                                class="mt-12 mb-4"
-                            />
-
-                            <button
-                                @click="submitQuote(fedex.TotalNetCharge, 2)"
-                                class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-                            >
-                                Cotizar DHL
-                            </button>
+                            <div class="flex flex-col h-full justify-around">
+                                <div
+                                    class="flex flex-auto self-end items-center"
+                                >
+                                    <img
+                                        src="../../../../public/img/dhl-express.jpg"
+                                        alt="fedex-logo"
+                                        width="70%"
+                                        height="70%"
+                                        class="mx-auto"
+                                    />
+                                </div>
+                                <div
+                                    class="flex flex-auto items-center justify-center"
+                                >
+                                    <button
+                                        @click="
+                                            submitQuote(
+                                                dhl.ComextechDiscount,
+                                                2
+                                            )
+                                        "
+                                        class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                                    >
+                                        Cotizar DHL
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -599,21 +617,21 @@
                     <div
                         v-if="
                             showApisQuote == true &&
-                                fedex.DeliveryTimestamp &&
-                                fedex.ServiceType &&
-                                transportationRate &&
-                                fedex.FUEL &&
-                                fedex.PEAK &&
-                                fedex.Discount &&
-                                TotalEstimed &&
-                                fedex.TotalNetCharge &&
+                                dhl.DeliveryDate &&
+                                dhl.DeliveryTime &&
+                                dhl.ProductShortName &&
+                                dhl.WeightCharge &&
+                                dhl['FUEL SURCHARGE'] &&
+                                dhl['EMERGENCY SITUATION'] &&
+                                dhl.Discount &&
+                                dhl.ComextechDiscount &&
                                 (!expenses.dataLoad ||
                                     expenses.dataLoad.length > 0)
                         "
                         :class="[
                             !expenses.dataLoad
                                 ? 'hidden'
-                                : 'w-10/12 py-4 my-4 focus:outline-none border rounded-sm'
+                                : 'w-9/12 py-4 my-4 focus:outline-none border rounded-sm'
                         ]"
                     >
                         <div
@@ -622,104 +640,114 @@
                             <div class="mb-8 text-sm font-semibold">
                                 <span>LLEGADA</span>
                             </div>
-                            <span>{{ fedex.DeliveryTimestamp }}</span>
+                            <span>{{ dhl.DeliveryDate }}</span>
+                            <span>{{ dhl.DeliveryTime }}</span>
                         </div>
 
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm"
+                            class="px-2 w-2/12 inline-block align-top text-center text-sm"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>SERVICIO</span>
                             </div>
-                            <span>{{ fedex.ServiceType }}</span>
+                            <span>{{ dhl.ProductShortName }}</span>
                         </div>
 
-                        <div class="w-3/12 inline-block align-top text-sm">
-                            <div class="mb-8 text-center text-sm font-semibold">
-                                CONCEPTOS
-                            </div>
-                            <div>
-                                <table>
+                        <div class="w-5/12 inline-block align-top">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td class="pl-4">
+                                        <th class="text-sm font-semibold">
+                                            <div
+                                                class="mb-8 text-sm font-semibold"
+                                            >
+                                                <span>CONCEPTOS</span>
+                                            </div>
+                                        </th>
+                                        <th class="w-28 text-sm font-semibold">
+                                            <div
+                                                class="mb-8 text-sm font-semibold"
+                                            >
+                                                <span>TARIFA</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left text-sm">
                                             Tarifa Transporte
                                         </td>
+                                        <td class="text-right text-sm">
+                                            {{ transportDHL }}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">
+                                        <td class="text-left text-sm">
                                             Recargo Combustible
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pl-4">
-                                            Recargo por alta demanda
+                                        <td class="text-right text-sm">
+                                            {{ dhl['FUEL SURCHARGE'] }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">Descuento</td>
+                                        <td class="text-left text-sm">
+                                            Situación de emergencia
+                                        </td>
+                                        <td class="text-right text-sm">
+                                            {{ dhl['EMERGENCY SITUATION'] }}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="pl-4">
+                                        <td class="text-left text-sm">
+                                            Descuento
+                                        </td>
+                                        <td class="text-right text-sm">
+                                            {{ dhl.Discount }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left text-sm">
                                             Total Estimado
                                         </td>
+                                        <td class="text-right text-sm">
+                                            {{ dhl.ComextechDiscount }}
+                                        </td>
                                     </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="w-2/12 inline-block align-top text-sm">
-                            <div class="mb-8 text-center text-sm font-semibold">
-                                <span>TARIFA</span>
-                            </div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <p class="text-right">
-                                            {{ transportationRate }}
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ fedex.FUEL }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ fedex.PEAK }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ fedex.Discount }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ TotalEstimed }}</td>
-                                </tr>
+                                </tbody>
                             </table>
-
-                            <!-- <div class="text-right">
-                                
-                            </div>
-                            <div class="text-right"></div>
-                            <div class="text-right">{{ fedex.PEAK }}</div>
-                            <div class="text-right">-{{ fedex.Discount }}</div>
-                            <div class="text-right">
-                                {{ TotalEstimed }}
-                            </div> -->
                         </div>
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm px-2"
+                            class="w-2/12 h-full inline-block align-top text-center text-sm px-2"
                         >
-                            <img
-                                src="../../../../public/img/ups-logo.jpg"
-                                alt="fedex-logo"
-                                width="47%"
-                                height="47%"
-                                class="mt-12 mb-4"
-                            />
-
-                            <button
-                                @click="submitQuote(fedex.TotalNetCharge, 2)"
-                                class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-                            >
-                                Cotizar UPS
-                            </button>
+                            <div class="flex flex-col h-full justify-around">
+                                <div
+                                    class="flex flex-auto self-end items-center"
+                                >
+                                    <img
+                                        src="../../../../public/img/ups-logo.jpg"
+                                        alt="fedex-logo"
+                                        width="70%"
+                                        height="70%"
+                                        class="mx-auto"
+                                    />
+                                </div>
+                                <div
+                                    class="flex flex-auto items-center justify-center"
+                                >
+                                    <button
+                                        @click="
+                                            submitQuote(
+                                                dhl.ComextechDiscount,
+                                                2
+                                            )
+                                        "
+                                        class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                                    >
+                                        Cotizar UPS
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -751,7 +779,8 @@ export default {
             safe: false,
             fedex: {} /* response object api fedex */,
             dhl: {} /* response object api DHL */,
-            transportationRate: '' /* transportation rate Fedex */,
+            transportDHL: '' /* transportation rate Fedex */,
+            BaseChargeTotal: '',
             TotalEstimed: '' /* estimated total Fedex */,
             formAdress: true /* Form addresses */,
             adressDate: false /* Form date and description */,
@@ -793,22 +822,17 @@ export default {
                         this.fedex.DeliveryTimestamp
                     );
 
-                    /* transforming the transport rate to 2 decimal places */
-                    this.transportationRate =
-                        this.fedex.TotalBaseCharge -
-                        this.fedex.TotalFreightDiscounts;
-                    this.transportationRate = this.transportationRate.toFixed(
-                        2
-                    );
-
                     /* Calculating the discount on the estimated total */
                     this.fedex.Discount =
-                        this.fedex.TotalNetCharge * (this.fedex.Discount / 100);
+                        (this.fedex.TotalNetCharge * this.fedex.Discount) / 100;
                     this.fedex.Discount = this.fedex.Discount.toFixed(2);
 
                     /* Applying the discount on the estimated total */
                     this.TotalEstimed =
-                        this.fedex.TotalNetCharge - this.fedex.Discount;
+                        parseFloat(this.fedex.TotalNetCharge) -
+                        parseFloat(this.fedex.Discount) +
+                        parseFloat(this.fedex.FUEL) +
+                        parseFloat(this.fedex.PEAK);
                     this.TotalEstimed = this.TotalEstimed.toFixed(2);
                 }
 
@@ -817,6 +841,13 @@ export default {
 
                 if (DhlApi.status == 200) {
                     this.dhl = DhlApi.data;
+
+                    this.transportDHL =
+                        parseFloat(this.dhl.WeightCharge) +
+                        parseFloat(this.dhl.TotalDiscount);
+
+                    this.dhl.Discount = (this.transportDHL * 60) / 100;
+                    // this.dhl.Discount = this.dhl.Discount.toFixed(3);
                 }
                 /* Vue-loader hidden */
                 loader.hide();
@@ -980,7 +1011,7 @@ export default {
 <style>
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 1s;
+    transition: opacity 0.7s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
