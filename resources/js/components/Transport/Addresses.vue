@@ -847,7 +847,13 @@ export default {
                         parseFloat(this.dhl.TotalDiscount);
 
                     this.dhl.Discount = (this.transportDHL * 60) / 100;
-                    // this.dhl.Discount = this.dhl.Discount.toFixed(3);
+                    this.dhl.Discount = parseFloat(this.dhl.Discount).toFixed(
+                        2
+                    );
+
+                    this.dhl.ComextechDiscount = this.dhl.ComextechDiscount.toFixed(
+                        2
+                    );
                 }
                 /* Vue-loader hidden */
                 loader.hide();
