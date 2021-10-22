@@ -22,10 +22,10 @@
         
         public function __construct()
         {
-            $this->siteid = config('dhlapiconfig.siteid')?: getenv("DHL_SITEID");
-            $this->password = config('dhlapiconfig.password')?: getenv("DHL_PASSWORD");
-            $this->_mode = getenv('APP_ENV') ?: config('app.env');
-            $this->accountNumber = config('dhlapiconfig.account_number')?: getenv("DHL_ACCOUNT_NUMBER");
+            $this->siteid   = env("DHL_SITEID",'v62_DZy8vS4koW');
+            $this->password = env("DHL_PASSWORD",'I00uFsipN2');
+            $this->_mode    = env('APP_ENV','local');
+            $this->accountNumber = env("DHL_ACCOUNT_NUMBER","673181996");
         }
 
         public function getResponse(): Object

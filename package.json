@@ -36,6 +36,7 @@
         "vform": "^2.0.4",
         "vue": "^2.6.12",
         "vue-google-autocomplete": "^1.1.2",
+        "vue-loading-overlay": "3.0",
         "vue-luxon": "^0.10.0",
         "vue-select": "^3.11.2",
         "vue-unique-id": "^3.2.1",

@@ -105,4 +105,34 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(UserDiscount::class);
     }
+
+    public function discountImport($data, $company = 'FEDEX')
+    {
+        $trans_company_id = TransCompany::where('name', $company)->first();
+
+        $shipper_country_code = $data['origin_ctry_code'];
+
+        // if favorite address origin is true find in storage
+        if($data['fav_address_origin']){
+
+            $address = SupplierAddress::where('id', $data['address_origin'])->firstOrFail();
+            $shipper_country_code = $address->country_code;
+
+        }
+
+        $import_zone = Country::where('code', $shipper_country_code)->first();
+
+        $zone = is_null($import_zone->IP) ? 'F' : $import_zone->IP ;
+
+        if(($data['dataLoad'][0]['weight'] > 68 && $data['dataLoad'][0]['weight_units'] == 'KG') 
+        || ($data['dataLoad'][0]['weight'] > 150 && $data['dataLoad'][0]['weight_units'] == 'LB')){ 
+            $zone = is_null($import_zone->IPF) ? 'F' : $import_zone->IPF ;
+          }
+
+        $zone = 'imp_'.strtolower($zone);
+
+        return auth()->user()->discount
+                ->where('trans_company_id', $trans_company_id->id )
+                ->first()->$zone;
+    }
 }

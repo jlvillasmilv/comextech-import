@@ -620,7 +620,7 @@ class ApplicationController extends Controller
     */
     public function fedexRate(TransportRequest $request)
     {
-        try {
+        // try {
 
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
@@ -631,22 +631,25 @@ class ApplicationController extends Controller
                 if (!empty($fedex_response->HighestSeverity) && $fedex_response->HighestSeverity == "ERROR") {
                     $notifications = array();
                     foreach ($fedex_response->Notifications as $key => $notification) {
-                            # code...
                             $notifications[] = $notification->Message;
                     }
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
                 }
 
-
+                
                 $quote = array();
-
                 $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
 
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
-                    $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
-                    $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
+                    // obtaining discount %
+                    $discount = auth()->user()
+                    ->discountImport($request->except(['id','application_id','code_serv']),'FEDEX');
 
+                    $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
+                    $quote['ServiceType']       = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
+                    $quote['Discount']          = $discount;
+                    
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
                     }
@@ -655,9 +658,9 @@ class ApplicationController extends Controller
                 }
             }
 
-        } catch (\Exception $e) {
-            return response()->json(['status' => $e], 400);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => $e], 400);
+        // }
 
     }
 
@@ -672,8 +675,7 @@ class ApplicationController extends Controller
     */
     public function dhlQuote(TransportRequest $request)
     {
-
-       // try {
+       try {
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
                 $connect = new DHL;
@@ -681,16 +683,54 @@ class ApplicationController extends Controller
                 $objJsonDocument = json_encode($api);
                 $arrOutput = json_decode($objJsonDocument, TRUE);
 
-                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
-                    //dd($arrOutput['GetQuoteResponse']['BkgDetails']);
-                    return response()->json($arrOutput['GetQuoteResponse']['BkgDetails'], 200);
+                // validate data from DHL return errors
+                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['Note'])) {
+                    $notifications = array();
+                   
+                    $notifications['ConditionData'] = $notification['ConditionData'];
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
                 }
+
+                $quote = array();
+               
+                // validate data from DHL
+                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+                    // obtaining discount %
+                    $discount = auth()->user()
+                    ->discountImport($request->except(['id','application_id','code_serv']),'DHL');
+
+                    $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
+                    $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+
+                    $quote['ProductShortName']  = ucwords(strtolower($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ProductShortName']));
+                    $quote['DeliveryDate']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryDate'];
+                    $quote['DeliveryTime']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryTime'];
+                    $quote['PickupCutoffTime']  = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['PickupCutoffTime'];
+                    $quote['BookingTime']       = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['BookingTime'];
+                    $quote['WeightCharge']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'];
+                    $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+                    $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
+                    $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge']; 
+                    $quote['Discount']          = $discount;
+                    
+                    $total_discount = ($total__net_charge * $discount) / 100;
+
+                    $total =  $total__net_charge - $total_discount;
+                    
+                    foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
+                        $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+                        $total = $total + $qtdShp_exchrg['ChargeValue'];
+                    }
+
+                    $quote['ComextechDiscount'] =  $total;
+                }
+                
+                return response()->json($quote, 200);
+
             }
-
-
-        // } catch (\Exception $e) {
-        //     return response()->json(['status' => $e], 400);
-        // }
+        } catch (\Exception $e) {
+            return response()->json(['status' => $e], 400);
+        }
     }
 
     public function test()
@@ -711,7 +751,7 @@ class ApplicationController extends Controller
             "dest_locality" => null,
             "dest_ctry_code" => null,
             "insurance" => false,
-            "estimated_date" => "2021-10-16",
+            "estimated_date" => "2021-10-20",
             "description" => "Carga",
             "dataLoad" => [
                [
@@ -719,13 +759,13 @@ class ApplicationController extends Controller
                 "mode_selected" => "CARGA AEREA",
                 "type_load" => 1,
                 "type_container" => 1,
-                "length" => 10,
-                "width"  => 10,
-                "height" => 10,
+                "length" => 30,
+                "width"  => 30,
+                "height" => 30,
                 "length_unit" => "CM",
                 "id" => 0,
                 "cbm" => 0.1728,
-                "weight" => 15,
+                "weight" => 16,
                 "weight_units" => "KG",
                 "stackable" => false
                ],
@@ -736,22 +776,52 @@ class ApplicationController extends Controller
         $connect = new DHL;
         $api = $connect->quoteApi($data);
 
-        dd($api);
+        $objJsonDocument = json_encode($api);
+        $arrOutput = json_decode($objJsonDocument, TRUE);
+
+        //dd($arrOutput);
+
+        $quote = array();
+
+        if (!empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['Note'])) {
+            $notifications = array();
+           
+            $notifications['ConditionData'] = $notification['ConditionData'];
+            return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
+        }
+
        
-        // $connect = new FedexApi;
-        // $api = $connect->rateApi($data);
 
-        // $quote = $api['PREFERRED_ACCOUNT_SHIPMENT'];
+        if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+            $discount = auth()->user()->discountImport($data,'DHL');
+            $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
+            $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
 
-        // foreach ($api['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
-        //     $quote[$item->SurchargeType] = $item->Amount->Amount;
-        // }
+            $quote['ProductShortName']  = ucwords(strtolower($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ProductShortName']));
+            $quote['DeliveryDate']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryDate'];
+            $quote['DeliveryTime']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryTime'];
+            $quote['PickupCutoffTime']  = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['PickupCutoffTime'];
+            $quote['BookingTime']       = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['BookingTime'];
+            $quote['WeightCharge']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'];
+            $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+            $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
+            $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge']; 
+            $quote['Discount']          = $discount;
+            
+            $total_discount = ($total__net_charge * $discount) / 100;
 
-        // $quote['DeliveryTimestamp'] = $api['DeliveryTimestamp'];
-        // $quote['ServiceType'] = ucwords(strtolower(\Str::replace('_', ' ',$api['ServiceType'])));
-        // //  //Surcharges
-        
-        // dd($quote);
+            $total =  $total__net_charge - $total_discount;
+            
+            foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
+                $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+                $total = $total + $qtdShp_exchrg['ChargeValue'];
+            }
+
+            $quote['ComextechDiscount'] =  $total;
+        }
+
+        dd($quote);
+       
 
     }
 
