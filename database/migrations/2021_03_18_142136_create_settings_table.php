@@ -18,6 +18,8 @@ class CreateSettingsTable extends Migration
             $table->decimal('commission', 8, 2)->nullable()->default(20000);
             $table->string('api_sii', 100)->nullable()->default('https://api.libredte.cl/api/v1/sii/rcv/ventas/detalle');
             $table->text('token_sii', 100)->nullable();
+            $table->text('terms')->nullable()->comment('Terminos y condiciones');
+            $table->string('url_video')->nullable()->comment('Video bienvenida');
             $table->unsignedBigInteger('created_users_id')->nullable();
             $table->unsignedBigInteger('modified_users_id')->nullable();
             $table->timestamps();
