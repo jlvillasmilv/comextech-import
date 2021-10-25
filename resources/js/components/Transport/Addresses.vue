@@ -336,7 +336,7 @@
 
             <!-- Bloque cotizacion de fedex -->
             <transition name="fade">
-                <div class="flex justify-center">
+                <div class="sm:flex sm:justify-center">
                     <div
                         v-if="
                             showApisQuote == true &&
@@ -353,11 +353,11 @@
                         :class="[
                             !expenses.dataLoad
                                 ? 'hidden'
-                                : 'w-9/12 py-4 my-4 focus:outline-none border rounded-sm'
+                                : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
                         ]"
                     >
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm px-2"
+                            class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>LLEGADA</span>
@@ -366,7 +366,7 @@
                         </div>
 
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm"
+                            class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>SERVICIO</span>
@@ -374,7 +374,7 @@
                             <span>{{ fedex.ServiceType }}</span>
                         </div>
 
-                        <div class="w-5/12 inline-block align-top">
+                        <div class="sm:w-5/12 inline-block align-top px-2">
                             <table>
                                 <thead>
                                     <tr>
@@ -385,7 +385,9 @@
                                                 <span>CONCEPTOS</span>
                                             </div>
                                         </th>
-                                        <th class="w-28 text-sm font-semibold">
+                                        <th
+                                            class="w-28 sm:w-28 text-sm font-semibold"
+                                        >
                                             <div
                                                 class="mb-8 text-sm font-semibold"
                                             >
@@ -439,18 +441,16 @@
                             </table>
                         </div>
                         <div
-                            class="w-2/12 h-full inline-block align-top text-center text-sm px-2"
+                            class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2"
                         >
                             <div class="flex flex-col h-full justify-around">
                                 <div
-                                    class="flex flex-auto self-end items-center"
+                                    class="flex flex-auto self-end items-center mt-8"
                                 >
                                     <img
                                         src="../../../../public/img/fedex-logo.png"
                                         alt="fedex-logo"
-                                        width="70%"
-                                        height="70%"
-                                        class="mx-auto"
+                                        class="mx-auto my-2 w-4/12 sm:w-9/12"
                                     />
                                 </div>
                                 <div
@@ -458,7 +458,7 @@
                                 >
                                     <button
                                         @click="submitQuote(TotalEstimed, 2)"
-                                        class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                                        class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                                     >
                                         Cotizar FEDEX
                                     </button>
@@ -471,7 +471,7 @@
 
             <!-- Bloque cotizacion de DHL -->
             <transition name="fade">
-                <div class="flex justify-center">
+                <div class="sm:flex sm:justify-center">
                     <div
                         v-if="
                             showApisQuote == true &&
@@ -489,11 +489,11 @@
                         :class="[
                             !expenses.dataLoad
                                 ? 'hidden'
-                                : 'w-9/12 py-4 my-4 focus:outline-none border rounded-sm'
+                                : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
                         ]"
                     >
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm px-2"
+                            class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>LLEGADA</span>
@@ -503,7 +503,7 @@
                         </div>
 
                         <div
-                            class="px-2 w-2/12 inline-block align-top text-center text-sm"
+                            class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>SERVICIO</span>
@@ -511,7 +511,7 @@
                             <span>{{ dhl.ProductShortName }}</span>
                         </div>
 
-                        <div class="w-5/12 inline-block align-top">
+                        <div class="sm:w-5/12 inline-block align-top px-2">
                             <table>
                                 <thead>
                                     <tr>
@@ -522,7 +522,9 @@
                                                 <span>CONCEPTOS</span>
                                             </div>
                                         </th>
-                                        <th class="w-28 text-sm font-semibold">
+                                        <th
+                                            class="w-28 sm:w-28 text-sm font-semibold"
+                                        >
                                             <div
                                                 class="mb-8 text-sm font-semibold"
                                             >
@@ -576,18 +578,16 @@
                             </table>
                         </div>
                         <div
-                            class="w-2/12 h-full inline-block align-top text-center text-sm px-2"
+                            class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2"
                         >
                             <div class="flex flex-col h-full justify-around">
                                 <div
-                                    class="flex flex-auto self-end items-center"
+                                    class="flex flex-auto self-end items-center mt-8"
                                 >
                                     <img
                                         src="../../../../public/img/dhl-express.jpg"
-                                        alt="fedex-logo"
-                                        width="70%"
-                                        height="70%"
-                                        class="mx-auto"
+                                        alt="dhl-logo"
+                                        class="mx-auto my-2 w-4/12 sm:w-9/12"
                                     />
                                 </div>
                                 <div
@@ -600,7 +600,7 @@
                                                 2
                                             )
                                         "
-                                        class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                                        class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                                     >
                                         Cotizar DHL
                                     </button>
@@ -613,7 +613,7 @@
 
             <!-- Bloque cotizacion de UPS -->
             <transition name="fade">
-                <div class="flex justify-center">
+                <div class="sm:flex sm:justify-center">
                     <div
                         v-if="
                             showApisQuote == true &&
@@ -631,11 +631,11 @@
                         :class="[
                             !expenses.dataLoad
                                 ? 'hidden'
-                                : 'w-9/12 py-4 my-4 focus:outline-none border rounded-sm'
+                                : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
                         ]"
                     >
                         <div
-                            class="w-2/12 inline-block align-top text-center text-sm px-2"
+                            class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>LLEGADA</span>
@@ -645,7 +645,7 @@
                         </div>
 
                         <div
-                            class="px-2 w-2/12 inline-block align-top text-center text-sm"
+                            class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8"
                         >
                             <div class="mb-8 text-sm font-semibold">
                                 <span>SERVICIO</span>
@@ -653,7 +653,7 @@
                             <span>{{ dhl.ProductShortName }}</span>
                         </div>
 
-                        <div class="w-5/12 inline-block align-top">
+                        <div class="sm:w-5/12 inline-block align-top px-2">
                             <table>
                                 <thead>
                                     <tr>
@@ -664,7 +664,9 @@
                                                 <span>CONCEPTOS</span>
                                             </div>
                                         </th>
-                                        <th class="w-28 text-sm font-semibold">
+                                        <th
+                                            class="w-28 sm:w-28 text-sm font-semibold"
+                                        >
                                             <div
                                                 class="mb-8 text-sm font-semibold"
                                             >
@@ -718,18 +720,16 @@
                             </table>
                         </div>
                         <div
-                            class="w-2/12 h-full inline-block align-top text-center text-sm px-2"
+                            class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2"
                         >
                             <div class="flex flex-col h-full justify-around">
                                 <div
-                                    class="flex flex-auto self-end items-center"
+                                    class="flex flex-auto self-end items-center mt-8"
                                 >
                                     <img
-                                        src="../../../../public/img/ups-logo.jpg"
-                                        alt="fedex-logo"
-                                        width="70%"
-                                        height="70%"
-                                        class="mx-auto"
+                                        src="../../../../public/img/ups-logo.png"
+                                        alt="dhl-logo"
+                                        class="mx-auto my-2 w-4/12 sm:w-9/12"
                                     />
                                 </div>
                                 <div
@@ -742,9 +742,9 @@
                                                 2
                                             )
                                         "
-                                        class="w-24 h-14 text-white transition-colors text-base bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                                        class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                                     >
-                                        Cotizar UPS
+                                        Cotizar DHL
                                     </button>
                                 </div>
                             </div>
