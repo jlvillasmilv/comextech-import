@@ -58,10 +58,13 @@ import VueLoading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 Vue.use(VueLoading);
 
+import Quote from './views/Quote'
+
 const app = new Vue({
     el: '#app',
     store,
     components: {
-        'home-import-app': Import
+        'home-import-app': Import,
+        'view-quote': Quote,
     }
 });

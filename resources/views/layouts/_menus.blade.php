@@ -70,6 +70,67 @@
               </ul>
             </template>
           </li>
-    
+
+          {{-- Factoring --}}
+
+          <li class="relative px-6 py-3">
+            
+            <button
+              class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              @click="toggleFinancingMenu"  aria-haspopup="true" 
+            >
+              <span class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {!! request()->is('factoring/*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+
+                <span class="ml-4"> Financiamiento </span>
+              </span>
+            </button>
+            <template x-if="isFinancingMenuOpen">
+              <ul
+                x-transition:enter="transition-all ease-in-out duration-300"
+                x-transition:enter-start="opacity-25 max-h-0"
+                x-transition:enter-end="opacity-100 max-h-xl"
+                x-transition:leave="transition-all ease-in-out duration-300"
+                x-transition:leave-start="opacity-100 max-h-xl"
+                x-transition:leave-end="opacity-0 max-h-0"
+                class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+                aria-label="submenu"
+              >
+                <li
+                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                {!! request()->is('factoring/quote') ? 'italic font-black' : '' !!} "
+                >
+                
+                <a class="w-full " href="{{ route('factoring.quote')}}">
+                 
+                    Cotizar
+                   
+                </a>
+                </li>
+                <li
+                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                >
+                  <a class="w-full"  href="{{route('services.show')}}" >
+                     Solicitudes
+                  </a>
+                </li>
+                <li
+                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                >
+                  <a class="w-full" href="{{ route('supplier.index')}}">
+                    Desembolsos
+                  </a>
+                </li>
+               
+              </ul>
+            </template>
+          </li>
+
+
+
+
     </ul>
 </div>

@@ -2,10 +2,13 @@
 
 namespace App\Models\Factoring;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SettlementStatus extends Model
 {
-    use HasFactory;
+    protected $table = 'factoring_settlement_status';
+
+    protected $fillable = [
+        'description', 'value', 'icon', 'color','created_at'
+    ];
 }

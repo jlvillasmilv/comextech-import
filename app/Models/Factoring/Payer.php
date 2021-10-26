@@ -4,6 +4,7 @@ namespace App\Models\Factoring;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Payer extends Model
 {
@@ -50,7 +51,7 @@ class Payer extends Model
     public function scopeInvoicesLastThreeMonths($query)
     {  
         
-        if(auth()->user()->hasRole('client')) {
+        if(auth()->user()->hasRole('Client')) {
             return $query->select('payers.*','invoice_histories.*', 'clients_payers.settlement_status_id')
             ->join('clients_payers', 'payers.id', '=', 'clients_payers.payer_id')
             ->join('invoice_histories', 'clients_payers.id', '=', 'invoice_histories.client_payer_id')
