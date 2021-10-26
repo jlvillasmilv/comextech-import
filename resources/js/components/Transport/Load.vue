@@ -135,6 +135,7 @@
                             <input
                                 type="radio"
                                 v-model="item.length_unit"
+                                @click="changeLoadType('CM')"
                                 class="form-checkbox h-4 w-4 text-gray-800"
                                 :id="'lengthUnit' + id"
                                 value="CM"
@@ -147,6 +148,7 @@
                                 :selected="true"
                                 type="radio"
                                 v-model="item.length_unit"
+                                @click="changeLoadType('IN')"
                                 class="form-checkbox h-4 w-4 text-gray-800"
                                 :id="'lengthUnit' + id"
                                 value="IN"
@@ -206,6 +208,7 @@
                         <input
                             type="radio"
                             v-model="item.weight_units"
+                            @click="changeLoadType('CM')"
                             :id="'weight_units' + id"
                             :name="'weight_units' + id"
                             class="form-checkbox h-4 w-4 text-gray-800"
@@ -218,6 +221,7 @@
                         <input
                             type="radio"
                             v-model="item.weight_units"
+                            @click="changeLoadType('IN')"
                             :id="'weight_units' + id"
                             :name="'weight_units' + id"
                             class="form-checkbox h-4 w-4 text-gray-800"
@@ -275,12 +279,42 @@ export default {
             default: 'Cotizador Online'
         }
     },
+    data() {
+        return {
+            showKg: true,
+            showIn: true
+        };
+    },
     methods: {
         AddFielForm() {
+            console.log('this.item', this.item);
+            console.log('loads', this.$store.state.load.loads);
+
+            // const { loads } = this.$store.state.load;
+            // if (loads[loads.length - 1].length_unit === 'CM') {
+            //     this.showIn = false;
+            // }
+            // if (loads[loads.length - 1].length_unit === 'IN') {
+            //     this.showKg = false;
+            // }
             this.$store.dispatch('load/addLoad', this.item);
         },
         deleteForm(id) {
+            console.log(this.$store.state.load.loads);
+            // const { loads } = this.$store.state.load;
+            // if (loads[loads.length - 1].length_unit === 'CM') {
+            //     this.showKg = true;
+            //     this.showIn = false;
+            // }
+            // if (loads[loads.length - 1].length_unit === 'IN') {
+            //     this.showIn = true;
+            //     this.showKg = false;
+            // }
             this.$store.dispatch('load/removedLoad', id);
+            // if(loads[loads.length - 1]) {
+
+            // }
+            // this.reset();
         },
         changeMode() {
             // this.$store.state.load.item.mode_calculate = !this.$store.state.load
@@ -294,6 +328,10 @@ export default {
         reset() {
             this.$store.state.load.loads = [];
             this.$store.dispatch('load/addLoad', this.item);
+        },
+        changeLoadType(unit) {
+            console.log(true);
+            this.$store.dispatch('load/changeLoadType', unit);
         }
     },
     computed: {
