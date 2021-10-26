@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="flex flex-wrap">
-            <h1 class="flex-auto text-2xl text-blue-900 ">
+        <div class="md:flex md:flex-wrap">
+            <h1 class="md:flex-auto text-2xl text-blue-900 ">
                 {{ title }}
             </h1>
         </div>
-        <div class="flex  mt-3 mb-8   ">
-            <ul class="flex  space-x-2 mt-3 ">
+        <div class="w-full md:flex mt-3 mb-8">
+            <ul class="w-full md:flex md:space-x-2 mt-3">
                 <li
                     v-for="name in $store.state.load.types"
                     :key="name"
@@ -24,10 +24,10 @@
             <div
                 v-for="(item, id) in loads"
                 :key="id"
-                class="flex w-full justify-items-center  dark:text-gray-400 space-x-5 mt-2 "
+                class="w-full md:flex justify-items-center dark:text-gray-400 space-x-5 mt-2"
             >
                 <div
-                    class="inline w-1/6"
+                    class="w-full mb-4 inline-block md:inline md:w-1/6"
                     v-if="item.mode_selected != 'CONTAINER'"
                 >
                     <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
@@ -60,7 +60,7 @@
                 </div>
                 <div
                     v-if="item.mode_selected != 'CONTAINER'"
-                    class="inline w-1/6 p-1"
+                    class="w-full mb-4 md:inline md:w-1/6 md:p-1"
                 >
                     <div class="relative">
                         <label
@@ -101,7 +101,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="inline" v-if="item.mode_calculate">
+                <div class="w-full mb-4 md:inline" v-if="item.mode_calculate">
                     <div v-if="item.mode_selected != 'CONTAINER'">
                         <span
                             v-if="id == 0"
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div
-                    class="inline text-center"
+                    class="w-full mb-4 md:inline md:text-center"
                     v-if="item.mode_selected != 'CONTAINER'"
                 >
                     <span
@@ -184,7 +184,7 @@
                         placeholder="CBM"
                     />
                 </div>
-                <div class="inline">
+                <div class="w-full mb-4 md:inline">
                     <span class="text-sm text-center font-semibold ">
                         Peso Unitario
                     </span>
@@ -230,7 +230,7 @@
                         <span class="ml-2 text-gray-700"> Lbs </span>
                     </label>
                 </div>
-                <div class="flex">
+                <div class="w-full p-1 mb-4 md:flex">
                     <label
                         class="inline-flex text-sm items-center "
                         v-if="item.mode_selected != 'CONTAINER'"
@@ -245,7 +245,7 @@
                     </label>
                 </div>
                 <div
-                    class="innline w-1/7 mt-5"
+                    class="w-full md:innline md:w-1/7 md:mt-5"
                     v-if="item.mode_calculate || typeSelected == 'CONTAINER'"
                 >
                     <button
