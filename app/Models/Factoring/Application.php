@@ -8,13 +8,14 @@ class Application extends Model
 {
     protected $table = 'factoring_applications';
 
-    protected $fillable = ['user_id',
-    'status',
-    'contract_status',
-    'disbursement_status',
-    'observation',
-    'description',
-    'modified_users_id',
+    protected $fillable = [
+        'user_id',
+        'status',
+        'contract_status',
+        'disbursement_status',
+        'observation',
+        'description',
+        'modified_users_id',
      ];
 
     protected $dates = [
