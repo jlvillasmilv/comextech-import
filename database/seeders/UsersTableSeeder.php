@@ -40,7 +40,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $client->company()->create([
-            'country_id' => 6,
+            'country_id' => 41,
             'tax_id'  => '76722268-8',
             'name'    => 'Comextech',
             'email'   => 'info@Comex.Tech',
@@ -58,9 +58,16 @@ class UsersTableSeeder extends Seeder
         ]);
        }
 
+       $client->credential()->create([
+            'provider_name' => 'SII',
+            'provider_password' => base64_encode('100210'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         \DB::table('company_addresses')->insert([
-            [ 'company_id'  => '1',
-              'country_id'  => '41',
+            [ 'company_id'  => 1,
+              'country_id'  => 41,
               'postal_code' => '7550214',
               'locality'    => 'Las Condes',
               'place'       => 'ALMACEN',

@@ -22,6 +22,10 @@ const Toast = Swal.mixin({
 });
 window.Toast = Toast;
 
+import VueSweetalert2 from 'vue-sweetalert2';
+
+Vue.use(VueSweetalert2);
+
 import 'alpinejs';
 
 import vSelect from 'vue-select';
@@ -58,10 +62,18 @@ import VueLoading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 Vue.use(VueLoading);
 
+// component tab 
+import './assets/tabs-component.css'
+import Tabs from 'vue-tabs-component';
+Vue.use(Tabs);
+
+import Quote from './views/Quote'
+
 const app = new Vue({
     el: '#app',
     store,
     components: {
-        'home-import-app': Import
+        'home-import-app': Import,
+        'view-quote': Quote,
     }
 });
