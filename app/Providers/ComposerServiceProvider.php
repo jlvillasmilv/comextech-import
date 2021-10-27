@@ -15,6 +15,14 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer('supplier.form', 'App\Http\ViewComposers\SupplierComposer');
         View::composer('address.form', 'App\Http\ViewComposers\AddressComposer');
         
+        //factoring
+        View::composer([
+            'factoring.application.index',
+            'factoring.profile.index',
+            'factoring.disbursements.index'],
+             'App\Http\ViewComposers\successMountComposer');
+
+        View::composer(['factoring.application.index'], 'App\Http\ViewComposers\TotalApplicationsClient');
     }
 
     public function register()

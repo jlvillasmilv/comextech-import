@@ -18,7 +18,7 @@ class ApplicationController extends Controller
     {   
         $applications = Application::where('user_id', auth()->user()->id )->orderBy('id', 'desc')->get();
        
-        return view('application.index', compact('applications'));
+        return view('factoring.application.index', compact('applications'));
 
     }
 

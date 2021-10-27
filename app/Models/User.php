@@ -158,4 +158,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Factoring\ClientPayer::class);
     }
+
+    public function FileStoreClient()
+    {
+        return $this->hasMany(Factoring\FileStoreClient::class,'user_id');
+    }
+
+    public function client_legal_info()
+    {
+        return $this->hasMany(Factoring\ClientLegalInfo::class);
+    }
 }

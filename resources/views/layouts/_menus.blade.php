@@ -99,32 +99,34 @@
                 class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
                 aria-label="submenu"
               >
-                <li
-                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
-                {!! request()->is('factoring/quote') ? 'italic font-black' : '' !!} "
-                >
-                
-                <a class="w-full " href="{{ route('factoring.quote')}}">
-                 
-                    Cotizar
-                   
-                </a>
-                </li>
-                <li
-                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                >
-                  <a class="w-full"  href="{{route('services.show')}}" >
-                     Solicitudes
-                  </a>
-                </li>
-                <li
-                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                >
-                  <a class="w-full" href="{{ route('supplier.index')}}">
-                    Desembolsos
-                  </a>
-                </li>
-               
+                @can('factoring.quote.index')
+                  <li
+                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                  {!! request()->is('factoring/quote') ? 'italic font-black' : '' !!} "
+                  >
+                    <a class="w-full " href="{{ route('factoring.quote')}}">
+                      Cotizar  
+                    </a>
+                  </li>
+                @endcan
+                @can('factoring.applications.index')
+                  <li
+                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  >
+                    <a class="w-full"  href="{{route('factoring.applications.index')}}" >
+                      Solicitudes
+                    </a>
+                  </li>
+                @endcan
+                @can('factoring.disbursements.index')
+                  <li
+                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  >
+                    <a class="w-full" href="{{ route('supplier.index')}}">
+                      Desembolsos
+                    </a>
+                  </li>
+                @endcan
               </ul>
             </template>
           </li>
