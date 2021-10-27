@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import Option from "@/config/alert";
+import Option from "../config/alert";
 import SingleFile from "../components/Factoring/SingleFile";
 import DownloadFile from "../components/Factoring/DownloadFile";
 
