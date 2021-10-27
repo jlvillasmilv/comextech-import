@@ -15,7 +15,7 @@ class ClientPayer extends Model
     ];
     public function client()
     {
-        return $this->belongsTo(App\Models\User::class,'user_id');
+        return $this->belongsTo(\App\Models\User::class,'user_id');
     }
 
     public function SettlementStatus()
