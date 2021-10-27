@@ -55,7 +55,7 @@ class FileStoreController extends Controller
             
             $emitter_rut = $array['Documento']['Encabezado']['Emisor']['RUTEmisor'];
 
-            $client =  auth()->user()->client;
+            $client =  auth()->user();
             
             $dte = (int)$array['Documento']['Encabezado']['IdDoc']['TipoDTE'];
            
@@ -63,7 +63,7 @@ class FileStoreController extends Controller
                 return response()->json(['status' => 'Factura no tiene condición de pago a crédito!'], 201);
             }
 
-            if($emitter_rut != $client->company->rut){
+            if($emitter_rut !=  auth()->user()->company->tax_id){
                 return response()->json(['status' => 'Factura no pertenece a la empresa registrada!'], 201);
             }
 
@@ -74,7 +74,7 @@ class FileStoreController extends Controller
                'total_amount' => $array['Documento']['Encabezado']['Totales']['MntTotal'],
                'issuing_date' => $array['Documento']['Encabezado']['IdDoc']['FchEmis'],
                'expire_date'  => $array['Documento']['Encabezado']['IdDoc']['FchVenc'],
-               'user_id'      => $client->id
+               'user_id'      =>  auth()->user()->id
             ];
             $data = new Application;
 
@@ -96,7 +96,7 @@ class FileStoreController extends Controller
             'issuing_date' => $request->input('issuing_date'),
             'expire_date'  => $request->input('expire_date') ?? $date ,
             'payment_date' => $request->input('payment_date') ?? $date ,
-            'user_id'      => auth()->user()->client->id
+            'user_id'      => auth()->user()->id
          ];
          
          $data = new Application;

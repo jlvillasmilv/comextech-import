@@ -153,4 +153,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserCredential::class,'user_id')
         ->withDefault(['provider_name' => ' ','provider_password' => '' ]);
     }
+
+    public function ClientPayer()
+    {
+        return $this->hasMany(Factoring\ClientPayer::class);
+    }
 }

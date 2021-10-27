@@ -73,7 +73,7 @@ export default {
             exit: false,
             route: "applications",
             dropzoneOptions: {
-                url: "/file",
+                url: "/factoring/file",
                 headers: {
                     "X-CSRF-TOKEN": document.head.querySelector(
                         "[name=csrf-token]"
@@ -166,7 +166,7 @@ export default {
                         source: "XML"
                     };
                     let response = await axios.post(
-                        "/factoring/quote/anticipate",
+                        "/quote/anticipate",
                         payload
                     );
                     this.items.splice(0);
