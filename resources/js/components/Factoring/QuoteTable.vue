@@ -282,7 +282,7 @@ export default {
                     issuing_date: this.itemEditing.issuing_date,
                     payment_date: date
                 };
-                let response = await axios.post("quote/calculation", payload);
+                let response = await axios.post("factoring/quote/calculation", payload);
                 let expire = { change_expire: true };
                 this.items.splice(this.index, 1, {
                     ...response.data,

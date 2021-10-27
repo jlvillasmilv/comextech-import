@@ -50,14 +50,13 @@ class Payer extends Model
     }
     public function scopeInvoicesLastThreeMonths($query)
     {  
-        
         if(auth()->user()->hasRole('Client')) {
-            return $query->select('payers.*','invoice_histories.*', 'clients_payers.settlement_status_id')
-            ->join('clients_payers', 'payers.id', '=', 'clients_payers.payer_id')
-            ->join('invoice_histories', 'clients_payers.id', '=', 'invoice_histories.client_payer_id')
-            ->where('clients_payers.client_id', auth()->user()->client->id)
-            ->where('invoice_histories.indicador_sin_costo', 2)
-            ->whereIn('invoice_histories.dte', [34, 33])
+            return $query->select('factoring_payers.*','factoring_invoice_histories.*', 'factoring_clients_payers.settlement_status_id')
+            ->join('factoring_clients_payers', 'factoring_payers.id', '=', 'factoring_clients_payers.payer_id')
+            ->join('factoring_invoice_histories', 'factoring_clients_payers.id', '=', 'factoring_invoice_histories.client_payer_id')
+            ->where('factoring_clients_payers.user_id', auth()->user()->id)
+            ->where('factoring_invoice_histories.indicador_sin_costo', 2)
+            ->whereIn('factoring_invoice_histories.dte', [34, 33])
             ->whereBetween('fecha', [
                 Carbon::now()->subMonth(3) ,
                 Carbon::now()

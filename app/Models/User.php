@@ -140,4 +140,17 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->where('trans_company_id', $trans_company_id->id )
                 ->first()->$zone;
     }
+
+
+    //factoring 
+    public function InvoicesHistory()
+    {
+        return $this->hasManyThrough(Factoring\InvoiceHistory::class, Factoring\ClientPayer::class);
+    }
+
+    public function credentialStores()
+    {
+        return $this->hasOne(UserCredential::class,'user_id')
+        ->withDefault(['provider_name' => ' ','provider_password' => '' ]);
+    }
 }

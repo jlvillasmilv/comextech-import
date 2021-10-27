@@ -118,15 +118,15 @@ class ApplicationController extends Controller
     public function libredte(Request $request)
     {
       
-      
-        $client   = auth()->user()->client;
-        $invoices = $client->InvoicesHistory()->whereDate('invoice_histories.created_at', Carbon::today())->get();
+        $invoices = auth()->user()->InvoicesHistory()->whereDate('factoring_invoice_histories.created_at', Carbon::today())->get();
+        // $client   = auth()->user()->client;
+        // $invoices = $client->InvoicesHistory()->whereDate('invoice_histories.created_at', Carbon::today())->get();
         $response = ['status' => 200 ];
 
         if ($invoices->isEmpty()) {
             
             $reqst = [
-                'client_id'    => $client->id,
+                'client_id'    =>  auth()->user()->id,
                 'urlb'         => 'https://api.libredte.cl/api/v1/sii/rcv/ventas/detalle',
                 'url_end'      => '/0?formato=json&certificacion=0&tipo=rcv_csv',
                 'month'        => 3,

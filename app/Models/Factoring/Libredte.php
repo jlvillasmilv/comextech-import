@@ -4,6 +4,9 @@ namespace App\Models\Factoring;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Http;
+use App\Notifications\AdminConnectionLog;
+use Carbon\Carbon;
 
 class Libredte extends Model
 {
@@ -65,17 +68,20 @@ class Libredte extends Model
                 ['limit' => 0, 'remaining' => 500]
             );
 
-
-            $client = User::findOrFail($data['client_id']);
-            $credential = $client->credentialStores()->where('provider_name', 'SII')->get();
+            $client     = \App\Models\User::findOrFail($data['client_id']);
+            $credential = $client->credentialStores()->where('provider_name', 'SII')->first();
+           
             $company    = $client->company;
-            $setting    = Setting::firstOrFail();
-            $credential = !isset($credential[0])? false : $credential[0];
+            $setting    = \App\Models\Setting::firstOrFail();
+            $credential = is_null($credential) ? false : $credential->toArray();
             //validar datos
+
+           // dd(base64_decode($credential['provider_password']));
+           
 
             $validated = [
                 'Ingrese su contraseña del SII, haz tu proceso mas facil' => !$credential,
-                'No posee datos Empresariales' => is_null($company->rut) or strlen($company->rut) <= 0,
+                'No posee datos Empresariales' => is_null($company->tax_id) or strlen($company->tax_id) <= 0,
                 'No tiene credenciales Sii configuradas' => strlen($setting->api_sii) <= 4 or strlen($setting->token_sii) <= 4
             ];
 
@@ -85,8 +91,8 @@ class Libredte extends Model
                 }
             }
             //variables
-            $rut    = $company->rut;
-            $pass   = $credential['provider_password'];
+            $rut    = $company->tax_id;
+            $pass   = base64_decode($credential['provider_password']);
             $token  = $setting->token_sii;
             $period = Carbon::now();
             $month  = $data['month'];
@@ -107,6 +113,9 @@ class Libredte extends Model
                     }
                 }
             }';
+
+
+            https://api.libredte.cl/api/v1/sii/rcv/ventas/detalle/76722268-8/202110/0?formato=json&certificacion=0&tipo=rcv_csv
 
             $httpResponse = Http::withToken($token)
                 ->withBody($body, 'application/json')

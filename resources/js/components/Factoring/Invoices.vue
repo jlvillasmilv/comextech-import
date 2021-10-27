@@ -287,7 +287,7 @@ export default {
                 total_amount: item.total,
                 issuing_date: item.fecha
             };
-            let response = await axios.post("quote/calculation", data);
+            let response = await axios.post("factoring/quote/calculation", data);
             this.items.push(response.data);
         },
         onDelete: function(index, item) {
@@ -324,7 +324,7 @@ export default {
                         items: this.items
                     };
                     let response = await axios.post(
-                        "/quote/anticipate",
+                        "/factoring/quote/anticipate",
                         payload
                     );
                     this.items.splice(0);

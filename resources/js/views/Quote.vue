@@ -10,9 +10,9 @@
                 <form_xml></form_xml>
             </div>
         </tab>
-        <tab name="Pronto Pago">
+        <!-- <tab name="Pronto Pago">
             Third tab content
-        </tab>
+        </tab> -->
     </tabs>
 </template>
 

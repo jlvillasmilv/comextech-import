@@ -32,7 +32,7 @@ export default {
             );
             this.status = response.data.exist;
             if (response.data.status) {
-                var path = "/download-file/" + this.file;
+                var path = "/factoring/download-file/" + this.file;
                 var a = document.createElement("A");
                 a.href = path;
                 //a. target  = "_blank"

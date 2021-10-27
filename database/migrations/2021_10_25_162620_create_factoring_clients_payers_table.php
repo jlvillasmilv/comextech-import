@@ -20,6 +20,7 @@ class CreateFactoringClientsPayersTable extends Migration
             $table->foreign('payer_id')->references('id')->on('factoring_payers');
             $table->unsignedBigInteger('settlement_status_id')->default(1);
             $table->foreign('settlement_status_id')->references('id')->on('factoring_settlement_status');
+            $table->timestamps();
         });
     }
     

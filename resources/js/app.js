@@ -22,6 +22,10 @@ const Toast = Swal.mixin({
 });
 window.Toast = Toast;
 
+import VueSweetalert2 from 'vue-sweetalert2';
+
+Vue.use(VueSweetalert2);
+
 import 'alpinejs';
 
 import vSelect from 'vue-select';

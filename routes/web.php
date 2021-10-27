@@ -117,6 +117,8 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
 
     Route::get('/quote', 'QuoteController@index')->name('quote');
     Route::post('quote/anticipate', 'QuoteController@anticipate')->name('quote.anticipate'); 
+       //calculate
+    Route::post('quote/calculation', 'QuoteController@calc')->name('quote.calculation'); 
     
     Route::resource('applications', 'ApplicationController')->except(['destroy']); 
     
@@ -137,8 +139,7 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
 
     Route::get('show_notifications', 'HomeController@show_notifications')->name('show.notifications');
     Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
-      //calculate
-    Route::post('quote/calculation', 'FileStoreController@calc')->name('quote.calculation'); 
+   
      //fileStore
     Route::post('/file', 'FileStoreController@addFileClient')->name('xml.add'); 
     

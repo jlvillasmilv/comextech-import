@@ -133,7 +133,7 @@ export default {
     },
     methods: {
         async getPartners() {
-            let response = await axios.get("partners");
+            let response = await axios.get("factoring/partners");
             this.partners = response.data.partners;
             this.company = response.data;
         },
@@ -157,7 +157,7 @@ export default {
         },
         async deletePartners(item) {
             try {
-                let response = await axios.delete("partners/" + item.id);
+                let response = await axios.delete("factoring/partners/" + item.id);
                 let array = this.partners.filter(items => items.id !== item.id);
                 this.partners = array;
                 this.$swal.fire(Option("success", "Elimado con Exito!"));

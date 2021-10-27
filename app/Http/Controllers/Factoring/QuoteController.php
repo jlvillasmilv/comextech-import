@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Factoring;
 use App\Http\Controllers\Controller;
 use App\Models\Factoring\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuoteController extends Controller
 {
@@ -161,5 +162,27 @@ class QuoteController extends Controller
 
         return  response()->json( $data  ,200);
  
+    }
+
+
+    
+    public function calc(Request $request)
+    {    
+        $date =  date("Y-m-d",strtotime($request->input('issuing_date')."+ 45 days"));
+
+        $reqst = [
+            'rut'          => $request->input('rut'),
+            'payer'        => $request->input('payer'),
+            'number'       => $request->input('number'),
+            'total_amount' => $request->input('total_amount'),
+            'issuing_date' => $request->input('issuing_date'),
+            'expire_date'  => $request->input('expire_date') ?? $date ,
+            'payment_date' => $request->input('payment_date') ?? $date ,
+            'user_id'      => auth()->user()->client->id
+         ];
+         
+         $data = new Application;
+         return response()->json($data->calculateInvoice($reqst), 200);
+
     }
 }

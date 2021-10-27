@@ -66,7 +66,7 @@ export default {
                 }
             };
             try {
-                await axios.post("/single-file", formData, header);
+                await axios.post("factoring/single-file", formData, header);
                 this.status = true;
                 this.$swal.fire(
                     Option("success", "Archivo almacenado exitosamente!")

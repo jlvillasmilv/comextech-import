@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class UserCredential extends Model
 {
     protected $table = 'user_credentials';
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id', 'provider_name',
+        'provider_password',
+        'contract_status'
+    ];
 
     protected $dates = [
         'created_at',
