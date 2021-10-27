@@ -2,6 +2,7 @@
     <div class="container grid px-6 my-1">
         <transition name="fade">
             <Load v-if="Load == true" />
+            <loading v-if="$store.state.isFeatching" />
         </transition>
         <!-- Notification validation error -->
         <span
@@ -337,9 +338,8 @@
 
             <!-- Bloque cotizacion de fedex -->
             <!-- <transition name="fade"> -->
-            <div name="fade" class="sm:flex sm:justify-center">
-                <div
-                    v-if="
+
+            <!-- v-if="
                         showApisQuote == true &&
                             fedex.DeliveryTimestamp &&
                             fedex.ServiceType &&
@@ -349,9 +349,12 @@
                             TotalEstimed &&
                             fedex.TotalNetCharge &&
                             (!expenses.dataLoad || expenses.dataLoad.length > 0)
-                    "
+                    " -->
+            <div name="fade" class="sm:flex sm:justify-center">
+                <div
+                    v-if="showFedexBlock()"
                     :class="[
-                        !expenses.dataLoad
+                        !$store.state.load.loads
                             ? 'hidden'
                             : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
                     ]"
@@ -362,7 +365,9 @@
                         <div class="mb-8 text-sm font-semibold">
                             <span>LLEGADA</span>
                         </div>
-                        <span>{{ fedex.DeliveryTimestamp }}</span>
+                        <span>{{
+                            $store.state.address.fedex.DeliveryTimestamp
+                        }}</span>
                     </div>
 
                     <div
@@ -371,7 +376,9 @@
                         <div class="mb-8 text-sm font-semibold">
                             <span>SERVICIO</span>
                         </div>
-                        <span>{{ fedex.ServiceType }}</span>
+                        <span>{{
+                            $store.state.address.fedex.ServiceType
+                        }}</span>
                     </div>
 
                     <div class="sm:w-5/12 inline-block align-top px-2">
@@ -398,7 +405,10 @@
                                         Tarifa Transporte
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ fedex.TotalNetCharge }}
+                                        {{
+                                            $store.state.address.fedex
+                                                .TotalNetCharge
+                                        }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -406,7 +416,7 @@
                                         Recargo Combustible
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ fedex.FUEL }}
+                                        {{ $store.state.address.fedex.FUEL }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -414,7 +424,7 @@
                                         Recargo por alta demanda
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ fedex.PEAK }}
+                                        {{ $store.state.address.fedex.PEAK }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -422,7 +432,9 @@
                                         Descuento
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ fedex.Discount }}
+                                        {{
+                                            $store.state.address.fedex.Discount
+                                        }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -430,7 +442,7 @@
                                         Total Estimado
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ TotalEstimed }}
+                                        {{ $store.state.address.TotalEstimed }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -453,7 +465,12 @@
                                 class="flex flex-auto items-center justify-center"
                             >
                                 <button
-                                    @click="submitQuote(TotalEstimed, 2)"
+                                    @click="
+                                        submitQuote(
+                                            $store.state.address.TotalEstimed,
+                                            2
+                                        )
+                                    "
                                     class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                                 >
                                     Cotizar FEDEX
@@ -467,7 +484,7 @@
 
             <!-- Bloque cotizacion de DHL -->
 
-            <div name="fade" class="sm:flex sm:justify-center">
+            <!-- <div name="fade" class="sm:flex sm:justify-center">
                 <div
                     v-if="
                         showApisQuote == true &&
@@ -596,10 +613,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Bloque cotizacion de UPS -->
-            <div name="fade" class="sm:flex sm:justify-center">
+            <!-- <div name="fade" class="sm:flex sm:justify-center">
                 <div
                     v-if="
                         showApisQuote == true &&
@@ -728,7 +745,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -739,9 +756,10 @@ import Load from './Load.vue';
 import { mapState } from 'vuex';
 import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
 import Container from '../Container.vue';
+import Loading from '../utils/Loading.vue';
 
 export default {
-    components: { Load, VueGoogleAutocomplete, Button },
+    components: { Load, VueGoogleAutocomplete, Button, Loading },
     props: {
         Container,
         originTransport: {
@@ -768,6 +786,8 @@ export default {
     methods: {
         /* Quote to wait for the apis (button cotizar) */
         async submitForm() {
+            this.$store.dispatch('address/getFedexRate', this.expenses);
+
             /* Vue-loader config */
             let loader = this.$loading.show({
                 canCancel: true,
@@ -843,6 +863,17 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        },
+        showFedexBlock() {
+            if (!this.showApisQuote) return false;
+
+            const { fedex } = this.$store.state.address;
+            if (!fedex) return false;
+
+            const dataLoad = this.$store.state.load.loads;
+            if (!dataLoad) return false;
+
+            return true;
         },
         /**
          * Show / Hide from address (button "Editar")
