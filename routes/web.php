@@ -166,5 +166,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
         'trans_companies'  => TransCompanyController::class,
         'suppl_cond_sales' => ApplicationCondSaleController::class,
     ]);
+
+   
+    
+});
+
+//admin factoring
+
+Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namespace' => 'App\Http\Controllers\Admin\Factoring', 'middleware' => ['auth:sanctum']], function () {
+
+    Route::resource('disbursements', 'DisbursementController');
     
 });

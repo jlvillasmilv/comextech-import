@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Disbursement;
+use App\Models\Factoring\Disbursement;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -61,7 +61,7 @@ class AdminDisbursementNotification extends Notification
             'title'       => 'Se ha generado un desembolso N° '. $this->disbursement->id,
             'description' => 'desembolso N° '. $this->disbursement->id,
             'time'        => Carbon::now()->diffForHumans(),
-            'route'       => route('admin.disbursements.index'),
+            'route'       => route('admin.factoring.disbursements.index'),
         ];
     }
 }

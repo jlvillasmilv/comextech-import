@@ -16,7 +16,9 @@ class ApplicationController extends Controller
   
     public function index()
     {   
-        $applications = Application::where('user_id', auth()->user()->id )->orderBy('id', 'desc')->get();
+        $applications = Application::where('user_id', auth()->user()->id)
+        ->orderBy('id', 'desc')
+        ->paginate(7);
        
         return view('factoring.application.index', compact('applications'));
 
@@ -72,26 +74,25 @@ class ApplicationController extends Controller
     {
 
         $application = Application::where([
-            ['id', '=', $id],
-            ['client_id', auth()->user()->client->id],
+            ['id', '=', base64_decode($id)],
+            ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
-        $data = Application::findOrFail($id);
+        $data = Application::findOrFail(base64_decode($id));
         $data->disbursement_status = true;
         $data->save();
        
         $disbursement= Disbursement::updateOrCreate(
-            ['application_id' =>  $application->id],
+            ['factoring_application_id' =>  $application->id],
             [
-                'application_id' =>  $application->id,
-                'total_amount'   =>  $application->invoices->sum('disbursement'),
-                'writing_date'   => date('Y-m-d'),
+                'total_amount'     =>  $application->invoices->sum('disbursement'),
+                'writing_date'     => date('Y-m-d'),
                 'created_users_id' => auth()->user()->id
             ]
         );
 
         $user_admin = User::whereHas('roles', function ($query) {
-            $query->where('name','!=', 'client');
+            $query->where('name','!=', 'Client');
         })->pluck('id');
 
         User::all()
