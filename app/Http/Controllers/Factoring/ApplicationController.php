@@ -42,13 +42,12 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-        
         $applications = Application::where([
-            ['id', '=', $id],
-            ['client_id', auth()->user()->client->id],
+            ['id', '=', base64_decode($id)],
+            ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
-        return view('application.show', compact('applications'));
+        return view('factoring.application.show', compact('applications'));
     }
 
     /**

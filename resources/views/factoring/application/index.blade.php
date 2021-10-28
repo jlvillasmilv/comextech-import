@@ -180,18 +180,18 @@ $credential       = auth()->user()->credentialStores;
                                     {{number_format($application->invoices->sum('surplus'),0,",",".")}}
                                 </td>
                                 <td  class="text-center">
-                                    <span title="{{$application->status}}" style="font-size: 20px; color: {{ App\Models\Application::STATUS_COLOR[$application->status] ?? 'none' }};">
-                                        <i class="{{ App\Models\Application::STATUS_ICON[$application->status] ?? 'none' }}" aria-hidden="true"> </i>
+                                    <span title="{{$application->status}}" style="font-size: 20px; color: {{ App\Models\Factoring\Application::STATUS_COLOR[$application->status] ?? 'none' }};">
+                                        <i class="{{ App\Models\Factoring\Application::STATUS_ICON[$application->status] ?? 'none' }}" aria-hidden="true"> </i>
                                     </span><br>
                                     <span class="text-capitalize text-gray-500">  {{$application->status}} </span>
                                 </td>
     
                                 <td class="text-center">
-                                    <a href="{{ route('applications.show', $application->id) }}" class="btn  btn-info btn-sm " > 
+                                    <a href="{{ route('factoring.applications.show',  base64_encode($application->id)) }}" class="btn  btn-info btn-sm " > 
                                         <i class="fa fa-server"> </i>
                                     </a>
                                     @if (!$application->disbursement_status and  $application->status == 'Aprobada')      
-                                    <a  data-remote="{{ route('applications.update', $application->id) }}"  href="{{ route('applications.show', $application->id) }}"  class="btn btn-sm btn-status btn-dark btn-icon-split"> <span class="icon" >    <i class="fas fa-hand-holding-usd  "></i></span></a>
+                                    <a  data-remote="{{ route('factoring.applications.update', base64_encode($application->id)) }}"  href="{{ route('factoring.applications.show',  base64_encode($application->id)) }}"  class="btn btn-sm btn-status btn-dark btn-icon-split"> <span class="icon" >    <i class="fas fa-hand-holding-usd  "></i></span></a>
                                     <br>
                                     
                                     @endif
