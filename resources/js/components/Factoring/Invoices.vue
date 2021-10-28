@@ -74,9 +74,11 @@
                             <!-- <span aria-hidden="true">&times;</span> -->
                         </button>
                     </div>
-                    <div class="row justify-content-between mx-2 my-1">
+                    <div
+                        class="flex flex-wrap justify-between items-center my-3"
+                    >
                         <div>
-                            Cant. Factura Cotizadas :
+                            Cant. Factura Cotizadas:
                             <strong>{{ items.length }}</strong>
                         </div>
                         <div>
@@ -95,8 +97,8 @@
                             >
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
+                    <div class="flex flex-wrap">
+                        <div class="flex flex-col">
                             <vue-good-table
                                 :columns="columns"
                                 :rows="invoices"
@@ -104,9 +106,8 @@
                                     enabled: true,
                                     placeholder: 'Busqueda'
                                 }"
+                                theme="min-w-full divide-y divide-gray-100 shadow-sm border-gray-200 border"
                                 title="Registro de Ventas del SI"
-                                styleClass="vgt-table condensed"
-                                theme="polar-bear"
                                 compactMode
                                 :pagination-options="{
                                     enabled: true,
@@ -116,7 +117,7 @@
                                     ofLabel: ' /'
                                 }"
                             >
-                                <template slot="table-row" slot-scope="props">
+                                <template slot="" slot-scope="props">
                                     <span v-if="props.column.field == 'select'">
                                         <a @click="onRowSelected(props.row)"
                                             ><i
@@ -376,7 +377,6 @@ export default {
         },
         showModal() {
             this.showTable = true;
-            this.trapCleanup = focusTrap(document.querySelector('#modal'));
         },
         closeModal() {
             this.showTable = false;
