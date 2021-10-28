@@ -11,7 +11,7 @@ class Disbursement extends Model
     public $table = 'factoring_disbursements';
 
     protected $fillable = [
-        'application_id',
+        'factoring_application_id',
         'status',
         'total_amount',
         'created_users_id',
@@ -51,8 +51,8 @@ class Disbursement extends Model
     function scopeApproved($query)
     {
         if(auth()->user()->hasRole('Client')) {
-            return $query->join('factoring_applications', 'factoring_applications.id', '=', 'factoring_disbursements.application_id')
-            ->where('factoring_applications.client_id', '=', auth()->user()->client->id)
+            return $query->join('factoring_applications', 'factoring_applications.id', '=', 'factoring_disbursements.factoring_application_id')
+            ->where('factoring_applications.user_id', '=', auth()->user()->id)
             ->where('factoring_applications.status', '=', 'Aprobada')
             ->whereNotIn('factoring_disbursements.status', ['RECHAZADO', 'PENDIENTE']);
         }

@@ -10,12 +10,18 @@ use App\Models\User;
 use App\Models\Factoring\{Application, Disbursement, InvoiceHistory, Setting, Payer, ClientPayer, Client, Libredte};
 use App\Notifications\AdminDisbursementNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class ApplicationController extends Controller
 {
   
     public function index()
     {   
+
+        if (! Gate::allows('factoring.applications.index')) {
+            return abort(401);
+        }
+        
         $applications = Application::where('user_id', auth()->user()->id)
         ->orderBy('id', 'desc')
         ->paginate(7);
@@ -44,6 +50,10 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
+        if (! Gate::allows('factoring.applications.show')) {
+            return abort(401);
+        }
+
         $applications = Application::where([
             ['id', '=', base64_decode($id)],
             ['user_id', auth()->user()->id],
@@ -73,10 +83,16 @@ class ApplicationController extends Controller
     public function update(Request $request, $id)
     {
 
+        if (! Gate::allows('factoring.applications.edit')) {
+            return abort(401);
+        }
+
         $application = Application::where([
             ['id', '=', base64_decode($id)],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
+
+        
 
         $data = Application::findOrFail(base64_decode($id));
         $data->disbursement_status = true;

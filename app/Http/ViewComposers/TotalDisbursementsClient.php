@@ -3,18 +3,18 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\Contracts\View\View;
-use App\Models\{Application,Disbursement};
+use App\Models\Factoring\{Application,Disbursement};
 
 class TotalDisbursementsClient {
 
 	public function compose(View $view)
 	{
          
-        if(auth()->user()->hasRole('client')) {
+        if(auth()->user()->hasRole('Client')) {
 
             $disbursement = Application::has('disbursement', '>=', 1 )
             ->where([
-                ['client_id', '=', auth()->user()->client->id],
+                ['user_id', '=', auth()->user()->id],
                 ['status', 'Aprobada'],
             ])->get();
 
@@ -23,8 +23,8 @@ class TotalDisbursementsClient {
 
             //sum of surplus disbursements with different status pending and rejected
             $surplus = Disbursement::Approved()
-                        ->join('invoices', 'applications.id', '=', 'invoices.application_id')
-                        ->select('invoices.surplus')->sum('surplus');
+                        ->join('factoring_invoices', 'factoring_applications.id', '=', 'factoring_invoices.factoring_application_id')
+                        ->select('factoring_invoices.surplus')->sum('surplus');
             $total_mora = 0;
 
             foreach ($disbursement as $key => $application) {

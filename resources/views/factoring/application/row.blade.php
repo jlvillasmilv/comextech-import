@@ -1,34 +1,34 @@
-<tr>
-    <td role="row"  class="text-center ">
+<tr class="text-gray-700 dark:text-gray-400 text-center">
+     <td class="px-4 py-3 text-center ">
         {{ $invoice->number}}
     </td>
-    <td role="row"  class="text-center ">
+     <td class="px-4 py-3 text-center ">
         {{ $invoice->payer->name  }}
     </td>
-    <td role="row"  class="text-center ">
+     <td class="px-4 py-3 text-center ">
         {{ $invoice->payer->format_rut  }}
     </td>
-    <td role="row"  class="text-center ">
+     <td class="px-4 py-3 text-center ">
         {{  date("d-m-y", strtotime($invoice->issuing_date))}}
     </td>
-    <td role="row"  class="text-center ">
+     <td class="px-4 py-3 text-center ">
         {{  date("d-m-y", strtotime($invoice->expire_date))}}
     </td>
-    <td role="row"  class="text-center ">
+     <td class="px-4 py-3 text-center ">
         {{ '$ '.number_format($invoice->total_amount,0,",",".")  }} 
     </td>
-    <td role="row"  class="text-center ">
+     <td class="px-4 py-3 text-center ">
         {{ '$ '.number_format($invoice->price_difference,0,",",".")  }}
     </td>
 
-    <td role="row"  class="text-center ">   {{number_format($invoice->feesHistory->commission,0,",",".") }}   </td>
+     <td class="px-4 py-3 text-center ">   {{number_format($invoice->feesHistory->commission,0,",",".") }}   </td>
 
-    <td role="row"  class="text-center "> {{number_format(($invoice->price_difference + $invoice->feesHistory->commission),0,",",".") }} </td>
+     <td class="px-4 py-3 text-center "> {{number_format(($invoice->price_difference + $invoice->feesHistory->commission),0,",",".") }} </td>
 
-    <td role="row"  class="text-center ">  
+     <td class="px-4 py-3 text-center ">  
         {{number_format($invoice->disbursement,0,",",".")}}
     </td>
-    <td role="row"  class="text-center ">
+     <td class="px-4 py-3 text-center ">
         {{number_format($invoice->surplus,0,",",".")}}
     </td>
     {{-- <td role="row"  class="text-center ">

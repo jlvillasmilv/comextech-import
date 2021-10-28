@@ -112,6 +112,7 @@
                 @can('factoring.applications.index')
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    {!! (request()->is('factoring/applications') || request()->is('factoring/applications/*')) ? 'italic font-black' : '' !!} "
                   >
                     <a class="w-full"  href="{{route('factoring.applications.index')}}" >
                       Solicitudes
@@ -119,10 +120,11 @@
                   </li>
                 @endcan
                 @can('factoring.disbursements.index')
-                  <li
-                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                <li
+                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                  {!! request()->is('factoring/disbursements') ? 'italic font-black' : '' !!} "
                   >
-                    <a class="w-full" href="{{ route('supplier.index')}}">
+                    <a class="w-full" href="{{ route('factoring.disbursements.index')}}">
                       Desembolsos
                     </a>
                   </li>
