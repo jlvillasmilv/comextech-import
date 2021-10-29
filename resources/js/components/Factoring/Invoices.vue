@@ -45,7 +45,7 @@
                 class="overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
             >
                 <div
-                    class="w-auto px-6 py-4 bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4"
+                    class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-4xl"
                 >
                     <div class="flex flex-wrap justify-between items-center">
                         <h5 class="text-blue-800 font-bold text-lg">
@@ -108,7 +108,7 @@
                                 }"
                                 title="Registro de Ventas del SI"
                                 styleClass="vgt-table condensed"
-                                theme="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+                                theme="polar-bear"
                                 compactMode
                                 :pagination-options="{
                                     enabled: true,
@@ -122,8 +122,24 @@
                                     <span v-if="props.column.field == 'select'">
                                         <a @click="onRowSelected(props.row)"
                                             ><i
-                                                class="fas text-info fa-plus-circle fa-lg"
-                                            ></i
+                                                ><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    aria-hidden="true"
+                                                    role="img"
+                                                    width="1em"
+                                                    height="1em"
+                                                    preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 20 20"
+                                                >
+                                                    <g fill="none">
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M10 18a8 8 0 1 0 0-16a8 8 0 0 0 0 16zm1-11a1 1 0 1 0-2 0v2H7a1 1 0 1 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2h-2V7z"
+                                                            fill="#36b9cc"
+                                                        />
+                                                    </g></svg></i
                                         ></a>
                                     </span>
 
@@ -210,33 +226,34 @@ export default {
                     label: 'Simular',
                     field: 'select',
                     sortable: false,
-                    tdClass: 'text-center',
-                    thClass: 'px-4 py-3',
+                    thClass: 'vgt-center-align',
+                    tdClass: 'vgt-center-align',
                     tooltip: 'Seleccionar Registro',
-                    width: '67px'
+                    width: '72px'
                 },
                 {
                     label: 'Info',
                     sortable: false,
-                    tdClass: 'text-right',
+                    thClass: 'vgt-center-align',
+                    tdClass: 'vgt-center-align',
                     field: 'settlement',
-                    width: '40px'
+                    width: '50px'
                 },
                 {
                     label: 'Folio',
                     field: 'folio',
                     type: 'number',
-                    thClass: 'text-left',
-                    tdClass: 'text-center',
-                    width: '70px'
+                    thClass: 'vgt-center-align',
+                    tdClass: 'vgt-center-align',
+                    width: '75px'
                 },
                 {
                     label: 'RUT',
                     field: 'rut',
                     formatFn: this.formatRut,
-                    thClass: 'text-center',
-                    tdClass: 'text-left',
-                    width: '115px'
+                    thClass: 'vgt-center-align',
+                    tdClass: 'vgt-center-align',
+                    width: '125px'
                 },
                 {
                     label: 'Pagador',
@@ -246,8 +263,8 @@ export default {
                     label: 'Monto',
                     field: 'total',
                     type: 'number',
-                    thClass: 'text-left',
-                    tdClass: 'text-left',
+                    thClass: 'vgt-left-align',
+                    tdClass: 'vgt-left-align',
                     formatFn: this.formatFn,
                     width: '110px'
                 },
@@ -255,8 +272,8 @@ export default {
                     label: 'Fecha',
                     field: 'fecha',
                     type: 'date',
-                    thClass: 'text-left',
-                    tdClass: 'text-left',
+                    thClass: 'vgt-left-align',
+                    tdClass: 'vgt-left-align',
                     width: '95px',
                     dateInputFormat: 'yyyy-MM-dd',
                     dateOutputFormat: 'dd-MM-yy'
