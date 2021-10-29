@@ -106,8 +106,9 @@
                                     enabled: true,
                                     placeholder: 'Busqueda'
                                 }"
-                                theme="min-w-full divide-y divide-gray-100 shadow-sm border-gray-200 border"
                                 title="Registro de Ventas del SI"
+                                styleClass="vgt-table condensed"
+                                theme="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                                 compactMode
                                 :pagination-options="{
                                     enabled: true,
@@ -117,7 +118,7 @@
                                     ofLabel: ' /'
                                 }"
                             >
-                                <template slot="" slot-scope="props">
+                                <template slot="table-row" slot-scope="props">
                                     <span v-if="props.column.field == 'select'">
                                         <a @click="onRowSelected(props.row)"
                                             ><i
@@ -210,7 +211,7 @@ export default {
                     field: 'select',
                     sortable: false,
                     tdClass: 'text-center',
-                    thClass: 'text-center',
+                    thClass: 'px-4 py-3',
                     tooltip: 'Seleccionar Registro',
                     width: '67px'
                 },
