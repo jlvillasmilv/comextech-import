@@ -62,18 +62,25 @@ import VueLoading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 Vue.use(VueLoading);
 
-// component tab 
-import './assets/tabs-component.css'
+// component tab
+import './assets/tabs-component.css';
 import Tabs from 'vue-tabs-component';
 Vue.use(Tabs);
 
-import Quote from './views/Quote'
+import Quote from './views/Quote';
+
+/* Vue-good-table */
+import VueGoodTablePlugin from 'vue-good-table';
+
+// import the styles
+import 'vue-good-table/dist/vue-good-table.css';
+Vue.use(VueGoodTablePlugin);
 
 const app = new Vue({
     el: '#app',
     store,
     components: {
         'home-import-app': Import,
-        'view-quote': Quote,
+        'view-quote': Quote
     }
 });
