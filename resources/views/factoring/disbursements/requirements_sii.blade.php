@@ -3,49 +3,20 @@
 @endphp
 
 
-<div class="grid gap-6 mb-4">
 
-  <div class="min-w-0 p-4 bg-green-300 rounded-lg shadow-xs">
-      <div class="flex justify-center">
+
+  <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800 mb-4 ">
+      <div class="flex justify-start">
          {{-- Cesión de Facturas SII --}}
-        <div class="">
-          <span class="px-2 py-1 dark:text-white">  Cesión de Facturas SII</span>
+        <div class="mr-2">
+          <span class="px-2 py-1 dark:text-white mx-2">  Cesión de Facturas SII</span>
           <span style="color:{{$status[$invoices_sii]['color']}}" class="fas fa-{{$status[$invoices_sii]['icon']}} fa-lg">
         
         </div>
 
-         {{-- Certificado de Deuda Tributaria (TGR) --}}
-        <div class="mx-2 ">
-          <span class="px-2 py-1 dark:text-white">Certificado de Deuda Tributaria (TGR)</span>
-          
-          <span style="color:{{$status[$tax_debt]['color']}}" class="fas fa-{{$status[$tax_debt]['icon']}} fa-lg"> 
-          </span> 
-          <div role="group" class="text-gray-600 flex m-2"> 
-              <div class="file-select mx-2" id="src-file1"  >
-                <input type="file" id="filecert_dueda_tribu" ref="file" >
-              </div>
-              <a data-remote="cert_dueda_tribu" class="upload bg-gray-400 hover:bg-gray-500 text-white font-bold py-1 px-2 rounded inline-flex items-center rounded"><i class="fas fa-cloud-upload-alt fa-lg text-white-50"></i> Subir</a>
-          </div>
-        
-        </div>
-         {{-- Anexo Cesión --}}
-        <div class="mx-2">
-          <span class="px-2 py-1 dark:text-white">Anexo Cesión</span>
-          
-          <span style="color:{{$status[$annex]['color']}}" class="fas fa-{{$status[$annex]['icon']}} fa-lg"> </span>
-          <div role="group" class="text-gray-600 flex m-2"> 
-              <div class="file-select mx-2" id="src-file1"  >
-                <input type="file"  id="filecontrato" ref="file" >
-              </div>
-              <a data-remote="cert_dueda_tribu" class="upload bg-gray-400 hover:bg-gray-500 text-white font-bold py-1 px-2 rounded inline-flex items-center rounded">
-                <i class="fas fa-cloud-upload-alt fa-lg text-white-50 mr-2"></i> Subir
-              </a>
-          </div>
-        
-        </div>
          {{--  Instruccion de Abono en Cuenta Corriente --}}
         <div class="mx-2">
-          <span class="px-2 py-1 dark:text-white">Instruccion de Abono en Cuenta Corriente</span>
+          <span class="px-2 py-1 dark:text-white mr-2">Instruccion de Abono en Cuenta Corriente</span>
           
           <span style="color:{{$status[true]['color']}}"
            class="fas fa-{{$status[true]['icon']}} fa-lg"> </span>
@@ -55,11 +26,11 @@
               </div>
               <div class="row justify-content-{{ is_null($bankAccounts)? 'center':'between'}} align-content-center " id="FormbankAccounts" >
                       @if (is_null($bankAccounts))
-                        <a   href="/clients#/bank"
+                        <a href="/clients#/bank"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-flex items-center rounded my-2" >
-                          <span class="text"> Agregar Cuentra Corriente </span>
-                          <span class="icon">
-                              <i class="fas fa-plus fa-md ml-2"></i>
+                          <span class="text">   Agregar Cuentra Corriente </span>
+                          <span class="icon ml-2">
+                              <i class="fas fa-plus fa-md"></i>
                           </span>
                         </a>
                       @else 
@@ -93,5 +64,4 @@
         
       </div>
   </div>
-</div>
 

@@ -93,6 +93,10 @@ class PermissionsTableSeeder extends Seeder
 
         //Admin
         $admin = Role::create(['name' => 'Admin']);
+
+        $operator = Role::create(['name' => 'operator']);
+
+        $business_executive = Role::create(['name' => 'business_executive']);
        
         //Client
         $client = Role::create(['name' => 'Client']);
@@ -122,6 +126,8 @@ class PermissionsTableSeeder extends Seeder
 
          //Guest
         $guest = Role::create(['name' => 'Guest']);
+
+
 
         $guest->givePermissionTo([
             'clients.index',

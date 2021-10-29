@@ -96,6 +96,7 @@ class DisbursementController extends Controller
     public function show($id)
     {
         $bankAccounts = auth()->user()->bankAccounts;
+
         $applications = Application::where([
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
