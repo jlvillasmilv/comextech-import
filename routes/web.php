@@ -87,8 +87,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/services/summary/{id}', [ServicesController::class, 'summary'])->name('services.summary');
     Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('services.edit');
 
+    
     //company address
     Route::get('/company/address/all', 'App\Http\Controllers\Web\CompanyController@address')->name('company.address');
+
+    Route::resource('bank-accounts', 'App\Http\Controllers\Web\BankAccountController'); 
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
@@ -105,6 +108,49 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
 });
 
+
+// Factoring route
+
+Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App\Http\Controllers\Factoring', 'middleware' => ['auth:sanctum']], function () {
+
+    Route::get('/payers/export', 'PayerController@export')->name('payers.export');
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('clients', 'ClientController');
+    Route::resource('clients.credential', 'CredentialStoreController')->only('update', 'store');
+
+    Route::get('/quote', 'QuoteController@index')->name('quote');
+    Route::post('quote/anticipate', 'QuoteController@anticipate')->name('quote.anticipate'); 
+       //calculate
+    Route::post('quote/calculation', 'QuoteController@calc')->name('quote.calculation'); 
+    
+    Route::resource('applications', 'ApplicationController')->except(['destroy']);   
+    
+    Route::get('/credentials/{name}', 'CredentialStoreController@index');
+    Route::resource('partners', 'PartnerController');
+    Route::post('client/password', 'UserController@store'); 
+    Route::post('single-file', 'FileStoreClientController@store')->name('single-file');
+    Route::get('download-file/{name}', 'FileStoreClientController@show');
+    Route::get('libredte', 'ApplicationController@libredte');
+    Route::resource('disbursements', 'DisbursementController');
+    Route::get ('assignment_contract/{id}', 'PdfController@assignment_contract')->name('assignment.contract');
+    Route::get('download-file-validate/{name}', 'FileStoreClientController@validatedFile');
+
+    Route::get('show_notifications', 'HomeController@show_notifications')->name('show.notifications');
+    Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
+   
+     //fileStore
+    Route::post('file', 'FileStoreController@addFileClient')->name('xml.add'); 
+    
+    Route::get('ventas/detalle', 'SiiController@ventas_detalle')->name('ventas.detalle');
+    Route::get('compras/detalle', 'SiiController@compras_detalle')->name('compras.detalle');
+    
+});
+
+// end factoring route
+
+
+// Admin Panel
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {
 
     Route::resource('users', 'UserController');
@@ -118,5 +164,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
         'trans_companies'  => TransCompanyController::class,
         'suppl_cond_sales' => ApplicationCondSaleController::class,
     ]);
+
+   
+    
+});
+
+//admin factoring
+
+Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namespace' => 'App\Http\Controllers\Admin\Factoring', 'middleware' => ['auth:sanctum']], function () {
+
+    Route::resource('disbursements', 'DisbursementController');
     
 });

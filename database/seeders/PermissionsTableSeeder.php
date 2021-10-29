@@ -72,8 +72,31 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'custom_agents.create']);
         Permission::create(['name' => 'custom_agents.destroy']);
 
+        Permission::create(['name' => 'factoring.quote.index']);
+        Permission::create(['name' => 'factoring.quote.edit']);
+        Permission::create(['name' => 'factoring.quote.show']);
+        Permission::create(['name' => 'factoring.quote.create']);
+        Permission::create(['name' => 'factoring.quote.destroy']);
+
+        Permission::create(['name' => 'factoring.applications.index']);
+        Permission::create(['name' => 'factoring.applications.edit']);
+        Permission::create(['name' => 'factoring.applications.show']);
+        Permission::create(['name' => 'factoring.applications.create']);
+
+        Permission::create(['name' => 'factoring.disbursements.index']);
+        Permission::create(['name' => 'factoring.disbursements.edit']);
+        Permission::create(['name' => 'factoring.disbursements.show']);
+        Permission::create(['name' => 'factoring.disbursements.create']);
+        Permission::create(['name' => 'factoring.disbursements.destroy']);
+
+
+
         //Admin
         $admin = Role::create(['name' => 'Admin']);
+
+        $operator = Role::create(['name' => 'operator']);
+
+        $business_executive = Role::create(['name' => 'business_executive']);
        
         //Client
         $client = Role::create(['name' => 'Client']);
@@ -85,10 +108,26 @@ class PermissionsTableSeeder extends Seeder
             'custom_agents.create',
             'custom_agents.show',
             'custom_agents.destroy',
+            'factoring.applications.index',
+            'factoring.applications.edit',
+            'factoring.applications.show',
+            'factoring.applications.create',
+            'factoring.disbursements.index',
+            'factoring.disbursements.edit',
+            'factoring.disbursements.show',
+            'factoring.disbursements.create',
+            'factoring.disbursements.destroy',
+            'factoring.quote.index',
+            'factoring.quote.edit',
+            'factoring.quote.show',
+            'factoring.quote.create',
+            'factoring.quote.destroy',
         ]);
 
          //Guest
         $guest = Role::create(['name' => 'Guest']);
+
+
 
         $guest->givePermissionTo([
             'clients.index',

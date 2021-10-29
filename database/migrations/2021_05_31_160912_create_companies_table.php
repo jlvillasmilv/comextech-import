@@ -23,6 +23,7 @@ class CreateCompaniesTable extends Migration
             $table->string('phone',100)->nullable();
             $table->string('contact_name',100)->nullable();
             $table->string('contact_telf',100)->nullable();
+            $table->unsignedBigInteger('executive_id')->nullable()->comment('id ejecutivo que atendera a ese cliente');
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

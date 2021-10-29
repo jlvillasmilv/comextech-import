@@ -1,6 +1,6 @@
   <!-- Cards -->
   <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-    <!
+
     <!-- Card -->
     <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
         <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
