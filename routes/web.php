@@ -87,8 +87,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/services/summary/{id}', [ServicesController::class, 'summary'])->name('services.summary');
     Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('services.edit');
 
+    
     //company address
     Route::get('/company/address/all', 'App\Http\Controllers\Web\CompanyController@address')->name('company.address');
+
+    Route::resource('bank-accounts', 'App\Http\Controllers\Web\BankAccountController'); 
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
@@ -120,7 +123,7 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
        //calculate
     Route::post('quote/calculation', 'QuoteController@calc')->name('quote.calculation'); 
     
-    Route::resource('applications', 'ApplicationController')->except(['destroy']); 
+    Route::resource('applications', 'ApplicationController')->except(['destroy']);   
     
     Route::get('/credentials/{name}', 'CredentialStoreController@index');
     Route::resource('partners', 'PartnerController');
@@ -131,11 +134,6 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
     Route::resource('disbursements', 'DisbursementController');
     Route::get ('assignment_contract/{id}', 'PdfController@assignment_contract')->name('assignment.contract');
     Route::get('download-file-validate/{name}', 'FileStoreClientController@validatedFile');
-
-    Route::get('markAsRead', function(){
-        auth()->user()->unreadNotifications->markAsRead();
-        return redirect()->back();
-    })->name('markAsRead');
 
     Route::get('show_notifications', 'HomeController@show_notifications')->name('show.notifications');
     Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
@@ -166,5 +164,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
         'trans_companies'  => TransCompanyController::class,
         'suppl_cond_sales' => ApplicationCondSaleController::class,
     ]);
+
+   
+    
+});
+
+//admin factoring
+
+Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namespace' => 'App\Http\Controllers\Admin\Factoring', 'middleware' => ['auth:sanctum']], function () {
+
+    Route::resource('disbursements', 'DisbursementController');
     
 });

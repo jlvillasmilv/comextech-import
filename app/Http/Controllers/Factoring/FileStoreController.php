@@ -10,9 +10,10 @@ use App\Models\Factoring\{
         Payer,
         Invoice,
         Application, 
-        FileStore,
         ClientPayer
     };
+
+use App\Models\FileStore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -191,15 +192,16 @@ class FileStoreController extends Controller
         Storage::disk('s3')->put('file/'.$file_name, \File::get($file));
         
         $fileStorage = FileStore::create([
-            'path' =>  Storage::disk('s3')->url('file/'.$file_name),
-            'original_name' => $file_name,
+            'disk'      =>  Storage::disk('s3')->url('file/'.$file_name),
+            'file_name' => $file_name,
+            'mime_type' => $file->getMimeType(),
         ]);
 
-        $client_id = is_null($request->input('client_id')) ? auth()->user()->client->id :$request->input('client_id') ;
+        $client_id = is_null($request->input('client_id')) ? auth()->user()->id :$request->input('client_id') ;
 
         $fileStorage->FileStoreClient()->create([
             'type'          => $request->input('type'),
-            'client_id'     => $client_id,
+            'user_id'       => $client_id,
             'file_store_id' => $fileStorage->id
         ]);
 

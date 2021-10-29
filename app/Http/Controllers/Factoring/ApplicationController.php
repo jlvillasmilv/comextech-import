@@ -10,15 +10,23 @@ use App\Models\User;
 use App\Models\Factoring\{Application, Disbursement, InvoiceHistory, Setting, Payer, ClientPayer, Client, Libredte};
 use App\Notifications\AdminDisbursementNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class ApplicationController extends Controller
 {
   
     public function index()
     {   
-        $applications = Application::where('user_id', auth()->user()->id )->orderBy('id', 'desc')->get();
+
+        if (! Gate::allows('factoring.applications.index')) {
+            return abort(401);
+        }
+        
+        $applications = Application::where('user_id', auth()->user()->id)
+        ->orderBy('id', 'desc')
+        ->paginate(7);
        
-        return view('application.index', compact('applications'));
+        return view('factoring.application.index', compact('applications'));
 
     }
 
@@ -42,13 +50,16 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-        
+        if (! Gate::allows('factoring.applications.show')) {
+            return abort(401);
+        }
+
         $applications = Application::where([
-            ['id', '=', $id],
-            ['client_id', auth()->user()->client->id],
+            ['id', '=', base64_decode($id)],
+            ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
-        return view('application.show', compact('applications'));
+        return view('factoring.application.show', compact('applications'));
     }
 
     /**
@@ -72,27 +83,32 @@ class ApplicationController extends Controller
     public function update(Request $request, $id)
     {
 
+        if (! Gate::allows('factoring.applications.edit')) {
+            return abort(401);
+        }
+
         $application = Application::where([
-            ['id', '=', $id],
-            ['client_id', auth()->user()->client->id],
+            ['id', '=', base64_decode($id)],
+            ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
-        $data = Application::findOrFail($id);
+        
+
+        $data = Application::findOrFail(base64_decode($id));
         $data->disbursement_status = true;
         $data->save();
        
         $disbursement= Disbursement::updateOrCreate(
-            ['application_id' =>  $application->id],
+            ['factoring_application_id' =>  $application->id],
             [
-                'application_id' =>  $application->id,
-                'total_amount'   =>  $application->invoices->sum('disbursement'),
-                'writing_date'   => date('Y-m-d'),
+                'total_amount'     =>  $application->invoices->sum('disbursement'),
+                'writing_date'     => date('Y-m-d'),
                 'created_users_id' => auth()->user()->id
             ]
         );
 
         $user_admin = User::whereHas('roles', function ($query) {
-            $query->where('name','!=', 'client');
+            $query->where('name','!=', 'Client');
         })->pluck('id');
 
         User::all()

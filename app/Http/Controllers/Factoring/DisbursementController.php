@@ -19,11 +19,11 @@ class DisbursementController extends Controller
 
         $applications = Application::has('disbursement', '>=', 1 )
         ->where([
-            ['client_id', '=', auth()->user()->client->id],
+            ['user_id', '=', auth()->user()->id],
             ['status', 'Aprobada'],
         ])->get();
        
-        return view('disbursements.index', compact('applications'));
+        return view('factoring.disbursements.index', compact('applications'));
     }
 
     /**
@@ -95,11 +95,11 @@ class DisbursementController extends Controller
      */
     public function show($id)
     {
-        $client       = auth()->user()->client;
-        $bankAccounts = $client->bankAccounts;
+        $bankAccounts = auth()->user()->bankAccounts;
+
         $applications = Application::where([
             ['id', '=', $id],
-            ['client_id', $client->id],
+            ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
         $status = [
@@ -107,7 +107,7 @@ class DisbursementController extends Controller
             0  => ['icon' => 'times-circle', 'color' => 'red'],
          ];
          
-        return view('disbursements.show', compact('applications', 'status', 'bankAccounts'));
+        return view('factoring.disbursements.show', compact('applications', 'status', 'bankAccounts'));
     }
 
     /**

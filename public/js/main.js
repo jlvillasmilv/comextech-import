@@ -132,6 +132,102 @@ $(document).ready(function () {
            });
     });
 
+
+      // facotirng
+
+  $('#table').on('click', '.btn-status[data-remote]', function (e) { 
+    e.preventDefault();
+    var url = $(this).data('remote');
+    
+    Swal.fire({
+    title: '¿Desea solicitar desembolso?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Si',
+    cancelButtonText:'No',
+    cancelButtonColor: '#d33',
+    showLoaderOnConfirm: true,
+        preConfirm: () => {
+
+              axios.put(url).then(response => {
+                // document.getElementById(this).style.visibility = 'hidden';
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Se ha solicitado el desembolso! ',
+              
+                  timer: 5000,
+                  timerProgressBar: true,
+                  }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                      location.reload()
+                    }
+                  })
+
+                  window.setTimeout(function(){location.reload()},3000)
+              
+              }).catch(error => {
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Errore de Conexion'
+                })
+
+                console.error(error.response.data)
+              });
+
+        }
+   });
+    
+});
+
+
+  $('#table').on('click', '.btn-sync[data-remote]', function (e) { 
+    e.preventDefault();
+    var url = $(this).data('remote');
+    let msg = $(this).data('type');
+    
+    Swal.fire({
+    title: '¿Desea cargar ultimos 24 meses de '+msg+'?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Si',
+    cancelButtonText:'No',
+    cancelButtonColor: '#d33',
+    showLoaderOnConfirm: true,
+    preConfirm: () => {
+      return fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            console.log(response);
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+        
+          Swal.showValidationMessage(
+            `Falla al cargar: ${error}`
+          )
+          window.setTimeout(function(){location.reload()},3000)
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Carga generada con exito',
+          
+        })
+      }
+    })
+    
+  });
+
+
+
+
+
 })
 
 function initialize() {
@@ -204,6 +300,5 @@ function initialize() {
 
       });
   }
-
 
 }
