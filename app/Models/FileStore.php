@@ -42,5 +42,15 @@ class FileStore extends Model
         return $fileStorage;
     }
 
+    public function FileStoreClient()
+    {
+        return $this->hasOne(Factoring\FileStoreClient::class);
+    }
+
+    public function FileDisbursement()
+    {
+        return $this->hasOne(Factoring\FileDisbursement::class, 'disbursement_id');
+    }
+
 
 }

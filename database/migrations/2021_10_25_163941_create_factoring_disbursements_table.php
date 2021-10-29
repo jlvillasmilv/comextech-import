@@ -16,7 +16,7 @@ class CreateFactoringDisbursementsTable extends Migration
         Schema::create('factoring_disbursements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('factoring_application_id')->nullable()
-            ->references('id')->on('factoring_applications')->onDelete('SET NULL');
+            ->references('id')->on('factoring_applications');
             $table->enum('status', ['DESEMBOLSADO', 'GIRO PENDIENTE', 'EN MORA','PAGADO','RECHAZADO','PENDIENTE'])->default('PENDIENTE');
             $table->boolean('status_view')->default(false);
             $table->boolean('assign_invoices_sii')->default(false);

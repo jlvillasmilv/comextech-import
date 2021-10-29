@@ -15,7 +15,7 @@ class CreateFactoringInvoiceHistoriesTable extends Migration
     {
         Schema::create('factoring_invoice_histories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_payer_id')->after('id');
+            $table->unsignedBigInteger('client_payer_id');
             $table->foreign('client_payer_id')->references('id')->on('factoring_clients_payers');
             $table->decimal('credito_constructoras', $precision = 10, $scale = 2)->nullable();
             $table->decimal('deposito_envases', $precision = 10, $scale = 2)->nullable();

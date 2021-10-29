@@ -17,7 +17,7 @@ class CreateBankAccountsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->index();
             $table->unsignedBigInteger('bank_id');
-            $table->bigInteger('number')->unique();
+            $table->string('number',30)->unique();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
