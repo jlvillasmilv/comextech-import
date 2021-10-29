@@ -16,11 +16,11 @@
                 <span>Nuevo registro </span>
             </a>
         </div>
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
-            <div class="w-full whitespace-no-wrap">
-                 <livewire:user.bank-account-table searchable="name" />
-            </div>
-        </div>
+        
+           
+                 <livewire:user.bank-account-table searchable="number" />
+            
+      
 
     </div>
 

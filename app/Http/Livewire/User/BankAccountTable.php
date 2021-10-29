@@ -17,9 +17,9 @@ class BankAccountTable extends LivewireDatatable
     {
         $table = [
             NumberColumn::name('id')
-                ->label('ID'),
+            ->label('ID'),
             
-            Column::name('banks.name')
+            Column::name('bank.name')
             ->label('Banco')
             ->searchable(),
 

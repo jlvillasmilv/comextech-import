@@ -4,9 +4,9 @@
             @include($beforeTableSlot)
         </div>
     @endif
-    <div class="relative">
+    {{-- <div class="relative"> --}}
         <div class="flex justify-between items-center mb-1">
-            <div class="flex-grow h-10 flex items-center">
+            <div class="flex-grow h-10 flex items-center my-2 ">
                 @if($this->searchableColumns()->count())
                 
                 <div class="w-96 flex rounded-lg shadow-sm">
@@ -16,7 +16,7 @@
                                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <input wire:model.debounce.500ms="search" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" aria-label="Search" wire:model.debounce.300ms="search" placeholder="Busqueda {{ $this->searchableColumns()->map->label->join(', ') }}" />
+                        <input wire:model.debounce.500ms="search" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input my-2" type="text" aria-label="Search" wire:model.debounce.300ms="search" placeholder="Busqueda {{ $this->searchableColumns()->map->label->join(', ') }}" />
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <button wire:click="$set('search', null)" class="text-gray-300 hover:text-red-600 focus:outline-none">
                                 <x-icons.x-circle class="h-5 w-5 stroke-current" />
@@ -55,8 +55,8 @@
             @endforeach
         </div>
         @endif
-
-        <div class="rounded-lg shadow-lg bg-white max-w-screen overflow-x-scroll ">
+        {{-- overflow-x-scroll  --}}
+        <div class="rounded-lg shadow-lg bg-white max-w-screen ">
             <div class="rounded-lg @unless($this->hidePagination) rounded-b-none @endif">
                 <div class="table w-full whitespace-no-wrap ">
                     @unless($this->hideHeader)
@@ -163,7 +163,7 @@
             </div>
             @endif
         </div>
-    </div>
+    {{-- </div> --}}
     @if($afterTableSlot)
     <div class="mt-8">
         @include($afterTableSlot)
