@@ -4,7 +4,7 @@
             @include($beforeTableSlot)
         </div>
     @endif
-    {{-- <div class="relative"> --}}
+    <div class="relative">
         <div class="flex justify-between items-center mb-1">
             <div class="flex-grow h-10 flex items-center my-2 ">
                 @if($this->searchableColumns()->count())
@@ -163,7 +163,7 @@
             </div>
             @endif
         </div>
-    {{-- </div> --}}
+    </div>
     @if($afterTableSlot)
     <div class="mt-8">
         @include($afterTableSlot)

@@ -1,7 +1,7 @@
 <x-app-layout title="Desembolsos">
 
-    <div class="container grid px-6 mx-auto">
-        <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
+    <div class="container grid sm:px-1 md:px-4 mx-auto">
+        <h2 class="mt-5 text-2xl font-semibold text-gray-700 dark:text-gray-200">
            Perfil
         </h2>
 
@@ -16,11 +16,10 @@
                 <span>Nuevo registro </span>
             </a>
         </div>
-        
+       
            
-                 <livewire:user.bank-account-table searchable="number" />
+        <livewire:user.bank-account-table searchable="number" />
             
-      
 
     </div>
 
