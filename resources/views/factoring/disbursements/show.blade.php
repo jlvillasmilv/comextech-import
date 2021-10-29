@@ -22,18 +22,18 @@
       {{-- clients who have SII keys, premium clients  --}}
       @empty(!$sii)   
         @if ($applications->disbursement->status === 'PENDIENTE' || $applications->disbursement->status === 'RECHAZADO') 
-        @include('factoring.disbursements.requirements_sii')
+          @include('factoring.disbursements.requirements_sii')
         @endif
       @endempty
 
     @if($applications->disbursement->status === 'PENDIENTE' || $applications->disbursement->status === 'RECHAZADO')
     {{--invoices uploaded in XML way --}}
-    @empty($sii)
-      @php
-          $size = 9;
-      @endphp
-      @include('factoring.disbursements.requirements')
-    @endempty
+      @empty($sii)
+        @php
+            $size = 9;
+        @endphp
+        @include('factoring.disbursements.requirements')
+      @endempty
     @endif
 
     <div class="grid gap-6 mb-8 ">

@@ -5,7 +5,7 @@
 
 <div class="grid gap-6 mb-4">
 
-  <div class="min-w-0 p-4 bg-green-300 rounded-lg shadow-xs">
+  <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800 mb-4 ">
       <div class="flex justify-center">
          {{-- Cesión de Facturas SII --}}
         <div class="">
