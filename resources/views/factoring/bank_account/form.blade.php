@@ -1,7 +1,7 @@
 <x-app-layout title="Formulario de registro">
 	<div class="container grid px-6 mx-auto">
 		<h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            <a href="{{route('bank-accounts.index')}}">CUentas bancarias</a>  
+            <a href="{{route('bank-accounts.index')}}">Cuentas bancarias</a>  
         </h2>
 
         <div class="flex justify-between items-end">

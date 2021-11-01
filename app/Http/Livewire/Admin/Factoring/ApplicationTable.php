@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Factoring;
 
-use App\Models\Factoring\Application;
+use App\Models\Factoring\{Application,Invoice};
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
@@ -11,6 +11,7 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 class ApplicationTable extends LivewireDatatable
 {
     public $model = Application::class;
+
 
     public function columns()
     {
@@ -28,11 +29,12 @@ class ApplicationTable extends LivewireDatatable
             ->searchable(),
 
             DateColumn::name('created_at')
+            ->format('d/m/y')
             ->searchable()
             ->label('Fecha Solicitud'),
 
-            NumberColumn::name('invoices.total_amount:sum')
-            ->label('Monto Total'),
+            // Column::name('invoices.total_amount:sum')
+            // ->label('Monto Total'),
 
             Column::name('status')
             ->searchable()
@@ -50,5 +52,10 @@ class ApplicationTable extends LivewireDatatable
     public function getCompanyProperty()
     {
         return Company::pluck('name');
+    }
+
+    public function getInvoicesProperty()
+    {
+        return Invoice::all();
     }
 }

@@ -8,7 +8,11 @@
             </h4>
         </div>
        
-        <livewire:admin.factoring.application-table searchable="name" />
+        <livewire:admin.factoring.application-table 
+            searchable="company.name"
+            hideable="select"
+            exportable
+         />
             
     </div>
     

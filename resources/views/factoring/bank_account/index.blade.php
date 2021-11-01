@@ -1,4 +1,4 @@
-<x-app-layout title="Desembolsos">
+<x-app-layout title="Cuentas bancarias">
 
     <div class="container grid sm:px-1 md:px-4 mx-auto">
         <h2 class="mt-5 text-2xl font-semibold text-gray-700 dark:text-gray-200">

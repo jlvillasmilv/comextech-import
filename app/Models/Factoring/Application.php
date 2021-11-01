@@ -45,7 +45,7 @@ class Application extends Model
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class,'factoring_application_id');
+        return $this->hasMany(Invoice::class,'factoring_application_id','id');
     }
 
     public function refund()
