@@ -103,7 +103,7 @@
                     nihil dolorum.
                 </p>
             </div>
-            <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs">
+            <div class="min-w-0 p-4 text-white bg-blue-600 rounded-lg shadow-xs">
                 <h4 class="mb-4 font-semibold">
                     Colored card
                 </h4>

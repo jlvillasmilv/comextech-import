@@ -6,7 +6,7 @@
 
         <p class="mb-8 text-gray-600 dark:text-gray-400">
             Charts are provided by
-            <a class="text-purple-600 dark:text-purple-400 hover:underline" href="https://www.chartjs.org/">
+            <a class="text-blue-600 dark:text-blue-400 hover:underline" href="https://www.chartjs.org/">
                 Chart.js
             </a>
             . Note that the default legends are disabled and you should
@@ -32,7 +32,7 @@
                         <span>Shoes</span>
                     </div>
                     <div class="flex items-center">
-                        <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                        <span class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"></span>
                         <span>Bags</span>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         <span>Organic</span>
                     </div>
                     <div class="flex items-center">
-                        <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                        <span class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"></span>
                         <span>Paid</span>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                         <span>Shoes</span>
                     </div>
                     <div class="flex items-center">
-                        <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                        <span class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"></span>
                         <span>Bags</span>
                     </div>
                 </div>

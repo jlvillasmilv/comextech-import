@@ -68,7 +68,7 @@
                             <td class="px-4 py-3" >
                                 <a  
                                 href="{{ route('services.summary', 1) }}" 
-                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -119,7 +119,7 @@
                             <td class="px-4 py-3" >
                                 <a  
                                 href="{{ route('services.summary', 1) }}" 
-                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -170,7 +170,7 @@
                             <td class="px-4  " >
                                 <a  
                                 href="{{ route('services.summary', 1) }}" 
-                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"

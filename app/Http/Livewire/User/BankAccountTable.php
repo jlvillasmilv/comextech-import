@@ -12,13 +12,17 @@ class BankAccountTable extends LivewireDatatable
 {
     public $model = BankAccount::class;
 
+    public function builder()
+    {
+
+        return BankAccount::where('user_id', auth()->user()->id);
+       
+    }
 
     public function columns()
     {
         $table = [
-            NumberColumn::name('id')
-            ->label('ID'),
-            
+
             Column::name('bank.name')
             ->label('Banco')
             ->searchable(),
