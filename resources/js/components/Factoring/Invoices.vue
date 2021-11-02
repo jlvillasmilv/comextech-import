@@ -34,7 +34,7 @@
             x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+            class="overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
             id="modal"
             tabindex="-1"
             role="dialog"
@@ -42,10 +42,10 @@
             aria-hidden="true"
         >
             <div
-                class="overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+                class="transform-none transition-opacity h-full w-full sm:w-auto relative pointer-events-none sm:mt-16"
             >
                 <div
-                    class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-4xl"
+                    class="relative flex flex-col pointer-events-auto bg-white bg-clip-padding rounded-sm border-solid outline-none p-2"
                 >
                     <div class="flex flex-wrap justify-between items-center">
                         <h5 class="text-blue-800 font-bold text-lg">
@@ -81,24 +81,86 @@
                             Cant. Factura Cotizadas:
                             <strong>{{ items.length }}</strong>
                         </div>
-                        <div>
-                            <span>
-                                <i class="far fa-circle fa-lg text-dark"> </i>
+                        <div class="flex flex-wrap justify-start">
+                            <span class="inline-block">
+                                <i
+                                    ><svg
+                                        class="inline-block"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        aria-hidden="true"
+                                        role="img"
+                                        width="1.5em"
+                                        height="1.2em"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <g fill="none">
+                                            <circle
+                                                cx="11"
+                                                cy="12"
+                                                r="11"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            />
+                                        </g>
+                                    </svg>
+                                </i>
                                 Poca Informacion</span
                             >
                             <span>
-                                <i class="fa fa-circle fa-lg bankable"> </i>
+                                <i>
+                                    <svg
+                                        class="inline-block"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        aria-hidden="true"
+                                        role="img"
+                                        width="1.5em"
+                                        height="1.2em"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <g fill="none">
+                                            <circle
+                                                cx="11"
+                                                cy="11"
+                                                r="11"
+                                                fill="#bfbcbb"
+                                            />
+                                        </g>
+                                    </svg>
+                                </i>
                                 Evaluable</span
                             >
                             <span>
-                                <i class="fa fa-circle fa-lg very-bankable ">
-                                </i
+                                <i>
+                                    <svg
+                                        class="inline-block"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        aria-hidden="true"
+                                        role="img"
+                                        width="1.5em"
+                                        height="1.2em"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <g fill="none">
+                                            <circle
+                                                cx="11"
+                                                cy="11"
+                                                r="11"
+                                                fill="green"
+                                            />
+                                        </g>
+                                    </svg> </i
                                 >Confiable</span
                             >
                         </div>
                     </div>
                     <div class="flex flex-wrap">
-                        <div class="flex flex-col">
+                        <div class="flex flex-col w-full h-full">
                             <vue-good-table
                                 :columns="columns"
                                 :rows="invoices"
@@ -123,6 +185,7 @@
                                         <a @click="onRowSelected(props.row)"
                                             ><i
                                                 ><svg
+                                                    class="inline-block"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     aria-hidden="true"
@@ -162,25 +225,108 @@
                                         "
                                     >
                                         <span
+                                            v-if="
+                                                props.row
+                                                    .settlement_status_id == 1
+                                            "
+                                            ><i
+                                                ><svg
+                                                    class="inline-block"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    aria-hidden="true"
+                                                    role="img"
+                                                    width="1.5em"
+                                                    height="1.2em"
+                                                    preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <g fill="none">
+                                                        <circle
+                                                            cx="11"
+                                                            cy="12"
+                                                            r="11"
+                                                            stroke="currentColor"
+                                                            stroke-width="2"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                            </i>
+                                        </span>
+                                        <span
+                                            v-if="
+                                                props.row
+                                                    .settlement_status_id == 2
+                                            "
+                                            ><i>
+                                                <svg
+                                                    class="inline-block"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    aria-hidden="true"
+                                                    role="img"
+                                                    width="1.5em"
+                                                    height="1.2em"
+                                                    preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <g fill="none">
+                                                        <circle
+                                                            cx="11"
+                                                            cy="11"
+                                                            r="11"
+                                                            fill="green"
+                                                        />
+                                                    </g>
+                                                </svg> </i
+                                        ></span>
+                                        <span
+                                            v-if="
+                                                props.row
+                                                    .settlement_status_id == 3
+                                            "
+                                            ><i>
+                                                <svg
+                                                    class="inline-block"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    aria-hidden="true"
+                                                    role="img"
+                                                    width="1.5em"
+                                                    height="1.2em"
+                                                    preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <g fill="none">
+                                                        <circle
+                                                            cx="11"
+                                                            cy="11"
+                                                            r="11"
+                                                            fill="#bfbcbb"
+                                                        />
+                                                    </g>
+                                                </svg> </i
+                                        ></span>
+                                        <!-- <span
                                             :class="[
                                                 props.row
                                                     .settlement_status_id ===
                                                     null ||
                                                 props.row
                                                     .settlement_status_id == 1
-                                                    ? ' text-dark'
+                                                    ? 'far fa-circle fa-lg text-bankable'
                                                     : '',
                                                 props.row
                                                     .settlement_status_id === 3
-                                                    ? 'very-bankable'
+                                                    ? 'fa fa-circle fa-lg bankable'
                                                     : '',
                                                 props.row
                                                     .settlement_status_id === 2
-                                                    ? 'bankable'
+                                                    ? 'fa fa-circle fa-lg very-bankable'
                                                     : ''
                                             ]"
-                                        >
-                                            <i
+                                        > 
+                                         <i
                                                 :class="[
                                                     props.row
                                                         .settlement_status_id ===
@@ -188,12 +334,12 @@
                                                     props.row
                                                         .settlement_status_id ==
                                                         1
-                                                        ? ' far fa-circle fa-lg'
-                                                        : 'fa fa-circle fa-lg'
+                                                        ? 'far fa-circle fa-lg text-bankable'
+                                                        : 'fa fa-circle fa-lg very-bankable'
                                                 ]"
                                             >
                                             </i>
-                                        </span>
+                                        </span> -->
                                     </span>
                                 </template>
                             </vue-good-table>

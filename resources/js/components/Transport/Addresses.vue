@@ -956,6 +956,15 @@ export default {
         isActivateAddress() {
             const { loads } = this.$store.state.load;
 
+            if (loads.length) {
+                if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
+                    if (loads[loads.length - 1].weight > 0) {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
             /* Condicionales para mostrar el formulario de addresses dependiendo de la validacion del peso */
             if (loads.length) {
                 if (
