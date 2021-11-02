@@ -9,6 +9,9 @@
         <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
            Solicitud # {{str_pad($data->id, 6, '0', STR_PAD_LEFT) }}
         </h4>
+        <p class="font-bold mb-2">Cliente: {{ $data->user->company->name}}</p>
+        <p class="font-bold">RUT:  {{ $data->user->company->tax_id}}  </p> 
+
         <p class="font-semibold  dark:text-white ">Estado: 
           
             <span title="{{$data->status}}" style="font-size: 20px; color: {{ App\Models\Factoring\Application::STATUS_COLOR[$data->status] ?? 'none' }};">

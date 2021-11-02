@@ -124,11 +124,11 @@ class ApplicationController extends Controller
                 if($data->status == 'Aprobada' or $data->status == 'Rechazada'){
         
                     $details = [
-                        'title' => 'Estimado '.$data->client->full_name,
+                        'title' => 'Estimado '.$data->user->name,
                         'body'  => 'la solicitud con numero N° '.str_pad($data->id, 6, '0', STR_PAD_LEFT) .' por un total de $'.  number_format($data->invoices->sum('total_amount'),0,",",".") .' ah sido '.$data->status.' '.$data->observation
                     ];
                     
-                    \Mail::to($data->client->user->email)->send(new \App\Mail\ApplicationReceived($details));
+                    \Mail::to($data->user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
 
                     event(new ApplicationStatusEvent($data));
  

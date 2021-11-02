@@ -21,10 +21,10 @@ class DisbursementTable extends LivewireDatatable
 
             NumberColumn::name('id'),
 
-            Column::name('company.tax_id')
-            ->label('Rut'),
+            Column::name('factoring_application_id')
+            ->label('Solicitud'),
 
-            Column::name('company.name')
+            Column::name('application.company.name')
             ->label('Cliente')
             ->searchable(),
 

@@ -173,8 +173,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
 Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namespace' => 'App\Http\Controllers\Admin\Factoring', 'middleware' => ['auth:sanctum']], function () {
 
-    Route::resource('applications', 'ApplicationController');
-    Route::resource('disbursements', 'DisbursementController');
+    Route::resource('applications', 'ApplicationController')->except(['destroy','create']);;
+    Route::resource('disbursements', 'DisbursementController')->except(['destroy','create']);;
     Route::resource('fee_history', 'FeesHistoryController');
 
     

@@ -28,7 +28,7 @@ class ApplicationStatusListener
      */
     public function handle($event)
     {
-        $user = $event->application->client->user;
+        $user = $event->application->user;
         Notification::send($user, new ApplicationStatus($event->application));
     }
 }
