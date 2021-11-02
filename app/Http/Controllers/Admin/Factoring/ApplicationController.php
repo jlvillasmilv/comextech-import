@@ -98,7 +98,7 @@ class ApplicationController extends Controller
 
         $data    = Application::findOrFail(base64_decode($id));
 
-        return view('admin.factoring.application.form', compact('data','status'));
+        return view('admin.factoring.application.form', compact('data','status','id'));
     }
 
     /**
@@ -112,7 +112,6 @@ class ApplicationController extends Controller
     {
         $data = Application::findOrFail(base64_decode($id));
         
-
         $notification = array(
             'message'    => 'No puede cambiar status ya tiene un desembolso',
             'alert_type' => 'warning',);
@@ -143,7 +142,7 @@ class ApplicationController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return view('admin.application.index');
+        return view('admin.factoring.application.index');
 
     }
 

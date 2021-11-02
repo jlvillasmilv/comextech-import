@@ -175,5 +175,7 @@ Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namesp
 
     Route::resource('applications', 'ApplicationController');
     Route::resource('disbursements', 'DisbursementController');
+    Route::resource('fee_history', 'FeesHistoryController');
+
     
 });

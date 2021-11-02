@@ -24,7 +24,8 @@ class ApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'status'     => 'required',
+            'status'      => 'required',
+            'description' => 'nullable|max:254',
         ];
     }
 }

@@ -41,7 +41,7 @@ class ApplicationTable extends LivewireDatatable
             ->label('Estado'),
 
             Column::callback(['id'], function ($id) {
-                return view('table-actions', ['id' => base64_encode($id), 'route' => 'bank-accounts.', 'permission' => 'admin.factoring.applications']);
+                return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.factoring.applications.', 'permission' => 'admin.factoring.applications']);
             })
         ];
 
