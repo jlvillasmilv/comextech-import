@@ -1,7 +1,7 @@
 <template>
-    <div v-if="isLoanding" class="col-lg text-center">
+    <div v-if="isLoanding" class="relative w-full px-6 text-center">
         <div v-if="!StatusSii">
-            <h6 class="font-weight-bold">
+            <h6 class="font-bold">
                 Registra tus credenciales del SII y has tu proceso mas facil!
             </h6>
             <formProvider @updatePassword="getAPI"></formProvider>
@@ -185,7 +185,7 @@
                                         <a @click="onRowSelected(props.row)"
                                             ><i
                                                 ><svg
-                                                    class="inline-block"
+                                                    class="w-6 h-6 inline-block"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     aria-hidden="true"
@@ -307,39 +307,6 @@
                                                     </g>
                                                 </svg> </i
                                         ></span>
-                                        <!-- <span
-                                            :class="[
-                                                props.row
-                                                    .settlement_status_id ===
-                                                    null ||
-                                                props.row
-                                                    .settlement_status_id == 1
-                                                    ? 'far fa-circle fa-lg text-bankable'
-                                                    : '',
-                                                props.row
-                                                    .settlement_status_id === 3
-                                                    ? 'fa fa-circle fa-lg bankable'
-                                                    : '',
-                                                props.row
-                                                    .settlement_status_id === 2
-                                                    ? 'fa fa-circle fa-lg very-bankable'
-                                                    : ''
-                                            ]"
-                                        > 
-                                         <i
-                                                :class="[
-                                                    props.row
-                                                        .settlement_status_id ===
-                                                        null ||
-                                                    props.row
-                                                        .settlement_status_id ==
-                                                        1
-                                                        ? 'far fa-circle fa-lg text-bankable'
-                                                        : 'fa fa-circle fa-lg very-bankable'
-                                                ]"
-                                            >
-                                            </i>
-                                        </span> -->
                                     </span>
                                 </template>
                             </vue-good-table>
@@ -349,11 +316,11 @@
             </div>
         </div>
     </div>
-    <div v-else class="col-lg text-center">
-        <h4 class="h4 text-dark mb-4">
+    <div v-else class="relative w-full px-6 text-center">
+        <h4 class="text-xl text-gray-800 mb-4">
             Estamos procesando tu informacion, un momento!
         </h4>
-        <div class="lds-dual-ring row justify-content-center"></div>
+        <div class="lds-dual-ring inline-block w-32 h-32"></div>
     </div>
 </template>
 
@@ -362,7 +329,6 @@ import Option from '../../config/alert';
 import QuoteTable from '../Factoring/QuoteTable';
 import FormCredential from '../../views/Provider';
 import { VueGoodTable } from 'vue-good-table';
-
 export default {
     data() {
         return {
@@ -559,22 +525,15 @@ export default {
     width: 80px;
     height: 80px;
 }
-.bankable {
-    color: #bfbcbb;
-}
-.very-bankable {
-    color: green;
-}
-
 .lds-dual-ring:after {
     content: ' ';
     display: block;
     width: 64px;
     height: 64px;
     margin: 8px;
-    border-radius: 50%;
-    border: 6px solid #8ee5ff;
-    border-color: #8ee5ff transparent #8ee5ff transparent;
+    border-radius: 100%;
+    border: 4px solid #046c4e;
+    border-color: #046c4e transparent #046c4e transparent;
     animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
