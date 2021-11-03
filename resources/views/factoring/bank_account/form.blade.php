@@ -57,14 +57,14 @@
                 </span>
                 <div class="mt-2">
                     <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-                        <input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=true
-						{{isset($bankAccount) ? ($bankAccount->status==true)? "checked" : ""  : ""}}
+                        <input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value="1"
+						{{isset($bankAccount) ? ($bankAccount->status)? "checked" : ""  : ""}}
 						 />
                         <span class="ml-2">Activo</span>
                     </label>
                     <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                        <input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=false
-						{{isset($bankAccount) ? ($bankAccount->status==false)? "checked" : ""  : ""}}
+                        <input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value="0"
+						{{isset($bankAccount) ? (!$bankAccount->status)? "checked" : ""  : ""}}
 						 />
                         <span class="ml-2">Inactivo</span>
                     </label>

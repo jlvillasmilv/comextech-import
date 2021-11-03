@@ -176,6 +176,6 @@ Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namesp
     Route::resource('applications', 'ApplicationController')->except(['destroy','create']);;
     Route::resource('disbursements', 'DisbursementController')->except(['destroy','create']);;
     Route::resource('fee_history', 'FeesHistoryController');
-
+    Route::get('download/{id}/{type}', 'DisbursementController@downloadAsset')->name('download');
     
 });

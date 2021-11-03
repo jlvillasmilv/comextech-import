@@ -89,7 +89,7 @@ class DisbursementController extends Controller
 
         $date_payment = is_null($data->date_payment) ? date("Y-m-d") : $data->date_payment;
 
-        return view('admin.factoring.disbursements.form', compact('data','status','date_payment'));
+        return view('admin.factoring.disbursements.form', compact('data','status','date_payment','id'));
     }
 
     /**
@@ -167,7 +167,7 @@ class DisbursementController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.disbursements.edit', $data->id);
+        return redirect()->route('admin.factoring.disbursements.edit', base64_encode($data->id));
     }
 
     /**
@@ -179,5 +179,19 @@ class DisbursementController extends Controller
     public function destroy(Disbursement $disbursement)
     {
         //
+    }
+
+    public function downloadAsset($id, $type = null)
+    {
+
+        $file_contract = FileDisbursement::where('disbursement_id', $id)
+        ->where('type', $type)->first();
+
+        //  header("Cache-Control: public");
+        //  header("Content-Description: File Transfer");
+        //  header("Content-Type: " . $file_contract->FileStore->mime_type);
+         
+         return Storage::disk('s3')->response('file/'.$file_contract->FileStore->original_name);
+
     }
 }
