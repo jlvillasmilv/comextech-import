@@ -108,7 +108,7 @@
                                 >
                                     {{ getHumanDate(item.expire_date) }}
                                 </td>
-                                <td class="">
+                                <td>
                                     <div role="group">
                                         <button
                                             data-toggle="modal"
@@ -123,24 +123,73 @@
                                             }"
                                             v-bind="$attrs"
                                         >
-                                            <i
-                                                :class="{
-                                                    'fas fa-calendar-times fa-lg': !item.change_expire,
-                                                    'fas fa-calendar-check fa-lg':
+                                            <i>
+                                                <svg
+                                                    v-if="!item.change_expire"
+                                                    class="w-8 h-8 inline-block"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    aria-hidden="true"
+                                                    role="img"
+                                                    width="1em"
+                                                    height="1em"
+                                                    preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 16 16"
+                                                >
+                                                    <g fill="#e02424">
+                                                        <path
+                                                            d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM6.854 8.146L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10L6.146 8.854a.5.5 0 1 1 .708-.708z"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                                <svg
+                                                    v-else-if="
                                                         item.change_expire
-                                                }"
-                                            ></i>
+                                                    "
+                                                    class="w-8 h-8 inline-block"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    aria-hidden="true"
+                                                    role="img"
+                                                    width="1em"
+                                                    height="1em"
+                                                    preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 16 16"
+                                                >
+                                                    <g fill="#1cc88a">
+                                                        <path
+                                                            d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                            </i>
                                         </button>
                                     </div>
                                 </td>
-                                <td class="text-md-right">
-                                    <div class="btn-group" role="group">
+                                <td>
+                                    <div role="group">
                                         <button
-                                            class="btn btn-danger"
                                             v-bind="$attrs"
                                             @click="onDelete(index, item)"
                                         >
-                                            <i class="fas fa-trash-alt"></i>
+                                            <i>
+                                                <svg
+                                                    class="mr-4 mt-2 w-8 h-8"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    aria-hidden="true"
+                                                    role="img"
+                                                    width="1em"
+                                                    height="1em"
+                                                    preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm4 12H8v-9h2v9zm6 0h-2v-9h2v9zm.618-15L15 2H9L7.382 4H3v2h18V4z"
+                                                        fill="#e02424"
+                                                    />
+                                                </svg>
+                                            </i>
                                         </button>
                                     </div>
                                 </td>
