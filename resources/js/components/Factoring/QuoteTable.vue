@@ -114,7 +114,8 @@
                                             data-toggle="modal"
                                             :data-target="`#${source}`"
                                             @click="
-                                                onChangeDateExpire(index, item)
+                                                modalDate();
+                                                onChangeDateExpire(index, item);
                                             "
                                             :class="{
                                                 'btn btn-danger': !item.change_expire,
@@ -200,26 +201,36 @@
             </div>
         </div>
         <div
-            class="modal fade"
-            :id="`${source}`"
+            v-if="showDate == true"
+            x-transition:enter="transition ease-out duration-150"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
             tabindex="-1"
             role="dialog"
-            aria-labelledby="exampleModalLabel"
+            aria-labelledby="myLargeModalLabel"
             aria-hidden="true"
+            :id="`${source}`"
         >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div
-                            class="modal-title h6  font-weight-bold text-uppercase mb-4"
-                        >
+            <div
+                class="transform-none transition-opacity h-full w-full sm:w-auto relative pointer-events-none sm:mt-16"
+                role="document"
+            >
+                <div
+                    class="relative flex flex-col pointer-events-auto bg-white bg-clip-padding rounded-sm border-solid outline-none p-2"
+                >
+                    <div class="">
+                        <div class="font-bold uppercase mb-6">
                             Cambio de fecha de vencimiento de factura Folio #{{
                                 itemEditing.number
                             }}
                         </div>
-                        <div class="row">
+                        <div class="flex flex-wrap -mx-6">
                             <div
-                                class="col col-sm-9 col-md-9"
+                                class="flex flex-grow-0 flex-shrink-0 px-8"
                                 v-if="expireDate"
                             >
                                 <datepicker
@@ -234,14 +245,33 @@
                                 >
                                 </datepicker>
                             </div>
-                            <div class="col col-sm-3 col-md-3 ">
+                            <div>
                                 <button
+                                    @click="closeModal()"
                                     data-toggle="modal"
                                     v-bind="$attrs"
                                     data-dismiss="modal"
                                     class="btn btn-primary"
                                 >
-                                    <i class="fas fa-calendar-plus fa-lg"></i>
+                                    <i>
+                                        <svg
+                                            class="h-8 w-8"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            aria-hidden="true"
+                                            role="img"
+                                            width="1em"
+                                            height="1em"
+                                            preserveAspectRatio="xMidYMid meet"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <g fill="#103394">
+                                                <path
+                                                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM8.5 8.5V10H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V11H6a.5.5 0 0 1 0-1h1.5V8.5a.5.5 0 0 1 1 0z"
+                                                />
+                                            </g>
+                                        </svg>
+                                    </i>
                                 </button>
                             </div>
                         </div>
@@ -269,7 +299,8 @@ export default {
             expireDate: false,
             itemEditing: {},
             index: false,
-            flag: true
+            flag: true,
+            showDate: false
         };
     },
     props: {
@@ -329,6 +360,7 @@ export default {
             this.index = index;
         },
         async onCalculate() {
+            // this.showDate = true;
             try {
                 let date = moment(this.expireDate).format('yyyy-MM-DD');
                 let payload = {
@@ -350,6 +382,12 @@ export default {
             } catch (error) {
                 alert(error.response.data.message);
             }
+        },
+        modalDate() {
+            this.showDate = true;
+        },
+        closeModal() {
+            this.showDate = false;
         }
     }
 };
