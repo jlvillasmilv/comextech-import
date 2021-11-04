@@ -127,7 +127,7 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
     
     Route::get('/credentials/{name}', 'CredentialStoreController@index');
     Route::resource('partners', 'PartnerController');
-    Route::post('client/password', 'UserController@store'); 
+
     Route::post('single-file', 'FileStoreClientController@store')->name('single-file');
     Route::get('download-file/{name}', 'FileStoreClientController@show');
     Route::get('libredte', 'ApplicationController@libredte');
@@ -173,6 +173,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
 Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namespace' => 'App\Http\Controllers\Admin\Factoring', 'middleware' => ['auth:sanctum']], function () {
 
-    Route::resource('disbursements', 'DisbursementController');
+    Route::resource('applications', 'ApplicationController')->except(['destroy','create']);;
+    Route::resource('disbursements', 'DisbursementController')->except(['destroy','create']);;
+    Route::resource('fee_history', 'FeesHistoryController');
+    Route::get('download/{id}/{type}', 'DisbursementController@downloadAsset')->name('download');
     
 });

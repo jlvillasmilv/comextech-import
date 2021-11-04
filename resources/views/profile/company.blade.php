@@ -20,7 +20,7 @@
                 <label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400">Pais</span>
 
-                    <select name="country_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select select2  @error('country_id') is-invalid @enderror">
+                    <select name="country_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('country_id') is-invalid @enderror">
 
                     @foreach($country as $id => $name)
 
@@ -45,7 +45,7 @@
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Numero identificación tributaria</label>
-                           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="tax_id" value="{{ old('tax_id', isset($data) ? $data->tax_id : '') }}" max="100" required="">
+                           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="tax_id" value="{{ old('tax_id', isset($data) ? $data->tax_id : '') }}" max="100" required="">
                              @if($errors->has('tax_id'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('tax_id') }}
@@ -54,7 +54,7 @@
                         </div>
                         <div class="w-1/2 ml-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Nombre de la Empresa</label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="name" value="{{ old('name', isset($data) ? $data->name : '') }}" max="100" required="">
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="name" value="{{ old('name', isset($data) ? $data->name : '') }}" max="100" required="">
                              @if($errors->has('name'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('name') }}
@@ -68,7 +68,7 @@
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Correo electrónico</label>
-                           <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@correo.com" name="email" value="{{ old('email', isset($data) ? $data->email : '') }}" max="100" required="">
+                           <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@correo.com" name="email" value="{{ old('email', isset($data) ? $data->email : '') }}" max="100" required="">
                              @if($errors->has('email'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('email') }}
@@ -77,7 +77,7 @@
                         </div>
                         <div class="w-1/2 ml-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Número de teléfono</label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="phone" value="{{ old('phone', isset($data) ? $data->phone : '') }}" max="100" required="">
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="phone" value="{{ old('phone', isset($data) ? $data->phone : '') }}" max="100" required="">
                              @if($errors->has('phone'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('phone') }}
@@ -92,7 +92,7 @@
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Representante</label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de reresentante o contato" name="contact_name" value="{{ old('contact_name', isset($data) ? $data->contact_name : '') }}" max="100" >
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de reresentante o contato" name="contact_name" value="{{ old('contact_name', isset($data) ? $data->contact_name : '') }}" max="100" >
                             @if($errors->has('contact_name'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('contact_name') }}
@@ -101,7 +101,7 @@
                         </div>
                         <div class="w-1/2 ml-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Telfono represntante</label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Telefono de representante" name="contact_telf" value="{{ old('contact_telf', isset($data) ? $data->contact_telf : '') }}" max="100">
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Telefono de representante" name="contact_telf" value="{{ old('contact_telf', isset($data) ? $data->contact_telf : '') }}" max="100">
                             @if($errors->has('contact_telf'))
                                <span class="text-xs text-red-600 dark:text-red-400">
                                    {{ $errors->first('contact_telf') }}
@@ -113,7 +113,7 @@
 
 
                 <div class="flex justify-end">
-                    <button class="flex  px-4 py-2 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    <button class="flex  px-4 py-2 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
                          </svg>
