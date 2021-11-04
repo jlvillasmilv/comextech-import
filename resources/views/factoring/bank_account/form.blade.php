@@ -1,7 +1,7 @@
 <x-app-layout title="Formulario de registro">
 	<div class="container grid px-6 mx-auto">
 		<h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            <a href="{{route('bank-accounts.index')}}">CUentas bancarias</a>  
+            <a href="{{route('bank-accounts.index')}}">Cuentas bancarias</a>  
         </h2>
 
         <div class="flex justify-between items-end">
@@ -21,7 +21,7 @@
 				<label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400">Banco</span>
 
-                    <select name="bank_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-select select2  @error('bank_id') is-invalid @enderror">
+                    <select name="bank_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('bank_id') is-invalid @enderror">
 
                     	@foreach($banks as $id => $name)
 
@@ -43,7 +43,7 @@
 
 	        <label class="block text-sm my-3">
 	            <span class="text-gray-700 dark:text-gray-400">Numero</span>
-	            <input class="{{ $errors->has('number') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre del servicio" / name="number" value="{{ old('number', isset($bankAccount) ? $bankAccount->number : '') }}" max="35" required="">
+	            <input class="{{ $errors->has('number') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre del servicio" / name="number" value="{{ old('number', isset($bankAccount) ? $bankAccount->number : '') }}" max="35" required="">
 	            @if($errors->has('number'))
 		             	<span class="text-xs text-red-600 dark:text-red-400">
 		                    {{ $errors->first('number') }}
@@ -57,14 +57,14 @@
                 </span>
                 <div class="mt-2">
                     <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-                        <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="status" value=true
-						{{isset($bankAccount) ? ($bankAccount->status==true)? "checked" : ""  : ""}}
+                        <input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value="1"
+						{{isset($bankAccount) ? ($bankAccount->status)? "checked" : ""  : ""}}
 						 />
                         <span class="ml-2">Activo</span>
                     </label>
                     <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                        <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="status" value=false
-						{{isset($bankAccount) ? ($bankAccount->status==false)? "checked" : ""  : ""}}
+                        <input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value="0"
+						{{isset($bankAccount) ? (!$bankAccount->status)? "checked" : ""  : ""}}
 						 />
                         <span class="ml-2">Inactivo</span>
                     </label>

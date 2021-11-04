@@ -16,7 +16,7 @@
             <ul class="inline-flex items-center">
                 <li>
                     <button 
-                        class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                        class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-blue"
                         aria-label="Previous"
 
                         @if ($paginator->onFirstPage())
@@ -49,7 +49,7 @@
                             @if ($page == $paginator->currentPage())
                                 <li>
                                     <button
-                                        class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                        class="px-3 py-1 text-white transition-colors duration-150 bg-blue-600 border border-r-0 border-blue-600 rounded-md focus:outline-none focus:shadow-outline-blue">
                                         {{ $page }}
                                     </button>
                                 </li>
@@ -58,7 +58,7 @@
                                     <button 
                                         @click="window.location='{{ $url }}'"
                                         aria-label="{{ __('Go to page :page', ['page' => $page]) }}"
-                                        class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                        class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                          {{ $page }}
                                     </button>
                                 </li>
@@ -69,7 +69,7 @@
 
                 <li>
                     <button
-                        class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                        class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-blue"
                         aria-label="Next"
 
                         @if (!$paginator->hasMorePages())

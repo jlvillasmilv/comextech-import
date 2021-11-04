@@ -39,12 +39,13 @@ class Application extends Model
 
     public function company()
     {
-        return $this->belongsTo(\App\Models\Company::class,'user_id')->withDefault(['tax_id' => ' ','name' => '' ]);
+        return $this->belongsTo(\App\Models\Company::class,'user_id','user_id')
+        ->withDefault(['tax_id' => ' ','name' => '' ]);
     }
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class,'factoring_application_id');
+        return $this->hasMany(Invoice::class,'factoring_application_id','id');
     }
 
     public function refund()

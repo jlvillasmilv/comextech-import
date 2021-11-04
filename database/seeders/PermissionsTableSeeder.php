@@ -89,14 +89,48 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'factoring.disbursements.create']);
         Permission::create(['name' => 'factoring.disbursements.destroy']);
 
+        // admin factoring
+        Permission::create(['name' => 'admin.factoring.applications.index']);
+        Permission::create(['name' => 'admin.factoring.applications.edit']);
+        Permission::create(['name' => 'admin.factoring.applications.show']);
+        Permission::create(['name' => 'admin.factoring.applications.create']);
+
+        Permission::create(['name' => 'admin.clients.index']);
+        Permission::create(['name' => 'admin.clients.edit']);
+        Permission::create(['name' => 'admin.clients.show']);
+        Permission::create(['name' => 'admin.clients.create']);
+        Permission::create(['name' => 'admin.clients.destroy']);
+
+        Permission::create(['name' => 'admin.factoring.disbursements.index']);
+        Permission::create(['name' => 'admin.factoring.disbursements.edit']);
+        Permission::create(['name' => 'admin.factoring.disbursements.show']);
+        Permission::create(['name' => 'admin.factoring.disbursements.create']);
+        Permission::create(['name' => 'admin.factoring.disbursements.destroy']);
+
+        Permission::create(['name' => 'admin.factoring.fees_history.index']);
+        Permission::create(['name' => 'admin.factoring.fees_history.edit']);
+        Permission::create(['name' => 'admin.factoring.fees_history.show']);
+        Permission::create(['name' => 'admin.factoring.fees_history.create']);
+        Permission::create(['name' => 'admin.factoring.fees_history.destroy']);
+
+        Permission::create(['name' => 'admin.factoring.quote.index']);
+        Permission::create(['name' => 'admin.factoring.quote.edit']);
+        Permission::create(['name' => 'admin.factoring.quote.show']);
+        Permission::create(['name' => 'admin.factoring.quote.create']);
+        Permission::create(['name' => 'admin.factoring.quote.destroy']);
+
+
+        Permission::create(['name' => 'settings.index']);
+        Permission::create(['name' => 'settings.edit']);
+        Permission::create(['name' => 'settings.show']);
+        Permission::create(['name' => 'settings.create']);
+        Permission::create(['name' => 'settings.destroy']);
+
 
 
         //Admin
         $admin = Role::create(['name' => 'Admin']);
 
-        $operator = Role::create(['name' => 'operator']);
-
-        $business_executive = Role::create(['name' => 'business_executive']);
        
         //Client
         $client = Role::create(['name' => 'Client']);
@@ -127,11 +161,44 @@ class PermissionsTableSeeder extends Seeder
          //Guest
         $guest = Role::create(['name' => 'Guest']);
 
-
-
         $guest->givePermissionTo([
             'clients.index',
         ]);
+
+
+        $operator = Role::create(['name' => 'operator']);
+
+        $operator->givePermissionTo([
+            'admin.factoring.applications.index',
+            'admin.factoring.applications.edit',
+            'admin.factoring.applications.show',
+            'admin.factoring.fees_history.index',
+            'admin.factoring.fees_history.show',
+            'admin.factoring.fees_history.edit',
+            'admin.factoring.quote.index',
+            'admin.factoring.quote.show',
+            'admin.clients.index',
+            'admin.clients.show',
+            'admin.factoring.disbursements.index',
+            'admin.factoring.disbursements.edit',
+            'admin.factoring.disbursements.show',
+        ]);
+
+        $business_executive = Role::create(['name' => 'business_executive']);
+
+        $business_executive->givePermissionTo([
+            'admin.factoring.fees_history.index',
+            'admin.factoring.fees_history.show',
+            'admin.factoring.applications.index',
+            'admin.factoring.applications.show',
+            'admin.factoring.quote.index',
+            'admin.factoring.quote.show',
+            'admin.clients.index',
+            'admin.clients.show',
+            'admin.factoring.disbursements.index',
+            'admin.factoring.disbursements.show',
+        ]);
+
 
         //User Admin
         $user = User::find(1); 

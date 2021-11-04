@@ -57,7 +57,7 @@
 												'border-red-200 text-red-800 bg-red-100': event.event_theme === 'red',
 												'border-yellow-200 text-yellow-800 bg-yellow-100': event.event_theme === 'yellow',
 												'border-green-200 text-green-800 bg-green-100': event.event_theme === 'green',
-												'border-purple-200 text-purple-800 bg-purple-100': event.event_theme === 'purple'
+												'border-blue-200 text-blue-800 bg-blue-100': event.event_theme === 'blue'
 											}">
                                                 <p x-text="event.event_title" class="text-sm leading-tight truncate"></p>
                                             </div>
@@ -173,8 +173,8 @@
                                 label: "Green Theme"
                             },
                             {
-                                value: "purple",
-                                label: "Purple Theme"
+                                value: "blue",
+                                label: "blue Theme"
                             }
                         ],
 

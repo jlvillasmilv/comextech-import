@@ -2,12 +2,10 @@
 
 namespace App\Models\Factoring;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class FileDisbursement extends Model
 {
-    use SoftDeletes;
 
     protected $table = 'factoring_file_disbursements';
 

@@ -332,7 +332,7 @@
                         <ul class="inline-flex items-center">
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                                    class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-blue"
                                     aria-label="Previous">
                                     <svg aria-hidden="true" class="w-4 h-4 fill-current"
                                         viewBox="0 0 20 20">
@@ -344,25 +344,25 @@
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     1
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     2
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 text-white transition-colors duration-150 bg-blue-600 border border-r-0 border-blue-600 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     3
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     4
                                 </button>
                             </li>
@@ -371,19 +371,19 @@
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     8
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     9
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                                    class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-blue"
                                     aria-label="Next">
                                     <svg class="w-4 h-4 fill-current" aria-hidden="true"
                                         viewBox="0 0 20 20">
@@ -451,7 +451,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -461,7 +461,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -508,7 +508,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -518,7 +518,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -565,7 +565,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -575,7 +575,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -622,7 +622,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -632,7 +632,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -679,7 +679,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -689,7 +689,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -736,7 +736,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -746,7 +746,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -793,7 +793,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -803,7 +803,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -850,7 +850,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -860,7 +860,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -907,7 +907,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -917,7 +917,7 @@
                                         </svg>
                                     </button>
                                     <button
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Delete">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                             viewBox="0 0 20 20">
@@ -944,7 +944,7 @@
                         <ul class="inline-flex items-center">
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                                    class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-blue"
                                     aria-label="Previous">
                                     <svg class="w-4 h-4 fill-current" aria-hidden="true"
                                         viewBox="0 0 20 20">
@@ -956,25 +956,25 @@
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     1
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     2
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 text-white transition-colors duration-150 bg-blue-600 border border-r-0 border-blue-600 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     3
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     4
                                 </button>
                             </li>
@@ -983,19 +983,19 @@
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     8
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-blue">
                                     9
                                 </button>
                             </li>
                             <li>
                                 <button
-                                    class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                                    class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-blue"
                                     aria-label="Next">
                                     <svg class="w-4 h-4 fill-current" aria-hidden="true"
                                         viewBox="0 0 20 20">

@@ -38,6 +38,7 @@ class BankAccountController extends Controller
     public function store(BankAccountRequest $request)
     {
         $bankAccount = new BankAccount;
+        $bankAccount->user_id = auth()->user()->id;
         $bankAccount->fill($request->all());
         $bankAccount->save();
 

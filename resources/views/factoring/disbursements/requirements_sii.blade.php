@@ -23,7 +23,7 @@
               </div>
               <div class="row justify-content-{{ is_null($bankAccounts)? 'center':'between'}} align-content-center " id="FormbankAccounts" >
                       @if (is_null($bankAccounts))
-                        <a href="/clients#/bank"
+                        <a href="{{route('bank-accounts.index')}}"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-flex items-center rounded my-2" >
                           <span class="text">   Agregar Cuentra Corriente </span>
                           <span class="icon ml-2">

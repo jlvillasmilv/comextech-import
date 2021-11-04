@@ -287,9 +287,6 @@ export default {
     },
     methods: {
         AddFielForm() {
-            console.log('this.item', this.item);
-            console.log('loads', this.$store.state.load.loads);
-
             // const { loads } = this.$store.state.load;
             // if (loads[loads.length - 1].length_unit === 'CM') {
             //     this.showIn = false;
@@ -300,7 +297,6 @@ export default {
             this.$store.dispatch('load/addLoad', this.item);
         },
         deleteForm(id) {
-            console.log(this.$store.state.load.loads);
             // const { loads } = this.$store.state.load;
             // if (loads[loads.length - 1].length_unit === 'CM') {
             //     this.showKg = true;
@@ -330,7 +326,6 @@ export default {
             this.$store.dispatch('load/addLoad', this.item);
         },
         changeLoadType(unit) {
-            console.log(true);
             this.$store.dispatch('load/changeLoadType', unit);
         }
     },
@@ -338,6 +333,10 @@ export default {
         ...mapState('load', ['item', 'loads']),
         validateweight() {
             const { loads } = this.$store.state.load;
+
+            if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
+                return false;
+            }
 
             /* switch case para peso unitario en KG y LB */
             switch (
