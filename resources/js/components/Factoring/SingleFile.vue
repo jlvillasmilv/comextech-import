@@ -1,7 +1,7 @@
 <template>
-    <div class="row ">
-        <div class="col mb-2">
-            <div class=" btn-group btn-group-toggle ">
+    <div class="flex flex-wrap -mx-4">
+        <div class="relative -mx-4 flex-grow mb-2 max-w-full">
+            <div class="relative inline-flex align-middle">
                 <div
                     class="file-select"
                     id="src-file1"
@@ -9,23 +9,51 @@
                 >
                     <input type="file" id="file" ref="file" />
                 </div>
-                <label class="btn btn-info">
-                    <i class="fas fa-upload fa-md"> </i>
+                <label
+                    class="-ml-px border border-solid border-transparent px-3 py-1.5 rounded text-base bg-blue-400"
+                >
+                    <i>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </i>
                 </label>
             </div>
         </div>
-        <div class="col ">
+        <div class="flex flex-grow max-w-full relative px-4">
             <a
                 v-if="status"
-                class="btn btn-largue btn-secondary btn-icon-split"
+                class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
                 @click="download()"
             >
-                <span class="icon">
-                    <i class="fas fa-download fa-md"></i>
+                <span class="inline-block px-3 py-3 bg-gray-700 ">
+                    <i>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </i>
                 </span>
-                <span class="text"> Descargar </span>
+                <span class="inline-block px-3 py-1.5"> Descargar </span>
             </a>
-            <h6 v-else class="h6 text-dark mb-4">
+            <h6 v-else class="text-base font-medium mt-1 mb-4">
                 No posee un archivo cargado.
             </h6>
         </div>
@@ -33,12 +61,12 @@
 </template>
 
 <script>
-import Option from "../../config/alert";
+import Option from '../../config/alert';
 export default {
     data() {
         return {
-            title: "Informacion Legal",
-            file: "",
+            title: 'Informacion Legal',
+            file: '',
             status: false
         };
     },
@@ -54,47 +82,47 @@ export default {
         handleFileUpload() {},
         async submitFile() {
             this.$swal.fire(
-                Option("info", "Almacenando tu archivo, un momento!")
+                Option('info', 'Almacenando tu archivo, un momento!')
             );
             this.file = this.$refs.file.files[0];
             let formData = new FormData();
-            formData.append("file", this.file);
-            formData.append("type", this.data);
+            formData.append('file', this.file);
+            formData.append('type', this.data);
             let header = {
                 headers: {
-                    "Content-Type": "multipart/form-data"
+                    'Content-Type': 'multipart/form-data'
                 }
             };
             try {
-                await axios.post("factoring/single-file", formData, header);
+                await axios.post('factoring/single-file', formData, header);
                 this.status = true;
                 this.$swal.fire(
-                    Option("success", "Archivo almacenado exitosamente!")
+                    Option('success', 'Archivo almacenado exitosamente!')
                 );
             } catch (e) {
                 this.$swal.fire(
-                    Option("error", "Ah ocurrido un error intente nuevamente!")
+                    Option('error', 'Ah ocurrido un error intente nuevamente!')
                 );
             }
         },
         download() {
-            var path = "/download-file/" + this.data;
-            var a = document.createElement("A");
+            var path = '/download-file/' + this.data;
+            var a = document.createElement('A');
             a.href = path;
-            a.download = path.substr(path.lastIndexOf("/") + 1);
+            a.download = path.substr(path.lastIndexOf('/') + 1);
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             this.$swal.fire(
                 Option(
-                    "success",
-                    "En un momento su archivo se descargara en su ordenador!"
+                    'success',
+                    'En un momento su archivo se descargara en su ordenador!'
                 )
             );
         },
         async validated() {
             let response = await axios.get(
-                "/download-file-validate/" + this.data
+                '/download-file-validate/' + this.data
             );
             this.status = response.data.status.length > 0 ? true : false;
         }
@@ -117,7 +145,7 @@ export default {
     justify-content: center;
     align-items: center;
     border-radius: 3px;
-    content: "Seleccionar"; /* testo por defecto */
+    content: 'Seleccionar'; /* testo por defecto */
     position: absolute;
     left: 0;
     right: 0;
@@ -129,7 +157,7 @@ export default {
     display: inline-block; /* the default for span */
 }
 
-.file-select input[type="file"] {
+.file-select input[type='file'] {
     opacity: 0;
     width: 150px;
     height: 40px;
@@ -137,6 +165,6 @@ export default {
 }
 
 #src-file1::before {
-    content: "Seleccionar Archivo";
+    content: 'Seleccionar Archivo';
 }
 </style>
