@@ -87,6 +87,16 @@
                   </a>
                 </li>
               @endcan
+              @can('admin.factoring.fee_history.index')
+              <li
+                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                {!! request()->is('factoring/fee_history') ? 'italic font-black' : '' !!} "
+                >
+                  <a class="w-full" href="{{ route('admin.factoring.fee_history.index')}}">
+                    Base calculo
+                  </a>
+                </li>
+              @endcan
             </ul>
 
             

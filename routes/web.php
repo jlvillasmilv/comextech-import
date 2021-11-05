@@ -173,9 +173,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
 Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namespace' => 'App\Http\Controllers\Admin\Factoring', 'middleware' => ['auth:sanctum']], function () {
 
-    Route::resource('applications', 'ApplicationController')->except(['destroy','create']);;
-    Route::resource('disbursements', 'DisbursementController')->except(['destroy','create']);;
-    Route::resource('fee_history', 'FeesHistoryController');
+    Route::resource('applications', 'ApplicationController')->except(['destroy','create']);
+    Route::resource('disbursements', 'DisbursementController')->except(['destroy','create']);
+    Route::resource('fee_history', 'FeesHistoryController')->except(['destroy']);
+    
+    Route::get('fee_edit/fee_history/{id}', 'FeesHistoryController@fee_edit')->name('fee_edit');
+    Route::post('fee_store/fee_history/', 'FeesHistoryController@fee_store')->name('fee_store');
+
     Route::get('download/{id}/{type}', 'DisbursementController@downloadAsset')->name('download');
     
 });
