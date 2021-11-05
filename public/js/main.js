@@ -198,7 +198,7 @@ $(document).ready(function () {
       return fetch(url)
         .then(response => {
           if (!response.ok) {
-            console.log(response);
+           
             throw new Error(response.statusText)
           }
           return response.json()
@@ -208,7 +208,7 @@ $(document).ready(function () {
           Swal.showValidationMessage(
             `Falla al cargar: ${error}`
           )
-          window.setTimeout(function(){location.reload()},3000)
+         //window.setTimeout(function(){location.reload()},3000)
         })
     },
     allowOutsideClick: () => !Swal.isLoading()
