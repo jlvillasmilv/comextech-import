@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin\Factoring;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Factoring\{FeesHistory, ClientPayer};
-use App\Http\Requests\Factoring\FeesHistoryRequest;
+use App\Http\Requests\Admin\Factoring\FeesHistoryRequest;
 use Illuminate\Http\Request;
+use App\Models\Factoring\{FeesHistory, Payer, ClientPayer, Client};
+use App\Models\{User, Setting};
+use Maatwebsite\Excel\Facades\Excel;
 
 class FeesHistoryController extends Controller
 {
@@ -17,7 +19,11 @@ class FeesHistoryController extends Controller
      */
     public function index()
     {
-        //
+        if (! Gate::allows('admin.factoring.fees_history.index')) {
+            return abort(401);
+        }
+
+        return view('admin.factoring.fee_history.index');
     }
 
     /**
@@ -27,7 +33,13 @@ class FeesHistoryController extends Controller
      */
     public function create()
     {
-        //
+        if (! Gate::allows('admin.factoring.fees_history.create')) {
+            return abort(401);
+        }
+
+        $clients = User::has('company')->pluck('name','id');
+
+        return view('admin.factoring.fee_history.form', compact('clients'));
     }
 
     /**
@@ -38,7 +50,46 @@ class FeesHistoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $payer = Payer::firstOrCreate(
+            ['rut' => $request->input('rut')],
+            ['name' => $request->input('name')],
+        );
+        
+        $clientPayer = ClientPayer::firstOrCreate(
+            [
+                'payer_id' => $payer->id,
+                'user_id'  => $request->input('user_id')
+            ]
+        );
+
+        $fee = Setting::first();
+
+        $clientPayer->FeesHistory()->create([
+            'rate'       => $fee->rate,
+            'mora_rate'  => $fee->mora_rate,
+            'discount'   => $fee->discount,
+            'commission' => $fee->commission,
+            'fee_date'   =>  date('Y-m-d'),
+        ]);
+
+        // if(is_null($clientPayer))
+        // {
+        //     $clientPayer = new ClientPayer;
+        //     $clientPayer->payer_id = $payer->id;
+        //     $clientPayer->client_id = $request->input('client_id'); 
+        //     $clientPayer->save(); 
+        //     $fee = Setting::first(); 
+         
+        //     $clientPayer->FeesHistory()->create([
+        //         'rate'       => $fee->rate,
+        //         'mora_rate'  => $fee->mora_rate,
+        //         'discount'   => $fee->discount,
+        //         'commission' => $fee->commission,
+        //         'fee_date'   =>  date('Y-m-d'),
+        //     ]);
+        // }
+        return view('admin.factoring.fee_history.index');
+
     }
 
     /**
@@ -53,9 +104,9 @@ class FeesHistoryController extends Controller
             return abort(401);
         } 
 
-        $data    = ClientPayer::findOrFail($id);
+        $data  = ClientPayer::findOrFail(base64_decode($id));
      
-        return view('admin.fee_history.show', compact('data'));
+        return view('admin.factoring.fee_history.show', compact('data'));
     }
 
     /**
@@ -70,9 +121,10 @@ class FeesHistoryController extends Controller
             return abort(401);
         } 
         
-        $data    =  ClientPayer::findOrFail($id);
+        $data =  ClientPayer::findOrFail(base64_decode($id));
+        $clients = User::has('company')->pluck('name','id');
      
-        return view('admin.fee_history.form', compact('data'));
+        return view('admin.factoring.fee_history.form', compact('data','id','clients'));
     }
 
     /**
@@ -88,7 +140,7 @@ class FeesHistoryController extends Controller
             return abort(401);
         } 
        
-        $data = Payer::findOrFail($id);
+        $data = Payer::findOrFail(base64_decode($id));
 
         $data->fill($request->all())->save();
 
@@ -98,7 +150,7 @@ class FeesHistoryController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return  redirect()->route('admin.fee_history.edit', $data->id);
+        return  redirect()->route('admin.factoring.fee_history.edit', base64_encode($data->id));
     }
 
     /**
@@ -114,16 +166,17 @@ class FeesHistoryController extends Controller
 
     public function fee_edit($id)
     {
-        
-        $fee     = FeesHistory::findOrFail($id);
-        $data    = $fee->ClientPayer;
+        $fee    = FeesHistory::findOrFail($id);
+        $data   = $fee->ClientPayer;
+        $id     = base64_encode($data->id);
+
+        $clients = User::has('company')->pluck('name','id');
        
-        return view('admin.fee_history.form', compact('data','fee'));
+        return view('admin.factoring.fee_history.form', compact('data','fee','clients','id'));
     }
 
     public function fee_store(FeesHistoryRequest $request)
     {
-       
         $fee = FeesHistory::updateOrCreate(
             ['id' =>  request('id')],
             [
@@ -144,7 +197,39 @@ class FeesHistoryController extends Controller
 
             \Session::flash('notification', $notification);
  
-        return  redirect()->route('admin.fee_history.edit', $data->id);
+        return  redirect()->route('admin.factoring.fee_history.edit', base64_encode($data->id));
 
+    }
+
+
+    /**
+     * Import fee history from .xlsx
+     *
+     */
+    public function import() 
+    { 
+        
+        try {
+            Excel::Import(new FeesHistoryImport, request()->file('payers_excel'));
+
+            $notification = array(
+                'message'    => 'Actualizacion Exitosa!',
+                'alert_type' => 'success',
+            );
+            \Session::flash('notification', $notification);
+
+            return redirect('admin/fee_history')->with('status', 'Informacion de Bases de Calculos Actualizada!');
+        } catch (\Throwable $th) {
+
+            $notification = array(
+                'message'    => 'Error al actualizar informacion!',
+                'alert_type' => 'error',
+            );
+            \Session::flash('notification', $notification);
+            
+            return redirect('admin/fee_history')->with('error', 'Tu archivo no cumple con los requisitos!');
+             
+        }
+            
     }
 }
