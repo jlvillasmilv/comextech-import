@@ -216,7 +216,7 @@
             :id="`${source}`"
         >
             <div
-                class="transform-none transition-opacity h-full w-full sm:w-auto relative pointer-events-none sm:mt-16"
+                class="flex transform-none transition-opacity h-28 w-full sm:w-auto relative pointer-events-none sm:mt-16"
                 role="document"
             >
                 <div
