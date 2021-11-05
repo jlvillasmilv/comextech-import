@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Exports\PayersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +29,7 @@ Route::get('/', function () {
 // })->name('dashboard');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-    
+   
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
      Route::post('asupplier/remove', 'App\Http\Controllers\Web\SupplierController@remove')
     ->name('supplier.remove'); 
@@ -181,5 +183,12 @@ Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namesp
     Route::post('fee_store/fee_history/', 'FeesHistoryController@fee_store')->name('fee_store');
 
     Route::get('download/{id}/{type}', 'DisbursementController@downloadAsset')->name('download');
+
+    Route::get('/payers/export', 'PayerController@export')->name('payers.export');
+    Route::post('/feehistory/import', 'FeesHistoryController@import')->name('feehistory.import.excel');
+
+
+    Route::get('ventas/detalle', 'SiiController@ventas_detalle')->name('ventas.detalle');
+    Route::get('compras/detalle', 'SiiController@compras_detalle')->name('compras.detalle');
     
 });

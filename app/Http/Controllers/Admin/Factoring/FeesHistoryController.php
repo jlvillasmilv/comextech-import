@@ -188,7 +188,7 @@ class FeesHistoryController extends Controller
                 'fee_date'   => date('Y-m-d')
             ]
         );
-
+ // antecedentes
         $data = $fee->ClientPayer;
     
         $notification = array(
@@ -218,7 +218,8 @@ class FeesHistoryController extends Controller
             );
             \Session::flash('notification', $notification);
 
-            return redirect('admin/fee_history')->with('status', 'Informacion de Bases de Calculos Actualizada!');
+            return redirect('admin/factoring/fee_history')
+            ->with('status', 'Informacion de Bases de Calculos Actualizada!');
         } catch (\Throwable $th) {
 
             $notification = array(
@@ -227,7 +228,8 @@ class FeesHistoryController extends Controller
             );
             \Session::flash('notification', $notification);
             
-            return redirect('admin/fee_history')->with('error', 'Tu archivo no cumple con los requisitos!');
+            return redirect('admin/factoring/fee_history')
+            ->with('error', 'Tu archivo no cumple con los requisitos!');
              
         }
             

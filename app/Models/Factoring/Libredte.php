@@ -76,7 +76,7 @@ class Libredte extends Model
             $credential = is_null($credential) ? false : $credential->toArray();
             //validar datos
 
-           // dd(base64_decode($credential['provider_password']));
+            //dd(base64_decode($credential['provider_password']));
            
 
             $validated = [
@@ -115,7 +115,6 @@ class Libredte extends Model
             }';
 
 
-            https://api.libredte.cl/api/v1/sii/rcv/ventas/detalle/76722268-8/202110/0?formato=json&certificacion=0&tipo=rcv_csv
 
             $httpResponse = Http::withToken($token)
                 ->withBody($body, 'application/json')
@@ -123,12 +122,17 @@ class Libredte extends Model
                     'Accept' => 'application/json',
                 ])->post($url);
 
+                // dd($httpResponse);
+
             $validate = json_decode($httpResponse, true);
 
             if(array_key_exists('message', $validate) ){
 
-                $msg = $validate['code'] !== 401 ? 'Api LibreDTE se encuentra en mantenimiento!' : $validate['message'];
-                return ['status' => 403, 'msg' => $msg ];
+                $msg = $validate['code'] !== 401 ?  $validate['message'] :'Api LibreDTE se encuentra en mantenimiento!';
+
+                return response()->json(['error' =>  $msg], $validate['code']);
+                
+                //return ['status' => 403, 'msg' => $msg ];
             }
 
             $limit = isset($httpResponse->headers()['X-RateLimit-Limit'][0]) ? $httpResponse->headers()['X-RateLimit-Limit'][0] : 0;

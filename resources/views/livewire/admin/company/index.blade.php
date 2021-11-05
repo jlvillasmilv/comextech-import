@@ -32,7 +32,7 @@
 
    <div class="w-full overflow-hidden rounded-lg shadow-xs">
        <div class="w-full overflow-x-auto">
-           <table class="w-full whitespace-no-wrap">
+           <table class="w-full whitespace-no-wrap" id="table">
                <thead>
                    <tr
                        class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -72,6 +72,7 @@
                        </td>
                        <td class="px-4 py-3 text-sm">
                            {{ $client->user->name }}
+                          
                        </td>
                        <td class="px-4 py-3">
                            <div class="flex items-center space-x-4 text-sm">
@@ -90,6 +91,40 @@
                                    </svg>
                                </a>
                                @endcan
+                               @if ($client->user->credentialStores()->where('provider_name', 'SII')->first())
+                                
+                               
+                               @can('client.show')
+                               <a  href="#" 
+                                   class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync"
+                                    data-type="Ventas"
+                                    data-remote="{{ route('admin.factoring.ventas.detalle').'?client_id='.$client->user->id.'&month=12'}}" 
+                                    title="Sincorinzar ultimos 24 meses del Sii"
+                                   aria-label="Edit">
+                                  
+                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                  </svg>
+                               </a>
+
+                               <a  href="#" 
+                                   class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-300 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync"
+                                    data-type="Compras"
+                                    data-remote="{{ route('admin.factoring.compras.detalle').'?client_id='.$client->user->id.'&month=12'}}" 
+                                    title="Sincorinzar ultimos 24 meses del Sii compras"
+                                   aria-label="Edit">
+                                  
+                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
+                                  </svg>
+                               </a>
+                               @endcan
+
+                               @endif
+
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                
+                              </svg>
                               
                            </div>
                        </td>
