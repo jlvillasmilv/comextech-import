@@ -2,14 +2,27 @@
     <div class="flex flex-wrap -mx-4">
         <div class="relative -mx-4 flex-grow mb-2 max-w-full">
             <div class="relative inline-flex align-middle">
-                <div
-                    class="file-select"
-                    id="src-file1"
-                    v-on:change="submitFile()"
-                >
-                    <input type="file" id="file" ref="file" />
+                <div class="" id="src-file1">
+                    <!-- w-64 flex flex-colitems-center px-4 py-6 bg-whiterounded-md shadow-md tracking-wide uppercase border bg-blue-800 cursor-pointer hover:bg-purple-600 hover:text-whitetext-purple-600 ease-linear transition-all duration-150 -->
+                    <label
+                        class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-800 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
+                    >
+                        <span class="px-2 py-1 mt-2 text-base leading-normal"
+                            >Seleccionar Archivo</span
+                        >
+                        <input
+                            type="file"
+                            id="file"
+                            ref="file"
+                            class="hidden"
+                        />
+                        <button
+                            v-on:change="submitFile()"
+                            class="px-1 fas fa-cloud-upload-alt fa-2x"
+                        ></button>
+                    </label>
                 </div>
-                <label
+                <!-- <label
                     class="-ml-px border border-solid border-transparent px-3 py-1.5 rounded text-base bg-blue-400"
                 >
                     <i>
@@ -26,7 +39,7 @@
                             />
                         </svg>
                     </i>
-                </label>
+                </label> -->
             </div>
         </div>
         <div class="flex flex-grow max-w-full relative px-4">
@@ -133,31 +146,31 @@ export default {
 };
 </script>
 <style scoped>
-.file-select {
+/* .file-select {
     position: relative;
     display: inline-block;
-}
+} */
 
-.file-select::before {
+/* .file-select::before {
     background-color: #6dc5d3;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
-    content: 'Seleccionar'; /* testo por defecto */
+    content: 'Seleccionar'; 
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-}
-.team {
+} */
+/* .team {
     position: relative;
-    display: inline-block; /* the default for span */
-}
+    display: inline-block; 
+} */
 
-.file-select input[type='file'] {
+/* .file-select input[type='file'] {
     opacity: 0;
     width: 150px;
     height: 40px;
@@ -166,5 +179,5 @@ export default {
 
 #src-file1::before {
     content: 'Seleccionar Archivo';
-}
+} */
 </style>
