@@ -32,6 +32,7 @@ class ClientPayer extends Model
     {
         return $this->hasMany(FeesHistory::class);
     }
+    
 
     public function InvoiceHistory()
     {
