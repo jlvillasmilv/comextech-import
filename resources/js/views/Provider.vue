@@ -5,7 +5,7 @@
                 <div class="flex flex-warp mb-4 justify-between">
                     <div class="flex w-3/5">
                         <img
-                            src="img/SII.png"
+                            src="/img/SII.png"
                             class="img-responsive"
                             alt="SII"
                             width="100"
