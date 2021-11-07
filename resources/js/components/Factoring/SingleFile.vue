@@ -135,7 +135,7 @@ export default {
         },
         async validated() {
             let response = await axios.get(
-                '/download-file-validate/' + this.data
+                '/factoring/download-file-validate/' + this.data
             );
             this.status = response.data.status.length > 0 ? true : false;
         }

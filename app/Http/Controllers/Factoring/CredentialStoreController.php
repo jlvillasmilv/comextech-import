@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Factoring;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Client\UpdateCredentialRequest;
+use App\Http\Requests\Web\Factoring\UpdateCredentialRequest;
 use App\Http\Controllers\Controller;
 
 class CredentialStoreController extends Controller
 {
     public function index($name_provider)
     {
-        $client     = auth()->user()->client;
+        $client     = auth()->user();
         $credential = $client->credentialStores()->where('provider_name', $name_provider)->get();
         
         $credential = !isset($credential[0])? [ 'id'=> null, 'provider_password' => null] : $credential[0];
