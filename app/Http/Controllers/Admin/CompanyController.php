@@ -95,8 +95,8 @@ class CompanyController extends Controller
 
     public function legal($id)
     {
-        $data    = ClientLegalInfo::findOrFail($id);
-        $company  = Company::where('id', $data->client_id)->firstOrFail();
+        $data     = ClientLegalInfo::findOrFail($id);
+        $company  = Company::where('user_id', $data->client_id)->firstOrFail();
 
         return view('admin.clients.form', compact('company','data'));
     }
@@ -108,7 +108,7 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
         if (! Gate::allows('admin.clients.edit')) {
             return abort(401);
@@ -120,13 +120,15 @@ class CompanyController extends Controller
         $data->user_id = auth()->user()->id;
         $data->save();
 
+        $company = Company::where('user_id',$data->client_id)->firstOrFail();
+
         $notification = array(
             'message'    => 'Actualizacion Exitosa!',
             'alert_type' => 'success',);
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.clients.edit', $data->client_id);
+        return redirect()->route('admin.clients.edit', $company->id);
     }
 
     /**

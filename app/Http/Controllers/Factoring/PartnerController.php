@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Factoring;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Partners\UpdateOrCreateRequest;
+use App\Http\Requests\Web\Factoring\Partners\UpdateOrCreateRequest;
 use App\Models\Partner;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,7 @@ class PartnerController extends Controller
 {
     public function index()
     {
-         $client  = auth()->user()->client;
+         $client  = auth()->user();
          $company = $client->company;
          $company->partners;
         

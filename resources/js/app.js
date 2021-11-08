@@ -68,6 +68,7 @@ import Tabs from 'vue-tabs-component';
 Vue.use(Tabs);
 
 import Quote from './views/Quote';
+import Menu from './components/Factoring/Menu'
 
 /* Vue-good-table */
 import VueGoodTablePlugin from 'vue-good-table';
@@ -81,6 +82,7 @@ const app = new Vue({
     store,
     components: {
         'home-import-app': Import,
-        'view-quote': Quote
+        'view-quote': Quote,
+        'menu-profile': Menu,
     }
 });

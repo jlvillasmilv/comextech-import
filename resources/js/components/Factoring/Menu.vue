@@ -1,47 +1,47 @@
 <template>
-    <div class="p-1">
-        <div class="row justify-content-center">
-            <ItemMenu title="Perfil" path="profile" icon="user"></ItemMenu>
-            <ItemMenu
-                title="Cuentas Corrientes"
-                path="bank"
-                icon="landmark"
-            ></ItemMenu>
-            <ItemMenu
-                title="Informacion Legal"
-                path="legalInfo"
-                icon="balance-scale"
-            ></ItemMenu>
-            <ItemMenu
-                title="Informacion Financiera"
-                path="finacialInfo"
-                icon="file-invoice-dollar"
-            ></ItemMenu>
-            <ItemMenu
-                title="SII y Previred"
-                path="providers"
-                icon="file-building"
-            ></ItemMenu>
-        </div>
-        <div class="row justify-content-center">
-            <div
-                class="col-12 bg-white border p-3 border-bottom-primary"
-                style="width:auto;"
-            >
-                <keep-alive>
-                    <router-view></router-view>
-                </keep-alive>
+    <tabs>
+        <tab name="Informacion Legal">
+            <div>
+                <LegalInfo />
             </div>
-        </div>
-    </div>
+        </tab>
+        <tab name="Informacion Financiera">
+            <div>
+                <FinancialInfo/>
+            </div>
+        </tab>
+        <tab name="SII y Previred">
+            <div>
+                <Provider />
+            </div>
+        </tab>
+    </tabs>
 </template>
 
 <script>
-import ItemMenu from "./ItemMenu";
+
+import LegalInfo from "../../views/LegalInfo";
+import FinancialInfo from "../../views/FinancialInfo";
+import Provider from "../../views/Provider"
 
 export default {
+    name: "Menu",
+    data: function() {
+        return {
+            data: {}
+        };
+    },
     components: {
-        ItemMenu: ItemMenu
-    }
+       LegalInfo,
+       FinancialInfo,
+       Provider
+    },
+    computed: {},
+    methods: {},
+    created() {
+        let user = JSON.parse(
+            document.head.querySelector('meta[name="user"]').content
+        );
+    },
 };
 </script>

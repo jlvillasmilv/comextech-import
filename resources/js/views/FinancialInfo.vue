@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import SingleFile from "../components/SingleFile";
-import DownloadFile from "../components/DownloadFile";
+import SingleFile from "../components/Factoring/SingleFile";
+import DownloadFile from "../components/Factoring/DownloadFile";
 
 export default {
     data() {
