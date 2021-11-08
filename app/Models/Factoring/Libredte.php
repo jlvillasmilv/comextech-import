@@ -14,7 +14,11 @@ class Libredte extends Model
 
     protected $guarded = [];
 
-
+    
+    /**
+     * Conect to API Libredte to consult RUT
+     *
+     */
     public function rut($rut)
     {
 
@@ -60,43 +64,43 @@ class Libredte extends Model
     }
 
 
+     /**
+     * Conect to API Libredte to consult rcv
+     *
+     */
     public function PurchaseSalesRecord($data)
     {
+        $log = $this->firstOrCreate(
+            ['date_limit' =>  date('Y-m-d')],
+            ['limit' => 0, 'remaining' => 500]
+        );
 
-            $log = $this->firstOrCreate(
-                ['date_limit' =>  date('Y-m-d')],
-                ['limit' => 0, 'remaining' => 500]
-            );
-
-            $client     = \App\Models\User::findOrFail($data['client_id']);
-            $credential = $client->credentialStores()->where('provider_name', 'SII')->first();
+        $client     = \App\Models\User::findOrFail($data['client_id']);
+        $credential = $client->credentialStores()->where('provider_name', 'SII')->first();
            
-            $company    = $client->company;
-            $setting    = \App\Models\Setting::firstOrFail();
-            $credential = is_null($credential) ? false : $credential->toArray();
-            //validar datos
+        $company    = $client->company;
+        $setting    = \App\Models\Setting::firstOrFail();
+        $credential = is_null($credential) ? false : $credential->toArray();
+        //validar datos
 
-            //dd(base64_decode($credential['provider_password']));
-           
-
-            $validated = [
-                'Ingrese su contraseña del SII, haz tu proceso mas facil' => !$credential,
-                'No posee datos Empresariales' => is_null($company->tax_id) or strlen($company->tax_id) <= 0,
+        $validated = [
+            'Ingrese su contraseña del SII, haz tu proceso mas facil' => !$credential,
+            'No posee datos Empresariales' => is_null($company->tax_id) or strlen($company->tax_id) <= 0,
                 'No tiene credenciales Sii configuradas' => strlen($setting->api_sii) <= 4 or strlen($setting->token_sii) <= 4
-            ];
+        ];
 
-            foreach ($validated as $key => $value) {
-                if($value){
-                    return ['status' => 403, 'msg' => $key];
-                }
+        foreach ($validated as $key => $value) {
+            if($value){
+                return ['status' => 403, 'msg' => $key];
             }
+        }
             //variables
-            $rut    = $company->tax_id;
-            $pass   = base64_decode($credential['provider_password']);
-            $token  = $setting->token_sii;
-            $period = Carbon::now();
-            $month  = $data['month'];
-            $responseMerged = array();
+        $rut    = $company->tax_id;
+        $pass   = base64_decode($credential['provider_password']);
+        $token  = $setting->token_sii;
+        $period = Carbon::now();
+        $month  = $data['month'];
+        $responseMerged = array();
 
 
         for ($i = 1; $i <= $month; $i++) {
@@ -114,25 +118,20 @@ class Libredte extends Model
                 }
             }';
 
-
-
             $httpResponse = Http::withToken($token)
                 ->withBody($body, 'application/json')
                 ->withHeaders([
                     'Accept' => 'application/json',
                 ])->post($url);
 
-                // dd($httpResponse);
-
             $validate = json_decode($httpResponse, true);
 
             if(array_key_exists('message', $validate) ){
 
-                $msg = $validate['code'] !== 401 ?  $validate['message'] :'Api LibreDTE se encuentra en mantenimiento!';
+                $msg =   $validate['message'] ;
 
-                return response()->json(['error' =>  $msg], $validate['code']);
-                
-                //return ['status' => 403, 'msg' => $msg ];
+                return ['status' => 403, 'msg' =>  $msg];
+                               
             }
 
             $limit = isset($httpResponse->headers()['X-RateLimit-Limit'][0]) ? $httpResponse->headers()['X-RateLimit-Limit'][0] : 0;
@@ -157,24 +156,27 @@ class Libredte extends Model
                     );
 
                     $clientPayer->InvoiceHistory()->updateOrCreate(
-                        ['client_payer_id' => $clientPayer->id, 'folio' =>  $item->folio ],
                         [
-                            'dte'              =>  $item->dte,
-                            'tipo_transaccion' =>  $item->tipo_transaccion,
-                            'fecha'            =>  $item->fecha,
-                            'fecha_recepcion'  =>  $item->fecha,
-                            'fecha_acuse'      =>  $item->fecha_acuse,
-                            'fecha_reclamo'    =>  $item->fecha_reclamo,
-                            'exento'           =>  $item->exento,
-                            'neto'             =>  $item->neto,
-                            'iva'              =>  $item->iva,
-                            'total'            =>  $item->total,
-                            'iva_retencion_total'   =>  $item->iva_retencion_total,
-                            'iva_retencion_parcial' =>  $item->iva_retencion_parcial,
-                            'iva_no_retenido'       =>  $item->iva_no_retenido,
-                            'iva_propio'            =>  $item->iva_propio,
-                            'iva_terceros'          =>  $item->iva_terceros,
-                            'liquidacion_rut'       =>  $item->liquidacion_rut,
+                            'client_payer_id' => $clientPayer->id,
+                            'folio'           => $item->folio,
+                        ],
+                        [
+                            'dte'                       =>  $item->dte,
+                            'tipo_transaccion'          =>  $item->tipo_transaccion,
+                            'fecha'                     =>  $item->fecha,
+                            'fecha_recepcion'           =>  $item->fecha,
+                            'fecha_acuse'               =>  $item->fecha_acuse,
+                            'fecha_reclamo'             =>  $item->fecha_reclamo,
+                            'exento'                    =>  $item->exento,
+                            'neto'                      =>  $item->neto,
+                            'iva'                       =>  $item->iva,
+                            'total'                     =>  $item->total,
+                            'iva_retencion_total'       =>  $item->iva_retencion_total,
+                            'iva_retencion_parcial'     =>  $item->iva_retencion_parcial,
+                            'iva_no_retenido'           =>  $item->iva_no_retenido,
+                            'iva_propio'                =>  $item->iva_propio,
+                            'iva_terceros'              =>  $item->iva_terceros,
+                            'liquidacion_rut'           =>  $item->liquidacion_rut,
                             'liquidacion_comision_neto'   =>  $item->liquidacion_comision_neto,
                             'liquidacion_comision_exento' =>  $item->liquidacion_comision_exento,
                             'liquidacion_comision_iva'    =>  $item->liquidacion_comision_iva,
@@ -203,11 +205,14 @@ class Libredte extends Model
 
                 if( $data['type'] == 'COMPRAS'){
                     PurchaseHistory::updateOrCreate(
-                        ['client_id' => $client->id, 'folio' =>  $item->folio ],
+                        [
+                            'user_id'   => $client->id,
+                            'folio'     => $item->folio,
+                            'payer_id'  => $payer->id,
+                        ],
                         [
                             'dte'              =>  $item->dte,
                             'tipo_transaccion' =>  $item->tipo_transaccion,
-                            'payer_id'         =>  $payer->id,
                             'fecha'            =>  $item->fecha,
                             'fecha_recepcion'  =>  $item->fecha,
                             'fecha_acuse'      =>  $item->fecha_acuse,
