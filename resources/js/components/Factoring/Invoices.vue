@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isLoanding" class="relative w-8/12 px-6 text-center">
-        <div v-if="!StatusSii" class="flex flex-col justify-around w-full">
+    <div v-if="isLoanding" class="relative w-auto text-center">
+        <div v-if="StatusSii" class="flex flex-col justify-around w-full">
             <h6 class="font-bold">
                 Registra tus credenciales del SII y has tu proceso mas facil!
             </h6>
