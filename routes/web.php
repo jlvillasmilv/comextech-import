@@ -142,7 +142,7 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
    
      //fileStore
     Route::post('file', 'FileStoreController@addFileClient')->name('xml.add'); 
-    
+
     Route::get('ventas/detalle', 'SiiController@ventas_detalle')->name('ventas.detalle');
     Route::get('compras/detalle', 'SiiController@compras_detalle')->name('compras.detalle');
     

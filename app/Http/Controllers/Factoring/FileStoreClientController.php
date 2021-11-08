@@ -24,7 +24,7 @@ class FileStoreClientController extends Controller
 
     public function show($name)
     {   
-        $client  = auth()->user()->client;
+        $client  = auth()->user();
         $files   = $client->FileStoreClient()->where("type", $name)->get();
         $file    = $files->last();
         $name    = $file->FileStore->original_name;
@@ -32,8 +32,8 @@ class FileStoreClientController extends Controller
     }
     public function validatedFile($name)
     {   
-        $client  = auth()->user()->client;
-        $files   = $client->FileStoreClient()->where("type", $name)->get();
+        $files   = auth()->user()->FileStoreClient()
+        ->where("type", $name)->get();
          
         return response()->json(['status' => $files], 200);
     }

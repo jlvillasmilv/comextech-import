@@ -30,16 +30,10 @@
               <span>Nuevo </span>
             </a>
           </div>
-
-        
-
-         
     
          @endcan
 
 
-
-          
         </div>
         
         <div>

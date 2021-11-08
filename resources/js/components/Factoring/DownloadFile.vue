@@ -28,7 +28,7 @@ export default {
     methods: {
         async download() {
             let response = await axios.get(
-                "/download-file-validate/" + this.file
+                "/factoring/download-file-validate/" + this.file
             );
             this.status = response.data.exist;
             if (response.data.status) {

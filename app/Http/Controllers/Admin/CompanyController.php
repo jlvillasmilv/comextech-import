@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Factoring\{ClientLegalInfo ,FileStoreClient};
 use Illuminate\Http\Request;
 use App\Http\Requests\CompanyRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -26,7 +28,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
-       
+        if (! Gate::allows('admin.clients.create')) {
+            return abort(401);
+        }  
     }
 
     /**
@@ -37,7 +41,22 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (! Gate::allows('admin.clients.create')) {
+            return abort(401);
+        }
+
+        $data = new ClientLegalInfo;
+        $data->fill($request->all());
+        $data->user_id = auth()->user()->id;
+        $data->save();
+
+        $notification = array(
+            'message'    => 'Actualizacion Exitosa!',
+            'alert_type' => 'success',);
+
+            \Session::flash('notification', $notification);
+
+        return redirect()->route('admin.clients.edit', $data->client_id);
     }
 
     /**
@@ -48,7 +67,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        if (! Gate::allows('clients.show')) {
+        if (! Gate::allows('admin.clients.show')) {
             return abort(401);
         }
 
@@ -63,9 +82,23 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company)
+    public function edit($id)
     {
-        //
+        if (! Gate::allows('admin.clients.edit')) {
+            return abort(401);
+        }
+
+        $company  = Company::findOrFail($id);
+
+        return view('admin.clients.form', compact('company'));
+    }
+
+    public function legal($id)
+    {
+        $data    = ClientLegalInfo::findOrFail($id);
+        $company  = Company::where('id', $data->client_id)->firstOrFail();
+
+        return view('admin.clients.form', compact('company','data'));
     }
 
     /**
@@ -77,7 +110,23 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        if (! Gate::allows('admin.clients.edit')) {
+            return abort(401);
+        }
+
+        $data = ClientLegalInfo::findOrFail($id);
+
+        $data->fill($request->all());
+        $data->user_id = auth()->user()->id;
+        $data->save();
+
+        $notification = array(
+            'message'    => 'Actualizacion Exitosa!',
+            'alert_type' => 'success',);
+
+        \Session::flash('notification', $notification);
+
+        return redirect()->route('admin.clients.edit', $data->client_id);
     }
 
     /**
@@ -90,4 +139,27 @@ class CompanyController extends Controller
     {
         //
     }
+
+    public function excutive(Request $request)
+    {
+        $data  = Company::findOrFail($request->input('id'));
+        $data->fill($request->all());
+        $data->save();
+
+        $notification = array(
+            'message'    => 'Ejecutivo Asignado, exitosamente!',
+            'alert_type' => 'success'
+        );
+
+        \Session::flash('notification', $notification);
+        return redirect()->route('admin.clients.edit', $data->id);
+    }
+
+    public function download_file($id)
+    {
+        $files   = FileStoreClient::where("id", $id)->first();
+        $name    = $files->FileStore->original_name;
+        return Storage::disk('s3')->response('file/'.$name);
+    }
+
 }

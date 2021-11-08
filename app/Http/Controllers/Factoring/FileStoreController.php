@@ -52,8 +52,6 @@ class FileStoreController extends Controller
            // $file_xml = simplexml_load_file($request->file('file'));
             $array = isset($newArr['SetDTE']['DTE'])? $newArr['SetDTE']['DTE']  : $newArr;
 
-
-            
             $emitter_rut = $array['Documento']['Encabezado']['Emisor']['RUTEmisor'];
 
             $client =  auth()->user();
@@ -213,7 +211,7 @@ class FileStoreController extends Controller
     {
         // 100210
 
-        $client     = auth()->user()->client;
+        $client     = auth()->user();
         $credential = $client->credentialStores()->where('provider_name', 'SII')->get();
         $credential = !isset($credential[0])? false : $credential[0];
         $company    = $client->company;
@@ -287,7 +285,6 @@ class FileStoreController extends Controller
         $responseMerged = array_merge($responseMerged, json_decode($response));
         
          curl_close($curl);
-
 
          $period =  $period-1; 
 

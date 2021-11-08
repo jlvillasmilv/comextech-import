@@ -201,7 +201,6 @@ class FeesHistoryController extends Controller
 
     }
 
-
     /**
      * Import fee history from .xlsx
      *

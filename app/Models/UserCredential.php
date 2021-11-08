@@ -8,7 +8,8 @@ class UserCredential extends Model
 {
     protected $table = 'user_credentials';
     protected $fillable = [
-        'user_id', 'provider_name',
+        'user_id',
+        'provider_name',
         'provider_password',
         'contract_status'
     ];

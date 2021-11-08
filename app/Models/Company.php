@@ -24,6 +24,7 @@ class Company extends Model
 
     public $orderable = [
         'id',
+        'executive_id',
         'tax_id',
         'name',
         'email',
