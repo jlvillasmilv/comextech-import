@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-wrap -mx-4">
+    <div class="flex flex-wrap items-center -mx-4">
         <div class="relative -mx-4 flex-grow mb-2 max-w-full">
             <div class="relative inline-flex align-middle">
                 <div class="" id="src-file1">
