@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-wrap items-center -mx-4">
+    <div class="flex flex-wrap justify-around items-center mx-8">
         <div class="relative -mx-4 flex-grow mb-2 max-w-full">
             <div class="relative inline-flex align-middle">
                 <div
@@ -17,7 +17,7 @@
                 </label>
             </div>
         </div>
-        <div class="flex flex-grow max-w-full relative px-4">
+        <div class="flex flex-grow max-w-full relative px-4 ml-4">
             <a
                 v-if="status"
                 class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
