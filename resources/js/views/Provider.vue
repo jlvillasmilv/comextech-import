@@ -17,11 +17,11 @@
                 <div class="mb-4">
                     <label class="text-gray-600"> Actualizar Contraseña </label>
                     <div
-                        class="relative flex flex-wrap items-stretch w-full mb-2"
+                        class="relative flex flex-wrap justify-around items-stretch w-full mb-2"
                     >
                         <div @click="passwordOldStatusIcon">
                             <div
-                                class="flex whitespace-nowrap h-10 items-center px-3 py-1.5 text-base text-center font-normal text-gray-400 bg-gray-200 border-transparent"
+                                class="invisible sm:visible flex whitespace-nowrap h-10 items-center px-3 py-1.5 text-base text-center font-normal text-gray-400 bg-gray-200 border-transparent"
                             >
                                 <i>
                                     <svg
@@ -132,13 +132,14 @@ export default {
         async updatePassword() {
             if (this.credentialSII.provider_password.length > 2) {
                 let response = await axios.post(
-                    '/clients/' + this.client.id + '/credential',
+                    '/factoring/clients/' + this.client.id + '/credential',
                     {
                         id: this.credentialSII.id,
                         providerName: 'SII',
                         password: this.credentialSII.provider_password
                     }
                 );
+
                 this.$emit('updatePassword');
                 this.$swal.fire(Option('success', 'Actualizacion Exitosa!'));
                 this.credentialSII.provider_password =
@@ -148,7 +149,9 @@ export default {
         },
         async getCredential() {
             var provider_name = 'SII';
-            let response = await axios.get('/credentials/' + provider_name);
+            let response = await axios.get(
+                '/factoring/credentials/' + provider_name
+            );
             this.client = response.data.client;
             this.credentialSII = response.data.credential;
         }

@@ -1,7 +1,7 @@
 <template>
     <tabs>
         <tab name="Facturas(SII)">
-            <div>
+            <div class="flex justify-around">
                 <invoceStore></invoceStore>
             </div>
         </tab>
@@ -17,15 +17,15 @@
 </template>
 
 <script>
-import vue2Dropzone from "vue2-dropzone";
-import Invoice from "../components/Factoring/Invoices";
-import FormXml from "../components/Factoring/FormXml";
-import "vue2-dropzone/dist/vue2Dropzone.min.css";
- 
-const moment = require("moment");
+import vue2Dropzone from 'vue2-dropzone';
+import Invoice from '../components/Factoring/Invoices';
+import FormXml from '../components/Factoring/FormXml';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+
+const moment = require('moment');
 
 export default {
-    name: "Quote",
+    name: 'Quote',
     data: function() {
         return {
             data: {}

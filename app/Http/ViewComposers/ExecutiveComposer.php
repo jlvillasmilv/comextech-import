@@ -3,7 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\Contracts\View\View;
-use App\User;
+use App\Models\User;
 
 class ExecutiveComposer {
 

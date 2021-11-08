@@ -1,48 +1,23 @@
 <template>
-    <div class="flex flex-wrap -mx-4">
+    <div class="flex flex-wrap justify-around items-center mx-8">
         <div class="relative -mx-4 flex-grow mb-2 max-w-full">
             <div class="relative inline-flex align-middle">
-                <div class="" id="src-file1">
-                    <!-- w-64 flex flex-colitems-center px-4 py-6 bg-whiterounded-md shadow-md tracking-wide uppercase border bg-blue-800 cursor-pointer hover:bg-purple-600 hover:text-whitetext-purple-600 ease-linear transition-all duration-150 -->
-                    <label
-                        class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-800 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
-                    >
-                        <span class="px-2 py-1 mt-2 text-base leading-normal"
-                            >Seleccionar Archivo</span
-                        >
-                        <input
-                            type="file"
-                            id="file"
-                            ref="file"
-                            class="hidden"
-                        />
-                        <button
-                            v-on:change="submitFile()"
-                            class="px-1 fas fa-cloud-upload-alt fa-2x"
-                        ></button>
-                    </label>
-                </div>
-                <!-- <label
-                    class="-ml-px border border-solid border-transparent px-3 py-1.5 rounded text-base bg-blue-400"
+                <div
+                    class="file-select"
+                    id="src-file1 "
+                    v-on:change="submitFile()"
                 >
-                    <i>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </i>
-                </label> -->
+                    <input type="file" id="file" ref="file" />
+                </div>
+
+                <label
+                    class="-ml-1 px-2 py-1 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-800 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
+                >
+                    <i class="px-1 fas fa-cloud-upload-alt fa-2x"></i>
+                </label>
             </div>
         </div>
-        <div class="flex flex-grow max-w-full relative px-4">
+        <div class="flex flex-grow max-w-full relative px-4 ml-4">
             <a
                 v-if="status"
                 class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
@@ -135,7 +110,7 @@ export default {
         },
         async validated() {
             let response = await axios.get(
-                '/download-file-validate/' + this.data
+                '/factoring/download-file-validate/' + this.data
             );
             this.status = response.data.status.length > 0 ? true : false;
         }
@@ -146,38 +121,36 @@ export default {
 };
 </script>
 <style scoped>
-/* .file-select {
+.file-select {
     position: relative;
     display: inline-block;
-} */
-
-/* .file-select::before {
-    background-color: #6dc5d3;
+    padding-left: 10px;
+}
+.file-select::before {
+    background-color: #1e429f;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
-    content: 'Seleccionar'; 
+    content: 'Seleccionar Archivo'; /* texto por defecto */
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-} */
-/* .team {
+}
+.team {
     position: relative;
-    display: inline-block; 
-} */
-
-/* .file-select input[type='file'] {
+    display: inline-block; /* the default for span */
+}
+.file-select input[type='file'] {
     opacity: 0;
     width: 150px;
     height: 40px;
     display: inline-block;
 }
-
 #src-file1::before {
     content: 'Seleccionar Archivo';
-} */
+}
 </style>

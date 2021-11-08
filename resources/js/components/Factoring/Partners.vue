@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import Option from "../config/alert";
+import Option from "../../config/alert";
 export default {
     data() {
         return {
@@ -133,7 +133,7 @@ export default {
     },
     methods: {
         async getPartners() {
-            let response = await axios.get("factoring/partners");
+            let response = await axios.get("/factoring/partners");
             this.partners = response.data.partners;
             this.company = response.data;
         },
