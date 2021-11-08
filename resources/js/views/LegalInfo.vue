@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import SingleFile from "../components/SingleFile";
-import DownloadFile from "../components/DownloadFile";
+import SingleFile from "../components/Factoring/SingleFile";
+import DownloadFile from "../components/Factoring/DownloadFile";
 
-import Partners from "../components/Partners";
+import Partners from "../components/Factoring/Partners";
 export default {
     data() {
         return {
