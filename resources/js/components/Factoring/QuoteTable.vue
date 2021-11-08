@@ -217,7 +217,7 @@
                                 Cambio de fecha de vencimiento de factura Folio
                                 #{{ itemEditing.number }}
                             </div>
-                            <div class="flex flex-wrap -mx-6">
+                            <div class="flex flex-wrap justify-between px-2">
                                 <div
                                     class="flex flex-grow-0 flex-shrink-0 px-8"
                                     v-if="expireDate"
