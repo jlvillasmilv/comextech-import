@@ -10,7 +10,7 @@ class ClientController extends Controller
     // 
     public function index()
     {
-        return view('profile.index');
+        return view('factoring.profile.index');
     }
     public function show($id)
     {

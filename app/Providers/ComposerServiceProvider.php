@@ -15,7 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer('supplier.form', 'App\Http\ViewComposers\SupplierComposer');
         View::composer('address.form', 'App\Http\ViewComposers\AddressComposer');
         View::composer('factoring.bank_account.form', 'App\Http\ViewComposers\BanksComposer');
-        
+        View::composer('admin.clients.form', 'App\Http\ViewComposers\ExecutiveComposer');
         
         //factoring
         View::composer([

@@ -166,6 +166,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function client_legal_info()
     {
-        return $this->hasMany(Factoring\ClientLegalInfo::class);
+        return $this->hasMany(Factoring\ClientLegalInfo::class,'client_id');
     }
 }
