@@ -267,6 +267,9 @@ export default {
                 return total_amount + Number(items.amo2);
             }, 0);
         }
+    },
+    mounted: function () {
+      this.convert('CLP');
     }
 };
 </script>

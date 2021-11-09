@@ -157,9 +157,15 @@
                                     <p class="text-gray-500">  {{  $status  ?? ''}} </p>
                                    
                                 </td>
-                                <td  >
-                                    <a href="{{ route('factoring.disbursements.show', $application->id) }}" class="btn  btn-warning btn-sm " > 
-                                        <i class="fa fa-server"> </i>
+                                <td class="px-4 py-3" >
+                                   
+                                    <a  href="{{ route('factoring.disbursements.show', base64_encode($application->id)) }}"
+                                        class="px-2 py-2 text-sm font-medium leading-5 text-yellow-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        aria-label="Desembolso">
+                                    
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+                                          </svg>
                                     </a>
                                 
                                 </td>

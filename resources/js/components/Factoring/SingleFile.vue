@@ -11,19 +11,21 @@
                 </div>
 
                 <label
-                    class="-ml-1 px-2 py-1 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-800 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
+                    class="-ml-1 px-2 py-1.5 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-800 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-blue-900"
                 >
                     <i class="px-1 fas fa-cloud-upload-alt fa-2x"></i>
                 </label>
             </div>
         </div>
-        <div class="flex flex-grow max-w-full relative px-4 ml-4">
+        <div class="flex flex-grow max-w-full relative px-4 ml-4 mb-2">
             <a
                 v-if="status"
-                class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center"
+                class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-gray-600"
                 @click="download()"
             >
-                <span class="inline-block px-3 py-3 bg-gray-700 ">
+                <span
+                    class="inline-block px-3 py-3 bg-gray-600 hover:bg-gray-700"
+                >
                     <i>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

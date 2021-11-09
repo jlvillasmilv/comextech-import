@@ -10,7 +10,7 @@
             <button
                 @click="showModal()"
                 type="button"
-                class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded"
+                class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
                 data-toggle="modal"
                 data-target=".bd-example-modal-md"
             >
@@ -19,7 +19,7 @@
             <button
                 v-if="items.length > 0"
                 type="button"
-                class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded"
+                class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
                 @click="onAncipate"
             >
                 SOLICITAR

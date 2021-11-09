@@ -14,7 +14,12 @@ class CompanyAddress extends Model
 
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class,'country_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'company_id');
     }
 }
 

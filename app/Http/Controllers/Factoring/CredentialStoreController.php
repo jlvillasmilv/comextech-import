@@ -11,9 +11,15 @@ class CredentialStoreController extends Controller
     public function index($name_provider)
     {
         $client     = auth()->user();
-        $credential = $client->credentialStores()->where('provider_name', $name_provider)->get();
-        
-        $credential = !isset($credential[0])? [ 'id'=> null, 'provider_password' => null] : $credential[0];
+        $credential = $client->credentialStores()
+        ->where('provider_name', $name_provider)
+        ->select('id', 'provider_password','provider_name')
+        ->first();
+
+        $credent = [ 'id'=> $credential->id, 
+                     'provider_password' => base64_decode($credential->provider_password)];
+
+        $credential = !isset($credential) ? [ 'id'=> null, 'provider_password' => null] : $credent;
          
         return  response()->json(['client' => $client,'credential' => $credential] , 200);
     }

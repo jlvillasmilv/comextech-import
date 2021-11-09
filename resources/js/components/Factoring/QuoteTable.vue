@@ -112,8 +112,8 @@
                                             onChangeDateExpire(index, item);
                                         "
                                         :class="{
-                                            'btn btn-danger': !item.change_expire,
-                                            'btn btn-success':
+                                            'rounded px-2 py-2 bg-red-600 hover:bg-red-700': !item.change_expire,
+                                            'rounded px-2 py-2 bg-green-500 hover:bg-green-600':
                                                 item.change_expire
                                         }"
                                         v-bind="$attrs"
@@ -121,7 +121,7 @@
                                         <i>
                                             <svg
                                                 v-if="!item.change_expire"
-                                                class="w-8 h-8 inline-block"
+                                                class="w-7 h-7 inline-block"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                                 aria-hidden="true"
@@ -131,7 +131,7 @@
                                                 preserveAspectRatio="xMidYMid meet"
                                                 viewBox="0 0 16 16"
                                             >
-                                                <g fill="#e02424">
+                                                <g fill="#ffffff">
                                                     <path
                                                         d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM6.854 8.146L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10L6.146 8.854a.5.5 0 1 1 .708-.708z"
                                                     />
@@ -139,7 +139,7 @@
                                             </svg>
                                             <svg
                                                 v-else-if="item.change_expire"
-                                                class="w-8 h-8 inline-block"
+                                                class="w-7 h-7 inline-block"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                                 aria-hidden="true"
@@ -149,7 +149,7 @@
                                                 preserveAspectRatio="xMidYMid meet"
                                                 viewBox="0 0 16 16"
                                             >
-                                                <g fill="#1cc88a">
+                                                <g fill="#ffffff">
                                                     <path
                                                         d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z"
                                                     />
@@ -160,14 +160,15 @@
                                 </div>
                             </td>
                             <td>
-                                <div role="group">
+                                <div role="group" class="mr-2">
                                     <button
+                                        class="rounded mb-0.5 px-2 py-2 bg-red-600 hover:bg-red-700"
                                         v-bind="$attrs"
                                         @click="onDelete(index, item)"
                                     >
                                         <i>
                                             <svg
-                                                class="mr-4 mt-2 w-8 h-8"
+                                                class="w-7 h-7"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                                 aria-hidden="true"
@@ -179,7 +180,7 @@
                                             >
                                                 <path
                                                     d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm4 12H8v-9h2v9zm6 0h-2v-9h2v9zm.618-15L15 2H9L7.382 4H3v2h18V4z"
-                                                    fill="#e02424"
+                                                    fill="#ffffff"
                                                 />
                                             </svg>
                                         </i>
@@ -217,12 +218,22 @@
                                 Cambio de fecha de vencimiento de factura Folio
                                 #{{ itemEditing.number }}
                             </div>
-                            <div class="flex flex-wrap justify-between px-2">
+                            <div class="flex flex-wrap justify-around px-2">
                                 <div
                                     class="flex flex-grow-0 flex-shrink-0 px-8"
                                     v-if="expireDate"
                                 >
-                                    <datepicker
+                                    <label class="block text-sm">
+                                        <input
+                                            type="date"
+                                            v-model="expireDate"
+                                            :min="minDate"
+                                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                            v-on:change="onCalculate()"
+                                        />
+                                    </label>
+
+                                    <!-- <datepicker
                                         bootstrap-styling
                                         :language="es"
                                         :disabled-dates="disabledDates"
@@ -232,7 +243,7 @@
                                         v-model="expireDate"
                                         @closed="onCalculate()"
                                     >
-                                    </datepicker>
+                                    </datepicker> -->
                                 </div>
                                 <div>
                                     <button
@@ -240,11 +251,11 @@
                                         data-toggle="modal"
                                         v-bind="$attrs"
                                         data-dismiss="modal"
-                                        class="btn btn-primary"
+                                        class="rounded px-2 py-2 bg-blue-800 hover:bg-blue-900"
                                     >
                                         <i>
                                             <svg
-                                                class="h-8 w-8"
+                                                class="h-7 w-7"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                                 aria-hidden="true"
@@ -254,7 +265,7 @@
                                                 preserveAspectRatio="xMidYMid meet"
                                                 viewBox="0 0 16 16"
                                             >
-                                                <g fill="#103394">
+                                                <g fill="#ffffff">
                                                     <path
                                                         d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM8.5 8.5V10H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V11H6a.5.5 0 0 1 0-1h1.5V8.5a.5.5 0 0 1 1 0z"
                                                     />
@@ -290,7 +301,8 @@ export default {
             itemEditing: {},
             index: false,
             flag: true,
-            showDate: false
+            showDate: false,
+            minDate: new Date().toISOString().substr(0, 10)
         };
     },
     props: {

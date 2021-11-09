@@ -81,7 +81,32 @@ class UsersTableSeeder extends Seeder
             'personal_team' => true,
         ]));
 
-        
+        $operator = User::create([
+            'name'      => 'Operador',
+            'email'     => 'operator@operator.com',
+            'profile_photo_path'    => 'https://i.pravatar.cc/300',
+            'email_verified_at' => now(),
+            'password'  => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        $executive = User::create([
+            'name'      => 'Business 1',
+            'email'     => 'executive1@executive.com',
+            'email_verified_at' => now(),
+            'phone'     => '584247005888',
+            'password'  => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        $executive = User::create([
+            'name'      => 'Business 2',
+            'email'     => 'executive2@executive.com',
+            'email_verified_at'  => now(),
+            'phone'     => '584247005888',
+            'password'  => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
 
     }
 }
