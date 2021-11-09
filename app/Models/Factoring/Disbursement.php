@@ -65,7 +65,7 @@ class Disbursement extends Model
 
     public function bankAccount()
     {
-        return $this->belongsTo(BankAccount::class,'bank_accounts_id');
+        return $this->belongsTo(\App\Models\BankAccount::class,'bank_accounts_id');
     }
 
     public function application()
