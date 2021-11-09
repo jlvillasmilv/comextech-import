@@ -208,5 +208,17 @@ class PermissionsTableSeeder extends Seeder
         $client = User::find(2); 
         $client->assignRole('Client');
 
+         //User Operator
+         $user = User::find(3); 
+         $user->assignRole('operator');
+ 
+         //User Business_executive
+         $user = User::find(4); 
+         $user->assignRole('business_executive');
+ 
+         //User Business_executive
+         $user = User::find(5); 
+         $user->assignRole('business_executive');
+
     }
 }
