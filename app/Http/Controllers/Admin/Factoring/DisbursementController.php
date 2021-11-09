@@ -115,7 +115,7 @@ class DisbursementController extends Controller
     
             \Session::flash('notification', $notification);
     
-            return redirect()->route('admin.disbursements.edit', $data->id);
+            return redirect()->route('admin.factoring.disbursements.edit', $data->id);
 
         }
 
@@ -132,7 +132,7 @@ class DisbursementController extends Controller
         
                 \Session::flash('notification', $notification);
         
-                return redirect()->route('admin.disbursements.edit', base64_encode($data->id));
+                return redirect()->route('admin.factoring.disbursements.edit', base64_encode($data->id));
     
             }
 
@@ -146,7 +146,7 @@ class DisbursementController extends Controller
                         'body'  => 'Su solicitud de desembolso con numero N° '.str_pad($data->id, 6, '0', STR_PAD_LEFT).' ah sido:'.$data->status
                     ];
                     
-                    \Mail::to($data->application->user->email)->send(new \App\Mail\ApplicationReceived($details));
+                    \Mail::to($data->application->user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
 
                     $user = $data->application->user;
                     $user->notify(new ClientDisbursementNotification($data));

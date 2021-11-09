@@ -52,14 +52,6 @@
                                 </div>
                             </td>
                         </tr> 
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Dirección 
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->address }}
-                            </td>
-                        </tr>
                          <tr class="text-gray-700 dark:text-gray-400">
                             <th class="px-4 py-3">
                                Email
@@ -118,7 +110,62 @@
 
                     </tbody>
                 </table>
+            </div>
         </div>
-    </div>
+
+        <hr>
+
+        <div class="flex justify-between items-end mt-2">
+            <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
+                Direcciones
+            </h4>
+        </div>
+
+        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+            <div class="w-full overflow-x-auto">
+    
+                <table class="w-full whitespace-no-wrap">
+                    <thead>
+                        <tr
+                            class="text-xs text-center font-semibold tracking-wide text-left text-white border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+                            <th class="px-4 py-3">Pais</th>
+                            <th class="px-4 py-3">Cod. Postal</th>
+                            <th class="px-4 py-3">Localidad </th>
+                            <th class="px-4 py-3">Lugar </th>
+                            <th class="px-4 py-3">Direccion</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        @forelse($data->address as $address)
+                        <tr class="text-gray-700 dark:text-gray-400 text-xs text-center">
+                            <td class="px-2 py-3 text-center">
+                                {{ $address->country->name}}
+                            </td>
+                            <td class="px-2 py-3 text-center">
+                                {{ $address->postal_code}}
+                            </td>
+                            <td class="px-2 py-3 text-center">
+                                {{ $address->locality}}
+                            </td>
+                            <td class="px-2 py-3 text-center">
+                                {{ $address->place}}
+                            </td>
+                            <td class="px-2 py-3 text-center">
+                                {{ $address->address}}
+                            </td>
+                        </tr>
+                            
+                        @empty
+                        <tr class="text-gray-700 dark:text-gray-400 text-xs text-center">
+                            <td colspan="5" class="px-2 py-3 text-center">
+                                Sin datos
+                            </td>
+                        </tr>
+                            
+                        @endforelse     
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </x-app-layout>

@@ -40,22 +40,22 @@ class Company extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class,'country_id');
     }
 
     public function address()
     {
-        return $this->hasMany(CompanyAddress::class,'application_id');
+        return $this->hasMany(CompanyAddress::class,'company_id');
     }
 
-     /**
+    /**
      * Get the partner associated with the company.
-     */
+    */
     public function partners()
     {
         return $this->hasMany(Partner::class,'company_id');
