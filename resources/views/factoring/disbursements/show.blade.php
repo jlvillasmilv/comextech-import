@@ -5,8 +5,8 @@
     $invoices_sii    = $applications->disbursement->assign_invoices_sii;
     $tax_folder      = $applications->disbursement->tax_folder;
     $declaration_sii = $applications->disbursement->tax_declaration_sii;
-    $tax_debt = $applications->disbursement->tax_debt;
-    $annex    = $applications->disbursement->assignment_annex;
+    $tax_debt        = $applications->disbursement->tax_debt;
+    $annex           = $applications->disbursement->assignment_annex;
     $accountStatus = !isset($bankAccounts)? 0:1;
     $size = 12;  
     $sii = auth()->user()->credentialStores()->where('provider_name', 'SII')->first();

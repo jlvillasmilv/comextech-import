@@ -131,9 +131,8 @@ class DisbursementController extends Controller
     public function update(Request $request, Disbursement $disbursement)
     {
         $data = $disbursement->fill($request->all())->save();
-        $client  = auth()->user()->client;
-        $id  = $request->input('bank_accounts_id') === null ? $disbursement->bank_accounts_id : $request->input('bank_accounts_id');
-        $bankAccounts = $client->bankAccounts->where('id',$id )->first();
+        $id   = $request->input('bank_accounts_id') === null ? $disbursement->bank_accounts_id : $request->input('bank_accounts_id');
+        $bankAccounts = auth()->user()->bankAccounts->where('id',$id )->first();
 
         return response()->json(['number'=> $bankAccounts->number, 'name'=>$bankAccounts->bank->name], 200);
     }
