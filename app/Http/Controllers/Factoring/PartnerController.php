@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Factoring;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Factoring\Partners\UpdateOrCreateRequest;
-use App\Models\Partner;
+use App\Models\Factoring\Partner;
 use Illuminate\Http\Request;
 
 class PartnerController extends Controller

@@ -143,7 +143,7 @@ export default {
                 this.$emit('updatePassword');
                 this.$swal.fire(Option('success', 'Actualizacion Exitosa!'));
                 this.credentialSII.provider_password =
-                    response.data.provider_password;
+                    atob(response.data.provider_password);
                 this.credentialSII.id = response.data.id;
             }
         },

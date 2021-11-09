@@ -142,7 +142,7 @@ export default {
                 let payload = Object.assign(this.partnersAdd, {
                     company_id: this.company.id
                 });
-                let response = await axios.post("partners", payload);
+                let response = await axios.post("/factoring/partners", payload);
                 this.typeAction(response.data);
             } catch (error) {
                 let data = error.response.data.errors;
@@ -157,7 +157,7 @@ export default {
         },
         async deletePartners(item) {
             try {
-                let response = await axios.delete("factoring/partners/" + item.id);
+                let response = await axios.delete("/factoring/partners/" + item.id);
                 let array = this.partners.filter(items => items.id !== item.id);
                 this.partners = array;
                 this.$swal.fire(Option("success", "Elimado con Exito!"));

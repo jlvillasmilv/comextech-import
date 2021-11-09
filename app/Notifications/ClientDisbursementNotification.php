@@ -61,7 +61,7 @@ class ClientDisbursementNotification extends Notification
             'title'       => 'Cambio de Status desembolso N° '. $this->disbursement->id,
             'description' => 'Desembolso N° '. $this->disbursement->id.' a sido '.$this->disbursement->status,
             'time'        => Carbon::now()->diffForHumans(),
-            'route'       => route('disbursements.index'),
+            'route'       => route('factoring.disbursements.index'),
         ];
     }
 }
