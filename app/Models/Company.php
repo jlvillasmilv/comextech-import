@@ -58,7 +58,7 @@ class Company extends Model
     */
     public function partners()
     {
-        return $this->hasMany(Partner::class,'company_id');
+        return $this->hasMany(Factoring\Partner::class,'company_id');
     }
 
     public function executive()

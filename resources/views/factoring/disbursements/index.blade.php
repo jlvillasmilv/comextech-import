@@ -5,6 +5,7 @@
             Listado de Desembolsos
         </h2>
 
+     
         @include('factoring.disbursements.summary')
 
         <!-- Application list table -->
@@ -156,10 +157,10 @@
                                     <p class="text-gray-500">  {{  $status  ?? ''}} </p>
                                    
                                 </td>
-                                <td class="px-4 py-3 text-center">
-                                    <a data-remote="{{ route('factoring.disbursements.show', base64_encode($application->id)) }}"
-                                        href="#"
-                                        class="px-2 py-2 text-sm font-medium leading-5 text-yellow-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-status"
+                                <td class="px-4 py-3" >
+                                   
+                                    <a  href="{{ route('factoring.disbursements.show', base64_encode($application->id)) }}"
+                                        class="px-2 py-2 text-sm font-medium leading-5 text-yellow-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Desembolso">
                                     
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -168,8 +169,6 @@
                                     </a>
                                 
                                 </td>
-
-                               
                             </tr>
                             @empty
                                 <tr class="text-gray-700 dark:text-gray-400 text-center">

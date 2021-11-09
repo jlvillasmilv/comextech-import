@@ -98,7 +98,7 @@ class DisbursementController extends Controller
         $bankAccounts = auth()->user()->bankAccounts;
 
         $applications = Application::where([
-            ['id', '=', $id],
+            ['id', '=', base64_decode($id)],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
