@@ -168,4 +168,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Factoring\ClientLegalInfo::class,'client_id');
     }
+
+     /**
+     * Get the Bank Account associated with the client.
+     */
+    public function bankAccounts()
+    {
+        return $this->hasMany(BankAccount::class,'user_id');
+    }
 }

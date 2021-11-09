@@ -72,22 +72,6 @@ class FeesHistoryController extends Controller
             'fee_date'   =>  date('Y-m-d'),
         ]);
 
-        // if(is_null($clientPayer))
-        // {
-        //     $clientPayer = new ClientPayer;
-        //     $clientPayer->payer_id = $payer->id;
-        //     $clientPayer->client_id = $request->input('client_id'); 
-        //     $clientPayer->save(); 
-        //     $fee = Setting::first(); 
-         
-        //     $clientPayer->FeesHistory()->create([
-        //         'rate'       => $fee->rate,
-        //         'mora_rate'  => $fee->mora_rate,
-        //         'discount'   => $fee->discount,
-        //         'commission' => $fee->commission,
-        //         'fee_date'   =>  date('Y-m-d'),
-        //     ]);
-        // }
         return view('admin.factoring.fee_history.index');
 
     }

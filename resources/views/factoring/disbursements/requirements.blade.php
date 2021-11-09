@@ -63,29 +63,50 @@
                           </span>
                         </a>
                       @else 
-                        <div class="col-md-10 ">
-                          <select class="form-control " id="bankAccounts" name="bankAccounts" >
-                            @foreach($bankAccounts as $account )
-                                <option value="{{ $account->id }}" selected>{{ $account->bank->name }} - {{ $account->number }}</option>
-                            @endforeach
-                          </select> 
+                      <div class="px-2" id="add_to">
+                        <div class="flex mb-4">
+                            <div class="w-3/4 mr-1">
+                                <select
+                                  id="bankAccounts"
+                                  name="bankAccounts"
+                                  class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('country_id') is-invalid @enderror">
+                                  @foreach($bankAccounts as $account )
+
+                                    <option value="{{ $account->id }}" selected>
+                                      {{ $account->bank->name }} - {{ $account->number }}
+                                    </option>
+
+                                  @endforeach
+                                  
+                                </select>
+                
+                            </div>
+                           
+                            <div class="w-1/4 ml-1">
+
+                              <button  id="addAccount" type="button" class="btn-add flex ml-2 px-3 py-1 my-7 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue" 
+                              data-remote="#" data-id="#" autocomplete="off"
+                              title="Agregar">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+
+                              </button>
+
+                            </div>
+  
                         </div>
-                        <div class="col-md-2">
-                          <button  id="addAccount" class="btn btn-primary btn-icon-split" >
-                            <span class="icon ">
-                                <i class="fas fa-plus "> </i>
-                            </span>
-                          </button>
-                        </div>
+                    </div>
                       @endif
               </div>
             @else
               <div class="row justify-content-center align-content-center"  >
-                  <h6 class="tex-center text-uppercase"> 
-                    {{ $applications->client->bankAccounts->where('id', $applications->disbursement->bank_accounts_id)->first()->bank->name}}
-                    <br>
-                    Numero: {{ $applications->client->bankAccounts->where('id', $applications->disbursement->bank_accounts_id)->first()->number}}
-                  </h6> 
+                <span class="px-2 py-1 dark:text-white mx-2">
+                  {{ $applications->user->bankAccounts->where('id', $applications->disbursement->bank_accounts_id)->first()->bank->name}}
+               </span>
+               <span class="px-2 py-1 dark:text-white mx-2">
+                 Numero: {{ $applications->user->bankAccounts->where('id', $applications->disbursement->bank_accounts_id)->first()->number}}
+               </span>
               </div>
             @endif
         
