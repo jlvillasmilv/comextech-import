@@ -43,6 +43,13 @@ function data() {
     closeProfileMenu() {
       this.isProfileMenuOpen = false
     },
+    isExecutiveMenuOpen: false,
+    toggleExecutiveMenu() {
+      this.isExecutiveMenuOpen = !this.isExecutiveMenuOpen
+    },
+    closeExecutiveMenu() {
+      this.isExecutiveMenuOpen = false
+    },
     isPagesMenuOpen: false,
     togglePagesMenu() {
       this.isPagesMenuOpen = !this.isPagesMenuOpen

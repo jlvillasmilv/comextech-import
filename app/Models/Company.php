@@ -53,4 +53,17 @@ class Company extends Model
         return $this->hasMany(CompanyAddress::class,'application_id');
     }
 
+     /**
+     * Get the partner associated with the company.
+     */
+    public function partners()
+    {
+        return $this->hasMany(Partner::class,'company_id');
+    }
+
+    public function executive()
+    {
+        return $this->belongsTo(User::class,'executive_id');
+    }
+
 }
