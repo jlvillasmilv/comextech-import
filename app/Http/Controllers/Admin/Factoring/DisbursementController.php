@@ -101,10 +101,11 @@ class DisbursementController extends Controller
      */
     public function update(Request $request, $id)
     {
+       
         $data  = Disbursement::findOrFail(base64_decode($id));
 
         $status = DisbursementStatus::where('name', $data->status)->firstOrFail();
-
+       
         $date_payment = $request->get('status') == 'PAGADO' ? is_null($data->date_payment)  ? date('Y-m-d') : $data->date_payment : null;
 
         if(!$status->modify){
@@ -115,10 +116,10 @@ class DisbursementController extends Controller
     
             \Session::flash('notification', $notification);
     
-            return redirect()->route('admin.factoring.disbursements.edit', $data->id);
+            return redirect()->route('admin.factoring.disbursements.edit', base64_encode($data->id));
 
         }
-
+     
 
         if($data->status != $request->get('status')){
 
