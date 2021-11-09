@@ -126,7 +126,7 @@
                 @can('factoring.quote.index')
                   <li
                   class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
-                  {!! request()->is('factoring/quote') ? 'italic font-black' : '' !!} "
+                  {!! request()->is('factoring/quote')  ? 'italic font-black' : '' !!} "
                   >
                     <a class="w-full " href="{{ route('factoring.quote')}}">
                       Cotizar  
@@ -135,8 +135,8 @@
                 @endcan
                 @can('factoring.applications.index')
                   <li
-                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    {!! (request()->is('factoring/applications') || request()->is('factoring/applications/*')) ? 'italic font-black' : '' !!} "
+                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                    {!! request()->is('factoring/applications') || request()->is('factoring/applications/*') ? 'italic font-black' : '' !!} "
                   >
                     <a class="w-full"  href="{{route('factoring.applications.index')}}" >
                       Solicitudes
@@ -146,7 +146,7 @@
                 @can('factoring.disbursements.index')
                 <li
                   class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
-                  {!! request()->is('factoring/disbursements') ? 'italic font-black' : '' !!} "
+                  {!! request()->is('factoring/disbursements') || request()->is('factoring/disbursements/*') ? 'italic font-black' : '' !!} "
                   >
                     <a class="w-full" href="{{ route('factoring.disbursements.index')}}">
                       Desembolsos
