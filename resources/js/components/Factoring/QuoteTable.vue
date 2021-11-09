@@ -218,12 +218,22 @@
                                 Cambio de fecha de vencimiento de factura Folio
                                 #{{ itemEditing.number }}
                             </div>
-                            <div class="flex flex-wrap justify-between px-2">
+                            <div class="flex flex-wrap justify-around px-2">
                                 <div
                                     class="flex flex-grow-0 flex-shrink-0 px-8"
                                     v-if="expireDate"
                                 >
-                                    <datepicker
+                                    <label class="block text-sm">
+                                        <input
+                                            type="date"
+                                            v-model="expireDate"
+                                            :min="minDate"
+                                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                            v-on:change="onCalculate()"
+                                        />
+                                    </label>
+
+                                    <!-- <datepicker
                                         bootstrap-styling
                                         :language="es"
                                         :disabled-dates="disabledDates"
@@ -233,7 +243,7 @@
                                         v-model="expireDate"
                                         @closed="onCalculate()"
                                     >
-                                    </datepicker>
+                                    </datepicker> -->
                                 </div>
                                 <div>
                                     <button
@@ -291,7 +301,8 @@ export default {
             itemEditing: {},
             index: false,
             flag: true,
-            showDate: false
+            showDate: false,
+            minDate: new Date().toISOString().substr(0, 10)
         };
     },
     props: {
