@@ -61,12 +61,12 @@
                         </div>
                         <input
                             v-bind:type="inputOld"
-                            class="relative flex flex-grow flex-shrink px-3 py-1.5 text-base text-gray-600 bg-white border-2 border-solid border-gray-300"
+                            class="relative flex flex-grow flex-shrink px-3 py-1.5 text-base text-gray-600 bg-white border-2 border-solid border-gray-300 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue"
                             v-model="credentialSII.provider_password"
                         />
                         <div class="flex">
                             <button
-                                class="relative font-normal text-center whitespace-nowrap align-middle select-none border-0 border-transparent px-2 py-1 text-sm text-white bg-blue-800"
+                                class="relative font-normal text-center whitespace-nowrap align-middle select-none border-0 border-transparent px-2 py-1 text-sm text-white bg-blue-800 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none hover:bg-blue-900"
                                 @click="updatePassword"
                             >
                                 <i>
