@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="d-flex ">
+        <div class="flex">
             <div class="p-2 ">
                 <button
                     v-if="show"
                     type="submit"
-                    class="btn btn-primary mt-2"
+                    class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
                     @click="onFormSubmit"
                 >
                     CARGAR
@@ -13,14 +13,17 @@
                 <button
                     type="submit"
                     v-show="sendMode"
-                    class="btn btn-primary mt-2"
+                    class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
                     @click="onAnticipate"
                 >
                     SOLICITAR
                 </button>
             </div>
             <div class="ml-auto p-2">
-                <a class="btn btn-dark " @click="showdropzone()">
+                <a
+                    class="mt-2 mx-2 text-white bg-gray-600 border-gray-700 inline-block text-center align-middle px-4 py-2 text-sm rounded hover:bg-gray-800"
+                    @click="showdropzone()"
+                >
                     <i
                         :class="[
                             'fas',
@@ -40,10 +43,12 @@
             :useCustomSlot="true"
         >
             <div class="dropzone-custom-content">
-                <h3 class="dropzone-custom-title text-success font-weight-bold">
+                <h3
+                    class="dropzone-custom-title text-green-400 font-bold text-2xl mb-2"
+                >
                     Arrastrar aqui archivos XML
                 </h3>
-                <div class="subtitle h5 font-weight-bold">
+                <div class="font-bold text-lg">
                     o haga clic para seleccionar un archivo de su computadora
                 </div>
             </div>
@@ -54,39 +59,39 @@
 </template>
 
 <script>
-import vue2Dropzone from "vue2-dropzone";
-import "vue2-dropzone/dist/vue2Dropzone.min.css";
-import QuoteTable from "../Factoring//QuoteTable";
-const moment = require("moment");
+import vue2Dropzone from 'vue2-dropzone';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import QuoteTable from '../Factoring//QuoteTable';
+const moment = require('moment');
 
-import Option from "../../config/alert";
+import Option from '../../config/alert';
 
 export default {
-    name: "Quote",
+    name: 'Quote',
     data: function() {
         return {
             data: {},
             items: [],
             sendMode: false,
-            source: "xml",
+            source: 'xml',
             show: true,
             exit: false,
-            route: "applications",
+            route: 'applications',
             dropzoneOptions: {
-                url: "/factoring/file",
+                url: '/factoring/file',
                 headers: {
-                    "X-CSRF-TOKEN": document.head.querySelector(
-                        "[name=csrf-token]"
+                    'X-CSRF-TOKEN': document.head.querySelector(
+                        '[name=csrf-token]'
                     ).content
                 },
                 params: {
-                    type: "xml_sii",
+                    type: 'xml_sii',
                     user: {}
                 },
-                dictDefaultMessage: "Arrastrar aqui archivos XML",
+                dictDefaultMessage: 'Arrastrar aqui archivos XML',
                 autoProcessQueue: false,
                 addRemoveLinks: true,
-                acceptedFiles: "text/xml",
+                acceptedFiles: 'text/xml',
                 thumbnailWidth: 150,
                 maxFilesize: 1,
                 parallelUploads: 20
@@ -104,34 +109,34 @@ export default {
         successResponse(file, response) {
             if (response.status) {
                 this.$refs.myVueDropzone.removeAllFiles();
-                return this.$swal.fire(Option("error", response.status));
+                return this.$swal.fire(Option('error', response.status));
             }
-            var date = moment().format("YYYY-MM-DD");
+            var date = moment().format('YYYY-MM-DD');
             var emisor = moment(response.issuing_date);
             var date = moment(date);
             let array = this.items.filter(
                 item => item.number === response.number
             );
-            let diff = date.diff(emisor, "days");
+            let diff = date.diff(emisor, 'days');
 
             if (array.length > 0) {
                 this.$refs.myVueDropzone.removeAllFiles();
                 var message = `Factura Folio #${array[0].number} ya existe!`;
-                return this.$swal.fire(Option("warning", message));
+                return this.$swal.fire(Option('warning', message));
             }
             if (diff < 61) {
                 this.$swal.fire(
-                    Option("success", "Factura cotizada con exito!")
+                    Option('success', 'Factura cotizada con exito!')
                 );
                 this.items.push(response);
-                localStorage.setItem("quote-xml", JSON.stringify(this.items));
+                localStorage.setItem('quote-xml', JSON.stringify(this.items));
                 this.sendMode = this.items.length > 0 ? true : false;
                 this.$refs.myVueDropzone.removeAllFiles();
             } else {
                 this.$refs.myVueDropzone.removeAllFiles();
                 var message =
-                    "Por política de aprobación, no podemos financiar facturas con fecha de emisión mayor a 30 días.!";
-                return this.$swal.fire(Option("warning", message));
+                    'Por política de aprobación, no podemos financiar facturas con fecha de emisión mayor a 30 días.!';
+                return this.$swal.fire(Option('warning', message));
             }
         },
         onFormSubmit() {
@@ -145,63 +150,63 @@ export default {
             if (value.length > 0) {
                 return this.$swal.fire(
                     Option(
-                        "warning",
-                        "Todas la facturas requieren de actualizar la fecha de vencimiento! "
+                        'warning',
+                        'Todas la facturas requieren de actualizar la fecha de vencimiento! '
                     )
                 );
             }
             const { value: result } = await Swal.fire({
-                title: "Esta seguro de Realizar la solicitud?",
-                icon: "warning",
+                title: 'Esta seguro de Realizar la solicitud?',
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, solicitar!",
-                cancelButtonText: "Cancelar"
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, solicitar!',
+                cancelButtonText: 'Cancelar'
             });
             if (result) {
                 try {
                     let payload = {
                         items: this.items,
-                        source: "XML"
+                        source: 'XML'
                     };
                     let response = await axios.post(
-                        "/quote/anticipate",
+                        '/quote/anticipate',
                         payload
                     );
                     this.items.splice(0);
-                    localStorage.removeItem("quote-xml");
+                    localStorage.removeItem('quote-xml');
                     this.sendMode = this.items.length > 0 ? true : false;
                     Swal.fire({
-                        icon: "success",
-                        title: "Se ha creado la solicitud! ",
+                        icon: 'success',
+                        title: 'Se ha creado la solicitud! ',
                         text: ` Tu solicitud Nº ${response.data.application.id} 
                                 requiere de una evaluacion y aprobacion para su ejecucion, 
                                 te informaremos a tu email ${response.data.user.email}
                                 `,
                         footer:
-                            "<a href=" +
+                            '<a href=' +
                             this.route +
-                            "> Ver tus solicitudes? </a>"
+                            '> Ver tus solicitudes? </a>'
                     });
                 } catch (error) {
                     Swal.fire(
-                        "Ah ocurrido un error!",
-                        "Lo sentimos, vuelva a intentar",
-                        "error"
+                        'Ah ocurrido un error!',
+                        'Lo sentimos, vuelva a intentar',
+                        'error'
                     );
                 }
             }
         },
         onDelete: function(index, value) {
             this.items.splice(index, 1);
-            localStorage.setItem("quote-xml", JSON.stringify(this.items));
+            localStorage.setItem('quote-xml', JSON.stringify(this.items));
             this.sendMode = this.items.length > 0 ? true : false;
         }
     },
     created() {
         this.$root.$refs.A = this;
-        let datosDB = JSON.parse(localStorage.getItem("quote-xml"));
+        let datosDB = JSON.parse(localStorage.getItem('quote-xml'));
 
         if (datosDB === null) {
             this.items = [];
