@@ -84,7 +84,7 @@ export default {
                 }
             };
             try {
-                await axios.post('factoring/single-file', formData, header);
+                await axios.post('/factoring/single-file', formData, header);
                 this.status = true;
                 this.$swal.fire(
                     Option('success', 'Archivo almacenado exitosamente!')
@@ -96,7 +96,7 @@ export default {
             }
         },
         download() {
-            var path = '/download-file/' + this.data;
+            var path = '/factoring/download-file/' + this.data;
             var a = document.createElement('A');
             a.href = path;
             a.download = path.substr(path.lastIndexOf('/') + 1);
