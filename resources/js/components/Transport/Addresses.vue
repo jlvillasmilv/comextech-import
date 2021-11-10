@@ -599,7 +599,7 @@
             </div>
 
             <!-- Bloque cotizacion de UPS -->
-            <div name="fade" class="sm:flex sm:justify-center">
+            <!-- <div name="fade" class="sm:flex sm:justify-center">
                 <div
                     v-if="
                         showApisQuote == true &&
@@ -728,7 +728,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
