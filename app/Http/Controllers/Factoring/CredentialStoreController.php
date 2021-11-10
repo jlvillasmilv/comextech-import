@@ -16,17 +16,15 @@ class CredentialStoreController extends Controller
         ->select('id', 'provider_password','provider_name')
         ->first();
 
-        $credent = [ 'id'=> $credential->id, 
-                     'provider_password' => base64_decode($credential->provider_password)];
-
-        $credential = !isset($credential) ? [ 'id'=> null, 'provider_password' => null] : $credent;
+        $credential = !isset($credential) ? [ 'id'=> null, 'provider_password' => null] : 
+        [ 'id'=> $credential->id, 
+         'provider_password' => base64_decode($credential->provider_password)];
          
         return  response()->json(['client' => $client,'credential' => $credential] , 200);
     }
 
     public function store(UpdateCredentialRequest $request, $id)
     { 
-
         $reponse = $request->updateOrCreate($id);
 
         return response()->json($reponse, 200);
