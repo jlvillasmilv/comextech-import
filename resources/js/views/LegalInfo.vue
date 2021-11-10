@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap justify-center">
         <partners> </partners>
-        <div class="sm:w-4/12">
+        <div class="mt-6 mb-0.5 sm:w-4/12">
             <br />
             <span class="text-blue-800 text-base font-medium mb-4">
                 Contrato de Marco
