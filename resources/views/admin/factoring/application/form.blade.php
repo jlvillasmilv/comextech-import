@@ -57,32 +57,50 @@
                 @endif
 
 				<p class="font-bold mb-2">Cliente: {{ $data->user->company->name}}</p>
-                <p class="font-bold">RUT:  {{ $data->user->company->tax_id}}  </p> 
+                <p class="font-bold">RUT:  {{ $data->user->company->tax_id}}  </p>
+				
+				
+				<div class="flex flex-wrap">
+                    <div class="sm:w-full md:w-2/4 px-2 ">
 
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">Status</span>
+        
+							<select name="status" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('bank_id') is-invalid @enderror">
 
-				<label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400">Status</span>
+								@foreach($status as $id )
+		
+								@if(old('status', isset($data->status) && $data->status == $id) == $id )
+									<option value="{{ $id }}" selected>{{ $id }}</option>
+								@else
+									<option value="{{ $id }}">{{ $id }}</option>
+								@endif
+		
+							@endforeach
+		
+							</select>
+							
+							@if($errors->has('status'))
+								<span class="text-xs text-red-600 dark:text-red-400">
+									{{ $errors->first('status') }}
+								</span>
+							@endif
+                           
+                        </label>
 
-                    <select name="status" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('bank_id') is-invalid @enderror">
+                    </div>
+                    <div class="md:w-2/4 px-3 sm:w-full">
+                        <div class="flex justify-start">
+                            <button class="flex px-4 py-2 mt-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
+								 </svg>
+								<span> Guardar </span>
+							</button>
+                          </div>
 
-						@foreach($status as $id )
-
-						@if(old('status', isset($data->status) && $data->status == $id) == $id )
-							<option value="{{ $id }}" selected>{{ $id }}</option>
-						@else
-							<option value="{{ $id }}">{{ $id }}</option>
-						@endif
-
-					@endforeach
-
-                    </select>
-                    
-                    @if($errors->has('status'))
-                        <span class="text-xs text-red-600 dark:text-red-400">
-                            {{ $errors->first('status') }}
-                        </span>
-                    @endif
-                </label>
+                    </div>
+                </div>
 
 	        <label class="block text-sm my-3">
 	            <span class="text-gray-700 dark:text-gray-400">Cometarios</span>
@@ -147,14 +165,7 @@
 			</div>
 			@endif
 
-			<div class="flex justify-end">
-		        <button class="flex  px-4 py-2 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
-		            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-		                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
-		             </svg>
-		            <span> Guardar </span>
-		        </button>
-      		</div>
+			
       	</form>
 		<div class="grid gap-6 mb-8 ">
 		  
