@@ -16,7 +16,7 @@
 
   <div class="container grid px-6 mx-auto">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-        <a href="{{route('factoring.disbursements.index')}}">Desembolso</a> 
+        <a href="{{route('factoring.disbursements.index')}}">Desembolsos</a> 
     </h2>
 
       {{-- clients who have SII keys, premium clients  --}}
@@ -38,8 +38,9 @@
 
     <div class="grid gap-6 mb-8 ">
       <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+        <p class="font-semibold  dark:text-white ">Desembolso #: {{str_pad($applications->disbursement->id, 6, '0', STR_PAD_LEFT) }} </p>
         <p class="font-semibold  dark:text-white ">Estado: {{$applications->disbursement->status}} </p>
-         
+        
           <div class="w-full overflow-x-auto">
               <table  id="table" class="w-full whitespace-no-wrap">
                   <thead>

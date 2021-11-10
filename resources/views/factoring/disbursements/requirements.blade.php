@@ -37,10 +37,20 @@
               <div class="file-select mx-2" id="src-file1"  >
                 <input type="file"  id="filecontrato" ref="file" >
               </div>
-              <a data-remote="cert_dueda_tribu" class="upload bg-gray-400 hover:bg-gray-500 text-white font-bold py-1 px-2 rounded inline-flex items-center rounded">
-                <i class="fas fa-cloud-upload-alt fa-lg text-white-50 mr-2"></i> Subir
+              <a data-remote="contrato"
+               class="upload bg-gray-400 hover:bg-gray-500 text-white font-bold py-1 px-2 rounded inline-flex items-center rounded">
+                <i class="fas fa-cloud-upload-alt fa-lg text-white-50 mr-2"></i>
+                 Subir
               </a>
           </div>
+
+          @if ($legal_info > 0)
+          <a href="{{ route('factoring.assignment.contract' , $applications->id)}}" 
+             class="upload bg-gray-400 hover:bg-gray-500 text-white font-bold py-1 px-2 rounded inline-flex items-center rounded">
+              <i class="fas fa-cloud-download-alt fa-lg text-white-50 mr-2"></i> 
+               Descargar
+          </a>
+          @endif
         
         </div>
          {{--  Instruccion de Abono en Cuenta Corriente --}}

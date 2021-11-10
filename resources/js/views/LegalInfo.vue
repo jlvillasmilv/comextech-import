@@ -1,10 +1,12 @@
 <template>
-    <div class="row justify-content-center">
+    <div class="flex flex-wrap justify-center">
         <partners> </partners>
-        <div class="col-lg-4">
+        <div class="sm:w-4/12">
             <br />
-            <span class="h5 text-primary mb-4"> Contrato de Marco </span>
-            <hr />
+            <span class="text-blue-800 text-base font-medium mb-4">
+                Contrato de Marco
+            </span>
+            <hr class="mt-4 mb-4 border-solid border-t-2" />
 
             <SingleFile
                 :action="`Adjuntar`"
@@ -15,14 +17,14 @@
 </template>
 
 <script>
-import SingleFile from "../components/Factoring/SingleFile";
-import DownloadFile from "../components/Factoring/DownloadFile";
+import SingleFile from '../components/Factoring/SingleFile';
+import DownloadFile from '../components/Factoring/DownloadFile';
 
-import Partners from "../components/Factoring/Partners";
+import Partners from '../components/Factoring/Partners';
 export default {
     data() {
         return {
-            title: "Informacion Legal"
+            title: 'Informacion Legal'
         };
     },
     components: {
@@ -32,7 +34,7 @@ export default {
     },
     computed: {
         upPower() {
-            console.log("aqui");
+            console.log('aqui');
         }
     }
 };

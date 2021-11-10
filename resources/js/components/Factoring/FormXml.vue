@@ -171,7 +171,7 @@ export default {
                         source: 'XML'
                     };
                     let response = await axios.post(
-                        '/quote/anticipate',
+                        '/factoring/quote/anticipate',
                         payload
                     );
                     this.items.splice(0);
