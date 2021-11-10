@@ -1,5 +1,5 @@
 <template>
-    <div class="row justify-content-center">
+    <div class="flex flex-wrap justify-center">
         <partners> </partners>
         <div class="col-lg-4">
             <br />
@@ -15,14 +15,14 @@
 </template>
 
 <script>
-import SingleFile from "../components/Factoring/SingleFile";
-import DownloadFile from "../components/Factoring/DownloadFile";
+import SingleFile from '../components/Factoring/SingleFile';
+import DownloadFile from '../components/Factoring/DownloadFile';
 
-import Partners from "../components/Factoring/Partners";
+import Partners from '../components/Factoring/Partners';
 export default {
     data() {
         return {
-            title: "Informacion Legal"
+            title: 'Informacion Legal'
         };
     },
     components: {
@@ -32,7 +32,7 @@ export default {
     },
     computed: {
         upPower() {
-            console.log("aqui");
+            console.log('aqui');
         }
     }
 };

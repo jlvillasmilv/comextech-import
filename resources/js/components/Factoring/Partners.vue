@@ -1,23 +1,28 @@
 <template>
-    <div v-if="mode" class="col-lg-8">
-        <div class="row justify-content-center">
-            <div class="col-10">
-                <h1 class="h4 text-primary mb-4">Representantes</h1>
+    <div v-if="mode" class="relative w-full px-4">
+        <div class="flex flex-wrap justify-center">
+            <div class="relative px-4 flex flex-grow-0 flex-shrink-0 w-10/12">
+                <h1 class="text-blue-800 text-xl font-medium mb-4">
+                    Representantes
+                </h1>
             </div>
-            <div class="col-2">
-                <a class="btn btn-primary  btn-circle " @click="viewAddForm()">
+            <div class="relative flex w-2/12 px-4">
+                <a
+                    class="text-white bg-blue-800 border-blue-800 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-blue-900"
+                    @click="viewAddForm()"
+                >
                     <i class="fas fa-plus fa-md"> </i>
                 </a>
             </div>
         </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">RUT</th>
-                        <th scope="col">Nombre Completo</th>
-                        <th scope="col">Direccion</th>
-                        <th scope="col">Correo Electronico</th>
+        <div class="block w-full overflow-x-auto">
+            <table class="w-full border-collapse text-gray-800 mb-4">
+                <thead class="border-solid border-b-2 border-t-2">
+                    <tr class="text-left">
+                        <th class="p-3">RUT</th>
+                        <th class="p-3">Nombre Completo</th>
+                        <th class="p-3">Direccion</th>
+                        <th class="p-3">Correo Electronico</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -113,7 +118,7 @@
 </template>
 
 <script>
-import Option from "../../config/alert";
+import Option from '../../config/alert';
 export default {
     data() {
         return {
@@ -121,19 +126,19 @@ export default {
             company: [],
             partnersAdd: {
                 id: false,
-                first_name: "",
-                last_name: "",
-                rut: "",
-                address: "",
-                email: ""
+                first_name: '',
+                last_name: '',
+                rut: '',
+                address: '',
+                email: ''
             },
             mode: true,
-            title: ""
+            title: ''
         };
     },
     methods: {
         async getPartners() {
-            let response = await axios.get("/factoring/partners");
+            let response = await axios.get('/factoring/partners');
             this.partners = response.data.partners;
             this.company = response.data;
         },
@@ -142,7 +147,7 @@ export default {
                 let payload = Object.assign(this.partnersAdd, {
                     company_id: this.company.id
                 });
-                let response = await axios.post("/factoring/partners", payload);
+                let response = await axios.post('/factoring/partners', payload);
                 this.typeAction(response.data);
             } catch (error) {
                 let data = error.response.data.errors;
@@ -151,22 +156,24 @@ export default {
                         ? data.email
                             ? data.email
                             : data.rut
-                        : "Error, todos los campos son requeridos!";
-                this.$swal.fire(Option("error", message));
+                        : 'Error, todos los campos son requeridos!';
+                this.$swal.fire(Option('error', message));
             }
         },
         async deletePartners(item) {
             try {
-                let response = await axios.delete("/factoring/partners/" + item.id);
+                let response = await axios.delete(
+                    '/factoring/partners/' + item.id
+                );
                 let array = this.partners.filter(items => items.id !== item.id);
                 this.partners = array;
-                this.$swal.fire(Option("success", "Elimado con Exito!"));
+                this.$swal.fire(Option('success', 'Elimado con Exito!'));
             } catch (error) {
-                this.$swal.fire(Option("error", error.response.data.message));
+                this.$swal.fire(Option('error', error.response.data.message));
             }
         },
         viewEditForm(item) {
-            this.title = "Editar representante";
+            this.title = 'Editar representante';
             this.partnersAdd = item;
             this.mode = !this.mode;
         },
@@ -183,23 +190,23 @@ export default {
             this.mode = true;
             this.partnersAdd = {
                 id: false,
-                first_name: "",
-                last_name: "",
-                rut: "",
-                address: "",
-                email: ""
+                first_name: '',
+                last_name: '',
+                rut: '',
+                address: '',
+                email: ''
             };
-            this.$swal.fire(Option("success", "Se registro con Exito!"));
+            this.$swal.fire(Option('success', 'Se registro con Exito!'));
         },
         viewAddForm() {
-            this.title = "Añadir nuevo representante";
+            this.title = 'Añadir nuevo representante';
             this.partnersAdd = {
                 id: false,
-                first_name: "",
-                last_name: "",
-                rut: "",
-                address: "",
-                email: ""
+                first_name: '',
+                last_name: '',
+                rut: '',
+                address: '',
+                email: ''
             };
             this.mode = !this.mode;
         }
