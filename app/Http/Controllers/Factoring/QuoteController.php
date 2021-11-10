@@ -27,6 +27,16 @@ class QuoteController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function quotation()
+    {
+        return view('factoring.quote.quote');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -91,6 +101,9 @@ class QuoteController extends Controller
     {
         //
     }
+
+
+
 
     public function anticipate(Request $request)
     {
@@ -172,8 +185,6 @@ class QuoteController extends Controller
  
     }
 
-
-    
     public function calc(Request $request)
     {    
         $date =  date("Y-m-d",strtotime($request->input('issuing_date')."+ 45 days"));

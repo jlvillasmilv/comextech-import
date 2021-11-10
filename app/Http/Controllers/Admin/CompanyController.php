@@ -56,7 +56,7 @@ class CompanyController extends Controller
 
             \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.clients.edit', $data->client_id);
+        return redirect()->route('admin.clients.edit', $data->client->company->id);
     }
 
     /**
@@ -120,15 +120,13 @@ class CompanyController extends Controller
         $data->user_id = auth()->user()->id;
         $data->save();
 
-        $company = Company::where('user_id',$data->client_id)->firstOrFail();
-
         $notification = array(
             'message'    => 'Actualizacion Exitosa!',
             'alert_type' => 'success',);
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.clients.edit', $company->id);
+        return redirect()->route('admin.clients.edit', $data->client->company->id);
     }
 
     /**
