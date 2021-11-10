@@ -1,12 +1,11 @@
 <template>
     <div>
-        <div class="p-2 flex flex-wrap justify-around">
-            <form class="relative w-full px-4">
-                <div class="flex flex-warp mb-4 justify-between">
-                    <div class="flex w-3/5">
+        <div class="p-2 flex flex-wrap justify-around w-full">
+            <form class="relative sm:w-full sm:w-6/12 md:w-6/12 px-4">
+                <div class="flex flex-warp mb-4 justify-center">
+                    <div class="flex justify-center w-full">
                         <img
                             src="/img/SII.png"
-                            class="img-responsive"
                             alt="SII"
                             width="100"
                             height="25"
@@ -14,14 +13,16 @@
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="text-gray-600"> Actualizar Contraseña </label>
+                <div class="flex flex-col justify-center mb-4">
+                    <label class="flex justify-center text-gray-600">
+                        Actualizar Contraseña
+                    </label>
                     <div
                         class="relative flex flex-wrap justify-around items-stretch w-full mb-2"
                     >
                         <div @click="passwordOldStatusIcon">
                             <div
-                                class="invisible sm:visible flex whitespace-nowrap h-10 items-center px-3 py-1.5 text-base text-center font-normal text-gray-400 bg-gray-200 border-transparent"
+                                class="invisible md:visible flex whitespace-nowrap h-10 items-center px-3 py-1.5 text-base text-center font-normal text-gray-400 bg-gray-200 border-transparent"
                             >
                                 <i>
                                     <svg
@@ -90,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <h1 class="font-medium text-gray-600 mb-4">
+                <h1 class="flex justify-center font-medium text-gray-600 mb-4">
                     Certificado Digital (Opcional)
                 </h1>
 
@@ -142,8 +143,9 @@ export default {
 
                 this.$emit('updatePassword');
                 this.$swal.fire(Option('success', 'Actualizacion Exitosa!'));
-                this.credentialSII.provider_password =
-                    atob(response.data.provider_password);
+                this.credentialSII.provider_password = atob(
+                    response.data.provider_password
+                );
                 this.credentialSII.id = response.data.id;
             }
         },
