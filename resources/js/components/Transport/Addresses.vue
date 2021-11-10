@@ -398,7 +398,7 @@
                                         Tarifa Transporte
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ fedex.TotalNetCharge }}
+                                        {{ fedex.TotalBaseCharge }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -800,18 +800,7 @@ export default {
                         this.fedex.DeliveryTimestamp
                     );
 
-                    /* Calculating the discount on the estimated total */
-                    this.fedex.Discount =
-                        (this.fedex.TotalNetCharge * this.fedex.Discount) / 100;
-                    this.fedex.Discount = this.fedex.Discount.toFixed(2);
-
-                    /* Applying the discount on the estimated total */
-                    this.TotalEstimed =
-                        parseFloat(this.fedex.TotalNetCharge) -
-                        parseFloat(this.fedex.Discount) +
-                        parseFloat(this.fedex.FUEL) +
-                        parseFloat(this.fedex.PEAK);
-                    this.TotalEstimed = this.TotalEstimed.toFixed(2);
+                    this.TotalEstimed = this.fedex.TotalEstimed.toFixed(2);
                 }
 
                 /* get data from DHL quote and rate api */
