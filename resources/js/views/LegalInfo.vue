@@ -1,10 +1,12 @@
 <template>
     <div class="flex flex-wrap justify-center">
         <partners> </partners>
-        <div class="col-lg-4">
+        <div class="sm:w-4/12">
             <br />
-            <span class="h5 text-primary mb-4"> Contrato de Marco </span>
-            <hr />
+            <span class="text-blue-800 text-base font-medium mb-4">
+                Contrato de Marco
+            </span>
+            <hr class="mt-4 mb-4 border-solid border-t-2" />
 
             <SingleFile
                 :action="`Adjuntar`"

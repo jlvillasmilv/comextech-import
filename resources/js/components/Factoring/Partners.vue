@@ -1,5 +1,5 @@
 <template>
-    <div v-if="mode" class="relative w-full px-4">
+    <div v-if="mode" class="grid mb-8 relative sm:w-8/12 px-4">
         <div class="flex flex-wrap justify-center">
             <div class="relative px-4 flex flex-grow-0 flex-shrink-0 w-10/12">
                 <h1 class="text-blue-800 text-xl font-medium mb-4">
