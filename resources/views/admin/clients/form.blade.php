@@ -7,9 +7,12 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Registro de clientes 
+                Cliente: {{$company->name }} - {{$company->tax_id }}
             </h4>
-           
+            <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
+                Usuario: {{$company->user->name}}
+            </h4>
+                       
         </div>
        
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -48,7 +51,7 @@
                     </div>
                     <div class="md:w-2/4 px-3 sm:w-full">
                         <div class="flex justify-start">
-                            <button class="flex  px-4 py-2 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                            <button class="flex  px-4 py-2 mt-9 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
                                
                                 <span> Guardar </span>
                             </button>
@@ -57,7 +60,6 @@
                     </div>
                 </div>
                
-
             </form>
         </div>
 

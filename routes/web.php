@@ -117,11 +117,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App\Http\Controllers\Factoring', 'middleware' => ['auth:sanctum']], function () {
 
     Route::get('/payers/export', 'PayerController@export')->name('payers.export');
-    Route::get('/home', 'HomeController@index')->name('home');
+    
     Route::resource('clients', 'ClientController');
     Route::resource('clients.credential', 'CredentialStoreController')->only('update', 'store');
 
     Route::get('/quote', 'QuoteController@index')->name('quote');
+    Route::get('/quotation', 'QuoteController@quotation')->name('quotation');
+    
     Route::post('quote/anticipate', 'QuoteController@anticipate')->name('quote.anticipate'); 
        //calculate
     Route::post('quote/calculation', 'QuoteController@calc')->name('quote.calculation'); 
