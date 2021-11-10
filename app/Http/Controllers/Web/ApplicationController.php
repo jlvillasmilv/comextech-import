@@ -620,7 +620,7 @@ class ApplicationController extends Controller
     */
     public function fedexRate(TransportRequest $request)
     {
-        // try {
+         try {
 
             if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
             {   
@@ -648,19 +648,26 @@ class ApplicationController extends Controller
 
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
                     $quote['ServiceType']       = ucwords(strtolower(\Str::replace('_', ' ',$fedex_response['ServiceType'])));
-                    $quote['Discount']          = $discount;
+
+                    /* Calculating the discount on the estimated total */
+                    $quote['Discount']          = round(($quote['TotalBaseCharge'] * $discount) / 100, 2);
+
+                    /* Applying the discount on the estimated total */
+                    $quote['TotalEstimed'] =  $quote['TotalBaseCharge'] - $quote['Discount'];
                     
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = $item->Amount->Amount;
+                        /* Applying the discount on the estimated total */
+                        $quote['TotalEstimed'] = round($quote['TotalEstimed'] + $item->Amount->Amount, 2);
                     }
             
                     return response()->json($quote, 200);
                 }
             }
 
-        // } catch (\Exception $e) {
-        //     return response()->json(['status' => $e], 400);
-        // }
+         } catch (\Exception $e) {
+             return response()->json(['status' => $e], 400);
+         }
 
     }
 
