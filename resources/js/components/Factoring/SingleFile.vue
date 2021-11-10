@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-wrap justify-around items-center mx-8">
-        <div class="relative -mx-4 flex-grow mb-2 max-w-full">
+    <div class="flex flex-wrap justify-center">
+        <div class="relative max-w-full px-2 py-2">
             <div class="relative inline-flex align-middle">
                 <div
                     class="file-select"
@@ -17,10 +17,10 @@
                 </label>
             </div>
         </div>
-        <div class="flex flex-grow max-w-full relative px-4 ml-4 mb-2">
+        <div class="items-center relative inline-flex px-2 py-2">
             <a
                 v-if="status"
-                class="font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-gray-600"
+                class="-mt-2 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-gray-600"
                 @click="download()"
             >
                 <span

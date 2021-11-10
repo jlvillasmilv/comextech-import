@@ -199,7 +199,7 @@
                 x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0"
-                class="overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+                class="flex flex-col justify-around overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
                 tabindex="-1"
                 role="dialog"
                 aria-labelledby="myLargeModalLabel"
@@ -207,7 +207,7 @@
                 :id="`${source}`"
             >
                 <div
-                    class="flex transform-none transition-opacity h-28 w-full sm:w-auto relative pointer-events-none sm:mt-16"
+                    class="flex transform-none transition-opacity h-36 sm:h-28 w-full sm:w-auto relative pointer-events-none sm:mt-16"
                     role="document"
                 >
                     <div
