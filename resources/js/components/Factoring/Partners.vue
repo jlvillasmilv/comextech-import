@@ -51,34 +51,42 @@
             </table>
         </div>
     </div>
-    <form v-else class="user col-lg-6 col-md-12 ">
-        <div class="d-flex justify-content-between align-items-center">
+    <form
+        v-else
+        class="flex flex-col relative sm:w-full md:w-full lg:w-7/12 px-6"
+    >
+        <div class="flex items-center justify-between">
             <div>
-                <h1 class="h4 text-primary mb-4">{{ title }}</h1>
+                <h1 class="text-blue-800 text-xl font-medium mb-4">
+                    {{ title }}
+                </h1>
             </div>
             <div>
                 <a
-                    class="btn btn-info  btn-circle "
+                    class="text-white bg-blue-500 border-blue-800 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-blue-700"
                     @click="AddOrUpdatePartners()"
                 >
                     <i class="fas fa-plus fa-md"> </i>
                 </a>
-                <a class="btn btn-danger  btn-circle " @click="viewAddForm()">
+                <a
+                    class="text-white bg-red-500 border-blue-800 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-red-600"
+                    @click="viewAddForm()"
+                >
                     <i class="fas fa-times fa-md"> </i>
                 </a>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-sm-12">
-                <label class="text-gray-500"> RUT </label>
+        <div class="flex flex-row flex-wrap mb-4 -mr-3.5 -ml-3.5">
+            <div class="flex flex-col relative w-full px-3.5">
+                <label class="text-gray-500 mb-2"> RUT </label>
                 <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
                     v-model="partnersAdd.rut"
                 />
             </div>
         </div>
-        <div class="form-group row">
+        <div class="flex flex-row flex-wrap mb-4 -mr-3.5 -ml-3.5">
             <div class="col-sm-6">
                 <label class="text-gray-500"> Nombre</label>
                 <input
@@ -96,7 +104,7 @@
                 />
             </div>
         </div>
-        <div class="form-group row">
+        <div class="flex flex-row flex-wrap mb-4 -mr-3.5 -ml-3.5">
             <div class="col-sm-6 mb-3 mb-sm-0">
                 <label class="text-gray-500"> Email </label>
                 <input
