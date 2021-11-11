@@ -1,12 +1,14 @@
 <template>
-    <div v-if="mode" class="grid mb-8 relative sm:w-8/12 px-4">
+    <div v-if="mode" class="grid mb-8 relative lg:w-8/12 px-4">
         <div class="flex flex-wrap justify-center">
-            <div class="relative px-4 flex flex-grow-0 flex-shrink-0 w-10/12">
+            <div
+                class="relative sm:px-4 flex flex-grow-0 flex-shrink-0 w-10/12"
+            >
                 <h1 class="text-blue-800 text-xl font-medium mb-4">
                     Representantes
                 </h1>
             </div>
-            <div class="relative flex w-2/12 px-4">
+            <div class="relative flex w-2/12 sm:px-4">
                 <a
                     class="text-white bg-blue-800 border-blue-800 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-blue-900"
                     @click="viewAddForm()"
@@ -87,37 +89,45 @@
             </div>
         </div>
         <div class="flex flex-row flex-wrap mb-4 -mr-3.5 -ml-3.5">
-            <div class="col-sm-6">
+            <div
+                class="flex flex-col relative sm:w-full md:w-full lg:w-6/12 px-3.5"
+            >
                 <label class="text-gray-500"> Nombre</label>
                 <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
                     v-model="partnersAdd.first_name"
                 />
             </div>
-            <div class="col-sm-6">
+            <div
+                class="flex flex-col relative sm:w-full md:w-full lg:w-6/12 px-3.5"
+            >
                 <label class="text-gray-500"> Apellido </label>
                 <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
                     v-model="partnersAdd.last_name"
                 />
             </div>
         </div>
         <div class="flex flex-row flex-wrap mb-4 -mr-3.5 -ml-3.5">
-            <div class="col-sm-6 mb-3 mb-sm-0">
+            <div
+                class="flex flex-col relative sm:w-full md:w-full lg:w-6/12 px-3.5"
+            >
                 <label class="text-gray-500"> Email </label>
                 <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
                     v-model="partnersAdd.email"
                 />
             </div>
-            <div class="col-sm-6">
+            <div
+                class="flex flex-col relative sm:w-full md:w-full lg:w-6/12 px-3.5"
+            >
                 <label class="text-gray-500"> Direccion </label>
                 <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
                     v-model="partnersAdd.address"
                 />
             </div>
@@ -151,6 +161,7 @@ export default {
             this.company = response.data;
         },
         async AddOrUpdatePartners() {
+            console.log(true);
             try {
                 let payload = Object.assign(this.partnersAdd, {
                     company_id: this.company.id

@@ -36,7 +36,7 @@
                         v-if="
                             !expenses.dataLoad ||
                                 expenses.dataLoad.length == 0 ||
-                                formAdress == true
+                                $store.state.address.formAddress
                         "
                         class="flex flex-wrap -mx-3 my-8"
                     >
@@ -201,7 +201,7 @@
                                 expenses.address_destination !== '') ||
                                 (expenses.address_destination !== '' &&
                                     expenses.dataLoad.length <= 0) ||
-                                adressDate == true
+                                $store.state.address.addressDate
                         "
                         class="flex flex-wrap -mx-3 mb-6"
                     >
@@ -780,8 +780,7 @@ export default {
                 width: 100
             });
 
-            this.formAdress = false; /* Hide address form */
-            this.adressDate = false; /* Hide date and description form */
+            this.$store.dispatch('address/showAddress', false);
             this.Load = false; /* Hide form loads and dimensions */
             try {
                 this.showApisQuote = true;
@@ -837,12 +836,14 @@ export default {
          * Show / Hide from address (button "Editar")
          */
         HideAddress() {
-            this.formAdress = !this.formAdress; /* Hide / Show Address Form */
-            this.adressDate = !this
-                .adressDate; /* Hide / Show date and description form */
-            this.Load = !this.Load; /* Hide / Show loads and dimensions form */
-            /* Here the dataLoad is set to 0 to edit the view */
-            this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
+            this.$store.dispatch('address/showAddress', true);
+
+            this.Load = true; /* Hide / Show loads and dimensions form */
+
+            this.showApisQuote = false;
+
+            // /* Here the dataLoad is set to 0 to edit the view */
+            // this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
         },
 
         /**
