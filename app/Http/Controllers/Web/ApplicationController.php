@@ -547,8 +547,6 @@ class ApplicationController extends Controller
 
             }
 
-            
-
             //Agrega datos a carga de transporte
             if($request->input('transport')){
                
@@ -580,6 +578,10 @@ class ApplicationController extends Controller
     }
 
 
+    /**
+     * Store or update a resource in storage.
+     * 
+     */
     public function load($data,$application_id=null)
     {
         Load::where('application_id', $application_id)->delete();
@@ -612,8 +614,9 @@ class ApplicationController extends Controller
     /**
      * @author Jorge Villasmil.
      * 
-     * Connect with fedex, dhl apis
-     * 
+     * Connect with Fedex, dhl apis
+     * get data from Fedex quote and rate api
+     *  
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * 
@@ -674,7 +677,8 @@ class ApplicationController extends Controller
      /**
      * @author Jorge Villasmil.
      * 
-     * Connect with dhl apis
+     * Connect with dhl apis 
+     * get data from DHL quote and rate api 
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -722,14 +726,16 @@ class ApplicationController extends Controller
                     
                     $total_discount = ($total__net_charge * $discount) / 100;
 
+                    /* Calculating the discount on the estimated total */
                     $total =  $total__net_charge - $total_discount;
                     
                     foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
                         $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+                       /* Calculating the discount on the estimated total */
                         $total = $total + $qtdShp_exchrg['ChargeValue'];
                     }
-
-                    $quote['ComextechDiscount'] =  $total;
+                    $quote['ComextechTotal']    = round($total, 2);
+                    $quote['ComextechDiscount'] =  round($total_discount, 2);
                 }
                 
                 return response()->json($quote, 200);
