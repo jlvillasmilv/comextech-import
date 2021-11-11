@@ -554,7 +554,7 @@
                                         Descuento
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ dhl.Discount }}
+                                        {{ dhl.ComextechDiscount }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -562,7 +562,7 @@
                                         Total Estimado
                                     </td>
                                     <td class="text-right text-sm">
-                                        {{ dhl.ComextechDiscount }}
+                                        {{ dhl.ComextechTotal }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -813,10 +813,10 @@ export default {
                         parseFloat(this.dhl.WeightCharge) +
                         parseFloat(this.dhl.TotalDiscount);
 
-                    this.dhl.Discount = (this.transportDHL * 60) / 100;
-                    this.dhl.Discount = parseFloat(this.dhl.Discount).toFixed(
-                        2
-                    );
+                    // this.dhl.Discount = (this.transportDHL * 60) / 100;
+                    // this.dhl.Discount = parseFloat(this.dhl.Discount).toFixed(
+                    //     2
+                    // );
 
                     this.dhl.ComextechDiscount = this.dhl.ComextechDiscount.toFixed(
                         2

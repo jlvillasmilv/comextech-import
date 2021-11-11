@@ -50,34 +50,74 @@
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
                 <div class="flex space-x-4 ...">
-                    <div class="w-3/4">
+                    <div class="w-full">
                         <table class="w-full table-fixed">
                             <thead>
-                                <tr
-                                    class="
-                    text-xs
-                    font-semibold
-                    tracking-wide
-                    text-left text-white
-                    uppercase
-                    border-b
-                    dark:border-gray-700
-                    bg-blue-900
-                    dark:text-gray-400
-                    dark:bg-gray-800
-                  "
-                                >
-                                    <th class="w-2/5 px-4 py-3">CONCEPTO</th>
-                                    <th class="w-1/4 px-4 py-3 text-center">
+                                <tr class=" " >
+                                    <th class="w-2/5 px-4 py-3  text-xs
+                                    font-semibold
+                                    tracking-wide
+                                    text-left text-white
+                                    uppercase
+                                    border-b
+                                    dark:border-gray-700
+                                    bg-blue-900
+                                    dark:text-gray-400
+                                    dark:bg-gray-800">
+                                    CONCEPTO
+                                    </th>
+                                    <th class="w-1/4 px-4 py-3
+                                        text-xs
+                                        font-semibold
+                                        tracking-wide
+                                        text-center text-white
+                                        uppercase
+                                        border-b
+                                        dark:border-gray-700
+                                        bg-blue-900
+                                        dark:text-gray-400
+                                        dark:bg-gray-800">
                                         FECHA
                                     </th>
-                                    <th class="w-1/4 px-4 py-3 text-center">
+                                    <th class="w-1/4 px-4 py-3 text-xs
+                                        font-semibold
+                                        tracking-wide
+                                        text-center
+                                        text-white
+                                        uppercase
+                                        border-b
+                                        dark:border-gray-700
+                                        bg-blue-900
+                                        dark:text-gray-400
+                                        dark:bg-gray-800">
                                         MONEDA<br />
                                         ORIGEN
                                     </th>
-                                    <th class="w-1/4 px-4 py-3 text-center">
+                                    <th class="w-1/4 px-4 py-3  text-xs
+                                        font-semibold
+                                        tracking-wide
+                                        text-center text-white
+                                        uppercase
+                                        border-b
+                                        dark:border-gray-700
+                                        bg-blue-900
+                                        dark:text-gray-400
+                                        dark:bg-gray-800">
                                         MONTO<br />
                                         M.O.
+                                    </th>
+                                    <th class="px-4 py-3 w-1">&nbsp; </th>
+                                    <th class="w-1/4 px-4 py-3
+                                    tracking-wide
+                                    text-center text-white
+                                    uppercase
+                                    border-b
+                                    dark:border-gray-700
+                                    bg-blue-900
+                                    dark:text-gray-400
+                                    dark:bg-gray-800">
+                                        Monto <br />
+                                        {{ currency_ex }}
                                     </th>
                                 </tr>
                             </thead>
@@ -118,11 +158,31 @@
                                             formatPrice(item.amount, item.code)
                                         }}
                                     </td>
+                                    <td class="text-center px-4 py-3">
+                                        &nbsp;
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        {{ formatter(item.amo2, currency_ex) }}
+                                    </td>
                                 </tr>
                             </tbody>
+                             <tfoot>
+                                <tr>
+                                    <td colspan="6" class="text-right px-4 py-3">
+                                        <strong>
+                                            {{
+                                                formatter(
+                                                    totalAmount,
+                                                    currency_ex
+                                                )
+                                            }}</strong
+                                        >
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
-                    <div class="w-1/4">
+                    <!-- <div class="w-1/4">
                         <table class="w-full table-fixed">
                             <tr
                                 class="
@@ -138,10 +198,7 @@
                   dark:bg-gray-800
                 "
                             >
-                                <th class="px-4 py-3 text-center">
-                                    Monto <br />
-                                    {{ currency_ex }}
-                                </th>
+                                
                             </tr>
                             <tbody
                                 class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
@@ -171,7 +228,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
