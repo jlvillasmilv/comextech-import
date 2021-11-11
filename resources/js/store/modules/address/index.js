@@ -28,7 +28,9 @@ const state = {
     }),
     Load: false,
     safe: false,
-    addressDestination: []
+    addressDestination: [],
+    addressDate: false,
+    formAddress: false
 };
 
 const getters = {};
@@ -42,6 +44,10 @@ const mutations = {
     },
     SET_TRANSPORT(state, { transport }) {
         state.expenses = new Form(transport);
+    },
+    SHOW_ADDRESS(state, value) {
+        state.addressDate = value;
+        state.formAddress = value;
     }
 };
 
@@ -57,6 +63,9 @@ const actions = {
     },
     setTransport({ commit }, data) {
         commit('SET_TRANSPORT', data);
+    },
+    showAddress({ commit }, value) {
+        commit('SHOW_ADDRESS', value);
     }
 };
 
