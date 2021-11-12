@@ -11,13 +11,13 @@
                 </div>
 
                 <label
-                    class="-ml-1 px-2 py-1.5 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-800 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-blue-900"
+                    class="-ml-1 px-2 py-1.5 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-900 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-blue-700"
                 >
                     <i class="px-1 fas fa-cloud-upload-alt fa-2x"></i>
                 </label>
             </div>
         </div>
-        <div class="items-center relative inline-flex px-2 py-2.5">
+        <div class="items-center relative inline-flex px-2 py-4">
             <a
                 v-if="status"
                 class="-mt-2 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-gray-600"

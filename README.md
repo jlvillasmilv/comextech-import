@@ -32,13 +32,30 @@ php artisan serve
 
 Now, in this process you should get your API key, which will be the key to all of this. We put it in our Laravel project’s .env file:
 
-API_KEY_CURRENCY = 
-GOOGLE_MAPS_API_KEY= 
+API_KEY_CURRENCY   = 816f5ba6a3a918f44402
+
+GOOGLE_MAPS_API_KEY= AIzaSyB24kb-ImiN4VTuK0n4BtN-vX137CNEvtU
+
+FEDEX_KEY = kN6FcXySl6Chr2Z0
+FEDEX_PASSWORD = SttUWogpVE2kQ3xdbE7WrXDiv
+FEDEX_ACCOUNT_NUMBER = 955761375
+FEDEX_METER_NUMBER = 254271695
+FEDEX_OAUTH_URL = https://apis-sandbox.fedex.com/oauth/token
+FEDEX_RATE_URL = https://apis-sandbox.fedex.com/rate/v1/rates/quotes
+
+DHL_SITEID = v62_RaycURsgUZ
+DHL_PASSWORD = YYkBwXZmMm
+DHL_ACCOUNT_NUMBER = 955653942
+
+DHL_EXP_SITEID = v62_DZy8vS4koW
+DHL_EXP_PASSWORD = I00uFsipN2
+DHL_EXP_ACCOUNT_NUMBER = 673181996
+
+
+AWS_ACCESS_KEY_ID=AKIAXLECW5WQNSO3O3FF
+AWS_SECRET_ACCESS_KEY=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
+AWS_DEFAULT_REGION=sa-east-1
+AWS_BUCKET=my-file-container-comextech
 
 Warning again: As I mentioned, be extremely careful and not put that anywhere in the repository, cause you may get a bill for someone else’s project. Or, better yet, restrict your API key by domain or some other method.
 ```
-### Project made possible thanks to:
-
-- [Laravel Jetstream](https://jetstream.laravel.com/1.x/introduction.html)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Windmill Dashboard](https://windmill-dashboard.vercel.app/)

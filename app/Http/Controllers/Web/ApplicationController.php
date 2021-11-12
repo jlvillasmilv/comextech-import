@@ -674,7 +674,7 @@ class ApplicationController extends Controller
 
     }
 
-     /**
+    /**
      * @author Jorge Villasmil.
      * 
      * Connect with dhl apis 
@@ -734,7 +734,7 @@ class ApplicationController extends Controller
                        /* Calculating the discount on the estimated total */
                         $total = $total + $qtdShp_exchrg['ChargeValue'];
                     }
-                    $quote['ComextechTotal']    = round($total, 2);
+                    $quote['ComextechTotal']    =  round($total, 2);
                     $quote['ComextechDiscount'] =  round($total_discount, 2);
                 }
                 

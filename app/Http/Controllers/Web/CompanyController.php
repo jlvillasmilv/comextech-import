@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{Company, Country, CompanyAddress};
+use App\Http\Requests\Web\CompanyRequest;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -76,7 +77,7 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CompanyRequest $request, $id)
     {
         $data = Company::findOrFail(base64_decode($id));
 

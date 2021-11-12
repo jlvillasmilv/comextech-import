@@ -61,12 +61,6 @@
      <td class="px-4 py-3 text-center">
         {{number_format($morat,0,",",".")}}
      </td>
-    
-     {{-- <td class="px-4 py-3 text-center">
-        <a too href="#" class="btn  btn-info btn-sm " data-toggle="tooltip" data-placement="bottom" title="Ver detalle caluclo pagador"> 
-            <i class="fa fa-building"> </i>
-        </a>
-    </td> --}}
 </tr>
     
 @empty
