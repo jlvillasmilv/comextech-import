@@ -15,11 +15,11 @@ class FileStoreClient extends Model
 
     public function client()
     {
-        return $this->belongsTo(App\Models\User::class,'user_id');
+        return $this->belongsTo(\App\Models\User::class,'user_id');
     }
 
     public function fileStore()
     {
-        return $this->belongsTo(App\Models\FileStore::class);
+        return $this->belongsTo(\App\Models\FileStore::class, 'file_store_id');
     }
 }

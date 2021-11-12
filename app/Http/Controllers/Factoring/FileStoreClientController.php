@@ -24,10 +24,10 @@ class FileStoreClientController extends Controller
 
     public function show($name)
     {   
-        $client  = auth()->user();
-        $files   = $client->FileStoreClient()->where("type", $name)->get();
+        $files   = auth()->user()->FileStoreClient()->where("type", $name)->get();
         $file    = $files->last();
-        $name    = $file->FileStore->original_name;
+        $name    = $file->FileStore->file_name;
+
         return Storage::disk('s3')->response('file/'.$name);
     }
     public function validatedFile($name)
