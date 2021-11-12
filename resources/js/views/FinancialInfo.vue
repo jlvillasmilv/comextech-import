@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="flex flex-wrap justify-center -mx-5 p-1 w-full">
+        <div class="flex flex-wrap justify-center md:-mx-5 p-1 w-full">
             <div
-                class="flex flex-col flex-shrink-0 flex-grow-0 relative w-6/12 px-6"
+                class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-6 mb-4"
             >
                 <span class="text-blue-800 text-lg font-medium mb-4">
                     Estados Financieros
@@ -29,7 +29,7 @@
                 <SingleFile :action="`Adjuntar`" :data="`otros`"></SingleFile>
             </div>
             <div
-                class="flex flex-col flex-shrink-0 flex-grow-0 relative w-6/12 px-6"
+                class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-6 mb-4"
             >
                 <span class="text-blue-800 text-lg font-medium mb-4">
                     Carpetas Tributarias Actualizadas
