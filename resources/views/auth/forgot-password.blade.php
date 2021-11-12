@@ -10,7 +10,7 @@
                 </div>
                 <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
                     <div class="w-full">
-                        <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Forgot password</h1>
+                        <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Olvidó  Contraseña</h1>
                         @if ($errors->any())
                         <div class="mb-4">
                             <div class="font-medium text-red-600">Whoops! Something went wrong.</div>
@@ -32,10 +32,10 @@
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Email</span>
+                                <span class="text-gray-700 dark:text-gray-400">Correo Electronico</span>
                                 <input
                                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                    placeholder="Jane Doe" name="email" :value="old('email')" required autofocus />
+                                    placeholder="email@email.com" name="email" :value="old('email')" required autofocus />
                             </label>
 
                             <!-- You should use a button here, as the anchor is only used for the example  -->
@@ -45,6 +45,11 @@
                                 {{ __('Email Password Reset Link') }}
                             </button>
                         </form>
+                        <p class="mt-4">
+                            <a class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline" href="{{ route('login') }}">
+                                ¿Ya tienes una cuenta?  Login
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
