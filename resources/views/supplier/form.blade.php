@@ -1,10 +1,10 @@
 <x-app-layout title="Import">
-    <div class="container px-6 mx-auto ">
+    <div class="container px-6 ">
         <h2 class="mt-5 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             <a href="{{route('supplier.index')}}">Proveedores</a>  
         </h2>
         <div class="flex justify-center px-6 m-auto my-2 ">
-            <div class="w-3/4 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div class="w-full mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="my-4 font-semibold text-gray-700 dark:text-gray-200">
                     Nuevo Proveedor
                 </h3>
@@ -22,25 +22,48 @@
                             </span>
                         @endif
                 </label>
-                <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> Banco</span>
-                    <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" name="bank" value="{{ old('bank', isset($supplier) ? $supplier->bank : '') }}" max="100" required="">
-	                 @if($errors->has('bank'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('bank') }}
-		                </span>
-	                @endif
-                </label>
-                <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> ISIN </span>
-                    <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder=" Número de identificación de valores internacionales
-                    "  name="isin" value="{{ old('isin', isset($supplier) ? $supplier->isin : '') }}" max="15" required="">
-	                @if($errors->has('isin'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('isin') }}
-		                </span>
-	                @endif
-                </label>
+
+                <div class="flex mb-4">
+
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400"> Banco</span>
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" name="bank" value="{{ old('bank', isset($supplier) ? $supplier->bank : '') }}" max="100" required="">
+                             @if($errors->has('bank'))
+                                 <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('bank') }}
+                                </span>
+                            @endif
+                        </label>
+                    </div>
+
+                    <div class="w-1/4 mr-1">
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400"> ISIN </span>
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder=" Número de identificación de valores internacionales
+                            "  name="isin" value="{{ old('isin', isset($supplier) ? $supplier->isin : '') }}" max="15" required="">
+                            @if($errors->has('isin'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('isin') }}
+                                </span>
+                            @endif
+                        </label>
+                    </div>
+
+                    <div class="w-1/4 mr-1">
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400"> IBAN </span>
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Código Internacional de Cuenta Bancaria" name="iban" value="{{ old('iban', isset($supplier) ? $supplier->iban : '') }}" max="100" required="">
+                            @if($errors->has('iban'))
+                                 <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('iban') }}
+                                </span>
+                            @endif
+                        </label>
+                    </div>
+
+                </div>
+
                 <label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400"> Direccion </span>
                     <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion Postal" name="address" value="{{ old('address', isset($supplier) ? $supplier->address : '') }}" max="100" required="">
@@ -50,15 +73,7 @@
 		                </span>
 	                @endif
                 </label>
-                <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> IBAN </span>
-                    <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Código Internacional de Cuenta Bancaria" name="iban" value="{{ old('iban', isset($supplier) ? $supplier->iban : '') }}" max="100" required="">
-	                @if($errors->has('iban'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('iban') }}
-		                </span>
-	                @endif
-                </label>
+               
                 <label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400"> Direccion de Correo </span>
                     <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion de Correo electrónico" name="email" value="{{ old('email', isset($supplier) ? $supplier->email : '') }}" max="100" required="">

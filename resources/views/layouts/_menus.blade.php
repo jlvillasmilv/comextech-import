@@ -54,19 +54,21 @@
                 aria-label="submenu"
               >
                 <li
-                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 
+                {!! request()->is('applications') || request()->is('applications/*')  ? 'italic font-black' : '' !!} "
                 >
                 <a class="w-full" href="{{ route('applications.index')}}">
                     Solicitudes
                 </a>
                 </li>
-                <li
+                {{-- <li
                   class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                 >
                   <a class="w-full"  href="{{route('services.show')}}" > Gestion de Servicios</a>
-                </li>
+                </li> --}}
                 <li
-                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                  {!! request()->is('supplier') || request()->is('supplier/*')  ? 'italic font-black' : '' !!}"
                 >
                   <a class="w-full" href="{{ route('supplier.index')}}">
                     Proveedores
