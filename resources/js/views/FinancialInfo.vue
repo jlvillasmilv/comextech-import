@@ -1,15 +1,19 @@
 <template>
     <div>
-        <div class="row p-1 justify-content-center">
-            <div class="col-lg-6">
-                <span class="h5 text-primary mb-4"> Estados Financieros </span>
+        <div class="flex flex-wrap justify-center md:-mx-5 p-1 w-full">
+            <div
+                class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-6 mb-4"
+            >
+                <span class="text-blue-800 text-lg font-medium mb-4">
+                    Estados Financieros
+                </span>
                 <hr />
                 <SingleFile
                     :action="`Adjuntar`"
                     :data="`estados_finacieros`"
                 ></SingleFile>
                 <br />
-                <span class="h5 text-primary mb-4">
+                <span class="text-blue-800 text-lg font-medium mb-4">
                     Presentacion de Empresa</span
                 >
                 <hr />
@@ -18,12 +22,16 @@
                     :data="`presentacion_empresa`"
                 ></SingleFile>
                 <br />
-                <span class="h5 text-primary mb-4"> Otros </span>
+                <span class="text-blue-800 text-lg font-medium mb-4">
+                    Otros
+                </span>
                 <hr />
                 <SingleFile :action="`Adjuntar`" :data="`otros`"></SingleFile>
             </div>
-            <div class="col-lg-6">
-                <span class="h5 text-primary mb-4">
+            <div
+                class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-6 mb-4"
+            >
+                <span class="text-blue-800 text-lg font-medium mb-4">
                     Carpetas Tributarias Actualizadas
                 </span>
                 <hr />
@@ -32,7 +40,7 @@
                     :data="`carp_tributaria`"
                 ></SingleFile>
                 <br />
-                <span class="h5 text-primary mb-4">
+                <span class="text-blue-800 text-lg font-medium mb-4">
                     Última declaracion de Impuesto Renta (SII)
                 </span>
                 <hr />
@@ -46,13 +54,13 @@
 </template>
 
 <script>
-import SingleFile from "../components/Factoring/SingleFile";
-import DownloadFile from "../components/Factoring/DownloadFile";
+import SingleFile from '../components/Factoring/SingleFile';
+import DownloadFile from '../components/Factoring/DownloadFile';
 
 export default {
     data() {
         return {
-            title: "Informacion Financiera"
+            title: 'Informacion Financiera'
         };
     },
     components: {
@@ -61,7 +69,7 @@ export default {
     },
     computed: {
         upPower() {
-            console.log("aqui");
+            console.log('aqui');
         }
     }
 };
