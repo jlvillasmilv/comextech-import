@@ -1,7 +1,7 @@
 <x-guest-layout title="Reset Password">
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            {{-- <x-authentication-card-logo /> --}}
         </x-slot>
 
         <x-validation-errors class="mb-4" />
@@ -12,17 +12,17 @@
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
             <div class="block">
-                <x-label value="Email" />
-                <x-input class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+                <x-label value="Correo Electronico" />
+                <x-input class="block mt-1 w-full" type="email" name="email" disabled="true" :value="old('email', $request->email)" required autofocus />
             </div>
 
             <div class="mt-4">
-                <x-label value="Password" />
+                <x-label value="Contraseña" />
                 <x-input class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
-                <x-label value="Confirm Password" />
+                <x-label value="Confirm Contraseña" />
                 <x-input class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
