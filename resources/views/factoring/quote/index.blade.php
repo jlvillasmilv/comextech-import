@@ -27,7 +27,7 @@
                           Pago Transferencia
                         </p>
                       </td>
-                      <td class="px-4 py-3">
+                      <td class="w-1 px-4 py-3">
                         <div class="flex justify-center">
 
                           <button

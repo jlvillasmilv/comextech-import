@@ -109,7 +109,9 @@
                                     <th class="px-4 py-3 w-1">&nbsp; </th>
                                     <th class="w-1/4 px-4 py-3
                                     tracking-wide
-                                    text-center text-white
+                                    text-xs
+                                    text-center
+                                    text-white
                                     uppercase
                                     border-b
                                     dark:border-gray-700
@@ -182,53 +184,6 @@
                             </tfoot>
                         </table>
                     </div>
-                    <!-- <div class="w-1/4">
-                        <table class="w-full table-fixed">
-                            <tr
-                                class="
-                  text-xs
-                  font-semibold
-                  tracking-wide
-                  text-left text-white
-                  uppercase
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-900
-                  dark:text-gray-400
-                  dark:bg-gray-800
-                "
-                            >
-                                
-                            </tr>
-                            <tbody
-                                class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
-                            >
-                                <tr
-                                    v-for="(item, key) in exchangeItem"
-                                    :key="key"
-                                    class="text-gray-700 dark:text-gray-400"
-                                >
-                                    <td class="px-4 py-3 text-center">
-                                        {{ formatter(item.amo2, currency_ex) }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="text-center px-4 py-3">
-                                        <strong>
-                                            {{
-                                                formatter(
-                                                    totalAmount,
-                                                    currency_ex
-                                                )
-                                            }}</strong
-                                        >
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -294,21 +249,24 @@ export default {
             this.currency_ex = currency;
 
             this.exchangeItem.forEach(async e => {
-                try {
-                    const resp = await axios.get(
-                        `/api/convert-currency/${e.amount}/${e.code}/${currency}`
-                    );
+                if(e.amount != 0) {
+                    try {
+                        
+                        const resp = await axios.get(
+                            `/api/convert-currency/${e.amount}/${e.code}/${currency}`
+                        );
 
-                    //Find index of specific object using findIndex method.
-                    let objIndex = this.exchangeItem.findIndex(
-                        obj => obj.id == e.id
-                    );
+                        //Find index of specific object using findIndex method.
+                        let objIndex = this.exchangeItem.findIndex(
+                            obj => obj.id == e.id
+                        );
 
-                    //Update object's name property.
-                    this.exchangeItem[objIndex].amo2 = resp.data;
-                } catch (err) {
-                    // Handle Error Here
-                    console.error(err);
+                        //Update object's name property.
+                        this.exchangeItem[objIndex].amo2 = resp.data;
+                    } catch (err) {
+                        // Handle Error Here
+                        console.error(err);
+                    }
                 }
             });
             //

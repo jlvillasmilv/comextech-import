@@ -17,7 +17,7 @@ class UpdateOrCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -33,13 +33,13 @@ class UpdateOrCreateRequest extends FormRequest
             'last_name'  =>'required',
             'first_name' =>'required', 
             'email'   => [
-                    $this->id ? Rule::unique('partners')->ignore($this->id) :'unique:partners,email',
+                    $this->id ? Rule::unique('factoring_partners')->ignore($this->id) :'unique:factoring_partners,email',
                     'required',
                     'email'
             ],
             'address' => 'required',
             'rut'     => [
-                $this->id ? Rule::unique('partners')->ignore($this->id) :'unique:partners,rut',
+                $this->id ? Rule::unique('factoring_partners')->ignore($this->id) :'unique:factoring_partners,rut',
                 'required'
             ],
         ];
