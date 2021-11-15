@@ -2,7 +2,7 @@
 
 This project is created with [Laravel Jetstream] Framework and [Tailwind CSS](https://tailwindcss.com), the admin environment is desing by [Windmill Dashboard](https://windmill-dashboard.vercel.app/).
 
-<img src="https://laravel.com/img/logotype.min.svg" width="110" />
+<img src="https://laravel.com/img/logotype.min.svg" alt="https://laravel.com/" width="110" />
 
 ---
 
