@@ -487,9 +487,9 @@ export default {
                     Swal.fire({
                         icon: 'success',
                         title: 'Se ha creado la solicitud! ',
-                        text: `Tu solicitud Nº ${response.data.application.id} 
+                        text: `Tu solicitud Nº ${response.data.application} 
                                     requiere de una evaluacion y aprobacion para su ejecucion, 
-                                    te informaremos a tu email ${response.data.user.email}
+                                    te informaremos a tu email ${response.data.user}
                                     `,
                         footer:
                             '<a href=' +
