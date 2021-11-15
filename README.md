@@ -27,13 +27,13 @@ This project is created with [Laravel Jetstream] Framework and [Tailwind CSS](ht
 git clone https://github.com/keiwerkgvr/comextech-import.git
 ```
 
-1. #### cd into your project directory
+2. #### cd into your project directory
 
 ```
 cd comextech-import
 ```
 
-1. #### install composer and npm packages
+3. #### install composer and npm packages
 
 ```
 composer install
