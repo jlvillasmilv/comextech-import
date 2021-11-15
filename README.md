@@ -6,7 +6,7 @@ This project is created with [Laravel Jetstream] Framework and [Tailwind CSS](ht
 
 ---
 
-<img src="https://tailwindcss.com/_next/static/media/tailwindcss-logotype.128b6e12eb85d013bc9f80a917f57efe.svg" width="200" />
+[<img src="https://tailwindcss.com/_next/static/media/tailwindcss-logotype.128b6e12eb85d013bc9f80a917f57efe.svg"  width="200" />](https://tailwindcss.com/)
 
 ---
 
