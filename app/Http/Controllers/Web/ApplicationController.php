@@ -30,7 +30,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-
+        return view('applications.form');
     }
 
     /**
@@ -170,6 +170,7 @@ class ApplicationController extends Controller
                     ]);
                 }
 
+                /****Send notification to admin about new applications**/
                 $user_admin = User::whereHas('roles', function ($query) {
                     $query->where('name','=', 'Admin');
                 })->pluck('id');
@@ -181,9 +182,7 @@ class ApplicationController extends Controller
                 });
             }
 
-            DB::commit();
-            /****Enviar notificaiones a los adminstradores sobre la nueva solicitud**/
-           
+            DB::commit();          
 
         } catch (\Exception $e) {
             DB::rollback();

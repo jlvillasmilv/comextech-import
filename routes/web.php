@@ -118,7 +118,7 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
 
     Route::get('/payers/export', 'PayerController@export')->name('payers.export');
     
-    Route::resource('clients', 'ClientController');
+    Route::resource('profile', 'ProfileController');
     Route::resource('clients.credential', 'CredentialStoreController')->only('update', 'store');
 
     Route::get('/quote', 'QuoteController@index')->name('quote');
