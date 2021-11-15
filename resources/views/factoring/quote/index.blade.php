@@ -67,7 +67,7 @@
                         href="{{ route('factoring.quotation') }}"
                         title="Solicitar"
                         >
-                        Solicitar
+                        Solicitar <br> Crédito
                       </a>
                     </div>
                     </td>
@@ -86,7 +86,7 @@
                 <tr class="text-gray-700 dark:text-gray-400">
                   <td class="px-4 py-3">
                     <p class="text-xs text-gray-600 dark:text-gray-400">
-                      Credito
+                      Línea de crédito
                     </p>
                   </td>
                   <td class="px-4 py-3">
