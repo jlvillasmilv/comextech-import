@@ -163,8 +163,8 @@ class QuoteController extends Controller
     
             
             $data = [ 
-                    'user'        => auth()->user()->id, 
-                    'application' => $application
+                    'user'        => auth()->user()->email, 
+                    'application' => str_pad($application->id, 6, '0', STR_PAD_LEFT)
                 ];
 
             $details = [
@@ -181,7 +181,7 @@ class QuoteController extends Controller
             return  response()->json($e, 500);
         }
 
-        return  response()->json( $data  ,200);
+        return  response()->json($data  ,200);
  
     }
 
