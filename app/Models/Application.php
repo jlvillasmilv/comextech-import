@@ -17,6 +17,7 @@ class Application extends Model
     protected $fillable = ['user_id',
                            'supplier_id',
                            'application_statuses_id',
+                           'type_transport',
                            'currency_id',
                            'ecommerce_id',
                            'ecommerce_url',
