@@ -17,6 +17,7 @@ class CreateApplicationsTable extends Migration
             $table->id();
             $table->unsignedTinyInteger('type')->nullable();
             $table->foreignId('user_id')->index();
+            $table->string('type_transport',20)->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('application_statuses_id')->default(1);
             $table->unsignedBigInteger('currency_id')->nullable();

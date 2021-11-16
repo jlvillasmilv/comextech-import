@@ -16,10 +16,10 @@ class ApplicationSeeder extends Seeder
     {
 
         $application = Application::create([
-            'type'                    => '1',
-            'user_id'                 => '2',
-            'supplier_id'             => '1',
-            'application_statuses_id' => '1',
+            'type'                    => 1,
+            'user_id'                 => 2,
+            'supplier_id'             => 1,
+            'application_statuses_id' => 1,
             'currency_id'             => 1,
             'description'             => 'Necesito importar un Equipo desde China con Valor del Equipo es Usd50.000,00',
             'fee1_date'               => date('Y-m-d'),
@@ -27,6 +27,7 @@ class ApplicationSeeder extends Seeder
             'fee1'                    => '20',
             'fee2'                    => '80',
             'condition'               => 'EXW',
+            'type_transport'          => 'COURIER',
         ]);
 
 
