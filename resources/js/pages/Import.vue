@@ -400,7 +400,11 @@
                                         :key="name"
                                         :class="[
                                             'cursor-pointer px-5 text-gray-900 border-b-2',
-                                            name ? ' border-blue-500' : ''
+                                            name ==
+                                            $store.state.load.item
+                                                .type_transport
+                                                ? ' border-blue-500'
+                                                : ''
                                         ]"
                                         @click="typeSelected(name)"
                                     >
@@ -636,6 +640,14 @@ export default {
             this.$store.state.application.tabs = this.selectedCondition.services;
             this.data.condition = this.selectedCondition.name;
             this.toDisableProviderPayment(this.data.statusSuppliers);
+        },
+        typeSelected(value) {
+            this.$store.state.load.item.type_transport = value;
+            this.reset();
+        },
+        reset() {
+            this.$store.state.load.loads = [];
+            this.$store.dispatch('load/addLoad', this.item);
         }
     },
     computed: {
