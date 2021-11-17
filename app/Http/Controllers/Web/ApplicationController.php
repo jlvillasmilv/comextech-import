@@ -59,7 +59,7 @@ class ApplicationController extends Controller
                 ],
                 [
                     'supplier_id'     => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
-                    'type_transport'  => $item['type_transport'],
+                    'type_transport'  => $request->type_transport,
                     'amount'          => $request->amount,
                     'fee1'         => $request->statusSuppliers == 'with' ? $request->valuePercentage['valueInitial'] : 0,
                     'fee2'         => $request->statusSuppliers == 'with' ? 100 - $request->valuePercentage['valueInitial'] : 0,

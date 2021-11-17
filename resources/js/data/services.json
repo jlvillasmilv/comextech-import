@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "name": "Pago Proveedor",
+      "name": "Pagos",
       "selected": false,
       "aggregate": false,
       "pivot": {
@@ -21,7 +21,7 @@
     },
     {
       "id": 4,
-      "name": "Internación",
+      "name": "Aduana",
       "selected": false,
       "aggregate": false,
       "pivot": {

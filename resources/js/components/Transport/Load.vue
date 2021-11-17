@@ -12,7 +12,7 @@
                     :key="name"
                     :class="[
                         'cursor-pointer px-5 text-gray-900 border-b-2',
-                        name == item.mode_selected ? ' border-blue-500' : ''
+                        name == item.type_transport ? ' border-blue-500' : ''
                     ]"
                     @click="typeSelected(name)"
                 >
@@ -20,7 +20,7 @@
                 </li>
             </ul>
         </div>
-        <div v-if="item.mode_selected">
+        <div v-if="item.type_transport">
             <div
                 v-for="(item, id) in loads"
                 :key="id"
@@ -28,7 +28,7 @@
             >
                 <div
                     class="inline w-1/6"
-                    v-if="item.mode_selected != 'CONTAINER'"
+                    v-if="item.type_transport != 'CONTAINER'"
                 >
                     <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
                         Calcular por
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div
-                    v-if="item.mode_selected != 'CONTAINER'"
+                    v-if="item.type_transport != 'CONTAINER'"
                     class="inline w-1/6 p-1"
                 >
                     <div class="relative">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="inline" v-if="item.mode_calculate">
-                    <div v-if="item.mode_selected != 'CONTAINER'">
+                    <div v-if="item.type_transport != 'CONTAINER'">
                         <span
                             v-if="id == 0"
                             class="text-sm text-center font-semibold "
@@ -158,7 +158,7 @@
                 </div>
                 <div
                     class="inline text-center"
-                    v-if="item.mode_selected != 'CONTAINER'"
+                    v-if="item.type_transport != 'CONTAINER'"
                 >
                     <span
                         v-if="id == 0"
@@ -193,7 +193,7 @@
                         type="number"
                         :class="[
                             'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
-                            item.mode_selected != 'CONTAINER'
+                            item.type_transport != 'CONTAINER'
                                 ? ' w-16'
                                 : ' w-17'
                         ]"
@@ -233,7 +233,7 @@
                 <div class="flex">
                     <label
                         class="inline-flex text-sm items-center "
-                        v-if="item.mode_selected != 'CONTAINER'"
+                        v-if="item.type_transport != 'CONTAINER'"
                     >
                         <input
                             type="checkbox"
@@ -318,7 +318,7 @@ export default {
             // this.reset();
         },
         typeSelected(value) {
-            this.$store.state.load.item.mode_selected = value;
+            this.$store.state.load.item.type_transport = value;
             this.reset();
         },
         reset() {
@@ -334,7 +334,7 @@ export default {
         validateweight() {
             const { loads } = this.$store.state.load;
 
-            if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
+            if (loads[loads.length - 1].type_transport == 'CONTAINER') {
                 return false;
             }
 
