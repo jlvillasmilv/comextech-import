@@ -2,7 +2,7 @@ const state = {
     types: ['COURIER', 'CARGA AEREA', 'CONTAINER', 'CONSOLIDADO'],
     item: {
         mode_calculate: true,
-        mode_selected: false,
+        type_transport: false,
         type_load: 1,
         type_container: 1,
         length: '',
@@ -34,7 +34,7 @@ const mutations = {
     },
     SET_LOAD(state, data) {
         state.loads = data;
-        state.item.mode_selected = data[0].mode_selected;
+        state.item.type_transport = data[0].type_transport;
     },
     CHANGE_LOAD_TYPE(state, unit) {
         // const firstLoadType = state.loads[0].length_unit;

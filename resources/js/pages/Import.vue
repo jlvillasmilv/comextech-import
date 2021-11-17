@@ -110,8 +110,8 @@
                             v-if="data.errors.has('services')"
                             v-html="data.errors.get('services')"
                         ></span>
-                        <h3 class="my-3 text-gray-500 text-sm">
-                            Informacion de Proveedor
+                        <h3 class="my-3 text-green-700 text-lg">
+                            Proveedor
                         </h3>
                         <div class="flex">
                             <section
@@ -217,113 +217,14 @@
                             v-if="data.errors.has('supplier_id')"
                             v-html="data.errors.get('supplier_id')"
                         ></span>
-
-                        <div class="flex justify-between flex-wrap">
-                            <div
-                                :class="[
-                                    data.statusSuppliers == 'with'
-                                        ? 'md:w-2/5'
-                                        : 'w-full',
-                                    'md:mb-0'
-                                ]"
-                            >
-                                <h3 class="my-2.5 text-gray-500 text-sm">
-                                    Condicion de Venta
-                                </h3>
-                                <div class="relative">
-                                    <select
-                                        v-model="
-                                            $store.state.application
-                                                .selectedCondition
-                                        "
-                                        @change="toogleMenuTabs()"
-                                        class="
-                      block
-                      appearance-none
-                      w-full
-                      border border-gray-150
-                      dark:border-gray-600
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                    "
-                                    >
-                                        <option
-                                            v-for="item in arrayServices"
-                                            :value="item"
-                                            :key="item.name"
-                                        >
-                                            {{ item.name }}
-                                        </option>
-                                    </select>
-                                    <span
-                                        class="text-xs text-red-600 dark:text-red-400"
-                                        v-if="data.errors.has('condition')"
-                                        v-html="data.errors.get('condition')"
-                                    ></span>
-                                    <div
-                                        class="
-                      pointer-events-none
-                      absolute
-                      inset-y-0
-                      right-0
-                      flex
-                      items-center
-                      px-2
-                      text-gray-700
-                    "
-                                    >
-                                        <svg
-                                            class="fill-current h-4 w-4"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path
-                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="sm:w-full md:w-3/5 md:pl-3"
-                                v-show="data.statusSuppliers == 'with'"
-                            >
-                                <h3 class="my-3 text-gray-500 text-sm">
-                                    Porcentaje de Pago
-                                </h3>
-
-                                <a
-                                    v-for="(item, id) in paymentPercentage"
-                                    :key="id"
-                                    @click="handlePercentage(item)"
-                                    :class="[
-                                        item.valueInitial ==
-                                        data.valuePercentage.valueInitial
-                                            ? 'bg-blue-500 text-white '
-                                            : 'bg-transparent text-blue-700 ',
-                                        'hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
-                                    ]"
-                                >
-                                    {{ item.name }}
-                                </a>
-                                <span
-                                    class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="data.errors.has('valuePercentage')"
-                                    v-html="data.errors.get('valuePercentage')"
-                                ></span>
-                            </div>
-                        </div>
-                        <div class="flex justify-between -mx-3">
-                            <div class="sm:w-1/2 md:w-1/2 px-3 ">
-                                <h3 class="my-3 text-gray-500 text-sm">
+                        <h3 class="my-3 text-green-700 text-lg">
+                            Pago
+                        </h3>
+                        <div class="w-full flex items-center">
+                            <div class="sm:w-4/12 md:w-4/12">
+                                <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Moneda de Pago
-                                </h3>
+                                </h3> -->
 
                                 <v-select
                                     label="name"
@@ -363,24 +264,149 @@
                                     v-html="data.errors.get('currency_id')"
                                 ></span>
                             </div>
-                            <div class="md:w-1/2 sm:w-1/2 px-3">
-                                <h3 class="my-3 text-gray-500 text-sm">
-                                    Monto de Operacion
-                                </h3>
-                                <input
-                                    type="number"
-                                    v-model="data.amount"
+                            <div
+                                class="flex flex-wrap justify-center sm:w-4/12 md:w-4/12"
+                                v-show="data.statusSuppliers == 'with'"
+                            >
+                                <!-- <h3 class="my-3 text-gray-500 text-sm">
+                                    Porcentaje de Pago
+                                </h3> -->
+
+                                <div
+                                    v-for="(item, id) in paymentPercentage"
+                                    :key="id"
+                                    @click="handlePercentage(item)"
                                     :class="[
-                                        classStyle.input,
-                                        classStyle.formInput,
-                                        classStyle.wfull
+                                        item.valueInitial ==
+                                        data.valuePercentage.valueInitial
+                                            ? 'bg-blue-500 text-white '
+                                            : 'bg-transparent text-blue-700 ',
+                                        'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                                     ]"
-                                />
+                                >
+                                    {{ item.name }}
+                                </div>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="data.errors.has('amount')"
-                                    v-html="data.errors.get('amount')"
+                                    v-if="data.errors.has('valuePercentage')"
+                                    v-html="data.errors.get('valuePercentage')"
                                 ></span>
+                            </div>
+                            <div
+                                class="flex flex-col justify-between sm:w-4/12"
+                            >
+                                <div
+                                    :class="[
+                                        data.statusSuppliers == 'with'
+                                            ? 'w-full'
+                                            : 'w-full',
+                                        'md:mb-0'
+                                    ]"
+                                >
+                                    <h3 class="my-2.5 text-gray-500 text-sm">
+                                        Condicion de Venta
+                                    </h3>
+                                    <div class="relative">
+                                        <select
+                                            v-model="
+                                                $store.state.application
+                                                    .selectedCondition
+                                            "
+                                            @change="toogleMenuTabs()"
+                                            class="
+                      block
+                      appearance-none
+                      w-full
+                      border border-gray-150
+                      dark:border-gray-600
+                      text-gray-700
+                      p-2
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                    "
+                                        >
+                                            <option
+                                                v-for="item in arrayServices"
+                                                :value="item"
+                                                :key="item.name"
+                                            >
+                                                {{ item.name }}
+                                            </option>
+                                        </select>
+                                        <span
+                                            class="text-xs text-red-600 dark:text-red-400"
+                                            v-if="data.errors.has('condition')"
+                                            v-html="
+                                                data.errors.get('condition')
+                                            "
+                                        ></span>
+                                        <div
+                                            class="
+                      pointer-events-none
+                      absolute
+                      inset-y-0
+                      right-0
+                      flex
+                      items-center
+                      px-2
+                      text-gray-700
+                    "
+                                        >
+                                            <svg
+                                                class="fill-current h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                            >
+                                                <path
+                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full">
+                                    <h3 class="my-3 text-gray-500 text-sm">
+                                        Monto de Operacion
+                                    </h3>
+                                    <input
+                                        type="number"
+                                        v-model="data.amount"
+                                        :class="[
+                                            classStyle.input,
+                                            classStyle.formInput,
+                                            classStyle.wfull
+                                        ]"
+                                    />
+                                    <span
+                                        class="text-xs text-red-600 dark:text-red-400"
+                                        v-if="data.errors.has('amount')"
+                                        v-html="data.errors.get('amount')"
+                                    ></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="my-3 text-green-700 text-lg">
+                                Tipo de Transporte
+                            </h3>
+                            <div class="flex  mt-3 mb-8   ">
+                                <ul class="flex  space-x-2 mt-3 ">
+                                    <li
+                                        v-for="name in $store.state.load.types"
+                                        :key="name"
+                                        :class="[
+                                            'cursor-pointer px-5 text-gray-900 border-b-2',
+                                            name ? ' border-blue-500' : ''
+                                        ]"
+                                        @click="typeSelected(name)"
+                                    >
+                                        {{ name }}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </form>
@@ -483,10 +509,11 @@ export default {
                 label: 'block  text-gray-700 text-xs dark:text-gray-400'
             },
             paymentPercentage: [
+                { name: '10/90', valueInitial: 50 },
                 { name: '20/80', valueInitial: 20 },
+                { name: '100%', valueInitial: 100 },
                 { name: '30/70', valueInitial: 30 },
-                { name: '40/60', valueInitial: 40 },
-                { name: '50/50', valueInitial: 50 },
+                { name: '60/40', valueInitial: 40 },
                 { name: 'OTROS', valueInitial: 0 }
             ],
             objectPayment: {
