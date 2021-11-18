@@ -5,7 +5,7 @@
                 {{ title }}
             </h1>
         </div>
-        <div class="flex  mt-3 mb-8   ">
+        <!-- <div class="flex  mt-3 mb-8   ">
             <ul class="flex  space-x-2 mt-3 ">
                 <li
                     v-for="name in $store.state.load.types"
@@ -19,7 +19,7 @@
                     {{ name }}
                 </li>
             </ul>
-        </div>
+        </div> -->
         <div v-if="item.mode_selected">
             <div
                 v-for="(item, id) in loads"
