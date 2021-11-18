@@ -26,6 +26,7 @@ class ApplicationRequest extends FormRequest
         $rules = [
             'supplier_id'              => 'required_if:statusSuppliers,with',
             'currency_id'              => 'required|exists:currencies,id',
+            'type_transport'           => 'required',
             'description'              => 'nullable|max:250',
             'estimated_date'           => 'nullable|date',
             'valuePercentage'          => 'required_if:statusSuppliers,with',

@@ -31,13 +31,13 @@ class TransportRequest extends FormRequest
             'destinacion'                => 'nullable|max:250',
             'estimated_date'             => 'required|date',
             'dataLoad'                   => 'required|array',
-            'dataLoad.*.mode_selected'   => 'required|string',
-            "dataLoad.*.length"          => "required_if:dataLoad.*.mode_selected,in:COURIER,CARGA AEREA,CONSOLIDADO",
-            "dataLoad.*.width"           => "required_if:dataLoad.*.mode_selected,in:COURIER,CARGA AEREA,CONSOLIDADO",
-            "dataLoad.*.height"          => "required_if:dataLoad.*.mode_selected,in:COURIER,CARGA AEREA,CONSOLIDADO",
+            'dataLoad.*.type_transport'  => 'required|string',
+            "dataLoad.*.length"          => "required_if:dataLoad.*.type_transport,in:COURIER,CARGA AEREA,CONSOLIDADO",
+            "dataLoad.*.width"           => "required_if:dataLoad.*.type_transport,in:COURIER,CARGA AEREA,CONSOLIDADO",
+            "dataLoad.*.height"          => "required_if:dataLoad.*.type_transport,in:COURIER,CARGA AEREA,CONSOLIDADO",
             "dataLoad.*.weight"          => "required|numeric",
-            "dataLoad.*.type_load"       => 'required_if:dataLoad.*.mode_selected,in:COURIER,CARGA AEREA,CONSOLIDADO',
-            "dataLoad.*.type_container"  => 'required_if:dataLoad.*.mode_selected,in:CONTAINER',
+            "dataLoad.*.type_load"       => 'required_if:dataLoad.*.type_transport,in:COURIER,CARGA AEREA,CONSOLIDADO',
+            "dataLoad.*.type_container"  => 'required_if:dataLoad.*.type_transport,in:CONTAINER',
         ];
 
         return $rules;
@@ -51,7 +51,7 @@ class TransportRequest extends FormRequest
             'address_origin'             => 'Destino',
             'estimated_date'             => 'Fecha estimada',
             'dataLoad'                   => 'Datos de carga',
-            'dataLoad.*.mode_selected'   => 'Tipo de entrega',
+            'dataLoad.*.type_transport'  => 'Tipo de transporte',
             'dataLoad.*.length'          => 'Largo',
             'dataLoad.*.width'           => 'Archo',
             "dataLoad.*.height"          => "Altura",

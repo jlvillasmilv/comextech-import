@@ -318,8 +318,8 @@ export default {
             // this.reset();
         },
         typeSelected(value) {
-            this.$store.state.load.item.type_transport = value;
-            this.reset();
+            // this.$store.state.load.item.type_transport = value;
+            // this.reset();
         },
         reset() {
             this.$store.state.load.loads = [];
@@ -373,6 +373,7 @@ export default {
     },
     created() {
         if (!this.loads.length) this.reset();
+        this.$store.state.load.item.type_transport = this.$store.state.application.data.type_transport;
     }
 };
 </script>

@@ -12,7 +12,7 @@ const state = {
         statusSuppliers: 'with',
         services: [],
         valuePercentage: '',
-        type_transport: 'COURIER'
+        type_transport: ''
     }),
     agencyElectronic: [
         {
@@ -66,6 +66,7 @@ const mutations = {
             currency_id,
             ecommerce_id,
             ecommerce_url,
+            type_transport,
             id: application_id,
             payment_provider
         },
@@ -80,6 +81,7 @@ const mutations = {
             currency_id,
             ecommerce_url,
             application_id,
+            type_transport,
             valuePercentage: {
                 name: `${fee1}/${fee2}`,
                 valueInitial: fee1
