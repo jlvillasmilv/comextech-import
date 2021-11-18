@@ -643,7 +643,7 @@ export default {
         },
         typeSelected(value) {
             this.$store.state.application.data.type_transport = value;
-            this.$store.state.load.item.type_transport = value;
+            this.$store.state.load.item.mode_selected = value;
             this.reset();
         },
         reset() {
