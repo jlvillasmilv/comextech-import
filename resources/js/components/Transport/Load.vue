@@ -101,7 +101,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="inline" >
+                <div class="inline">
                     <div v-if="item.type_transport != 'CONTAINER'">
                         <span
                             v-if="id == 0"
