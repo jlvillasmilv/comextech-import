@@ -39,16 +39,17 @@
                             <label
                                 v-for="(item, id) in tabs"
                                 :key="id"
-                                class="
-                  flex
-                  items-center
-                  my-2 mr-6
-                  focu:otext-gray-600
-                  dark:text-gray-400
-                "
+                                class="flex justify-center items-center my-2 mr-6 bg-transparent text-blue-700  w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center"
                             >
                                 <!-- data.statusSuppliers == 'with' -->
-                                <div class="flex items-center">
+                                <div class="flex flex-col items-center">
+                                    <!-- <button
+                                        v-if="item.selected && !item.checked"
+                                        class="bg-transparent text-blue-700 w-full hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center"
+                                        @click="serviceSelect()"
+                                    >
+                                        {{ item.name }}
+                                    </button> -->
                                     <input
                                         v-if="item.selected && !item.checked"
                                         type="checkbox"
