@@ -1,8 +1,15 @@
 const state = {
-    types: ['COURIER', 'AEREO', 'CONTAINER', 'CONSOLIDADO','TERRESTRE','SIN TRANSPORTE'],
+    types: [
+        'COURIER',
+        'AEREO',
+        'CONTAINER',
+        'CONSOLIDADO',
+        'TERRESTRE',
+        'SIN TRANSPORTE'
+    ],
     item: {
         mode_calculate: true,
-        type_transport: false,
+        type_transport: 'COURIER',
         type_load: 1,
         type_container: 1,
         length: '',

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap mb-8">
             <h1 class="flex-auto text-2xl text-blue-900 ">
                 {{ title }}
             </h1>
         </div>
-        <div class="flex  mt-3 mb-8   ">
+        <!-- <div class="flex  mt-3 mb-8   ">
             <ul class="flex  space-x-2 mt-3 ">
                 <li
                     v-for="name in $store.state.load.types"
@@ -19,7 +19,7 @@
                     {{ name }}
                 </li>
             </ul>
-        </div>
+        </div> -->
         <div v-if="item.type_transport">
             <div
                 v-for="(item, id) in loads"
@@ -322,8 +322,8 @@ export default {
             // this.reset();
         },
         reset() {
-            this.$store.state.load.loads = [];
-            this.$store.dispatch('load/addLoad', this.item);
+            // this.$store.state.load.loads = [];
+            // this.$store.dispatch('load/addLoad', this.item);
         },
         changeLoadType(unit) {
             this.$store.dispatch('load/changeLoadType', unit);
