@@ -75,7 +75,7 @@ class ApplicationSeeder extends Seeder
                 'width'          => 10,
                 'height'         => 12,
                 'mode_calculate' => 1,
-                'mode_selected'  => 'COURIER',
+                'type_transport' => 'COURIER',
                 'type_container' => 1,
                 'type_load'      => 1,
                 'weight'         => 12,

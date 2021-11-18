@@ -14,9 +14,12 @@ class TransportModeSeeder extends Seeder
     public function run()
     {
         \DB::table('transport_modes')->insert([
-            ['name' => 'AEREO', 'description' => 'TRANSPORTE AEREO' ],
-            ['name' => 'COURIER', 'description' => 'Transporte Courier envió de mensajería y paquetes.' ],
+            ['name' => 'COURIER', 'description'     => 'Transporte Courier envió de mensajería y paquetes.' ],
+            ['name' => 'AEREO', 'description'       => 'TRANSPORTE AEREO' ],
+            ['name' => 'CONTAINER', 'description'   => 'Transporte Courier envió de mensajería y paquetes.' ],
             ['name' => 'CONSOLIDADO', 'description' => 'El transporte de carga consolidada' ],
+            ['name' => 'TERRESTRE', 'description'   => 'El transporte de carga trrestre' ],
+            ['name' => 'SIN TRANSPORTE', 'description' => '' ],
         ]);
     }
 }

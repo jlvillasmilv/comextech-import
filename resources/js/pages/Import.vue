@@ -401,8 +401,7 @@
                                         :class="[
                                             'cursor-pointer px-5 text-gray-900 border-b-2',
                                             name ==
-                                            $store.state.load.item
-                                                .type_transport
+                                            $store.state.application.data.type_transport
                                                 ? ' border-blue-500'
                                                 : ''
                                         ]"
@@ -642,8 +641,9 @@ export default {
             this.toDisableProviderPayment(this.data.statusSuppliers);
         },
         typeSelected(value) {
+            this.$store.state.application.data.type_transport = value;
             this.$store.state.load.item.type_transport = value;
-            this.reset();
+           // this.reset();
         },
         reset() {
             this.$store.state.load.loads = [];

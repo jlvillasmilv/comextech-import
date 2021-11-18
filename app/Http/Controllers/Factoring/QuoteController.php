@@ -103,8 +103,6 @@ class QuoteController extends Controller
     }
 
 
-
-
     public function anticipate(Request $request)
     {
         try {
