@@ -598,7 +598,7 @@ class ApplicationController extends Controller
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'height'         => $item['height'],
-                    'type_transport' => $item['type_transport'],
+                    // 'type_transport' => $item['type_transport'],
                     'type_container' => $item['type_container'],
                     'type_load'      => $item['type_load'],
                     'weight'         => $item['weight'],
@@ -624,8 +624,8 @@ class ApplicationController extends Controller
     {
          try {
 
-            if($request->input('dataLoad')[0]['type_transport'] == 'COURIER' || $request->input('dataLoad')[0]['type_transport'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['type_transport'] == 'CONSOLIDADO')
-            {   
+           if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
+           {   
                 //Fedex API
                 $connect = new FedexApi;
                 $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
@@ -666,6 +666,9 @@ class ApplicationController extends Controller
                     return response()->json($quote, 200);
                 }
             }
+            else{
+                return response()->json(['message' => "Datos invalidos", 'errors' => ['fedex' => 'No data']], 422);
+            }
 
          } catch (\Exception $e) {
              return response()->json(['status' => $e], 400);
@@ -686,7 +689,7 @@ class ApplicationController extends Controller
     public function dhlQuote(TransportRequest $request)
     {
        try {
-            if($request->input('dataLoad')[0]['type_transport'] == 'COURIER' || $request->input('dataLoad')[0]['type_transport'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['type_transport'] == 'CONSOLIDADO')
+            if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
             {   
                 $connect = new DHL;
                 $api = $connect->quoteApi($request->except(['id','application_id','code_serv']));
