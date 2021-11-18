@@ -12,7 +12,7 @@ const state = {
         statusSuppliers: 'with',
         services: [],
         valuePercentage: '',
-        type_transport: ''
+        type_transport: 'COURIER'
     }),
     agencyElectronic: [
         {

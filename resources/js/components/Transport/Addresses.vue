@@ -823,11 +823,6 @@ export default {
                 }
                 /* Vue-loader hidden */
                 loader.hide();
-
-                console.log(
-                    this.$store.state.load.loads,
-                    ' ENVIO DE INTERNAMIA'
-                );
             } catch (error) {
                 console.error(error);
             }
