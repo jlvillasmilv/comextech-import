@@ -1,26 +1,26 @@
 <template>
     <div>
-        <div class="flex flex-wrap mb-8">
+        <div class="flex flex-wrap">
             <h1 class="flex-auto text-2xl text-blue-900 ">
                 {{ title }}
             </h1>
         </div>
-        <!-- <div class="flex  mt-3 mb-8   ">
+        <div class="flex  mt-3 mb-8   ">
             <ul class="flex  space-x-2 mt-3 ">
                 <li
                     v-for="name in $store.state.load.types"
                     :key="name"
                     :class="[
                         'cursor-pointer px-5 text-gray-900 border-b-2',
-                        name == item.type_transport ? ' border-blue-500' : ''
+                        name == item.mode_selected ? ' border-blue-500' : ''
                     ]"
                     @click="typeSelected(name)"
                 >
                     {{ name }}
                 </li>
             </ul>
-        </div> -->
-        <div v-if="item.type_transport">
+        </div>
+        <div v-if="item.mode_selected">
             <div
                 v-for="(item, id) in loads"
                 :key="id"
@@ -28,7 +28,7 @@
             >
                 <div
                     class="inline w-1/6"
-                    v-if="item.type_transport != 'CONTAINER'"
+                    v-if="item.mode_selected != 'CONTAINER'"
                 >
                     <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
                         Calcular por
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div
-                    v-if="item.type_transport != 'CONTAINER'"
+                    v-if="item.mode_selected != 'CONTAINER'"
                     class="inline w-1/6 p-1"
                 >
                     <div class="relative">
@@ -101,8 +101,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="inline" >
-                    <div v-if="item.type_transport != 'CONTAINER'">
+                <div class="inline" v-if="item.mode_calculate">
+                    <div v-if="item.mode_selected != 'CONTAINER'">
                         <span
                             v-if="id == 0"
                             class="text-sm text-center font-semibold "
@@ -158,7 +158,7 @@
                 </div>
                 <div
                     class="inline text-center"
-                    v-if="item.type_transport != 'CONTAINER'"
+                    v-if="item.mode_selected != 'CONTAINER'"
                 >
                     <span
                         v-if="id == 0"
@@ -193,7 +193,7 @@
                         type="number"
                         :class="[
                             'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
-                            item.type_transport != 'CONTAINER'
+                            item.mode_selected != 'CONTAINER'
                                 ? ' w-16'
                                 : ' w-17'
                         ]"
@@ -233,7 +233,7 @@
                 <div class="flex">
                     <label
                         class="inline-flex text-sm items-center "
-                        v-if="item.type_transport != 'CONTAINER'"
+                        v-if="item.mode_selected != 'CONTAINER'"
                     >
                         <input
                             type="checkbox"
@@ -318,12 +318,12 @@ export default {
             // this.reset();
         },
         typeSelected(value) {
-            // this.$store.state.load.item.type_transport = value;
-            // this.reset();
+            this.$store.state.load.item.mode_selected = value;
+            this.reset();
         },
         reset() {
-            // this.$store.state.load.loads = [];
-            // this.$store.dispatch('load/addLoad', this.item);
+            this.$store.state.load.loads = [];
+            this.$store.dispatch('load/addLoad', this.item);
         },
         changeLoadType(unit) {
             this.$store.dispatch('load/changeLoadType', unit);
@@ -334,7 +334,7 @@ export default {
         validateweight() {
             const { loads } = this.$store.state.load;
 
-            if (loads[loads.length - 1].type_transport == 'CONTAINER') {
+            if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
                 return false;
             }
 
@@ -372,8 +372,8 @@ export default {
         }
     },
     created() {
+         this.$store.state.load.item.mode_selected = this.$store.state.application.data.type_transport;
         if (!this.loads.length) this.reset();
-        this.$store.state.load.item.type_transport = this.$store.state.application.data.type_transport;
     }
 };
 </script>
