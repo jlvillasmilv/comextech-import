@@ -16,10 +16,10 @@ class CreateLoadsTable extends Migration
         Schema::create('loads', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
-            $table->string('type_container',20)->nullable();
-            $table->string('type_load',20)->nullable();
-            $table->string('mode_selected',20)->nullable();
-            $table->boolean('mode_calculate')->default(false);
+            $table->unsignedBigInteger('type_container')->nullable();
+            $table->unsignedBigInteger('type_load')->nullable();
+            // $table->string('type_transport',20)->nullable();
+            $table->boolean('mode_calculate')->default(true);
             $table->string('cbm',20)->nullable();
             $table->string('length_unit',10)->nullable();
             $table->unsignedSmallInteger('length')->nullable(); 

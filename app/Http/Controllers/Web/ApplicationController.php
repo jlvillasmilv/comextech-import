@@ -58,8 +58,9 @@ class ApplicationController extends Controller
                 'user_id'   => auth()->user()->id,
                 ],
                 [
-                    'supplier_id'  => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
-                    'amount'       => $request->amount,
+                    'supplier_id'     => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
+                    'type_transport'  => $request->type_transport,
+                    'amount'          => $request->amount,
                     'fee1'         => $request->statusSuppliers == 'with' ? $request->valuePercentage['valueInitial'] : 0,
                     'fee2'         => $request->statusSuppliers == 'with' ? 100 - $request->valuePercentage['valueInitial'] : 0,
                     'application_statuses_id' => 1,
@@ -597,8 +598,7 @@ class ApplicationController extends Controller
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'height'         => $item['height'],
-                    'mode_calculate' => $item['mode_calculate'],
-                    'mode_selected'  => $item['mode_selected'],
+                    // 'type_transport' => $item['type_transport'],
                     'type_container' => $item['type_container'],
                     'type_load'      => $item['type_load'],
                     'weight'         => $item['weight'],
@@ -624,8 +624,8 @@ class ApplicationController extends Controller
     {
          try {
 
-            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
-            {   
+           if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
+           {   
                 //Fedex API
                 $connect = new FedexApi;
                 $fedex_response = $connect->rateApi($request->except(['id','application_id','code_serv']));
@@ -666,6 +666,9 @@ class ApplicationController extends Controller
                     return response()->json($quote, 200);
                 }
             }
+            else{
+                return response()->json(['message' => "Datos invalidos", 'errors' => ['fedex' => 'No data']], 422);
+            }
 
          } catch (\Exception $e) {
              return response()->json(['status' => $e], 400);
@@ -686,7 +689,7 @@ class ApplicationController extends Controller
     public function dhlQuote(TransportRequest $request)
     {
        try {
-            if($request->input('dataLoad')[0]['mode_selected'] == 'COURIER' || $request->input('dataLoad')[0]['mode_selected'] == 'CARGA AEREA' || $request->input('dataLoad')[0]['mode_selected'] == 'CONSOLIDADO')
+            if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
             {   
                 $connect = new DHL;
                 $api = $connect->quoteApi($request->except(['id','application_id','code_serv']));
@@ -765,10 +768,10 @@ class ApplicationController extends Controller
             "insurance" => false,
             "estimated_date" => "2021-10-20",
             "description" => "Carga",
+            "type_transport" => "CARGA AEREA",
             "dataLoad" => [
                [
                 "mode_calculate" => true,
-                "mode_selected" => "CARGA AEREA",
                 "type_load" => 1,
                 "type_container" => 1,
                 "length" => 30,

@@ -823,11 +823,6 @@ export default {
                 }
                 /* Vue-loader hidden */
                 loader.hide();
-
-                console.log(
-                    this.$store.state.load.loads,
-                    ' ENVIO DE INTERNAMIA'
-                );
             } catch (error) {
                 console.error(error);
             }
@@ -947,7 +942,7 @@ export default {
             const { loads } = this.$store.state.load;
 
             if (loads.length) {
-                if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
+                if (loads[loads.length - 1].type_transport == 'CONTAINER') {
                     if (loads[loads.length - 1].weight > 0) {
                         return true;
                     }

@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "name": "Pago Proveedor",
+      "name": "Pagos",
       "selected": false,
       "aggregate": false,
       "pivot": {
@@ -21,22 +21,12 @@
     },
     {
       "id": 4,
-      "name": "Internación",
+      "name": "Aduana",
       "selected": false,
       "aggregate": false,
       "pivot": {
         "application_cond_sale_id": 1,
         "category_service_id": 4
-      }
-    },
-    {
-      "id": 5,
-      "name": "Entrega",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 5
       }
     },
     {
@@ -50,8 +40,18 @@
       }
     },
     {
+      "id": 5,
+      "name": "Tipo de cambio",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 5
+      }
+    },
+    {
       "id": 8,
-      "name": "Pagos",
+      "name": "Bodegaje y Fulfillment",
       "selected": false,
       "aggregate": false,
       "pivot": {
