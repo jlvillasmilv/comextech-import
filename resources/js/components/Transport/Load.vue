@@ -372,7 +372,7 @@ export default {
         }
     },
     created() {
-         this.$store.state.load.item.mode_selected = this.$store.state.application.data.type_transport;
+        this.$store.state.load.item.mode_selected = this.$store.state.application.data.type_transport;
         if (!this.loads.length) this.reset();
     }
 };
