@@ -23,6 +23,8 @@ class CreateSupplierAddressesTable extends Migration
             $table->string('locality', 25)->nullable();
             $table->string('country_code',4)->nullable();
             $table->string('address');
+
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
         });
             
     }
