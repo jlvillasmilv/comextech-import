@@ -394,22 +394,38 @@
                             <h3 class="my-3 text-green-700 text-lg">
                                 Tipo de Transporte
                             </h3>
-                            <div class="flex  mt-3 mb-8   ">
-                                <ul class="flex  space-x-2 mt-3 ">
+                            <div class="flex justify-center mt-3 mb-8">
+                                <ul class="flex space-x-2 mt-3">
                                     <li
-                                        v-for="name in $store.state.load.types"
-                                        :key="name"
+                                        v-for="service in $store.state.load
+                                            .types"
+                                        :key="service.name"
                                         :class="[
-                                            'cursor-pointer px-5 text-gray-900 border-b-2',
-                                            name ==
+                                            'flex flex-col items-center cursor-pointer px-3 text-gray-900 border-b-2',
+                                            service.name ==
                                             $store.state.application.data
                                                 .type_transport
                                                 ? ' border-blue-500'
                                                 : ''
                                         ]"
-                                        @click="typeSelected(name)"
+                                        @click="typeSelected(service.name)"
                                     >
-                                        {{ name }}
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-10 w-10"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                :d="service.path"
+                                                fill="bg-white"
+                                            />
+                                        </svg>
+                                        {{ service.name }}
                                     </li>
                                 </ul>
                             </div>
