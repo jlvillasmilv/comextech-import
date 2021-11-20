@@ -43,6 +43,7 @@
         "vue-google-autocomplete": "^1.1.2",
         "vue-loading-overlay": "3.0",
         "vue-luxon": "^0.10.0",
+        "vue-numeric": "^2.4.3",
         "vue-select": "^3.16.0",
         "vue-sweetalert2": "^5.0.2",
         "vue-tabs-component": "^1.5.0",
