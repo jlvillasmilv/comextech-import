@@ -294,13 +294,13 @@
                                 ></span>
                             </div>
                             <div
-                                class="flex flex-col justify-between sm:w-4/12"
+                                class="flex flex-col items-center justify-between sm:w-4/12"
                             >
                                 <div
                                     :class="[
                                         data.statusSuppliers == 'with'
-                                            ? 'w-full'
-                                            : 'w-full',
+                                            ? 'w-7/12'
+                                            : 'w-7/12',
                                         'md:mb-0'
                                     ]"
                                 >
@@ -369,19 +369,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w-full">
+                                <div class="w-7/12">
                                     <h3 class="my-3 text-gray-500 text-sm">
                                         Monto de Operacion
                                     </h3>
-                                    <input
-                                        type="number"
+                                    <vue-numeric
+                                        separator="."
                                         v-model="data.amount"
+                                        v-mask="'#########'"
                                         :class="[
                                             classStyle.input,
                                             classStyle.formInput,
                                             classStyle.wfull
                                         ]"
                                     />
+                                    <!-- <input
+                                        type="number"
+                                        v-mask="'#########'"
+                                        v-model="data.amount"
+                                        :class="[
+                                            classStyle.input,
+                                            classStyle.formInput,
+                                            classStyle.wfull
+                                        ]"
+                                    /> -->
                                     <span
                                         class="text-xs text-red-600 dark:text-red-400"
                                         v-if="data.errors.has('amount')"
@@ -506,6 +517,7 @@ import InternalStorage from '../components/InternalStorage.vue';
 import Exchange from '../components/Exchange';
 import servicedefault from '../data/services.json';
 import Tabs from '../components/Tabs.vue';
+import VueNumeric from 'vue-numeric';
 import { mapState } from 'vuex';
 
 export default {
@@ -557,7 +569,8 @@ export default {
         FormPayment,
         InternalStorage,
         Exchange,
-        Tabs
+        Tabs,
+        VueNumeric
     },
     methods: {
         deleteService({ id }) {
