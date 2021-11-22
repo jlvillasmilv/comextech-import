@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Support\HasAdvancedFilter;
+use Illuminate\Support\Str;
 
 class Application extends Model
 {
@@ -70,7 +71,39 @@ class Application extends Model
 
         return 0;
     }
-   
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+        /**
+        * Write code on Method
+        *
+        * @return response()
+        */
+        static::creating(function($model){
+            $number = Application::max('id')+1;
+           
+            $model->code = 'AI-'.str_pad($number,6,0, STR_PAD_LEFT); // Str::upper(Str::random(6));
+        });
+    }
+
+
+    // /**
+    //  * Write code on Method
+    //  *
+    //  * @return response()
+    // */
+    // public static function generateUniqueCode($id)
+    // {
+    //     do {
+    //         $code = 'AI-'.str_pad($id,6,0, STR_PAD_LEFT); // Str::upper(Str::random(6));
+    //     } while (Application::where("code", "=", $code)->first());
+  
+    //     return $code;
+    // }
+
     public function user()
     {
         return $this->belongsTo(User::class);

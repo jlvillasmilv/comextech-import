@@ -37,6 +37,22 @@ class Application extends Model
     ];
 
 
+    public static function boot()
+    {
+        parent::boot();
+
+        /**
+        * Write code on Method
+        *
+        * @return response()
+        */
+        static::creating(function($model){
+            $number = Application::max('id')+1;
+           
+            $model->code = 'AF-'.str_pad($number,6,0, STR_PAD_LEFT); // Str::upper(Str::random(6));
+        });
+    }
+
     public function company()
     {
         return $this->belongsTo(\App\Models\Company::class,'user_id','user_id')

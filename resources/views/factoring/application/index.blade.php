@@ -130,7 +130,7 @@ $credential       = auth()->user()->credentialStores;
                                 <td class="px-4 py-3 text-center ">
                                     <div>
                                         <p class="font-semibold">
-                                            {{str_pad($application->id, 6, '0', STR_PAD_LEFT) }}
+                                            {{$application->code }}
                                         </p>
                                     </div>
                              
@@ -271,28 +271,4 @@ $credential       = auth()->user()->credentialStores;
             </div>
     </div>
 
-
-
-    
-
 </x-app-layout>
-
-
-
-@section('scripts')
-@parent
-
-<script>
-
-$.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 10,
-  });
-  let table = $('.datatable-Project:not(.ajaxTable)').DataTable({ language: {
-                    url: '{{asset("js/lang.json")}}'
-                } }).columns.adjust();
-  
-</script>
-@endsection
-

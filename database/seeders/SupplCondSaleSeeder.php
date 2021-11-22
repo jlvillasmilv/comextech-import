@@ -31,23 +31,23 @@ class SupplCondSaleSeeder extends Seeder
         7=> ['selected' => true],
         8=> ['selected' => true]]);
 
-        $sup = ApplicationCondSale::create([
-            'user_id'   => 1,
-            'name'      => 'FCA',
-            'description' => '“Free carrier”
-            Free Carrier (named place) → ‘Libre transportista (lugar convenido)’.
-            El vendedor se compromete a entregar la mercancía en un punto acordado dentro del país de origen, que pueden ser las bodegas de un Embarcador, un Puerto o Aeropuerto... (este lugar convenido para entregar la mercancía suele estar relacionado con los espacios del transportista). Se hace cargo de los costos hasta que la mercancía está situada en ese punto convenido.            
-            ',
-            'sort' => 2
-        ]);
+    //     $sup = ApplicationCondSale::create([
+    //         'user_id'   => 1,
+    //         'name'      => 'FCA',
+    //         'description' => '“Free carrier”
+    //         Free Carrier (named place) → ‘Libre transportista (lugar convenido)’.
+    //         El vendedor se compromete a entregar la mercancía en un punto acordado dentro del país de origen, que pueden ser las bodegas de un Embarcador, un Puerto o Aeropuerto... (este lugar convenido para entregar la mercancía suele estar relacionado con los espacios del transportista). Se hace cargo de los costos hasta que la mercancía está situada en ese punto convenido.            
+    //         ',
+    //         'sort' => 2
+    //     ]);
 
-        $sup->services()->sync([1 => ['selected' => false],
-        3=> ['selected' => true],
-        4=> ['selected' => true],
-        5=> ['selected' => true],
-        7=> ['selected' => false],
-        8=> ['selected' => false]
-    ]);
+    //     $sup->services()->sync([1 => ['selected' => false],
+    //     3=> ['selected' => true],
+    //     4=> ['selected' => true],
+    //     5=> ['selected' => true],
+    //     7=> ['selected' => false],
+    //     8=> ['selected' => false]
+    // ]);
 
 
         $sup = ApplicationCondSale::create([
@@ -70,25 +70,22 @@ class SupplCondSaleSeeder extends Seeder
         ]);
 
 
-        $sup = ApplicationCondSale::create([
-            'user_id'   => 1,
-            'name'      => 'CIF',
-            'description' => '“ Cost, insurance and freight”
-            Cost, Insurance and Freight (named destination port) → ‘coste, seguro y flete (puerto de destino convenido)’.
-            ',
-            'sort' => 4
-        ]);
+        // $sup = ApplicationCondSale::create([
+        //     'user_id'   => 1,
+        //     'name'      => 'CIF',
+        //     'description' => '“ Cost, insurance and freight”
+        //     Cost, Insurance and Freight (named destination port) → ‘coste, seguro y flete (puerto de destino convenido)’.
+        //     ',
+        //     'sort' => 4
+        // ]);
 
-       
-        $sup->services()->sync([1 => ['selected' => true],
-            3=> ['selected' => false],
-            4=> ['selected' => true],
-            5=> ['selected' => true],
-            7=> ['selected' => true],
-            8=> ['selected' => true]
-        ]);
-
-
+        // $sup->services()->sync([1 => ['selected' => true],
+        //     3=> ['selected' => false],
+        //     4=> ['selected' => true],
+        //     5=> ['selected' => true],
+        //     7=> ['selected' => true],
+        //     8=> ['selected' => true]
+        // ]);
 
         $sup = ApplicationCondSale::create([
             'user_id'   => 1,
@@ -106,15 +103,6 @@ class SupplCondSaleSeeder extends Seeder
             7=> ['selected' => false],
             8=> ['selected' => false]
         ]);
-
-
-        // $sup = ApplicationCondSale::create([
-        //     'user_id'   => 1,
-        //     'name'      => 'CFR',
-        //     'description' => '“ Cost and Freight”, es un término utilizado en la compraventa internacional de mercancías para indicar que el vendedor debe responsabilizarse de hacer llegar la mercancía al punto de destino acordado con el comprador a bordo del medio de transporte que él mismo decida, así como del pago del coste del flete marítimo internacional. Cuando se dice punto de destino convenido nos estamos refiriendo al puerto de destino, pues el incoterm CFR es exclusivo del transporte marítimo. Es decir, una vez desembarcada la mercancía, cesan las obligaciones del vendedor. '
-        // ]);
-
-        // $sup->services()->sync([3,4,5]);
 
     }
 }

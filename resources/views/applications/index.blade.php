@@ -36,7 +36,7 @@
                         <tr class="text-gray-700 dark:text-gray-400 text-center">
                             <td class="px-4 py-3 text-center ">
                                 <div>
-                                    <p class="font-semibold"> {{str_pad($application->id, 6, '0', STR_PAD_LEFT) }} </p>
+                                    <p class="font-semibold"> {{$application->code}} </p>
                                      
                                     <p class="tex-sm  text-gray-600 dark:text-gray-400 ">
                                          {{ date('d-m-y', strtotime($application->created_at)) }}
@@ -81,7 +81,7 @@
                                 </a>
 
                                 <a  
-                                href="{{ route('applications.edit', $application->id) }}" 
+                                href="{{ route('applications.edit', base64_encode($application->id)) }}" 
                                     class="   px-2 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    

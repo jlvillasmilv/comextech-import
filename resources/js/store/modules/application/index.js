@@ -8,7 +8,6 @@ const state = {
         currency_id: null,
         ecommerce_url: null,
         condition: '',
-        description: '',
         statusSuppliers: 'with',
         services: [],
         valuePercentage: '',
