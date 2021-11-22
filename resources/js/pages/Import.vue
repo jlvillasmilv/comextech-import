@@ -50,7 +50,7 @@
                                     >
                                         {{ item.name }}
                                     </button> -->
-                                    <Icon icon="noto-v1:letter-p" />
+                                    <Icon :icon="item.icon" />
                                     <input
                                         v-if="item.selected && !item.checked"
                                         type="checkbox"
