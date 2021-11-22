@@ -50,6 +50,7 @@
                                     >
                                         {{ item.name }}
                                     </button> -->
+                                    <Icon icon="noto-v1:letter-p" />
                                     <input
                                         v-if="item.selected && !item.checked"
                                         type="checkbox"
@@ -78,7 +79,7 @@
                                         :checked="item.checked"
                                     />
                                     <div v-else-if="!item.selected" class="">
-                                        <svg
+                                        <!-- <svg
                                             class="w-5 h-5 text-gray-300"
                                             fill="none"
                                             stroke="currentColor"
@@ -91,7 +92,7 @@
                                                 stroke-width="2"
                                                 d="M6 18L18 6M6 6l12 12"
                                             ></path>
-                                        </svg>
+                                        </svg> -->
                                     </div>
                                     <span
                                         :class="[
@@ -518,6 +519,7 @@ import Exchange from '../components/Exchange';
 import servicedefault from '../data/services.json';
 import Tabs from '../components/Tabs.vue';
 import VueNumeric from 'vue-numeric';
+import { Icon } from '@iconify/vue2';
 import { mapState } from 'vuex';
 
 export default {
@@ -570,7 +572,8 @@ export default {
         InternalStorage,
         Exchange,
         Tabs,
-        VueNumeric
+        VueNumeric,
+        Icon
     },
     methods: {
         deleteService({ id }) {

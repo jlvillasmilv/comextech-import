@@ -16,6 +16,7 @@
         "yarn": "0.21.3"
     },
     "devDependencies": {
+        "@iconify/vue2": "^1.1.1",
         "@tailwindcss/ui": "^0.5.0",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
