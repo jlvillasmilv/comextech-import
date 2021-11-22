@@ -20,6 +20,7 @@ class CreateCategoryServicesTable extends Migration
             $table->string('name',100);
             $table->boolean('ind_service')->default(true);
             $table->string('dependence',100)->nullable();
+            $table->string('icon',100)->nullable();
             $table->boolean('status')->default(true);
             $table->unsignedTinyInteger('sort')->nullable();
             $table->unsignedBigInteger('modified_user_id')->nullable();
