@@ -875,6 +875,7 @@ export default {
         async submitQuote(appAmount, transCompanyId) {
             this.expenses.app_amount = appAmount;
             this.expenses.trans_company_id = transCompanyId;
+            this.expenses.dataLoad = this.$store.state.load.loads;
             try {
                 await this.expenses.post('/applications/transports');
                 Toast.fire({
@@ -965,7 +966,7 @@ export default {
             const { loads } = this.$store.state.load;
 
             if (loads.length) {
-                if (loads[loads.length - 1].type_transport == 'CONTAINER') {
+                if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
                     if (loads[loads.length - 1].weight > 0) {
                         return true;
                     }
