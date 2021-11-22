@@ -440,7 +440,13 @@
                                         {{ service.name }}
                                     </li>
                                 </ul>
+                                
                             </div>
+                            <span
+                                        class="text-xs text-red-600 dark:text-red-400"
+                                        v-if="data.errors.has('type_transport')"
+                                        v-html="data.errors.get('type_transport')"
+                                    ></span>
                         </div>
                     </form>
                 </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{CustomAgent, User};
+use App\Models\CustomAgent;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomAgentRequest;
 

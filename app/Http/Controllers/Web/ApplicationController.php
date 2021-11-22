@@ -61,8 +61,8 @@ class ApplicationController extends Controller
                     'supplier_id'     => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'type_transport'  => $request->type_transport,
                     'amount'          => $request->amount,
-                    'fee1'         => $request->statusSuppliers == 'with' ? $request->valuePercentage['valueInitial'] : 0,
-                    'fee2'         => $request->statusSuppliers == 'with' ? 100 - $request->valuePercentage['valueInitial'] : 0,
+                    'fee1'            => $request->statusSuppliers == 'with' ? $request->valuePercentage['valueInitial'] : 0,
+                    'fee2'            => $request->statusSuppliers == 'with' ? 100 - $request->valuePercentage['valueInitial'] : 0,
                     'application_statuses_id' => 1,
                     'currency_id'   => $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
@@ -211,7 +211,8 @@ class ApplicationController extends Controller
     }
 
     public function edit($id)
-    {
+    {   
+        $id=base64_decode($id);
         return view('services.edit', compact('id'));    
     }
 
@@ -233,6 +234,18 @@ class ApplicationController extends Controller
             ['id', '=', $id],
             ['user_id', auth()->user()->id],
         ])
+        ->select('id',
+            'supplier_id',
+            'type_transport',
+            'amount',
+            'charge',
+            'fee1',
+            'fee2',
+            'currency_id',
+            'ecommerce_id',
+            'ecommerce_url',
+            'description',
+            'condition')
         ->with('currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
         ->firstOrFail();
         
@@ -395,7 +408,6 @@ class ApplicationController extends Controller
                     'dest_postal_code'      => $request->dest_postal_code,
                     'dest_ctry_code'        => $request->dest_ctry_code,
                     'estimated_date'        => $request->estimated_date,
-                    'description'           => $request->description,
                     'insurance'             => $request->insurance,
                 ]
             );

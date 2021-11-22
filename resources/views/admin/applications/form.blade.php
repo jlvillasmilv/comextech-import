@@ -20,11 +20,13 @@
 		           @method('PUT')
 		        @endif
 
-                <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto">
-        
+
+                <div class="flex flex-wrap">
+                    <div class="sm:w-full md:w-2/4 px-2 ">
+
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Status</span>
+        
                             <select name="application_statuses_id" id="application_statuses_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray  @error('application_statuses_id') is-invalid @enderror">
 
                                 @foreach($status as $id => $name)
@@ -42,6 +44,29 @@
                                     {{ $errors->first('application_statuses_id') }}
                                 </span>
                             @endif
+                           
+                        </label>
+
+                    </div>
+                    <div class="md:w-2/4 px-3 sm:w-full">
+                        <div class="flex justify-start mt-1">
+                            <button class="flex px-4 py-2 mt-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
+								 </svg>
+								<span> Guardar </span>
+							</button>
+                          </div>
+
+                    </div>
+                </div>
+
+                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto">
+        
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">Status</span>
+                          
                         </label>
         
                         <label class="block mt-4 text-sm">
@@ -312,14 +337,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex justify-end">
-                        <button class="flex  px-4 py-2 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
-                             </svg>
-                            <span> Guardar </span>
-                        </button>
-                      </div>
                 </div>
 
       		</form>

@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Detalle Solicitud  #   {{str_pad($application->id, 6, '0', STR_PAD_LEFT) }}
+                Detalle Solicitud  #   {{ $application->code }}
             </h4>
            
         </div>
