@@ -873,10 +873,10 @@ export default {
          * @param {4} UPS
          */
         async submitQuote(appAmount, transCompanyId) {
-            this.expenses.app_amount = appAmount;
-            this.expenses.trans_company_id = transCompanyId;
-            this.expenses.dataLoad = this.$store.state.load.loads;
             try {
+                this.expenses.dataLoad = this.$store.state.load.loads;
+                this.expenses.app_amount = appAmount;
+                this.expenses.trans_company_id = transCompanyId;
                 await this.expenses.post('/applications/transports');
                 Toast.fire({
                     icon: 'success',
