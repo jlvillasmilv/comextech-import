@@ -319,6 +319,25 @@
                 </button>
 
                 <button
+                    v-if="
+                        $store.state.load.loads[0].mode_selected == 'CONTAINER'
+                    "
+                    @click="submitQuote(0)"
+                    :class="[
+                        !expenses.dataLoad
+                            ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+                            : expenses.dataLoad.length <= 0
+                            ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+                            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+                    ]"
+                >
+                    Cotizar
+                </button>
+
+                <button
+                    v-else-if="
+                        $store.state.load.loads[0].mode_selected != 'CONTAINER'
+                    "
                     @click="submitForm()"
                     :class="[
                         !expenses.dataLoad
@@ -833,6 +852,10 @@ export default {
         HideAddress() {
             this.$store.dispatch('address/showAddress', true);
 
+            this.fedex = {};
+
+            this.dhl = {};
+
             this.Load = true; /* Hide / Show loads and dimensions form */
 
             this.showApisQuote = false;
@@ -852,6 +875,7 @@ export default {
         async submitQuote(appAmount, transCompanyId) {
             this.expenses.app_amount = appAmount;
             this.expenses.trans_company_id = transCompanyId;
+            this.expenses.dataLoad = this.$store.state.load.loads;
             try {
                 await this.expenses.post('/applications/transports');
                 Toast.fire({
@@ -942,7 +966,7 @@ export default {
             const { loads } = this.$store.state.load;
 
             if (loads.length) {
-                if (loads[loads.length - 1].type_transport == 'CONTAINER') {
+                if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
                     if (loads[loads.length - 1].weight > 0) {
                         return true;
                     }

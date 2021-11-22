@@ -19,7 +19,7 @@ class ApplicationTable extends LivewireDatatable
 
         $table = [
 
-            NumberColumn::name('id'),
+            Column::name('code'),
 
             Column::name('company.tax_id')
             ->label('Rut'),

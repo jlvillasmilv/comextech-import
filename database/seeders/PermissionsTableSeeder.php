@@ -158,14 +158,6 @@ class PermissionsTableSeeder extends Seeder
             'factoring.quote.destroy',
         ]);
 
-         //Guest
-        $guest = Role::create(['name' => 'Guest']);
-
-        $guest->givePermissionTo([
-            'clients.index',
-        ]);
-
-
         $operator = Role::create(['name' => 'operator']);
 
         $operator->givePermissionTo([

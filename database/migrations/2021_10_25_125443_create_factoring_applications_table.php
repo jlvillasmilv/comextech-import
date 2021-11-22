@@ -16,6 +16,7 @@ class CreateFactoringApplicationsTable extends Migration
         Schema::create('factoring_applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
+            $table->string('code', 10)->nullable()->unique()->index()->comment('codigo para consultas');
             $table->enum('status', ['Aprobada', 'En Proceso', 'Rechazada'])->default('En Proceso');
             $table->boolean('contract_status')->default(false);
             $table->boolean('disbursement_status')->default(false);

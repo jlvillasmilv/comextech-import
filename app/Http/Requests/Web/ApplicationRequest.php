@@ -51,10 +51,11 @@ class ApplicationRequest extends FormRequest
     public function attributes()
     {
         return [
-            'supplier_id' => 'Proveedor',
-            'amount'      => 'Monto Total de Operacion',
+            'supplier_id'     => 'Proveedor',
+            'amount'          => 'Monto Total de Operacion',
             'valuePercentage' => 'Porcentaje de Pago',
-            'condition'   => 'Condicion de Venta del Proveedor'
+            'condition'       => 'Condicion de Venta del Proveedor',
+            'type_transport'  => ' Tipo de Transporte'
         ];
     }
 }

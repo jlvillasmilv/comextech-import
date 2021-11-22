@@ -121,8 +121,6 @@ class QuoteController extends Controller
                     ['name'      => $item['payer']],
                 );
 
-                
-
                 $clientPayer = ClientPayer::firstOrCreate(
                     ['payer_id'  => $payer->id, 'user_id' => auth()->user()->id],
                 );
@@ -162,12 +160,12 @@ class QuoteController extends Controller
             
             $data = [ 
                     'user'        => auth()->user()->email, 
-                    'application' => str_pad($application->id, 6, '0', STR_PAD_LEFT)
+                    'application' => $application->code
                 ];
 
             $details = [
                 'title' => 'Estimado '.auth()->user()->name,
-                'body'  => 'Se ha creado una solicitud con numero N° '.str_pad($application->id, 6, '0', STR_PAD_LEFT).' por un total de $'.  number_format($application->invoices->sum('total_amount'),2,",",".") .' Esta Solicitud requiere una evaluación y aprobación para su ejecución Esta solicitud será respondida a su correo electronico registrado'
+                'body'  => 'Se ha creado una solicitud con numero N° '.$application->code.' por un total de $'.  number_format($application->invoices->sum('total_amount'),2,",",".") .' Esta Solicitud requiere una evaluación y aprobación para su ejecución Esta solicitud será respondida a su correo electronico registrado'
             ];
                 
             \Mail::to(auth()->user()->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));

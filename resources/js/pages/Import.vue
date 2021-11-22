@@ -50,6 +50,7 @@
                                     >
                                         {{ item.name }}
                                     </button> -->
+                                    <Icon :icon="item.icon" />
                                     <input
                                         v-if="item.selected && !item.checked"
                                         type="checkbox"
@@ -78,7 +79,7 @@
                                         :checked="item.checked"
                                     />
                                     <div v-else-if="!item.selected" class="">
-                                        <svg
+                                        <!-- <svg
                                             class="w-5 h-5 text-gray-300"
                                             fill="none"
                                             stroke="currentColor"
@@ -91,7 +92,7 @@
                                                 stroke-width="2"
                                                 d="M6 18L18 6M6 6l12 12"
                                             ></path>
-                                        </svg>
+                                        </svg> -->
                                     </div>
                                     <span
                                         :class="[
@@ -294,13 +295,13 @@
                                 ></span>
                             </div>
                             <div
-                                class="flex flex-col justify-between sm:w-4/12"
+                                class="flex flex-col items-center justify-between sm:w-4/12"
                             >
                                 <div
                                     :class="[
                                         data.statusSuppliers == 'with'
-                                            ? 'w-full'
-                                            : 'w-full',
+                                            ? 'w-7/12'
+                                            : 'w-7/12',
                                         'md:mb-0'
                                     ]"
                                 >
@@ -369,19 +370,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w-full">
+                                <div class="w-7/12">
                                     <h3 class="my-3 text-gray-500 text-sm">
                                         Monto de Operacion
                                     </h3>
-                                    <input
-                                        type="number"
+                                    <vue-numeric
+                                        separator="."
                                         v-model="data.amount"
+                                        v-mask="'#########'"
                                         :class="[
                                             classStyle.input,
                                             classStyle.formInput,
                                             classStyle.wfull
                                         ]"
                                     />
+                                    <!-- <input
+                                        type="number"
+                                        v-mask="'#########'"
+                                        v-model="data.amount"
+                                        :class="[
+                                            classStyle.input,
+                                            classStyle.formInput,
+                                            classStyle.wfull
+                                        ]"
+                                    /> -->
                                     <span
                                         class="text-xs text-red-600 dark:text-red-400"
                                         v-if="data.errors.has('amount')"
@@ -394,25 +406,47 @@
                             <h3 class="my-3 text-green-700 text-lg">
                                 Tipo de Transporte
                             </h3>
-                            <div class="flex  mt-3 mb-8   ">
-                                <ul class="flex  space-x-2 mt-3 ">
+                            <div class="flex justify-center mt-3 mb-8">
+                                <ul class="flex space-x-2 mt-3">
                                     <li
-                                        v-for="name in $store.state.load.types"
-                                        :key="name"
+                                        v-for="service in $store.state.load
+                                            .types"
+                                        :key="service.name"
                                         :class="[
-                                            'cursor-pointer px-5 text-gray-900 border-b-2',
-                                            name ==
+                                            'flex flex-col items-center cursor-pointer px-3 text-gray-900 border-b-2',
+                                            service.name ==
                                             $store.state.application.data
                                                 .type_transport
                                                 ? ' border-blue-500'
                                                 : ''
                                         ]"
-                                        @click="typeSelected(name)"
+                                        @click="typeSelected(service.name)"
                                     >
-                                        {{ name }}
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-10 w-10"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                :d="service.path"
+                                                fill="bg-white"
+                                            />
+                                        </svg>
+                                        {{ service.name }}
                                     </li>
                                 </ul>
+                                
                             </div>
+                            <span
+                                        class="text-xs text-red-600 dark:text-red-400"
+                                        v-if="data.errors.has('type_transport')"
+                                        v-html="data.errors.get('type_transport')"
+                                    ></span>
                         </div>
                     </form>
                 </div>
@@ -490,6 +524,8 @@ import InternalStorage from '../components/InternalStorage.vue';
 import Exchange from '../components/Exchange';
 import servicedefault from '../data/services.json';
 import Tabs from '../components/Tabs.vue';
+import VueNumeric from 'vue-numeric';
+import { Icon } from '@iconify/vue2';
 import { mapState } from 'vuex';
 
 export default {
@@ -541,7 +577,9 @@ export default {
         FormPayment,
         InternalStorage,
         Exchange,
-        Tabs
+        Tabs,
+        VueNumeric,
+        Icon
     },
     methods: {
         deleteService({ id }) {
