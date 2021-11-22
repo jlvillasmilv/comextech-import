@@ -24,6 +24,8 @@ class CreateCompanyAddressesTable extends Migration
             $table->double('address_latitude')->nullable();
             $table->double('address_longitude')->nullable();
             $table->boolean('status')->default(true);
+            
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
