@@ -30,16 +30,6 @@
       }
     },
     {
-      "id": 7,
-      "name": "Financiamiento",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 7
-      }
-    },
-    {
       "id": 5,
       "name": "Tipo de cambio",
       "selected": false,
@@ -47,16 +37,6 @@
       "pivot": {
         "application_cond_sale_id": 1,
         "category_service_id": 5
-      }
-    },
-    {
-      "id": 8,
-      "name": "Bodegaje y Fulfillment",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 8
       }
     }
   ]
