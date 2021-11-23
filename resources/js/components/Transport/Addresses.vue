@@ -123,7 +123,7 @@
                                     "
                                 ></span>
                             </label>
-                            <div class="flex justify-end w-2/12">
+                            <div class="flex justify-center w-2/12">
                                 <h3 class="mt-2">Recogida</h3>
                             </div>
                         </div>
@@ -373,7 +373,7 @@
                                     </span>
                                 </label>
                             </label>
-                            <div class="flex justify-end w-2/12">
+                            <div class="flex justify-center w-2/12">
                                 <h3 class="mt-2">Recogida</h3>
                             </div>
 
