@@ -30,12 +30,17 @@ class TransportRequest extends FormRequest
             'description'                => 'nullable|max:250',
             'estimated_date'             => 'required|date',
             'dataLoad'                   => 'required|array',
-            "dataLoad.*.length"          => 'sometimes|required',
-            "dataLoad.*.width"           => 'sometimes|required',
-            "dataLoad.*.height"          => 'sometimes|required',
-            "dataLoad.*.weight"          => 'required|numeric',
-            "dataLoad.*.type_load"       => 'sometimes|required',
-            "dataLoad.*.type_container"  => 'sometimes|required',
+            'dataLoad.*.mode_selected'   => 'required|string',
+            "dataLoad.*.length"          => "required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
+            "dataLoad.*.width"           => "required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
+            "dataLoad.*.high"            => "required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
+            "dataLoad.*.weight"          => "required|numeric",
+            "dataLoad.*.type_load"       => 'required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
+            "dataLoad.*.type_container"  => 'required_if:dataLoad.*.mode_selected,in:CONTAINER',
+            
+            // "dataLoad.*.length"          => 'sometimes|required',
+            // "dataLoad.*.width"           => 'sometimes|required',
+            // "dataLoad.*.height"          => 'sometimes|required',
         ];
 
         return $rules;

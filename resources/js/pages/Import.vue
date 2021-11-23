@@ -50,7 +50,10 @@
                                     >
                                         {{ item.name }}
                                     </button> -->
-                                    <Icon :icon="item.icon" />
+                                    <Icon
+                                        class="w-10 h-10 my-2"
+                                        :icon="item.icon"
+                                    />
                                     <input
                                         v-if="item.selected && !item.checked"
                                         type="checkbox"
@@ -440,13 +443,12 @@
                                         {{ service.name }}
                                     </li>
                                 </ul>
-                                
                             </div>
                             <span
-                                        class="text-xs text-red-600 dark:text-red-400"
-                                        v-if="data.errors.has('type_transport')"
-                                        v-html="data.errors.get('type_transport')"
-                                    ></span>
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="data.errors.has('type_transport')"
+                                v-html="data.errors.get('type_transport')"
+                            ></span>
                         </div>
                     </form>
                 </div>
