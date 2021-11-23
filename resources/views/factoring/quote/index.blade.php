@@ -10,7 +10,7 @@
     </h4>
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
-            <table class="w-full whitespace-no-wrap">
+            <table class="w-full whitespace-no-wrap" id="table">
               <thead>
                 <tr
                 class="text-xs text-center font-semibold tracking-wide text-left text-white">
@@ -61,10 +61,12 @@
                     </td>
                     <td class="px-4 py-3">
                       <div class="flex justify-center">
-
+                        {{-- href="{{ route('factoring.quotation') }}" --}}
                       <a
-                        class="btn-add flex ml-2 px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue" 
-                        href="{{ route('factoring.quotation') }}"
+                        class="btn-info flex ml-2 px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+                        data-remote = "{{ route('factoring.quotation') }}"
+                        data-profile = "{{route('factoring.profile.index')}}"
+                        href="#"
                         title="Solicitar"
                         >
                         Solicitar <br> Crédito
