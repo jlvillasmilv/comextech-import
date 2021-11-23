@@ -15,7 +15,6 @@ $(document).ready(function () {
     }
   });
 
-
    /*Notificaciones si hay mensaje de confirmacion*/
 
    if (document.body.dataset.notification == ""){
@@ -27,7 +26,6 @@ $(document).ready(function () {
         Toast.fire({ icon: types.indexOf(type) !== -1 ? type : 'info', title: JSON.parse(document.body.dataset.notificationMessage) });
     
     }
-
 
     // Agrega nuevo registro al detalle de la solicitud 
     $('#add_services').on('click', '.btn-add[data-remote]', function (e) {
@@ -132,8 +130,7 @@ $(document).ready(function () {
            });
     });
 
-
-      // facotirng
+  // facotirng
 
   $('#table').on('click', '.btn-status[data-remote]', function (e) { 
     e.preventDefault();
@@ -178,6 +175,33 @@ $(document).ready(function () {
         }
    });
     
+});
+
+$('#table').on('click', '.btn-info[data-remote]', function (e) { 
+      
+  const url = $(this).data('remote');
+  const profile = $(this).data('profile');
+
+  Swal.fire({
+    
+    html:
+    'Para la solicitud de crédito de sus operaciones, ' +
+    'es necesario que complete la información requerida ' +
+    'en la sección <a href="'+profile+'"><b> “Perfil Empresarial”</b></a> ',
+    icon: 'info',
+    showCancelButton: true,
+    showDenyButton: true,
+    confirmButtonText: 'Perfil &nbsp;',
+    confirmButtonColor: '#3085d6',
+    denyButtonText: `Solicitar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        window.location.href = profile;
+      } else if (result.isDenied) {
+        window.location.href = url;
+      }
+    });
 });
 
 

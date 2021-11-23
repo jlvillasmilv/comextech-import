@@ -118,9 +118,6 @@ class CurrencySeeder extends Seeder
             ['code' =>'GBP',  'name' => 'Libra', 'symbol' => '£'],
             // ['code' =>'UZS',  'name' => 'Uzbekistan Sums', 'symbol' => 'лв'],
             // ['code' =>'VEF',  'name' => 'Venezuela Bolivares', 'symbol' => 'Bs'],
-            // ['code' =>'VND',  'name' => 'Vietnam Dong', 'symbol' => '₫'],
-            // ['code' =>'YER',  'name' => 'Yemen Rials', 'symbol' => '﷼'],
-            // ['code' =>'ZWD',  'name' => 'Zimbabwe Dollars', 'symbol' => 'Z$'],
         ]);
     }
 }
