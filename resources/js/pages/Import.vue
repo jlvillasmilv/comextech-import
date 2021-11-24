@@ -545,7 +545,7 @@ export default {
             ],
             objectPayment: {
                 id: 11,
-                name: 'Pagos',
+                name: 'Tipo de cambio',
                 code: 'ICS07',
                 selected: true,
                 pivot: {
