@@ -42,7 +42,7 @@
                     </h3>
                 </div>
                 <h3 class="my-2 text-gray-400 dark:text-gray-200">
-                    Monto Total a Pagar :
+                    Total :
                     {{ Number(data.amount).toLocaleString() }}
                     {{ currency.code }}
                 </h3>
@@ -53,27 +53,26 @@
                             'E-commerce'
                     "
                 >
-                    <div class="w-full md:w-auto px-3 md:mb-0">
+                    <div class="md:w-1/3 px-3 md:mb-0">
                         <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Porcentaje de Pago
+                            Pago
                         </span>
                         <input
                             :class="[]"
-                            class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600
-                dark:bg-gray-700
-                focus:border-purple-400
-                focus:outline-none
-                focus:shadow-outline-purple
-                dark:text-gray-300
-                dark:focus:shadow-outline-gray
-                form-input
-                text-center
-              "
+                            class=" block
+                                w-full
+                                mt-1
+                                text-sm
+                                dark:border-gray-600
+                                dark:bg-gray-700
+                                focus:border-blue-400
+                                focus:outline-none
+                                focus:shadow-outline-blue
+                                dark:text-gray-300
+                                dark:focus:shadow-outline-gray
+                                form-input
+                                text-center
+                              "
                             placeholder="%"
                             v-model.number="$store.state.payment.discount"
                             :disabled="
@@ -87,72 +86,86 @@
                             v-else
                             disabled
                             :class="[]"
-                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input  text-center"
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input  text-center"
                             placeholder="%"
                             v-model.number="$store.state.payment.discount"
                             step="1"
                             type="number" 
                         />-->
                     </div>
-                    <div class="w-full md:w-auto px-3 md:mb-0">
-                        <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Monto del Porcentaje Agregado
-                        </span>
-                        <span class="block w-full mt-1 text-lg text-center">
+                    <div class="w-2/3 md:w-auto px-3 md:mb-0">
+                       <!--  <span class="text-gray-700 dark:text-gray-400 text-xs">
+                            Monto Agregado
+                        </span> -->
+                        <span class="block w-full mt-8 text-lg text-center">
                             {{ amountRound }}
                         </span>
                     </div>
                 </div>
-                <div class="flex flex-wrap -mx-3">
-                    <div class="w-full md:w-1/2 px-3">
-                        <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Fecha a Pagar Porcentaje
-                        </span>
-                        <input
+
+
+
+                <!-- date_pay -->
+
+                  <div class="md:flex md:items-center my-3">
+                    <div class="md:w-1/3">
+                      <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="date_pay">
+                        Fecha
+                      </label>
+                    </div>
+                    <div class="md:w-2/3">
+                      <input
+                            id="date_pay"
                             v-model="form.date_pay"
                             type="date"
-                            class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600
-                dark:bg-gray-700
-                focus:border-purple-400
-                focus:outline-none
-                focus:shadow-outline-purple
-                dark:text-gray-300
-                dark:focus:shadow-outline-gray
-                form-input
-              "
-                            placeholder="Empresa"
-                            :min="minDate"
+                            class=" block
+                                w-full
+                                mt-1
+                                text-sm
+                                dark:border-gray-600
+                                dark:bg-gray-700
+                                focus:border-blue-400
+                                focus:outline-none
+                                focus:shadow-outline-blue
+                                dark:text-gray-300
+                                dark:focus:shadow-outline-gray
+                                form-input
+                              "
+                                placeholder="Empresa"
+                                :min="minDate"
                         />
                     </div>
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Forma de Pago
-                        </span>
-                        <div class="relative">
+                  </div>
+                <!-- end date_pay -->
+
+
+                 <!-- type_pay -->
+
+                  <div class="md:flex md:items-center my-3">
+                    <div class="md:w-1/3">
+                      <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="grid-state">
+                        Tipo
+                      </label>
+                    </div>
+                    <div class="md:w-2/3">
+                       <div class="relative">
                             <select
                                 v-model="form.type_pay"
-                                class="
-                  block
-                  appearance-none
-                  w-full
-                  border border-gray-150
-                  dark:border-gray-600
-                  text-gray-700
-                  p-2
-                  pr-8
-                  rounded
-                  leading-tight
-                  focus:outline-none
-                  focus:bg-white
-                  focus:border-gray-500
-                "
+                                class=" block
+                              appearance-none
+                              w-full
+                              border border-gray-150
+                              dark:border-gray-600
+                              text-gray-700
+                              p-2
+                              pr-8
+                              rounded
+                              leading-tight
+                              focus:outline-none
+                              focus:bg-white
+                              focus:border-gray-500"
                                 id="grid-state"
-                            >
+                                        >
                                 <option value="Transferencia"
                                     >Transferencia</option
                                 >
@@ -165,15 +178,14 @@
                             </select>
                             <div
                                 class="
-                  pointer-events-none
-                  absolute
-                  inset-y-0
-                  right-0
-                  flex
-                  items-center
-                  px-2
-                  text-gray-700
-                "
+                              pointer-events-none
+                              absolute
+                              inset-y-0
+                              right-0
+                              flex
+                              items-center
+                              px-2
+                              text-gray-700 "
                             >
                                 <svg
                                     class="fill-current h-4 w-4"
@@ -187,12 +199,19 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex flex-wrap -mx-3">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Restricion de Liberacion de pago
-                        </span>
+                  </div>
+                <!-- end type_pay -->
+
+                <!-- date_pay -->
+
+                  <div class="md:flex md:items-center my-3">
+                    <div class="md:w-1/3">
+                      <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="date_pay">
+                        Restricción
+                      </label>
+                    </div>
+                    <div class="md:w-2/3">
+
                         <div class="relative">
                             <select
                                 v-model="form.payment_release"
@@ -246,7 +265,13 @@
                                 </svg>
                             </div>
                         </div>
-                    </div>
+                      
+                    
+                  </div>
+                <!-- date_pay -->
+
+
+                   
                 </div>
                 <span
                     v-if="
@@ -274,9 +299,9 @@
                             form.date_pay &&
                             form.type_pay != '' &&
                             form.payment_release != ''
-                                ? 'active:bg-purple-600 hover:bg-purple-700  bg-purple-600'
+                                ? 'active:bg-blue-600 hover:bg-blue-700  bg-blue-600'
                                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
-                            'flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple'
+                            'flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue'
                         ]"
                         @click="addPayment()"
                     >
@@ -294,7 +319,7 @@
                                 d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
                             />
                         </svg>
-                        <span> Agregar Pago a Tabla </span>
+                        <span> Agregar </span>
                     </button>
 
                     <button
@@ -303,7 +328,7 @@
                             $store.state.payment.percentageInitial !== 0
                                 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300'
                                 : 'bg-green-600 active:bg-green-600 hover:bg-green-700',
-                            'flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150  border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple'
+                            'flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150  border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue'
                         ]"
                         @click="submitPayment()"
                     >
@@ -321,7 +346,7 @@
                                 d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
                             />
                         </svg>
-                        <span> Guardar Pagos</span>
+                        <span> Guardar</span>
                     </button>
                 </div>
             </div>

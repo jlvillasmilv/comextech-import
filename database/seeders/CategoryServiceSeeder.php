@@ -15,14 +15,14 @@ class CategoryServiceSeeder extends Seeder
     {
 
         \DB::table('category_services')->insert([
-            ['code' => 'ICS01', 'name' => 'Pagos', 'user_id' => 1, 'dependence' => '', 'ind_service' => true, 'sort' => 1, 'status' => true, 'icon' => "noto-v1:letter-p" ], 
-            ['code' => 'ICS02', 'name' => 'Servicios en Origen', 'user_id' => 1, 'dependence' => '4,5,7,8', 'ind_service' => false, 'sort' => 2, 'status' => false, 'icon' => "noto-v1:letter-s", ], 
+            ['code' => 'ICS01','name' => 'Pagos', 'user_id' => 1, 'dependence' => '', 'ind_service' => true, 'sort' => 1, 'status' => true, 'icon' => "noto-v1:letter-p" ], 
+            ['code' => 'ICS02','name' => 'Bodegaje y Fulfillment ', 'user_id' => 1, 'dependence' => '4,5,7,8', 'ind_service' => true, 'sort' => 8, 'status' => true, 'icon' => "noto-v1:letter-b", ], 
             ['code' => 'ICS03','name' => 'Transporte', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 3,'status' => true, 'icon' => "noto-v1:letter-t" ], 
             ['code' => 'ICS04','name' => 'Aduana', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 4,'status' => true,'icon' => "noto-v1:letter-a" ], 
             ['code' => 'ICS05','name' => 'Tipos de cambio', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => true, 'sort' => 5,'status' => true,'icon' => "noto-v1:letter-t" ],
             ['code' => 'ICS06','name' => 'Transporte Local', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 6,'status' => true,'icon' => "noto-v1:letter-t" ],
             ['code' => 'ICS07','name' => 'Pagos', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 7,'status' => false,'icon' => "noto-v1:letter-p" ], 
-            ['code' => 'ICS08','name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => true, 'sort' => 8,'status' => true, 'icon' => "noto-v1:letter-f" ], 
+            ['code' => 'ICS08','name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => true, 'sort' => 9,'status' => true, 'icon' => "noto-v1:letter-f" ], 
         ]);
 
         \DB::table('services')->insert([

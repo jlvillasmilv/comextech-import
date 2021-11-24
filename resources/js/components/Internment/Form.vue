@@ -8,89 +8,127 @@
       class="flex flex-wrap -mx-3"
       :class="[!$store.getters.findService('ICS03') ? ' ' : 'justify-center']"
     >
-      <div class="w-auto px-3 mb-2 md:mb-0 justify-evenly">
-        <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400 font-semibold">
-            Agente de Aduana
-          </span>
-          <div class="my-4">
-            <div v-if="!expenses.customs_house" class="relative">
-              <select
-                v-model="expenses.custom_agent_id"
-                class="
-                  block
-                  w-full
-                  border border-gray-150
-                  text-gray-700
-                  p-2
-                  mt-1
-                  pr-8
-                  rounded
-                  leading-tight
-                  focus:outline-none
-                  focus:bg-white
-                  focus:border-gray-500
-                "
-              >
-                <option
-                  v-for="item in custom_agents"
-                  :value="item.id"
-                  :key="item.id"
-                  class=""
-                >
-                  {{ item.contact_person }}
-                </option>
-              </select>
+
+    <div class="container grid px-6 mx-auto">
+
+        <div class="flex justify-between items-end">
+            <h4 class="mb-4 text-lg  text-black-600 dark:text-gray-300">
+                Asignación de Agente de Aduana
+            </h4>
+           
+        </div>
+
+        <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+          <div class="md:flex md:items-center my-3">
+            <div class="md:w-1/3">
+              <input
+                    v-bind:value="true"
+                    v-model="expenses.customs_house"
+                    type="radio"
+                    class="form-checkbox h-5 w-5 text-blue-600"
+                  />
+                  <span class="ml-2 text-xs text-black text-gray-500">
+                   Comextech
+                  </span>
+              <input
+                    v-bind:value="false"
+                    v-model="expenses.customs_house"
+                    type="radio"
+                    class="form-checkbox h-5 w-5 text-blue-600"
+                  />
+                  <span class="ml-2 text-xs text-black text-gray-500">
+                   Cliente
+                  </span>
             </div>
+          <div class="md:2/3">
+          <div class="w-auto px-1 mb-2 md:mb-0 justify-evenly">
+            <label class="block text-sm " v-if="!expenses.customs_house">
+              <span class="text-gray-700 dark:text-gray-400 font-semibold">
+                Seleccion
+              </span>
+              <div class="my-4">
+                <div class="relative">
+                  <select
+                    v-model="expenses.custom_agent_id"
+                    class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      mt-1
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                    "
+                  >
+                    <option
+                      v-for="item in custom_agents"
+                      :value="item.id"
+                      :key="item.id"
+                      class=""
+                    >
+                      {{ item.contact_person }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <span
+                class="text-xs text-red-600 dark:text-red-400"
+                v-if="expenses.errors.has('custom_agent_id')"
+                v-html="expenses.errors.get('custom_agent_id')"
+              ></span>
+              
+            </label>
           </div>
-          <span
-            class="text-xs text-red-600 dark:text-red-400"
-            v-if="expenses.errors.has('custom_agent_id')"
-            v-html="expenses.errors.get('custom_agent_id')"
-          ></span>
-          <div>
-            <input
-              v-model="expenses.customs_house"
-               
-              type="checkbox"
-              class="form-checkbox h-5 w-5 text-blue-600"
-            /><span class="ml-2 text-xs text-black text-gray-500">
-              Quiero que Comextech me asigne mi agente de aduana
+
+         <div class="w-auto px-1 mb-2 md:mb-0" v-if="!expenses.customs_house">
+          <label class="block text-sm mt-2">
+            <span class="text-gray-700 dark:text-gray-400 font-semibold">
+              Costo Servicio
             </span>
+            <input
+              v-model.number="expenses.agent_payment"
+              type="number"
+              class="
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600
+                dark:bg-gray-700
+                focus:border-blue-400
+                focus:outline-none
+                focus:shadow-outline-blue
+                dark:text-gray-300
+                dark:focus:shadow-outline-gray
+                form-input
+              "
+              placeholder="Monto"
+            />
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="expenses.errors.has('agent_payment')"
+              v-html="expenses.errors.get('agent_payment')"
+            ></span>
+          </label>
           </div>
-        </label>
-      </div>
-      <div class="w-auto px-1 mb-2 md:mb-0" v-if="!expenses.customs_house">
-        <label class="block text-sm mt-2">
-          <span class="text-gray-700 dark:text-gray-400 font-semibold">
-            Pago de Agente de Aduana
-          </span>
-          <input
-            v-model.number="expenses.agent_payment"
-            type="number"
-            class="
-              block
-              w-full
-              mt-1
-              text-sm
-              dark:border-gray-600
-              dark:bg-gray-700
-              focus:border-purple-400
-              focus:outline-none
-              focus:shadow-outline-purple
-              dark:text-gray-300
-              dark:focus:shadow-outline-gray
-              form-input
-            "
-            placeholder="Monto"
-          />
-          <span
-            class="text-xs text-red-600 dark:text-red-400"
-            v-if="expenses.errors.has('agent_payment')"
-            v-html="expenses.errors.get('agent_payment')"
-          ></span>
-        </label>
-      </div>
+
+        </div>
+
+        </div>
+
+        </div>
+
+    </div>
+
+
+     
+
+
       <div class="w-auto px-1 px-3 mt-2">
         <input
           id="filecert"
