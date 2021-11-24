@@ -471,56 +471,68 @@
                         </tfoot>
                     </table>
                 </div>
-
-                <div class="flex">
-                    <div class="w-1/7 ml-8 mr-3">
-                        <img
-                            v-if="expenses.iva"
-                            class="h-7 w-11 mb-6 object-contain"
-                            src="https://homer.sii.cl/responsive/images/logo.jpg"
-                        />
-                        <img
-                            v-if="expenses.adv"
-                            class="h-7 w-11 object-contain"
-                            src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
-                        />
-                    </div>
-                    <div class="w-1/7 space-y-9">
-                        <h1 v-if="expenses.iva">
-                            IVA ( 19% )
-                            {{ formatPrice(expenses.iva_amt, 'CLP') }}
-                        </h1>
-                        <h1 v-if="expenses.adv">
-                            Ad Valorem ( 6% )
-                            {{ formatPrice(expenses.adv_amt, 'CLP') }}
-                        </h1>
-                    </div>
-                </div>
             </div>
             <div
-                class="flex"
+                class="flex w-full"
                 :class="[
                     !$store.getters.findService('ICS04')
                         ? ' '
                         : ' justify-center'
                 ]"
             >
-                <div class="my-2">
-                    <input
-                        type="checkbox"
-                        v-model="expenses.iva"
-                        class="form-checkbox h-5 w-5 text-blue-600"
-                    /><span class="m-2 text-xs text-black text-gray-500">
-                        Requiero Financiamiento de IVA
-                    </span>
-                    <input
-                        type="checkbox"
-                        v-model="expenses.adv"
-                        class="form-checkbox h-5 w-5 text-blue-600"
-                    /><span class="m-2 text-xs text-black text-gray-500">
-                        Requiero Financiamiento de Ad.V.
-                    </span>
+                <div class="flex w-full flex-wrap flex-col my-2">
+                    <div class="flex justify-center items-center">
+                        <input
+                            type="checkbox"
+                            v-model="expenses.iva"
+                            class="form-checkbox h-5 w-5 text-blue-600"
+                        /><span class="mx-2">
+                            {{ formatPrice(expenses.iva_amt, 'CLP') }}
+                        </span>
+                        <h1 class="mx-4" v-if="expenses.iva">
+                            IVA ( 19% )
+                        </h1>
+                        <img
+                            v-if="expenses.iva"
+                            class="h-7 w-11 object-contain mx-4"
+                            src="https://homer.sii.cl/responsive/images/logo.jpg"
+                        />
+                        <button
+                            v-if="expenses.iva"
+                            class="w-2/12 h-10 text-white transition-colors text-sm duration-150 bg-gray-300 rounded-lg focus:shadow-outline hover:bg-gray-800"
+                        >
+                            No Financiar
+                        </button>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <input
+                            type="checkbox"
+                            v-model="expenses.adv"
+                            class="form-checkbox h-5 w-5 text-blue-600"
+                        /><span class="mx-2">
+                            {{ formatPrice(expenses.adv_amt, 'CLP') }}
+                        </span>
+                        <h1 class="mx-4" v-if="expenses.adv">
+                            Ad Valorem ( 6% )
+                        </h1>
+                        <img
+                            v-if="expenses.adv"
+                            class="h-7 w-11 object-contain"
+                            src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
+                        />
+                        <button
+                            v-if="expenses.adv"
+                            class="w-2/12 h-10 text-white transition-colors text-sm duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                        >
+                            Financiar
+                        </button>
+                    </div>
                 </div>
+                <!-- <div class="flex">
+                    <div class="w-1/7 ml-8 mr-3">
+                        <div class="w-1/7 space-y-9"></div>
+                    </div>
+                </div> -->
             </div>
             <div class="flex justify-center">
                 <button
