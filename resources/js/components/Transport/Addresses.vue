@@ -300,8 +300,21 @@
                             </div>
                         </div>
 
+                        <div class="flex w-full py-4">
+                            <button
+                                @click="showShippingMethod()"
+                                class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+                            >
+                                Transporte Local
+                            </button>
+                            <hr
+                                class="w-8/12 mt-4 mb-4 border-solid border-t-2"
+                            />
+                        </div>
+
                         <!-- Destino de Envio -->
                         <div
+                            v-if="showShipping == true"
                             class="flex justify-around w-full px-3 mb-6 md:mb-0"
                         >
                             <div class="flex justify-start w-2/12">
@@ -1241,7 +1254,8 @@ export default {
             TotalEstimed: '' /* estimated total Fedex */,
             formAdress: true /* Form addresses */,
             adressDate: false /* Form date and description */,
-            showApisQuote: false /* api quote block */
+            showApisQuote: false /* api quote block */,
+            showShipping: false
         };
     },
     methods: {
@@ -1406,6 +1420,9 @@ export default {
             this.expenses.dest_latitude = addressData.latitude;
             this.expenses.dest_longitude = addressData.longitude;
             //this.expenses.dest_ctry_code = placeResultData.address_components.
+        },
+        showShippingMethod() {
+            this.showShipping = !this.showShipping;
         }
     },
     computed: {
