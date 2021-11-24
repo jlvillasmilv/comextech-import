@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Listado Compañias de encomiendas
+                Listado Empresa de encomiendas
             </h4>
             @can('trans_companies.create')
 
