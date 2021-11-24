@@ -25,6 +25,7 @@ class SupplCondSaleSeeder extends Seeder
         ]);
 
         $sup->services()->sync([1 => ['selected' => true],
+        2=> ['selected' => true],
         3=> ['selected' => true],
         4=> ['selected' => true],
         5=> ['selected' => true],
@@ -62,6 +63,7 @@ class SupplCondSaleSeeder extends Seeder
 
         
         $sup->services()->sync([1 => ['selected' => true],
+            2=> ['selected' => true],
             3=> ['selected' => true],
             4=> ['selected' => false],
             5=> ['selected' => true],

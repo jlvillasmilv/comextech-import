@@ -183,7 +183,6 @@ $('#table').on('click', '.btn-info[data-remote]', function (e) {
   const profile = $(this).data('profile');
 
   Swal.fire({
-    
     html:
     'Para la solicitud de crédito de sus operaciones, ' +
     'es necesario que complete la información requerida ' +
