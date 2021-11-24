@@ -411,7 +411,7 @@
                                     expenses.dataLoad.length <= 0) ||
                                 $store.state.address.addressDate
                         "
-                        class="flex flex-wrap -mx-3 mb-6"
+                        class="flex flex-wrap justify-center -mx-3 mb-6"
                     >
                         <div class="w-1/4 px-3 mb-6 md:mb-0">
                             <label class="block text-sm">
