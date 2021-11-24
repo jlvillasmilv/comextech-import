@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Registro Compañia de transporte
+                Registro Empresa de transporte
             </h4>
            
         </div>

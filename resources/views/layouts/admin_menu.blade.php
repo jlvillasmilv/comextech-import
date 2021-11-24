@@ -33,7 +33,7 @@
             
           <button
             class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-            @click="toggleFinancingMenu"  aria-haspopup="true" 
+            @click="toggleFinancingMenu" aria-haspopup="true" 
           >
             <span class="inline-flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,7 +69,7 @@
             >
               @can('admin.factoring.applications.index')
                 <li
-                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
                   {!! (request()->is('factoring/applications') || request()->is('factoring/applications/*')) ? 'italic font-black' : '' !!} "
                 >
                   <a class="w-full"  href="{{route('admin.factoring.applications.index')}}" >
@@ -153,8 +153,9 @@
                 aria-label="submenu"
               >
                 @can('warehouses.index')
-                  <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                  {!! request()->routeIs('admin.currencies.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+                  <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 
+                  {!! (request()->is('admin/warehouses') || request()->is('admin/warehouses/*')) ? 'italic font-black' : '' !!} ">
+  
                   <a class="w-full" href="{{route('admin.warehouses.index')}}">Almacenes</a>
                 </li>
                 @endcan
@@ -167,30 +168,31 @@
                 @endcan --}}
 
                 @can('trans_companies.index')
-                  <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                  {!! request()->routeIs('admin.currencies.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
-                  <a class="w-full" href="{{route('admin.trans_companies.index')}}">Compañias de transporte</a>
+                  <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {!! (request()->is('admin/trans_companies') || request()->is('admin/trans_companies/*')) ? 'italic font-black' : '' !!} ">
+                  {!! request()->is('admin/trans_companies/*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+                  <a class="w-full" href="{{route('admin.trans_companies.index')}}">Empresas transporte</a>
                 </li>
                 @endcan
 
                 @can('suppl_cond_sales.index')
-                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                {!! request()->routeIs('admin.currencies.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
-                <a class="w-full" href="{{route('admin.suppl_cond_sales.index')}}">Condicion de Venta del Proveedor</a>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                  {!! (request()->is('admin/suppl_cond_sales') || request()->is('admin/suppl_cond_sales/*')) ? 'italic font-black' : '' !!} ">
+                  {!! request()->is('admin/suppl_cond_sales/*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+                <a class="w-full" href="{{route('admin.suppl_cond_sales.index')}}">Condicion Venta Proveedor</a>
               </li>
               @endcan
               
                 @can('currencies.index')
-                  <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                  {!! request()->routeIs('admin.currencies.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+                  <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200  {!! (request()->is('admin/currencies') || request()->is('admin/currencies/*')) ? 'italic font-black' : '' !!}">
+                  {!! request()->is('admin/currencies/*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
                   <a class="w-full" href="{{route('admin.currencies.index')}}">Monedas</a>
                 </li>
                 @endcan
 
                
               @can('services.index')
-                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                  {!! request()->routeIs('admin.services.*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" {!! (request()->is('admin/services') || request()->is('admin/services/*')) ? 'italic font-black' : '' !!}">
+                  {!!  (request()->is('admin/services') || request()->is('admin/services/*'))  ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
                   <a class="w-full" href="{{route('admin.services.index')}}">Servicios</a>
                 </li>
               @endcan

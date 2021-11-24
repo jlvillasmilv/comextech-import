@@ -57,36 +57,20 @@
                                     <input
                                         v-if="item.selected && !item.checked"
                                         type="checkbox"
-                                        class="
-                      focus:outline-none
-                      form-checkbox
-                      h-5 222 11
-                      w-5
-                      text-green-600
-                    "
+                                        class="focus:outline-none form-checkbox h-5 222 11 w-5 text-green-600"
                                         :value="item"
                                         v-model="$store.state.selectedServices"
                                     />
                                     <input
                                         v-if="item.checked"
                                         type="checkbox"
-                                        class="
-                      focus:outline-none
-                      form-checkbox
-                      h-5 2 2222 7
-                      w-5
-                      text-green-600
-                    "
+                                        class="focus:outline-none form-checkbox h-5 2 2222 7 w-5 text-green-600"
                                         @click="deleteService(item)"
                                         :value="item"
                                         :checked="item.checked"
                                     />
-                                    <div v-else-if="!item.selected" class="">
+                                    <div v-else-if="!item.selected">
                                         <!-- <svg
-                                            class="w-5 h-5 text-gray-300"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg"
                                         >
                                             <path
@@ -561,7 +545,7 @@ export default {
             ],
             objectPayment: {
                 id: 11,
-                name: 'Pagos',
+                name: 'Tipo de cambio',
                 code: 'ICS07',
                 selected: true,
                 pivot: {

@@ -10,6 +10,16 @@
       }
     },
     {
+      "id": 2,
+      "name": "Bodegaje y Fulfillment",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 2
+      }
+    },
+    {
       "id": 3,
       "name": "Transporte",
       "selected": false,
@@ -31,12 +41,22 @@
     },
     {
       "id": 5,
-      "name": "Tipo de cambio",
+      "name": "Entrega",
       "selected": false,
       "aggregate": false,
       "pivot": {
         "application_cond_sale_id": 1,
         "category_service_id": 5
+      }
+    }, 
+    {
+      "id": 8,
+      "name": "Financiamiento",
+      "selected": false,
+      "aggregate": false,
+      "pivot": {
+        "application_cond_sale_id": 1,
+        "category_service_id": 8
       }
     }
   ]
