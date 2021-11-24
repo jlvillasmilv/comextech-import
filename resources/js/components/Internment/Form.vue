@@ -12,7 +12,7 @@
     <div class="container grid px-6 mx-auto">
 
         <div class="flex justify-between items-end">
-            <h4 class="mb-4 text-lg  text-black-600 dark:text-gray-300">
+            <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
                 Asignación de Agente de Aduana
             </h4>
            
@@ -128,6 +128,14 @@
 
      
 
+    <div class="container grid px-6 mx-auto">
+
+      <div class="flex justify-between items-end">
+          <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
+            Documentos necesarios
+          </h4>
+           
+      </div>
 
       <div class="w-auto px-1 px-3 mt-2">
         <input
@@ -146,7 +154,7 @@
             :key="key"
             class="inline-flex items-center mt-3"
           >
-            <a
+            <!-- <a
               @click="openWindowFileCert(item)"
               class="
                 flex
@@ -187,7 +195,7 @@
                   ]"
                 ></path>
               </svg>
-              <span> {{ item.name }} </span></a
+              <span> {{ item.name }} </span> --></a
             >
           </label>
         </div>
@@ -197,6 +205,7 @@
           v-html="expenses.errors.get('file_certificate')"
         ></span>
       </div>
+      
       <div class="w-auto px-3 mt-2">
         <input
           id="fileid"
@@ -266,33 +275,87 @@
           v-html="expenses.errors.get('file_descrip')"
         ></span>
       </div>
+
     </div>
-    <div
-      class="flex space-x-5 mt-5"
+    </div>
+
+
+    <div class="container grid px-6 mx-auto mt-2">
+
+      <div class="flex justify-between items-end">
+          <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
+            Cálculo de Impuestos
+          </h4>
+      </div>
+
+      <div
+      class="flex mt-5"
       :class="[
-        !$store.getters.findService('ICS03') ? ' ' : ' justify-start ml-64 ',
+        !$store.getters.findService('ICS03') ? ' ' : ' justify-start ml-16 ',
       ]"
     >
-      <div class="flex mx-5">
-        <ul class="space-y-2">
-          <li>
-            Mercaderia - {{ currency.code }}
-            {{ formatPrice(data.amount, currency.code) }}
-          </li>
-          <li>
-            Transporte - {{ currency.code }}
-            {{ formatPrice((data.amount * 2) / 100, currency.code) }}
-          </li>
-          <li>
-            Seguro - {{ currency.code }}
-            {{ formatPrice((data.amount * 5) / 100, currency.code) }}
-          </li>
-          <li class="border-t-2 border-fuchsia-600">
-            Valor CIF -
-            {{ formatPrice(expenses.cif_amt, "CLP") }}
-          </li>
-        </ul>
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr class="
+                    text-xs
+                    text-center
+                    font-semibold
+                    tracking-wide
+                    uppercase
+                    border-b
+                    dark:border-gray-700
+                    dark:text-gray-400
+                    dark:bg-gray-800
+                  ">
+              <th>
+                Moneda
+              </th>
+              <th>
+                &nbsp;
+              </th>
+              <th>
+                &nbsp;
+              </th>
+              <th colspan="2">
+                Moneda Origen
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td lass="px-4 py-3"></td>
+              <td lass="px-4 py-3">USD</td>
+              <td lass="px-4 py-3">Mercaderia</td>
+              <td lass="px-4 py-3">{{ formatPrice(data.amount, currency.code) }}</td>
+              <td lass="px-4 py-3">{{ currency.code }}</td>
+            </tr>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td lass="px-4 py-3"></td>
+              <td lass="px-4 py-3"></td>
+              <td lass="px-4 py-3">Transporte</td>
+              <td lass="px-4 py-3">{{ formatPrice((data.amount * 2) / 100, currency.code) }}</td>
+              <td lass="px-4 py-3">{{ currency.code }}</td>
+            </tr>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td lass="px-4 py-3"></td>
+              <td lass="px-4 py-3"></td>
+              <td lass="px-4 py-3">Seguro</td>
+              <td lass="px-4 py-3">{{ formatPrice((data.amount * 5) / 100, currency.code) }}</td>
+              <td lass="px-4 py-3">{{ currency.code }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td lass="px-4 py-3">{{ formatPrice(expenses.cif_amt, "CLP") }}</td>
+              <td lass="px-4 py-3">CLP </td>
+              <td lass="px-4 py-3">- Valor CIF </td>
+
+            </tr>
+          </tfoot>
+        </table>
       </div>
+      
       <div class="flex">
         <div class="w-1/7 ml-8 mr-3">
           <img
@@ -348,15 +411,17 @@
           transition-colors
           text-lg
           duration-150
-          bg-green-700
+          bg-blue-700
           rounded-lg
           focus:shadow-outline
           hover:bg-green-800
-        "
-      >
-        Cotizar
+        ">
+        Guardar
       </button>
     </div>
+
+    </div>
+
   </div>
 </template>
 
