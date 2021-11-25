@@ -1078,7 +1078,7 @@
                             >
                                 <button
                                     @click="
-                                        submitQuote(dhl.ComextechDiscount, 2)
+                                        submitQuote(dhl.ComextechTotal, 2)
                                     "
                                     class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                                 >
@@ -1210,7 +1210,7 @@
                             >
                                 <button
                                     @click="
-                                        submitQuote(dhl.ComextechDiscount, 2)
+                                        submitQuote(dhl.ComextechTotal, 2)
                                     "
                                     class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                                 >
