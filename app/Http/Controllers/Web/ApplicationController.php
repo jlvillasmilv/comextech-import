@@ -610,7 +610,7 @@ class ApplicationController extends Controller
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'height'         => $item['height'],
-                    // 'type_transport' => $item['type_transport'],
+                    'mode_selected'  => $item['mode_selected'],
                     'type_container' => $item['type_container'],
                     'type_load'      => $item['type_load'],
                     'weight'         => $item['weight'],

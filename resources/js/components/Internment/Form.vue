@@ -22,7 +22,7 @@
                 <div
                     class="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
                 >
-                    <div class="md:flex md:items-center my-3">
+                    <div class="md:flex h-40 md:items-center my-3">
                         <div class="md:w-1/3">
                             <input
                                 v-bind:value="true"
@@ -370,7 +370,7 @@
             </section>
         </div>
 
-        <section class="container grid px-6 mx-auto mt-2">
+        <section class="container grid px-6 mx-auto">
             <div class="flex justify-between items-end">
                 <h4
                     class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300"
@@ -380,11 +380,9 @@
             </div>
 
             <div
-                class="flex mt-5"
+                class="w-8/12 flex"
                 :class="[
-                    !$store.getters.findService('ICS04')
-                        ? ' '
-                        : ' justify-start ml-16 '
+                    !$store.getters.findService('ICS04') ? '' : 'justify-start'
                 ]"
             >
                 <div class="w-full overflow-x-auto">
@@ -473,59 +471,89 @@
                 </div>
             </div>
             <div
-                class="flex w-full"
+                class="flex my-8"
                 :class="[
                     !$store.getters.findService('ICS04')
                         ? ' '
-                        : ' justify-center'
+                        : ' justify-start'
                 ]"
             >
-                <div class="flex w-full flex-wrap flex-col my-2">
-                    <div class="flex justify-center items-center">
-                        <input
-                            type="checkbox"
-                            v-model="expenses.iva"
-                            class="form-checkbox h-5 w-5 text-blue-600"
-                        /><span class="mx-2">
-                            {{ formatPrice(expenses.iva_amt, 'CLP') }}
-                        </span>
-                        <h1 class="mx-4" v-if="expenses.iva">
-                            IVA ( 19% )
-                        </h1>
-                        <img
-                            v-if="expenses.iva"
-                            class="h-7 w-11 object-contain mx-4"
-                            src="https://homer.sii.cl/responsive/images/logo.jpg"
-                        />
-                        <button
-                            v-if="expenses.iva"
-                            class="w-2/12 h-10 text-white transition-colors text-sm duration-150 bg-gray-300 rounded-lg focus:shadow-outline hover:bg-gray-800"
-                        >
-                            No Financiar
-                        </button>
+                <div class="flex flex-wrap flex-col my-2 w-10/12">
+                    <div class="flex justify-start items-center h-28 my-2">
+                        <div>
+                            <input
+                                type="checkbox"
+                                v-model="expenses.iva"
+                                class="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                        </div>
+                        <div class="w-2/12">
+                            <p
+                                :class="[
+                                    expenses.iva ? 'text-center mx-2' : 'mx-2'
+                                ]"
+                            >
+                                {{ formatPrice(expenses.iva_amt, 'CLP') }}
+                            </p>
+                        </div>
+                        <div class="w-3/12">
+                            <h1 class="text-center mx-4" v-if="expenses.iva">
+                                IVA ( 19% )
+                            </h1>
+                        </div>
+                        <div class="w-2/12">
+                            <img
+                                v-if="expenses.iva"
+                                class="h-full w-8/12"
+                                src="https://homer.sii.cl/responsive/images/logo.jpg"
+                            />
+                        </div>
+                        <div class="w-2/12">
+                            <button
+                                v-if="expenses.iva"
+                                class="w-full h-10 text-white transition-colors text-sm duration-150 bg-gray-300 rounded-lg focus:shadow-outline hover:bg-gray-800"
+                            >
+                                No Financiar
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex justify-center items-center">
-                        <input
-                            type="checkbox"
-                            v-model="expenses.adv"
-                            class="form-checkbox h-5 w-5 text-blue-600"
-                        /><span class="mx-2">
-                            {{ formatPrice(expenses.adv_amt, 'CLP') }}
-                        </span>
-                        <h1 class="mx-4" v-if="expenses.adv">
-                            Ad Valorem ( 6% )
-                        </h1>
-                        <img
-                            v-if="expenses.adv"
-                            class="h-7 w-11 object-contain"
-                            src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
-                        />
-                        <button
-                            v-if="expenses.adv"
-                            class="w-2/12 h-10 text-white transition-colors text-sm duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-                        >
-                            Financiar
-                        </button>
+                    <div class="flex justify-start items-center h-28 my-2">
+                        <div>
+                            <input
+                                type="checkbox"
+                                v-model="expenses.adv"
+                                class="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                        </div>
+                        <div class="w-2/12">
+                            <p
+                                :class="[
+                                    expenses.adv ? 'text-center mx-2' : 'mx-2'
+                                ]"
+                            >
+                                {{ formatPrice(expenses.adv_amt, 'CLP') }}
+                            </p>
+                        </div>
+                        <div class="w-3/12">
+                            <h1 class="text-center mx-4" v-if="expenses.adv">
+                                Ad Valorem ( 6% )
+                            </h1>
+                        </div>
+                        <div class="w-2/12">
+                            <img
+                                v-if="expenses.adv"
+                                class="h-full w-8/12"
+                                src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
+                            />
+                        </div>
+                        <div class="w-2/12">
+                            <button
+                                v-if="expenses.adv"
+                                class="w-full h-10 text-white transition-colors text-sm duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                            >
+                                Financiar
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <!-- <div class="flex">
