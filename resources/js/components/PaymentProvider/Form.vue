@@ -20,11 +20,11 @@
                     "
                 >
                     <h3
-                        class="my-2 font-semibold text-gray-700 dark:text-gray-200"
+                        class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200"
                     >
                         Pagos al Proveedor
                     </h3>
-                    <h3
+                    <!-- <h3
                         :class="[
                             $store.state.payment.percentageInitial -
                                 $store.state.payment.discount >=
@@ -39,28 +39,46 @@
                             $store.state.payment.percentageInitial -
                                 $store.state.payment.discount
                         }}
-                    </h3>
+                    </h3> -->
                 </div>
-                <h3 class="my-2 text-gray-400 dark:text-gray-200">
-                    Total :
-                    {{ Number(data.amount).toLocaleString() }}
-                    {{ currency.code }}
-                </h3>
+                <div class="flex justify-around flex-wrap">
+                    <h3 class="md:w-1/3 my-4 dark:text-gray-200">
+                        Total
+                    </h3>
+                    <h3 class="my-4 dark:text-gray-200">
+                        {{ Number(data.amount).toLocaleString() }}
+                        {{ currency.code }}
+                    </h3>
+                    <!-- <h3 class="my-4 dark:text-gray-200">
+                        
+                    </h3> -->
+                </div>
+                <hr class="w-full mt-4 mb-4 border-solid border-t-2" />
                 <div
-                    class="flex flex-wrap -mx-3"
+                    class="flex justify-around flex-wrap"
                     v-if="
                         $store.state.application.statusSuppliers !==
                             'E-commerce'
                     "
                 >
-                    <div class="md:w-1/3 px-3 md:mb-0">
-                        <span class="text-gray-700 dark:text-gray-400 text-xs">
-                            Pago
+                    <div class="md:w-1/3 md:mb-0">
+                        <span
+                            v-if="$store.state.payment.payment.length == 0"
+                            class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs"
+                        >
+                            Primer pago
                         </span>
+                        <span
+                            v-else
+                            class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs"
+                        >
+                            Segundo pago
+                        </span>
+
                         <input
                             :class="[]"
                             class=" block
-                                w-full
+                                w-10/12
                                 mt-1
                                 text-sm
                                 dark:border-gray-600
@@ -93,28 +111,29 @@
                             type="number" 
                         />-->
                     </div>
-                    <div class="w-2/3 md:w-auto px-3 md:mb-0">
-                       <!--  <span class="text-gray-700 dark:text-gray-400 text-xs">
+                    <div class="w-2/3 md:w-auto md:mb-0">
+                        <!--  <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Monto Agregado
                         </span> -->
-                        <span class="block w-full mt-8 text-lg text-center">
+                        <span class="block w-full mt-8 text-center">
                             {{ amountRound }}
                         </span>
                     </div>
                 </div>
 
-
-
                 <!-- date_pay -->
 
-                  <div class="md:flex md:items-center my-3">
+                <div class="md:flex md:items-center my-3">
                     <div class="md:w-1/3">
-                      <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="date_pay">
-                        Fecha
-                      </label>
+                        <label
+                            class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                            for="date_pay"
+                        >
+                            Fecha
+                        </label>
                     </div>
                     <div class="md:w-2/3">
-                      <input
+                        <input
                             id="date_pay"
                             v-model="form.date_pay"
                             type="date"
@@ -131,24 +150,26 @@
                                 dark:focus:shadow-outline-gray
                                 form-input
                               "
-                                placeholder="Empresa"
-                                :min="minDate"
+                            placeholder="Empresa"
+                            :min="minDate"
                         />
                     </div>
-                  </div>
+                </div>
                 <!-- end date_pay -->
 
+                <!-- type_pay -->
 
-                 <!-- type_pay -->
-
-                  <div class="md:flex md:items-center my-3">
+                <div class="md:flex md:items-center my-3">
                     <div class="md:w-1/3">
-                      <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="grid-state">
-                        Tipo
-                      </label>
+                        <label
+                            class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                            for="grid-state"
+                        >
+                            Tipo
+                        </label>
                     </div>
                     <div class="md:w-2/3">
-                       <div class="relative">
+                        <div class="relative">
                             <select
                                 v-model="form.type_pay"
                                 class=" block
@@ -165,7 +186,7 @@
                               focus:bg-white
                               focus:border-gray-500"
                                 id="grid-state"
-                                        >
+                            >
                                 <option value="Transferencia"
                                     >Transferencia</option
                                 >
@@ -199,19 +220,21 @@
                             </div>
                         </div>
                     </div>
-                  </div>
+                </div>
                 <!-- end type_pay -->
 
                 <!-- date_pay -->
 
-                  <div class="md:flex md:items-center my-3">
+                <div class="md:flex md:items-center my-3">
                     <div class="md:w-1/3">
-                      <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="date_pay">
-                        Restricción
-                      </label>
+                        <label
+                            class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                            for="date_pay"
+                        >
+                            Restricción
+                        </label>
                     </div>
                     <div class="md:w-2/3">
-
                         <div class="relative">
                             <select
                                 v-model="form.payment_release"
@@ -265,13 +288,8 @@
                                 </svg>
                             </div>
                         </div>
-                      
-                    
-                  </div>
-                <!-- date_pay -->
-
-
-                   
+                    </div>
+                    <!-- date_pay -->
                 </div>
                 <span
                     v-if="
