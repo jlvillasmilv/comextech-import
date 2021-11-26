@@ -57,10 +57,10 @@ class ApplicationSeeder extends Seeder
         \DB::table('transports')->insert([
             [
                 'application_id'        => $application->id,
-                'fav_address_origin'    => true,
-                'address_origin'        => 1,
+                'fav_origin_address'    => true,
+                'origin_address'        => 1,
                 'fav_dest_address'      => true,
-                'address_destination'   => 1,
+                'dest_address'   => 1,
                 'estimated_date'        => date('Y-m-d'),
                 'description'           => 'Carga',
             ]

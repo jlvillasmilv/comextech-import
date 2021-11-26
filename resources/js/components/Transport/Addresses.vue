@@ -60,8 +60,8 @@
                                     }}
                                 </span> -->
                                 <vue-google-autocomplete
-                                    v-if="!expenses.fav_address_origin"
-                                    v-model="expenses.address_origin"
+                                    v-if="!expenses.fav_origin_address"
+                                    v-model="expenses.origin_address"
                                     id="addressOrigin"
                                     classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     v-on:placechanged="getAddressOrigin"
@@ -70,7 +70,7 @@
                                 </vue-google-autocomplete>
                                 <div v-else class="relative">
                                     <select
-                                        v-model="expenses.address_origin"
+                                        v-model="expenses.origin_address"
                                         class="
                       block
                       w-full
@@ -102,8 +102,8 @@
                                     <input
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
-                                        v-model="expenses.fav_address_origin"
-                                        @change="expenses.address_origin = ''"
+                                        v-model="expenses.fav_origin_address"
+                                        @change="expenses.origin_address = ''"
                                     />
                                     <span class="ml-2 text-gray-700">
                                         Tus
@@ -117,9 +117,9 @@
                                 </label>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('address_origin')"
+                                    v-if="expenses.errors.has('origin_address')"
                                     v-html="
-                                        expenses.errors.get('address_origin')
+                                        expenses.errors.get('origin_address')
                                     "
                                 ></span>
                             </label>
@@ -136,51 +136,39 @@
                                 </h3>
                             </div>
                             <label class="w-8/12 text-sm">
-                                <!-- <span
-                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                               
+            
+                                <div class="relative">
+                                   <v-select
+                                    label="name"
+                                    v-model="expenses.origin_port_id"
+                                    placeholder="Puerto Origen"
+                                    :options="portsDestination"
+                                    :reduce="portsDestination => portsDestination.id"
                                 >
-                                    {{
-                                        data.condition === 'FOB'
-                                            ? ' Puertos de Proveedor'
-                                            : ' Almacen o Fabrica del Proveedor'
-                                    }}
-                                </span> -->
-                                <vue-google-autocomplete
-                                    v-if="!expenses.fav_address_origin"
-                                    v-model="expenses.address_origin"
-                                    id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                    v-on:placechanged="getAddressOrigin"
-                                    placeholder="Direccion, Codigo Postal"
-                                >
-                                </vue-google-autocomplete>
-                                <div v-else class="relative">
-                                    <select
-                                        v-model="expenses.address_origin"
-                                        class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                                    <template
+                                        v-slot:no-options="{
+                                            search,
+                                            searching
+                                        }"
                                     >
-                                        <option
-                                            v-for="item in origin_transport"
-                                            :value="item.id"
-                                            :key="item.id"
-                                            class=" "
+                                        <template
+                                            v-if="searching"
+                                            class="text-sm"
                                         >
-                                            {{ item.address }}
-                                        </option>
-                                    </select>
+                                            Lo sentimos no hay opciones que
+                                            coincidan
+                                            <strong>{{ search }}</strong
+                                            >.
+                                        </template>
+                                        <em style="opacity: 0.5" v-else>
+                                            Puertos
+                                        </em>
+                                    </template>
+                                    <template v-slot:option="portsDestination">
+                                        {{  `${portsDestination.name}  ${portsDestination.country}- (${portsDestination.unlocs}) ` }} 
+                                    </template>
+                                </v-select>
                                 </div>
                                 <label
                                     class="inline-flex text-sm items-center mx-2 mt-2"
@@ -188,8 +176,8 @@
                                     <input
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
-                                        v-model="expenses.fav_address_origin"
-                                        @change="expenses.address_origin = ''"
+                                        v-model="expenses.fav_origin_port"
+                                        @change="expenses.origin_port_id = ''"
                                     />
                                     <span class="ml-2 text-gray-700">
                                         Tus
@@ -203,9 +191,9 @@
                                 </label>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('address_origin')"
+                                    v-if="expenses.errors.has('origin_port_address')"
                                     v-html="
-                                        expenses.errors.get('address_origin')
+                                        expenses.errors.get('origin_port_address')
                                     "
                                 ></span>
                             </label>
@@ -221,52 +209,39 @@
                                     Puerto Destino
                                 </h3>
                             </div>
-                            <label class="w-8/12 text-sm">
-                                <!-- <span
-                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                            <label class="w-8/12 text-sm">                                
+                                <div>
+                                <v-select
+                                    label="name"
+                                    v-model="expenses.dest_port_id"
+                                    placeholder="Puerto Destino"
+                                    :options="portsDestination"
+                                    :reduce="portsDestination => portsDestination.id"
                                 >
-                                    {{
-                                        data.condition === 'FOB'
-                                            ? ' Puertos de Proveedor'
-                                            : ' Almacen o Fabrica del Proveedor'
-                                    }}
-                                </span> -->
-                                <vue-google-autocomplete
-                                    v-if="!expenses.fav_address_origin"
-                                    v-model="expenses.address_origin"
-                                    id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                    v-on:placechanged="getAddressOrigin"
-                                    placeholder="Direccion, Codigo Postal"
-                                >
-                                </vue-google-autocomplete>
-                                <div v-else class="relative">
-                                    <select
-                                        v-model="expenses.address_origin"
-                                        class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                                    <template
+                                        v-slot:no-options="{
+                                            search,
+                                            searching
+                                        }"
                                     >
-                                        <option
-                                            v-for="item in origin_transport"
-                                            :value="item.id"
-                                            :key="item.id"
-                                            class=" "
+                                        <template
+                                            v-if="searching"
+                                            class="text-sm"
                                         >
-                                            {{ item.address }}
-                                        </option>
-                                    </select>
+                                            Lo sentimos no hay opciones que
+                                            coincidan
+                                            <strong>{{ search }}</strong
+                                            >.
+                                        </template>
+                                        <em style="opacity: 0.5" v-else>
+                                            Puertos
+                                        </em>
+                                    </template>
+                                    <template v-slot:option="portsDestination">
+                                        {{  `${portsDestination.name}  ${portsDestination.country}-(${portsDestination.unlocs}) ` }} 
+                                    </template>
+                                </v-select>
+
                                 </div>
                                 <label
                                     class="inline-flex text-sm items-center mx-2 mt-2"
@@ -274,24 +249,18 @@
                                     <input
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
-                                        v-model="expenses.fav_address_origin"
-                                        @change="expenses.address_origin = ''"
+                                        v-model="expenses.fav_dest_port"
+                                        @change="expenses.dest_port_id = ''"
                                     />
                                     <span class="ml-2 text-gray-700">
-                                        Tus
-                                        {{
-                                            data.condition === 'FOB'
-                                                ? 'Puertos'
-                                                : 'Almacenes o Fabricas'
-                                        }}
-                                        Favoritos
+                                        Tus Puertos  Favoritos
                                     </span>
                                 </label>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('address_origin')"
+                                    v-if="expenses.errors.has('dest_port_id')"
                                     v-html="
-                                        expenses.errors.get('address_origin')
+                                        expenses.errors.get('dest_port_id')
                                     "
                                 ></span>
                             </label>
@@ -331,7 +300,7 @@
 
                                 <vue-google-autocomplete
                                     v-if="!expenses.fav_dest_address"
-                                    v-model="expenses.address_destination"
+                                    v-model="expenses.dest_address"
                                     id="addressDestination"
                                     classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     :placeholder="
@@ -345,7 +314,7 @@
 
                                 <div v-else class="relative">
                                     <select
-                                        v-model="expenses.address_destination"
+                                        v-model="expenses.dest_address"
                                         class="
                       block
                       w-full
@@ -379,7 +348,7 @@
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_dest_address"
                                         @change="
-                                            expenses.address_destination = ''
+                                            expenses.dest_address = ''
                                         "
                                     /><span class="ml-2 text-gray-700">
                                         Direccion de Destino Favoritas
@@ -393,10 +362,10 @@
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
                                 v-if="
-                                    expenses.errors.has('address_destination')
+                                    expenses.errors.has('dest_address')
                                 "
                                 v-html="
-                                    expenses.errors.get('address_destination')
+                                    expenses.errors.get('dest_address')
                                 "
                             ></span>
                         </div>
@@ -406,8 +375,8 @@
                     <div
                         v-if="
                             (!expenses.dataLoad &&
-                                expenses.address_destination !== '') ||
-                                (expenses.address_destination !== '' &&
+                                expenses.dest_address !== '') ||
+                                (expenses.dest_address !== '' &&
                                     expenses.dataLoad.length <= 0) ||
                                 $store.state.address.addressDate
                         "
@@ -525,8 +494,8 @@
                                     }}
                                 </span>
                                 <vue-google-autocomplete
-                                    v-if="!expenses.fav_address_origin"
-                                    v-model="expenses.address_origin"
+                                    v-if="!expenses.fav_origin_address"
+                                    v-model="expenses.origin_address"
                                     id="addressOrigin"
                                     classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     v-on:placechanged="getAddressOrigin"
@@ -535,7 +504,7 @@
                                 </vue-google-autocomplete>
                                 <div v-else class="relative">
                                     <select
-                                        v-model="expenses.address_origin"
+                                        v-model="expenses.origin_address"
                                         class="
                       block
                       w-full
@@ -567,8 +536,8 @@
                                     <input
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
-                                        v-model="expenses.fav_address_origin"
-                                        @change="expenses.address_origin = ''"
+                                        v-model="expenses.fav_origin_address"
+                                        @change="expenses.origin_address = ''"
                                     /><span class="ml-2 text-gray-700">
                                         Tus
                                         {{
@@ -581,9 +550,9 @@
                                 </label>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('address_origin')"
+                                    v-if="expenses.errors.has('origin_address')"
                                     v-html="
-                                        expenses.errors.get('address_origin')
+                                        expenses.errors.get('origin_address')
                                     "
                                 ></span>
                             </label>
@@ -599,7 +568,7 @@
 
                                 <vue-google-autocomplete
                                     v-if="!expenses.fav_dest_address"
-                                    v-model="expenses.address_destination"
+                                    v-model="expenses.dest_address"
                                     id="addressDestination"
                                     classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     :placeholder="
@@ -613,7 +582,7 @@
 
                                 <div v-else class="relative">
                                     <select
-                                        v-model="expenses.address_destination"
+                                        v-model="expenses.dest_address"
                                         class="
                       block
                       w-full
@@ -647,7 +616,7 @@
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_dest_address"
                                         @change="
-                                            expenses.address_destination = ''
+                                            expenses.dest_address = ''
                                         "
                                     /><span class="ml-2 text-gray-700">
                                         Direccion de Destino Favoritas
@@ -658,10 +627,10 @@
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
                                 v-if="
-                                    expenses.errors.has('address_destination')
+                                    expenses.errors.has('dest_address')
                                 "
                                 v-html="
-                                    expenses.errors.get('address_destination')
+                                    expenses.errors.get('dest_address')
                                 "
                             ></span>
                         </div>
@@ -671,8 +640,8 @@
                     <div
                         v-if="
                             (!expenses.dataLoad &&
-                                expenses.address_destination !== '') ||
-                                (expenses.address_destination !== '' &&
+                                expenses.dest_address !== '') ||
+                                (expenses.dest_address !== '' &&
                                     expenses.dataLoad.length <= 0) ||
                                 $store.state.address.addressDate
                         "
@@ -793,7 +762,7 @@
 
                 <button
                     v-if="
-                        $store.state.load.loads[0].mode_selected == 'CONTAINER'
+                        $store.state.load.loads[0].mode_selected != 'COURIER'
                     "
                     @click="submitQuote(0)"
                     :class="[
@@ -809,7 +778,7 @@
 
                 <button
                     v-else-if="
-                        $store.state.load.loads[0].mode_selected != 'CONTAINER'
+                        $store.state.load.loads[0].mode_selected == 'COURIER'
                     "
                     @click="submitForm()"
                     :class="[
@@ -1372,7 +1341,31 @@ export default {
          * @param {String} id Input container ID
          */
         getAddressOrigin: function(addressData, placeResultData, id) {
-            this.expenses.address_origin = placeResultData.formatted_address;
+            this.expenses.origin_address = placeResultData.formatted_address;
+            this.expenses.origin_latitude = addressData.latitude;
+            this.expenses.origin_longitude = addressData.longitude;
+
+            for (const component of placeResultData.address_components) {
+                const componentType = component.types[0];
+
+                switch (componentType) {
+                    case 'country':
+                        this.expenses.origin_ctry_code = component.short_name;
+                        break;
+
+                    case 'locality':
+                        this.expenses.origin_locality = component.long_name;
+                        break;
+
+                    case 'postal_code': {
+                        this.expenses.origin_postal_code = component.long_name;
+                        break;
+                    }
+                }
+            }
+        },
+         getOriginPortAddress: function(addressData, placeResultData, id) {
+            this.expenses.origin_address = placeResultData.formatted_address;
             this.expenses.origin_latitude = addressData.latitude;
             this.expenses.origin_longitude = addressData.longitude;
 
@@ -1415,18 +1408,44 @@ export default {
                 }
             }
 
-            this.expenses.address_destination =
-                placeResultData.formatted_address;
-            this.expenses.dest_latitude = addressData.latitude;
+            this.expenses.dest_address   = placeResultData.formatted_address;
+            this.expenses.dest_latitude  = addressData.latitude;
             this.expenses.dest_longitude = addressData.longitude;
             //this.expenses.dest_ctry_code = placeResultData.address_components.
         },
+
+        getDestinationPortAddress: function(addressData, placeResultData, id) {
+            for (const component of placeResultData.address_components) {
+                const componentType = component.types[0];
+
+                switch (componentType) {
+                    case 'country':
+                        this.expenses.dest_ctry_code = component.short_name;
+                        break;
+
+                    case 'locality':
+                        this.expenses.dest_locality = component.long_name;
+                        break;
+
+                    case 'postal_code': {
+                        this.expenses.dest_postal_code = component.long_name;
+                        break;
+                    }
+                }
+            }
+
+            this.expenses.dest_address   = placeResultData.formatted_address;
+            this.expenses.dest_latitude  = addressData.latitude;
+            this.expenses.dest_longitude = addressData.longitude;
+            //this.expenses.dest_ctry_code = placeResultData.address_components.
+        },
+
         showShippingMethod() {
             this.showShipping = !this.showShipping;
         }
     },
     computed: {
-        ...mapState('address', ['expenses', 'addressDestination']),
+        ...mapState('address', ['expenses', 'addressDestination','portsDestination']),
         ...mapState('application', ['data', 'currency', 'origin_transport']),
         addreses() {
             if (this.data.condiction == 'FOB') {
@@ -1483,6 +1502,7 @@ export default {
     async created() {
         this.expenses.application_id = this.data.application_id;
         await this.$store.dispatch('address/getAddressDestination');
+        await this.$store.dispatch('address/getPortsDest');
     }
 };
 </script>

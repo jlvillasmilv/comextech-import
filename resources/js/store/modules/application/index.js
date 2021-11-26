@@ -51,7 +51,6 @@ const mutations = {
         state.currency = currency;
     },
     SET_ORIGIN_TRANSPORT(state, payload) {
-        console.log(payload.supplier_address);
         state.origin_transport = payload.supplier_address;
     },
     SET_DATA(

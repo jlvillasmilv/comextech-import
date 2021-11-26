@@ -176,9 +176,9 @@ use App\Models\services\Api\DHLAbstractAPI;
 
         public function fromCity($value = NULL): self
         {
-            if (empty($value)) {
-                return $this->fromCity;
-            }
+            // if (empty($value)) {
+            //     return $this->fromCity;
+            // }
 
             $this->fromCity = $value;
 

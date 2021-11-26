@@ -52,6 +52,56 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     })->where('id', '[0-9]+');
 
+   
+     //get sea port by code country
+     Route::get('/sea-ports-country/{id}/{flag}', function ($id,$flag) {
+
+        if($flag=="true"){
+
+          $code =  \DB::table('supplier_addresses')
+            ->where('id', $id)
+            ->select('country_code')
+            ->first('country_code');
+            $id = $code->country_code;
+        }
+   
+        $ports = \DB::table('sea_ports as sp')
+                    ->join('countries as c', 'sp.country_id', '=', 'c.id')
+                    ->where('sp.status', true)
+                    ->where('c.code' , $id) 
+                    ->select('sp.name','sp.province','c.name as country')
+                    ->orderBy('sp.id')
+                    ->get();
+        
+        return response()->json($ports, 200);
+
+     })->where('id', '[0-9, A-Z]+');
+
+
+     /* get sea port by code country status
+        ** id number or code country
+        ** flag indicate if code country o id addres supplier
+      */
+      Route::get('/sea-ports', function () {
+
+        $ports = \DB::table('sea_ports as sp')
+                    ->join('countries as c', 'sp.country_id', '=', 'c.id')
+                    ->where('sp.status', true)
+                    ->select('sp.name','sp.province','c.name as country')
+                    ->orderBy('sp.id')
+                    ->get();
+        
+        return response()->json($ports, 200);
+
+     })->where('id', '[0-9, A-Z]+');
+
+      /* get sea port by code country status
+        ** id number or code country
+        ** flag indicate if code country o id addres supplier
+      */
+    Route::get('/sea-ports-country/{id}/{flag}','App\Http\Controllers\Web\TransportsControllers@seaPortCountry')->where('id', '[0-9, A-Z]+');
+    Route::get('/sea-ports','App\Http\Controllers\Web\TransportsControllers@seaPorts')->name('sea.ports');
+
     Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
     
     // Connect with apis courier service

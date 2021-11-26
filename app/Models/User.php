@@ -118,9 +118,9 @@ class User extends Authenticatable implements MustVerifyEmail
         $shipper_country_code = $data['origin_ctry_code'];
 
         // if favorite address origin is true find in storage
-        if($data['fav_address_origin']){
+        if($data['fav_origin_address']){
 
-            $address = SupplierAddress::where('id', $data['address_origin'])->firstOrFail();
+            $address = SupplierAddress::where('id', $data['origin_address'])->firstOrFail();
             $shipper_country_code = $address->country_code;
 
         }

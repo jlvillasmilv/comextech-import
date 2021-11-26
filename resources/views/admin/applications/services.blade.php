@@ -88,13 +88,13 @@
                     <div class="w-1/2 mr-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Origen de Envio</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{ $application->transport->address_origin }}
+                            {{ $application->transport->origin_address }}
                         </p>
                     </div>
                     <div class="w-1/2 ml-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Destino de Envio</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{ $application->transport->address_destination }} 
+                            {{ $application->transport->dest_address }} 
                         </p>
                     </div>
                 </div>
