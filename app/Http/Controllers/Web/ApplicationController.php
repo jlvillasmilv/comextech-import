@@ -387,7 +387,6 @@ class ApplicationController extends Controller
     */
     public function transports(TransportRequest $request)
     {
-        dd($request->all());
         DB::beginTransaction();
          try {
                       
