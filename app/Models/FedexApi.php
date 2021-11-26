@@ -30,18 +30,18 @@ class FedexApi extends Model
       $shipper_postal_code  = $data['origin_postal_code'];
       $shipper_country_code = $data['origin_ctry_code'];
       $shipper_city         = $data['origin_locality'];
-      $shipper_street_lines = $data['address_origin'];
+      $shipper_street_lines = $data['origin_address'];
 
       $recipient_postal_code  = $data['origin_postal_code'];
       $recipient_country_code = $data['dest_ctry_code'];
       $recipient_city         = $data['dest_locality'];
-      $recipient_street_lines = $data['address_destination'];
+      $recipient_street_lines = $data['dest_address'];
       
 
        // if favorite address origin is true find en storage
-      if($data['fav_address_origin']){
+      if($data['fav_origin_address']){
 
-        $address = SupplierAddress::where('id', $data['address_origin'])->firstOrFail();
+        $address = SupplierAddress::where('id', $data['origin_address'])->firstOrFail();
 
         $shipper_postal_code = $address->postal_code;
         $shipper_country_code = $address->country_code;
@@ -52,7 +52,7 @@ class FedexApi extends Model
       // if favorite address dest is true find en storage
       if($data['fav_dest_address']){
 
-        $address = CompanyAddress::where('id', $data['address_destination'])->firstOrFail();
+        $address = CompanyAddress::where('id', $data['dest_address'])->firstOrFail();
 
         $recipient_postal_code = $address->postal_code;
         $recipient_country_code = $address->country->code;
