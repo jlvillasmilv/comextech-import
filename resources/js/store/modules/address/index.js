@@ -35,7 +35,8 @@ const state = {
     addressDestination: [],
     portsDestination: [],
     addressDate: false,
-    formAddress: false
+    formAddress: false,
+    mode_selected: ""
 };
 
 const getters = {};

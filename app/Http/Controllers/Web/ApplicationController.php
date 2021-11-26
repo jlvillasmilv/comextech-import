@@ -389,7 +389,6 @@ class ApplicationController extends Controller
     {
         dd($request->all());
         DB::beginTransaction();
-
          try {
                       
             $transport =  Transport::updateOrCreate(
@@ -402,8 +401,12 @@ class ApplicationController extends Controller
                     'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
                     'origin_ctry_code'      => $request->origin_ctry_code,
+                    'fav_origin_port'       => $request->fav_origin_port,
+                    'origin_port_id'        => $request->origin_port_id,
                     'fav_dest_address'      => $request->fav_dest_address,
-                    'dest_address'   => $request->dest_address,
+                    'dest_address'          => $request->dest_address,
+                    'fav_dest_port'         => $request->fav_dest_port,
+                    'dest_port_id'          => $request->dest_port_id,
                     'dest_latitude'         => $request->dest_latitude,
                     'dest_longitude'        => $request->dest_longitude,
                     'dest_postal_code'      => $request->dest_postal_code,
