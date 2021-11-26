@@ -15,7 +15,6 @@ class TransportsControllers extends Controller
     */
     public function seaPorts(Request $request)
     {
-       
           $ports = \DB::table('ports as sp')
                       ->join('countries as c', 'sp.country_id', '=', 'c.id')
                       ->where('sp.status', true)

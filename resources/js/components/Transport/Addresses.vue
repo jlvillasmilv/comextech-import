@@ -761,9 +761,7 @@
                 </button>
 
                 <button
-                    v-if="
-                        $store.state.load.loads[0].mode_selected != 'COURIER'
-                    "
+                    v-if="mode_selected != 'COURIER'"
                     @click="submitQuote(0)"
                     :class="[
                         !expenses.dataLoad
@@ -777,9 +775,7 @@
                 </button>
 
                 <button
-                    v-else-if="
-                        $store.state.load.loads[0].mode_selected == 'COURIER'
-                    "
+                    v-else-if="mode_selected == 'COURIER'"
                     @click="submitForm()"
                     :class="[
                         !expenses.dataLoad
@@ -1445,7 +1441,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('address', ['expenses', 'addressDestination','portsDestination']),
+        ...mapState('address', ['expenses', 'addressDestination','portsDestination','mode_selected']),
         ...mapState('application', ['data', 'currency', 'origin_transport']),
         addreses() {
             if (this.data.condiction == 'FOB') {
@@ -1501,6 +1497,7 @@ export default {
     },
     async created() {
         this.expenses.application_id = this.data.application_id;
+        this.mode_selected = this.$store.state.application.data.type_transport;
         await this.$store.dispatch('address/getAddressDestination');
         await this.$store.dispatch('address/getPortsDest');
     }
