@@ -11,7 +11,7 @@ import internalStorage from './modules/internalStorage';
 Vue.use(Vuex);
 
 const state = () => ({
-    selectedServices: false,
+    selectedServices: [],
     tabActive: '',
     statusModal: true,
     positionTabs: 0
@@ -31,6 +31,28 @@ const mutations = {
         );
         this.state.address.addressDate = true;
         this.state.address.formAddress = true;
+    },
+    SELECT_SERVICE(state, payload) {
+        state.selectedServices.push({ ...payload });
+        const changeService = state.selectedServices.map(item => {
+            const newObject = {
+                ...item,
+                checked: true
+            };
+            return newObject;
+        });
+        state.selectedServices = changeService;
+
+        // const changeApplication = this.state.application.selectedCondition.services.map(
+        //     element => {
+        //         const newApplication = {
+        //             ...element,
+        //             checked: true
+        //         };
+        //         return newApplication;
+        //     }
+        // );
+        // this.state.application.selectedCondition.services = changeApplication;
     }
 };
 
@@ -40,6 +62,9 @@ const actions = {
     },
     callActiveTabs({ commit }, service) {
         commit('activeTabs', service);
+    },
+    selectService({ commit }, service) {
+        commit('SELECT_SERVICE', service);
     }
 };
 
