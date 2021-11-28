@@ -36,23 +36,63 @@
                             Servicios
                         </h3>
                         <div class="flex w-full">
-                            <label
-                                v-for="(item, id) in tabs"
+                            <div
+                                v-for="(item, id) in $store.state.application
+                                    .selectedCondition.services"
                                 :key="id"
-                                class="flex justify-center items-center my-2 mr-6 bg-transparent text-blue-700  w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center"
+                                class="flex flex-col w-3/12 my-2 mr-6"
                             >
-                                <!-- data.statusSuppliers == 'with' -->
-                                <div class="flex flex-col items-center">
-                                    <!-- <button
-                                        v-if="item.selected && !item.checked"
-                                        class="bg-transparent text-blue-700 w-full hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center"
-                                        @click="serviceSelect()"
-                                    >
-                                        {{ item.name }}
-                                    </button> -->
+                                <div
+                                    v-if="item.selected && !item.checked"
+                                    @click="selectedService(item)"
+                                    :class="[
+                                        ''
+                                            ? 'bg-blue-500 text-white '
+                                            : 'bg-transparent text-blue-700 ',
+                                        'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                                    ]"
+                                >
                                     <Icon
                                         class="w-10 h-10 my-2"
                                         :icon="item.icon"
+                                        color="black"
+                                    />
+                                </div>
+                                <div
+                                    v-if="item.checked"
+                                    @click="deleteService(item)"
+                                    :class="[
+                                        item.checked == false &&
+                                        buttonService == true
+                                            ? 'bg-blue-500 text-white '
+                                            : 'bg-transparent text-blue-700 ',
+                                        'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                                    ]"
+                                >
+                                    <Icon
+                                        class="w-10 h-10 my-2"
+                                        :icon="item.icon"
+                                        color="black"
+                                    />
+                                </div>
+                                <p class="text-center">
+                                    {{ item.name }}
+                                </p>
+                            </div>
+                            <!-- <label
+                                v-for="(item, id) in $store.state.application
+                                    .selectedCondition.services"
+                                :key="id"
+                                class="flex flex-col w-3/12 my-2 mr-6"
+                            >
+                            
+                                <div
+                                    class="flex flex-col items-center bg-transparent text-blue-700 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center"
+                                >
+                                    <Icon
+                                        class="w-10 h-10 my-2"
+                                        :icon="item.icon"
+                                        color="black"
                                     />
                                     <input
                                         v-if="item.selected && !item.checked"
@@ -70,29 +110,22 @@
                                         :checked="item.checked"
                                     />
                                     <div v-else-if="!item.selected">
-                                        <!-- <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12"
-                                            ></path>
-                                        </svg> -->
+                                        
                                     </div>
-                                    <span
+                                </div>
+                                <div>
+                                    <p
                                         :class="[
                                             !item.selected
                                                 ? 'text-gray-300'
                                                 : '',
-                                            'ml-2'
+                                            'text-center'
                                         ]"
                                     >
                                         {{ item.name }}
-                                    </span>
+                                    </p>
                                 </div>
-                            </label>
+                            </label> -->
                         </div>
                         <span
                             class="text-xs text-red-600 dark:text-red-400"
@@ -179,7 +212,7 @@
                                     <label
                                         v-for="(item, index) in statusSuppliers"
                                         :key="index"
-                                        class="inline-flex justify-center items-center"
+                                        class="inline-flex justify-start items-center sm:px-12"
                                     >
                                         <input
                                             type="radio"
@@ -268,7 +301,7 @@
                                     :class="[
                                         item.valueInitial ==
                                         data.valuePercentage.valueInitial
-                                            ? 'bg-blue-500 text-white '
+                                            ? 'bg-blue-500 text-white'
                                             : 'bg-transparent text-blue-700 ',
                                         'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                                     ]"
@@ -389,22 +422,58 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <h3 class="my-3 text-green-700 text-lg">
-                                Tipo de Transporte
-                            </h3>
-                            <div class="flex justify-center mt-3 mb-8">
-                                <ul class="flex space-x-2 mt-3">
+                        <h3 class="my-3 text-green-700 text-lg">
+                            Tipo de Transporte
+                        </h3>
+                        <div class="flex flex-wrap justify-center w-full">
+                            <div
+                                v-for="service in $store.state.load.types"
+                                :key="service.name"
+                                class="w-2/12 flex flex-col justify-center mt-3 mb-8 px-1.5"
+                            >
+                                <div
+                                    :class="[
+                                        'flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
+                                        service.name ==
+                                        $store.state.application.data
+                                            .type_transport
+                                            ? 'bg-green-600'
+                                            : ''
+                                    ]"
+                                    @click="typeSelected(service.name)"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-10 w-10"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            :d="service.path"
+                                            fill="bg-white"
+                                        />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-center">
+                                        {{ service.name }}
+                                    </p>
+                                </div>
+                                <!-- <ul class="flex space-x-2 mt-3">
                                     <li
                                         v-for="service in $store.state.load
                                             .types"
                                         :key="service.name"
                                         :class="[
-                                            'flex flex-col items-center cursor-pointer px-3 text-gray-900 border-b-2',
+                                            'flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 text-gray-900 border-b-2',
                                             service.name ==
                                             $store.state.application.data
                                                 .type_transport
-                                                ? ' border-blue-500'
+                                                ? 'bg-green-600'
                                                 : ''
                                         ]"
                                         @click="typeSelected(service.name)"
@@ -426,7 +495,7 @@
                                         </svg>
                                         {{ service.name }}
                                     </li>
-                                </ul>
+                                </ul> -->
                             </div>
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
@@ -552,7 +621,8 @@ export default {
                     application_cond_sale_id: 1,
                     category_service_id: 8
                 }
-            }
+            },
+            buttonService: false
         };
     },
     components: {
@@ -568,7 +638,20 @@ export default {
         Icon
     },
     methods: {
+        selectedService(service) {
+            console.log('selectedService');
+            this.$store.dispatch('selectService', service);
+            this.$store.state.selectedServices.map(item => {
+                if (item.checked == true) {
+                    this.buttonService = true;
+                } else {
+                    this.buttonService = false;
+                }
+            });
+            // this.$stote.state.selectedServices = [];
+        },
         deleteService({ id }) {
+            console.log('deleteService');
             this.$store.state.selectedServices = this.$store.state.selectedServices.filter(
                 item => item.id !== id
             );
@@ -720,9 +803,10 @@ export default {
                 this.$store.dispatch('load/setLoad', data);
                 this.$store.dispatch('address/setTransport', data);
                 this.$store.dispatch('internment/setData', data);
-            } else {
-                this.$store.state.application.tabs = servicedefault;
             }
+            // else {
+            //     this.$store.state.application.tabs = servicedefault;
+            // }
         } catch (error) {}
     }
 };

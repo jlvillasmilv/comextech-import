@@ -7,7 +7,7 @@ const state = {
         supplier_id: null,
         currency_id: null,
         ecommerce_url: null,
-        condition: '',
+        condition: 'EXW',
         statusSuppliers: 'with',
         services: [],
         valuePercentage: '',
@@ -43,6 +43,7 @@ const mutations = {
     },
     SET_SERVICES(state, payload) {
         state.arrayServices = payload;
+        state.selectedCondition = payload[0];
     },
     SET_CURRENCIES(state, payload) {
         state.currencies = payload;
