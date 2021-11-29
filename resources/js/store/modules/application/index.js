@@ -102,6 +102,22 @@ const mutations = {
                 ? { ...item, checked: true }
                 : item
         );
+    },
+    UPDATE_SERVICE(state, payload) {
+        state.selectedCondition.services = state.selectedCondition.services.map(
+            service =>
+                payload.name === service.name
+                    ? { ...service, checked: true }
+                    : service
+        );
+    },
+    DELETE_SERVICE(state, payload) {
+        this.state.selectedServices = this.state.selectedServices.filter(
+            item => item.id !== payload
+        );
+        state.selectedCondition.services = state.selectedCondition.services.map(
+            tab => (tab.id == payload ? { ...tab, checked: false } : tab)
+        );
     }
 };
 const actions = {
@@ -135,6 +151,12 @@ const actions = {
     async getServicesSelecteds({ commit }, id) {
         const { data } = await axios.get('/get-application-category/' + id);
         commit('TOOGLE_TABS', data);
+    },
+    updateService({ commit }, service) {
+        commit('UPDATE_SERVICE', service);
+    },
+    deleteService({ commit }, id) {
+        commit('DELETE_SERVICE', id);
     }
 };
 
