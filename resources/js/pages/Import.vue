@@ -46,9 +46,9 @@
                                     v-if="item.selected && !item.checked"
                                     @click="selectedService(item)"
                                     :class="[
-                                        ''
-                                            ? 'bg-blue-500 text-white '
-                                            : 'bg-transparent text-blue-700 ',
+                                        !item.checked
+                                            ? 'bg-transparent text-blue-700'
+                                            : 'bg-blue-500 text-white',
                                         'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                                     ]"
                                 >
@@ -60,10 +60,9 @@
                                 </div>
                                 <div
                                     v-if="item.checked"
-                                    @click="deleteService(item)"
+                                    @click="deleteService(item.id)"
                                     :class="[
-                                        item.checked == false &&
-                                        buttonService == true
+                                        item.checked
                                             ? 'bg-blue-500 text-white '
                                             : 'bg-transparent text-blue-700 ',
                                         'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
@@ -72,7 +71,7 @@
                                     <Icon
                                         class="w-10 h-10 my-2"
                                         :icon="item.icon"
-                                        color="black"
+                                        color="white"
                                     />
                                 </div>
                                 <p class="text-center">
@@ -639,25 +638,11 @@ export default {
     },
     methods: {
         selectedService(service) {
-            console.log('selectedService');
             this.$store.dispatch('selectService', service);
-            this.$store.state.selectedServices.map(item => {
-                if (item.checked == true) {
-                    this.buttonService = true;
-                } else {
-                    this.buttonService = false;
-                }
-            });
-            // this.$stote.state.selectedServices = [];
+            this.$store.dispatch('application/updateService', service);
         },
-        deleteService({ id }) {
-            console.log('deleteService');
-            this.$store.state.selectedServices = this.$store.state.selectedServices.filter(
-                item => item.id !== id
-            );
-            this.$store.state.application.tabs = this.$store.state.application.tabs.map(
-                tab => (tab.id == id ? { ...tab, checked: false } : tab)
-            );
+        deleteService(id) {
+            this.$store.dispatch('application/deleteService', id);
         },
         toDisableProviderPayment(value, provider = false) {
             this.clearEcommerceSupplier(provider);
@@ -782,32 +767,34 @@ export default {
             this.$store.dispatch('application/getServices');
             this.$store.dispatch('application/getCurrencies');
 
-            let application = document.getElementById('applications');
+            // let application = document.getElementById('applications');
 
-            if (application !== null) {
-                const id = application.value;
-                this.toogleMenuTabs();
-                const { data } = await axios.get('/get-application/' + id);
-                this.$store.dispatch('application/setData', data);
-                await this.$store.dispatch(
-                    'application/getServicesSelecteds',
-                    id
-                );
-                this.$store.state.selectedServices = this.tabs.filter(
-                    e => e.checked
-                );
-                this.$store.dispatch(
-                    'payment/setPayment',
-                    data.payment_provider
-                );
-                this.$store.dispatch('load/setLoad', data);
-                this.$store.dispatch('address/setTransport', data);
-                this.$store.dispatch('internment/setData', data);
-            }
+            // if (application !== null) {
+            //     const id = application.value;
+            //     this.toogleMenuTabs();
+            //     const { data } = await axios.get('/get-application/' + id);
+            //     this.$store.dispatch('application/setData', data);
+            //     await this.$store.dispatch(
+            //         'application/getServicesSelecteds',
+            //         id
+            //     );
+            //     this.$store.state.selectedServices = this.tabs.filter(
+            //         e => e.checked
+            //     );
+            //     this.$store.dispatch(
+            //         'payment/setPayment',
+            //         data.payment_provider
+            //     );
+            //     this.$store.dispatch('load/setLoad', data);
+            //     this.$store.dispatch('address/setTransport', data);
+            //     this.$store.dispatch('internment/setData', data);
+            // }
             // else {
             //     this.$store.state.application.tabs = servicedefault;
             // }
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 </script>

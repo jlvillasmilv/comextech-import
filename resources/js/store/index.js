@@ -34,25 +34,13 @@ const mutations = {
     },
     SELECT_SERVICE(state, payload) {
         state.selectedServices.push({ ...payload });
-        const changeService = state.selectedServices.map(item => {
-            const newObject = {
-                ...item,
+        state.selectedServices = state.selectedServices.map(service => {
+            const newService = {
+                ...service,
                 checked: true
             };
-            return newObject;
+            return newService;
         });
-        state.selectedServices = changeService;
-
-        // const changeApplication = this.state.application.selectedCondition.services.map(
-        //     element => {
-        //         const newApplication = {
-        //             ...element,
-        //             checked: true
-        //         };
-        //         return newApplication;
-        //     }
-        // );
-        // this.state.application.selectedCondition.services = changeApplication;
     }
 };
 
