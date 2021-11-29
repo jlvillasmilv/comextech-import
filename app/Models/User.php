@@ -118,9 +118,9 @@ class User extends Authenticatable implements MustVerifyEmail
         $shipper_country_code = $data['origin_ctry_code'];
 
         // if favorite address origin is true find in storage
-        if($data['fav_address_origin']){
+        if($data['fav_origin_address']){
 
-            $address = SupplierAddress::where('id', $data['address_origin'])->firstOrFail();
+            $address = SupplierAddress::where('id', $data['origin_address'])->firstOrFail();
             $shipper_country_code = $address->country_code;
 
         }
@@ -175,5 +175,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function bankAccounts()
     {
         return $this->hasMany(BankAccount::class,'user_id');
+    }
+
+    /**
+     * Get the favorite Port with the client.
+    */
+    public function ports()
+    {
+        return $this->belongsToMany(
+            Port::class,
+            'ports_users',
+            'user_id',
+            'port_id',
+        );
+    }
+
+    /**
+     * Get the favorite Port with the client.
+    */
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class,'user_id');
     }
 }

@@ -388,21 +388,24 @@ class ApplicationController extends Controller
     public function transports(TransportRequest $request)
     {
         DB::beginTransaction();
-
          try {
                       
             $transport =  Transport::updateOrCreate(
                 ['application_id'   => $request->application_id, ],
                 [
                     'trans_company_id'      => $request->trans_company_id,
-                    'fav_address_origin'    => $request->fav_address_origin,
-                    'address_origin'        => $request->address_origin,
+                    'fav_origin_address'    => $request->fav_origin_address,
+                    'origin_address'        => $request->origin_address,
                     'origin_latitude'       => $request->origin_latitude,
                     'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
                     'origin_ctry_code'      => $request->origin_ctry_code,
+                    'fav_origin_port'       => $request->fav_origin_port,
+                    'origin_port_id'        => $request->origin_port_id,
                     'fav_dest_address'      => $request->fav_dest_address,
-                    'address_destination'   => $request->address_destination,
+                    'dest_address'          => $request->dest_address,
+                    'fav_dest_port'         => $request->fav_dest_port,
+                    'dest_port_id'          => $request->dest_port_id,
                     'dest_latitude'         => $request->dest_latitude,
                     'dest_longitude'        => $request->dest_longitude,
                     'dest_postal_code'      => $request->dest_postal_code,
@@ -763,15 +766,15 @@ class ApplicationController extends Controller
     public function test()
     {
         $data = [
-            "fav_address_origin" => true,
-            "address_origin" => "1",
+            "fav_origin_address" => true,
+            "origin_address" => "1",
             "origin_latitude" => null,
             "origin_longitude" => null,
             "origin_postal_code" => null,
             "origin_locality" => null,
             "origin_ctry_code" => null,
             "fav_dest_address" => true,
-            "address_destination" => "1",
+            "dest_address" => "1",
             "dest_latitude" => null,
             "dest_longitude" => null,
             "dest_postal_code" => null,

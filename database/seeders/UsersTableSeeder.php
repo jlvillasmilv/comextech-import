@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{User, TransCompany};
+use App\Models\{User, TransCompany, Supplier};
 use App\Models\Team;
 use Illuminate\Support\Str;
 
@@ -48,6 +48,31 @@ class UsersTableSeeder extends Seeder
             'contact_name'   => 'Andres Fabregat',
             'status'  => 1
         ]);
+
+        $client->ports()->sync([593,62]);
+
+        $supplier = Supplier::create([
+            'user_id' => $client->id,
+            'name'   => 'Ollie Hirthe PhD',
+            'address'=> '71505 Dario Mills Suite 374 West Jalon, MI 69608',
+            'bank'   => 'oberbrunner',
+            'isin'   => '766174',
+            'iban'   => '30645647484',
+            'phone'  => '481-853-6595 x30822',
+            'email'  => 'haley.easton@example.org',
+        ]);
+
+        $supplier->supplierAddress()->create([
+            'place'             => 'FABRICA',
+            'address_latitude'  => -8372284,
+            'address_longitude' => -135,
+            'postal_code'       => '38017',
+            'locality'          => 'Memphis',
+            'country_code'      => 'US',
+            'address'           => '401 Stark Ramp Nienowland, MT 57331'
+        ]);
+
+        $supplier->ports()->sync([1342,1343]);
 
        $trans_company  = TransCompany::get();
 

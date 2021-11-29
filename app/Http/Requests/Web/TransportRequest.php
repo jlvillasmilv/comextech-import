@@ -25,8 +25,8 @@ class TransportRequest extends FormRequest
     {
         $rules = [
             'application_id'             => 'required|exists:applications,id',
-            'address_destination'        => 'required',
-            'address_origin'             => 'required',
+            'dest_address'        => 'required',
+            'origin_address'             => 'required',
             'description'                => 'nullable|max:250',
             'estimated_date'             => 'required|date',
             'dataLoad'                   => 'required|array',
@@ -50,8 +50,8 @@ class TransportRequest extends FormRequest
     {
         return [
             'application_id'             => 'Nro. Solicitud',
-            'address_destination'        => 'Origen',
-            'address_origin'             => 'Destino',
+            'dest_address'        => 'Origen',
+            'origin_address'             => 'Destino',
             'estimated_date'             => 'Fecha estimada',
             'dataLoad'                   => 'Datos de carga',
             'dataLoad.*.length'          => 'Largo',

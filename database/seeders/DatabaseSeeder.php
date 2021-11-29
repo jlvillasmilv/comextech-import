@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(CountrySeeder::class);
+        $this->call(SeaPortSeeder::class);
         $this->call(TransCompaniesSeeder::class);
         $this->call(SettingSeeder::class);
         $this->call(UsersTableSeeder::class);
@@ -21,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CurrencySeeder::class);
         $this->call(ApplicationStatusSeeder::class);
         $this->call(CategoryServiceSeeder::class);
-        $this->call(SupplierSeeder::class);
+        // $this->call(SupplierSeeder::class);
         $this->call(CompanySeeder::class);
         $this->call(TransportModeSeeder::class);
         $this->call(ApplicationSeeder::class);
@@ -32,5 +33,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CustomAgentSeeder::class);
         $this->call(EcommerceSeeder::class);
         $this->call(FactoringSeeder::class);
+       
     }
 }

@@ -7,7 +7,7 @@ const state = {
         supplier_id: null,
         currency_id: null,
         ecommerce_url: null,
-        condition: '',
+        condition: 'EXW',
         statusSuppliers: 'with',
         services: [],
         valuePercentage: '',
@@ -43,6 +43,7 @@ const mutations = {
     },
     SET_SERVICES(state, payload) {
         state.arrayServices = payload;
+        state.selectedCondition = payload[0];
     },
     SET_CURRENCIES(state, payload) {
         state.currencies = payload;
@@ -51,7 +52,6 @@ const mutations = {
         state.currency = currency;
     },
     SET_ORIGIN_TRANSPORT(state, payload) {
-        console.log(payload.supplier_address);
         state.origin_transport = payload.supplier_address;
     },
     SET_DATA(
@@ -102,6 +102,22 @@ const mutations = {
                 ? { ...item, checked: true }
                 : item
         );
+    },
+    UPDATE_SERVICE(state, payload) {
+        state.selectedCondition.services = state.selectedCondition.services.map(
+            service =>
+                payload.name === service.name
+                    ? { ...service, checked: true }
+                    : service
+        );
+    },
+    DELETE_SERVICE(state, payload) {
+        this.state.selectedServices = this.state.selectedServices.filter(
+            item => item.id !== payload
+        );
+        state.selectedCondition.services = state.selectedCondition.services.map(
+            tab => (tab.id == payload ? { ...tab, checked: false } : tab)
+        );
     }
 };
 const actions = {
@@ -135,6 +151,12 @@ const actions = {
     async getServicesSelecteds({ commit }, id) {
         const { data } = await axios.get('/get-application-category/' + id);
         commit('TOOGLE_TABS', data);
+    },
+    updateService({ commit }, service) {
+        commit('UPDATE_SERVICE', service);
+    },
+    deleteService({ commit }, id) {
+        commit('DELETE_SERVICE', id);
     }
 };
 

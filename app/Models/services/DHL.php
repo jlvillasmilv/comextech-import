@@ -12,19 +12,19 @@ class DHL extends Model
         $from_postal_code  = is_null($data['origin_postal_code']) ? '0' : $data['origin_postal_code'] ;
         $from_country_code = $data['origin_ctry_code'];
         $from_city         = $data['origin_locality'];
-        $from_street_lines = $data['address_origin'];
+        $from_street_lines = $data['origin_address'];
   
         $to_postal_code  = $data['origin_postal_code'];
         $to_country_code = $data['dest_ctry_code'];
         $to_city         = $data['dest_locality'];
-        $to_street_lines = $data['address_destination'];
+        $to_street_lines = $data['dest_address'];
         
         
   
          // if favorite address origin is true find en storage
-        if($data['fav_address_origin']){
+        if($data['fav_origin_address']){
   
-          $address = SupplierAddress::where('id', $data['address_origin'])->firstOrFail();
+          $address = SupplierAddress::where('id', $data['origin_address'])->firstOrFail();
   
           $from_postal_code = $address->postal_code;
           $from_country_code = $address->country_code;
@@ -35,7 +35,7 @@ class DHL extends Model
         // if favorite address dest is true find en storage
         if($data['fav_dest_address']){
   
-          $address = CompanyAddress::where('id', $data['address_destination'])->firstOrFail();
+          $address = CompanyAddress::where('id', $data['dest_address'])->firstOrFail();
   
           $to_postal_code = $address->postal_code;
           $to_country_code = $address->country->code;
