@@ -22,6 +22,7 @@ class SeaPortSeeder extends Seeder
 
         foreach ($ports as $key => $port) {
             Port::create([
+                "id"         => intval($port->id),
                 "country_id" => intval($port->country_id),
                 "name"       => $port->name,
                 "province"	 => isset($port->province) ? $port->province : null ,

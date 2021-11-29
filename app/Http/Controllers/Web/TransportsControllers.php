@@ -18,7 +18,7 @@ class TransportsControllers extends Controller
           $ports = \DB::table('ports as sp')
                       ->join('countries as c', 'sp.country_id', '=', 'c.id')
                       ->where('sp.status', true)
-                      ->select('sp.id','sp.name','sp.unlocs','c.name as country')
+                      ->select('sp.id', \DB::raw("CONCAT(sp.name,' ',c.name,' (', sp.unlocs,')') AS name"))
                       ->orderBy('sp.id')
                       ->get();
           
@@ -30,23 +30,34 @@ class TransportsControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function seaPortCountry(Request $request)
+    public function PortSupplier(Request $request, $id)
     {
-        if($flag=="true"){
+          $ports = \DB::table('ports_suppliers as ps')
+                      ->join('ports as p', 'ps.port_id', '=', 'p.id')
+                      ->join('countries as c', 'p.country_id', '=', 'c.id')
+                      ->where('p.status', true)
+                      ->where('ps.supplier_id' , $id) 
+                      ->select('p.id', \DB::raw("CONCAT(p.name,' ',c.name,' (', p.unlocs,')') AS name"))
+                      ->orderBy('p.id')
+                      ->get();
+          
+          return response()->json($ports, 200);
+    }
 
-            $code =  \DB::table('supplier_addresses')
-              ->where('id', $id)
-              ->select('country_code')
-              ->first('country_code');
-              $id = $code->country_code;
-          }
-     
-          $ports = \DB::table('ports as sp')
-                      ->join('countries as c', 'sp.country_id', '=', 'c.id')
-                      ->where('sp.status', true)
-                      ->where('c.code' , $id) 
-                      ->select('sp.name','sp.province','c.name as country')
-                      ->orderBy('sp.id')
+     /**
+     * Display a list port user selected.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function seaPortUser(Request $request)
+    {
+          $ports = \DB::table('ports_users as ps')
+                      ->join('ports as p', 'ps.port_id', '=', 'p.id')
+                      ->join('countries as c', 'p.country_id', '=', 'c.id')
+                      ->where('p.status', true)
+                      ->where('ps.user_id' , auth()->user()->id) 
+                      ->select('p.id', \DB::raw("CONCAT(p.name,' ',c.name,' (', p.unlocs,')') AS name"))
+                      ->orderBy('p.id')
                       ->get();
           
           return response()->json($ports, 200);

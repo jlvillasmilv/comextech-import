@@ -143,8 +143,8 @@
                                     label="name"
                                     v-model="expenses.origin_port_id"
                                     placeholder="Puerto Origen"
-                                    :options="portsDestination"
-                                    :reduce="portsDestination => portsDestination.id"
+                                    :options="portsOrigin"
+                                    :reduce="portsOrigin => portsOrigin.id"
                                 >
                                     <template
                                         v-slot:no-options="{
@@ -165,8 +165,8 @@
                                             Puertos
                                         </em>
                                     </template>
-                                    <template v-slot:option="portsDestination">
-                                        {{  `${portsDestination.name}  ${portsDestination.country}- (${portsDestination.unlocs}) ` }} 
+                                    <template v-slot:option="portsOrigin">
+                                        {{  portsOrigin.name }} 
                                     </template>
                                 </v-select>
                                 </div>
@@ -177,16 +177,10 @@
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_origin_port"
-                                        @change="expenses.origin_port_id = ''"
+                                        @change="getFavOriginPort"
                                     />
                                     <span class="ml-2 text-gray-700">
-                                        Tus
-                                        {{
-                                            data.condition === 'FOB'
-                                                ? 'Puertos'
-                                                : 'Almacenes o Fabricas'
-                                        }}
-                                        Favoritos
+                                        Tus Puertos Favoritos
                                     </span>
                                 </label>
                                 <span
@@ -238,7 +232,7 @@
                                         </em>
                                     </template>
                                     <template v-slot:option="portsDestination">
-                                        {{  `${portsDestination.name}  ${portsDestination.country}-(${portsDestination.unlocs}) ` }} 
+                                        {{  portsDestination.name }} 
                                     </template>
                                 </v-select>
 
@@ -250,10 +244,10 @@
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_dest_port"
-                                        @change="expenses.dest_port_id = ''"
+                                        @change="getFavDestPort"
                                     />
                                     <span class="ml-2 text-gray-700">
-                                        Tus Puertos  Favoritos
+                                        Tus Puertos Favoritos
                                     </span>
                                 </label>
                                 <span
@@ -502,7 +496,7 @@
                                     placeholder="Direccion, Codigo Postal"
                                 >
                                 </vue-google-autocomplete>
-                                <div v-else class="relative">
+                                <div v-else class="relative" >
                                     <select
                                         v-model="expenses.origin_address"
                                         class="
@@ -533,7 +527,7 @@
                                 <label
                                     class="inline-flex text-sm items-center mx-2 mt-2"
                                 >
-                                    <input
+                                 <input
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_origin_address"
@@ -1360,30 +1354,6 @@ export default {
                 }
             }
         },
-         getOriginPortAddress: function(addressData, placeResultData, id) {
-            this.expenses.origin_address = placeResultData.formatted_address;
-            this.expenses.origin_latitude = addressData.latitude;
-            this.expenses.origin_longitude = addressData.longitude;
-
-            for (const component of placeResultData.address_components) {
-                const componentType = component.types[0];
-
-                switch (componentType) {
-                    case 'country':
-                        this.expenses.origin_ctry_code = component.short_name;
-                        break;
-
-                    case 'locality':
-                        this.expenses.origin_locality = component.long_name;
-                        break;
-
-                    case 'postal_code': {
-                        this.expenses.origin_postal_code = component.long_name;
-                        break;
-                    }
-                }
-            }
-        },
         getAddressDestination: function(addressData, placeResultData, id) {
             for (const component of placeResultData.address_components) {
                 const componentType = component.types[0];
@@ -1410,38 +1380,30 @@ export default {
             //this.expenses.dest_ctry_code = placeResultData.address_components.
         },
 
-        getDestinationPortAddress: function(addressData, placeResultData, id) {
-            for (const component of placeResultData.address_components) {
-                const componentType = component.types[0];
-
-                switch (componentType) {
-                    case 'country':
-                        this.expenses.dest_ctry_code = component.short_name;
-                        break;
-
-                    case 'locality':
-                        this.expenses.dest_locality = component.long_name;
-                        break;
-
-                    case 'postal_code': {
-                        this.expenses.dest_postal_code = component.long_name;
-                        break;
-                    }
-                }
-            }
-
-            this.expenses.dest_address   = placeResultData.formatted_address;
-            this.expenses.dest_latitude  = addressData.latitude;
-            this.expenses.dest_longitude = addressData.longitude;
-            //this.expenses.dest_ctry_code = placeResultData.address_components.
+        getFavOriginPort: async function() {
+           this.expenses.origin_port_id = ''
+           if(this.expenses.fav_origin_port && this.data.supplier_id) {
+               await this.$store.dispatch('address/getFavOriginPort', this.data.supplier_id);
+           }
+           else {
+               await this.$store.dispatch('address/setOrigFavOritPorts');
+           }
         },
-
+        getFavDestPort: async function() {
+           this.expenses.dest_port_id = ''
+           if(this.expenses.fav_dest_port) {
+               await this.$store.dispatch('address/getFavDestPorts');
+           }
+           else {
+               await this.$store.dispatch('address/setOrigFavDestPorts');
+           }
+        },
         showShippingMethod() {
             this.showShipping = !this.showShipping;
         }
     },
     computed: {
-        ...mapState('address', ['expenses', 'addressDestination','portsDestination','mode_selected']),
+        ...mapState('address', ['expenses', 'addressDestination','portsDestination','mode_selected','portsOrigin']),
         ...mapState('application', ['data', 'currency', 'origin_transport']),
         addreses() {
             if (this.data.condiction == 'FOB') {
