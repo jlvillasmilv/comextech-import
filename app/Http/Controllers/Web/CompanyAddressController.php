@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\CompanyAddress;
+use App\Models\{CompanyAddress, Port};
 use App\Http\Requests\Web\CompanyAddressRequest;
 use Illuminate\Http\Request;
 
@@ -15,10 +15,17 @@ class CompanyAddressController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         $data = CompanyAddress::where('company_id', auth()->user()->company->id)
         ->where('status', 1)->paginate();
-        return view('address.index' , compact('data'));
+
+        $ports = Port::join('countries as c', 'ports.country_id', '=', 'c.id')
+        ->where('ports.country_id',41)
+        ->select('ports.id', \DB::raw("CONCAT(ports.name,' ',c.name,' (', ports.unlocs,')') AS name"))
+		->orderBy('ports.name', 'ASC')
+		->get();
+
+        return view('profile.address.index' , compact('data','ports'));
     }
 
     /**
@@ -28,7 +35,7 @@ class CompanyAddressController extends Controller
      */
     public function create()
     {
-        return view('address.form');
+        return view('profile.address.form');
     }
 
     /**
@@ -40,6 +47,7 @@ class CompanyAddressController extends Controller
     public function store(Request $request)
     {
         $address = new CompanyAddress;
+        $address->company_id = auth()->user()->company->id;
         $address->fill($request->all());
         $address->save();
 
@@ -49,7 +57,7 @@ class CompanyAddressController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('address.edit', $address->id);
+        return redirect()->route('address.edit', base64_encode($address->id));
     }
 
     /**
@@ -60,8 +68,8 @@ class CompanyAddressController extends Controller
      */
     public function show($id)
     {
-        $companyAddress = CompanyAddress::findOrFail($id); 
-        return view('address.show', compact('companyAddress'));
+        $companyAddress = CompanyAddress::findOrFail(base64_decode($id)); 
+        return view('profile.address.show', compact('companyAddress'));
     }
 
     /**
@@ -71,10 +79,11 @@ class CompanyAddressController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $companyAddress = CompanyAddress::findOrFail($id); 
-        return view('address.form', compact('companyAddress'));
+    {   
+        $companyAddress = CompanyAddress::findOrFail(base64_decode($id)); 
+        return view('profile.address.form', compact('companyAddress'));
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -85,7 +94,7 @@ class CompanyAddressController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $address = CompanyAddress::findOrFail($id);
+        $address = CompanyAddress::findOrFail(base64_decode($id));
 
         $address->fill($request->all())->save();
 
@@ -95,8 +104,13 @@ class CompanyAddressController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('address.edit', $address->id);
+        return redirect()->route('address.edit', base64_encode($address->id));
 
+    }
+
+    public function addPorts(Request $request)
+    {
+        dd($request->all());
     }
 
     /**
@@ -119,5 +133,7 @@ class CompanyAddressController extends Controller
 
         return redirect()->route('address.index');
     }
+
+   
 
 }
