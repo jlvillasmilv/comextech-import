@@ -176,4 +176,25 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(BankAccount::class,'user_id');
     }
+
+    /**
+     * Get the favorite Port with the client.
+    */
+    public function ports()
+    {
+        return $this->belongsToMany(
+            Port::class,
+            'ports_users',
+            'user_id',
+            'port_id',
+        );
+    }
+
+    /**
+     * Get the favorite Port with the client.
+    */
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class,'user_id');
+    }
 }

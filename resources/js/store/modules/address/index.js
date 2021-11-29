@@ -33,7 +33,10 @@ const state = {
     Load: false,
     safe: false,
     addressDestination: [],
+    portsOrigin: [],
+    portsOriginTemp: [],
     portsDestination: [],
+    portsDesTemp: [],
     addressDate: false,
     formAddress: false,
     mode_selected: ""
@@ -48,8 +51,9 @@ const mutations = {
     SET_ADDRESS(state, payload) {
         state.addressDestination = payload;
     },
-    SET_PORT_DEST(state, payload) {
+    SET_PORTS(state, payload) {
         state.portsDestination = payload;
+        state.portsOrigin      = payload;
     },
     SET_TRANSPORT(state, { transport }) {
         state.expenses = new Form(transport);
@@ -57,7 +61,19 @@ const mutations = {
     SHOW_ADDRESS(state, value) {
         state.addressDate = value;
         state.formAddress = value;
-    }
+    },
+    SET_PORT_DEST(state, payload) {
+        if (state.portsDesTemp == '') {
+            state.portsDesTemp = state.portsDestination;
+        }
+        state.portsDestination = payload;
+    },
+    SET_PORT_ORIGIN(state, payload) {
+        if (state.portsOriginTemp == '') {
+            state.portsOriginTemp = state.portsDestination;
+        }
+        state.portsOrigin = payload;
+    },
 };
 
 const actions = {
@@ -73,8 +89,27 @@ const actions = {
     async getPortsDest({ state, commit }) {
         if (state.portsDestination == '') {
             let { data } = await axios.get('/sea-ports');
-            commit('SET_PORT_DEST', data);
+            commit('SET_PORTS', data);
         }
+    },
+    // Origin Port
+    async getFavOriginPort({ commit }, idsupplier = null) {
+        console.log(idsupplier);
+        let { data } = await axios.get('/ports-supplier/'+idsupplier);
+        commit('SET_PORT_ORIGIN', data);
+    },
+    setOrigFavOritPorts({ state, commit }) {
+        data = state.portsOriginTemp;
+        commit('SET_PORT_ORIGIN', data);
+    },
+    //Dest Port
+    async getFavDestPorts({ state, commit }) {
+        let { data } = await axios.get('/ports-user');
+        commit('SET_PORT_DEST', data);
+    },
+    setOrigFavDestPorts({ state, commit }) {
+        data = state.portsDesTemp;
+        commit('SET_PORT_DEST', data);
     },
     setTransport({ commit }, data) {
         commit('SET_TRANSPORT', data);
