@@ -99,8 +99,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         ** id number or code country
         ** flag indicate if code country o id addres supplier
       */
-    Route::get('/sea-ports-country/{id}/{flag}','App\Http\Controllers\Web\TransportsControllers@seaPortCountry')->where('id', '[0-9, A-Z]+');
+    Route::get('/ports-supplier/{id}','App\Http\Controllers\Web\TransportsControllers@PortSupplier')->where('id', '[0-9]+');
     Route::get('/sea-ports','App\Http\Controllers\Web\TransportsControllers@seaPorts')->name('sea.ports');
+    Route::get('/ports-user','App\Http\Controllers\Web\TransportsControllers@seaPortUser')->name('port.user');
 
     Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
     

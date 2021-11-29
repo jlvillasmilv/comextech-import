@@ -17,4 +17,24 @@ class Port extends Model
     {
         return $this->belongsTo(Country::class,'country_id');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'ports_users',
+            'port_id',
+            'user_id',
+        );
+    }
+
+    public function suppliers()
+    {
+        return $this->belongsToMany(
+            Supplier::class,
+            'ports_users',
+            'port_id',
+            'supplier_id',
+        );
+    }
 }

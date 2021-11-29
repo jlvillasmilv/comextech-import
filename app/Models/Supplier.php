@@ -33,4 +33,17 @@ class Supplier extends Model
     {
         return $this->hasMany(SupplierAddress::class, 'supplier_id');
     }
+
+    /**
+     * Get the favorite Port with the client.
+    */
+    public function ports()
+    {
+        return $this->belongsToMany(
+            Port::class,
+            'ports_suppliers',
+            'supplier_id',
+            'port_id',
+        );
+    }
 }
