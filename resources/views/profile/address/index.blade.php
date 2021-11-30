@@ -106,7 +106,7 @@
                 </h4>
             
                     <div class="w-1/2 mb-2">
-                        <select class="select2 " name="states[]" multiple="multiple">
+                        <select class="select2 " name="port_id[]" multiple="multiple">
                             @forelse ($ports as $port)
                             <option value="{{$port->id}}">{{$port->name}}</option>
                             @empty
@@ -140,8 +140,7 @@
                                 {{$port->province}} {{$port->country->name}} 
                             </span>
                             <div class="">
-                                <form action="{{ route('address.destroy', base64_encode($address->id)) }}" method="POST" onsubmit="return confirm('¿Esta Seguro?');" style="display: inline-block;">
-                                    <input type="hidden" name="_method" value="DELETE">
+                                <form action="{{ route('address.delPorts', $port->id) }}" method="POST" onsubmit="return confirm('¿Esta Seguro?');" style="display: inline-block;">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <button type="submit" class="flex items-center justify-between px-2 py-1 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" value="X">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"

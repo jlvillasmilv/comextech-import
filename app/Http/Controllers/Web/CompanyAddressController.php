@@ -19,8 +19,16 @@ class CompanyAddressController extends Controller
         $data = CompanyAddress::where('company_id', auth()->user()->company->id)
         ->where('status', 1)->paginate();
 
+        $id_ports = array();
+        foreach (auth()->user()->ports as $menu) {
+            //obteniendo los datos de un menu específico
+            $id_ports[] = $menu->id;
+        }
+
         $ports = Port::join('countries as c', 'ports.country_id', '=', 'c.id')
         ->where('ports.country_id',41)
+        ->where('ports.type', 'P')
+        ->whereNotIn('ports.id', $id_ports)
         ->select('ports.id', \DB::raw("CONCAT(ports.name,' ',c.name,' (', ports.unlocs,')') AS name"))
 		->orderBy('ports.name', 'ASC')
 		->get();
@@ -110,8 +118,32 @@ class CompanyAddressController extends Controller
 
     public function addPorts(Request $request)
     {
-        dd($request->all());
+        auth()->user()->ports()->attach($request->input('port_id'));
+
+        $notification = array(
+            'message'    => 'Registro actualizado',
+            'alert_type' => 'success',);
+
+        \Session::flash('notification', $notification);
+
+        return redirect()->route('address.index');
+
     }
+
+    public function delPorts($id)
+    {   
+        auth()->user()->ports()->detach([$id]);
+
+        $notification = array(
+            'message'    => 'Registro eliminado',
+            'alert_type' => 'success',);
+
+        \Session::flash('notification', $notification);
+
+        return redirect()->route('address.index');
+
+    }
+
 
     /**
      * Remove the specified resource from storage.

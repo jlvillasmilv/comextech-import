@@ -27,6 +27,7 @@ class SeaPortSeeder extends Seeder
                 "name"       => $port->name,
                 "province"	 => isset($port->province) ? $port->province : null ,
                 "unlocs"     => $port->unlocs,
+                "type"       => $port->type
             ]);
 				
         }

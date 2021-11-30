@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
    
     Route::resource('address',  'App\Http\Controllers\Web\CompanyAddressController');
     Route::post('address/add-port', 'App\Http\Controllers\Web\CompanyAddressController@addPorts')->name('address.addPorts'); 
+    Route::post('address/del-port/{id}', 'App\Http\Controllers\Web\CompanyAddressController@delPorts')->name('address.delPorts');
     
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
 
