@@ -41,6 +41,24 @@ const mutations = {
             };
             return newService;
         });
+    },
+    CLEAR_SERVICE(state) {
+        state.selectedServices = [];
+        // console.log(
+        //     'sin map',
+        //     this.state.application.selectedCondition.services
+        // );
+        const newCondition = this.state.application.selectedCondition.services.map(
+            item => {
+                const clearService = {
+                    ...item,
+                    checked: false
+                };
+                return clearService;
+            }
+        );
+        // console.log('con map', newCondition);
+        this.state.application.selectedCondition.services = newCondition;
     }
 };
 
@@ -53,6 +71,9 @@ const actions = {
     },
     selectService({ commit }, service) {
         commit('SELECT_SERVICE', service);
+    },
+    clearService({ commit }) {
+        commit('CLEAR_SERVICE');
     }
 };
 
