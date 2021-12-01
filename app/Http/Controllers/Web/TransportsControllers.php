@@ -13,7 +13,7 @@ class TransportsControllers extends Controller
      *
      * @return \Illuminate\Http\Response
     */
-    public function seaPorts(Request $request)
+    public function ports(Request $request)
     {
           $ports = \DB::table('ports as sp')
                       ->join('countries as c', 'sp.country_id', '=', 'c.id')
@@ -31,7 +31,7 @@ class TransportsControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function PortSupplier(Request $request, $id)
+    public function portSupplier(Request $request, $id)
     {
           $ports = \DB::table('ports_suppliers as ps')
                       ->join('ports as p', 'ps.port_id', '=', 'p.id')
@@ -51,7 +51,7 @@ class TransportsControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function seaPortUser(Request $request)
+    public function portUser(Request $request)
     {
           $ports = \DB::table('ports_users as ps')
                       ->join('ports as p', 'ps.port_id', '=', 'p.id')

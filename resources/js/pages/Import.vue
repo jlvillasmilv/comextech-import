@@ -767,31 +767,31 @@ export default {
             this.$store.dispatch('application/getServices');
             this.$store.dispatch('application/getCurrencies');
 
-            // let application = document.getElementById('applications');
+            let application = document.getElementById('applications');
 
-            // if (application !== null) {
-            //     const id = application.value;
-            //     this.toogleMenuTabs();
-            //     const { data } = await axios.get('/get-application/' + id);
-            //     this.$store.dispatch('application/setData', data);
-            //     await this.$store.dispatch(
-            //         'application/getServicesSelecteds',
-            //         id
-            //     );
-            //     this.$store.state.selectedServices = this.tabs.filter(
-            //         e => e.checked
-            //     );
-            //     this.$store.dispatch(
-            //         'payment/setPayment',
-            //         data.payment_provider
-            //     );
-            //     this.$store.dispatch('load/setLoad', data);
-            //     this.$store.dispatch('address/setTransport', data);
-            //     this.$store.dispatch('internment/setData', data);
-            // }
-            // else {
-            //     this.$store.state.application.tabs = servicedefault;
-            // }
+            if (application !== null) {
+                const id = application.value;
+                this.toogleMenuTabs();
+                const { data } = await axios.get('/get-application/' + id);
+                this.$store.dispatch('application/setData', data);
+                await this.$store.dispatch(
+                    'application/getServicesSelecteds',
+                    id
+                );
+                this.$store.state.selectedServices = this.tabs.filter(
+                    e => e.checked
+                );
+                this.$store.dispatch(
+                    'payment/setPayment',
+                    data.payment_provider
+                );
+                this.$store.dispatch('load/setLoad', data);
+                this.$store.dispatch('address/setTransport', data);
+                this.$store.dispatch('internment/setData', data);
+            }
+            else {
+                this.$store.state.application.tabs = servicedefault;
+            }
         } catch (error) {
             console.log(error);
         }
