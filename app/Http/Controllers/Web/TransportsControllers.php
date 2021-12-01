@@ -13,12 +13,12 @@ class TransportsControllers extends Controller
      *
      * @return \Illuminate\Http\Response
     */
-    public function seaPorts(Request $request)
+    public function ports($type)
     {
           $ports = \DB::table('ports as sp')
                       ->join('countries as c', 'sp.country_id', '=', 'c.id')
                       ->where('sp.status', true)
-                      ->where('sp.type', 'P')
+                      ->where('sp.type', $type)
                       ->select('sp.id', \DB::raw("CONCAT(sp.name,' ',c.name,' (', sp.unlocs,')') AS name"))
                       ->orderBy('sp.id')
                       ->get();
@@ -31,13 +31,13 @@ class TransportsControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function PortSupplier(Request $request, $id)
+    public function portSupplier($id, $type)
     {
           $ports = \DB::table('ports_suppliers as ps')
                       ->join('ports as p', 'ps.port_id', '=', 'p.id')
                       ->join('countries as c', 'p.country_id', '=', 'c.id')
                       ->where('p.status', true)
-                      ->where('p.type', 'P')
+                      ->where('p.type', $type)
                       ->where('ps.supplier_id' , $id) 
                       ->select('p.id', \DB::raw("CONCAT(p.name,' ',c.name,' (', p.unlocs,')') AS name"))
                       ->orderBy('p.id')
@@ -51,13 +51,13 @@ class TransportsControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function seaPortUser(Request $request)
+    public function portUser($type)
     {
           $ports = \DB::table('ports_users as ps')
                       ->join('ports as p', 'ps.port_id', '=', 'p.id')
                       ->join('countries as c', 'p.country_id', '=', 'c.id')
                       ->where('p.status', true)
-                      ->where('p.type', 'P')
+                      ->where('p.type', $type)
                       ->where('ps.user_id' , auth()->user()->id) 
                       ->select('p.id', \DB::raw("CONCAT(p.name,' ',c.name,' (', p.unlocs,')') AS name"))
                       ->orderBy('p.id')

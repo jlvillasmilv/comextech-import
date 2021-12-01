@@ -60,9 +60,10 @@ class ApplicationSeeder extends Seeder
                 'fav_origin_address'    => true,
                 'origin_address'        => 1,
                 'fav_dest_address'      => true,
-                'dest_address'   => 1,
+                'dest_address'          => 1,
                 'estimated_date'        => date('Y-m-d'),
                 'description'           => 'Carga',
+                'mode_selected'         => 'COURIER',
             ]
         ]);
 
@@ -75,7 +76,6 @@ class ApplicationSeeder extends Seeder
                 'width'          => 10,
                 'height'         => 12,
                 'mode_calculate' => 1,
-                'mode_selected' => 'COURIER',
                 'type_container' => 1,
                 'type_load'      => 1,
                 'weight'         => 12,

@@ -17,6 +17,7 @@ class CreateTransportsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('trans_company_id')->nullable();
+            $table->string('mode_selected',20)->nullable();
             $table->boolean('fav_origin_address')->default(false);
             $table->string('origin_address')->nullable();
             $table->double('origin_latitude')->nullable();

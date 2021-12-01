@@ -398,6 +398,7 @@ class ApplicationController extends Controller
                 ['application_id'   => $request->application_id, ],
                 [
                     'trans_company_id'      => $request->trans_company_id,
+                    'mode_selected'         => $request->mode_selected,
                     'fav_origin_address'    => $request->fav_origin_address,
                     'origin_address'        => $request->origin_address,
                     'origin_latitude'       => $request->origin_latitude,
@@ -434,7 +435,7 @@ class ApplicationController extends Controller
 
             foreach ($add_serv as $key => $id) {
 
-                $mount = $key == 0 ? $app_amount : $app_amount * 0.5 ;
+                $mount = $key == 0 ? $app_amount : $app_amount * 0.04 ;
 
                 ApplicationDetail::updateOrCreate([
                      'application_id' =>  $request->application_id,
@@ -617,7 +618,6 @@ class ApplicationController extends Controller
                     'length'         => $item['length'],
                     'width'          => $item['width'],
                     'height'         => $item['height'],
-                    'mode_selected'  => $item['mode_selected'],
                     'type_container' => $item['type_container'],
                     'type_load'      => $item['type_load'],
                     'weight'         => $item['weight'],

@@ -18,7 +18,6 @@ class CreateLoadsTable extends Migration
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('type_container')->nullable();
             $table->unsignedBigInteger('type_load')->nullable();
-            $table->string('mode_selected',20)->nullable();
             $table->boolean('mode_calculate')->default(true);
             $table->string('cbm',20)->nullable();
             $table->string('length_unit',10)->nullable();

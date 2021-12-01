@@ -25,22 +25,20 @@ class TransportRequest extends FormRequest
     {
         $rules = [
             'application_id'             => 'required|exists:applications,id',
-            'dest_address'        => 'required',
+            'origin_port_id'             => 'nullable|exists:ports,id',
+            'dest_port_id'               => 'nullable|exists:ports,id',
+            'dest_address'               => 'required',
             'origin_address'             => 'required',
             'description'                => 'nullable|max:250',
             'estimated_date'             => 'required|date',
             'dataLoad'                   => 'required|array',
-            'dataLoad.*.mode_selected'   => 'required|string',
-            "dataLoad.*.length"          => "required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
-            "dataLoad.*.width"           => "required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
-            "dataLoad.*.high"            => "required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
+            'mode_selected'              => 'required|string',
+            "dataLoad.*.length"          => "required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
+            "dataLoad.*.width"           => "required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
+            "dataLoad.*.high"            => "required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
             "dataLoad.*.weight"          => "required|numeric",
-            "dataLoad.*.type_load"       => 'required_if:dataLoad.*.mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
-            "dataLoad.*.type_container"  => 'required_if:dataLoad.*.mode_selected,in:CONTAINER',
-            
-            // "dataLoad.*.length"          => 'sometimes|required',
-            // "dataLoad.*.width"           => 'sometimes|required',
-            // "dataLoad.*.height"          => 'sometimes|required',
+            "dataLoad.*.type_load"       => 'required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
+            "dataLoad.*.type_container"  => 'required_if:mode_selected,in:CONTAINER',
         ];
 
         return $rules;
@@ -50,7 +48,7 @@ class TransportRequest extends FormRequest
     {
         return [
             'application_id'             => 'Nro. Solicitud',
-            'dest_address'        => 'Origen',
+            'dest_address'               => 'Origen',
             'origin_address'             => 'Destino',
             'estimated_date'             => 'Fecha estimada',
             'dataLoad'                   => 'Datos de carga',

@@ -30,7 +30,7 @@
             v-html="expenses.errors.get('fedex')"
         ></span>
         <div v-show="isActivateAddress">
-            <div v-if="$store.state.load.item.mode_selected != 'COURIER'">
+            <div v-if="data.type_transport != 'COURIER'">
                 <transition name="fade">
                     <div
                         v-if="
@@ -132,7 +132,9 @@
                         >
                             <div class="flex justify-start w-2/12">
                                 <h3 class="mt-2">
-                                    Puerto Origen
+                                     {{
+                                        data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto'
+                                    }} Origen
                                 </h3>
                             </div>
                             <label class="w-8/12 text-sm">
@@ -180,7 +182,13 @@
                                         @change="getFavOriginPort"
                                     />
                                     <span class="ml-2 text-gray-700">
-                                        Tus Puertos Favoritos
+                                        Tus
+                                         {{
+                                            data.type_transport === 'AEREO'
+                                                ? 'Aeropuertos' 
+                                                : 'Puertos'
+                                        }}
+                                          Favoritos
                                     </span>
                                 </label>
                                 <span
@@ -200,7 +208,10 @@
                         >
                             <div class="flex justify-start w-2/12">
                                 <h3 class="mt-2">
-                                    Puerto Destino
+                                    {{
+                                        data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto'
+                                    }}
+                                     Destino
                                 </h3>
                             </div>
                             <label class="w-8/12 text-sm">                                
@@ -247,7 +258,13 @@
                                         @change="getFavDestPort"
                                     />
                                     <span class="ml-2 text-gray-700">
-                                        Tus Puertos Favoritos
+                                         Tus
+                                         {{
+                                            data.type_transport === 'AEREO'
+                                                ? 'Aero puertos' 
+                                                : 'Puertos'
+                                        }}
+                                          Favoritos
                                     </span>
                                 </label>
                                 <span
@@ -755,7 +772,7 @@
                 </button>
 
                 <button
-                    v-if="mode_selected != 'COURIER'"
+                    v-if="data.type_transport != 'COURIER'"
                     @click="submitQuote(0)"
                     :class="[
                         !expenses.dataLoad
@@ -769,7 +786,7 @@
                 </button>
 
                 <button
-                    v-else-if="mode_selected == 'COURIER'"
+                    v-else-if="data.type_transport == 'COURIER'"
                     @click="submitForm()"
                     :class="[
                         !expenses.dataLoad
@@ -1048,138 +1065,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Bloque cotizacion de UPS -->
-            <!-- <div name="fade" class="sm:flex sm:justify-center">
-                <div
-                    v-if="
-                        showApisQuote == true &&
-                            dhl.DeliveryDate &&
-                            dhl.DeliveryTime &&
-                            dhl.ProductShortName &&
-                            dhl.WeightCharge &&
-                            dhl['FUEL SURCHARGE'] &&
-                            dhl['EMERGENCY SITUATION'] &&
-                            dhl.Discount &&
-                            dhl.ComextechDiscount &&
-                            (!expenses.dataLoad || expenses.dataLoad.length > 0)
-                    "
-                    :class="[
-                        !expenses.dataLoad
-                            ? 'hidden'
-                            : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
-                    ]"
-                >
-                    <div
-                        class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8"
-                    >
-                        <div class="mb-8 text-sm font-semibold">
-                            <span>LLEGADA</span>
-                        </div>
-                        <span>{{ dhl.DeliveryDate }}</span>
-                        <span>{{ dhl.DeliveryTime }}</span>
-                    </div>
-
-                    <div
-                        class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8"
-                    >
-                        <div class="mb-8 text-sm font-semibold">
-                            <span>SERVICIO</span>
-                        </div>
-                        <span>{{ dhl.ProductShortName }}</span>
-                    </div>
-
-                    <div class="sm:w-5/12 inline-block align-top px-2">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="text-sm font-semibold">
-                                        <div class="mb-8 text-sm font-semibold">
-                                            <span>CONCEPTOS</span>
-                                        </div>
-                                    </th>
-                                    <th
-                                        class="w-28 sm:w-28 text-sm font-semibold"
-                                    >
-                                        <div class="mb-8 text-sm font-semibold">
-                                            <span>TARIFA</span>
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-left text-sm">
-                                        Tarifa Transporte
-                                    </td>
-                                    <td class="text-right text-sm">
-                                        {{ transportDHL }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left text-sm">
-                                        Recargo Combustible
-                                    </td>
-                                    <td class="text-right text-sm">
-                                        {{ dhl['FUEL SURCHARGE'] }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left text-sm">
-                                        Situación de emergencia
-                                    </td>
-                                    <td class="text-right text-sm">
-                                        {{ dhl['EMERGENCY SITUATION'] }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left text-sm">
-                                        Descuento
-                                    </td>
-                                    <td class="text-right text-sm">
-                                        {{ dhl.Discount }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left text-sm">
-                                        Total Estimado
-                                    </td>
-                                    <td class="text-right text-sm">
-                                        {{ dhl.ComextechDiscount }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div
-                        class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2"
-                    >
-                        <div class="flex flex-col h-full justify-around">
-                            <div
-                                class="flex flex-auto self-end items-center mt-8"
-                            >
-                                <img
-                                    src="../../../../public/img/ups-logo.png"
-                                    alt="dhl-logo"
-                                    class="mx-auto my-2 w-4/12 sm:w-9/12"
-                                />
-                            </div>
-                            <div
-                                class="flex flex-auto items-center justify-center"
-                            >
-                                <button
-                                    @click="
-                                        submitQuote(dhl.ComextechTotal, 2)
-                                    "
-                                    class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-                                >
-                                    Cotizar DHL
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+             <!-- Fin Bloque cotizacion de DHL -->
         </div>
     </div>
 </template>
@@ -1383,27 +1269,31 @@ export default {
         getFavOriginPort: async function() {
            this.expenses.origin_port_id = ''
            if(this.expenses.fav_origin_port && this.data.supplier_id) {
-               await this.$store.dispatch('address/getFavOriginPort', this.data.supplier_id);
+
+               let idsupplier =  this.data.supplier_id;
+               let type = this.data.type_transport.substring(0, 1);
+               await this.$store.dispatch('address/getFavOriginPort', {idsupplier, type});
            }
            else {
                await this.$store.dispatch('address/setOrigFavOritPorts');
            }
         },
         getFavDestPort: async function() {
-           this.expenses.dest_port_id = ''
-           if(this.expenses.fav_dest_port) {
-               await this.$store.dispatch('address/getFavDestPorts');
-           }
-           else {
+            this.expenses.dest_port_id = ''
+            let type = this.data.type_transport;
+            if(this.expenses.fav_dest_port) {
+               await this.$store.dispatch('address/getFavDestPorts', type.substring(0, 1));
+            }
+            else {
                await this.$store.dispatch('address/setOrigFavDestPorts');
-           }
+            }
         },
         showShippingMethod() {
             this.showShipping = !this.showShipping;
         }
     },
     computed: {
-        ...mapState('address', ['expenses', 'addressDestination','portsDestination','mode_selected','portsOrigin']),
+        ...mapState('address', ['expenses', 'addressDestination','portsDestination','portsOrigin']),
         ...mapState('application', ['data', 'currency', 'origin_transport']),
         addreses() {
             if (this.data.condiction == 'FOB') {
@@ -1420,7 +1310,7 @@ export default {
             const { loads } = this.$store.state.load;
 
             if (loads.length) {
-                if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
+                if (this.data.type_transport == 'CONTAINER') {
                     if (loads[loads.length - 1].weight > 0) {
                         return true;
                     }
@@ -1459,9 +1349,10 @@ export default {
     },
     async created() {
         this.expenses.application_id = this.data.application_id;
-        this.mode_selected = this.$store.state.application.data.type_transport;
+        this.expenses.mode_selected  = this.$store.state.application.data.type_transport;
+        const type = this.data.type_transport;
         await this.$store.dispatch('address/getAddressDestination');
-        await this.$store.dispatch('address/getPortsDest');
+        await this.$store.dispatch('address/getPorts',type.substring(0, 1));
     }
 };
 </script>
