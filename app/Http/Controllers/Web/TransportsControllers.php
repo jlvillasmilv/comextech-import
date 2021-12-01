@@ -18,6 +18,7 @@ class TransportsControllers extends Controller
           $ports = \DB::table('ports as sp')
                       ->join('countries as c', 'sp.country_id', '=', 'c.id')
                       ->where('sp.status', true)
+                      ->where('sp.type', 'P')
                       ->select('sp.id', \DB::raw("CONCAT(sp.name,' ',c.name,' (', sp.unlocs,')') AS name"))
                       ->orderBy('sp.id')
                       ->get();
@@ -36,6 +37,7 @@ class TransportsControllers extends Controller
                       ->join('ports as p', 'ps.port_id', '=', 'p.id')
                       ->join('countries as c', 'p.country_id', '=', 'c.id')
                       ->where('p.status', true)
+                      ->where('p.type', 'P')
                       ->where('ps.supplier_id' , $id) 
                       ->select('p.id', \DB::raw("CONCAT(p.name,' ',c.name,' (', p.unlocs,')') AS name"))
                       ->orderBy('p.id')
@@ -55,6 +57,7 @@ class TransportsControllers extends Controller
                       ->join('ports as p', 'ps.port_id', '=', 'p.id')
                       ->join('countries as c', 'p.country_id', '=', 'c.id')
                       ->where('p.status', true)
+                      ->where('p.type', 'P')
                       ->where('ps.user_id' , auth()->user()->id) 
                       ->select('p.id', \DB::raw("CONCAT(p.name,' ',c.name,' (', p.unlocs,')') AS name"))
                       ->orderBy('p.id')

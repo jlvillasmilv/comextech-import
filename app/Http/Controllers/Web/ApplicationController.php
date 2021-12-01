@@ -183,14 +183,18 @@ class ApplicationController extends Controller
                 });
             }
 
-            DB::commit();          
+            DB::commit();
+            
+            $appli = Application::where('id', $application->id)
+            ->select('id', 'code', 'supplier_id', 'currency_id')
+            ->firstOrFail();  
 
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json($e, 400);
         }
 
-        return response()->json($application, 200);
+        return response()->json($appli, 200);
     }
 
     /**

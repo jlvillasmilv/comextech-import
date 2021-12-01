@@ -8,7 +8,7 @@
                 <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
                     Nueva direccion
                 </h3>
-                <form class="form-horizontal" role="form" method="POST" action="{{ isset($companyAddress) ? route('address.update', $companyAddress->id) : route('address.store') }}" >
+                <form class="form-horizontal" role="form" method="POST" action="{{ isset($companyAddress) ? route('address.update', base64_encode($companyAddress->id)) : route('address.store') }}" >
                     @csrf
                      @if(isset($companyAddress))
                        @method('PUT')
@@ -62,7 +62,7 @@
               <label class="block text-sm my-3">
                 <span class="text-gray-700 dark:text-gray-400">Lugar</span>
 
-                <select name="place" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('place') is-invalid @enderror">
+                <select name="place" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select @error('place') is-invalid @enderror">
 
                 @foreach($place as $name)
 

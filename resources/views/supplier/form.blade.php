@@ -3,7 +3,7 @@
         <h2 class="mt-5 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             <a href="{{route('supplier.index')}}">Proveedores</a>  
         </h2>
-        <div class="flex justify-center px-6 m-auto my-2 ">
+        <div class="flex justify-center  m-auto my-2 ">
             <div class="w-full mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="my-4 font-semibold text-gray-700 dark:text-gray-200">
                     Nuevo Proveedor
@@ -74,26 +74,51 @@
 	                @endif
                 </label>
                
-                <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> Direccion de Correo </span>
-                    <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion de Correo electrónico" name="email" value="{{ old('email', isset($supplier) ? $supplier->email : '') }}" max="100" required="">
-	                @if($errors->has('email'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('email') }}
-		                </span>
-	                @endif
-                </label>
-                <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> Telefono </span>
-                    <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Telefono del proveedor" name="phone" value="{{ old('phone', isset($supplier) ? $supplier->phone : '') }}" max="100" required="">
-	                @if($errors->has('phone'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('phone') }}
-		                </span>
-	                @endif
-                </label>
+                <div class="flex mb-4">
+
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400"> Correo electrónico</span>
+                            <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direccion de Correo electrónico" name="email" value="{{ old('email', isset($supplier) ? $supplier->email : '') }}" max="100" required="">
+                            @if($errors->has('email'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('email') }}
+                                </span>
+                            @endif
+                        </label>
+                    </div>
+
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400"> Telefono </span>
+                            <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Telefono del proveedor" name="phone" value="{{ old('phone', isset($supplier) ? $supplier->phone : '') }}" max="100" required="">
+                            @if($errors->has('phone'))
+                                 <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('phone') }}
+                                </span>
+                            @endif
+                        </label>
+                    </div>
+                </div>
+                
                 <label class="block text-sm my-3">
                     <span class="text-gray-700 dark:text-gray-400"> Origen del Transporte </span>
+
+                    <label class="block text-sm my-3">
+                        <span class="text-gray-700 dark:text-gray-400"> Puertos asignados </span>
+                        <select class="select2 " name="port_id[]" multiple="multiple">
+                            @forelse ($ports as $port)
+                            
+                            <option value="{{$port->id}}" {{ (old('port_id') || isset($supplier) && $supplier->ports->contains($port->id)) ? 'selected' : ''}}>{{$port->name}}</option>
+                            @empty
+                            @endforelse
+                        </select>
+                        @if($errors->has('address'))
+                             <span class="text-xs text-red-600 dark:text-red-400">
+                                {{ $errors->first('address') }}
+                            </span>
+                        @endif
+                    </label>
                     
                     <div class="px-2" id="add_to">
                         <div class="flex mb-4">
@@ -192,16 +217,19 @@
         </div>
     </div>
 
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 @section('scripts')
 @parent
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script type="text/javascript">
 
     (function() {
         // your page initialization code here
         // the DOM will be available here
         initialize();
+        $('.select2').select2();
 
     })();
 
