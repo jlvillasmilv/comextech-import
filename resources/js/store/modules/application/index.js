@@ -110,6 +110,7 @@ const mutations = {
                     ? { ...service, checked: true }
                     : service
         );
+        state.data.services.push(payload.code);
     },
     DELETE_SERVICE(state, payload) {
         this.state.selectedServices = this.state.selectedServices.filter(

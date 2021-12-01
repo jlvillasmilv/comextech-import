@@ -428,11 +428,11 @@
                             <div
                                 v-for="service in $store.state.load.types"
                                 :key="service.name"
-                                class="w-2/12 flex flex-col justify-center mt-3 mb-8 px-1.5"
+                                class="w-2/12 flex flex-col justify-center mt-3 mb-8"
                             >
                                 <div
                                     :class="[
-                                        'flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
+                                        'mx-1 flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
                                         service.name ==
                                         $store.state.application.data
                                             .type_transport
@@ -457,11 +457,9 @@
                                         />
                                     </svg>
                                 </div>
-                                <div>
-                                    <p class="text-center">
-                                        {{ service.name }}
-                                    </p>
-                                </div>
+                                <p class="text-center">
+                                    {{ service.name }}
+                                </p>
                                 <!-- <ul class="flex space-x-2 mt-3">
                                     <li
                                         v-for="service in $store.state.load
@@ -717,7 +715,8 @@ export default {
             }
         },
         clearSelectedServices() {
-            this.$store.state.selectedServices = [];
+            this.$store.dispatch('clearService');
+            // this.$store.state.selectedServices = [];
         },
         handlePercentage(item) {
             this.handleCurrency();
@@ -771,7 +770,6 @@ export default {
 
             if (application !== null) {
                 const id = application.value;
-                this.toogleMenuTabs();
                 const { data } = await axios.get('/get-application/' + id);
                 this.$store.dispatch('application/setData', data);
                 await this.$store.dispatch(
@@ -785,11 +783,11 @@ export default {
                     'payment/setPayment',
                     data.payment_provider
                 );
+                this.toogleMenuTabs();
                 this.$store.dispatch('load/setLoad', data);
                 this.$store.dispatch('address/setTransport', data);
                 this.$store.dispatch('internment/setData', data);
-            }
-            else {
+            } else {
                 this.$store.state.application.tabs = servicedefault;
             }
         } catch (error) {
