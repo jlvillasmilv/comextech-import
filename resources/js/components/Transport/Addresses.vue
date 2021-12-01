@@ -30,7 +30,7 @@
             v-html="expenses.errors.get('fedex')"
         ></span>
         <div v-show="isActivateAddress">
-            <div v-if="$store.state.load.item.mode_selected != 'COURIER'">
+            <div v-if="data.type_transport != 'COURIER'">
                 <transition name="fade">
                     <div
                         v-if="
@@ -772,7 +772,7 @@
                 </button>
 
                 <button
-                    v-if="mode_selected != 'COURIER'"
+                    v-if="data.type_transport != 'COURIER'"
                     @click="submitQuote(0)"
                     :class="[
                         !expenses.dataLoad
@@ -786,7 +786,7 @@
                 </button>
 
                 <button
-                    v-else-if="mode_selected == 'COURIER'"
+                    v-else-if="data.type_transport == 'COURIER'"
                     @click="submitForm()"
                     :class="[
                         !expenses.dataLoad
@@ -1269,27 +1269,31 @@ export default {
         getFavOriginPort: async function() {
            this.expenses.origin_port_id = ''
            if(this.expenses.fav_origin_port && this.data.supplier_id) {
-               await this.$store.dispatch('address/getFavOriginPort', this.data.supplier_id);
+
+               let idsupplier =  this.data.supplier_id;
+               let type = this.data.type_transport.substring(0, 1);
+               await this.$store.dispatch('address/getFavOriginPort', {idsupplier, type});
            }
            else {
                await this.$store.dispatch('address/setOrigFavOritPorts');
            }
         },
         getFavDestPort: async function() {
-           this.expenses.dest_port_id = ''
-           if(this.expenses.fav_dest_port) {
-               await this.$store.dispatch('address/getFavDestPorts');
-           }
-           else {
+            this.expenses.dest_port_id = ''
+            let type = this.data.type_transport;
+            if(this.expenses.fav_dest_port) {
+               await this.$store.dispatch('address/getFavDestPorts', type.substring(0, 1));
+            }
+            else {
                await this.$store.dispatch('address/setOrigFavDestPorts');
-           }
+            }
         },
         showShippingMethod() {
             this.showShipping = !this.showShipping;
         }
     },
     computed: {
-        ...mapState('address', ['expenses', 'addressDestination','portsDestination','mode_selected','portsOrigin']),
+        ...mapState('address', ['expenses', 'addressDestination','portsDestination','portsOrigin']),
         ...mapState('application', ['data', 'currency', 'origin_transport']),
         addreses() {
             if (this.data.condiction == 'FOB') {
@@ -1306,7 +1310,7 @@ export default {
             const { loads } = this.$store.state.load;
 
             if (loads.length) {
-                if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
+                if (this.data.type_transport == 'CONTAINER') {
                     if (loads[loads.length - 1].weight > 0) {
                         return true;
                     }
@@ -1345,9 +1349,10 @@ export default {
     },
     async created() {
         this.expenses.application_id = this.data.application_id;
-        this.mode_selected = this.$store.state.application.data.type_transport;
+        this.expenses.mode_selected  = this.$store.state.application.data.type_transport;
+        const type = this.data.type_transport;
         await this.$store.dispatch('address/getAddressDestination');
-        await this.$store.dispatch('address/getPortsDest');
+        await this.$store.dispatch('address/getPorts',type.substring(0, 1));
     }
 };
 </script>

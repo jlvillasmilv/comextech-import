@@ -737,7 +737,7 @@ export default {
         typeSelected(value) {
             this.$store.state.application.data.type_transport = value;
             this.$store.state.load.item.mode_selected = value;
-            this.$store.state.address.mode_selected = value;
+            this.$store.dispatch('address/setModeSelected', value);
             this.reset();
         },
         reset() {

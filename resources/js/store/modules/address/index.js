@@ -28,7 +28,8 @@ const state = {
         fav_dest_port: false,
         insurance: false,
         code_serv: 'ICS03',
-        insurance_amt: 0
+        insurance_amt: 0,
+        mode_selected: ""
     }),
     Load: false,
     safe: false,
@@ -39,7 +40,7 @@ const state = {
     portsDesTemp: [],
     addressDate: false,
     formAddress: false,
-    mode_selected: ""
+   
 };
 
 const getters = {};
@@ -57,6 +58,9 @@ const mutations = {
     },
     SET_TRANSPORT(state, { transport }) {
         state.expenses = new Form(transport);
+    },
+    SET_MODE_SELECTED(state, payload) {
+        state.expenses.mode_selected = payload;
     },
     SHOW_ADDRESS(state, value) {
         state.addressDate = value;
@@ -86,16 +90,16 @@ const actions = {
             commit('SET_ADDRESS', data);
         }
     },
-    async getPortsDest({ state, commit }) {
+    async getPorts({ state, commit },type) {
         if (state.portsDestination == '') {
-            let { data } = await axios.get('/sea-ports');
+            let { data } = await axios.get(`/ports/${type}`);
             commit('SET_PORTS', data);
         }
     },
     // Origin Port
-    async getFavOriginPort({ commit }, idsupplier = null) {
-        console.log(idsupplier);
-        let { data } = await axios.get('/ports-supplier/'+idsupplier);
+    async getFavOriginPort({ commit }, payload) {
+        console.log(payload);
+        let { data } = await axios.get(`/ports-supplier/${payload.idsupplier}/${payload.type}`);
         commit('SET_PORT_ORIGIN', data);
     },
     setOrigFavOritPorts({ state, commit }) {
@@ -103,8 +107,8 @@ const actions = {
         commit('SET_PORT_ORIGIN', data);
     },
     //Dest Port
-    async getFavDestPorts({ state, commit }) {
-        let { data } = await axios.get('/ports-user');
+    async getFavDestPorts({ state, commit }, type) {
+        let { data } = await axios.get(`/ports-user/${type}`);
         commit('SET_PORT_DEST', data);
     },
     setOrigFavDestPorts({ state, commit }) {
@@ -116,7 +120,10 @@ const actions = {
     },
     showAddress({ commit }, value) {
         commit('SHOW_ADDRESS', value);
-    }
+    },
+    setModeSelected({ commit }, data) {
+        commit('SET_MODE_SELECTED', data);
+    },
 };
 
 export default {
