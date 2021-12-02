@@ -22,12 +22,25 @@ class SeaPortSeeder extends Seeder
 
         foreach ($ports as $key => $port) {
             Port::create([
-                "id"         => intval($port->id),
                 "country_id" => intval($port->country_id),
                 "name"       => $port->name,
                 "province"	 => isset($port->province) ? $port->province : null ,
                 "unlocs"     => $port->unlocs,
                 "type"       => $port->type
+            ]);
+				
+        }
+
+        $json = File::get("database/data/airPorts.json");
+        $ports = json_decode($json);
+
+        foreach ($ports as $key => $port) {
+            Port::create([
+                "country_id" => intval($port->country_id),
+                "name"       => $port->name,
+                "province"	 => isset($port->province) ? $port->province : null ,
+                "unlocs"     => $port->unlocs,
+                "type"       => 'A'
             ]);
 				
         }
