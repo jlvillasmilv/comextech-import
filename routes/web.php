@@ -62,13 +62,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/ports/{type}','App\Http\Controllers\Web\TransportsControllers@ports')->name('ports')->where('type', '[A-Z]+');
     Route::get('/ports-user/{type}','App\Http\Controllers\Web\TransportsControllers@portUser')->where('type', '[A-Z]+')->name('port.user');
 
-    Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
-    
     // Connect with apis courier service
-    Route::post('/get-fedex-rate','App\Http\Controllers\Web\ApplicationController@fedexRate');
-    Route::post('/get-dhl-quote','App\Http\Controllers\Web\ApplicationController@dhlQuote');
+    Route::post('/get-fedex-rate','App\Http\Controllers\Web\TransportsControllers@fedexRate');
+    Route::post('/get-dhl-quote','App\Http\Controllers\Web\TransportsControllers@dhlQuote');
+    Route::get('/test-fedex','App\Http\Controllers\Web\TransportsControllers@test');
 
-    Route::get('/test-fedex','App\Http\Controllers\Web\ApplicationController@test');
+    Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
+
     Route::get('/get-application-category/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationCategory')->where('id', '[0-9]+');
 
     Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@paymentProvider')

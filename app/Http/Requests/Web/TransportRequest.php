@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Web;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TransportRequest extends FormRequest
 {
@@ -25,14 +26,14 @@ class TransportRequest extends FormRequest
     {
         $rules = [
             'application_id'             => 'required|exists:applications,id',
-            'origin_port_id'             => 'nullable|exists:ports,id',
-            'dest_port_id'               => 'nullable|exists:ports,id',
-            'dest_address'               => 'required',
-            'origin_address'             => 'required',
+            'origin_port_id'             => 'required_if:mode_selected,in:CONTAINER, AEREO, CONSOLIDADO',
+            'dest_port_id'               => 'required_if:mode_selected,in:CONTAINER, AEREO, CONSOLIDADO',
+            'dest_address'               => 'required_if:mode_selected,in:COURIER',
+            'origin_address'             => 'required_if:mode_selected,in:COURIER',
             'description'                => 'nullable|max:250',
             'estimated_date'             => 'required|date',
             'dataLoad'                   => 'required|array',
-            'mode_selected'              => 'required|string',
+            'mode_selected'              => 'required|string|max:15',
             "dataLoad.*.length"          => "required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
             "dataLoad.*.width"           => "required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
             "dataLoad.*.high"            => "required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
