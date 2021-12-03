@@ -62,6 +62,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/ports/{type}','App\Http\Controllers\Web\TransportsControllers@ports')->name('ports')->where('type', '[A-Z]+');
     Route::get('/ports-user/{type}','App\Http\Controllers\Web\TransportsControllers@portUser')->where('type', '[A-Z]+')->name('port.user');
 
+    Route::post('applications/transports', 'App\Http\Controllers\Web\TransportsControllers@add')->name('applications.transports'); 
+
     // Connect with apis courier service
     Route::post('/get-fedex-rate','App\Http\Controllers\Web\TransportsControllers@fedexRate');
     Route::post('/get-dhl-quote','App\Http\Controllers\Web\TransportsControllers@dhlQuote');
@@ -80,8 +82,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
      // Bodegaje local "Entrega"
     Route::post('local-warehouse', 'App\Http\Controllers\Web\ApplicationController@localWarehouse');
-    
-    Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
+
 
     Route::resource('company',  'App\Http\Controllers\Web\CompanyController')->except(['destroy','create']);
    
