@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\services\DHL;
-use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail};
+use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail, Currency};
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -81,11 +81,13 @@ class TransportsControllers extends Controller
     */
     public function add(TransportRequest $request)
     {
-        DB::beginTransaction();
-        try {
+        //DB::beginTransaction();
+        // try {
                       
             $transport =  Transport::updateOrCreate(
-                ['application_id'   => $request->application_id, ],
+                [
+                    'application_id'   => $request->application_id,
+                ],
                 [
                     'trans_company_id'      => $request->trans_company_id,
                     'mode_selected'         => $request->mode_selected,
@@ -112,10 +114,38 @@ class TransportsControllers extends Controller
 
             Load::cargo($request->input('dataLoad'),$request->application_id);
 
-            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
+            $transport_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
 
-            //$exchange = New Currency;
-            //$app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
+            $amount = $transport->application->amount;
+
+            if($transport->application->currency->code != 'USD'){
+
+                $exchange = New Currency;
+                $amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
+
+            }
+
+            $cif = $amount + $transport_amount;
+
+            if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
+            {
+               
+                
+                $data = [
+                    'commodity'      => $amount,
+                    'from'           => $transport->originPort->unlocs,
+                    'to'             => $transport->destPort->unlocs,
+                    'type_transport' => $transport->application->type_transport,
+                    'weight'         => $transport->application->loads->sum('weight')/1000,
+                    'cbm'            => $transport->application->loads->sum('cbm'),
+                    'container'      => $transport->application->loads,
+                ];
+                
+                $transp = Transport::rateTransport($data);
+                $transport_amount = $transp['int_trans'];
+                $cif = $transp['cif'];
+            }
+
 
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)
@@ -125,7 +155,7 @@ class TransportsControllers extends Controller
 
             foreach ($add_serv as $key => $id) {
 
-                $mount = $key == 0 ? $app_amount : $app_amount * 0.04 ;
+                $mount = $key == 0 ? $transport_amount : $cif * 0.03 ;
 
                 ApplicationDetail::updateOrCreate([
                      'application_id' =>  $request->application_id,
@@ -149,14 +179,14 @@ class TransportsControllers extends Controller
 
             }
 
-         DB::commit();
+        // DB::commit();
 
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['status' => $e], 400);
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json(['status' => $e], 500);
+        // }
 
-        return response()->json($transport->id, 200);
+        return response()->json(['status' => 'OK'], 200);
     }
 
 

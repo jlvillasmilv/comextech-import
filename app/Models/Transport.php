@@ -35,18 +35,54 @@ class Transport extends Model
         return $this->belongsTo(TransCompany::class,'trans_company_id');
     }
 
-    public static function rateFCL($data)
+    public function originPort()
     {
-        if(count($data) > 0)
-        {
-
-        }
+        return $this->belongsTo(Port::class,'origin_port_id');
     }
 
-    public static function rateLCL($data)
+    public function destPort()
     {
+        return $this->belongsTo(Port::class,'dest_port_id');
+    }
+
+    public static function rateTransport($data)
+    {  
+        $int_trans = 0;
+        $cif = 0;
         if(count($data) > 0)
         {
+            // FCL
+            if($data['type_transport'] == 'CONTAINER')
+            {
+
+                foreach($data['container'] as $item) {
+
+                    $rate = RateFcl::where([
+                        ['status', true],
+                        ['from', $data['from']],
+                        ['to', $data['to']],
+                    ])
+                    ->sum('c'.$item->container->name);
+
+                    $int_trans += is_null($rate) ? 0 : $rate;
+                }
+
+            }
+
+            // LCL
+            if($data['type_transport'] == 'CONSOLIDADO')
+            {
+                dd($data);
+
+            }
+
+            $cif = $int_trans + $data['commodity'];
+
+            return [
+                'int_trans' => $int_trans,
+                'cif'       => $cif
+            ];
+
 
         }
     }

@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class RateFcl extends Model
 {
-    use HasFactory;
+    protected $table = 'rate_fcl';
 }

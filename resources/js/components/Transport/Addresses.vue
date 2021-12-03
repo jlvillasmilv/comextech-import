@@ -2703,10 +2703,11 @@ export default {
     },
     async created() {
         this.expenses.application_id = this.data.application_id;
-        this.expenses.mode_selected = this.$store.state.application.data.type_transport;
-        const type = this.data.type_transport;
+       
+        const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
+        await this.$store.dispatch('address/setModeSelected', this.$store.state.application.data.type_transport); 
         await this.$store.dispatch('address/getAddressDestination');
-        await this.$store.dispatch('address/getPorts', type.substring(0, 1));
+        await this.$store.dispatch('address/getPorts', type);
     }
 };
 </script>
