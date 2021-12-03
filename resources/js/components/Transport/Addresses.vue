@@ -30,7 +30,13 @@
             v-html="expenses.errors.get('fedex')"
         ></span>
         <div v-show="isActivateAddress">
-            <div v-if="data.type_transport != 'COURIER'">
+            <div
+                v-if="
+                    data.condition == 'DDP' ||
+                        (data.condition == 'DAP' &&
+                            data.type_transport != 'COURIER')
+                "
+            >
                 <transition name="fade">
                     <div
                         v-if="
@@ -132,45 +138,46 @@
                         >
                             <div class="flex justify-start w-2/12">
                                 <h3 class="mt-2">
-                                     {{
-                                        data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto'
-                                    }} Origen
+                                    {{
+                                        data.type_transport === 'AEREO'
+                                            ? 'Aeropuerto'
+                                            : 'Puerto'
+                                    }}
+                                    Origen
                                 </h3>
                             </div>
                             <label class="w-8/12 text-sm">
-                               
-            
                                 <div class="relative">
-                                   <v-select
-                                    label="name"
-                                    v-model="expenses.origin_port_id"
-                                    placeholder="Puerto Origen"
-                                    :options="portsOrigin"
-                                    :reduce="portsOrigin => portsOrigin.id"
-                                >
-                                    <template
-                                        v-slot:no-options="{
-                                            search,
-                                            searching
-                                        }"
+                                    <v-select
+                                        label="name"
+                                        v-model="expenses.origin_port_id"
+                                        placeholder="Puerto Origen"
+                                        :options="portsOrigin"
+                                        :reduce="portsOrigin => portsOrigin.id"
                                     >
                                         <template
-                                            v-if="searching"
-                                            class="text-sm"
+                                            v-slot:no-options="{
+                                                search,
+                                                searching
+                                            }"
                                         >
-                                            Lo sentimos no hay opciones que
-                                            coincidan
-                                            <strong>{{ search }}</strong
-                                            >.
+                                            <template
+                                                v-if="searching"
+                                                class="text-sm"
+                                            >
+                                                Lo sentimos no hay opciones que
+                                                coincidan
+                                                <strong>{{ search }}</strong
+                                                >.
+                                            </template>
+                                            <em style="opacity: 0.5" v-else>
+                                                Puertos
+                                            </em>
                                         </template>
-                                        <em style="opacity: 0.5" v-else>
-                                            Puertos
-                                        </em>
-                                    </template>
-                                    <template v-slot:option="portsOrigin">
-                                        {{  portsOrigin.name }} 
-                                    </template>
-                                </v-select>
+                                        <template v-slot:option="portsOrigin">
+                                            {{ portsOrigin.name }}
+                                        </template>
+                                    </v-select>
                                 </div>
                                 <label
                                     class="inline-flex text-sm items-center mx-2 mt-2"
@@ -183,19 +190,25 @@
                                     />
                                     <span class="ml-2 text-gray-700">
                                         Tus
-                                         {{
+                                        {{
                                             data.type_transport === 'AEREO'
-                                                ? 'Aeropuertos' 
+                                                ? 'Aeropuertos'
                                                 : 'Puertos'
                                         }}
-                                          Favoritos
+                                        Favoritos
                                     </span>
                                 </label>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('origin_port_address')"
+                                    v-if="
+                                        expenses.errors.has(
+                                            'origin_port_address'
+                                        )
+                                    "
                                     v-html="
-                                        expenses.errors.get('origin_port_address')
+                                        expenses.errors.get(
+                                            'origin_port_address'
+                                        )
                                     "
                                 ></span>
                             </label>
@@ -209,44 +222,50 @@
                             <div class="flex justify-start w-2/12">
                                 <h3 class="mt-2">
                                     {{
-                                        data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto'
+                                        data.type_transport === 'AEREO'
+                                            ? 'Aeropuerto'
+                                            : 'Puerto'
                                     }}
-                                     Destino
+                                    Destino
                                 </h3>
                             </div>
-                            <label class="w-8/12 text-sm">                                
+                            <label class="w-8/12 text-sm">
                                 <div>
-                                <v-select
-                                    label="name"
-                                    v-model="expenses.dest_port_id"
-                                    placeholder="Puerto Destino"
-                                    :options="portsDestination"
-                                    :reduce="portsDestination => portsDestination.id"
-                                >
-                                    <template
-                                        v-slot:no-options="{
-                                            search,
-                                            searching
-                                        }"
+                                    <v-select
+                                        label="name"
+                                        v-model="expenses.dest_port_id"
+                                        placeholder="Puerto Destino"
+                                        :options="portsDestination"
+                                        :reduce="
+                                            portsDestination =>
+                                                portsDestination.id
+                                        "
                                     >
                                         <template
-                                            v-if="searching"
-                                            class="text-sm"
+                                            v-slot:no-options="{
+                                                search,
+                                                searching
+                                            }"
                                         >
-                                            Lo sentimos no hay opciones que
-                                            coincidan
-                                            <strong>{{ search }}</strong
-                                            >.
+                                            <template
+                                                v-if="searching"
+                                                class="text-sm"
+                                            >
+                                                Lo sentimos no hay opciones que
+                                                coincidan
+                                                <strong>{{ search }}</strong
+                                                >.
+                                            </template>
+                                            <em style="opacity: 0.5" v-else>
+                                                Puertos
+                                            </em>
                                         </template>
-                                        <em style="opacity: 0.5" v-else>
-                                            Puertos
-                                        </em>
-                                    </template>
-                                    <template v-slot:option="portsDestination">
-                                        {{  portsDestination.name }} 
-                                    </template>
-                                </v-select>
-
+                                        <template
+                                            v-slot:option="portsDestination"
+                                        >
+                                            {{ portsDestination.name }}
+                                        </template>
+                                    </v-select>
                                 </div>
                                 <label
                                     class="inline-flex text-sm items-center mx-2 mt-2"
@@ -258,21 +277,19 @@
                                         @change="getFavDestPort"
                                     />
                                     <span class="ml-2 text-gray-700">
-                                         Tus
-                                         {{
+                                        Tus
+                                        {{
                                             data.type_transport === 'AEREO'
-                                                ? 'Aero puertos' 
+                                                ? 'Aero puertos'
                                                 : 'Puertos'
                                         }}
-                                          Favoritos
+                                        Favoritos
                                     </span>
                                 </label>
                                 <span
                                     class="text-xs text-red-600 dark:text-red-400"
                                     v-if="expenses.errors.has('dest_port_id')"
-                                    v-html="
-                                        expenses.errors.get('dest_port_id')
-                                    "
+                                    v-html="expenses.errors.get('dest_port_id')"
                                 ></span>
                             </label>
                             <div class="flex justify-end w-2/12">
@@ -358,9 +375,7 @@
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_dest_address"
-                                        @change="
-                                            expenses.dest_address = ''
-                                        "
+                                        @change="expenses.dest_address = ''"
                                     /><span class="ml-2 text-gray-700">
                                         Direccion de Destino Favoritas
                                     </span>
@@ -372,12 +387,8 @@
 
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
-                                v-if="
-                                    expenses.errors.has('dest_address')
-                                "
-                                v-html="
-                                    expenses.errors.get('dest_address')
-                                "
+                                v-if="expenses.errors.has('dest_address')"
+                                v-html="expenses.errors.get('dest_address')"
                             ></span>
                         </div>
                     </div>
@@ -483,7 +494,12 @@
                     </div>
                 </transition>
             </div>
-            <div v-else>
+
+            <div
+                v-if="
+                    data.condition == 'EXW' && data.type_transport != 'COURIER'
+                "
+            >
                 <transition name="fade">
                     <div
                         v-if="
@@ -491,11 +507,19 @@
                                 expenses.dataLoad.length == 0 ||
                                 $store.state.address.formAddress
                         "
-                        class="flex flex-wrap -mx-3 my-8"
+                        class="flex flex-col items-center flex-wrap w-full -mx-3 my-8"
                     >
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-sm">
-                                <span
+                        <h3 class="mb-10">Direcciones y Puertos</h3>
+                        <div
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    Direccion Origen
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm">
+                                <!-- <span
                                     class="text-gray-700 dark:text-gray-400 font-semibold"
                                 >
                                     {{
@@ -503,7 +527,7 @@
                                             ? ' Puertos de Proveedor'
                                             : ' Almacen o Fabrica del Proveedor'
                                     }}
-                                </span>
+                                </span> -->
                                 <vue-google-autocomplete
                                     v-if="!expenses.fav_origin_address"
                                     v-model="expenses.origin_address"
@@ -513,7 +537,7 @@
                                     placeholder="Direccion, Codigo Postal"
                                 >
                                 </vue-google-autocomplete>
-                                <div v-else class="relative" >
+                                <div v-else class="relative">
                                     <select
                                         v-model="expenses.origin_address"
                                         class="
@@ -544,7 +568,912 @@
                                 <label
                                     class="inline-flex text-sm items-center mx-2 mt-2"
                                 >
-                                 <input
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_origin_address"
+                                        @change="expenses.origin_address = ''"
+                                    />
+                                    <span class="ml-2 text-gray-700">
+                                        Tus
+                                        {{
+                                            data.condition === 'FOB'
+                                                ? 'Puertos'
+                                                : 'Almacenes o Fabricas'
+                                        }}
+                                        Favoritos
+                                    </span>
+                                </label>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('origin_address')"
+                                    v-html="
+                                        expenses.errors.get('origin_address')
+                                    "
+                                ></span>
+                            </label>
+                            <div class="flex justify-center w-2/12">
+                                <h3 class="mt-2">Recogida</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    {{
+                                        data.type_transport === 'AEREO'
+                                            ? 'Aeropuerto'
+                                            : 'Puerto'
+                                    }}
+                                    Origen
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm">
+                                <div class="relative">
+                                    <v-select
+                                        label="name"
+                                        v-model="expenses.origin_port_id"
+                                        placeholder="Puerto Origen"
+                                        :options="portsOrigin"
+                                        :reduce="portsOrigin => portsOrigin.id"
+                                    >
+                                        <template
+                                            v-slot:no-options="{
+                                                search,
+                                                searching
+                                            }"
+                                        >
+                                            <template
+                                                v-if="searching"
+                                                class="text-sm"
+                                            >
+                                                Lo sentimos no hay opciones que
+                                                coincidan
+                                                <strong>{{ search }}</strong
+                                                >.
+                                            </template>
+                                            <em style="opacity: 0.5" v-else>
+                                                Puertos
+                                            </em>
+                                        </template>
+                                        <template v-slot:option="portsOrigin">
+                                            {{ portsOrigin.name }}
+                                        </template>
+                                    </v-select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_origin_port"
+                                        @change="getFavOriginPort"
+                                    />
+                                    <span class="ml-2 text-gray-700">
+                                        Tus
+                                        {{
+                                            data.type_transport === 'AEREO'
+                                                ? 'Aeropuertos'
+                                                : 'Puertos'
+                                        }}
+                                        Favoritos
+                                    </span>
+                                </label>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="
+                                        expenses.errors.has(
+                                            'origin_port_address'
+                                        )
+                                    "
+                                    v-html="
+                                        expenses.errors.get(
+                                            'origin_port_address'
+                                        )
+                                    "
+                                ></span>
+                            </label>
+                            <div class="flex justify-end w-2/12">
+                                <!-- <h3 class="mt-2">Recogida</h3> -->
+                            </div>
+                        </div>
+                        <div
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    {{
+                                        data.type_transport === 'AEREO'
+                                            ? 'Aeropuerto'
+                                            : 'Puerto'
+                                    }}
+                                    Destino
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm">
+                                <div>
+                                    <v-select
+                                        label="name"
+                                        v-model="expenses.dest_port_id"
+                                        placeholder="Puerto Destino"
+                                        :options="portsDestination"
+                                        :reduce="
+                                            portsDestination =>
+                                                portsDestination.id
+                                        "
+                                    >
+                                        <template
+                                            v-slot:no-options="{
+                                                search,
+                                                searching
+                                            }"
+                                        >
+                                            <template
+                                                v-if="searching"
+                                                class="text-sm"
+                                            >
+                                                Lo sentimos no hay opciones que
+                                                coincidan
+                                                <strong>{{ search }}</strong
+                                                >.
+                                            </template>
+                                            <em style="opacity: 0.5" v-else>
+                                                Puertos
+                                            </em>
+                                        </template>
+                                        <template
+                                            v-slot:option="portsDestination"
+                                        >
+                                            {{ portsDestination.name }}
+                                        </template>
+                                    </v-select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_dest_port"
+                                        @change="getFavDestPort"
+                                    />
+                                    <span class="ml-2 text-gray-700">
+                                        Tus
+                                        {{
+                                            data.type_transport === 'AEREO'
+                                                ? 'Aero puertos'
+                                                : 'Puertos'
+                                        }}
+                                        Favoritos
+                                    </span>
+                                </label>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('dest_port_id')"
+                                    v-html="expenses.errors.get('dest_port_id')"
+                                ></span>
+                            </label>
+                            <div class="flex justify-end w-2/12">
+                                <!-- <h3 class="mt-2">Recogida</h3> -->
+                            </div>
+                        </div>
+
+                        <!-- <div class="flex w-full py-4">
+                            <button
+                                @click="showShippingMethod()"
+                                class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+                            >
+                                Transporte Local
+                            </button>
+                            <hr
+                                class="w-8/12 mt-4 mb-4 border-solid border-t-2"
+                            />
+                        </div> -->
+
+                        <!-- Destino de Envio -->
+                        <div
+                            v-if="showShipping == true"
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    Direccion Destino
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm">
+                                <!-- <span
+                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                                >
+                                    Destino de Envio
+                                </span> -->
+
+                                <vue-google-autocomplete
+                                    v-if="!expenses.fav_dest_address"
+                                    v-model="expenses.dest_address"
+                                    id="addressDestination"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    :placeholder="
+                                        expenses.fav_dest_address
+                                            ? 'Nombre o codigo Puerto/Aeropuerto'
+                                            : 'Direccion, Codigo Postal'
+                                    "
+                                    v-on:placechanged="getAddressDestination"
+                                >
+                                </vue-google-autocomplete>
+
+                                <div v-else class="relative">
+                                    <select
+                                        v-model="expenses.dest_address"
+                                        class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      pr-8
+                      rounded
+                      mt-1
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                  "
+                                    >
+                                        <option
+                                            v-for="item in addressDestination"
+                                            :value="item.id"
+                                            :key="item.id"
+                                            class=" "
+                                        >
+                                            {{ item.address }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_dest_address"
+                                        @change="expenses.dest_address = ''"
+                                    /><span class="ml-2 text-gray-700">
+                                        Direccion de Destino Favoritas
+                                    </span>
+                                </label>
+                            </label>
+                            <div class="flex justify-center w-2/12">
+                                <h3 class="mt-2">Recogida</h3>
+                            </div>
+
+                            <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('dest_address')"
+                                v-html="expenses.errors.get('dest_address')"
+                            ></span>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div
+                        v-if="
+                            (!expenses.dataLoad &&
+                                expenses.dest_address !== '') ||
+                                (expenses.dest_address !== '' &&
+                                    expenses.dataLoad.length <= 0) ||
+                                $store.state.address.addressDate
+                        "
+                        class="flex flex-wrap justify-center -mx-3 mb-6"
+                    >
+                        <div class="w-1/4 px-3 mb-6 md:mb-0">
+                            <label class="block text-sm">
+                                <span
+                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                                >
+                                    Fecha Estimada
+                                </span>
+                                <input
+                                    type="date"
+                                    v-model="expenses.estimated_date"
+                                    class="
+                  block
+                  w-full
+                  mt-1
+                  text-sm
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  focus:border-purple-400
+                  focus:outline-none
+                  focus:shadow-outline-purple
+                  dark:text-gray-300
+                  dark:focus:shadow-outline-gray
+                  form-input
+                "
+                                    placeholder="Nombre o codigo Puerto/Aeropuerto"
+                                    :min="minDate"
+                                />
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('estimated_date')"
+                                    v-html="
+                                        expenses.errors.get('estimated_date')
+                                    "
+                                ></span>
+                            </label>
+                        </div>
+                        <div class="w-1/3 px-2">
+                            <label class="block text-sm">
+                                <span
+                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                                >
+                                    Descripcion de la carga
+                                </span>
+                                <input
+                                    v-model="expenses.description"
+                                    maxlength="250"
+                                    class="
+                  block
+                  w-full
+                  mt-1
+                  text-sm
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  focus:border-purple-400
+                  focus:outline-none
+                  focus:shadow-outline-purple
+                  dark:text-gray-300
+                  dark:focus:shadow-outline-gray
+                  form-input
+                "
+                                    placeholder="Introduzca la descripcion aqui"
+                                />
+                            </label>
+                            <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('description')"
+                                v-html="expenses.errors.get('description')"
+                            ></span>
+                        </div>
+                        <div class="w-1/6 mt-8">
+                            <label
+                                class="ml-6 text-gray-500 dark:text-gray-400"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="form-checkbox h-4 w-4 text-gray-800"
+                                    v-model="expenses.insurance"
+                                />
+                                <span class="ml-2 text-gray-700">Seguro </span>
+                            </label>
+                        </div>
+                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                            <span class="ml-2 text-gray-700">
+                                {{ data.amount }}
+                                {{ currency.code }}
+                            </span>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+
+            <div
+                v-if="
+                    data.condition == 'FOB' && data.type_transport != 'COURIER'
+                "
+            >
+                <transition name="fade">
+                    <div
+                        v-if="
+                            !expenses.dataLoad ||
+                                expenses.dataLoad.length == 0 ||
+                                $store.state.address.formAddress
+                        "
+                        class="flex flex-col items-center flex-wrap w-full -mx-3 my-8"
+                    >
+                        <h3 class="mb-10">Direcciones y Puertos</h3>
+                        <!-- <div
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    Direccion Origen
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm">
+                                <vue-google-autocomplete
+                                    v-if="!expenses.fav_origin_address"
+                                    v-model="expenses.origin_address"
+                                    id="addressOrigin"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    v-on:placechanged="getAddressOrigin"
+                                    placeholder="Direccion, Codigo Postal"
+                                >
+                                </vue-google-autocomplete>
+                                <div v-else class="relative">
+                                    <select
+                                        v-model="expenses.origin_address"
+                                        class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      mt-1
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                  "
+                                    >
+                                        <option
+                                            v-for="item in origin_transport"
+                                            :value="item.id"
+                                            :key="item.id"
+                                            class=" "
+                                        >
+                                            {{ item.address }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_origin_address"
+                                        @change="expenses.origin_address = ''"
+                                    />
+                                    <span class="ml-2 text-gray-700">
+                                        Tus
+                                        {{
+                                            data.condition === 'FOB'
+                                                ? 'Puertos'
+                                                : 'Almacenes o Fabricas'
+                                        }}
+                                        Favoritos
+                                    </span>
+                                </label>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('origin_address')"
+                                    v-html="
+                                        expenses.errors.get('origin_address')
+                                    "
+                                ></span>
+                            </label>
+                            <div class="flex justify-center w-2/12">
+                                <h3 class="mt-2">Recogida</h3>
+                            </div>
+                        </div> -->
+                        <div
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    {{
+                                        data.type_transport === 'AEREO'
+                                            ? 'Aeropuerto'
+                                            : 'Puerto'
+                                    }}
+                                    Origen
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm">
+                                <div class="relative">
+                                    <v-select
+                                        label="name"
+                                        v-model="expenses.origin_port_id"
+                                        placeholder="Puerto Origen"
+                                        :options="portsOrigin"
+                                        :reduce="portsOrigin => portsOrigin.id"
+                                    >
+                                        <template
+                                            v-slot:no-options="{
+                                                search,
+                                                searching
+                                            }"
+                                        >
+                                            <template
+                                                v-if="searching"
+                                                class="text-sm"
+                                            >
+                                                Lo sentimos no hay opciones que
+                                                coincidan
+                                                <strong>{{ search }}</strong
+                                                >.
+                                            </template>
+                                            <em style="opacity: 0.5" v-else>
+                                                Puertos
+                                            </em>
+                                        </template>
+                                        <template v-slot:option="portsOrigin">
+                                            {{ portsOrigin.name }}
+                                        </template>
+                                    </v-select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_origin_port"
+                                        @change="getFavOriginPort"
+                                    />
+                                    <span class="ml-2 text-gray-700">
+                                        Tus
+                                        {{
+                                            data.type_transport === 'AEREO'
+                                                ? 'Aeropuertos'
+                                                : 'Puertos'
+                                        }}
+                                        Favoritos
+                                    </span>
+                                </label>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="
+                                        expenses.errors.has(
+                                            'origin_port_address'
+                                        )
+                                    "
+                                    v-html="
+                                        expenses.errors.get(
+                                            'origin_port_address'
+                                        )
+                                    "
+                                ></span>
+                            </label>
+                            <div class="flex justify-end w-2/12">
+                                <!-- <h3 class="mt-2">Recogida</h3> -->
+                            </div>
+                        </div>
+                        <div
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    {{
+                                        data.type_transport === 'AEREO'
+                                            ? 'Aeropuerto'
+                                            : 'Puerto'
+                                    }}
+                                    Destino
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm">
+                                <div>
+                                    <v-select
+                                        label="name"
+                                        v-model="expenses.dest_port_id"
+                                        placeholder="Puerto Destino"
+                                        :options="portsDestination"
+                                        :reduce="
+                                            portsDestination =>
+                                                portsDestination.id
+                                        "
+                                    >
+                                        <template
+                                            v-slot:no-options="{
+                                                search,
+                                                searching
+                                            }"
+                                        >
+                                            <template
+                                                v-if="searching"
+                                                class="text-sm"
+                                            >
+                                                Lo sentimos no hay opciones que
+                                                coincidan
+                                                <strong>{{ search }}</strong
+                                                >.
+                                            </template>
+                                            <em style="opacity: 0.5" v-else>
+                                                Puertos
+                                            </em>
+                                        </template>
+                                        <template
+                                            v-slot:option="portsDestination"
+                                        >
+                                            {{ portsDestination.name }}
+                                        </template>
+                                    </v-select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_dest_port"
+                                        @change="getFavDestPort"
+                                    />
+                                    <span class="ml-2 text-gray-700">
+                                        Tus
+                                        {{
+                                            data.type_transport === 'AEREO'
+                                                ? 'Aero puertos'
+                                                : 'Puertos'
+                                        }}
+                                        Favoritos
+                                    </span>
+                                </label>
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('dest_port_id')"
+                                    v-html="expenses.errors.get('dest_port_id')"
+                                ></span>
+                            </label>
+                            <div class="flex justify-end w-2/12">
+                                <!-- <h3 class="mt-2">Recogida</h3> -->
+                            </div>
+                        </div>
+
+                        <!-- <div class="flex w-full py-4">
+                            <button
+                                @click="showShippingMethod()"
+                                class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+                            >
+                                Transporte Local
+                            </button>
+                            <hr
+                                class="w-8/12 mt-4 mb-4 border-solid border-t-2"
+                            />
+                        </div> -->
+
+                        <!-- Destino de Envio -->
+                        <!-- <div
+                            v-if="showShipping == true"
+                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
+                        >
+                            <div class="flex justify-start w-2/12">
+                                <h3 class="mt-2">
+                                    Direccion Destino
+                                </h3>
+                            </div>
+                            <label class="w-8/12 text-sm"> -->
+                        <!-- <span
+                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                                >
+                                    Destino de Envio
+                                </span> -->
+
+                        <!-- <vue-google-autocomplete
+                                    v-if="!expenses.fav_dest_address"
+                                    v-model="expenses.dest_address"
+                                    id="addressDestination"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    :placeholder="
+                                        expenses.fav_dest_address
+                                            ? 'Nombre o codigo Puerto/Aeropuerto'
+                                            : 'Direccion, Codigo Postal'
+                                    "
+                                    v-on:placechanged="getAddressDestination"
+                                >
+                                </vue-google-autocomplete>
+
+                                <div v-else class="relative">
+                                    <select
+                                        v-model="expenses.dest_address"
+                                        class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      pr-8
+                      rounded
+                      mt-1
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                  "
+                                    >
+                                        <option
+                                            v-for="item in addressDestination"
+                                            :value="item.id"
+                                            :key="item.id"
+                                            class=" "
+                                        >
+                                            {{ item.address }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="form-checkbox h-4 w-4 text-gray-800"
+                                        v-model="expenses.fav_dest_address"
+                                        @change="expenses.dest_address = ''"
+                                    /><span class="ml-2 text-gray-700">
+                                        Direccion de Destino Favoritas
+                                    </span>
+                                </label>
+                            </label>
+                            <div class="flex justify-center w-2/12">
+                                <h3 class="mt-2">Recogida</h3>
+                            </div>
+
+                            <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('dest_address')"
+                                v-html="expenses.errors.get('dest_address')"
+                            ></span>
+                        </div> -->
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div
+                        v-if="
+                            (!expenses.dataLoad &&
+                                expenses.dest_address !== '') ||
+                                (expenses.dest_address !== '' &&
+                                    expenses.dataLoad.length <= 0) ||
+                                $store.state.address.addressDate
+                        "
+                        class="flex flex-wrap justify-center -mx-3 mb-6"
+                    >
+                        <div class="w-1/4 px-3 mb-6 md:mb-0">
+                            <label class="block text-sm">
+                                <span
+                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                                >
+                                    Fecha Estimada
+                                </span>
+                                <input
+                                    type="date"
+                                    v-model="expenses.estimated_date"
+                                    class="
+                  block
+                  w-full
+                  mt-1
+                  text-sm
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  focus:border-purple-400
+                  focus:outline-none
+                  focus:shadow-outline-purple
+                  dark:text-gray-300
+                  dark:focus:shadow-outline-gray
+                  form-input
+                "
+                                    placeholder="Nombre o codigo Puerto/Aeropuerto"
+                                    :min="minDate"
+                                />
+                                <span
+                                    class="text-xs text-red-600 dark:text-red-400"
+                                    v-if="expenses.errors.has('estimated_date')"
+                                    v-html="
+                                        expenses.errors.get('estimated_date')
+                                    "
+                                ></span>
+                            </label>
+                        </div>
+                        <div class="w-1/3 px-2">
+                            <label class="block text-sm">
+                                <span
+                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                                >
+                                    Descripcion de la carga
+                                </span>
+                                <input
+                                    v-model="expenses.description"
+                                    maxlength="250"
+                                    class="
+                  block
+                  w-full
+                  mt-1
+                  text-sm
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  focus:border-purple-400
+                  focus:outline-none
+                  focus:shadow-outline-purple
+                  dark:text-gray-300
+                  dark:focus:shadow-outline-gray
+                  form-input
+                "
+                                    placeholder="Introduzca la descripcion aqui"
+                                />
+                            </label>
+                            <span
+                                class="text-xs text-red-600 dark:text-red-400"
+                                v-if="expenses.errors.has('description')"
+                                v-html="expenses.errors.get('description')"
+                            ></span>
+                        </div>
+                        <div class="w-1/6 mt-8">
+                            <label
+                                class="ml-6 text-gray-500 dark:text-gray-400"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="form-checkbox h-4 w-4 text-gray-800"
+                                    v-model="expenses.insurance"
+                                />
+                                <span class="ml-2 text-gray-700">Seguro </span>
+                            </label>
+                        </div>
+                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                            <span class="ml-2 text-gray-700">
+                                {{ data.amount }}
+                                {{ currency.code }}
+                            </span>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+
+            <div v-else-if="data.type_transport == 'COURIER'">
+                <transition name="fade">
+                    <div
+                        v-if="
+                            !expenses.dataLoad ||
+                                expenses.dataLoad.length == 0 ||
+                                $store.state.address.formAddress
+                        "
+                        class="flex flex-wrap -mx-3 my-8"
+                    >
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block text-sm">
+                                <span
+                                    class="text-gray-700 dark:text-gray-400 font-semibold"
+                                >
+                                    {{
+                                        data.condition === 'FOB'
+                                            ? ' Puertos de Proveedor'
+                                            : ' Almacen o Fabrica del Proveedor'
+                                    }}
+                                </span>
+                                <vue-google-autocomplete
+                                    v-if="!expenses.fav_origin_address"
+                                    v-model="expenses.origin_address"
+                                    id="addressOrigin"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    v-on:placechanged="getAddressOrigin"
+                                    placeholder="Direccion, Codigo Postal"
+                                >
+                                </vue-google-autocomplete>
+                                <div v-else class="relative">
+                                    <select
+                                        v-model="expenses.origin_address"
+                                        class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      mt-1
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                  "
+                                    >
+                                        <option
+                                            v-for="item in origin_transport"
+                                            :value="item.id"
+                                            :key="item.id"
+                                            class=" "
+                                        >
+                                            {{ item.address }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <label
+                                    class="inline-flex text-sm items-center mx-2 mt-2"
+                                >
+                                    <input
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_origin_address"
@@ -626,9 +1555,7 @@
                                         type="checkbox"
                                         class="form-checkbox h-4 w-4 text-gray-800"
                                         v-model="expenses.fav_dest_address"
-                                        @change="
-                                            expenses.dest_address = ''
-                                        "
+                                        @change="expenses.dest_address = ''"
                                     /><span class="ml-2 text-gray-700">
                                         Direccion de Destino Favoritas
                                     </span>
@@ -637,12 +1564,8 @@
 
                             <span
                                 class="text-xs text-red-600 dark:text-red-400"
-                                v-if="
-                                    expenses.errors.has('dest_address')
-                                "
-                                v-html="
-                                    expenses.errors.get('dest_address')
-                                "
+                                v-if="expenses.errors.has('dest_address')"
+                                v-html="expenses.errors.get('dest_address')"
                             ></span>
                         </div>
                     </div>
@@ -1053,9 +1976,7 @@
                                 class="flex flex-auto items-center justify-center"
                             >
                                 <button
-                                    @click="
-                                        submitQuote(dhl.ComextechTotal, 2)
-                                    "
+                                    @click="submitQuote(dhl.ComextechTotal, 2)"
                                     class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
                                 >
                                     Cotizar DHL
@@ -1065,7 +1986,7 @@
                     </div>
                 </div>
             </div>
-             <!-- Fin Bloque cotizacion de DHL -->
+            <!-- Fin Bloque cotizacion de DHL -->
         </div>
     </div>
 </template>
@@ -1260,32 +2181,35 @@ export default {
                 }
             }
 
-            this.expenses.dest_address   = placeResultData.formatted_address;
-            this.expenses.dest_latitude  = addressData.latitude;
+            this.expenses.dest_address = placeResultData.formatted_address;
+            this.expenses.dest_latitude = addressData.latitude;
             this.expenses.dest_longitude = addressData.longitude;
             //this.expenses.dest_ctry_code = placeResultData.address_components.
         },
 
         getFavOriginPort: async function() {
-           this.expenses.origin_port_id = ''
-           if(this.expenses.fav_origin_port && this.data.supplier_id) {
-
-               let idsupplier =  this.data.supplier_id;
-               let type = this.data.type_transport.substring(0, 1);
-               await this.$store.dispatch('address/getFavOriginPort', {idsupplier, type});
-           }
-           else {
-               await this.$store.dispatch('address/setOrigFavOritPorts');
-           }
+            this.expenses.origin_port_id = '';
+            if (this.expenses.fav_origin_port && this.data.supplier_id) {
+                let idsupplier = this.data.supplier_id;
+                let type = this.data.type_transport.substring(0, 1);
+                await this.$store.dispatch('address/getFavOriginPort', {
+                    idsupplier,
+                    type
+                });
+            } else {
+                await this.$store.dispatch('address/setOrigFavOritPorts');
+            }
         },
         getFavDestPort: async function() {
-            this.expenses.dest_port_id = ''
+            this.expenses.dest_port_id = '';
             let type = this.data.type_transport;
-            if(this.expenses.fav_dest_port) {
-               await this.$store.dispatch('address/getFavDestPorts', type.substring(0, 1));
-            }
-            else {
-               await this.$store.dispatch('address/setOrigFavDestPorts');
+            if (this.expenses.fav_dest_port) {
+                await this.$store.dispatch(
+                    'address/getFavDestPorts',
+                    type.substring(0, 1)
+                );
+            } else {
+                await this.$store.dispatch('address/setOrigFavDestPorts');
             }
         },
         showShippingMethod() {
@@ -1293,7 +2217,12 @@ export default {
         }
     },
     computed: {
-        ...mapState('address', ['expenses', 'addressDestination','portsDestination','portsOrigin']),
+        ...mapState('address', [
+            'expenses',
+            'addressDestination',
+            'portsDestination',
+            'portsOrigin'
+        ]),
         ...mapState('application', ['data', 'currency', 'origin_transport']),
         addreses() {
             if (this.data.condiction == 'FOB') {
@@ -1349,10 +2278,10 @@ export default {
     },
     async created() {
         this.expenses.application_id = this.data.application_id;
-        this.expenses.mode_selected  = this.$store.state.application.data.type_transport;
+        this.expenses.mode_selected = this.$store.state.application.data.type_transport;
         const type = this.data.type_transport;
         await this.$store.dispatch('address/getAddressDestination');
-        await this.$store.dispatch('address/getPorts',type.substring(0, 1));
+        await this.$store.dispatch('address/getPorts', type.substring(0, 1));
     }
 };
 </script>
