@@ -2552,7 +2552,7 @@
     {
       "id": "171",
       "code": "RU",
-      "name": "RUSSIAN FEDERATION",
+      "name": "RUSSIA",
       "numcode": "643",
       "phonecode": "70",
       "IPF": "D",
@@ -2912,7 +2912,7 @@
     {
       "id": "195",
       "code": "KR",
-      "name": "South Korea",
+      "name": "SOUTH KOREA",
       "numcode": "410",
       "phonecode": "82",
       "IPF": "E",
@@ -3077,7 +3077,7 @@
     {
       "id": "206",
       "code": "TW",
-      "name": "TAIWAN, PROVINCE OF CHINA",
+      "name": "TAIWAN",
       "numcode": "158",
       "phonecode": "886",
       "IPF": "E",
@@ -3422,7 +3422,7 @@
     {
       "id": "229",
       "code": "VN",
-      "name": "VIET NAM",
+      "name": "VIETNAM",
       "numcode": "704",
       "phonecode": "84",
       "IPF": "E",

@@ -247,10 +247,6 @@ $('#table').on('click', '.btn-info[data-remote]', function (e) {
     
   });
 
-
-
-
-
 })
 
 function initialize() {

@@ -24,32 +24,14 @@ class SupplCondSaleSeeder extends Seeder
             'sort' => 1
         ]);
 
-        $sup->services()->sync([1 => ['selected' => true],
+        $sup->services()->sync([
+        1=> ['selected' => true],
         2=> ['selected' => true],
         3=> ['selected' => true],
         4=> ['selected' => true],
         5=> ['selected' => true],
         7=> ['selected' => true],
         8=> ['selected' => true]]);
-
-    //     $sup = ApplicationCondSale::create([
-    //         'user_id'   => 1,
-    //         'name'      => 'FCA',
-    //         'description' => '“Free carrier”
-    //         Free Carrier (named place) → ‘Libre transportista (lugar convenido)’.
-    //         El vendedor se compromete a entregar la mercancía en un punto acordado dentro del país de origen, que pueden ser las bodegas de un Embarcador, un Puerto o Aeropuerto... (este lugar convenido para entregar la mercancía suele estar relacionado con los espacios del transportista). Se hace cargo de los costos hasta que la mercancía está situada en ese punto convenido.            
-    //         ',
-    //         'sort' => 2
-    //     ]);
-
-    //     $sup->services()->sync([1 => ['selected' => false],
-    //     3=> ['selected' => true],
-    //     4=> ['selected' => true],
-    //     5=> ['selected' => true],
-    //     7=> ['selected' => false],
-    //     8=> ['selected' => false]
-    // ]);
-
 
         $sup = ApplicationCondSale::create([
             'user_id'   => 1,
@@ -61,8 +43,8 @@ class SupplCondSaleSeeder extends Seeder
 
         ]);
 
-        
-        $sup->services()->sync([1 => ['selected' => true],
+        $sup->services()->sync([
+            1=> ['selected' => true],
             2=> ['selected' => true],
             3=> ['selected' => true],
             4=> ['selected' => false],
@@ -70,24 +52,6 @@ class SupplCondSaleSeeder extends Seeder
             7=> ['selected' => true],
             8=> ['selected' => true]
         ]);
-
-
-        // $sup = ApplicationCondSale::create([
-        //     'user_id'   => 1,
-        //     'name'      => 'CIF',
-        //     'description' => '“ Cost, insurance and freight”
-        //     Cost, Insurance and Freight (named destination port) → ‘coste, seguro y flete (puerto de destino convenido)’.
-        //     ',
-        //     'sort' => 4
-        // ]);
-
-        // $sup->services()->sync([1 => ['selected' => true],
-        //     3=> ['selected' => false],
-        //     4=> ['selected' => true],
-        //     5=> ['selected' => true],
-        //     7=> ['selected' => true],
-        //     8=> ['selected' => true]
-        // ]);
 
         $sup = ApplicationCondSale::create([
             'user_id'     => 1,
@@ -98,7 +62,8 @@ class SupplCondSaleSeeder extends Seeder
 
         $sup->services()->sync([
             1=> ['selected' => true],
-            3=> ['selected' => false],
+            2=> ['selected' => true],
+            3=> ['selected' => true],
             4=> ['selected' => false],
             5=> ['selected' => true],
             7=> ['selected' => false],
@@ -114,7 +79,8 @@ class SupplCondSaleSeeder extends Seeder
 
         $sup->services()->sync([
             1=> ['selected' => true],
-            3=> ['selected' => false],
+            2=> ['selected' => false],
+            3=> ['selected' => true],
             4=> ['selected' => true],
             5=> ['selected' => true],
             7=> ['selected' => false],

@@ -74,7 +74,23 @@
                                         color="white"
                                     />
                                 </div>
-                                <p class="text-center">
+                                <div
+                                    v-if="!item.checked && !item.selected"
+                                    class="bg-gray-300 flex flex-col items-center font-semibold px-1 py-2 text-sm mx-0.5 border border-gray-200 rounded my-2 text-center"
+                                >
+                                    <Icon
+                                        class="w-10 h-10 my-2"
+                                        :icon="item.icon"
+                                        color="gray"
+                                    />
+                                </div>
+                                <p
+                                    :class="[
+                                        item.selected
+                                            ? 'text-center'
+                                            : 'text-center text-gray-300'
+                                    ]"
+                                >
                                     {{ item.name }}
                                 </p>
                             </div>
@@ -428,11 +444,11 @@
                             <div
                                 v-for="service in $store.state.load.types"
                                 :key="service.name"
-                                class="w-2/12 flex flex-col justify-center mt-3 mb-8 px-1.5"
+                                class="w-2/12 flex flex-col justify-center mt-3 mb-8"
                             >
                                 <div
                                     :class="[
-                                        'flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
+                                        'mx-1 flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
                                         service.name ==
                                         $store.state.application.data
                                             .type_transport
@@ -457,11 +473,9 @@
                                         />
                                     </svg>
                                 </div>
-                                <div>
-                                    <p class="text-center">
-                                        {{ service.name }}
-                                    </p>
-                                </div>
+                                <p class="text-center">
+                                    {{ service.name }}
+                                </p>
                                 <!-- <ul class="flex space-x-2 mt-3">
                                     <li
                                         v-for="service in $store.state.load
@@ -717,7 +731,8 @@ export default {
             }
         },
         clearSelectedServices() {
-            this.$store.state.selectedServices = [];
+            this.$store.dispatch('clearService');
+            // this.$store.state.selectedServices = [];
         },
         handlePercentage(item) {
             this.handleCurrency();
@@ -737,7 +752,7 @@ export default {
         typeSelected(value) {
             this.$store.state.application.data.type_transport = value;
             this.$store.state.load.item.mode_selected = value;
-            this.$store.state.address.mode_selected = value;
+            this.$store.dispatch('address/setModeSelected', value);
             this.reset();
         },
         reset() {
@@ -767,31 +782,30 @@ export default {
             this.$store.dispatch('application/getServices');
             this.$store.dispatch('application/getCurrencies');
 
-            // let application = document.getElementById('applications');
+            let application = document.getElementById('applications');
 
-            // if (application !== null) {
-            //     const id = application.value;
-            //     this.toogleMenuTabs();
-            //     const { data } = await axios.get('/get-application/' + id);
-            //     this.$store.dispatch('application/setData', data);
-            //     await this.$store.dispatch(
-            //         'application/getServicesSelecteds',
-            //         id
-            //     );
-            //     this.$store.state.selectedServices = this.tabs.filter(
-            //         e => e.checked
-            //     );
-            //     this.$store.dispatch(
-            //         'payment/setPayment',
-            //         data.payment_provider
-            //     );
-            //     this.$store.dispatch('load/setLoad', data);
-            //     this.$store.dispatch('address/setTransport', data);
-            //     this.$store.dispatch('internment/setData', data);
-            // }
-            // else {
-            //     this.$store.state.application.tabs = servicedefault;
-            // }
+            if (application !== null) {
+                const id = application.value;
+                const { data } = await axios.get('/get-application/' + id);
+                this.$store.dispatch('application/setData', data);
+                await this.$store.dispatch(
+                    'application/getServicesSelecteds',
+                    id
+                );
+                this.$store.state.selectedServices = this.tabs.filter(
+                    e => e.checked
+                );
+                this.$store.dispatch(
+                    'payment/setPayment',
+                    data.payment_provider
+                );
+                // this.toogleMenuTabs();
+                this.$store.dispatch('load/setLoad', data);
+                this.$store.dispatch('address/setTransport', data);
+                this.$store.dispatch('internment/setData', data);
+            } else {
+                this.$store.state.application.tabs = servicedefault;
+            }
         } catch (error) {
             console.log(error);
         }

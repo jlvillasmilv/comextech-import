@@ -20,7 +20,7 @@
                 </li>
             </ul>
         </div> -->
-        <div v-if="item.mode_selected">
+        <div v-if="data.type_transport">
             <div
                 v-for="(item, id) in loads"
                 :key="id"
@@ -28,7 +28,7 @@
             >
                 <div
                     class="inline w-1/6"
-                    v-if="item.mode_selected != 'CONTAINER'"
+                    v-if="data.type_transport != 'CONTAINER'"
                 >
                     <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
                         Calcular por
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div
-                    v-if="item.mode_selected != 'CONTAINER'"
+                    v-if="data.type_transport != 'CONTAINER'"
                     class="inline w-1/6 p-1"
                 >
                     <div class="relative">
@@ -97,12 +97,13 @@
                             <option value="1"> 20'DV </option>
                             <option value="2"> 40'DV </option>
                             <option value="3"> 40'HC </option>
-                            <option value="4"> 45'HC </option>
+                            <option value="4"> 40'NOR </option>
+                            <option value="5"> 45'HC </option>
                         </select>
                     </div>
                 </div>
                 <div class="inline" v-if="item.mode_calculate">
-                    <div v-if="item.mode_selected != 'CONTAINER'">
+                    <div v-if="data.type_transport != 'CONTAINER'">
                         <span
                             v-if="id == 0"
                             class="text-sm text-center font-semibold "
@@ -158,7 +159,7 @@
                 </div>
                 <div
                     class="inline text-center"
-                    v-if="item.mode_selected != 'CONTAINER'"
+                    v-if="data.type_transport != 'CONTAINER'"
                 >
                     <span
                         v-if="id == 0"
@@ -193,7 +194,7 @@
                         type="number"
                         :class="[
                             'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
-                            item.mode_selected != 'CONTAINER'
+                            data.type_transport != 'CONTAINER'
                                 ? ' w-16'
                                 : ' w-17'
                         ]"
@@ -233,7 +234,7 @@
                 <div class="flex">
                     <label
                         class="inline-flex text-sm items-center "
-                        v-if="item.mode_selected != 'CONTAINER'"
+                        v-if="data.type_transport != 'CONTAINER'"
                     >
                         <input
                             type="checkbox"
@@ -318,7 +319,7 @@ export default {
             // this.reset();
         },
         typeSelected(value) {
-            this.$store.state.load.item.mode_selected = value;
+            this.mode_selected = value;
             this.reset();
         },
         reset() {
@@ -330,11 +331,13 @@ export default {
         }
     },
     computed: {
-        ...mapState('load', ['item', 'loads']),
+        ...mapState('load', ['item', 'loads','mode_selected']),
+        ...mapState('application', ['data']),
         validateweight() {
+
             const { loads } = this.$store.state.load;
 
-            if (loads[loads.length - 1].mode_selected == 'CONTAINER') {
+            if (this.data.type_transport == 'CONTAINER') {
                 return false;
             }
 
@@ -372,7 +375,7 @@ export default {
         }
     },
     created() {
-        this.$store.state.load.item.mode_selected = this.$store.state.application.data.type_transport;
+        this.$store.state.load.mode_selected = this.$store.state.application.data.type_transport;
         if (!this.loads.length) this.reset();
     }
 };

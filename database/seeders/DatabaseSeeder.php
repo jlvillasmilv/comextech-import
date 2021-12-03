@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(RateTransportSeeder::class);
         $this->call(CountrySeeder::class);
         $this->call(SeaPortSeeder::class);
         $this->call(TransCompaniesSeeder::class);
@@ -22,7 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CurrencySeeder::class);
         $this->call(ApplicationStatusSeeder::class);
         $this->call(CategoryServiceSeeder::class);
-        // $this->call(SupplierSeeder::class);
         $this->call(CompanySeeder::class);
         $this->call(TransportModeSeeder::class);
         $this->call(ApplicationSeeder::class);

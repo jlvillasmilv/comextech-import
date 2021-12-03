@@ -38,11 +38,12 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-         // dd($request->all());
         $supplier = new Supplier;
         $supplier->fill($request->all());
         $supplier->user_id = auth()->user()->id;
         $supplier->save();
+
+        $supplier->ports()->sync($request->input('port_id'));
 
         if($request->has('origin_address')){
             foreach ($request->input('origin_address') as $key => $value) {
@@ -96,9 +97,12 @@ class SupplierController extends Controller
      */
     public function update(SupplierRequest $request, $id)
     {
+
         $supplier = Supplier::findOrFail($id);
 
         $supplier->fill($request->all())->save();
+
+        $supplier->ports()->sync($request->input('port_id'));
 
         if($request->has('origin_address')){
             foreach ($request->input('origin_address') as $key => $value) {

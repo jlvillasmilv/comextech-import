@@ -52,64 +52,25 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     })->where('id', '[0-9]+');
 
-   
-     //get sea port by code country
-     Route::get('/sea-ports-country/{id}/{flag}', function ($id,$flag) {
+    
 
-        if($flag=="true"){
+    /* get sea port by code country status
+    ** id number or code country
+    ** flag indicate if code country o id addres supplier
+    */
+    Route::get('/ports-supplier/{id}/{type}','App\Http\Controllers\Web\TransportsControllers@portSupplier')->where('id', '[0-9]+');
+    Route::get('/ports/{type}','App\Http\Controllers\Web\TransportsControllers@ports')->name('ports')->where('type', '[A-Z]+');
+    Route::get('/ports-user/{type}','App\Http\Controllers\Web\TransportsControllers@portUser')->where('type', '[A-Z]+')->name('port.user');
 
-          $code =  \DB::table('supplier_addresses')
-            ->where('id', $id)
-            ->select('country_code')
-            ->first('country_code');
-            $id = $code->country_code;
-        }
-   
-        $ports = \DB::table('sea_ports as sp')
-                    ->join('countries as c', 'sp.country_id', '=', 'c.id')
-                    ->where('sp.status', true)
-                    ->where('c.code' , $id) 
-                    ->select('sp.name','sp.province','c.name as country')
-                    ->orderBy('sp.id')
-                    ->get();
-        
-        return response()->json($ports, 200);
+    Route::post('applications/transports', 'App\Http\Controllers\Web\TransportsControllers@add')->name('applications.transports'); 
 
-     })->where('id', '[0-9, A-Z]+');
-
-
-     /* get sea port by code country status
-        ** id number or code country
-        ** flag indicate if code country o id addres supplier
-      */
-      Route::get('/sea-ports', function () {
-
-        $ports = \DB::table('sea_ports as sp')
-                    ->join('countries as c', 'sp.country_id', '=', 'c.id')
-                    ->where('sp.status', true)
-                    ->select('sp.name','sp.province','c.name as country')
-                    ->orderBy('sp.id')
-                    ->get();
-        
-        return response()->json($ports, 200);
-
-     })->where('id', '[0-9, A-Z]+');
-
-      /* get sea port by code country status
-        ** id number or code country
-        ** flag indicate if code country o id addres supplier
-      */
-    Route::get('/ports-supplier/{id}','App\Http\Controllers\Web\TransportsControllers@PortSupplier')->where('id', '[0-9]+');
-    Route::get('/sea-ports','App\Http\Controllers\Web\TransportsControllers@seaPorts')->name('sea.ports');
-    Route::get('/ports-user','App\Http\Controllers\Web\TransportsControllers@seaPortUser')->name('port.user');
+    // Connect with apis courier service
+    Route::post('/get-fedex-rate','App\Http\Controllers\Web\TransportsControllers@fedexRate');
+    Route::post('/get-dhl-quote','App\Http\Controllers\Web\TransportsControllers@dhlQuote');
+    Route::get('/test-fedex','App\Http\Controllers\Web\TransportsControllers@test');
 
     Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
-    
-    // Connect with apis courier service
-    Route::post('/get-fedex-rate','App\Http\Controllers\Web\ApplicationController@fedexRate');
-    Route::post('/get-dhl-quote','App\Http\Controllers\Web\ApplicationController@dhlQuote');
 
-    Route::get('/test-fedex','App\Http\Controllers\Web\ApplicationController@test');
     Route::get('/get-application-category/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationCategory')->where('id', '[0-9]+');
 
     Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@paymentProvider')
@@ -121,12 +82,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
      // Bodegaje local "Entrega"
     Route::post('local-warehouse', 'App\Http\Controllers\Web\ApplicationController@localWarehouse');
-    
-    Route::post('applications/transports', 'App\Http\Controllers\Web\ApplicationController@transports')->name('applications.transports'); 
+
 
     Route::resource('company',  'App\Http\Controllers\Web\CompanyController')->except(['destroy','create']);
    
     Route::resource('address',  'App\Http\Controllers\Web\CompanyAddressController');
+    Route::post('address/add-port', 'App\Http\Controllers\Web\CompanyAddressController@addPorts')->name('address.addPorts'); 
+    Route::post('address/del-port/{id}', 'App\Http\Controllers\Web\CompanyAddressController@delPorts')->name('address.delPorts');
     
     Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
 

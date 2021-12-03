@@ -35,5 +35,20 @@ class Transport extends Model
         return $this->belongsTo(TransCompany::class,'trans_company_id');
     }
 
+    public static function rateFCL($data)
+    {
+        if(count($data) > 0)
+        {
+
+        }
+    }
+
+    public static function rateLCL($data)
+    {
+        if(count($data) > 0)
+        {
+
+        }
+    }
 
 }

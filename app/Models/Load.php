@@ -37,4 +37,44 @@ class Load extends Model
     {
         return $this->belongsTo(CategoryContainer::class,'type_container')->withDefault(['name' => '' ]);
     }
+
+    public static function cargo($data,$application_id=null)
+    {
+        if(isset($data[0]['id'])) {
+
+            $idload = array();
+
+            foreach ($data as $key => $item) {
+                $idload[] = $item['id'];
+            }
+
+            Load::whereNotIn('id', $idload)->where('application_id', $application_id)->delete();
+        }
+       
+        foreach ($data as $key => $item) {
+
+           
+            Load::updateOrCreate(
+                [
+                 'application_id' => $application_id,
+                 'type_container' => $item['type_container'],
+                 'cbm'            => $item['cbm'],
+                ],
+
+                [
+                    'stackable'      => $item['stackable'],
+                    'length_unit'    => $item['length_unit'],
+                    'length'         => $item['length'],
+                    'width'          => $item['width'],
+                    'height'         => $item['height'],
+                    'type_container' => $item['type_container'],
+                    'type_load'      => $item['type_load'],
+                    'weight'         => $item['weight'],
+                    'weight_units'   => $item['weight_units'],
+                ]
+            );
+          }
+
+        return true;
+    }
 }
