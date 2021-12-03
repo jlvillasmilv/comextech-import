@@ -379,95 +379,6 @@ class ApplicationController extends Controller
 
     }
 
-    /**
-     * @author Jorge Villasmil.
-     * 
-     * Generate a new or Update Transport register in storage.
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     * 
-    */
-    public function transports(TransportRequest $request)
-    {
-        DB::beginTransaction();
-         try {
-                      
-            $transport =  Transport::updateOrCreate(
-                ['application_id'   => $request->application_id, ],
-                [
-                    'trans_company_id'      => $request->trans_company_id,
-                    'mode_selected'         => $request->mode_selected,
-                    'fav_origin_address'    => $request->fav_origin_address,
-                    'origin_address'        => $request->origin_address,
-                    'origin_latitude'       => $request->origin_latitude,
-                    'origin_longitude'      => $request->origin_longitude,
-                    'origin_postal_code'    => $request->origin_postal_code,
-                    'origin_ctry_code'      => $request->origin_ctry_code,
-                    'fav_origin_port'       => $request->fav_origin_port,
-                    'origin_port_id'        => $request->origin_port_id,
-                    'fav_dest_address'      => $request->fav_dest_address,
-                    'dest_address'          => $request->dest_address,
-                    'fav_dest_port'         => $request->fav_dest_port,
-                    'dest_port_id'          => $request->dest_port_id,
-                    'dest_latitude'         => $request->dest_latitude,
-                    'dest_longitude'        => $request->dest_longitude,
-                    'dest_postal_code'      => $request->dest_postal_code,
-                    'dest_ctry_code'        => $request->dest_ctry_code,
-                    'estimated_date'        => $request->estimated_date,
-                    'insurance'             => $request->insurance,
-                ]
-            );
-
-            $this->load($request->input('dataLoad'),$request->application_id);
-
-            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
-
-            //$exchange = New Currency;
-            //$app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
-
-            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
-            ->where('cs.code', $request->code_serv)
-            ->where('services.summary', false)
-            ->select('services.id')
-            ->pluck('services.id');
-
-            foreach ($add_serv as $key => $id) {
-
-                $mount = $key == 0 ? $app_amount : $app_amount * 0.04 ;
-
-                ApplicationDetail::updateOrCreate([
-                     'application_id' =>  $request->application_id,
-                     'service_id' => $id
-                     ],
-                     [
-                        'amount' =>  $mount,
-                        'currency_id' =>  8
-                     ],
-                 );
-
-             // update application summary
-              $service_id = $key == 0 ? 23 : 24;
-              $app_summ = \DB::table('application_summaries')
-              ->where([
-                 ["application_id", $request->application_id],
-                 ["category_service_id", 3],
-                 ["service_id", $service_id]
-                 ])
-             ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
-
-            }
-
-         DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['status' => $e], 400);
-        }
-
-        return response()->json($transport->id, 200);
-    }
-
 
     /**
      * @author Jorge Villasmil.
@@ -569,7 +480,7 @@ class ApplicationController extends Controller
             //Agrega datos a carga de transporte
             if($request->input('transport')){
                
-                $this->load($request->input('dataLoad'),$request->application_id);
+                Load::cargo($request->input('dataLoad'),$request->application_id);
             }
         
             DB::commit();
@@ -596,35 +507,5 @@ class ApplicationController extends Controller
         return response()->json($localw->id, 200);
     }
 
-    /**
-     * Store or update a resource in storage.
-     * 
-     */
-    public function load($data,$application_id=null)
-    {
-        Load::where('application_id', $application_id)->delete();
-        foreach ($data as $key => $item) {
-
-            Load::updateOrCreate(
-                ['application_id'   => $application_id,
-                 'cbm'            => $item['cbm'],
-                 'stackable'      => $item['stackable'],
-                ],
-
-                [
-                    'length_unit'    => $item['length_unit'],
-                    'length'         => $item['length'],
-                    'width'          => $item['width'],
-                    'height'         => $item['height'],
-                    'type_container' => $item['type_container'],
-                    'type_load'      => $item['type_load'],
-                    'weight'         => $item['weight'],
-                    'weight_units'   => $item['weight_units'],
-                ]
-            );
-          }
-
-        return true;
-    }
 
 }

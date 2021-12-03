@@ -26,7 +26,7 @@ class CreateTransportsTable extends Migration
             $table->string('origin_locality', 25)->nullable();
             $table->string('origin_ctry_code', 4)->nullable();
 
-            $table->boolean('fav_origin_port')->default(false);
+            $table->boolean('fav_origin_port')->nullable()->default(false);
             $table->unsignedBigInteger('origin_port_id')->nullable()->comment('direccion puerto origen');
 
             $table->boolean('fav_dest_address')->default(false);
@@ -37,7 +37,7 @@ class CreateTransportsTable extends Migration
             $table->string('dest_locality', 25)->nullable();
             $table->string('dest_ctry_code', 4)->nullable();
 
-            $table->boolean('fav_dest_port')->default(false);
+            $table->boolean('fav_dest_port')->nullable()->default(false);
             $table->unsignedBigInteger('dest_port_id')->nullable()->comment('direccion puerto destino');
 
             $table->boolean('insurance')->default(false);
