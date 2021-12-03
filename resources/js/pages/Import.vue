@@ -74,7 +74,23 @@
                                         color="white"
                                     />
                                 </div>
-                                <p class="text-center">
+                                <div
+                                    v-if="!item.checked && !item.selected"
+                                    class="bg-gray-300 flex flex-col items-center font-semibold px-1 py-2 text-sm mx-0.5 border border-gray-200 rounded my-2 text-center"
+                                >
+                                    <Icon
+                                        class="w-10 h-10 my-2"
+                                        :icon="item.icon"
+                                        color="gray"
+                                    />
+                                </div>
+                                <p
+                                    :class="[
+                                        item.selected
+                                            ? 'text-center'
+                                            : 'text-center text-gray-300'
+                                    ]"
+                                >
                                     {{ item.name }}
                                 </p>
                             </div>
@@ -783,7 +799,7 @@ export default {
                     'payment/setPayment',
                     data.payment_provider
                 );
-                this.toogleMenuTabs();
+                // this.toogleMenuTabs();
                 this.$store.dispatch('load/setLoad', data);
                 this.$store.dispatch('address/setTransport', data);
                 this.$store.dispatch('internment/setData', data);
