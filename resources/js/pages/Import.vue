@@ -783,7 +783,7 @@ export default {
                     'payment/setPayment',
                     data.payment_provider
                 );
-                this.toogleMenuTabs();
+                // this.toogleMenuTabs();
                 this.$store.dispatch('load/setLoad', data);
                 this.$store.dispatch('address/setTransport', data);
                 this.$store.dispatch('internment/setData', data);

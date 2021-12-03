@@ -102,6 +102,7 @@ const mutations = {
                 ? { ...item, checked: true }
                 : item
         );
+        state.selectedCondition.services = state.tabs;
     },
     UPDATE_SERVICE(state, payload) {
         state.selectedCondition.services = state.selectedCondition.services.map(
