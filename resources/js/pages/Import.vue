@@ -622,7 +622,7 @@ export default {
                 { name: '20/80', valueInitial: 20 },
                 { name: '100%', valueInitial: 100 },
                 { name: '30/70', valueInitial: 30 },
-                { name: '60/40', valueInitial: 40 },
+                { name: '40/60', valueInitial: 40 },
                 { name: 'OTROS', valueInitial: 0 }
             ],
             objectPayment: {
@@ -716,7 +716,7 @@ export default {
                     if (data.supplier_id != null) {
                         this.$store.dispatch(
                             'application/getOriginTransport',
-                            data.id
+                            data.supplier_id
                         );
                     }
                 }

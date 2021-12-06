@@ -29,7 +29,7 @@ class CreateTransportsTable extends Migration
             $table->boolean('fav_origin_port')->nullable()->default(false);
             $table->unsignedBigInteger('origin_port_id')->nullable()->comment('direccion puerto origen');
 
-            $table->boolean('fav_dest_address')->default(false);
+            $table->boolean('fav_dest_address')->nullable()->default(false);
             $table->string('dest_address')->nullable();
             $table->double('dest_latitude')->nullable();
             $table->double('dest_longitude')->nullable();
