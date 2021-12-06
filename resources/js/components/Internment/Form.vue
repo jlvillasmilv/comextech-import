@@ -690,7 +690,7 @@ export default {
                     this.$store.state.load.loads,
                     ' ENVIO DE INTERNAMIA'
                 );
-                await this.expenses.post('/internment');
+                const {data} = await this.expenses.post('/internment');
                 Toast.fire({
                     icon: 'success',
                     title: 'Datos Agregados'
@@ -699,6 +699,10 @@ export default {
                     'exchange/getSummary',
                     this.data.application_id
                 );
+                if (!$store.getters.findService('ICS04')) {
+                     this.$store.dispatch('load/setLoad', data);     
+                }
+               
                 this.$store.dispatch('callIncomingOrNextMenu', true);
             } catch (error) {
                 console.error(error);

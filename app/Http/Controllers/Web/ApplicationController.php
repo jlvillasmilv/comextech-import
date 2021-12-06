@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest, LocalWarehouseRequest};
 use App\Notifications\AdminApplicationNotification;
+use Illuminate\Support\Facades\Crypt;
 
 class ApplicationController extends Controller
 {
@@ -18,7 +19,6 @@ class ApplicationController extends Controller
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
         ->paginate(7);
-
         return view('applications.index' , compact('data'));
     }
 
@@ -205,7 +205,7 @@ class ApplicationController extends Controller
     public function show($id)
     {
         $application  = Application::where([
-            ['id', '=', base64_decode($id)],
+            ['id', '=',  Crypt::decryptString($id)],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
@@ -215,7 +215,7 @@ class ApplicationController extends Controller
 
     public function edit($id)
     {   
-        $id=base64_decode($id);
+        $id= Crypt::decryptString($id);
         return view('services.edit', compact('id'));    
     }
 
@@ -234,7 +234,7 @@ class ApplicationController extends Controller
     public function getApplication($id)
     {
         $data  = Application::where([
-            ['id', '=', $id],
+            ['id', $id],
             ['user_id', auth()->user()->id],
         ])
         ->select('id',
@@ -490,7 +490,7 @@ class ApplicationController extends Controller
             return response()->json(['status' => $e], 400);
         }
 
-        return response()->json($internment->id, 200);
+        return response()->json(['loads' => $internment->application->loads], 200);
     }
 
     public function localWarehouse(LocalWarehouseRequest $request)

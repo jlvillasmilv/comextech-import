@@ -66,7 +66,7 @@
                             <td class=" py-3" >
                                 <div class="flex flex-nowrap">
                                  <a  
-                                href="{{ route('applications.show', base64_encode($application->id)) }}" 
+                                href="{{ route('applications.show', \Crypt::encryptString($application->id)) }}" 
                                     class="px-2 py-2  text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
@@ -81,7 +81,7 @@
                                 </a>
 
                                 <a  
-                                href="{{ route('applications.edit', base64_encode($application->id)) }}" 
+                                href="{{ route('applications.edit', \Crypt::encryptString($application->id)) }}" 
                                     class="   px-2 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    

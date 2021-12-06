@@ -18,6 +18,11 @@ class InternmentProcess extends Model
         'updated_at',
     ];
 
+    public function application()
+    {
+        return $this->belongsTo(Application::class,'application_id');
+    }
+
     public function customAgent()
     {
         return $this->belongsTo(CustomAgent::class,'custom_agent_id')->withDefault(['name' => '' ]);
