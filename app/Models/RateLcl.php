@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RateLcl extends Model
 {
-    use HasFactory;
+    protected $table = 'rate_lcl';
+    public $timestamps = false;
 }

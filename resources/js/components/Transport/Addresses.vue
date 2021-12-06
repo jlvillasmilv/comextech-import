@@ -2542,15 +2542,17 @@ export default {
                 this.expenses.dataLoad = this.$store.state.load.loads;
                 this.expenses.app_amount = appAmount;
                 this.expenses.trans_company_id = transCompanyId;
-                await this.expenses.post('/applications/transports');
+                const {data} = await this.expenses.post('/applications/transports');
                 Toast.fire({
                     icon: 'success',
                     title: 'Datos Agregados'
                 });
+
                 this.$store.dispatch(
                     'exchange/getSummary',
                     this.data.application_id
                 );
+                this.$store.dispatch('load/setLoad', data);
                 this.$store.dispatch('callIncomingOrNextMenu', true);
             } catch (error) {
                 console.log(error);

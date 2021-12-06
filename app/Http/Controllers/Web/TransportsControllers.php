@@ -81,6 +81,7 @@ class TransportsControllers extends Controller
     */
     public function add(TransportRequest $request)
     {
+        
         //DB::beginTransaction();
         // try {
                       
@@ -137,13 +138,14 @@ class TransportsControllers extends Controller
                     'type_transport' => $transport->application->type_transport,
                     'weight'         => $transport->application->loads->sum('weight')/1000,
                     'cbm'            => $transport->application->loads->sum('cbm'),
-                    'container'      => $transport->application->loads,
+                    'cargo'          => $transport->application->loads,
                 ];
                 
                 $transp = Transport::rateTransport($data);
                 $transport_amount = $transp['int_trans'];
                 $cif = $transp['cif'];
                 $gl  = $transp['gl'];
+                $t_time = $transp['t_time'];
             }
 
             // update application summary International transport
@@ -152,7 +154,11 @@ class TransportsControllers extends Controller
                ["application_id", $request->application_id],
                ["service_id", 23]
                ])
-            ->update(['amount' =>  $transport_amount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+            ->update([
+                    'amount'      =>  $transport_amount,
+                    'currency_id' =>  8, 
+                    'fee_date'    => date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'))
+                ]);
 
            if($request->insurance){
                 // update application summary insurance
@@ -178,8 +184,8 @@ class TransportsControllers extends Controller
         //     DB::rollback();
         //     return response()->json(['status' => $e], 500);
         // }
+        return response()->json(['loads' => $transport->application->loads], 200);
 
-        return response()->json(['status' => 'OK'], 200);
     }
 
 

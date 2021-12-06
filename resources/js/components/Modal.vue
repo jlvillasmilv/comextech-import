@@ -5,7 +5,7 @@
         class="overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
     >
         <div
-            class="w-full h-full px-6 py-4 overflow-y-auto bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-4xl"
+            class="w-full md:h-4/5  px-6 py-4 overflow-y-auto bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:h-auto sm:m-4 sm:max-w-4xl "
             role="dialog"
             id="modal"
         >
@@ -15,11 +15,11 @@
                 </p>
             </header> -->
             <!-- Modal body -->
-            <div class="mt-4 mb-1">
+            <div class="">
                 <slot name="body"> </slot>
             </div>
             <footer
-                class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row dark:bg-gray-800"
+                class="flex flex-col items-center justify-end px-6 py-1 -mx-6 -mb-2 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row dark:bg-gray-800"
             >
                 <slot name="footer"> </slot>
             </footer>

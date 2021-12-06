@@ -50,18 +50,18 @@ class Load extends Model
 
             Load::whereNotIn('id', $idload)->where('application_id', $application_id)->delete();
         }
-       
+
         foreach ($data as $key => $item) {
 
-           
-            Load::updateOrCreate(
-                [
-                 'application_id' => $application_id,
-                 'type_container' => $item['type_container'],
-                 'cbm'            => $item['cbm'],
-                ],
-
-                [
+            if($item['id'] > 0){
+                // update register
+                Load::where([
+                    ['id', $item['id']],
+                    ['application_id', $application_id]
+                    ])
+                ->update([
+                    'type_container' => $item['type_container'],
+                    'cbm'            => $item['cbm'],
                     'stackable'      => $item['stackable'],
                     'length_unit'    => $item['length_unit'],
                     'length'         => $item['length'],
@@ -71,8 +71,32 @@ class Load extends Model
                     'type_load'      => $item['type_load'],
                     'weight'         => $item['weight'],
                     'weight_units'   => $item['weight_units'],
-                ]
-            );
+                ]);
+
+
+            } else{
+                //created
+                Load::updateOrInsert(
+                    [
+                     'application_id' => $application_id,
+                     'type_container' => $item['type_container'],
+                     'weight'         => $item['weight'],
+                    ],
+                    [
+                        'cbm'            => $item['cbm'],
+                        'stackable'      => $item['stackable'],
+                        'length_unit'    => $item['length_unit'],
+                        'length'         => $item['length'],
+                        'width'          => $item['width'],
+                        'height'         => $item['height'],
+                        'type_load'      => $item['type_load'],
+                        'weight'         => $item['weight'],
+                        'weight_units'   => $item['weight_units'],
+                    ]
+                );
+
+            }
+        
           }
 
         return true;

@@ -69,7 +69,7 @@ class Transport extends Model
             if($data['type_transport'] == 'CONTAINER')
             {
                
-                foreach($data['container'] as $item) {
+                foreach($data['cargo'] as $item) {
                     $field = 'c'.$item->container->name;
                     $rate = RateFcl::where([
                         ['status', true],
@@ -89,7 +89,33 @@ class Transport extends Model
             // Rate LCL
             if($data['type_transport'] == 'CONSOLIDADO')
             {
-                dd($data);
+
+                foreach($data['cargo'] as $item) {
+
+                    $field = 'MIN_0_5';
+
+                    $higher = $item['cbm'] > ($item['weight']/1000) ? $item['cbm'] : ($item['weight']/1000) ;
+                    
+                    if ($item['cbm'] > ($item['weight']/1000)) {
+                        $field = $higher <= 5 ? 'w0_5_TON_M3' : ($higher >= 6 && $higher <= 9 ? 'w5_10_TON_M3' : 'w10_15_TON_M3') ; 
+                    }
+                    
+                    if ($item['cbm'] < ($item['weight']/1000)) {
+                        $field = $higher <= 5 ? 'MIN_0_5' : ($higher >= 6 && $higher <= 9 ? 'MIN_5_10' : 'MIN_10_5') ; 
+                    }
+
+                    $rate = RateLcl::where([
+                        ['status', true],
+                        ['from', $data['from']],
+                        ['to', $data['to']],
+                    ])
+                    ->select( $field , 'gl', 't_time')
+                    ->first();
+
+                    $int_trans += is_null($rate) ? 0 : $rate->$field * $higher ;
+                    $gl        += is_null($rate) ? 0 : $rate->gl;
+                    $t_time    =  is_null($rate) ? 12 : $rate->gl;
+                }
 
             }
 

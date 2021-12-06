@@ -15,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Models\{Application,
-     Currency, CategoryService,
-      CustomAgent, Ecommerce,
-       Warehouse, TransCompany,
-        ApplicationCondSale,
-        Supplier
+    Currency, CategoryService,
+    CustomAgent, Ecommerce,
+    Warehouse, TransCompany,
+    Supplier
     };
 
 use App\Http\Controllers\{
@@ -56,16 +55,6 @@ Route::get('/trans_companies', function (Request $request) {
         ->where('status', '=', true)
         ->OrderBy('name')->get();
     return response()->json($trans_cos, 200);
-});
-
-Route::get('/suppl_cond_sales', function (Request $request) {
-   
-    $suppl = ApplicationCondSale::where('status', '=', true)
-        ->OrderBy('sort','asc')
-        ->with('services')
-        ->get();
-
-    return response()->json($suppl, 200);
 });
 
 Route::get('/ecommerce', function (Request $request) {
