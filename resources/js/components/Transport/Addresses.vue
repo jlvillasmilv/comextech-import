@@ -1203,7 +1203,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="flex w-full py-4">
+                        <div class="flex w-full py-4">
                             <button
                                 @click="showShippingMethod()"
                                 class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
@@ -1213,7 +1213,7 @@
                             <hr
                                 class="w-8/12 mt-4 mb-4 border-solid border-t-2"
                             />
-                        </div> -->
+                        </div>
 
                         <!-- Destino de Envio -->
                         <div
@@ -1648,7 +1648,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="flex w-full py-4">
+                        <div class="flex w-full py-4">
                             <button
                                 @click="showShippingMethod()"
                                 class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
@@ -1658,10 +1658,10 @@
                             <hr
                                 class="w-8/12 mt-4 mb-4 border-solid border-t-2"
                             />
-                        </div> -->
+                        </div>
 
                         <!-- Destino de Envio -->
-                        <!-- <div
+                        <div
                             v-if="showShipping == true"
                             class="flex justify-around w-full px-3 mb-6 md:mb-0"
                         >
@@ -1670,14 +1670,14 @@
                                     Direccion Destino
                                 </h3>
                             </div>
-                            <label class="w-8/12 text-sm"> -->
-                        <!-- <span
+                            <label class="w-8/12 text-sm">
+                                <!-- <span
                                     class="text-gray-700 dark:text-gray-400 font-semibold"
                                 >
                                     Destino de Envio
                                 </span> -->
 
-                        <!-- <vue-google-autocomplete
+                                <vue-google-autocomplete
                                     v-if="!expenses.fav_dest_address"
                                     v-model="expenses.dest_address"
                                     id="addressDestination"
@@ -1741,7 +1741,7 @@
                                 v-if="expenses.errors.has('dest_address')"
                                 v-html="expenses.errors.get('dest_address')"
                             ></span>
-                        </div> -->
+                        </div>
                     </div>
                 </transition>
                 <transition name="fade">
