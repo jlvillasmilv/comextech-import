@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\services\DHL;
-use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail};
+use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail, Currency};
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -81,11 +81,13 @@ class TransportsControllers extends Controller
     */
     public function add(TransportRequest $request)
     {
-        DB::beginTransaction();
-        try {
+        //DB::beginTransaction();
+        // try {
                       
             $transport =  Transport::updateOrCreate(
-                ['application_id'   => $request->application_id, ],
+                [
+                    'application_id'   => $request->application_id,
+                ],
                 [
                     'trans_company_id'      => $request->trans_company_id,
                     'mode_selected'         => $request->mode_selected,
@@ -112,51 +114,72 @@ class TransportsControllers extends Controller
 
             Load::cargo($request->input('dataLoad'),$request->application_id);
 
-            $app_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
+            $transport_amount = is_null($request->app_amount) ? 0 : $request->app_amount;
 
-            //$exchange = New Currency;
-            //$app_amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
+            $amount = $transport->application->amount;
 
-            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
-            ->where('cs.code', $request->code_serv)
-            ->where('services.summary', false)
-            ->select('services.id')
-            ->pluck('services.id');
+            if($transport->application->currency->code != 'USD'){
 
-            foreach ($add_serv as $key => $id) {
-
-                $mount = $key == 0 ? $app_amount : $app_amount * 0.04 ;
-
-                ApplicationDetail::updateOrCreate([
-                     'application_id' =>  $request->application_id,
-                     'service_id' => $id
-                     ],
-                     [
-                        'amount' =>  $mount,
-                        'currency_id' =>  8
-                     ],
-                 );
-
-             // update application summary
-              $service_id = $key == 0 ? 23 : 24;
-              $app_summ = \DB::table('application_summaries')
-              ->where([
-                 ["application_id", $request->application_id],
-                 ["category_service_id", 3],
-                 ["service_id", $service_id]
-                 ])
-             ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+                $exchange = New Currency;
+                $amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
 
             }
 
-         DB::commit();
+            $cif = $amount + $transport_amount;
+            $gl  = 0;
 
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['status' => $e], 400);
-        }
+            if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
+            {
+                $data = [
+                    'commodity'      => $amount,
+                    'from'           => $transport->originPort->unlocs,
+                    'to'             => $transport->destPort->unlocs,
+                    'type_transport' => $transport->application->type_transport,
+                    'weight'         => $transport->application->loads->sum('weight')/1000,
+                    'cbm'            => $transport->application->loads->sum('cbm'),
+                    'container'      => $transport->application->loads,
+                ];
+                
+                $transp = Transport::rateTransport($data);
+                $transport_amount = $transp['int_trans'];
+                $cif = $transp['cif'];
+                $gl  = $transp['gl'];
+            }
 
-        return response()->json($transport->id, 200);
+            // update application summary International transport
+            $app_summ = \DB::table('application_summaries')
+            ->where([
+               ["application_id", $request->application_id],
+               ["service_id", 23]
+               ])
+            ->update(['amount' =>  $transport_amount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+
+           if($request->insurance){
+                // update application summary insurance
+                $app_summ = \DB::table('application_summaries')
+                ->where([
+                ["application_id", $request->application_id],
+                ["service_id", 24]
+                ])
+                ->update(['amount' =>  $cif * 0.03,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+            }
+
+            // update application summary local expenses
+            $app_summ = \DB::table('application_summaries')
+            ->where([
+               ["application_id", $request->application_id],
+               ["service_id", 28]
+               ])
+            ->update(['amount' =>  $gl,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+
+        // DB::commit();
+
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json(['status' => $e], 500);
+        // }
+
+        return response()->json(['status' => 'OK'], 200);
     }
 
 

@@ -16,10 +16,10 @@ class CategoryServiceSeeder extends Seeder
 
         \DB::table('category_services')->insert([
             ['code' => 'ICS01','name' => 'Pagos', 'user_id' => 1, 'dependence' => '', 'ind_service' => true, 'sort' => 1, 'status' => true, 'icon' => "vs:p-square" ], 
-            ['code' => 'ICS02','name' => 'Bodegaje y Fulfillment ', 'user_id' => 1, 'dependence' => '4,5,7,8', 'ind_service' => true, 'sort' => 8, 'status' => true, 'icon' => "vs:b-square", ], 
-            ['code' => 'ICS03','name' => 'Transporte', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 3,'status' => true, 'icon' => "vs:t-square" ], 
-            ['code' => 'ICS04','name' => 'Aduana', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 4,'status' => true,'icon' => "vs:a-square" ], 
-            ['code' => 'ICS05','name' => 'Entrega', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => true, 'sort' => 5,'status' => true,'icon' => "vs:e-square" ],
+            ['code' => 'ICS02','name' => 'Bodegaje y Fulfillment ', 'user_id' => 1, 'dependence' => '4,5,7,8', 'ind_service' => true, 'sort' => 4, 'status' => true, 'icon' => "vs:b-square", ], 
+            ['code' => 'ICS03','name' => 'Transporte', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 2,'status' => true, 'icon' => "vs:t-square" ], 
+            ['code' => 'ICS04','name' => 'Aduana', 'user_id' => 1,'dependence' => '', 'ind_service' => true, 'sort' => 3,'status' => true,'icon' => "vs:a-square" ], 
+            ['code' => 'ICS05','name' => 'Entrega', 'user_id' => 1, 'dependence' => '2,3,4,5,6,7', 'ind_service' => true, 'sort' => 5,'status' => false,'icon' => "vs:e-square" ],
             ['code' => 'ICS06','name' => 'Transporte Local', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 6,'status' => true,'icon' => "vs:t-square" ],
             ['code' => 'ICS07','name' => 'Tipo de cambio', 'user_id' => 1,'dependence' => '', 'ind_service' => false, 'sort' => 7,'status' => false,'icon' => "vs:p-square" ], 
             ['code' => 'ICS08','name' => 'Financiamiento', 'user_id' => 1, 'dependence' => '2,3,4,5,7,8', 'ind_service' => true, 'sort' => 9,'status' => true, 'icon' => "vs:f-square" ], 

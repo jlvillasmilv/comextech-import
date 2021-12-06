@@ -242,7 +242,7 @@
                             class="form-checkbox h-4 w-4 text-gray-800"
                             checked
                         />
-                        <span class="ml-2 text-gray-700 ">Non Stackable</span>
+                        <span class="ml-2 text-gray-700 ">No Apilable</span>
                     </label>
                 </div>
                 <div

@@ -786,7 +786,7 @@
                                     :placeholder="
                                         expenses.fav_dest_address
                                             ? 'Nombre o codigo Puerto/Aeropuerto'
-                                            : 'Direccion, Codigo Postal'
+                                            : 'Direccion'
                                     "
                                     v-on:placechanged="getAddressDestination"
                                 >
@@ -1203,7 +1203,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="flex w-full py-4">
+                        <div class="flex w-full py-4">
                             <button
                                 @click="showShippingMethod()"
                                 class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
@@ -1213,7 +1213,7 @@
                             <hr
                                 class="w-8/12 mt-4 mb-4 border-solid border-t-2"
                             />
-                        </div> -->
+                        </div>
 
                         <!-- Destino de Envio -->
                         <div
@@ -1306,7 +1306,7 @@
                                 <span
                                     class="text-gray-700 dark:text-gray-400 font-semibold"
                                 >
-                                    Fecha Estimada
+                                    Fecha recogida
                                 </span>
                                 <input
                                     type="date"
@@ -1382,12 +1382,12 @@
                                 <span class="ml-2 text-gray-700">Seguro </span>
                             </label>
                         </div>
-                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                        <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
                             <span class="ml-2 text-gray-700">
-                                {{ data.amount }}
+                                {{ (data.amount) * 0.03 }}
                                 {{ currency.code }}
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </transition>
             </div>
@@ -1648,7 +1648,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="flex w-full py-4">
+                        <div class="flex w-full py-4">
                             <button
                                 @click="showShippingMethod()"
                                 class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
@@ -1658,10 +1658,10 @@
                             <hr
                                 class="w-8/12 mt-4 mb-4 border-solid border-t-2"
                             />
-                        </div> -->
+                        </div>
 
                         <!-- Destino de Envio -->
-                        <!-- <div
+                        <div
                             v-if="showShipping == true"
                             class="flex justify-around w-full px-3 mb-6 md:mb-0"
                         >
@@ -1670,14 +1670,14 @@
                                     Direccion Destino
                                 </h3>
                             </div>
-                            <label class="w-8/12 text-sm"> -->
-                        <!-- <span
+                            <label class="w-8/12 text-sm">
+                                <!-- <span
                                     class="text-gray-700 dark:text-gray-400 font-semibold"
                                 >
                                     Destino de Envio
                                 </span> -->
 
-                        <!-- <vue-google-autocomplete
+                                <vue-google-autocomplete
                                     v-if="!expenses.fav_dest_address"
                                     v-model="expenses.dest_address"
                                     id="addressDestination"
@@ -1741,7 +1741,7 @@
                                 v-if="expenses.errors.has('dest_address')"
                                 v-html="expenses.errors.get('dest_address')"
                             ></span>
-                        </div> -->
+                        </div>
                     </div>
                 </transition>
                 <transition name="fade">
@@ -2616,7 +2616,7 @@ export default {
             this.expenses.origin_port_id = '';
             if (this.expenses.fav_origin_port && this.data.supplier_id) {
                 let idsupplier = this.data.supplier_id;
-                let type = this.data.type_transport.substring(0, 1);
+                const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
                 await this.$store.dispatch('address/getFavOriginPort', {
                     idsupplier,
                     type
@@ -2627,12 +2627,9 @@ export default {
         },
         getFavDestPort: async function() {
             this.expenses.dest_port_id = '';
-            let type = this.data.type_transport;
+            const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
             if (this.expenses.fav_dest_port) {
-                await this.$store.dispatch(
-                    'address/getFavDestPorts',
-                    type.substring(0, 1)
-                );
+                await this.$store.dispatch('address/getFavDestPorts', type);
             } else {
                 await this.$store.dispatch('address/setOrigFavDestPorts');
             }
@@ -2703,10 +2700,11 @@ export default {
     },
     async created() {
         this.expenses.application_id = this.data.application_id;
-        this.expenses.mode_selected = this.$store.state.application.data.type_transport;
-        const type = this.data.type_transport;
+       
+        const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
+        await this.$store.dispatch('address/setModeSelected', this.$store.state.application.data.type_transport); 
         await this.$store.dispatch('address/getAddressDestination');
-        await this.$store.dispatch('address/getPorts', type.substring(0, 1));
+        await this.$store.dispatch('address/getPorts', type);
     }
 };
 </script>
