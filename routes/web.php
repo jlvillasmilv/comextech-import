@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
                     ->join('services as s', 'aps.service_id', 's.id')
                     ->where('application_id', $id)
                     ->select('aps.id', 'currencies.code','s.name as description','aps.fee_date','aps.amount', 'aps.amount as amo2' )
-                    ->orderBy('aps.id')
+                    ->orderBy('s.id')
                     ->get();
         
         return response()->json($summary, 200);
