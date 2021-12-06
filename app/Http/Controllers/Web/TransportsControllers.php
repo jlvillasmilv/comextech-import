@@ -114,7 +114,7 @@ class TransportsControllers extends Controller
 
             Load::cargo($request->input('dataLoad'),$request->application_id);
 
-            $transport_amount = !is_null($request->app_amount) ? $request->app_amount : 0;
+            $transport_amount = is_null($request->app_amount) ? 0 : $request->app_amount;
 
             $amount = $transport->application->amount;
 
@@ -126,11 +126,10 @@ class TransportsControllers extends Controller
             }
 
             $cif = $amount + $transport_amount;
+            $gl  = 0;
 
             if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
             {
-               
-                
                 $data = [
                     'commodity'      => $amount,
                     'from'           => $transport->originPort->unlocs,
@@ -144,40 +143,34 @@ class TransportsControllers extends Controller
                 $transp = Transport::rateTransport($data);
                 $transport_amount = $transp['int_trans'];
                 $cif = $transp['cif'];
+                $gl  = $transp['gl'];
             }
 
+            // update application summary International transport
+            $app_summ = \DB::table('application_summaries')
+            ->where([
+               ["application_id", $request->application_id],
+               ["service_id", 23]
+               ])
+            ->update(['amount' =>  $transport_amount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
 
-            $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
-            ->where('cs.code', $request->code_serv)
-            ->where('services.summary', false)
-            ->select('services.id')
-            ->pluck('services.id');
-
-            foreach ($add_serv as $key => $id) {
-
-                $mount = $key == 0 ? $transport_amount : $cif * 0.03 ;
-
-                ApplicationDetail::updateOrCreate([
-                     'application_id' =>  $request->application_id,
-                     'service_id' => $id
-                     ],
-                     [
-                        'amount' =>  $mount,
-                        'currency_id' =>  8
-                     ],
-                 );
-
-             // update application summary
-              $service_id = $key == 0 ? 23 : 24;
-              $app_summ = \DB::table('application_summaries')
-              ->where([
-                 ["application_id", $request->application_id],
-                 ["category_service_id", 3],
-                 ["service_id", $service_id]
-                 ])
-             ->update(['amount' =>  $mount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
-
+           if($request->insurance){
+                // update application summary insurance
+                $app_summ = \DB::table('application_summaries')
+                ->where([
+                ["application_id", $request->application_id],
+                ["service_id", 24]
+                ])
+                ->update(['amount' =>  $cif * 0.03,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
             }
+
+            // update application summary local expenses
+            $app_summ = \DB::table('application_summaries')
+            ->where([
+               ["application_id", $request->application_id],
+               ["service_id", 28]
+               ])
+            ->update(['amount' =>  $gl,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
         // DB::commit();
 

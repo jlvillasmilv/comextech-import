@@ -786,7 +786,7 @@
                                     :placeholder="
                                         expenses.fav_dest_address
                                             ? 'Nombre o codigo Puerto/Aeropuerto'
-                                            : 'Direccion, Codigo Postal'
+                                            : 'Direccion'
                                     "
                                     v-on:placechanged="getAddressDestination"
                                 >
@@ -1306,7 +1306,7 @@
                                 <span
                                     class="text-gray-700 dark:text-gray-400 font-semibold"
                                 >
-                                    Fecha Estimada
+                                    Fecha recogida
                                 </span>
                                 <input
                                     type="date"
@@ -1382,12 +1382,12 @@
                                 <span class="ml-2 text-gray-700">Seguro </span>
                             </label>
                         </div>
-                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                        <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
                             <span class="ml-2 text-gray-700">
-                                {{ data.amount }}
+                                {{ (data.amount) * 0.03 }}
                                 {{ currency.code }}
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </transition>
             </div>
@@ -2616,7 +2616,7 @@ export default {
             this.expenses.origin_port_id = '';
             if (this.expenses.fav_origin_port && this.data.supplier_id) {
                 let idsupplier = this.data.supplier_id;
-                let type = this.data.type_transport.substring(0, 1);
+                const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
                 await this.$store.dispatch('address/getFavOriginPort', {
                     idsupplier,
                     type
@@ -2627,12 +2627,9 @@ export default {
         },
         getFavDestPort: async function() {
             this.expenses.dest_port_id = '';
-            let type = this.data.type_transport;
+            const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
             if (this.expenses.fav_dest_port) {
-                await this.$store.dispatch(
-                    'address/getFavDestPorts',
-                    type.substring(0, 1)
-                );
+                await this.$store.dispatch('address/getFavDestPorts', type);
             } else {
                 await this.$store.dispatch('address/setOrigFavDestPorts');
             }

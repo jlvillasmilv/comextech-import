@@ -54,7 +54,7 @@ class RateTransportSeeder extends Seeder
                 't_time'    => $fc->t_time,
                 'currency'  => $fc->currency,
                 'valid_from' => date('Y-m-d'),
-                'valid_to'   => date('Y-m-d', strtotime('+1 week', strtotime(date()))),
+                'valid_to'   => date('Y-m-d'),
                 'MIN_0_5'    => $fc->MIN_0_5,
                 'w0_5_TON_M3' => $fc->w0_5_TON_M3,
                 'MIN_5_10'  => $fc->MIN_5_10,

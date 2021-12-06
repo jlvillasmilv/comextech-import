@@ -45,31 +45,48 @@ class Transport extends Model
         return $this->belongsTo(Port::class,'dest_port_id');
     }
 
+
+
+    /**
+     * @author Jorge Villasmil.
+     * 
+     * evaluate the type of transport and search the database for transport rates (FCL, LCL and AIR)
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
     public static function rateTransport($data)
     {  
         $int_trans = 0;
         $cif = 0;
+        $gl  = 0;
+        $t_time = 1;
+
         if(count($data) > 0)
         {
-            // FCL
+            //Rate FCL
             if($data['type_transport'] == 'CONTAINER')
             {
-
+               
                 foreach($data['container'] as $item) {
-
+                    $field = 'c'.$item->container->name;
                     $rate = RateFcl::where([
                         ['status', true],
                         ['from', $data['from']],
                         ['to', $data['to']],
                     ])
-                    ->sum('c'.$item->container->name);
+                    ->select($field, 'gl', 't_time')
+                    ->first();
 
-                    $int_trans += is_null($rate) ? 0 : $rate;
+                    $int_trans += is_null($rate) ? 0 : $rate->$field;
+                    $gl        += is_null($rate) ? 0 : $rate->gl;
+                    $t_time =  is_null($rate) ? 12 : $rate->gl;
                 }
 
             }
 
-            // LCL
+            // Rate LCL
             if($data['type_transport'] == 'CONSOLIDADO')
             {
                 dd($data);
@@ -78,9 +95,16 @@ class Transport extends Model
 
             $cif = $int_trans + $data['commodity'];
 
+            if($gl>0){ 
+                $exchange = New Currency;
+                $gl = $exchange->convertCurrency($gl, 'USD', 'CLP');
+            }
+
             return [
                 'int_trans' => $int_trans,
-                'cif'       => $cif
+                'gl'        => $gl,
+                'cif'       => $cif,
+                't_time'    => $t_time,
             ];
 
 
