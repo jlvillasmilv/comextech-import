@@ -52,6 +52,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     })->where('id', '[0-9]+');
 
+    // Get condition sale
+    Route::get('/suppl_cond_sales', function (Request $request) {
+   
+        $suppl = App\Models\ApplicationCondSale::where('status', '=', true)
+            ->with('services')
+            ->get();
+    
+        return response()->json($suppl, 200);
+    });
+
     
 
     /* get sea port by code country status
@@ -110,7 +120,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::resource('bank-accounts', 'App\Http\Controllers\Web\BankAccountController'); 
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
-
 
     Route::get('markAsRead', function(){
         auth()->user()->unreadNotifications->markAsRead();

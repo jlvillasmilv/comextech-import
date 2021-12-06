@@ -131,7 +131,7 @@ const actions = {
     },
     async getServices({ commit, state }) {
         if (!state.arrayServices.length) {
-            const { data } = await axios.get('/api/suppl_cond_sales');
+            const { data } = await axios.get('/suppl_cond_sales');
             commit('SET_SERVICES', data);
         }
     },
