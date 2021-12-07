@@ -249,7 +249,15 @@ class ApplicationController extends Controller
             'ecommerce_url',
             'description',
             'condition')
-        ->with('currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
+        ->with([
+            'currency' => function($query) {
+                $query->select('id', 'code', 'name');
+            }, 
+            'paymentProvider' => function($query) {
+                $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay');
+            }
+            ,'transport','loads','internmentProcess','localWarehouse'
+        ])
         ->firstOrFail();
         
         return response()->json($data, 200);
@@ -342,13 +350,13 @@ class ApplicationController extends Controller
 
                  PaymentProvider::updateOrCreate(
                      [
-                         'application_id'  => $application->id,
-                         'percentage'      => $data['percentage'],
+                        'application_id'  => $application->id,
+                        'percentage'      => $data['percentage'],
                      ],
                      [
-                         'type_pay'        => $data['type_pay'],
-                         'date_pay'        => $data['date_pay'],
-                         'payment_release' => $data['payment_release'],
+                        'type_pay'        => $data['type_pay'],
+                        'date_pay'        => $data['date_pay'],
+                        'payment_release' => $data['payment_release'],
                      ]
                  );
 
@@ -478,7 +486,7 @@ class ApplicationController extends Controller
             }
 
             //Agrega datos a carga de transporte
-            if($request->input('transport')){
+            if(!$request->input('transport')){
                
                 Load::cargo($request->input('dataLoad'),$request->application_id);
             }

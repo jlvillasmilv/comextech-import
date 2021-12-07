@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/currencies', function (Request $request) {
-    $currencies = Currency::where('status', '=', true)->OrderBy('name')->get();
+    $currencies = Currency::where('status', '=', true)->OrderBy('name')->get(['id', 'code', 'name']);
     return response()->json($currencies, 200);
 });
 
@@ -69,8 +69,9 @@ Route::get('/ecommerce', function (Request $request) {
 
 Route::get('/provider/{id}', function ($id) {
    
-    $provider = Supplier::where('id',$id)->with('supplierAddress')
-    ->first();
+    $provider = Supplier::where('id',$id)
+    ->with('supplierAddress')
+    ->first(['id','name']);
     
     return response()->json($provider, 200);
 })->where('id', '[0-9]+');

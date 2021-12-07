@@ -117,6 +117,8 @@ class TransportsControllers extends Controller
 
             $transport_amount = is_null($request->app_amount) ? 0 : $request->app_amount;
 
+            $rate_insurance_transp = \DB::table('settings')->first(['min_rate_transp'])->min_rate_transp;
+
             $amount = $transport->application->amount;
 
             if($transport->application->currency->code != 'USD'){
@@ -128,6 +130,8 @@ class TransportsControllers extends Controller
 
             $cif = $amount + $transport_amount;
             $gl  = 0;
+
+            $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
             if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
             {
@@ -143,9 +147,10 @@ class TransportsControllers extends Controller
                 
                 $transp = Transport::rateTransport($data);
                 $transport_amount = $transp['int_trans'];
-                $cif = $transp['cif'];
-                $gl  = $transp['gl'];
-                $t_time = $transp['t_time'];
+                $cif        = $transp['cif'];
+                $gl         = $transp['gl'];
+                $t_time     = $transp['t_time'];
+                $insurance  = $transp['insurance'];
             }
 
             // update application summary International transport
@@ -167,7 +172,10 @@ class TransportsControllers extends Controller
                 ["application_id", $request->application_id],
                 ["service_id", 24]
                 ])
-                ->update(['amount' =>  $cif * 0.03,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+                ->update([
+                    'amount' => $cif * 0.003,
+                    'currency_id' =>  8,
+                    'fee_date' => $request->estimated_date]);
             }
 
             // update application summary local expenses

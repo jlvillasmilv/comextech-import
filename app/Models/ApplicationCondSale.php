@@ -24,7 +24,7 @@ class ApplicationCondSale extends Model
     public function services()
     {
         return $this->belongsToMany(CategoryService::class, 'category_service_suppl_cond_sale', 'application_cond_sale_id', 'category_service_id')
-        ->select('category_services.id','category_services.name', 'category_services.code', 'category_service_suppl_cond_sale.selected' , 'category_services.icon',  \DB::raw("false as checked") )
+        ->select('category_services.name', 'category_services.code', 'category_service_suppl_cond_sale.selected' , 'category_services.icon',  \DB::raw("false as checked") )
         ->where('status', true)
         ->orderBy('category_services.sort');
     }

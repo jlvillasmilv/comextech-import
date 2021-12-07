@@ -128,7 +128,7 @@ class SupplierController extends Controller
 
     public function list()
     {
-        $data = Supplier::where('user_id', auth()->user()->id)->get();
+        $data = Supplier::where('user_id', auth()->user()->id)->get(['id','name']);
         return response()->json($data, 200);
     }
 
