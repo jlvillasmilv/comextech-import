@@ -504,7 +504,6 @@
                         <thead>
                             <tr
                                 class="
-                    text-xs
                     text-center
                     font-semibold
                     tracking-wide
