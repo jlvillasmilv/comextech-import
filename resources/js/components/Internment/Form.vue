@@ -684,10 +684,10 @@ export default {
         async submitForm() {
             try {
                 this.expenses.dataLoad = this.$store.state.load.loads;
-                console.log(
-                    this.$store.state.load.loads,
-                    ' ENVIO DE INTERNAMIA'
-                );
+                // console.log(
+                //     this.$store.state.load.loads,
+                //     ' ENVIO DE INTERNAMIA'
+                // );
                 const {data} = await this.expenses.post('/internment');
                 Toast.fire({
                     icon: 'success',
@@ -697,8 +697,8 @@ export default {
                     'exchange/getSummary',
                     this.data.application_id
                 );
-                if (!$store.getters.findService('ICS04')) {
-                     this.$store.dispatch('load/setLoad', data);     
+                if (!$store.getters.findService('ICS03')) {
+                    this.$store.dispatch('load/setLoad', data);     
                 }
                
                 this.$store.dispatch('callIncomingOrNextMenu', true);
@@ -723,23 +723,28 @@ export default {
             this.custom_agents = agents.data;
             //asignar id de solicitud
             this.expenses.application_id = this.application_id;
-            this.expenses.transport = !this.$store.getters.findService('ICS04');
+            this.expenses.transport = !this.$store.getters.findService('ICS03');
 
             this.expenses.cif_amt =
                 Number(this.data.amount) +
                 (Number(this.data.amount) * 2) / 100 +
                 (Number(this.data.amount) * 5) / 100;
 
-            const resp = await axios.get(
-                `/api/convert-currency/${this.expenses.cif_amt}/${this.currency.code}/CLP`
-            );
 
-            this.expenses.cif_amt = resp.data;
+            if(this.expenses.cif_amt != 0 && this.currency.code != 'CLP') {
 
-            this.expenses.iva_amt = Math.round(
-                (this.expenses.cif_amt * 19) / 100
-            );
-            this.expenses.adv_amt = (this.expenses.cif_amt * 6) / 100;
+                const {data} = await axios.get(
+                    `/api/convert-currency/${this.expenses.cif_amt}/${this.currency.code}/CLP`
+                );
+
+                this.expenses.cif_amt = data;
+            }
+
+             this.expenses.iva_amt = Math.round(
+                    (this.expenses.cif_amt * 19) / 100
+                );
+                this.expenses.adv_amt = (this.expenses.cif_amt * 6) / 100;
+
         } catch (error) {
             console.log(error);
         }
