@@ -121,7 +121,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [23, 24])
+                ->whereIn('service_id', [23, 24, 28])
                 ->update(['amount' => 0]);
             }
 

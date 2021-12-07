@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Support\HasAdvancedFilter;
+use Illuminate\Support\Facades\Http;
 
 class Currency extends Model
 {
@@ -37,8 +38,11 @@ class Currency extends Model
         $to_Currency = urlencode($to_currency);
         $query =  "{$from_Currency}_{$to_Currency}";
         try {
-            $json = file_get_contents("https://api.currconv.com/api/v7/convert?q={$query}&compact=ultra&apiKey={$apikey}");
-            $obj = json_decode($json, true);
+            $url = "https://api.currconv.com/api/v7/convert?q={$query}&compact=ultra&apiKey={$apikey}";
+
+            $httpResponse = Http::withHeaders(['Accept' => 'application/json',])->get($url);
+
+            $obj = json_decode($httpResponse->body(), true);
       
             $val = floatval($obj["$query"]);
 
@@ -46,7 +50,6 @@ class Currency extends Model
            return number_format($amount, 2, '.', '');
         }
       
-        
         $total = $val * $amount;
         return number_format($total, 2, '.', '');
     }

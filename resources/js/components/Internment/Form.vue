@@ -561,10 +561,12 @@
                                 <td class="px-4 py-3"></td>
                                 <td class="px-4 py-3">Seguro</td>
                                 <td class="px-4 py-3">
+                                     <!-- (data.amount * 5) / 100,
+                                            currency.code -->
                                     {{
                                         formatPrice(
-                                            (data.amount * 5) / 100,
-                                            currency.code
+                                            this.expenses.cif_amt * 0.003
+                                           
                                         )
                                     }}
                                 </td>
@@ -887,8 +889,7 @@ export default {
 
             this.expenses.cif_amt =
                 Number(this.data.amount) +
-                (Number(this.data.amount) * 2) / 100 +
-                (Number(this.data.amount) * 5) / 100;
+                (Number(this.data.amount) * 2) / 100;
 
             if (this.expenses.cif_amt != 0 && this.currency.code != 'CLP') {
                 const { data } = await axios.get(

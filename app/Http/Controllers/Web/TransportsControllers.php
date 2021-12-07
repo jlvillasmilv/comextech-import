@@ -130,6 +130,7 @@ class TransportsControllers extends Controller
 
             $cif = $amount + $transport_amount;
             $gl  = 0;
+            $fee_date = $request->estimated_date;
 
             $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
@@ -151,6 +152,8 @@ class TransportsControllers extends Controller
                 $gl         = $transp['gl'];
                 $t_time     = $transp['t_time'];
                 $insurance  = $transp['insurance'];
+
+                $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
             }
 
             // update application summary International transport
@@ -162,7 +165,7 @@ class TransportsControllers extends Controller
             ->update([
                     'amount'      =>  $transport_amount,
                     'currency_id' =>  8, 
-                    'fee_date'    => date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'))
+                    'fee_date'    => $fee_date
                 ]);
 
            if($request->insurance){
@@ -209,7 +212,9 @@ class TransportsControllers extends Controller
     */
     public function fedexRate(TransportRequest $request)
     {
-         try {
+        //  try {
+
+          //  dd( $request->all());
 
            if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
            {   
@@ -257,9 +262,9 @@ class TransportsControllers extends Controller
                 return response()->json(['message' => "Datos invalidos", 'errors' => ['fedex' => 'No data']], 422);
             }
 
-         } catch (\Exception $e) {
-             return response()->json(['status' => $e], 500);
-         }
+        //  } catch (\Exception $e) {
+        //      return response()->json(['status' => $e], 500);
+        //  }
 
     }
 
