@@ -100,6 +100,56 @@
                                         "
                                     ></span>
                                 </label>
+                                <label
+                                    class="block text-sm "
+                                    v-if="expenses.customs_house"
+                                >
+                                    <span
+                                        class="text-gray-700 dark:text-gray-400 font-semibold"
+                                    >
+                                        Seleccion
+                                    </span>
+                                    <select
+                                        v-model="expenses.custom_agent_id"
+                                        class="
+                      block
+                      w-36
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      mt-1.5
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none
+                      focus:bg-white
+                      focus:border-gray-500
+                    "
+                                    >
+                                        <!-- <option
+                                            v-for="item in custom_agents"
+                                            :value="item.id"
+                                            :key="item.id"
+                                            class=""
+                                        >
+                                            {{ item.contact_person }}
+                                        </option> -->
+                                        <option value="">Asociado</option>
+                                    </select>
+                                    <span
+                                        class="text-xs text-red-600 dark:text-red-400"
+                                        v-if="
+                                            expenses.errors.has(
+                                                'custom_agent_id'
+                                            )
+                                        "
+                                        v-html="
+                                            expenses.errors.get(
+                                                'custom_agent_id'
+                                            )
+                                        "
+                                    ></span>
+                                </label>
                             </div>
 
                             <div
@@ -140,6 +190,72 @@
                                             expenses.errors.get('agent_payment')
                                         "
                                     ></span>
+                                </label>
+                            </div>
+                            <div
+                                class="w-auto px-1 mx-4 mb-2 md:mb-0"
+                                v-if="expenses.customs_house"
+                            >
+                                <label class="block text-sm">
+                                    <span
+                                        class="text-gray-700 dark:text-gray-400 font-semibold"
+                                    >
+                                        Costo Servicio
+                                    </span>
+                                    <!-- <input
+                                        v-model.number="expenses.agent_payment"
+                                        type="number"
+                                        class="
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600
+                dark:bg-gray-700
+                focus:border-blue-400
+                focus:outline-none
+                focus:shadow-outline-blue
+                dark:text-gray-300
+                dark:focus:shadow-outline-gray
+                form-input
+              "
+                                        placeholder="Monto"
+                                    /> -->
+                                    <div class="flex items-center">
+                                        <span class="mx-2">USD</span>
+                                        <input
+                                            value="250"
+                                            type="number"
+                                            class="
+                block
+                w-36
+                mt-1
+                text-sm
+                dark:border-gray-600
+                dark:bg-gray-700
+                focus:border-blue-400
+                focus:outline-none
+                focus:shadow-outline-blue
+                dark:text-gray-300
+                dark:focus:shadow-outline-gray
+                form-input
+              "
+                                            placeholder="Monto"
+                                        />
+                                        <span
+                                            class="text-xs text-red-600 dark:text-red-400"
+                                            v-if="
+                                                expenses.errors.has(
+                                                    'agent_payment'
+                                                )
+                                            "
+                                            v-html="
+                                                expenses.errors.get(
+                                                    'agent_payment'
+                                                )
+                                            "
+                                        ></span>
+                                    </div>
                                 </label>
                             </div>
                         </div>
@@ -378,7 +494,7 @@
             </div>
 
             <div
-                class="w-8/12 flex"
+                class="mx-10 w-7/12 flex"
                 :class="[
                     !$store.getters.findService('ICS04') ? '' : 'justify-start'
                 ]"
@@ -392,7 +508,6 @@
                     text-center
                     font-semibold
                     tracking-wide
-                    uppercase
                     border-b
                     dark:border-gray-700
                     dark:text-gray-400
@@ -400,7 +515,7 @@
                   "
                             >
                                 <th>
-                                    Moneda
+                                    Moneda Dólar
                                 </th>
                                 <th>
                                     &nbsp;
@@ -409,7 +524,7 @@
                                     &nbsp;
                                 </th>
                                 <th colspan="2">
-                                    Moneda Origen
+                                    Moneda de Origen
                                 </th>
                             </tr>
                         </thead>
@@ -417,21 +532,21 @@
                             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                         >
                             <tr class="text-gray-700 dark:text-gray-400">
-                                <td lass="px-4 py-3"></td>
-                                <td lass="px-4 py-3">USD</td>
-                                <td lass="px-4 py-3">Mercaderia</td>
-                                <td lass="px-4 py-3">
+                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3">USD</td>
+                                <td class="px-4 py-3">Mercaderia</td>
+                                <td class="px-4 py-3">
                                     {{
                                         formatPrice(data.amount, currency.code)
                                     }}
                                 </td>
-                                <td lass="px-4 py-3">{{ currency.code }}</td>
+                                <td class="px-4 py-3">{{ currency.code }}</td>
                             </tr>
                             <tr class="text-gray-700 dark:text-gray-400">
-                                <td lass="px-4 py-3"></td>
-                                <td lass="px-4 py-3"></td>
-                                <td lass="px-4 py-3">Transporte</td>
-                                <td lass="px-4 py-3">
+                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3">Transporte</td>
+                                <td class="px-4 py-3">
                                     {{
                                         formatPrice(
                                             (data.amount * 2) / 100,
@@ -439,13 +554,13 @@
                                         )
                                     }}
                                 </td>
-                                <td lass="px-4 py-3">{{ currency.code }}</td>
+                                <td class="px-4 py-3">{{ currency.code }}</td>
                             </tr>
                             <tr class="text-gray-700 dark:text-gray-400">
-                                <td lass="px-4 py-3"></td>
-                                <td lass="px-4 py-3"></td>
-                                <td lass="px-4 py-3">Seguro</td>
-                                <td lass="px-4 py-3">
+                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3">Seguro</td>
+                                <td class="px-4 py-3">
                                     {{
                                         formatPrice(
                                             (data.amount * 5) / 100,
@@ -453,27 +568,44 @@
                                         )
                                     }}
                                 </td>
-                                <td lass="px-4 py-3">{{ currency.code }}</td>
+                                <td class="px-4 py-3">{{ currency.code }}</td>
                             </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td lass="px-4 py-3">
+                            <tr class="bg-gray-100">
+                                <td
+                                    class="text-blue-700 font-semibold px-4 py-3"
+                                >
                                     {{ formatPrice(expenses.cif_amt, 'CLP') }}
                                 </td>
-                                <td lass="px-4 py-3">CLP</td>
-                                <td lass="px-4 py-3">- Valor CIF</td>
+                                <td
+                                    class="text-blue-700 font-semibold px-4 py-3"
+                                >
+                                    USD
+                                </td>
+                                <td
+                                    class="text-blue-700 font-semibold px-4 py-3"
+                                >
+                                    Valor CIF
+                                </td>
                             </tr>
-                        </tfoot>
+                        </tbody>
+                        <!-- <tfoot
+                            class="divide-y dark:divide-gray-700 dark:bg-gray-800"
+                        >
+                            <tr>
+                                <td class="px-4 py-3">
+                                    {{ formatPrice(expenses.cif_amt, 'CLP') }}
+                                </td>
+                                <td class="px-4 py-3">USD</td>
+                                <td class="px-4 py-3">Valor CIF</td>
+                            </tr>
+                        </tfoot> -->
                     </table>
                 </div>
             </div>
             <div
                 class="flex my-8"
                 :class="[
-                    !$store.getters.findService('ICS04')
-                        ? ' '
-                        : ' justify-start'
+                    !$store.getters.findService('ICS04') ? ' ' : 'justify-start'
                 ]"
             >
                 <div class="flex flex-wrap flex-col my-2 w-10/12">
@@ -488,28 +620,42 @@
                         <div class="w-2/12">
                             <p
                                 :class="[
-                                    expenses.iva ? 'text-center mx-2' : 'mx-2'
+                                    expenses.iva
+                                        ? 'text-center mx-2'
+                                        : 'text-center mx-2 text-gray-400'
                                 ]"
                             >
                                 {{ formatPrice(expenses.iva_amt, 'CLP') }}
                             </p>
                         </div>
                         <div class="w-3/12">
-                            <h1 class="text-center mx-4" v-if="expenses.iva">
+                            <h1
+                                :class="[
+                                    expenses.iva
+                                        ? 'text-center mx-4'
+                                        : 'text-center mx-4 text-gray-400'
+                                ]"
+                            >
                                 IVA ( 19% )
                             </h1>
                         </div>
                         <div class="w-2/12">
                             <img
-                                v-if="expenses.iva"
                                 class="h-full w-8/12"
                                 src="https://homer.sii.cl/responsive/images/logo.jpg"
                             />
                         </div>
                         <div class="w-2/12">
                             <button
+                                v-if="!expenses.iva"
+                                class="disabled:opacity-100 w-full h-10 text-white text-sm bg-gray-300 rounded-lg"
+                                disabled
+                            >
+                                No Financiar
+                            </button>
+                            <button
                                 v-if="expenses.iva"
-                                class="w-full h-10 text-white transition-colors text-sm duration-150 bg-gray-300 rounded-lg focus:shadow-outline hover:bg-gray-800"
+                                class="w-full h-10 text-white transition-colors text-sm duration-150 bg-gray-400 rounded-lg focus:shadow-outline hover:bg-gray-500"
                             >
                                 No Financiar
                             </button>
@@ -526,25 +672,39 @@
                         <div class="w-2/12">
                             <p
                                 :class="[
-                                    expenses.adv ? 'text-center mx-2' : 'mx-2'
+                                    expenses.adv
+                                        ? 'text-center mx-2'
+                                        : 'text-center text-gray-400 mx-2'
                                 ]"
                             >
                                 {{ formatPrice(expenses.adv_amt, 'CLP') }}
                             </p>
                         </div>
                         <div class="w-3/12">
-                            <h1 class="text-center mx-4" v-if="expenses.adv">
+                            <h1
+                                :class="[
+                                    expenses.adv
+                                        ? 'text-center mx-4'
+                                        : 'text-center text-gray-400 mx-4'
+                                ]"
+                            >
                                 Ad Valorem ( 6% )
                             </h1>
                         </div>
                         <div class="w-2/12">
                             <img
-                                v-if="expenses.adv"
                                 class="h-full w-8/12"
                                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
                             />
                         </div>
                         <div class="w-2/12">
+                            <button
+                                v-if="!expenses.adv"
+                                class="disabled:opacity-100 w-full h-10 text-white text-sm bg-gray-300 rounded-lg"
+                                disabled
+                            >
+                                Financiar
+                            </button>
                             <button
                                 v-if="expenses.adv"
                                 class="w-full h-10 text-white transition-colors text-sm duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
@@ -688,7 +848,7 @@ export default {
                 //     this.$store.state.load.loads,
                 //     ' ENVIO DE INTERNAMIA'
                 // );
-                const {data} = await this.expenses.post('/internment');
+                const { data } = await this.expenses.post('/internment');
                 Toast.fire({
                     icon: 'success',
                     title: 'Datos Agregados'
@@ -698,9 +858,9 @@ export default {
                     this.data.application_id
                 );
                 if (!$store.getters.findService('ICS03')) {
-                    this.$store.dispatch('load/setLoad', data);     
+                    this.$store.dispatch('load/setLoad', data);
                 }
-               
+
                 this.$store.dispatch('callIncomingOrNextMenu', true);
             } catch (error) {
                 console.error(error);
@@ -730,21 +890,18 @@ export default {
                 (Number(this.data.amount) * 2) / 100 +
                 (Number(this.data.amount) * 5) / 100;
 
-
-            if(this.expenses.cif_amt != 0 && this.currency.code != 'CLP') {
-
-                const {data} = await axios.get(
+            if (this.expenses.cif_amt != 0 && this.currency.code != 'CLP') {
+                const { data } = await axios.get(
                     `/api/convert-currency/${this.expenses.cif_amt}/${this.currency.code}/CLP`
                 );
 
                 this.expenses.cif_amt = data;
             }
 
-             this.expenses.iva_amt = Math.round(
-                    (this.expenses.cif_amt * 19) / 100
-                );
-                this.expenses.adv_amt = (this.expenses.cif_amt * 6) / 100;
-
+            this.expenses.iva_amt = Math.round(
+                (this.expenses.cif_amt * 19) / 100
+            );
+            this.expenses.adv_amt = (this.expenses.cif_amt * 6) / 100;
         } catch (error) {
             console.log(error);
         }
