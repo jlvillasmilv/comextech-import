@@ -1,6 +1,12 @@
 <template>
     <div class="w-full p-4">
-        <div class="mb-5" v-show="!$store.getters.findService('ICS04')">
+        <div
+            class="mb-5"
+            v-show="
+                $store.getters.findService('ICS04') &&
+                    !$store.getters.findService('ICS03')
+            "
+        >
             <Load />
         </div>
 
@@ -43,10 +49,8 @@
                                 Cliente
                             </span>
                         </div>
-                        <div class="md:2/3">
-                            <div
-                                class="w-auto px-1 mb-2 md:mb-0 justify-evenly"
-                            >
+                        <div class="flex md:2/3">
+                            <div class="w-auto px-1 mb-2 md:mb-0">
                                 <label
                                     class="block text-sm "
                                     v-if="!expenses.customs_house"
@@ -56,19 +60,15 @@
                                     >
                                         Seleccion
                                     </span>
-                                    <div class="my-4">
-                                        <div class="relative">
-                                            <select
-                                                v-model="
-                                                    expenses.custom_agent_id
-                                                "
-                                                class="
+                                    <select
+                                        v-model="expenses.custom_agent_id"
+                                        class="
                       block
                       w-full
                       border border-gray-150
                       text-gray-700
                       p-2
-                      mt-1
+                      mt-1.5
                       pr-8
                       rounded
                       leading-tight
@@ -76,18 +76,16 @@
                       focus:bg-white
                       focus:border-gray-500
                     "
-                                            >
-                                                <option
-                                                    v-for="item in custom_agents"
-                                                    :value="item.id"
-                                                    :key="item.id"
-                                                    class=""
-                                                >
-                                                    {{ item.contact_person }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    >
+                                        <option
+                                            v-for="item in custom_agents"
+                                            :value="item.id"
+                                            :key="item.id"
+                                            class=""
+                                        >
+                                            {{ item.contact_person }}
+                                        </option>
+                                    </select>
                                     <span
                                         class="text-xs text-red-600 dark:text-red-400"
                                         v-if="
@@ -108,7 +106,7 @@
                                 class="w-auto px-1 mb-2 md:mb-0"
                                 v-if="!expenses.customs_house"
                             >
-                                <label class="block text-sm mt-2">
+                                <label class="block text-sm">
                                     <span
                                         class="text-gray-700 dark:text-gray-400 font-semibold"
                                     >
