@@ -119,6 +119,27 @@ class Transport extends Model
 
             }
 
+             // Rate AIR
+             if($data['type_transport'] == 'AEREO')
+             {
+ 
+                foreach($data['cargo'] as $item) {
+                    $field = 'c'.$item->container->name;
+                    $rate = RateFcl::where([
+                        ['status', true],
+                        ['from', $data['from']],
+                        ['to', $data['to']],
+                    ])
+                    ->select('c20', 'gl', 't_time')
+                    ->first();
+
+                    $int_trans += is_null($rate) ? 0 : $rate->c20;
+                    $gl        += is_null($rate) ? 0 : $rate->gl;
+                    $t_time =  is_null($rate) ? 12 : $rate->gl;
+                }
+ 
+             }
+
             $cif = $int_trans + $data['commodity'];
 
             if($gl>0){ 

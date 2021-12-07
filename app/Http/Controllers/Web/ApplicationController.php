@@ -249,7 +249,15 @@ class ApplicationController extends Controller
             'ecommerce_url',
             'description',
             'condition')
-        ->with('currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
+        ->with([
+            'currency' => function($query) {
+                $query->select('id', 'code', 'name');
+            }, 
+            'paymentProvider' => function($query) {
+                $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay');
+            }
+            ,'transport','loads','internmentProcess','localWarehouse'
+        ])
         ->firstOrFail();
         
         return response()->json($data, 200);

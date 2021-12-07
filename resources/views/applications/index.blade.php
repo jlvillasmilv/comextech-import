@@ -26,7 +26,6 @@
                             <th class="px-4 py-3"> Nro/Fecha </th>
                             <th class="px-4 py-3"> Costo </th>
                             <th class="px-4 py-3"> Estatus </th>
-                            <th class="px-4 py-3"> Firma Elect.</th>
                             <th class="px-4 py-3"> Proveedor </th> 
                             <th class="px-4 py-3">  &nbsp; </th> 
                         </tr>
@@ -53,11 +52,6 @@
                             <td class="px-4 py-3 text-sm">
                                 <span class="px-2 py-1 font-semibold leading-tight {{$application->status->status_color}}  rounded-full dark:text-white dark:bg-green-600">
                                     {{$application->status->name}}
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:text-white dark:bg-green-600">
-                                    Aprobada
                                 </span>
                             </td>
                             <td class="px-4 py-3">
