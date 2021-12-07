@@ -15,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Models\{Application,
-     Currency, CategoryService,
-      CustomAgent, Ecommerce,
-       Warehouse, TransCompany,
-        ApplicationCondSale,
-        Supplier
+    Currency, CategoryService,
+    CustomAgent, Ecommerce,
+    Warehouse, TransCompany,
+    Supplier
     };
 
 use App\Http\Controllers\{
@@ -32,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/currencies', function (Request $request) {
-    $currencies = Currency::where('status', '=', true)->OrderBy('name')->get();
+    $currencies = Currency::where('status', '=', true)->OrderBy('name')->get(['id', 'code', 'name']);
     return response()->json($currencies, 200);
 });
 
@@ -58,16 +57,6 @@ Route::get('/trans_companies', function (Request $request) {
     return response()->json($trans_cos, 200);
 });
 
-Route::get('/suppl_cond_sales', function (Request $request) {
-   
-    $suppl = ApplicationCondSale::where('status', '=', true)
-        ->OrderBy('sort','asc')
-        ->with('services')
-        ->get();
-
-    return response()->json($suppl, 200);
-});
-
 Route::get('/ecommerce', function (Request $request) {
    
     $e = Ecommerce::select('id', 'name')
@@ -80,8 +69,9 @@ Route::get('/ecommerce', function (Request $request) {
 
 Route::get('/provider/{id}', function ($id) {
    
-    $provider = Supplier::where('id',$id)->with('supplierAddress')
-    ->first();
+    $provider = Supplier::where('id',$id)
+    ->with('supplierAddress')
+    ->first(['id','name']);
     
     return response()->json($provider, 200);
 })->where('id', '[0-9]+');

@@ -54,9 +54,7 @@ const mutations = {
     SET_ORIGIN_TRANSPORT(state, payload) {
         state.origin_transport = payload.supplier_address;
     },
-    SET_DATA(
-        state,
-        {
+    SET_DATA(state, {
             fee1,
             fee2,
             condition,
@@ -66,8 +64,7 @@ const mutations = {
             ecommerce_id,
             ecommerce_url,
             type_transport,
-            id: application_id,
-            payment_provider
+            id,
         },
         rootState
     ) {
@@ -79,7 +76,7 @@ const mutations = {
             supplier_id: supplier_id == null ? ecommerce_id : supplier_id,
             currency_id,
             ecommerce_url,
-            application_id,
+            application_id: id,
             type_transport,
             valuePercentage: {
                 name: `${fee1}/${fee2}`,
@@ -131,7 +128,7 @@ const actions = {
     },
     async getServices({ commit, state }) {
         if (!state.arrayServices.length) {
-            const { data } = await axios.get('/api/suppl_cond_sales');
+            const { data } = await axios.get('/suppl_cond_sales');
             commit('SET_SERVICES', data);
         }
     },

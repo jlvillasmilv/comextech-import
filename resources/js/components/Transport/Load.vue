@@ -26,7 +26,7 @@
                 :key="id"
                 class="flex w-full justify-items-center  dark:text-gray-400 space-x-5 mt-2 "
             >
-                <div
+                <!-- <div
                     class="inline w-1/6"
                     v-if="data.type_transport != 'CONTAINER'"
                 >
@@ -34,7 +34,7 @@
                         Calcular por
                     </span>
                     <div v-if="id == 0" class="block space-x-0">
-                        <!-- <button
+                        <button
                             @click="changeMode()"
                             :class="[
                                 'focus:outline-none  font-medium py-2 px-4 rounded-2 rounded-lg',
@@ -44,7 +44,7 @@
                             ]"
                         >
                             Envio
-                        </button> -->
+                        </button>
                         <button
                             @click="changeMode()"
                             :class="[
@@ -57,7 +57,7 @@
                             Unidad
                         </button>
                     </div>
-                </div>
+                </div> -->
                 <div
                     v-if="data.type_transport != 'CONTAINER'"
                     class="inline w-1/6 p-1"

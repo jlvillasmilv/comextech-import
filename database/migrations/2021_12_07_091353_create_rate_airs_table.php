@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRateFclsTable extends Migration
+class CreateRateAirsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateRateFclsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rate_fcl', function (Blueprint $table) {
+        Schema::create('rate_airs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
+            $table->string('airline',10)->nullable();
+            $table->string('agent',10)->nullable();
+            $table->string('clients',10)->nullable();
+            $table->string('product',10)->nullable(); 			
             $table->string('from',10)->nullable();
             $table->string('to',10)->nullable();
             $table->string('via',50)->nullable();
@@ -25,10 +29,6 @@ class CreateRateFclsTable extends Migration
             $table->date('valid_to')->nullable();
             $table->unsignedDecimal('c20');
             $table->unsignedDecimal('c40');
-            $table->unsignedDecimal('c40HC', $precision = 9, $scale = 2);
-            $table->unsignedDecimal('c40NOR', $precision = 9, $scale = 2);
-            $table->unsignedDecimal('gl', $precision = 9, $scale = 2)->default(0);
-            $table->boolean('status')->default(true);
         });
     }
 
@@ -39,6 +39,6 @@ class CreateRateFclsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rate_fcl');
+        Schema::dropIfExists('rate_airs');
     }
 }

@@ -26,7 +26,6 @@
                             <th class="px-4 py-3"> Nro/Fecha </th>
                             <th class="px-4 py-3"> Costo </th>
                             <th class="px-4 py-3"> Estatus </th>
-                            <th class="px-4 py-3"> Firma Elect.</th>
                             <th class="px-4 py-3"> Proveedor </th> 
                             <th class="px-4 py-3">  &nbsp; </th> 
                         </tr>
@@ -55,18 +54,13 @@
                                     {{$application->status->name}}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-sm">
-                                <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:text-white dark:bg-green-600">
-                                    Aprobada
-                                </span>
-                            </td>
                             <td class="px-4 py-3">
                                     <p class="font-semibold  text-md">  {{$application->supplier->name}} </p>
                             </td>  
                             <td class=" py-3" >
                                 <div class="flex flex-nowrap">
                                  <a  
-                                href="{{ route('applications.show', base64_encode($application->id)) }}" 
+                                href="{{ route('applications.show', \Crypt::encryptString($application->id)) }}" 
                                     class="px-2 py-2  text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
@@ -81,7 +75,7 @@
                                 </a>
 
                                 <a  
-                                href="{{ route('applications.edit', base64_encode($application->id)) }}" 
+                                href="{{ route('applications.edit', \Crypt::encryptString($application->id)) }}" 
                                     class="   px-2 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    

@@ -26,10 +26,10 @@ class TransportRequest extends FormRequest
     {
         $rules = [
             'application_id'             => 'required|exists:applications,id',
-            'origin_port_id'             => 'required_if:mode_selected,in:CONTAINER, AEREO, CONSOLIDADO',
-            'dest_port_id'               => 'required_if:mode_selected,in:CONTAINER, AEREO, CONSOLIDADO',
-            'dest_address'               => 'required_if:mode_selected,in:COURIER',
-            'origin_address'             => 'required_if:mode_selected,in:COURIER',
+            'origin_port_id'             => 'required_if:mode_selected,CONTAINER |required_if:mode_selected, AEREO |required_if:mode_selected,CONSOLIDADO',
+            'dest_port_id'               => 'required_if:mode_selected,CONTAINER |required_if:mode_selected, AEREO |required_if:mode_selected,CONSOLIDADO',
+            'dest_address'               => 'required_if:mode_selected,==,COURIER',
+            'origin_address'             => 'required_if:mode_selected,==,COURIER',
             'description'                => 'nullable|max:250',
             'estimated_date'             => 'required|date',
             'dataLoad'                   => 'required|array',
@@ -39,7 +39,7 @@ class TransportRequest extends FormRequest
             "dataLoad.*.high"            => "required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO",
             "dataLoad.*.weight"          => "required|numeric",
             "dataLoad.*.type_load"       => 'required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
-            "dataLoad.*.type_container"  => 'required_if:mode_selected,in:CONTAINER',
+            "dataLoad.*.type_container"  => 'required_if:mode_selected,==,CONTAINER',
         ];
 
         return $rules;
@@ -50,7 +50,9 @@ class TransportRequest extends FormRequest
         return [
             'application_id'             => 'Nro. Solicitud',
             'dest_address'               => 'Origen',
+            'origin_port_id'               => 'Puerto Origen',
             'origin_address'             => 'Destino',
+            'dest_port_id'               => 'Puerto Destino',
             'estimated_date'             => 'Fecha estimada',
             'dataLoad'                   => 'Datos de carga',
             'dataLoad.*.length'          => 'Largo',

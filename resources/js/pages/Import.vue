@@ -32,7 +32,7 @@
                         @submit.prevent="submitFormApplications"
                         @keydown="data.onKeydown($event)"
                     >
-                        <h3 class="my-3 text-green-700 text-lg">
+                        <h3 class="text-green-700 text-lg">
                             Servicios
                         </h3>
                         <div class="flex w-full">
@@ -40,7 +40,7 @@
                                 v-for="(item, id) in $store.state.application
                                     .selectedCondition.services"
                                 :key="id"
-                                class="flex flex-col w-3/12 my-2 mr-6"
+                                class="flex flex-col w-3/12 mr-4"
                             >
                                 <div
                                     v-if="item.selected && !item.checked"
@@ -49,7 +49,7 @@
                                         !item.checked
                                             ? 'bg-transparent text-blue-700'
                                             : 'bg-blue-500 text-white',
-                                        'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                                        'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                                     ]"
                                 >
                                     <Icon
@@ -65,7 +65,7 @@
                                         item.checked
                                             ? 'bg-blue-500 text-white '
                                             : 'bg-transparent text-blue-700 ',
-                                        'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                                        'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                                     ]"
                                 >
                                     <Icon
@@ -76,7 +76,7 @@
                                 </div>
                                 <div
                                     v-if="!item.checked && !item.selected"
-                                    class="bg-gray-300 flex flex-col items-center font-semibold px-1 py-2 text-sm mx-0.5 border border-gray-200 rounded my-2 text-center"
+                                    class="bg-gray-300 flex flex-col items-center font-semibold px-1 py-1 text-sm mx-0.5 border border-gray-200 rounded my-2 text-center"
                                 >
                                     <Icon
                                         class="w-10 h-10 my-2"
@@ -147,13 +147,14 @@
                             v-if="data.errors.has('services')"
                             v-html="data.errors.get('services')"
                         ></span>
-                        <h3 class="my-3 text-green-700 text-lg">
-                            Proveedor
-                        </h3>
+
                         <div class="flex">
                             <section
                                 class="w-8/12 flex flex-col justify-center"
                             >
+                                <h3 class="mt-1 text-green-700 text-lg">
+                                    Proveedor
+                                </h3>
                                 <div
                                     class="inline-flex flex-col w-full dark:text-gray-200"
                                 >
@@ -222,8 +223,10 @@
                                     </div>
                                 </div>
                             </section>
-                            <section class="w-4/12 flex justify-center">
-                                <div class="inline-flex flex-col w-full mx-4">
+                            <section class="w-4/12 flex justify-center mt-2">
+                                <div
+                                    class="w-full mx-1 flex flex-wrap content-center"
+                                >
                                     <label
                                         v-for="(item, index) in statusSuppliers"
                                         :key="index"
@@ -242,7 +245,7 @@
                                             "
                                             :value="item.name"
                                         />
-                                        <span class="m-2">
+                                        <span class="mx-2 mt-1">
                                             {{ item.description }}
                                         </span>
                                     </label>
@@ -254,7 +257,7 @@
                             v-if="data.errors.has('supplier_id')"
                             v-html="data.errors.get('supplier_id')"
                         ></span>
-                        <h3 class="my-3 text-green-700 text-lg">
+                        <h3 class="mt-1 text-green-700 text-lg">
                             Pago
                         </h3>
                         <div class="w-full flex items-center">
@@ -410,9 +413,9 @@
                                         Monto de Operacion
                                     </h3>
                                     <vue-numeric
-                                        separator="."
+                                        thousand-separator="."
+                                        v-bind:minus="false"
                                         v-model="data.amount"
-                                        v-mask="'#########'"
                                         :class="[
                                             classStyle.input,
                                             classStyle.formInput,
@@ -444,7 +447,7 @@
                             <div
                                 v-for="service in $store.state.load.types"
                                 :key="service.name"
-                                class="w-2/12 flex flex-col justify-center mt-3 mb-8"
+                                class="w-2/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
                             >
                                 <div
                                     :class="[
@@ -633,7 +636,8 @@ export default {
                 pivot: {
                     application_cond_sale_id: 1,
                     category_service_id: 8
-                }
+                },
+                sort: 11
             },
             buttonService: false
         };

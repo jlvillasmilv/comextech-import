@@ -81,6 +81,7 @@ class TransportsControllers extends Controller
     */
     public function add(TransportRequest $request)
     {
+        
         //DB::beginTransaction();
         // try {
                       
@@ -116,6 +117,8 @@ class TransportsControllers extends Controller
 
             $transport_amount = is_null($request->app_amount) ? 0 : $request->app_amount;
 
+            $rate_insurance_transp = \DB::table('settings')->first(['min_rate_transp'])->min_rate_transp;
+
             $amount = $transport->application->amount;
 
             if($transport->application->currency->code != 'USD'){
@@ -127,6 +130,9 @@ class TransportsControllers extends Controller
 
             $cif = $amount + $transport_amount;
             $gl  = 0;
+            $fee_date = $request->estimated_date;
+
+            $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
             if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
             {
@@ -137,13 +143,17 @@ class TransportsControllers extends Controller
                     'type_transport' => $transport->application->type_transport,
                     'weight'         => $transport->application->loads->sum('weight')/1000,
                     'cbm'            => $transport->application->loads->sum('cbm'),
-                    'container'      => $transport->application->loads,
+                    'cargo'          => $transport->application->loads,
                 ];
                 
                 $transp = Transport::rateTransport($data);
                 $transport_amount = $transp['int_trans'];
-                $cif = $transp['cif'];
-                $gl  = $transp['gl'];
+                $cif        = $transp['cif'];
+                $gl         = $transp['gl'];
+                $t_time     = $transp['t_time'];
+                $insurance  = $transp['insurance'];
+
+                $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
             }
 
             // update application summary International transport
@@ -152,7 +162,11 @@ class TransportsControllers extends Controller
                ["application_id", $request->application_id],
                ["service_id", 23]
                ])
-            ->update(['amount' =>  $transport_amount,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+            ->update([
+                    'amount'      =>  $transport_amount,
+                    'currency_id' =>  8, 
+                    'fee_date'    => $fee_date
+                ]);
 
            if($request->insurance){
                 // update application summary insurance
@@ -161,7 +175,10 @@ class TransportsControllers extends Controller
                 ["application_id", $request->application_id],
                 ["service_id", 24]
                 ])
-                ->update(['amount' =>  $cif * 0.03,  'currency_id' =>  8, 'fee_date' => $request->estimated_date]);
+                ->update([
+                    'amount' => $cif * 0.003,
+                    'currency_id' =>  8,
+                    'fee_date' => $request->estimated_date]);
             }
 
             // update application summary local expenses
@@ -178,8 +195,8 @@ class TransportsControllers extends Controller
         //     DB::rollback();
         //     return response()->json(['status' => $e], 500);
         // }
+        return response()->json(['loads' => $transport->application->loads], 200);
 
-        return response()->json(['status' => 'OK'], 200);
     }
 
 
@@ -195,7 +212,9 @@ class TransportsControllers extends Controller
     */
     public function fedexRate(TransportRequest $request)
     {
-         try {
+        //  try {
+
+          //  dd( $request->all());
 
            if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
            {   
@@ -243,9 +262,9 @@ class TransportsControllers extends Controller
                 return response()->json(['message' => "Datos invalidos", 'errors' => ['fedex' => 'No data']], 422);
             }
 
-         } catch (\Exception $e) {
-             return response()->json(['status' => $e], 500);
-         }
+        //  } catch (\Exception $e) {
+        //      return response()->json(['status' => $e], 500);
+        //  }
 
     }
 

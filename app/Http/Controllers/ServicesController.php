@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
 
 class ServicesController extends Controller
 {
@@ -26,20 +27,11 @@ class ServicesController extends Controller
     }
 
     public function convertCurrency($amount,$from_currency,$to_currency){
-      $apikey = env('API_KEY_CURRENCY');
 
-      $from_Currency = urlencode($from_currency);
-      $to_Currency = urlencode($to_currency);
-      $query =  "{$from_Currency}_{$to_Currency}";
+        $exchange = New Currency;
+        $amount = $exchange->convertCurrency($amount, $from_currency, $to_currency);
+        return $amount;
 
-      $json = file_get_contents("https://api.currconv.com/api/v7/convert?q={$query}&compact=ultra&apiKey={$apikey}");
-      $obj = json_decode($json, true);
-
-      $val = floatval($obj["$query"]);
-
-
-      $total = $val * $amount;
-      return number_format($total, 2, '.', '');
     }
 
     public function convertCurrencyDate($date,$from_currency,$to_currency){

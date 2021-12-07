@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest, LocalWarehouseRequest};
 use App\Notifications\AdminApplicationNotification;
+use Illuminate\Support\Facades\Crypt;
 
 class ApplicationController extends Controller
 {
@@ -18,7 +19,6 @@ class ApplicationController extends Controller
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
         ->paginate(7);
-
         return view('applications.index' , compact('data'));
     }
 
@@ -121,7 +121,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [23, 24])
+                ->whereIn('service_id', [23, 24, 28])
                 ->update(['amount' => 0]);
             }
 
@@ -205,7 +205,7 @@ class ApplicationController extends Controller
     public function show($id)
     {
         $application  = Application::where([
-            ['id', '=', base64_decode($id)],
+            ['id', '=',  Crypt::decryptString($id)],
             ['user_id', auth()->user()->id],
         ])->firstOrFail();
 
@@ -215,7 +215,7 @@ class ApplicationController extends Controller
 
     public function edit($id)
     {   
-        $id=base64_decode($id);
+        $id= Crypt::decryptString($id);
         return view('services.edit', compact('id'));    
     }
 
@@ -234,7 +234,7 @@ class ApplicationController extends Controller
     public function getApplication($id)
     {
         $data  = Application::where([
-            ['id', '=', $id],
+            ['id', $id],
             ['user_id', auth()->user()->id],
         ])
         ->select('id',
@@ -249,7 +249,15 @@ class ApplicationController extends Controller
             'ecommerce_url',
             'description',
             'condition')
-        ->with('currency','paymentProvider','transport','loads','internmentProcess','localWarehouse')
+        ->with([
+            'currency' => function($query) {
+                $query->select('id', 'code', 'name');
+            }, 
+            'paymentProvider' => function($query) {
+                $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay');
+            }
+            ,'transport','loads','internmentProcess','localWarehouse'
+        ])
         ->firstOrFail();
         
         return response()->json($data, 200);
@@ -342,13 +350,13 @@ class ApplicationController extends Controller
 
                  PaymentProvider::updateOrCreate(
                      [
-                         'application_id'  => $application->id,
-                         'percentage'      => $data['percentage'],
+                        'application_id'  => $application->id,
+                        'percentage'      => $data['percentage'],
                      ],
                      [
-                         'type_pay'        => $data['type_pay'],
-                         'date_pay'        => $data['date_pay'],
-                         'payment_release' => $data['payment_release'],
+                        'type_pay'        => $data['type_pay'],
+                        'date_pay'        => $data['date_pay'],
+                        'payment_release' => $data['payment_release'],
                      ]
                  );
 
@@ -490,7 +498,7 @@ class ApplicationController extends Controller
             return response()->json(['status' => $e], 400);
         }
 
-        return response()->json($internment->id, 200);
+        return response()->json(['loads' => $internment->application->loads], 200);
     }
 
     public function localWarehouse(LocalWarehouseRequest $request)

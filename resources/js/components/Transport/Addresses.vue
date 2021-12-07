@@ -398,7 +398,7 @@
                                 <span
                                     class="text-gray-700 dark:text-gray-400 font-semibold"
                                 >
-                                    Fecha Estimada
+                                    Fecha de recogida
                                 </span>
                                 <input
                                     type="date"
@@ -2542,15 +2542,19 @@ export default {
                 this.expenses.dataLoad = this.$store.state.load.loads;
                 this.expenses.app_amount = appAmount;
                 this.expenses.trans_company_id = transCompanyId;
-                await this.expenses.post('/applications/transports');
+                const { data } = await this.expenses.post(
+                    '/applications/transports'
+                );
                 Toast.fire({
                     icon: 'success',
                     title: 'Datos Agregados'
                 });
+
                 this.$store.dispatch(
                     'exchange/getSummary',
                     this.data.application_id
                 );
+                this.$store.dispatch('load/setLoad', data);
                 this.$store.dispatch('callIncomingOrNextMenu', true);
             } catch (error) {
                 console.log(error);
@@ -2700,9 +2704,12 @@ export default {
     },
     async created() {
         this.expenses.application_id = this.data.application_id;
-       
+
         const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
-        await this.$store.dispatch('address/setModeSelected', this.$store.state.application.data.type_transport); 
+        await this.$store.dispatch(
+            'address/setModeSelected',
+            this.$store.state.application.data.type_transport
+        );
         await this.$store.dispatch('address/getAddressDestination');
         await this.$store.dispatch('address/getPorts', type);
     }

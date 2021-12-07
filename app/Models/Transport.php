@@ -62,14 +62,16 @@ class Transport extends Model
         $cif = 0;
         $gl  = 0;
         $t_time = 1;
+        $rate_insurance_transp = 0;
 
         if(count($data) > 0)
         {
             //Rate FCL
             if($data['type_transport'] == 'CONTAINER')
             {
-               
-                foreach($data['container'] as $item) {
+                $rate_insurance_transp = \DB::table('settings')->first(['min_rate_fcl'])->min_rate_fcl;
+
+                foreach($data['cargo'] as $item) {
                     $field = 'c'.$item->container->name;
                     $rate = RateFcl::where([
                         ['status', true],
@@ -89,11 +91,63 @@ class Transport extends Model
             // Rate LCL
             if($data['type_transport'] == 'CONSOLIDADO')
             {
-                dd($data);
+                $rate_insurance_transp = \DB::table('settings')->first(['min_rate_lcl'])->min_rate_lcl;
+
+                foreach($data['cargo'] as $item) {
+
+                    $field = 'MIN_0_5';
+
+                    $higher = $item['cbm'] > ($item['weight']/1000) ? $item['cbm'] : ($item['weight']/1000) ;
+                    
+                    if ($item['cbm'] > ($item['weight']/1000)) {
+                        $field = $higher <= 5 ? 'w0_5_TON_M3' : ($higher >= 6 && $higher <= 9 ? 'w5_10_TON_M3' : 'w10_15_TON_M3') ; 
+                    }
+                    
+                    if ($item['cbm'] < ($item['weight']/1000)) {
+                        $field = $higher <= 5 ? 'MIN_0_5' : ($higher >= 6 && $higher <= 9 ? 'MIN_5_10' : 'MIN_10_5') ; 
+                    }
+
+                    $rate = RateLcl::where([
+                        ['status', true],
+                        ['from', $data['from']],
+                        ['to', $data['to']],
+                    ])
+                    ->select( $field , 'gl', 't_time')
+                    ->first();
+
+                    $int_trans += is_null($rate) ? 0 : $rate->$field * $higher ;
+                    $gl        += is_null($rate) ? 0 : $rate->gl;
+                    $t_time    =  is_null($rate) ? 12 : $rate->gl;
+                     
+                }
 
             }
 
+             // Rate AIR
+             if($data['type_transport'] == 'AEREO')
+             {
+                $rate_insurance_transp =  \DB::table('settings')->first(['min_rate_aereo'])->min_rate_aereo;
+
+                foreach($data['cargo'] as $item) {
+                    $field = 'c'.$item->container->name;
+                    $rate = RateFcl::where([
+                        ['status', true],
+                        ['from', $data['from']],
+                        ['to', $data['to']],
+                    ])
+                    ->select('c20', 'gl', 't_time')
+                    ->first();
+
+                    $int_trans += is_null($rate) ? 0 : $rate->c20;
+                    $gl        += is_null($rate) ? 0 : $rate->gl;
+                    $t_time =  is_null($rate) ? 12 : $rate->gl;
+                }
+ 
+             }
+
             $cif = $int_trans + $data['commodity'];
+
+            $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
             if($gl>0){ 
                 $exchange = New Currency;
@@ -105,7 +159,8 @@ class Transport extends Model
                 'gl'        => $gl,
                 'cif'       => $cif,
                 't_time'    => $t_time,
-            ];
+                'insurance' => $insurance,
+            ];  
 
 
         }
