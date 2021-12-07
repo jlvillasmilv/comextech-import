@@ -411,9 +411,9 @@
                                         Monto de Operacion
                                     </h3>
                                     <vue-numeric
-                                        separator="."
+                                        thousand-separator = '.'
+                                        v-bind:minus="false"
                                         v-model="data.amount"
-                                        v-mask="'#########'"
                                         :class="[
                                             classStyle.input,
                                             classStyle.formInput,
@@ -652,6 +652,7 @@ export default {
         Icon
     },
     methods: {
+       
         selectedService(service) {
             this.$store.dispatch('selectService', service);
             this.$store.dispatch('application/updateService', service);

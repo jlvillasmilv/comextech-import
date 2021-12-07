@@ -21,8 +21,10 @@ class CreateInternmentProcessesTable extends Migration
             $table->decimal('agent_payment', 12, 2)->default(0)->nullable();
             $table->decimal('cif_amt', 12, 2)->default(0)->nullable();
             $table->boolean('iva')->default(false);
+            $table->boolean('finance_iva')->default(false);
             $table->decimal('iva_amt', 12, 2)->default(0)->nullable();
             $table->boolean('adv')->default(false);
+            $table->boolean('finance_adv')->default(false);
             $table->decimal('adv_amt', 12, 2)->default(0)->nullable();
             // $table->enum('certificate', ['Origen', 'Fitosanitario', 'Form F'])->nullable();
             $table->timestamps();
