@@ -223,7 +223,7 @@
                                     </div>
                                 </div>
                             </section>
-                            <section class="w-4/12 flex justify-center">
+                            <section class="w-4/12 flex justify-center mt-2">
                                 <div class="w-full mx-1 flex flex-wrap content-center">
                                     <label
                                         v-for="(item, index) in statusSuppliers"
@@ -445,7 +445,7 @@
                             <div
                                 v-for="service in $store.state.load.types"
                                 :key="service.name"
-                                class="w-2/12 flex flex-col justify-center mt-3 mb-8"
+                                class="w-2/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
                             >
                                 <div
                                     :class="[

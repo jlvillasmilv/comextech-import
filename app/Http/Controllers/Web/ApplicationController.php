@@ -350,13 +350,13 @@ class ApplicationController extends Controller
 
                  PaymentProvider::updateOrCreate(
                      [
-                         'application_id'  => $application->id,
-                         'percentage'      => $data['percentage'],
+                        'application_id'  => $application->id,
+                        'percentage'      => $data['percentage'],
                      ],
                      [
-                         'type_pay'        => $data['type_pay'],
-                         'date_pay'        => $data['date_pay'],
-                         'payment_release' => $data['payment_release'],
+                        'type_pay'        => $data['type_pay'],
+                        'date_pay'        => $data['date_pay'],
+                        'payment_release' => $data['payment_release'],
                      ]
                  );
 
@@ -486,7 +486,7 @@ class ApplicationController extends Controller
             }
 
             //Agrega datos a carga de transporte
-            if($request->input('transport')){
+            if(!$request->input('transport')){
                
                 Load::cargo($request->input('dataLoad'),$request->application_id);
             }

@@ -16,10 +16,10 @@ class CreateRateAirsTable extends Migration
         Schema::create('rate_airs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
-            $table->strin('airline',10)->nullable();
-            $table->strin('agent',10)->nullable();
-            $table->strin('clients',10)->nullable();
-            $table->strin('product',10)->nullable(); 			
+            $table->string('airline',10)->nullable();
+            $table->string('agent',10)->nullable();
+            $table->string('clients',10)->nullable();
+            $table->string('product',10)->nullable(); 			
             $table->string('from',10)->nullable();
             $table->string('to',10)->nullable();
             $table->string('via',50)->nullable();

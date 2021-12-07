@@ -20,6 +20,10 @@ class CreateSettingsTable extends Migration
             $table->text('token_sii', 100)->nullable();
             $table->text('terms')->nullable()->comment('Terminos y condiciones');
             $table->string('url_video')->nullable()->comment('Video bienvenida');
+            $table->decimal('min_rate_fcl', 8, 2)->nullable()->default(60);
+            $table->decimal('min_rate_lcl', 8, 2)->nullable()->default(60);
+            $table->decimal('min_rate_aereo', 8, 2)->nullable()->default(60);
+            $table->decimal('min_rate_transp', 8, 2)->nullable()->default(60);
             $table->unsignedBigInteger('created_users_id')->nullable();
             $table->unsignedBigInteger('modified_users_id')->nullable();
             $table->timestamps();
