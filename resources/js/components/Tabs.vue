@@ -109,7 +109,7 @@ export default {
         sortServices() {
             if (this.$store.state.selectedServices)
                 return this.$store.state.selectedServices.sort(
-                    (a, b) => a.id - b.id
+                    (a, b) => a.sort - b.sort
                 );
             else return [];
         }

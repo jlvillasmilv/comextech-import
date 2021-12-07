@@ -147,14 +147,14 @@
                             v-if="data.errors.has('services')"
                             v-html="data.errors.get('services')"
                         ></span>
-                        
+
                         <div class="flex">
                             <section
                                 class="w-8/12 flex flex-col justify-center"
                             >
-                            <h3 class="mt-1 text-green-700 text-lg">
-                            Proveedor
-                        </h3>
+                                <h3 class="mt-1 text-green-700 text-lg">
+                                    Proveedor
+                                </h3>
                                 <div
                                     class="inline-flex flex-col w-full dark:text-gray-200"
                                 >
@@ -224,7 +224,9 @@
                                 </div>
                             </section>
                             <section class="w-4/12 flex justify-center mt-2">
-                                <div class="w-full mx-1 flex flex-wrap content-center">
+                                <div
+                                    class="w-full mx-1 flex flex-wrap content-center"
+                                >
                                     <label
                                         v-for="(item, index) in statusSuppliers"
                                         :key="index"
@@ -411,7 +413,7 @@
                                         Monto de Operacion
                                     </h3>
                                     <vue-numeric
-                                        thousand-separator = '.'
+                                        thousand-separator="."
                                         v-bind:minus="false"
                                         v-model="data.amount"
                                         :class="[
@@ -634,7 +636,8 @@ export default {
                 pivot: {
                     application_cond_sale_id: 1,
                     category_service_id: 8
-                }
+                },
+                sort: 11
             },
             buttonService: false
         };
@@ -652,7 +655,6 @@ export default {
         Icon
     },
     methods: {
-       
         selectedService(service) {
             this.$store.dispatch('selectService', service);
             this.$store.dispatch('application/updateService', service);
