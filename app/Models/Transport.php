@@ -115,8 +115,6 @@ class Transport extends Model
                     ->select( $field , 'gl', 't_time')
                     ->first();
 
-
-
                     $int_trans += is_null($rate) ? 0 : $rate->$field * $higher ;
                     $gl        += is_null($rate) ? 0 : $rate->gl;
                     $t_time    =  is_null($rate) ? 12 : $rate->gl;

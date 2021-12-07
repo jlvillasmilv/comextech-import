@@ -486,7 +486,7 @@ class ApplicationController extends Controller
             }
 
             //Agrega datos a carga de transporte
-            if(!$request->input('transport')){
+            if($request->input('transport')){
                
                 Load::cargo($request->input('dataLoad'),$request->application_id);
             }

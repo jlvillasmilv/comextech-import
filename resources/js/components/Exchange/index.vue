@@ -249,7 +249,7 @@ export default {
             this.currency_ex = currency;
 
             this.exchangeItem.forEach(async e => {
-                if(e.amount != 0) {
+                if(e.amount != 0 && e.code != currency) {
                     try {
                         
                         const resp = await axios.get(
