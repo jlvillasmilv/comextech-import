@@ -33,7 +33,7 @@ class CreateRateLclsTable extends Migration
             $table->unsignedDecimal('w5_10_TON_M3', $precision = 8, $scale = 2);
             $table->unsignedDecimal('MIN_10_5', $precision = 8, $scale = 2);
             $table->unsignedDecimal('w10_15_TON_M3', $precision = 8, $scale = 2);
-            $table->unsignedDecimal('gl', $precision = 8, $scale = 2)->default(0);
+            $table->unsignedDecimal('oth_exp', $precision = 9, $scale = 2)->default(0)->comment('other expenses');
             $table->boolean('status')->default(true);
         });
     }
