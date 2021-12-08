@@ -195,8 +195,7 @@ class TransportsControllers extends Controller
             $trans_summary = [
                 'transport_amount' => $transport_amount,
                 'cif'       => $cif,       
-                'oth_exp'   => $oth_exp, 
-                't_time'    => $t_time,  
+                'oth_exp'   => $oth_exp,  
                 'insurance' => $insurance_amount,
             ];
 
