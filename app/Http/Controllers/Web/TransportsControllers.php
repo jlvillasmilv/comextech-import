@@ -132,7 +132,7 @@ class TransportsControllers extends Controller
             $oth_exp  = 0;
             $fee_date = $request->estimated_date;
 
-            $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
+            $insurance_amount = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
             if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
             {
@@ -147,11 +147,14 @@ class TransportsControllers extends Controller
                 ];
                 
                 $transp = Transport::rateTransport($data);
+
+                $local_transp = Transport::rateLocalTransport($request->only(['dest_port_id,','dest_postal_code','dest_ctry_code']));
+
                 $transport_amount = $transp['int_trans'];
-                $cif        = $transp['cif'];
-                $oth_exp         = $transp['oth_exp'];
-                $t_time     = $transp['t_time'];
-                $insurance  = $transp['insurance'];
+                $cif            = $transp['cif'];
+                $oth_exp        = $transp['oth_exp'];
+                $t_time         = $transp['t_time'];
+                $insurance_amount  = $transp['insurance'];
 
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
             }
@@ -176,9 +179,9 @@ class TransportsControllers extends Controller
                 ["service_id", 24]
                 ])
                 ->update([
-                    'amount' => $cif * 0.003,
+                    'amount'      => $insurance_amount,
                     'currency_id' =>  8,
-                    'fee_date' => $request->estimated_date]);
+                    'fee_date'    => $request->estimated_date]);
             }
 
             // update application summary local expenses
@@ -189,13 +192,21 @@ class TransportsControllers extends Controller
                ])
             ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
+            $trans_summary = [
+                'transport_amount' => $transport_amount,
+                'cif'       => $cif,       
+                'oth_exp'   => $oth_exp, 
+                't_time'    => $t_time,  
+                'insurance' => $insurance_amount,
+            ];
+
         // DB::commit();
 
         // } catch (\Exception $e) {
         //     DB::rollback();
         //     return response()->json(['status' => $e], 500);
         // }
-        return response()->json(['loads' => $transport->application->loads], 200);
+        return response()->json(['loads' => $transport->application->loads, 'transport' => $trans_summary], 200);
 
     }
 

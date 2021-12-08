@@ -60,7 +60,7 @@ class Transport extends Model
     {  
         $int_trans = 0;
         $cif = 0;
-        $gl  = 0;
+        $oth_exp  = 0;
         $t_time = 1;
         $rate_insurance_transp = 0;
 
@@ -83,7 +83,7 @@ class Transport extends Model
 
                     $int_trans += is_null($rate) ? 0 : $rate->$field;
                     $oth_exp        += is_null($rate) ? 0 : $rate->oth_exp;
-                    $t_time =  is_null($rate) ? 12 : $rate->oth_exp;
+                    $t_time =  is_null($rate) ? 12 : $rate->t_time;
                 }
 
             }
@@ -117,7 +117,7 @@ class Transport extends Model
 
                     $int_trans += is_null($rate) ? 0 : $rate->$field * $higher ;
                     $oth_exp        += is_null($rate) ? 0 : $rate->oth_exp;
-                    $t_time    =  is_null($rate) ? 12 : $rate->oth_exp;
+                    $t_time    =  is_null($rate) ? 12 : $rate->t_time;
                      
                 }
 
@@ -154,16 +154,22 @@ class Transport extends Model
                 $oth_exp = $exchange->convertCurrency($oth_exp, 'USD', 'CLP');
             }
 
-            return [
-                'int_trans' => $int_trans,
-                'oth_exp'        => $oth_exp,
-                'cif'       => $cif,
-                't_time'    => $t_time,
-                'insurance' => $insurance,
-            ];  
-
-
         }
+
+        return [
+            'int_trans' => $int_trans,
+            'oth_exp'   => $oth_exp,
+            'cif'       => $cif,
+            't_time'    => $t_time,
+            'insurance' => $insurance,
+        ];  
+    }
+
+    public static function rateLocalTransport($data)
+    {
+        dd($data);
+        // RateLocalTransport
+        return 0;
     }
 
 }
