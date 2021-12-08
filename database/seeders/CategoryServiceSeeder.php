@@ -53,7 +53,7 @@ class CategoryServiceSeeder extends Seeder
             ['category_service_id' => 4, 'name' => 'D.- Servicio AGA', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 4, 'name' => 'E.- IVA Internacion', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 4, 'name' => 'F.- Aranceles', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 6, 'name' => 'G.- Transporte Local', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 6, 'name' => 'G.- Otro gatos', 'created_at' => now(), 'summary' => true ],
         ]);
 
 

@@ -31,7 +31,7 @@ class RateTransportSeeder extends Seeder
                 'c40'       => $fc->c40,
                 'c40HC'     => $fc->c40HC,
                 'c40NOR'    => $fc->c40NOR,
-                'gl'        => $fc->gl,
+                'oth_exp'        => $fc->gl,
              ], 
             ]);
 				
@@ -61,7 +61,7 @@ class RateTransportSeeder extends Seeder
                 'w5_10_TON_M3' => $fc->w5_10_TON_M3,
                 'MIN_10_5' => $fc->MIN_10_5,
                 'w10_15_TON_M3' => $fc->w10_15_TON_M3,
-                'gl'     => $fc->gl,
+                'oth_exp'     => $fc->gl,
              ], 
             ]);
 				
