@@ -1,6 +1,8 @@
 $(document).ready(function () {
   window._token = $('meta[name="csrf-token"]').attr('content')
 
+  $('.select2').select2();
+
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -265,7 +267,8 @@ function initialize() {
   let postalField;
   let placeId;
 
-  postalField = document.querySelector("#postal_code");
+  postalField   = document.querySelector("#postal_code");
+  provinceField = document.querySelector("#province");
 
   for (let i = 0; i < locationInputs.length; i++) {
 
@@ -288,7 +291,8 @@ function initialize() {
       google.maps.event.addListener(autocomplete, 'place_changed', function () {
           const place = autocomplete.getPlace();
          
-          let postcode = "";
+          let postcode = postalField.value;
+          let province = ""
           let placId = place.place_id;
           // Get each component of the address from the place details,
           // and then fill-in the corresponding field on the form.
@@ -296,10 +300,15 @@ function initialize() {
           for (const component of place.address_components) {
               const componentType = component.types[0];
               
-              switch (componentType) {
+            switch (componentType) {
               
               case "postal_code": {
-                  postcode = `${component.long_name}${postcode}`;
+                  postcode = `${component.long_name}`;
+                  break;
+              }
+
+              case "administrative_area_level_2": {
+                  province = component.long_name;
                   break;
               }
 
@@ -308,10 +317,11 @@ function initialize() {
                   break;
               }
               
-              }
+            }
           }
 
           postalField.value = postcode;
+          provinceField.value = province;
           placeId = placId;
           
           document.querySelector("#address_latitude").value = place.geometry['location'].lat();

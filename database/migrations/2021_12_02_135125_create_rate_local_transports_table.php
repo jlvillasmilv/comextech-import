@@ -25,8 +25,6 @@ class CreateRateLocalTransportsTable extends Migration
             $table->string('type',2)->nullable()->default('P');
             $table->boolean('vat')->default(true)->comment('IVA');
             $table->boolean('status')->default(true);
-            $table->timestamps();
-            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 

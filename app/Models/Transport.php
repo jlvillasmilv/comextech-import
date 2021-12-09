@@ -73,7 +73,8 @@ class Transport extends Model
 
                 foreach($data['cargo'] as $item) {
                     $field = 'c'.$item->container->name;
-                    $rate = RateFcl::where([
+                    $rate = \DB::table('rate_fcl')
+                    ->where([
                         ['status', true],
                         ['from', $data['from']],
                         ['to', $data['to']],
@@ -107,7 +108,8 @@ class Transport extends Model
                         $field = $higher <= 5 ? 'MIN_0_5' : ($higher >= 6 && $higher <= 9 ? 'MIN_5_10' : 'MIN_10_5') ; 
                     }
 
-                    $rate = RateLcl::where([
+                    $rate =  \DB::table('rate_lcl')
+                    ->where([
                         ['status', true],
                         ['from', $data['from']],
                         ['to', $data['to']],
@@ -130,7 +132,8 @@ class Transport extends Model
 
                 foreach($data['cargo'] as $item) {
                     $field = 'c'.$item->container->name;
-                    $rate = RateFcl::where([
+                    $rate = \DB::table('rate_fcl')
+                    ->where([
                         ['status', true],
                         ['from', $data['from']],
                         ['to', $data['to']],
@@ -167,9 +170,34 @@ class Transport extends Model
 
     public static function rateLocalTransport($data)
     {
-        //dd($data);
-        // RateLocalTransport
-        return 0;
+       $rtl = 0;
+       $type = $data['mode_selected'] == 'AEREO' ? 'A' : 'P';
+
+       if(count($data['dataLoad']) > 0){
+
+        $province =  $data['fav_dest_address'] ? \DB::table('company_addresses')->where('id', $data['dest_address'])->first(['province'])->province 
+            : $data['dest_province'];
+
+        foreach($data['dataLoad'] as $item){
+
+            $tl = \DB::table('rate_local_transports')
+            ->where([
+               ['to',$province],
+               ['type', $type],
+               ['status', true]
+            ])
+            ->whereRaw("? BETWEEN weight AND weight_limit", $item['weight'])
+            ->first(['amount'])->amount;
+    
+            $rtl += $tl;
+
+        }
+
+       
+
+       }
+
+        return $rtl;
     }
 
 }

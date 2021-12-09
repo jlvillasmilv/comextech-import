@@ -2568,8 +2568,6 @@ export default {
          */
         getAddressOrigin: function(addressData, placeResultData, id) {
             this.expenses.origin_address = placeResultData.formatted_address;
-            this.expenses.origin_latitude = addressData.latitude;
-            this.expenses.origin_longitude = addressData.longitude;
 
             for (const component of placeResultData.address_components) {
                 const componentType = component.types[0];
@@ -2602,6 +2600,11 @@ export default {
                     case 'locality':
                         this.expenses.dest_locality = component.long_name;
                         break;
+                    
+                    case "administrative_area_level_2": {
+                        this.expenses.dest_province = component.long_name;
+                        break;
+                    }
 
                     case 'postal_code': {
                         this.expenses.dest_postal_code = component.long_name;
@@ -2611,9 +2614,6 @@ export default {
             }
 
             this.expenses.dest_address = placeResultData.formatted_address;
-            this.expenses.dest_latitude = addressData.latitude;
-            this.expenses.dest_longitude = addressData.longitude;
-            //this.expenses.dest_ctry_code = placeResultData.address_components.
         },
 
         getFavOriginPort: async function() {

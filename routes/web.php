@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
                     ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
                     ->join('services as s', 'aps.service_id', 's.id')
                     ->where('application_id', $id)
-                    ->select('currencies.code','s.name as description','aps.fee_date','aps.amount', 'aps.amount as amo2', 'currencies.code as currency2', )
+                    ->select('aps.id','currencies.code','s.name as description','aps.fee_date','aps.amount', 'aps.amount as amo2', 'currencies.code as currency2', )
                     ->orderBy('s.id')
                     ->get();
         
