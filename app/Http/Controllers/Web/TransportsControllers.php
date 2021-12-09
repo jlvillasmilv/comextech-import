@@ -92,22 +92,23 @@ class TransportsControllers extends Controller
                 [
                     'trans_company_id'      => $request->trans_company_id,
                     'mode_selected'         => $request->mode_selected,
+                    
                     'fav_origin_address'    => $request->fav_origin_address,
                     'origin_address'        => $request->origin_address,
-                    'origin_latitude'       => $request->origin_latitude,
-                    'origin_longitude'      => $request->origin_longitude,
                     'origin_postal_code'    => $request->origin_postal_code,
                     'origin_ctry_code'      => $request->origin_ctry_code,
                     'fav_origin_port'       => $request->fav_origin_port,
                     'origin_port_id'        => $request->origin_port_id,
+                   
                     'fav_dest_address'      => $request->fav_dest_address,
                     'dest_address'          => $request->dest_address,
                     'fav_dest_port'         => $request->fav_dest_port,
                     'dest_port_id'          => $request->dest_port_id,
-                    'dest_latitude'         => $request->dest_latitude,
-                    'dest_longitude'        => $request->dest_longitude,
                     'dest_postal_code'      => $request->dest_postal_code,
                     'dest_ctry_code'        => $request->dest_ctry_code,
+                    'dest_locality'         => $request->dest_locality,
+                    'dest_province'         => $request->dest_province,
+                    
                     'estimated_date'        => $request->estimated_date,
                     'insurance'             => $request->insurance,
                 ]
