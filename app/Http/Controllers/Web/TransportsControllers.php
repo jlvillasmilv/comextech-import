@@ -149,7 +149,19 @@ class TransportsControllers extends Controller
                 
                 $transp = Transport::rateTransport($data);
 
-                $local_transp = Transport::rateLocalTransport($request->only(['dest_port_id,','dest_postal_code','dest_ctry_code']));
+                if($request->dest_port_id > 0 && strlen($request->dest_address) > 0)
+                {
+                    $local_transp = Transport::rateLocalTransport($request->only([
+                        'dest_port_id,',
+                        'dest_province',
+                        'dest_address',
+                        'fav_dest_address',
+                        'dataLoad',
+                        'mode_selected'
+                    ]));
+
+                    // update application summary local transport
+                }
 
                 $transport_amount = $transp['int_trans'];
                 $cif            = $transp['cif'];
@@ -158,6 +170,7 @@ class TransportsControllers extends Controller
                 $insurance_amount  = $transp['insurance'];
 
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
+
             }
 
             // update application summary International transport
