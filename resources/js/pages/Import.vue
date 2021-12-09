@@ -13,7 +13,13 @@
                 <form-internment :application_id="data.application_id" />
             </container>
 
-            <container v-if="$store.state.tabActive == 'ICS05'">
+            <container
+                v-if="
+                    $store.state.tabActive == 'ICS05' &&
+                        $store.state.application.data.type_transport !=
+                            'COURIER'
+                "
+            >
                 <internal-storage :application_id="data.application_id" />
             </container>
 
@@ -639,6 +645,17 @@ export default {
                 },
                 sort: 11
             },
+            objectPayment2: {
+                code: 'ICS05',
+                id: 5,
+                name: 'Entrega',
+                pivot: {
+                    application_cond_sale_id: 1,
+                    category_service_id: 5
+                },
+                selected: true,
+                sort: 5
+            },
             buttonService: false
         };
     },
@@ -682,6 +699,18 @@ export default {
             // Verificar si pagos ya esta agregado a servicios
             const exchange = selectedServices.find(e => e.code == 'ICS07');
             if (!exchange) selectedServices.push(this.objectPayment);
+            if (
+                this.$store.state.application.data.type_transport != 'COURIER'
+            ) {
+                selectedServices.push(this.objectPayment2);
+            } else if (selectedServices.indexOf(this.objectPayment2) !== -1) {
+                let positionEntrega = selectedServices.indexOf(
+                    this.objectPayment2
+                );
+                selectedServices.splice(positionEntrega, 1);
+            } else {
+                return '';
+            }
         },
         async submitFormApplications() {
             try {
