@@ -167,7 +167,7 @@ class Transport extends Model
 
     public static function rateLocalTransport($data)
     {
-        dd($data);
+        //dd($data);
         // RateLocalTransport
         return 0;
     }

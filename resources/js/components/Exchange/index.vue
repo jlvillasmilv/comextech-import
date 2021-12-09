@@ -164,7 +164,7 @@
                                         &nbsp;
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        {{ formatter(item.amo2, currency_ex) }}
+                                        {{ formatter(item.amo2, item.currency2) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -173,8 +173,8 @@
                                     <td colspan="6" class="text-right px-4 py-3">
                                         <strong>
                                             {{
-                                                formatter(
-                                                    totalAmount,
+                                                formatPrice(
+                                                    total,
                                                     currency_ex
                                                 )
                                             }}</strong
@@ -203,7 +203,8 @@ export default {
             form: new Form({
                 application_id: this.application_id
             }),
-            currency_ex: "CLP"
+            currency_ex: "CLP",
+            total:0
         };
     },
     methods: {
@@ -229,8 +230,6 @@ export default {
             let month = dateConvert[1];
             let day = dateConvert[2];
             return `${day}-${month}-${year}`;
-
-            // return this.$luxon(date, "dd-MM-yyyy"); // before it was like this
         },
         clone() {
             this.exchangeItem.forEach(e => {
@@ -240,16 +239,17 @@ export default {
                 );
                 //Update object's name property.
                 this.exchangeItem[objIndex].amo2 = e.amount;
+                this.exchangeItem[objIndex].currency2 = e.amount;
                 console.log(this.formatter(e.amount, e.code));
                 this.currency_ex = e.code;
             });
-            //
+            this.total = 0;
         },
         convert(currency) {
             this.currency_ex = currency;
 
             this.exchangeItem.forEach(async e => {
-                if(e.amount != 0 && e.code != currency) {
+                if(e.amount != 0 ) {
                     try {
                         
                         const resp = await axios.get(
@@ -263,25 +263,27 @@ export default {
 
                         //Update object's name property.
                         this.exchangeItem[objIndex].amo2 = resp.data;
+                        this.exchangeItem[objIndex].currency2 = currency;
                     } catch (err) {
                         // Handle Error Here
                         console.error(err);
                     }
                 }
+                this.totalAmount();
             });
-            //
-        }
-    },
-    computed: {
-        ...mapState("exchange", ["exchangeItem"]),
+           
+        },
         totalAmount() {
-            if (!this.exchangeItem) {
-                return 0;
-            }
-            return this.exchangeItem.reduce(function(total_amount, items) {
+           
+            this.total = this.exchangeItem.reduce(function(total_amount, items) {
                 return total_amount + Number(items.amo2);
             }, 0);
         }
+
+    },
+    computed: {
+        ...mapState("exchange", ["exchangeItem"]),
+        
     },
     mounted: function () {
       this.convert('CLP');
