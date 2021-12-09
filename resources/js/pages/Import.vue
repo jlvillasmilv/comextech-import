@@ -700,10 +700,15 @@ export default {
             const exchange = selectedServices.find(e => e.code == 'ICS07');
             if (!exchange) selectedServices.push(this.objectPayment);
             if (
-                this.$store.state.application.data.type_transport != 'COURIER'
+                this.$store.state.application.data.type_transport !=
+                    'COURIER' &&
+                selectedServices.indexOf(this.objectPayment2) === -1
             ) {
                 selectedServices.push(this.objectPayment2);
-            } else if (selectedServices.indexOf(this.objectPayment2) !== -1) {
+            } else if (
+                selectedServices.indexOf(this.objectPayment2) !== -1 &&
+                this.$store.state.application.data.type_transport == 'COURIER'
+            ) {
                 let positionEntrega = selectedServices.indexOf(
                     this.objectPayment2
                 );
