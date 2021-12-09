@@ -51,7 +51,7 @@
             <div class="w-full overflow-x-auto">
                 <div class="flex space-x-4 ...">
                     <div class="w-full">
-                        <table class="w-full table-fixed">
+                        <table class="w-full table-auto">
                             <thead>
                                 <tr class=" " >
                                     <th class="w-2/5 px-4 py-3  text-xs
@@ -117,7 +117,8 @@
                                     dark:border-gray-700
                                     bg-blue-900
                                     dark:text-gray-400
-                                    dark:bg-gray-800">
+                                    dark:bg-gray-800"
+                                    colspan="2">
                                         Monto <br />
                                         {{ currency_ex }}
                                     </th>
@@ -164,7 +165,10 @@
                                         &nbsp;
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        {{ formatter(item.amo2, item.currency2) }}
+                                        {{ formatPrice(item.amo2, item.currency2) }}
+                                    </td>
+                                     <td class="px-4 py-3 text-right">
+                                        {{ item.currency2}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -172,13 +176,13 @@
                                 <tr>
                                     <td colspan="6" class="text-right px-4 py-3">
                                         <strong>
-                                            {{
-                                                formatPrice(
-                                                    total,
-                                                    currency_ex
-                                                )
-                                            }}</strong
-                                        >
+                                            {{ formatPrice(total,currency_ex)}}
+                                        </strong>
+                                    </td>
+                                     <td class="text-center px-4 py-3">
+                                        <strong>
+                                            {{currency_ex}}
+                                        </strong>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -239,7 +243,7 @@ export default {
                 );
                 //Update object's name property.
                 this.exchangeItem[objIndex].amo2 = e.amount;
-                this.exchangeItem[objIndex].currency2 = e.amount;
+                this.exchangeItem[objIndex].currency2 = e.code;
                 console.log(this.formatter(e.amount, e.code));
                 this.currency_ex = e.code;
             });
@@ -249,9 +253,9 @@ export default {
             this.currency_ex = currency;
 
             this.exchangeItem.forEach(async e => {
+                this.total =0; 
                 if(e.amount != 0 ) {
                     try {
-                        
                         const resp = await axios.get(
                             `/api/convert-currency/${e.amount}/${e.code}/${currency}`
                         );
@@ -264,21 +268,18 @@ export default {
                         //Update object's name property.
                         this.exchangeItem[objIndex].amo2 = resp.data;
                         this.exchangeItem[objIndex].currency2 = currency;
+
+                        this.total += resp.data;
+
                     } catch (err) {
                         // Handle Error Here
                         console.error(err);
                     }
                 }
-                this.totalAmount();
+               
             });
-           
+
         },
-        totalAmount() {
-           
-            this.total = this.exchangeItem.reduce(function(total_amount, items) {
-                return total_amount + Number(items.amo2);
-            }, 0);
-        }
 
     },
     computed: {
