@@ -41,6 +41,7 @@ class CreateTransportsTable extends Migration
             $table->unsignedBigInteger('dest_port_id')->nullable()->comment('direccion puerto destino');
 
             $table->boolean('insurance')->default(false);
+            $table->boolean('local_transp')->default(false);
             $table->date('estimated_date')->nullable();
             $table->string('description',150)->nullable();
             $table->timestamps();

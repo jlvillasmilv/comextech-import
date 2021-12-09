@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RateLocalTransport extends Model
 {
-    use HasFactory;
+    protected $table = 'rate_local_transports';
+    public $timestamps = false;
 }
