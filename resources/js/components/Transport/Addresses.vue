@@ -67,7 +67,7 @@
                                     v-if="!expenses.fav_origin_address"
                                     v-model="expenses.origin_address"
                                     id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     v-on:placechanged="getAddressOrigin"
                                     placeholder="Direccion, Codigo Postal"
                                 >
@@ -328,7 +328,7 @@
                                     v-if="!expenses.fav_dest_address"
                                     v-model="expenses.dest_address"
                                     id="addressDestination"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     :placeholder="
                                         expenses.fav_dest_address
                                             ? 'Nombre o codigo Puerto/Aeropuerto'
@@ -410,9 +410,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -446,9 +446,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -474,12 +474,12 @@
                                 <span class="ml-2 text-gray-700">Seguro </span>
                             </label>
                         </div>
-                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                        <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
                             <span class="ml-2 text-gray-700">
                                 {{ data.amount }}
                                 {{ currency.code }}
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </transition>
             </div>
@@ -521,7 +521,7 @@
                                     v-if="!expenses.fav_origin_address"
                                     v-model="expenses.origin_address"
                                     id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     v-on:placechanged="getAddressOrigin"
                                     placeholder="Direccion, Codigo Postal"
                                 >
@@ -782,7 +782,7 @@
                                     v-if="!expenses.fav_dest_address"
                                     v-model="expenses.dest_address"
                                     id="addressDestination"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     :placeholder="
                                         expenses.fav_dest_address
                                             ? 'Nombre o codigo Puerto/Aeropuerto'
@@ -864,9 +864,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -900,9 +900,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -928,12 +928,12 @@
                                 <span class="ml-2 text-gray-700">Seguro </span>
                             </label>
                         </div>
-                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                        <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
                             <span class="ml-2 text-gray-700">
                                 {{ data.amount }}
                                 {{ currency.code }}
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </transition>
             </div>
@@ -975,7 +975,7 @@
                                     v-if="!expenses.fav_origin_address"
                                     v-model="expenses.origin_address"
                                     id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     v-on:placechanged="getAddressOrigin"
                                     placeholder="Direccion, Codigo Postal"
                                 >
@@ -1236,7 +1236,7 @@
                                     v-if="!expenses.fav_dest_address"
                                     v-model="expenses.dest_address"
                                     id="addressDestination"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     :placeholder="
                                         expenses.fav_dest_address
                                             ? 'Nombre o codigo Puerto/Aeropuerto'
@@ -1318,9 +1318,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -1354,9 +1354,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -1420,7 +1420,7 @@
                                     v-if="!expenses.fav_origin_address"
                                     v-model="expenses.origin_address"
                                     id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     v-on:placechanged="getAddressOrigin"
                                     placeholder="Direccion, Codigo Postal"
                                 >
@@ -1681,7 +1681,7 @@
                                     v-if="!expenses.fav_dest_address"
                                     v-model="expenses.dest_address"
                                     id="addressDestination"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     :placeholder="
                                         expenses.fav_dest_address
                                             ? 'Nombre o codigo Puerto/Aeropuerto'
@@ -1763,9 +1763,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -1799,9 +1799,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -1827,12 +1827,12 @@
                                 <span class="ml-2 text-gray-700">Seguro </span>
                             </label>
                         </div>
-                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                        <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
                             <span class="ml-2 text-gray-700">
                                 {{ data.amount }}
                                 {{ currency.code }}
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </transition>
             </div>
@@ -1862,7 +1862,7 @@
                                     v-if="!expenses.fav_origin_address"
                                     v-model="expenses.origin_address"
                                     id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     v-on:placechanged="getAddressOrigin"
                                     placeholder="Direccion, Codigo Postal"
                                 >
@@ -1935,7 +1935,7 @@
                                     v-if="!expenses.fav_dest_address"
                                     v-model="expenses.dest_address"
                                     id="addressDestination"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     :placeholder="
                                         expenses.fav_dest_address
                                             ? 'Nombre o codigo Puerto/Aeropuerto'
@@ -2023,9 +2023,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -2059,9 +2059,9 @@
                   text-sm
                   dark:border-gray-600
                   dark:bg-gray-700
-                  focus:border-purple-400
+                  focus:border-blue-400
                   focus:outline-none
-                  focus:shadow-outline-purple
+                  focus:shadow-outline-blue
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                   form-input
@@ -2087,12 +2087,12 @@
                                 <span class="ml-2 text-gray-700">Seguro </span>
                             </label>
                         </div>
-                        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+                        <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
                             <span class="ml-2 text-gray-700">
                                 {{ data.amount }}
                                 {{ currency.code }}
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </transition>
             </div>

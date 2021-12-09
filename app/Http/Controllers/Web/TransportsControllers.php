@@ -129,7 +129,7 @@ class TransportsControllers extends Controller
             }
 
             $cif = $amount + $transport_amount;
-            $gl  = 0;
+            $oth_exp  = 0;
             $fee_date = $request->estimated_date;
 
             $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
@@ -149,7 +149,7 @@ class TransportsControllers extends Controller
                 $transp = Transport::rateTransport($data);
                 $transport_amount = $transp['int_trans'];
                 $cif        = $transp['cif'];
-                $gl         = $transp['gl'];
+                $oth_exp         = $transp['oth_exp'];
                 $t_time     = $transp['t_time'];
                 $insurance  = $transp['insurance'];
 
@@ -187,7 +187,7 @@ class TransportsControllers extends Controller
                ["application_id", $request->application_id],
                ["service_id", 28]
                ])
-            ->update(['amount' =>  $gl,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+            ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
         // DB::commit();
 
