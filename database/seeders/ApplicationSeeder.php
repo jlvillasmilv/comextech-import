@@ -95,7 +95,7 @@ class ApplicationSeeder extends Seeder
                     "application_id"      => $application->id,
                     "category_service_id" => $item->category_service_id,
                     "service_id"          => $item->id, 
-                    "currency_id"         => 8,
+                    "currency_id"         => 1,
                     "fee_date"            => date('Y-m-d')
                 ]
             ]);

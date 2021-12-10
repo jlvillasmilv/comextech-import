@@ -161,6 +161,13 @@ class TransportsControllers extends Controller
                     ]));
 
                     // update application summary local transport
+                    \DB::table('application_summaries')
+                    ->where([
+                    ["application_id", $request->application_id],
+                    ["service_id", 28]
+                    ])
+                    ->update(['amount' =>  $local_transp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+
                 }
 
                 $transport_amount = $transp['int_trans'];
@@ -202,7 +209,7 @@ class TransportsControllers extends Controller
             $app_summ = \DB::table('application_summaries')
             ->where([
                ["application_id", $request->application_id],
-               ["service_id", 28]
+               ["service_id", 29]
                ])
             ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
@@ -236,9 +243,7 @@ class TransportsControllers extends Controller
     */
     public function fedexRate(TransportRequest $request)
     {
-        //  try {
-
-          //  dd( $request->all());
+         try {
 
            if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
            {   
@@ -254,7 +259,6 @@ class TransportsControllers extends Controller
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['fedex' => $notifications]], 422);
                 }
 
-                
                 $quote = array();
                 $quote = $fedex_response['PREFERRED_ACCOUNT_SHIPMENT'];
 
@@ -286,9 +290,9 @@ class TransportsControllers extends Controller
                 return response()->json(['message' => "Datos invalidos", 'errors' => ['fedex' => 'No data']], 422);
             }
 
-        //  } catch (\Exception $e) {
-        //      return response()->json(['status' => $e], 500);
-        //  }
+         } catch (\Exception $e) {
+             return response()->json(['status' => $e], 500);
+         }
 
     }
 

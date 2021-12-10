@@ -16,6 +16,7 @@ class CreateServicesTable extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_service_id');
+            $table->string('code',8)->nullable()->unique();
             $table->foreign('category_service_id')->references('id')->on('category_services')->onDelete('cascade');
             $table->string('name',100);
             $table->string('description')->nullable();

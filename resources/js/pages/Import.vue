@@ -734,11 +734,8 @@ export default {
         this.$store.state.application.tabs = servicedefault;
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  },
-  created() {
-    console.log(this.$store.state.selectedServices.length);
   }
 };
 </script>
