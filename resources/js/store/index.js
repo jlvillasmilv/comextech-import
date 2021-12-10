@@ -11,93 +11,97 @@ import internalStorage from './modules/internalStorage';
 Vue.use(Vuex);
 
 const state = () => ({
-    selectedServices: [],
-    tabActive: '',
-    statusModal: true,
-    positionTabs: 0
+  selectedServices: [],
+  tabActive: '',
+  statusModal: true,
+  positionTabs: 0
 });
 
 const mutations = {
-    incomingOrNextMenu(state, isAction) {
-        state.positionTabs = isAction
-            ? state.positionTabs + 1
-            : state.positionTabs - 1;
-        state.tabActive = state.selectedServices[state.positionTabs].code;
-    },
-    activeTabs(state, { code }) {
-        state.tabActive = code;
-        state.positionTabs = state.selectedServices.findIndex(
-            service => service.code === code
-        );
-        this.state.address.addressDate = true;
-        this.state.address.formAddress = true;
-    },
-    SELECT_SERVICE(state, payload) {
-        state.selectedServices.push({ ...payload });
-        state.selectedServices = state.selectedServices.map(service => {
-            const newService = {
-                ...service,
-                checked: true
-            };
-            return newService;
-        });
-    },
-    CLEAR_SERVICE(state) {
-        state.selectedServices = [];
-        // console.log(
-        //     'sin map',
-        //     this.state.application.selectedCondition.services
-        // );
-        const newCondition = this.state.application.selectedCondition.services.map(
-            item => {
-                const clearService = {
-                    ...item,
-                    checked: false
-                };
-                return clearService;
-            }
-        );
-        // console.log('con map', newCondition);
-        this.state.application.selectedCondition.services = newCondition;
-    }
+  incomingOrNextMenu(state, isAction) {
+    state.positionTabs = isAction ? state.positionTabs + 1 : state.positionTabs - 1;
+    state.tabActive = state.selectedServices[state.positionTabs].code;
+  },
+  activeTabs(state, { code }) {
+    state.tabActive = code;
+    state.positionTabs = state.selectedServices.findIndex((service) => service.code === code);
+    this.state.address.addressDate = true;
+    this.state.address.formAddress = true;
+  },
+  SELECT_SERVICE(state, payload) {
+    state.selectedServices.push({ ...payload });
+    state.selectedServices = state.selectedServices.map((service) => {
+      const newService = {
+        ...service,
+        checked: true
+      };
+      return newService;
+    });
+  },
+  CLEAR_SERVICE(state) {
+    const checkedServices = state.selectedServices.filter((item) => {
+      return item.checked && item.selected;
+    });
+    const newConditionServices = this.state.application.selectedCondition.services.map((item) => {
+      const serviceFound = checkedServices.find(
+        (selected) => selected.code === item.code && item.selected
+      );
+      if (serviceFound) {
+        item.checked = true;
+      }
+      return item;
+    });
+    this.state.application.selectedCondition.services = newConditionServices;
+    state.selectedServices = newConditionServices.filter((item) => item.checked);
+
+    // state.selectedServices = [];
+    // const newCondition = this.state.application.selectedCondition.services.map((item) => {
+    //   const clearService = {
+    //     ...item,
+    //     checked: false
+    //   };
+    //   return clearService;
+    // });
+    // this.state.application.selectedCondition.services = newCondition;
+  }
 };
 
 const actions = {
-    callIncomingOrNextMenu({ commit }, action) {
-        commit('incomingOrNextMenu', action);
-    },
-    callActiveTabs({ commit }, service) {
-        commit('activeTabs', service);
-    },
-    selectService({ commit }, service) {
-        commit('SELECT_SERVICE', service);
-    },
-    clearService({ commit }) {
-        commit('CLEAR_SERVICE');
-    }
+  callIncomingOrNextMenu({ commit }, action) {
+    commit('incomingOrNextMenu', action);
+  },
+  callActiveTabs({ commit }, service) {
+    commit('activeTabs', service);
+  },
+  selectService({ commit }, service) {
+    commit('SELECT_SERVICE', service);
+  },
+  clearService({ commit }) {
+    commit('CLEAR_SERVICE');
+  }
 };
 
 const getters = {
-    findService: state => code => {
-        let service = state.selectedServices.filter(item => item.code == code);
-        if (service.length) return true;
-        else return false;
-    }
+  findService: (state) => (code) => {
+    let service = state.selectedServices.filter((item) => item.code == code);
+    if (service.length) return true;
+    else return false;
+  }
 };
 
 export default new Vuex.Store({
-    state,
-    getters,
-    actions,
-    mutations,
-    modules: {
-        payment,
-        exchange,
-        load,
-        address,
-        internment,
-        application,
-        internment,
-        internalStorage
-    }
+  state,
+  getters,
+  actions,
+  mutations,
+  modules: {
+    payment,
+    exchange,
+    load,
+    address,
+    internment,
+    application,
+    internment,
+    internalStorage
+  }
 });
