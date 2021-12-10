@@ -826,17 +826,11 @@ export default {
                 const id = application.value;
                 const { data } = await axios.get('/get-application/' + id);
                 this.$store.dispatch('application/setData', data);
-                await this.$store.dispatch(
-                    'application/getServicesSelecteds',
-                    id
-                );
+                await this.$store.dispatch('application/getServicesSelecteds', id);
                 this.$store.state.selectedServices = this.tabs.filter(
                     e => e.checked
                 );
-                this.$store.dispatch(
-                    'payment/setPayment',
-                    data.payment_provider
-                );
+                this.$store.dispatch('payment/setPayment', data.payment_provider);
                 // this.toogleMenuTabs();
                 this.$store.dispatch('load/setLoad', data);
                 this.$store.dispatch('address/setTransport', data);
