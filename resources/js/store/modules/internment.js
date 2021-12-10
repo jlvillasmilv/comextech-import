@@ -20,8 +20,10 @@ export default {
             adv: false,
             adv_amt: 0,
             cif_amt: 0,
+            insurance: 0,
             code_serv:'ICS04',
-        }),     
+        }),
+     
     },
     getters: {
      

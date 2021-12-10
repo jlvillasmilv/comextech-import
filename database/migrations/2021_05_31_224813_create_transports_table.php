@@ -43,6 +43,7 @@ class CreateTransportsTable extends Migration
             $table->boolean('local_transp')->default(false);
             $table->date('estimated_date')->nullable();
             $table->string('description',150)->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
 
