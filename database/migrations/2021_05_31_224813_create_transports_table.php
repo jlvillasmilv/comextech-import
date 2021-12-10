@@ -20,8 +20,7 @@ class CreateTransportsTable extends Migration
             $table->string('mode_selected',20)->nullable();
             $table->boolean('fav_origin_address')->default(false);
             $table->string('origin_address')->nullable();
-            $table->double('origin_latitude')->nullable();
-            $table->double('origin_longitude')->nullable();
+           
             $table->string('origin_postal_code', 25)->nullable();
             $table->string('origin_locality', 25)->nullable();
             $table->string('origin_ctry_code', 4)->nullable();
@@ -31,16 +30,17 @@ class CreateTransportsTable extends Migration
 
             $table->boolean('fav_dest_address')->nullable()->default(false);
             $table->string('dest_address')->nullable();
-            $table->double('dest_latitude')->nullable();
-            $table->double('dest_longitude')->nullable();
+           
             $table->string('dest_postal_code', 25)->nullable();
             $table->string('dest_locality', 25)->nullable();
             $table->string('dest_ctry_code', 4)->nullable();
-
+            $table->string('dest_province', 25)->nullable();
+            
             $table->boolean('fav_dest_port')->nullable()->default(false);
             $table->unsignedBigInteger('dest_port_id')->nullable()->comment('direccion puerto destino');
 
             $table->boolean('insurance')->default(false);
+            $table->boolean('local_transp')->default(false);
             $table->date('estimated_date')->nullable();
             $table->string('description',150)->nullable();
             $table->timestamps();

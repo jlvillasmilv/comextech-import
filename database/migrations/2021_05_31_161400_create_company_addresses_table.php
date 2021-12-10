@@ -21,6 +21,7 @@ class CreateCompanyAddressesTable extends Migration
             $table->string('locality', 25)->nullable();
             $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO','OFICINA'])->default('ALMACEN');
             $table->string('address');
+            $table->string('province',50)->nullable();
             $table->double('address_latitude')->nullable();
             $table->double('address_longitude')->nullable();
             $table->boolean('status')->default(true);

@@ -4,7 +4,7 @@
             <a href="{{route('address.index')}}">Direcciones de destino</a>  
         </h2>
         <div class="flex justify-center px-6 m-auto my-2 ">
-            <div class="w-2/3 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
+            <div class="w-full sm:w-2/3 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
                 <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
                     Nueva direccion
                 </h3>
@@ -17,9 +17,9 @@
                 <label class="block text-sm my-3">
                   <div class="px-2" id="add_to">
                       <div class="flex mb-4">
-                          <div class="w-3/4 mr-1">
+                          <div class="w-3/4 mr-1 sm:w-full ">
                               <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Pais de origen:</label>
-                              <select name="country_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('country_id') is-invalid @enderror">
+                              <select name="country_id" class="select2  @error('country_id') is-invalid @enderror">
   
                                 @foreach($country as $id => $name)
             
@@ -39,7 +39,7 @@
                                 @endif
                           </div>
                          
-                          <div class="w-1/4 ml-1">
+                          <div class="w-1/4 ml-1 sm:w-full ">
                               <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Codigo postal </label>
 
                               <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Codigo postal"  id='postal_code' name="postal_code" value="{{ old('postal_code', isset($companyAddress) ? $companyAddress->postal_code : '') }}" max="50" required="">
@@ -57,29 +57,60 @@
                 
               </label>
 
+              <label class="block text-sm my-3">
+                <div class="px-2" id="add_to">
+                    <div class="flex mb-4">
+                        <div class="w-3/4 mr-1 sm:w-full ">
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Lugar</span>
+
+                            <select name="place" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select @error('place') is-invalid @enderror">
+            
+                            @foreach($place as $name)
+            
+                                @if(old('place', isset($data->place) && $data->place == $id) )
+                                    <option value="{{ $name }}" selected>{{ $name }}</option>
+                                @else
+                                    <option value="{{ $name }}">{{ $name }}</option>
+                                @endif
+            
+                                @endforeach
+                            </select>
+                            
+                            @if($errors->has('place'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('place') }}
+                                </span>
+                            @endif
+                        </div>
+                       
+                        <div class="w-1/4 ml-1 sm:w-full ">
+                           
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Provincia</span>
+
+                            <input class="block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            placeholder="Codigo postal"
+                            id='province'
+                            name="province"
+                            value="{{ old('province', isset($companyAddress) ? $companyAddress->province : '') }}"
+                            max="50"
+                            required="">
+
+                            @if($errors->has('province'))
+                            <span class="text-xs text-red-600 dark:text-red-400">
+                                 {{ $errors->first('province') }}
+                             </span>
+                           @endif
+                            
+                        </div>
+
+                    </div>
+                </div>
+              
+            </label>
 
 
               <label class="block text-sm my-3">
-                <span class="text-gray-700 dark:text-gray-400">Lugar</span>
-
-                <select name="place" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select @error('place') is-invalid @enderror">
-
-                @foreach($place as $name)
-
-                    @if(old('place', isset($data->place) && $data->place == $id) )
-                        <option value="{{ $name }}" selected>{{ $name }}</option>
-                    @else
-                        <option value="{{ $name }}">{{ $name }}</option>
-                    @endif
-
-                    @endforeach
-                </select>
                 
-                @if($errors->has('place'))
-                    <span class="text-xs text-red-600 dark:text-red-400">
-                        {{ $errors->first('place') }}
-                    </span>
-                @endif
             </label>
 
             <label class="block text-sm my-3">
@@ -108,12 +139,13 @@
         </div>
     </div>
 
-
-
 @section('scripts')
 @parent
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script type="text/javascript">
+
 (function() {
    // your page initialization code here
    // the DOM will be available here

@@ -21,7 +21,7 @@ class SeaPortSeeder extends Seeder
         $ports = json_decode($json);
 
         foreach ($ports as $key => $port) {
-            Port::create([
+            \DB::table('ports')->insert([
                 "country_id" => intval($port->country_id),
                 "name"       => $port->name,
                 "province"	 => isset($port->province) ? $port->province : null ,
