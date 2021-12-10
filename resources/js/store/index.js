@@ -39,20 +39,30 @@ const mutations = {
     });
   },
   CLEAR_SERVICE(state) {
-    state.selectedServices = [];
-    // console.log(
-    //     'sin map',
-    //     this.state.application.selectedCondition.services
-    // );
-    const newCondition = this.state.application.selectedCondition.services.map((item) => {
-      const clearService = {
-        ...item,
-        checked: false
-      };
-      return clearService;
+    const checkedServices = state.selectedServices.filter((item) => {
+      return item.checked && item.selected;
     });
-    // console.log('con map', newCondition);
-    this.state.application.selectedCondition.services = newCondition;
+    const newConditionServices = this.state.application.selectedCondition.services.map((item) => {
+      const serviceFound = checkedServices.find(
+        (selected) => selected.code === item.code && item.selected
+      );
+      if (serviceFound) {
+        item.checked = true;
+      }
+      return item;
+    });
+    this.state.application.selectedCondition.services = newConditionServices;
+    state.selectedServices = newConditionServices.filter((item) => item.checked);
+
+    // state.selectedServices = [];
+    // const newCondition = this.state.application.selectedCondition.services.map((item) => {
+    //   const clearService = {
+    //     ...item,
+    //     checked: false
+    //   };
+    //   return clearService;
+    // });
+    // this.state.application.selectedCondition.services = newCondition;
   }
 };
 

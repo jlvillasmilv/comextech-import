@@ -51,7 +51,7 @@
                 </div>
                 <div
                   v-if="item.checked"
-                  @click="deleteService(item.id)"
+                  @click="deleteService(item.sort)"
                   :class="[
                     item.checked ? 'bg-blue-500 text-white ' : 'bg-transparent text-blue-700 ',
                     'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
@@ -584,7 +584,7 @@ export default {
     },
     toDisableProviderPayment(value, provider = false) {
       this.clearEcommerceSupplier(provider);
-      //   this.clearSelectedServices();
+      this.clearSelectedServices();
       if (value == 'without') {
         this.$store.state.application.tabs = this.tabs.map((item) =>
           item.code == 'ICS01' ? { ...item, selected: false } : item
@@ -665,10 +665,10 @@ export default {
         this.data.supplier_id = '';
       }
     },
-    // clearSelectedServices() {
-    //   this.$store.dispatch('clearService');
-    //   // this.$store.state.selectedServices = [];
-    // },
+    clearSelectedServices() {
+      this.$store.dispatch('clearService');
+      // this.$store.state.selectedServices = [];
+    },
     handlePercentage(item) {
       this.handleCurrency();
       this.data.valuePercentage = item;
@@ -679,7 +679,7 @@ export default {
       this.data.amount = 0;
     },
     toogleMenuTabs() {
-      //   this.clearSelectedServices();
+      this.clearSelectedServices();
       this.$store.state.application.tabs = this.selectedCondition.services;
       this.data.condition = this.selectedCondition.name;
       this.toDisableProviderPayment(this.data.statusSuppliers);
@@ -736,6 +736,9 @@ export default {
     } catch (error) {
       console.log(error);
     }
+  },
+  created() {
+    console.log(this.$store.state.selectedServices.length);
   }
 };
 </script>
