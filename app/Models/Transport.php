@@ -60,7 +60,7 @@ class Transport extends Model
     {  
         $int_trans = 0;
         $cif = 0;
-        $gl  = 0;
+        $oth_exp  = 0;
         $t_time = 1;
         $rate_insurance_transp = 0;
 
@@ -73,17 +73,18 @@ class Transport extends Model
 
                 foreach($data['cargo'] as $item) {
                     $field = 'c'.$item->container->name;
-                    $rate = RateFcl::where([
+                    $rate = \DB::table('rate_fcl')
+                    ->where([
                         ['status', true],
                         ['from', $data['from']],
                         ['to', $data['to']],
                     ])
-                    ->select($field, 'gl', 't_time')
+                    ->select($field, 'oth_exp', 't_time')
                     ->first();
 
                     $int_trans += is_null($rate) ? 0 : $rate->$field;
-                    $gl        += is_null($rate) ? 0 : $rate->gl;
-                    $t_time =  is_null($rate) ? 12 : $rate->gl;
+                    $oth_exp        += is_null($rate) ? 0 : $rate->oth_exp;
+                    $t_time =  is_null($rate) ? 12 : $rate->t_time;
                 }
 
             }
@@ -107,17 +108,18 @@ class Transport extends Model
                         $field = $higher <= 5 ? 'MIN_0_5' : ($higher >= 6 && $higher <= 9 ? 'MIN_5_10' : 'MIN_10_5') ; 
                     }
 
-                    $rate = RateLcl::where([
+                    $rate =  \DB::table('rate_lcl')
+                    ->where([
                         ['status', true],
                         ['from', $data['from']],
                         ['to', $data['to']],
                     ])
-                    ->select( $field , 'gl', 't_time')
+                    ->select( $field , 'oth_exp', 't_time')
                     ->first();
 
                     $int_trans += is_null($rate) ? 0 : $rate->$field * $higher ;
-                    $gl        += is_null($rate) ? 0 : $rate->gl;
-                    $t_time    =  is_null($rate) ? 12 : $rate->gl;
+                    $oth_exp        += is_null($rate) ? 0 : $rate->oth_exp;
+                    $t_time    =  is_null($rate) ? 12 : $rate->t_time;
                      
                 }
 
@@ -130,17 +132,18 @@ class Transport extends Model
 
                 foreach($data['cargo'] as $item) {
                     $field = 'c'.$item->container->name;
-                    $rate = RateFcl::where([
+                    $rate = \DB::table('rate_fcl')
+                    ->where([
                         ['status', true],
                         ['from', $data['from']],
                         ['to', $data['to']],
                     ])
-                    ->select('c20', 'gl', 't_time')
+                    ->select('c20', 'oth_exp', 't_time')
                     ->first();
 
                     $int_trans += is_null($rate) ? 0 : $rate->c20;
-                    $gl        += is_null($rate) ? 0 : $rate->gl;
-                    $t_time =  is_null($rate) ? 12 : $rate->gl;
+                    $oth_exp   += is_null($rate) ? 0 : $rate->oth_exp;
+                    $t_time =  is_null($rate) ? 12 : $rate->oth_exp;
                 }
  
              }
@@ -149,21 +152,52 @@ class Transport extends Model
 
             $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
-            if($gl>0){ 
+            if($oth_exp>0){ 
                 $exchange = New Currency;
-                $gl = $exchange->convertCurrency($gl, 'USD', 'CLP');
+                $oth_exp = $exchange->convertCurrency($oth_exp, 'USD', 'CLP');
             }
 
-            return [
-                'int_trans' => $int_trans,
-                'gl'        => $gl,
-                'cif'       => $cif,
-                't_time'    => $t_time,
-                'insurance' => $insurance,
-            ];  
+        }
 
+        return [
+            'int_trans' => $int_trans,
+            'oth_exp'   => $oth_exp,
+            'cif'       => $cif,
+            't_time'    => $t_time,
+            'insurance' => $insurance,
+        ];  
+    }
+
+    public static function rateLocalTransport($data)
+    {
+       $rtl = 0;
+       $type = $data['mode_selected'] == 'AEREO' ? 'A' : 'P';
+
+       if(count($data['dataLoad']) > 0){
+
+        $province =  $data['fav_dest_address'] ? \DB::table('company_addresses')->where('id', $data['dest_address'])->first(['province'])->province 
+            : $data['dest_province'];
+
+        foreach($data['dataLoad'] as $item){
+
+            $tl = \DB::table('rate_local_transports')
+            ->where([
+               ['to',$province],
+               ['type', $type],
+               ['status', true]
+            ])
+            ->whereRaw("? BETWEEN weight AND weight_limit", $item['weight'])
+            ->first(['amount'])->amount;
+    
+            $rtl += $tl;
 
         }
+
+       
+
+       }
+
+        return $rtl;
     }
 
 }

@@ -92,7 +92,7 @@ class CurrencySeeder extends Seeder
             // ['code' =>'PKR',  'name' => 'Pakistan Rupees', 'symbol' => '₨'],
             // ['code' =>'PAB',  'name' => 'Balboa', 'symbol' => 'B/.'],
             // ['code' =>'PYG',  'name' => 'Paraguay Guarani', 'symbol' => 'Gs'],
-             ['code' =>'PEN',  'name' => 'Soles', 'symbol' => 'S/.'],
+             ['code' =>'PEN',  'name' => 'Soles Perú', 'symbol' => 'S/.'],
             // ['code' =>'PHP',  'name' => 'Philippines Pesos', 'symbol' => 'Php'],
             // ['code' =>'PLN',  'name' => 'Poland Zlotych', 'symbol' => 'zł'],
             // ['code' =>'QAR',  'name' => 'Qatar Rials', 'symbol' => '﷼'],

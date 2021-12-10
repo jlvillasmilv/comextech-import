@@ -221,7 +221,8 @@ class ApplicationController extends Controller
 
     public function getApplicationCategory($id)
     {
-        $caterory = ApplicationDetail::where('application_id',$id)
+        $caterory = \DB::table('application_details')
+        ->where('application_id',$id)
         ->join('services as s', 'application_details.service_id', 's.id')
         ->join('category_services as cs', 's.category_service_id', 'cs.id')
         ->groupBy('cs.code')
@@ -414,6 +415,7 @@ class ApplicationController extends Controller
                     'adv'                  => $request->adv,
                     'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
                     'cif_amt'              => round($request->cif_amt, 0),
+                    'insurance'            => round($request->insurance, 0),
                 ]
             );
 

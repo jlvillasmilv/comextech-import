@@ -28,7 +28,7 @@
                 <div
                     class="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
                 >
-                    <div class="md:flex h-40 md:items-center my-3">
+                    <div class="md:flex md:items-center my-2">
                         <div class="md:w-1/3">
                             <input
                                 v-bind:value="true"
@@ -494,7 +494,7 @@
             </div>
 
             <div
-                class="mx-10 w-7/12 flex"
+                class="mx-10 w-2/3 flex"
                 :class="[
                     !$store.getters.findService('ICS04') ? '' : 'justify-start'
                 ]"
@@ -531,51 +531,39 @@
                             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                         >
                             <tr class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3">{{ formatPrice(AppAmount, 'USD') }}</td>
                                 <td class="px-4 py-3">USD</td>
                                 <td class="px-4 py-3">Mercaderia</td>
                                 <td class="px-4 py-3">
-                                    {{
-                                        formatPrice(data.amount, currency.code)
-                                    }}
+                                    {{ formatPrice(data.amount, currency.code) }}
                                 </td>
                                 <td class="px-4 py-3">{{ currency.code }}</td>
                             </tr>
                             <tr class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3"></td>
-                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3"> {{ formatPrice(transpAmount,'USD')}}</td>
+                                <td class="px-4 py-3">USD</td>
                                 <td class="px-4 py-3">Transporte</td>
                                 <td class="px-4 py-3">
                                     {{
-                                        formatPrice(
-                                            (data.amount * 2) / 100,
-                                            currency.code
-                                        )
+                                        formatPrice(transpAmount,'USD')
                                     }}
                                 </td>
-                                <td class="px-4 py-3">{{ currency.code }}</td>
+                                <td class="px-4 py-3">USD</td>
                             </tr>
                             <tr class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3"></td>
-                                <td class="px-4 py-3"></td>
+                                <td class="px-4 py-3">{{ formatPrice(this.expenses.insure) }}</td>
+                                <td class="px-4 py-3">USD</td>
                                 <td class="px-4 py-3">Seguro</td>
                                 <td class="px-4 py-3">
-                                     <!-- (data.amount * 5) / 100,
-                                            currency.code -->
-                                    {{
-                                        formatPrice(
-                                            this.expenses.cif_amt * 0.003
-                                           
-                                        )
-                                    }}
+                                    {{ formatPrice(this.expenses.insure) }}
                                 </td>
-                                <td class="px-4 py-3">{{ currency.code }}</td>
+                                <td class="px-4 py-3">USD</td>
                             </tr>
                             <tr class="bg-gray-100">
                                 <td
                                     class="text-blue-700 font-semibold px-4 py-3"
                                 >
-                                    {{ formatPrice(expenses.cif_amt, 'CLP') }}
+                                    {{ formatPrice(this.expenses.insure + transpAmount + AppAmount, 'USD') }}
                                 </td>
                                 <td
                                     class="text-blue-700 font-semibold px-4 py-3"
@@ -759,7 +747,8 @@ export default {
     components: { Load },
     computed: {
         ...mapState('internment', ['expenses']),
-        ...mapState('application', ['data', 'currency'])
+        ...mapState('application', ['data', 'currency']),
+        ...mapState("exchange", ["exchangeItem"]),
     },
     data() {
         return {
@@ -778,7 +767,9 @@ export default {
             certificate: {},
             custom_agents: [],
             showInputFile: false,
-            nameFileUpload: ''
+            nameFileUpload: '',
+            transpAmount: 0,
+            AppAmount: 0,
         };
     },
     methods: {
@@ -886,16 +877,49 @@ export default {
             this.expenses.application_id = this.application_id;
             this.expenses.transport = !this.$store.getters.findService('ICS03');
 
-            this.expenses.cif_amt =
-                Number(this.data.amount) +
-                (Number(this.data.amount) * 2) / 100;
+            const transp_cost = this.exchangeItem.find( tic => tic.code === 'CS03-01' );
+            const insure_cost = this.exchangeItem.find( ic => ic.code === 'CS03-02' );
 
-            if (this.expenses.cif_amt != 0 && this.currency.code != 'CLP') {
-                const { data } = await axios.get(
+            this.expenses.insure = Number(insure_cost.amount);
+            this.expenses.cif_amt = Number(this.data.amount);
+            this.transpAmount = Number(transp_cost.amount);
+            this.AppAmount = Number(this.data.amount);
+
+            if (this.AppAmount > 0 && this.currency.code != 'USD') {
+                const  app_usd = await axios.get(
+                    `/api/convert-currency/${this.AppAmount}/${this.currency.code}/USD`
+                );
+
+                 this.AppAmount = app_usd.data;
+
+            }
+
+
+            if (this.expenses.insure > 0 && this.currency.code != 'CLP') {
+                const  insure_clp = await axios.get(
+                    `/api/convert-currency/${this.expenses.insure}/${this.currency.code}/CLP`
+                );
+
+                this.expenses.insure = insure_clp.data;
+                this.expenses.cif_amt += insure_clp.data;
+            }
+
+
+            if (this.currency.code != 'CLP') {
+                const  commodity = await axios.get(
                     `/api/convert-currency/${this.expenses.cif_amt}/${this.currency.code}/CLP`
                 );
 
-                this.expenses.cif_amt = data;
+                this.expenses.cif_amt = commodity.data;
+            }
+
+            if(transp_cost.amount > 0 ) {
+               
+                const transp = await axios.get(
+                    `/api/convert-currency/${transp_cost.amount}/USD/CLP`
+                );
+
+                this.expenses.cif_amt += transp.data;
             }
 
             this.expenses.iva_amt = Math.round(

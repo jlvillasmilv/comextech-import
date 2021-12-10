@@ -23,11 +23,11 @@ class CreateRateFclsTable extends Migration
             $table->string('currency',3)->nullable();
             $table->date('valid_from')->nullable();
             $table->date('valid_to')->nullable();
-            $table->unsignedDecimal('c20');
-            $table->unsignedDecimal('c40');
+            $table->unsignedDecimal('c20', $precision = 9, $scale = 2);
+            $table->unsignedDecimal('c40', $precision = 9, $scale = 2);
             $table->unsignedDecimal('c40HC', $precision = 9, $scale = 2);
             $table->unsignedDecimal('c40NOR', $precision = 9, $scale = 2);
-            $table->unsignedDecimal('gl', $precision = 9, $scale = 2)->default(0);
+            $table->unsignedDecimal('oth_exp', $precision = 9, $scale = 2)->default(0)->comment('other expenses');
             $table->boolean('status')->default(true);
         });
     }
