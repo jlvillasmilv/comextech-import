@@ -24,12 +24,6 @@ class UsersTableSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-      $user->ownedTeams()->save(Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
-            'personal_team' => true,
-        ]));
-
 
         $client = User::create([
             'name'      => 'Cliente',
@@ -49,7 +43,8 @@ class UsersTableSeeder extends Seeder
             'status'  => 1
         ]);
 
-        $client->ports()->sync([218,219]);
+        $client->ports()->sync([26,25]);
+
 
         $supplier = Supplier::create([
             'user_id' => $client->id,
@@ -72,7 +67,7 @@ class UsersTableSeeder extends Seeder
             'address'           => '401 Stark Ramp Nienowland, MT 57331'
         ]);
 
-        $supplier->ports()->sync([262,264]);
+        $supplier->ports()->sync([18,617]);
 
        $trans_company  = TransCompany::get();
 
@@ -82,6 +77,10 @@ class UsersTableSeeder extends Seeder
             'imp_a' => 60
         ]);
        }
+
+       \DB::table('user_mark_ups')->insert([
+        'user_id' => $client->id,
+        ]);
 
        $client->credential()->create([
             'provider_name' => 'SII',

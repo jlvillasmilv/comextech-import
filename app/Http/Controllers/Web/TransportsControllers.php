@@ -148,7 +148,7 @@ class TransportsControllers extends Controller
                 ];
                 
                 $transp = Transport::rateTransport($data);
-
+                $local_transp = 0;
                 if($request->dest_port_id > 0 && strlen($request->dest_address) > 0)
                 {
                     $local_transp = Transport::rateLocalTransport($request->only([
@@ -160,15 +160,17 @@ class TransportsControllers extends Controller
                         'mode_selected'
                     ]));
 
-                    // update application summary local transport
-                    \DB::table('application_summaries')
-                    ->where([
-                    ["application_id", $request->application_id],
-                    ["service_id", 28]
-                    ])
-                    ->update(['amount' =>  $local_transp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
-
+                  
                 }
+
+                // update application summary local transport
+                \DB::table('application_summaries')
+                  ->where([
+                  ["application_id", $request->application_id],
+                  ["service_id", 28]
+                  ])
+                  ->update(['amount' =>  $local_transp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+
 
                 $transport_amount = $transp['int_trans'];
                 $cif            = $transp['cif'];

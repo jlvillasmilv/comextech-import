@@ -154,11 +154,11 @@
                                         </div>
                                     </td>
                                     <td class="text-center px-4 py-3">
-                                        {{ item.code }}
+                                        {{ item.currency }}
                                     </td>
                                     <td class="text-center px-4 py-3">
                                         {{
-                                            formatPrice(item.amount, item.code)
+                                            formatPrice(item.amount, item.currency)
                                         }}
                                     </td>
                                     <td class="text-center px-4 py-3">
@@ -243,9 +243,9 @@ export default {
                 );
                 //Update object's name property.
                 this.exchangeItem[objIndex].amo2 = e.amount;
-                this.exchangeItem[objIndex].currency2 = e.code;
-                console.log(this.formatter(e.amount, e.code));
-                this.currency_ex = e.code;
+                this.exchangeItem[objIndex].currency2 = e.currency;
+                console.log(this.formatter(e.amount, e.currency));
+                this.currency_ex = e.currency;
             });
             this.total = 0;
         },
@@ -257,7 +257,7 @@ export default {
                 if(e.amount != 0 ) {
                     try {
                         const resp = await axios.get(
-                            `/api/convert-currency/${e.amount}/${e.code}/${currency}`
+                            `/api/convert-currency/${e.amount}/${e.currency}/${currency}`
                         );
 
                         //Find index of specific object using findIndex method.
