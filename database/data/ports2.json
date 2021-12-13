@@ -1,0 +1,938 @@
+[
+    {
+      "total": "2",
+      "country_id": "221",
+      "name": "Dubai",
+      "province": "Dubayy [Dubai]",
+      "unlocs": "AEDXB",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "9",
+      "name": "Buenos Aires",
+      "province": "Ciudad Autónoma de Buenos Aires",
+      "unlocs": "ARBUE",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "12",
+      "name": "Brisbane",
+      "province": "Queensland",
+      "unlocs": "AUBNE",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "12",
+      "name": "Melbourne",
+      "province": "Victoria",
+      "unlocs": "AUMEL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "12",
+      "name": "Sydney",
+      "province": "New South Wales",
+      "unlocs": "AUSYD",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "17",
+      "name": "Chittagong",
+      "province": "Chittagong Division",
+      "unlocs": "BDCGP",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "20",
+      "name": "Antwerpen",
+      "province": "Antwerpen",
+      "unlocs": "BEANR",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "29",
+      "name": "Porto Alegre",
+      "province": "Rio Grande do Sul",
+      "unlocs": "BRPOA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "29",
+      "name": "Rio de Janeiro",
+      "province": "Rio de Janeiro",
+      "unlocs": "BRRIO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "29",
+      "name": "Santos",
+      "province": "São Paulo",
+      "unlocs": "BRSSZ",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "36",
+      "name": "Montreal",
+      "province": "Quebec",
+      "unlocs": "CAMTR",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "36",
+      "name": "Toronto",
+      "province": "Ontario",
+      "unlocs": "CATOR",
+      "type": "P"
+    },
+    {
+      "total": "1",
+      "country_id": "41",
+      "name": "San Antonio",
+      "province": "Valparaíso",
+      "unlocs": "CLSAI",
+      "type": "P"
+    },
+    {
+      "total": "1",
+      "country_id": "41",
+      "name": "Valparaiso",
+      "province": "Valparaíso",
+      "unlocs": "CLVAP",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Dongguan Port",
+      "province": "Guangdong",
+      "unlocs": "CNDGG",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Dalian",
+      "province": "Liaoning",
+      "unlocs": "CNDLC",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Fuzhou",
+      "province": "Fujian",
+      "unlocs": "CNFOC",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Huangpu Port",
+      "province": "Guangdong",
+      "unlocs": "CNHUA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Jiangmen Port",
+      "province": "Guangdong",
+      "unlocs": "CNJMN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Ningbo",
+      "province": "Zhejiang",
+      "unlocs": "CNNGB",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Rongqi Port",
+      "province": "Guangdong",
+      "unlocs": "CNROQ",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Shanghai",
+      "province": "Shanghai",
+      "unlocs": "CNSGH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Port of Shantou",
+      "province": "Guangdong",
+      "unlocs": "CNSTG",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Shunde Port",
+      "province": "Guangdong",
+      "unlocs": "CNSUD",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Shenzhen Baoan",
+      "province": "Guangdong",
+      "unlocs": "CNSZX",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Qingdao",
+      "province": "Shandong",
+      "unlocs": "CNTAO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Xingang",
+      "province": "Tianjin",
+      "unlocs": "CNXGA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Xiamen",
+      "province": "Fujian",
+      "unlocs": "CNXMN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Yantian Port",
+      "province": "Guangdong",
+      "unlocs": "CNYTN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Zhongshan Port",
+      "province": "Guangdong",
+      "unlocs": "CNZSN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "42",
+      "name": "Zhuhai Port",
+      "province": "Guangdong",
+      "unlocs": "CNZUH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "43",
+      "name": "Buenaventura",
+      "province": "Valle del Cauca",
+      "unlocs": "COBUN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "74",
+      "name": "Hamburg",
+      "province": "Hamburg",
+      "unlocs": "DEHAM",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "53",
+      "name": "Kobenhavn",
+      "province": "Hovedstaden",
+      "unlocs": "DKCPH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "57",
+      "name": "Guayaquil",
+      "province": "Guayas",
+      "unlocs": "ECGYE",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "58",
+      "name": "El Iskandariya (Alexandria)",
+      "province": "Alexandria Governorate",
+      "unlocs": "EGALY",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Malaga",
+      "province": "Andalusia",
+      "unlocs": "ESAGP",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Alicante",
+      "province": "Valencian Community",
+      "unlocs": "ESALC",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Barcelona",
+      "province": "Catalonia",
+      "unlocs": "ESBCN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Bilbao",
+      "province": "Biskaia",
+      "unlocs": "ESBIO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "La Coruna (A Coruna)",
+      "province": "A Coruña [La Coruña]",
+      "unlocs": "ESLCG",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Madrid",
+      "province": "Community of Madrid",
+      "unlocs": "ESMAD",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Sevilla",
+      "province": "Andalusia",
+      "unlocs": "ESSVQ",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Vigo",
+      "province": "Galicia",
+      "unlocs": "ESVGO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Valencia",
+      "province": "Valencian Community",
+      "unlocs": "ESVLC",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "197",
+      "name": "Zaragoza",
+      "province": "Aragon",
+      "unlocs": "ESZAZ",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "67",
+      "name": "Helsingfors (Helsinki)",
+      "province": "Uusimaa",
+      "unlocs": "FIHEL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "68",
+      "name": "Le Havre",
+      "province": "Seine-Maritime",
+      "unlocs": "FRLEH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "68",
+      "name": "Marseille",
+      "province": "Bouches-du-Rhône",
+      "unlocs": "FRMRS",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "68",
+      "name": "Paris",
+      "province": "Paris",
+      "unlocs": "FRPAR",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "222",
+      "name": "Tilbury",
+      "province": "Essex",
+      "unlocs": "GBTIL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "77",
+      "name": "Piraeus",
+      "province": "Attica",
+      "unlocs": "GRPIR",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "93",
+      "name": "Jakarta, Java",
+      "province": "Jakarta Raya",
+      "unlocs": "IDJKT",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "93",
+      "name": "Semarang",
+      "province": "Jawa Tengah",
+      "unlocs": "IDSRG",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "93",
+      "name": "Surabaya",
+      "province": "Jawa Timur",
+      "unlocs": "IDSUB",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "96",
+      "name": "Dublin",
+      "province": "Dublin",
+      "unlocs": "IEDUB",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "98",
+      "name": "Haifa",
+      "province": "",
+      "unlocs": "ILHFA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Ahmedabad",
+      "province": "Gujarat",
+      "unlocs": "INAMD",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Bangalore",
+      "province": "Karnataka",
+      "unlocs": "INBLR",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Mumbai (ex Bombay)",
+      "province": "Maharashtra",
+      "unlocs": "INBOM",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Kolkata (ex Calcutta)",
+      "province": "West Bengal",
+      "unlocs": "INCCU",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Cochin",
+      "province": "Kerala",
+      "unlocs": "INCOK",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Hyderabad",
+      "province": "Andhra Pradesh",
+      "unlocs": "INHYD",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "New Delhi",
+      "province": "Delhi",
+      "unlocs": "INICD",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Ludhiana",
+      "province": "Punjab",
+      "unlocs": "INLUH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Chennai (ex Madras)",
+      "province": "Tamil Nadu",
+      "unlocs": "INMAA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Jawaharlal Nehru (Nhava Sheva)",
+      "province": "Maharashtra",
+      "unlocs": "INNSA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "92",
+      "name": "Tuticorin",
+      "province": "Tamil Nadu",
+      "unlocs": "INTUT",
+      "type": "P"
+    },
+    {
+      "total": "4",
+      "country_id": "99",
+      "name": "Genova",
+      "province": "Genova",
+      "unlocs": "ITGOA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "101",
+      "name": "Nagoya, Aichi",
+      "province": "Aiti [Aichi]",
+      "unlocs": "JPNGO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "101",
+      "name": "Osaka",
+      "province": "Ôsaka [Osaka]",
+      "unlocs": "JPOSA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "101",
+      "name": "Tokyo",
+      "province": "Tôkyô [Tokyo]",
+      "unlocs": "JPTYO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "101",
+      "name": "Kobe",
+      "province": "Hyôgo[Hyogo]",
+      "unlocs": "JPUKB",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "101",
+      "name": "Yokohama",
+      "province": "Kanagawa",
+      "unlocs": "JPYOK",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "34",
+      "name": "Phnom Penh",
+      "province": "Phnom Penh",
+      "unlocs": "KHPNH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "195",
+      "name": "Busan",
+      "province": "Busan Gwang'yeogsi [Pusan-Kwangyokshi]",
+      "unlocs": "KRPUS",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "113",
+      "name": "Beirut",
+      "province": "Beirut",
+      "unlocs": "LBBEY",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "132",
+      "name": "Manzanillo",
+      "province": "Colima",
+      "unlocs": "MXZLO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "124",
+      "name": "Penang (Georgetown)",
+      "province": "Pulau Pinang",
+      "unlocs": "MYPEN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "124",
+      "name": "Pasir Gudang, Johor",
+      "province": "Johor",
+      "unlocs": "MYPGU",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "124",
+      "name": "Port Klang (Pelabuhan Klang)",
+      "province": "Selangor",
+      "unlocs": "MYPKG",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "145",
+      "name": "Rotterdam",
+      "province": "Zuid-Holland",
+      "unlocs": "NLRTM",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "155",
+      "name": "Oslo",
+      "province": "Oslo",
+      "unlocs": "NOOSL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "148",
+      "name": "Auckland",
+      "province": "Auckland",
+      "unlocs": "NZAKL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "159",
+      "name": "Manzanillo",
+      "province": "Veraguas",
+      "unlocs": "PAMIT",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "162",
+      "name": "Callao",
+      "province": "Lima",
+      "unlocs": "PECLL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "163",
+      "name": "Cebu",
+      "province": "Central Visayas",
+      "unlocs": "PHCEB",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "163",
+      "name": "Manila",
+      "province": "Metro Manila",
+      "unlocs": "PHMNL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "166",
+      "name": "Lisboa",
+      "province": "Lisboa",
+      "unlocs": "PTLIS",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "166",
+      "name": "Porto",
+      "province": "Porto",
+      "unlocs": "PTOPO",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "203",
+      "name": "Goteborg",
+      "province": "Västra Götalands län",
+      "unlocs": "SEGOT",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "203",
+      "name": "Malmo",
+      "province": "Skåne län",
+      "unlocs": "SEMMA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "209",
+      "name": "Bangkok",
+      "province": "Krung Thep Maha Nakhon [Bangkok]",
+      "unlocs": "THBKK",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "215",
+      "name": "Istanbul",
+      "province": "Istanbul",
+      "unlocs": "TRIST",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "215",
+      "name": "Izmir",
+      "province": "Izmir",
+      "unlocs": "TRIZM",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "215",
+      "name": "Mersin",
+      "province": "Mersin",
+      "unlocs": "TRMER",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "206",
+      "name": "Keelung (Chilung)",
+      "province": "",
+      "unlocs": "TWKEL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "206",
+      "name": "Kaohsiung",
+      "province": "Kaohsiung City",
+      "unlocs": "TWKHH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Atlanta",
+      "province": "Georgia",
+      "unlocs": "USATL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Baltimore",
+      "province": "Maryland",
+      "unlocs": "USBAL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Boston",
+      "province": "Massachusetts",
+      "unlocs": "USBOS",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Chicago",
+      "province": "Illinois",
+      "unlocs": "USCHI",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Charleston",
+      "province": "South Carolina",
+      "unlocs": "USCHS",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Cleveland",
+      "province": "Ohio",
+      "unlocs": "USCLE",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Charlotte",
+      "province": "North Carolina",
+      "unlocs": "USCLT",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Cincinnati",
+      "province": "Ohio",
+      "unlocs": "USCVG",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Detroit",
+      "province": "Michigan",
+      "unlocs": "USDET",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Houston",
+      "province": "Texas",
+      "unlocs": "USHOU",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Los Angeles",
+      "province": "California",
+      "unlocs": "USLAX",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Miami",
+      "province": "Florida",
+      "unlocs": "USMIA",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "New York",
+      "province": "New York",
+      "unlocs": "USNYC",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Norfolk",
+      "province": "Virginia",
+      "unlocs": "USORF",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Philadelphia",
+      "province": "Pennsylvania",
+      "unlocs": "USPHL",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "223",
+      "name": "Savannah",
+      "province": "Georgia",
+      "unlocs": "USSAV",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "229",
+      "name": "Haiphong",
+      "province": "Haiphong",
+      "unlocs": "VNHPH",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "229",
+      "name": "Ho Chi Minh City",
+      "province": "Ho Chi Minh",
+      "unlocs": "VNSGN",
+      "type": "P"
+    },
+    {
+      "total": "2",
+      "country_id": "194",
+      "name": "Cape Town",
+      "province": "Western Cape",
+      "unlocs": "ZACPT",
+      "type": "P"
+    }
+  ]

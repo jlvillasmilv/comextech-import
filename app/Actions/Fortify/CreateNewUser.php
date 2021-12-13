@@ -65,6 +65,8 @@ class CreateNewUser implements CreatesNewUsers
                 'imp_a' => 60
             ]);
         }
+
+        \DB::table('user_mark_ups')->insert(['user_id' => $client->id,]);
     
         // $user->ownedTeams()->save(Team::forceCreate([
         //     'user_id' => $user->id,

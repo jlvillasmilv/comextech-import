@@ -63,12 +63,14 @@ class Transport extends Model
         $oth_exp  = 0;
         $t_time = 1;
         $rate_insurance_transp = 0;
+        $type_mark_up = 'air';
 
         if(count($data) > 0)
         {
             //Rate FCL
             if($data['type_transport'] == 'CONTAINER')
             {
+                $type_mark_up = 'fcl';
                 $rate_insurance_transp = \DB::table('settings')->first(['min_rate_fcl'])->min_rate_fcl;
 
                 foreach($data['cargo'] as $item) {
@@ -83,8 +85,8 @@ class Transport extends Model
                     ->first();
 
                     $int_trans += is_null($rate) ? 0 : $rate->$field;
-                    $oth_exp        += is_null($rate) ? 0 : $rate->oth_exp;
-                    $t_time =  is_null($rate) ? 12 : $rate->t_time;
+                    $oth_exp   += is_null($rate) ? 0 : $rate->oth_exp;
+                    $t_time    =  is_null($rate) ? 12 : $rate->t_time;
                 }
 
             }
@@ -92,6 +94,7 @@ class Transport extends Model
             // Rate LCL
             if($data['type_transport'] == 'CONSOLIDADO')
             {
+                $type_mark_up = 'lcl';
                 $rate_insurance_transp = \DB::table('settings')->first(['min_rate_lcl'])->min_rate_lcl;
 
                 foreach($data['cargo'] as $item) {
@@ -128,6 +131,7 @@ class Transport extends Model
              // Rate AIR
              if($data['type_transport'] == 'AEREO')
              {
+                $type_mark_up = 'air';
                 $rate_insurance_transp =  \DB::table('settings')->first(['min_rate_aereo'])->min_rate_aereo;
 
                 foreach($data['cargo'] as $item) {
@@ -146,11 +150,20 @@ class Transport extends Model
                     $t_time =  is_null($rate) ? 12 : $rate->oth_exp;
                 }
  
-             }
+            }
+
+            //profit margin 
+            $mark_up =  \DB::table('user_mark_ups')
+            ->where('user_id', auth()->user()->id)
+            ->first($type_mark_up)->$type_mark_up;
+
+            $mark_up = round(1 / ((100 - (is_null($mark_up) ? 40 : $mark_up) )/100), 2);
+
+            $int_trans = $mark_up * $int_trans;
 
             $cif = $int_trans + $data['commodity'];
 
-            $insurance = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
+            $insurance = $cif * 0.035 > $rate_insurance_transp ? $cif * 0.035 : $rate_insurance_transp;
 
             if($oth_exp>0){ 
                 $exchange = New Currency;
