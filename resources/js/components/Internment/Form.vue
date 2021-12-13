@@ -876,7 +876,7 @@ export default {
             //asignar id de solicitud
             this.expenses.application_id = this.application_id;
             this.expenses.transport = !this.$store.getters.findService('ICS03');
-
+// /custom-convert-currency
             const transp_cost = this.exchangeItem.find( tic => tic.code === 'CS03-01' );
             const insure_cost = this.exchangeItem.find( ic => ic.code === 'CS03-02' );
 
@@ -897,7 +897,7 @@ export default {
 
             if (this.expenses.insure > 0 && this.currency.code != 'CLP') {
                 const  insure_clp = await axios.get(
-                    `/api/convert-currency/${this.expenses.insure}/${this.currency.code}/CLP`
+                    `/custom-convert-currency/${this.expenses.insure}/${this.currency.code}`
                 );
 
                 this.expenses.insure = insure_clp.data;
@@ -907,7 +907,7 @@ export default {
 
             if (this.currency.code != 'CLP') {
                 const  commodity = await axios.get(
-                    `/api/convert-currency/${this.expenses.cif_amt}/${this.currency.code}/CLP`
+                    `/custom-convert-currency/${this.expenses.cif_amt}/${this.currency.code}`
                 );
 
                 this.expenses.cif_amt = commodity.data;
@@ -916,7 +916,7 @@ export default {
             if(transp_cost.amount > 0 ) {
                
                 const transp = await axios.get(
-                    `/api/convert-currency/${transp_cost.amount}/USD/CLP`
+                    `/custom-convert-currency/${transp_cost.amount}/USD`
                 );
 
                 this.expenses.cif_amt += transp.data;

@@ -43,7 +43,7 @@ class UsersTableSeeder extends Seeder
             'status'  => 1
         ]);
 
-        $client->ports()->sync([26,25]);
+        $client->ports()->sync([13,14]);
 
 
         $supplier = Supplier::create([
@@ -67,7 +67,7 @@ class UsersTableSeeder extends Seeder
             'address'           => '401 Stark Ramp Nienowland, MT 57331'
         ]);
 
-        $supplier->ports()->sync([18,617]);
+        $supplier->ports()->sync([26,25]);
 
        $trans_company  = TransCompany::get();
 

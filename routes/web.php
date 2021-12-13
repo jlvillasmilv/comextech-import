@@ -130,6 +130,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('/mark-as-read', 'App\Http\Controllers\HomeController@markNotification')->name('markNotification');
 
     Route::get('/convert-currency-date/{date}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrencyDate']);
+    Route::get('/custom-convert-currency/{amount}/{from_currency}', [ServicesController::class, 'customsConvertCurrency']);
+    
 
 });
 

@@ -34,6 +34,15 @@ class ServicesController extends Controller
 
     }
 
+    public function customsConvertCurrency($amount,$from_currency){
+
+        $current = \DB::table('customs_exchange_rates')->where('currency_code',$from_currency)->first();
+        $amount = (is_null($current) ? 1 : $current->amount) * $amount; 
+
+        return $amount;
+
+    }
+
     public function convertCurrencyDate($date,$from_currency,$to_currency){
       $apikey = env('API_KEY_CURRENCY');
 

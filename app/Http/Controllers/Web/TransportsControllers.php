@@ -194,18 +194,17 @@ class TransportsControllers extends Controller
                     'fee_date'    => $fee_date
                 ]);
 
-           if($request->insurance){
+          
                 // update application summary insurance
-                $app_summ = \DB::table('application_summaries')
+            $app_summ = \DB::table('application_summaries')
                 ->where([
                 ["application_id", $request->application_id],
                 ["service_id", 24]
                 ])
                 ->update([
-                    'amount'      => $insurance_amount,
+                    'amount'      => $request->insurance ? $insurance_amount : 0,
                     'currency_id' =>  8,
                     'fee_date'    => $request->estimated_date]);
-            }
 
             // update application summary local expenses
             $app_summ = \DB::table('application_summaries')

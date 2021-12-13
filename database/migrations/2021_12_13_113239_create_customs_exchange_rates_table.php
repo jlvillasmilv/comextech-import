@@ -16,7 +16,7 @@ class CreateCustomsExchangeRatesTable extends Migration
         Schema::create('customs_exchange_rates', function (Blueprint $table) {
             $table->id();
             $table->string('currency_code',4);
-            $table->unsignedInteger('amount')->nullable();
+            $table->unsignedDecimal('amount', $precision = 8, $scale = 2)->nullable();
             $table->date('exchange');
             $table->timestamps();
         });
