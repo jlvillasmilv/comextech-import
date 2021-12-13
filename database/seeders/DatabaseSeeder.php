@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SeaPortSeeder::class);
         $this->call(TransCompaniesSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(CustomsExchangeRateSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
         $this->call(CurrencySeeder::class);
@@ -32,6 +33,5 @@ class DatabaseSeeder extends Seeder
         $this->call(CustomAgentSeeder::class);
         $this->call(EcommerceSeeder::class);
         $this->call(FactoringSeeder::class);
-       
     }
 }
