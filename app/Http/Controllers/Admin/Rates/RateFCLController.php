@@ -128,11 +128,10 @@ class RateFCLController extends Controller
 
     }
 
-
     public function fileImport(Request $request) 
     {
         try {
-            Excel::import(new FCLImport, $request->file('file')->store('temp'));
+            Excel::import(new FCLImport, $request->file('file'));
             $notification = array(
                 'message'    => 'Registro subidos con exito',
                 'alert_type' => 'success',);

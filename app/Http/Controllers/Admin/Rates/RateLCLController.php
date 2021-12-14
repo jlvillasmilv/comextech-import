@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin\Rates;
 
 use App\Http\Controllers\Controller;
+use App\Imports\Admin\Rate\LCLImport;
 use App\Models\RateLcl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\Admin\Rates\RateLCLRequest;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Requests\Admin\Rates\LCLImport;
 
 class RateLCLController extends Controller
 {
@@ -131,13 +131,13 @@ class RateLCLController extends Controller
     public function fileImport(Request $request) 
     {
         try {
-            Excel::import(new LCLImport, $request->file('file')->store('temp'));
+            Excel::import(new LCLImport, $request->file('file'));
             $notification = array(
                 'message'    => 'Registro subidos con exito',
                 'alert_type' => 'success',);
 
         } catch (\Throwable $th) {
-
+            dd($th);
             $notification = array(
                 'message'    => 'Problemas para subir datos verifique su archivo',
                 'alert_type' => 'error',);
