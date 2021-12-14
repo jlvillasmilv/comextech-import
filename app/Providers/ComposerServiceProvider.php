@@ -10,6 +10,12 @@ class ComposerServiceProvider extends ServiceProvider
     {
 
         View::composer('admin.users.form', 'App\Http\ViewComposers\UserComposer');
+        View::composer([
+            'admin.rates.fcl.form',
+            'admin.rates.lcl.form', 
+        ],
+         'App\Http\ViewComposers\PortsComposer');
+        
         View::composer('admin.applications.form', 'App\Http\ViewComposers\ApplicationStatuses');
         View::composer('admin.services.form', 'App\Http\ViewComposers\CategoryServiceComposer');
         View::composer('supplier.form', 'App\Http\ViewComposers\SupplierComposer');
