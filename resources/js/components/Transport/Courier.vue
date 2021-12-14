@@ -489,12 +489,11 @@
 
 <script>
 import VueGoogleAutocomplete from 'vue-google-autocomplete';
-import Load from './Load.vue';
 import { mapState } from 'vuex';
 import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
 
 export default {
-  components: { Load, VueGoogleAutocomplete, Button },
+  components: { VueGoogleAutocomplete, Button },
   props: {
     address: String
   },
