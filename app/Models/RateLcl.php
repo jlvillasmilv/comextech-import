@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class RateLcl extends Model
 {
     protected $table = 'rate_lcl';
+    protected $guarded = [];
     public $timestamps = false;
 }

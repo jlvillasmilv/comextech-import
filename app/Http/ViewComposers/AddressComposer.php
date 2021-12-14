@@ -10,8 +10,7 @@ class AddressComposer {
 
 	public function compose(View $view)
 	{
-		$country = Country::OrderBy('name')
-		->select('id', 'name')
+		$country = Country::select('id', 'name')
 		->orderBy('name', 'ASC')
 		->pluck('name','id');
 

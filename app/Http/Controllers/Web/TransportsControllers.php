@@ -80,10 +80,9 @@ class TransportsControllers extends Controller
      * 
     */
     public function add(TransportRequest $request)
-    {
-        
-        //DB::beginTransaction();
-        // try {
+    { 
+        DB::beginTransaction();
+        try {
                       
             $transport =  Transport::updateOrCreate(
                 [
@@ -221,12 +220,12 @@ class TransportsControllers extends Controller
                 'insurance' => $insurance_amount,
             ];
 
-        // DB::commit();
+        DB::commit();
 
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return response()->json(['status' => $e], 500);
-        // }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => $e], 500);
+        }
         return response()->json(['loads' => $transport->application->loads, 'transport' => $trans_summary], 200);
 
     }

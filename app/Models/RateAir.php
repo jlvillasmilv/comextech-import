@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RateAir extends Model
 {
-    protected $table = 'rate_lcl';
+    protected $table = 'rate_airs';
+    protected $guarded = [];
     public $timestamps = false;
 }
