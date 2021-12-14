@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
                     ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
                     ->join('services as s', 'aps.service_id', 's.id')
                     ->where('application_id', $id)
-                    ->select('aps.id','currencies.code','s.code','s.name as description','aps.fee_date','aps.amount', 'aps.amount as amo2', 'currencies.code as currency2' )
+                    ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date','aps.amount', 'aps.amount as amo2', 'currencies.code as currency2' )
                     ->orderBy('s.id')
                     ->get();
         
@@ -130,6 +130,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('/mark-as-read', 'App\Http\Controllers\HomeController@markNotification')->name('markNotification');
 
     Route::get('/convert-currency-date/{date}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrencyDate']);
+    Route::get('/custom-convert-currency/{amount}/{from_currency}', [ServicesController::class, 'customsConvertCurrency']);
+    
 
 });
 
