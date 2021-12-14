@@ -36,7 +36,8 @@ const state = {
   portsDestination: [],
   portsDesTemp: [],
   addressDate: true,
-  formAddress: false
+  formAddress: false,
+  fclTable: false
 };
 
 const getters = {};
@@ -73,6 +74,9 @@ const mutations = {
       state.portsOriginTemp = state.portsDestination;
     }
     state.portsOrigin = payload;
+  },
+  SHOW_QUOTE_FCL(state, value) {
+    state.fclTable = value;
   }
 };
 
@@ -119,6 +123,9 @@ const actions = {
   },
   setModeSelected({ commit }, data) {
     commit('SET_MODE_SELECTED', data);
+  },
+  showQuoteFCL({ commit }, value) {
+    commit('SHOW_QUOTE_FCL', value);
   }
 };
 
