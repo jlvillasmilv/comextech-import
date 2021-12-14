@@ -1561,7 +1561,7 @@
       </div>
 
       <div
-        v-if="data.type_transport !== 'COURIER'"
+        v-if="data.type_transport !== 'COURIER' && data.type_transport != 'CONTAINER'"
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
             ? 'flex justify-center'

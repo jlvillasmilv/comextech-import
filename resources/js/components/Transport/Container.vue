@@ -1048,7 +1048,7 @@
         </div>
       </transition>
       <transition name="fade">
-        <div class="flex flex-wrap justify-center -mx-3 mb-6">
+        <div v-if="addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400 font-semibold">
@@ -1510,6 +1510,143 @@
         </div>
       </transition>
     </div>
+    <section v-if="fclTable">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr>
+              <td class="px-4 py-1">MERCADERIA</td>
+              <td class="px-4 py-1">20.000 USD</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-1">TRANSPORTE</td>
+              <td class="px-4 py-1">10.000 USD</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-1">VALOR CIF</td>
+              <td class="px-4 py-1">30.000 USD</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-1">Costo Seguro</td>
+              <td class="px-4 py-1">0.30%</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-1">Prima Seguro</td>
+              <td class="px-4 py-1">90</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-1">MIN</td>
+              <td class="px-4 py-1">100</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr>
+              <td class="px-4 py-1">TIPO</td>
+              <td class="px-4 py-1">40</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-1">PTO ORIGEN</td>
+              <td class="px-4 py-1">MXZLO</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-1">PTO DESTINO</td>
+              <td class="px-4 py-1">CLVAP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-8">
+        <table>
+          <thead>
+            <tr class="bg-gray-100">
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th class="text-blue-700">TARIFA</th>
+              <th class="text-blue-700">MONEDA</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr class="text-center">
+              <td class="px-4 py-3">EXW</td>
+              <td class="px-4 py-3">TRAMO LOCAL (ORIGEN)</td>
+              <td class="px-4 py-3">POR COTIZAR</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
+              <td class="px-4 py-3">10.000</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">SEGURO</td>
+              <td class="px-4 py-3">100</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">GASTOS LOCALES</td>
+              <td class="px-4 py-3">17.000</td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
+              <td class="px-4 py-3">POR COTIZAR</td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div
+      :class="[
+        !expenses.dataLoad || expenses.dataLoad.length <= 0
+          ? 'flex justify-center'
+          : 'flex justify-center my-5 innline w-1/7 mt-5'
+      ]"
+    >
+      <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">
+        Editar
+      </button>
+
+      <button
+        v-else-if="expenses.dataLoad.length > 0"
+        @click="HideAddress()"
+        class="mr-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+      >
+        Editar
+      </button>
+      <button
+        @click="submitQuote()"
+        :class="[
+          !expenses.dataLoad
+            ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+            : expenses.dataLoad.length <= 0
+            ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+        ]"
+      >
+        Cotizar
+      </button>
+    </div>
   </div>
 </template>
 
@@ -1527,6 +1664,43 @@ export default {
     };
   },
   methods: {
+    /**
+     * Send api quote (button Cotizar fedex, dhl, ups)
+     * @param {Number} appAmount selected service amount if fedex, dhl or ups
+     * @param {Number} transCompanyId number of the service that is selected:
+     * @param {2} FEDEX
+     * @param {3} DHL
+     * @param {4} UPS
+     */
+    async submitQuote(appAmount, transCompanyId) {
+      this.$store.dispatch('address/showQuoteFCL', true);
+      this.$store.dispatch('address/showAddress', false);
+      this.$store.dispatch('load/showLoadCharge', false);
+      try {
+        this.expenses.dataLoad = this.$store.state.load.loads;
+        this.expenses.app_amount = appAmount;
+        this.expenses.trans_company_id = transCompanyId;
+        const { data } = await this.expenses.post('/applications/transports');
+        Toast.fire({
+          icon: 'success',
+          title: 'Datos Agregados'
+        });
+
+        this.$store.dispatch('exchange/getSummary', this.data.application_id);
+        this.$store.dispatch('load/setLoad', data);
+        // this.$store.dispatch('callIncomingOrNextMenu', true);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    /**
+     * Show / Hide from address (button "Editar")
+     */
+    HideAddress() {
+      this.$store.dispatch('address/showAddress', true);
+      this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
+      this.$store.dispatch('address/showQuoteFCL', false);
+    },
     getFavOriginPort: async function() {
       this.expenses.origin_port_id = '';
       if (this.expenses.fav_origin_port && this.data.supplier_id) {
@@ -1617,7 +1791,8 @@ export default {
       'portsDestination',
       'portsDesTemp',
       'addressDate',
-      'formAddress'
+      'formAddress',
+      'fclTable'
     ]),
     ...mapState('application', ['data', 'currency', 'origin_transport'])
   }
