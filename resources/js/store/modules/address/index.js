@@ -37,7 +37,9 @@ const state = {
   portsDesTemp: [],
   addressDate: true,
   formAddress: false,
-  fclTable: false
+  fclTable: false,
+  lclTable: false,
+  minDate: new Date().toISOString().substr(0, 10)
 };
 
 const getters = {};
@@ -77,6 +79,9 @@ const mutations = {
   },
   SHOW_QUOTE_FCL(state, value) {
     state.fclTable = value;
+  },
+  SHOW_QUOTE_LCL(state, value) {
+    state.lclTable = value;
   }
 };
 
@@ -126,6 +131,9 @@ const actions = {
   },
   showQuoteFCL({ commit }, value) {
     commit('SHOW_QUOTE_FCL', value);
+  },
+  showQuoteLCL({ commit }, value) {
+    commit('SHOW_QUOTE_LCL', value);
   }
 };
 
