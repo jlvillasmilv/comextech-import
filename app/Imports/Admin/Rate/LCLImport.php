@@ -15,7 +15,6 @@ class LCLImport implements ToModel, WithHeadingRow
     */
     public function model(array $rows)
     {   
-       // dd($rows);
         return new RateLcl([
             'user_id'       => auth()->user()->id,
             'from'          => $rows['from'],
