@@ -27,6 +27,7 @@ const mutations = {
     state.positionTabs = state.selectedServices.findIndex((service) => service.code === code);
     this.state.address.addressDate = true;
     this.state.address.formAddress = true;
+    this.state.load.showLoad = true;
   },
   SELECT_SERVICE(state, payload) {
     state.selectedServices.push({ ...payload });
