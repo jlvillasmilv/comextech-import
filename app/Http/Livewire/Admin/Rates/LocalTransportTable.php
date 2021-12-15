@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Admin\Rates;
 
 use App\Models\RateLocalTransport;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
-use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\{Column, NumberColumn};
 
 class LocalTransportTable extends LivewireDatatable
 {
@@ -19,13 +19,17 @@ class LocalTransportTable extends LivewireDatatable
             Column::name('to')
             ->label('To'),
 
-            Column::name('via')
-            ->label('VIA')
+            NumberColumn::name('weight')
+            ->label('Peso')
             ->searchable(),
 
-            Column::name('t_time')
-            ->searchable()
-            ->label('Transit time'),
+            NumberColumn::name('weight_limit')
+            ->label('Limite')
+            ->searchable(),
+
+            NumberColumn::name('amount')
+            ->label('Monto')
+            ->searchable(),
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.rates.local-transport.', 'permission' => 'admin.rates.local-transport']);

@@ -15,6 +15,11 @@ class ComposerServiceProvider extends ServiceProvider
             'admin.rates.lcl.form', 
         ],
          'App\Http\ViewComposers\PortsComposer');
+
+
+        View::composer('admin.rates.local_transport.form', 'App\Http\ViewComposers\LocalTranspComposer');
+        
+         
         
         View::composer('admin.applications.form', 'App\Http\ViewComposers\ApplicationStatuses');
         View::composer('admin.services.form', 'App\Http\ViewComposers\CategoryServiceComposer');

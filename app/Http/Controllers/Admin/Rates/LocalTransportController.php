@@ -17,11 +17,11 @@ class LocalTransportController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('rates.lcl.index')) {
+        if (! Gate::allows('rates.local_transport.index')) {
             return abort(401);
         }
         
-        return view('admin.rates.lcl.index');
+        return view('admin.rates.local_transport.index');
 
     }
 
@@ -32,11 +32,11 @@ class LocalTransportController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('rates.lcl.create')) {
+        if (! Gate::allows('rates.local_transport.create')) {
             return abort(401);
         }
 
-        return view('admin.rates.lcl.form');
+        return view('admin.rates.local_transport.form');
     }
 
     /**
@@ -58,36 +58,36 @@ class LocalTransportController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.rates.lcl.edit', base64_encode($data->id));
+        return redirect()->route('admin.rates.local_transport.edit', base64_encode($data->id));
     }
 
    
     public function show($id)
     {
-        if (! Gate::allows('rates.lcl.show')) {
+        if (! Gate::allows('rates.local_transport.show')) {
             return abort(401);
         }
 
-        $data  = RateLcl::findOrFail(base64_decode($id));
+        $data  = RateLocalTransport::findOrFail(base64_decode($id));
 
-        return view('admin.rates.lcl.show', compact('data'));
+        return view('admin.rates.local_transport.show', compact('data'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\RateLcl  $Service
+     * @param  \App\Models\RateLocalTransport
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (! Gate::allows('rates.lcl.edit')) {
+        if (! Gate::allows('rates.local_transport.edit')) {
             return abort(401);
         }
 
-        $data  = RateLcl::findOrFail(base64_decode($id));
+        $data  = RateLocalTransport::findOrFail(base64_decode($id));
 
-        return view('admin.rates.lcl.form', compact('data'));
+        return view('admin.rates.local_transport.form', compact('data'));
     }
 
     /**
@@ -108,7 +108,7 @@ class LocalTransportController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.rates.lcl.edit', base64_encode($data->id));
+        return redirect()->route('admin.rates.local_transport.edit', base64_encode($data->id));
     }
     
     /**

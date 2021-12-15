@@ -1,7 +1,7 @@
 <x-app-layout title="Formulario de registro">
 	<div class="container grid px-6 mx-auto">
 		<h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            <a href="{{route('admin.category_service.index')}}">Categoria Servicios</a>  
+            <a href="{{route('admin.rates.local-transport.index')}}">Tarifa</a>  
         </h2>
 
         <div class="flex justify-between items-end">
@@ -13,36 +13,155 @@
 
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         
-
-            <form class="form-horizontal" role="form" method="POST" action="{{ isset($data) ? route('admin.category_service.update', $data->id) : route('admin.category_service.store') }}"  enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" method="POST" action="{{ isset($data) ? route('admin.rates.local-transport.update', base64_encode($data->id)) : route('admin.rates.local-transport.store') }}">
                 @csrf
                  @if(isset($data))
 		           @method('PUT')
 		        @endif
 
-	        <label class="block text-sm my-3">
-	            <span class="text-gray-700 dark:text-gray-400">Nombre</span>
-	            <input class="{{ $errors->has('name') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre de la caregoria" / name="name" value="{{ old('name', isset($data) ? $data->name : '') }}" max="100" required="">
-	            @if($errors->has('name'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('name') }}
-		                </span>
-	                @endif
-	        </label>
+				<label class="block text-sm my-3">
+					<div class="px-2" id="add_to">
+						<div class="flex mb-4">
+							<div class="w-2/4 mr-1 sm:w-full ">
+								<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Origen:</label>
+								<select name="from" class="select2 form-input @error('from') is-invalid @enderror">
+	
+								  @foreach($ports as $id => $name)
+			  
+									  @if(old('from', isset($data->from) && $data->from == $id) )
+										  <option value="{{ $id }}" selected>{{ $name }}</option>
+									  @else
+										  <option value="{{ $id }}">{{ $name }}</option>
+									  @endif
+			  
+									  @endforeach
+								  </select>
+								  
+								  @if($errors->has('from'))
+									  <span class="text-xs text-red-600 dark:text-red-400">
+										  {{ $errors->first('from') }}
+									  </span>
+								  @endif
+							</div>
+						   
+							<div class="w-2/4 ml-1 sm:w-full ">
+								<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Destino:</label>
+								<input class="{{ $errors->has('to') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+								name="to"
+								value="{{ old('to', isset($data) ? $data->to : '') }}"
+								max="50"
+								required="">
 
+								  @if($errors->has('to'))
+									  <span class="text-xs text-red-600 dark:text-red-400">
+										  {{ $errors->first('to') }}
+									  </span>
+								  @endif
+								
+							</div>
+	
+						</div>
+					</div>
+				  
+				</label>
+			
+				<label class="block text-sm my-3">
+					<div class="px-2" id="add_to">
+						<div class="flex mb-4">
+							<div class="w-auto mr-1 sm:w-full">
+								<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">peso:</label>
+	
+								<input class="{{ $errors->has('weight') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+								type="number"
+								name="weight"
+								value="{{ old('weight', isset($data) ? $data->weight : '') }}" 
+								required="">
+								  
+								  @if($errors->has('weight'))
+									  <span class="text-xs text-red-600 dark:text-red-400">
+										  {{ $errors->first('weight') }}
+									  </span>
+								  @endif
+							</div>
+						   
+							<div class="w-auto ml-1 sm:w-full">
+								<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Peso limite:</label>
+	
+								<input class="{{ $errors->has('weight_limit') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+								type="number"
+								name="weight_limit"
+								value="{{ old('weight_limit', isset($data) ? $data->weight_limit : '') }}" 
+								required="">
+								
+								@if($errors->has('weight_limit'))
+									<span class="text-xs text-red-600 dark:text-red-400">
+										{{ $errors->first('weight_limit') }}
+									</span>
+								@endif
+								
+							</div>
+	
+							<div class="w-auto ml-1 sm:w-full">
+								<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Costo:</label>
+	
+								<input class="{{ $errors->has('amount') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+								type="number"
+								name="amount"
+								value="{{ old('amount', isset($data) ? $data->amount : '') }}" 
+								required="">
+								
+								@if($errors->has('amount'))
+									<span class="text-xs text-red-600 dark:text-red-400">
+										{{ $errors->first('amount') }}
+									</span>
+								@endif
+								
+							</div>
+	
+						</div>
+					</div>
+				  
+				</label>
 
-			<label class="block text-sm my-3">
-	            <span class="text-gray-700 dark:text-gray-400">Descripción</span>
-	            <input class="{{ $errors->has('description') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Breve descripción" / name="description" value="{{ old('description', isset($data) ? $data->description : '') }}" max="100" required="">
-	            @if($errors->has('description'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('description') }}
-		                </span>
-	                @endif
-	        </label>
+				<div class="mt-4 ml-2 text-sm">
+					<span class="text-gray-700 dark:text-gray-400 ">
+						IVA
+					</span>
+					<div class="mt-2">
+						<label class="inline-flex items-center text-gray-600 dark:text-gray-400">
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="vat" value=true
+							{{isset($data) ? ($data->vat==true)? "checked" : ""  : ""}}
+							 />
+							<span class="ml-2">SI</span>
+						</label>
+						<label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="vat" value=false
+							{{isset($data) ? ($data->vat==false)? "checked" : ""  : ""}}
+							 />
+							<span class="ml-2">No</span>
+						</label>
+					</div>
+				</div>
 
-	       
-	        
+				<div class="mt-4 ml-2 text-sm">
+					<span class="text-gray-700 dark:text-gray-400 ">
+						Status
+					</span>
+					<div class="mt-2">
+						<label class="inline-flex items-center text-gray-600 dark:text-gray-400">
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=true
+							{{isset($data) ? ($data->status==true)? "checked" : ""  : ""}}
+							 />
+							<span class="ml-2">Activo</span>
+						</label>
+						<label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=false
+							{{isset($data) ? ($data->status==false)? "checked" : ""  : ""}}
+							 />
+							<span class="ml-2">Inactivo</span>
+						</label>
+					</div>
+				</div>
 	       
 	       
 	       <div class="flex justify-end">
