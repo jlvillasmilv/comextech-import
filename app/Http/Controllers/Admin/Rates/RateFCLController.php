@@ -8,7 +8,7 @@ use App\Models\RateFcl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Requests\Admin\Rates\RateFCLRequest;
+use App\Http\Requests\Admin\Rates\{RateFCLRequest, ImportRateRequest};
 
 class RateFCLController extends Controller
 {
@@ -113,7 +113,6 @@ class RateFCLController extends Controller
         return redirect()->route('admin.rates.fcl.edit', base64_encode($data->id));
     }
     
-
     /**
      * Remove the specified resource from storage.
      *
@@ -128,18 +127,26 @@ class RateFCLController extends Controller
 
     }
 
-    public function fileImport(Request $request) 
+    public function fileImport(ImportRateRequest $request) 
     {
-        try {
-            Excel::import(new FCLImport, $request->file('file'));
-            $notification = array(
-                'message'    => 'Registro subidos con exito',
-                'alert_type' => 'success',);
+        if($request->hasFile('file')){ 
+            try {
+               
+               Excel::import(new FCLImport, $request->file('file'), \Maatwebsite\Excel\Excel::CSV);
+                $notification = array(
+                    'message'    => 'Registro subidos con exito',
+                    'alert_type' => 'success',);
 
-        } catch (\Throwable $th) {
+            } catch (\Throwable $th) {
 
+                $notification = array(
+                    'message'    => 'Problemas para subir datos verifique su archivo',
+                    'alert_type' => 'error',);
+            }
+        }
+        else {
             $notification = array(
-                'message'    => 'Problemas para subir datos verifique su archivo',
+                'message'    => 'Seleccione un archivo valido',
                 'alert_type' => 'error',);
         }
        

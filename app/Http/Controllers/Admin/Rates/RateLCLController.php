@@ -7,12 +7,12 @@ use App\Imports\Admin\Rate\LCLImport;
 use App\Models\RateLcl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\Admin\Rates\RateLCLRequest;
+use App\Http\Requests\Admin\Rates\{RateLCLRequest, ImportRateRequest};
 use Maatwebsite\Excel\Facades\Excel;
 
 class RateLCLController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -128,18 +128,27 @@ class RateLCLController extends Controller
     }
 
 
-    public function fileImport(Request $request) 
+    public function fileImport(ImportRateRequest $request) 
     {
-        try {
-            Excel::import(new LCLImport, $request->file('file'));
-            $notification = array(
-                'message'    => 'Registro subidos con exito',
-                'alert_type' => 'success',);
+        if($request->hasFile('file')){ 
 
-        } catch (\Throwable $th) {
-            dd($th);
+            try {
+                Excel::import(new LCLImport, $request->file('file'));
+                $notification = array(
+                    'message'    => 'Registro subidos con exito',
+                    'alert_type' => 'success',);
+    
+            } catch (\Throwable $th) {
+                dd($th);
+                $notification = array(
+                    'message'    => 'Problemas para subir datos verifique su archivo',
+                    'alert_type' => 'error',);
+            }
+
+        }
+        else {
             $notification = array(
-                'message'    => 'Problemas para subir datos verifique su archivo',
+                'message'    => 'Seleccione un archivo valido',
                 'alert_type' => 'error',);
         }
        
