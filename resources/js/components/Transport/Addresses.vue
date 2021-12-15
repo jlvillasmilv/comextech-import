@@ -30,7 +30,13 @@
       v-html="expenses.errors.get('fedex')"
     ></span>
     <div v-show="isActivateAddress">
-      <div v-if="data.type_transport !== 'COURIER' && data.type_transport !== 'CONTAINER'">
+      <div
+        v-if="
+          data.type_transport !== 'COURIER' &&
+            data.type_transport !== 'CONTAINER' &&
+            data.type_transport !== 'CONSOLIDADO'
+        "
+      >
         <div v-if="data.condition == 'DDP' && data.type_transport != 'COURIER'">
           <transition name="fade">
             <div
