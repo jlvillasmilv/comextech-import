@@ -12,6 +12,11 @@
             
             <form action="{{ route('admin.rates.fcl.file.import')}}" method="post" enctype="multipart/form-data">
                 @csrf
+                @if($errors->has('file'))
+                    <span class="text-xs text-red-600 dark:text-red-400">
+                        {{ $errors->first('file') }}
+                    </span>
+                @endif
                 <div class="flex justify-center">
                     <div class="mb-1 w-96">
                     
@@ -35,6 +40,7 @@
                       id="formFileSm"
                       type="file"
                       name="file" >
+                      
                     </div>
                     <button  class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

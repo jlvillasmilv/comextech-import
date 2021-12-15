@@ -37,15 +37,13 @@ class Transport extends Model
 
     public function originPort()
     {
-        return $this->belongsTo(Port::class,'origin_port_id');
+        return $this->belongsTo(Port::class,'origin_port_id')->withDefault(['name' => '', 'unlocs' => '' ]);
     }
 
     public function destPort()
     {
-        return $this->belongsTo(Port::class,'dest_port_id');
+        return $this->belongsTo(Port::class,'dest_port_id')->withDefault(['name' => '', 'unlocs' => '' ]);
     }
-
-
 
     /**
      * @author Jorge Villasmil.
