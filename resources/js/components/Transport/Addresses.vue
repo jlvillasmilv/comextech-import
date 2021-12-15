@@ -30,7 +30,13 @@
       v-html="expenses.errors.get('fedex')"
     ></span>
     <div v-show="isActivateAddress">
-      <div v-if="data.type_transport !== 'COURIER' && data.type_transport !== 'CONTAINER'">
+      <div
+        v-if="
+          data.type_transport !== 'COURIER' &&
+            data.type_transport !== 'CONTAINER' &&
+            data.type_transport !== 'CONSOLIDADO'
+        "
+      >
         <div v-if="data.condition == 'DDP' && data.type_transport != 'COURIER'">
           <transition name="fade">
             <div
@@ -1560,8 +1566,17 @@
         <FCL />
       </div>
 
+      <!-- Cotizacion consolidado -->
+      <div v-if="data.type_transport == 'CONSOLIDADO'">
+        <LCL />
+      </div>
+
       <div
-        v-if="data.type_transport !== 'COURIER' && data.type_transport != 'CONTAINER'"
+        v-if="
+          data.type_transport !== 'COURIER' &&
+            data.type_transport != 'CONTAINER' &&
+            data.type_transport != 'CONSOLIDADO'
+        "
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
             ? 'flex justify-center'
@@ -1616,12 +1631,13 @@ import VueGoogleAutocomplete from 'vue-google-autocomplete';
 import Load from './Load.vue';
 import Courier from './Courier.vue';
 import FCL from './Container.vue';
+import LCL from './Consolidado.vue';
 import { mapState } from 'vuex';
 import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
 import Container from '../Container.vue';
 
 export default {
-  components: { Load, Courier, FCL, VueGoogleAutocomplete, Button },
+  components: { Load, Courier, FCL, LCL, VueGoogleAutocomplete, Button },
   props: {
     Container,
     originTransport: {
