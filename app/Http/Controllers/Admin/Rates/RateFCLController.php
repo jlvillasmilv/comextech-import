@@ -113,7 +113,6 @@ class RateFCLController extends Controller
         return redirect()->route('admin.rates.fcl.edit', base64_encode($data->id));
     }
     
-
     /**
      * Remove the specified resource from storage.
      *
@@ -132,7 +131,8 @@ class RateFCLController extends Controller
     {
         if($request->hasFile('file')){ 
             try {
-                Excel::import(new FCLImport, $request->file('file'));
+               
+               Excel::import(new FCLImport, $request->file('file'), \Maatwebsite\Excel\Excel::CSV);
                 $notification = array(
                     'message'    => 'Registro subidos con exito',
                     'alert_type' => 'success',);

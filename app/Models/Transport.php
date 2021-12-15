@@ -204,8 +204,6 @@ class Transport extends Model
 
         }
 
-       
-
        }
 
         return $rtl;
