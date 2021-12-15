@@ -249,7 +249,23 @@ $('#table').on('click', '.btn-info[data-remote]', function (e) {
     
   });
 
+  $('#import_file_info').on('click', function (e) {
+    e.preventDefault();
+    var url = $(this).data('remote');
+
+    Swal.fire({
+      icon: 'info',
+      title: 'Importar datos ',
+      html:`Para Importar informacion a sistema debe ser desde un archivo csv puedes <b>descargar</b> formato a llenar 
+      <b> <u> <a href="${url}">en este enlace </u></a></b>`
+      
+    })
+
+  });
+
 })
+
+
 
 function initialize() {
 
