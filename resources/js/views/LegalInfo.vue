@@ -1,19 +1,16 @@
 <template>
-    <div class="flex flex-wrap justify-center">
-        <partners> </partners>
-        <div class="mt-6 mb-0.5 sm:w-full md:w-full lg:w-4/12">
-            <br />
-            <span class="text-blue-800 text-base font-medium mb-4">
-                Contrato de Marco
-            </span>
-            <hr class="mt-4 mb-4 border-solid border-t-2" />
+  <div class="flex flex-wrap justify-center">
+    <partners> </partners>
+    <div class="mt-6 mb-0.5 sm:w-full md:w-full lg:w-4/12">
+      <br />
+      <span class="text-blue-800 text-base font-medium mb-4">
+        Contrato de Marco
+      </span>
+      <hr class="mt-4 mb-4 border-solid border-t-2" />
 
-            <SingleFile
-                :action="`Adjuntar`"
-                :data="`contrato_marco`"
-            ></SingleFile>
-        </div>
+      <SingleFile :action="`Adjuntar`" :data="`contrato_marco`"></SingleFile>
     </div>
+  </div>
 </template>
 
 <script>
@@ -22,20 +19,20 @@ import DownloadFile from '../components/Factoring/DownloadFile';
 
 import Partners from '../components/Factoring/Partners';
 export default {
-    data() {
-        return {
-            title: 'Informacion Legal'
-        };
-    },
-    components: {
-        partners: Partners,
-        SingleFile,
-        DownloadFile
-    },
-    computed: {
-        upPower() {
-            console.log('aqui');
-        }
+  data() {
+    return {
+      title: 'Informacion Legal'
+    };
+  },
+  components: {
+    partners: Partners,
+    SingleFile,
+    DownloadFile
+  },
+  computed: {
+    upPower() {
+      // console.log('aqui');
     }
+  }
 };
 </script>
