@@ -4,18 +4,40 @@
 
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/regular';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~@fortawesome/fontawesome-free/scss/brands';
+// @import '~@fortawesome/fontawesome-free/scss/solid';
+// @import '~@fortawesome/fontawesome-free/scss/brands';
 
 .select2 {
     max-width: 100%;
     width: 100% !important;
 }
 
+.select2-hidden-accessible {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    white-space: nowrap !important;
+ }
+  
+
+// .select2-dropdown {
+//     @apply absolute block w-auto box-border bg-white border-solid border-2 border-gray-600 z-50 float-left;
+// }
 
 .select2-selection__rendered {
     padding-bottom: 5px !important;
 }
+
+
+
+
+
 
 .footer {
     position: absolute;

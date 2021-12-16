@@ -126,8 +126,6 @@
 										{{ $errors->first('to') }}
 									</span>
 								@endif
-							
-							
 						</div>
 
 					</div>
@@ -139,12 +137,12 @@
 				<div class="px-2" id="add_to">
 					<div class="flex mb-4">
 						<div class="w-2/4 mr-1 sm:w-full ">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha Origen:</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Valido desde:</label>
 
 							<input class="{{ $errors->has('valid_from') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="date"
 							name="valid_from"
-							value='{{ old('valid_from',(isset($date)) && strtotime($date->valid_from) != false  ? date("Y-m-d", strtotime($event->valid_from)) : date("Y-m-d") )}}' 
+							value='{{ old('valid_from',(isset($data)) && strtotime($data->valid_from) != false  ? date("Y-m-d", strtotime($data->valid_from)) : date("Y-m-d") )}}' 
 							required="">
 							  
 							  @if($errors->has('valid_from'))
@@ -155,13 +153,12 @@
 						</div>
 					   
 						<div class="w-2/4 ml-1 sm:w-full ">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha:</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Valido hasta:</label>
 
 							<input class="{{ $errors->has('valid_to') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="date"
 							name="valid_to"
-							value='{{ old('valid_to',(isset($date)) && strtotime($date->valid_to) != false  ? date("Y-m-d", strtotime($event->valid_to)) : date("Y-m-d") )}}'
-							min="{{date("Y-m-d")}}" 
+							value='{{ old('valid_to',(isset($data)) && strtotime($data->valid_to) != false  ? date("Y-m-d", strtotime($data->valid_to)) : date("Y-m-d") )}}' 
 							required="">
 							
 							@if($errors->has('valid_to'))
@@ -190,9 +187,9 @@
 							value="{{ old('MIN_0_5', isset($data) ? $data->MIN_0_5 : '') }}" 
 							required="">
 							  
-							  @if($errors->has('valid_from'))
+							  @if($errors->has('MIN_0_5'))
 								  <span class="text-xs text-red-600 dark:text-red-400">
-									  {{ $errors->first('valid_from') }}
+									  {{ $errors->first('MIN_0_5') }}
 								  </span>
 							  @endif
 						</div>

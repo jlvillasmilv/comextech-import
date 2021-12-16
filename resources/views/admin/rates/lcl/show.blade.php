@@ -1,7 +1,7 @@
 <x-app-layout title="Detalle Categoria">
 	<div class="container grid px-6 mx-auto">
         <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            <a href="{{route('admin.rates.lcl.index')}}">Tarifa FCL</a>  
+            <a href="{{route('admin.rates.lcl.index')}}">Tarifa LCL</a>  
         </h2>
 
         <div class="flex justify-between items-end">
@@ -85,29 +85,29 @@
 				<div class="px-2" id="add_to">
 					<div class="flex mb-4">
 						<div class="w-auto mr-1 sm:w-full">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">20:</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">MIN_0_5:</label>
                           
-                            {{number_format($data->c20,0,",",".") }}
+                            {{number_format($data->MIN_0_5	,0,",",".") }}
 						</div>
 					   
 						<div class="w-auto ml-1 sm:w-full">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">40:</label>
-                            {{number_format($data->c40,0,",",".") }}
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">0_5_TON_M3:</label>
+                            {{number_format($data->w0_5_TON_M3,0,",",".") }}
 						
 							
 						</div>
 
 						<div class="w-auto ml-1 sm:w-full">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">40HC:</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">MIN_5_10:</label>
 
-                            {{number_format($data->c40HC,0,",",".") }}
+                            {{number_format($data->MIN_5_10,0,",",".") }}
 							
 							
 						</div>
 
 						<div class="w-auto ml-1 sm:w-full">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">40NOR:</label>
-                            {{number_format($data->c40NOR,0,",",".") }}
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">5_10_TON_M3:</label>
+                            {{number_format($data->w5_10_TON_M3,0,",",".") }}
 							
 						</div>
 
