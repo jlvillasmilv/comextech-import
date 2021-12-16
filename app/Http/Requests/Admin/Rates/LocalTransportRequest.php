@@ -23,8 +23,14 @@ class LocalTransportRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        $rules = [
+            "from"          => "required",
+            "to"            => "required",
+            "weight"        => 'required|numeric',
+            "weight_limit"  => 'required|numeric',
+            "amount"        => 'required|numeric',
         ];
+
+        return $rules;
     }
 }

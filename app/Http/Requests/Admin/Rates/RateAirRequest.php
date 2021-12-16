@@ -24,7 +24,23 @@ class RateAirRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "from"          => "required",
+            "to"            => "required",
+            "via"           => "required",
+            "t_time"        => 'required|numeric',
+            "valid_from"    => 'required|date',
+            "valid_to"      => 'required|date|after_or_equal:valid_from',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            "from"          => "Origen",
+            "to"            => "destino",
+            "t_time"        => 'Tiempo de transito',
+            "valid_from"    => 'Fecha inicio',
+            'valid_to'      => 'Fecha limite',
         ];
     }
 }

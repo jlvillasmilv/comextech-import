@@ -17,7 +17,7 @@ class LocalTransportController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('rates.local_transport.index')) {
+        if (! Gate::allows('admin.rates.local_transport.index')) {
             return abort(401);
         }
         
@@ -32,7 +32,7 @@ class LocalTransportController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('rates.local_transport.create')) {
+        if (! Gate::allows('admin.rates.local_transport.create')) {
             return abort(401);
         }
 
@@ -58,13 +58,13 @@ class LocalTransportController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.rates.local_transport.edit', base64_encode($data->id));
+        return redirect()->route('admin.rates.local-transport.edit', base64_encode($data->id));
     }
 
    
     public function show($id)
     {
-        if (! Gate::allows('rates.local_transport.show')) {
+        if (! Gate::allows('admin.rates.local_transport.show')) {
             return abort(401);
         }
 
@@ -81,7 +81,7 @@ class LocalTransportController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('rates.local_transport.edit')) {
+        if (! Gate::allows('admin.rates.local_transport.edit')) {
             return abort(401);
         }
 
@@ -108,7 +108,7 @@ class LocalTransportController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.rates.local_transport.edit', base64_encode($data->id));
+        return redirect()->route('admin.rates.local-transport.edit', base64_encode($data->id));
     }
     
     /**

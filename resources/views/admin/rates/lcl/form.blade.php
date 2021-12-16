@@ -153,13 +153,12 @@
 						</div>
 					   
 						<div class="w-2/4 ml-1 sm:w-full ">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha:</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha limite:</label>
 
 							<input class="{{ $errors->has('valid_to') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="date"
 							name="valid_to"
-							value='{{ old('valid_to',(isset($data)) && strtotime($data->valid_to) != false  ? date("Y-m-d", strtotime($data->valid_to)) : date("Y-m-d") )}}'
-							min="{{date("Y-m-d")}}" 
+							value='{{ old('valid_to',(isset($data)) && strtotime($data->valid_to) != false  ? date("Y-m-d", strtotime($data->valid_to)) : date("Y-m-d") )}}' 
 							required="">
 							
 							@if($errors->has('valid_to'))
