@@ -139,7 +139,7 @@
 				<div class="px-2" id="add_to">
 					<div class="flex mb-4">
 						<div class="w-2/4 mr-1 sm:w-full ">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha Origen:</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Valido desde:</label>
 
 							<input class="{{ $errors->has('valid_from') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="date"
@@ -155,7 +155,7 @@
 						</div>
 					   
 						<div class="w-2/4 ml-1 sm:w-full ">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha limite:</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Valido hasta:</label>
 
 							<input class="{{ $errors->has('valid_to') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="date"

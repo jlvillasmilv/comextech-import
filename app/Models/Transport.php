@@ -80,6 +80,7 @@ class Transport extends Model
                         ['to', $data['to']],
                     ])
                     ->select($field, 'oth_exp', 't_time')
+                    ->orderBy('valid_to', 'desc')
                     ->first();
 
                     $int_trans += is_null($rate) ? 0 : $rate->$field;
@@ -115,6 +116,7 @@ class Transport extends Model
                         ['from', $data['from']],
                         ['to', $data['to']],
                     ])
+                    ->orderBy('valid_to', 'desc')
                     ->select( $field , 'oth_exp', 't_time')
                     ->first();
 
@@ -140,6 +142,7 @@ class Transport extends Model
                         ['from', $data['from']],
                         ['to', $data['to']],
                     ])
+                    ->orderBy('valid_to', 'desc')
                     ->select('c20', 'oth_exp', 't_time')
                     ->first();
 
