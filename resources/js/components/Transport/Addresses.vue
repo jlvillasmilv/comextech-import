@@ -50,60 +50,6 @@
       <div v-if="data.type_transport == 'TERRESTRE'">
         <Terrestre />
       </div>
-
-      <div
-        v-if="
-          data.type_transport !== 'COURIER' &&
-            data.type_transport !== 'CONTAINER' &&
-            data.type_transport !== 'CONSOLIDADO' &&
-            data.type_transport !== 'AEREO' &&
-            data.type_transport !== 'TERRESTRE'
-        "
-        :class="[
-          !expenses.dataLoad || expenses.dataLoad.length <= 0
-            ? 'flex justify-center'
-            : 'flex justify-center my-5 innline w-1/7 mt-5'
-        ]"
-      >
-        <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">
-          Editar
-        </button>
-
-        <button
-          v-else-if="expenses.dataLoad.length > 0"
-          @click="HideAddress()"
-          class="mr-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
-        >
-          Editar
-        </button>
-
-        <button
-          v-if="data.type_transport != 'COURIER'"
-          @click="submitQuote(0)"
-          :class="[
-            !expenses.dataLoad
-              ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-              : expenses.dataLoad.length <= 0
-              ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-          ]"
-        >
-          Cotizar
-        </button>
-        <button
-          v-else-if="data.type_transport == 'COURIER'"
-          @click="submitForm()"
-          :class="[
-            !expenses.dataLoad
-              ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-              : expenses.dataLoad.length <= 0
-              ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-          ]"
-        >
-          Cotizar
-        </button>
-      </div>
     </div>
   </div>
 </template>
