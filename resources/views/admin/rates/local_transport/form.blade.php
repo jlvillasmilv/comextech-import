@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Registro Categoria de Servicios
+                Registro Tarifa transporte local
             </h4>
            
         </div>
@@ -69,7 +69,7 @@
 					<div class="px-2" id="add_to">
 						<div class="flex mb-4">
 							<div class="w-auto mr-1 sm:w-full">
-								<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">peso:</label>
+								<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Peso (KG):</label>
 	
 								<input class="{{ $errors->has('weight') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 								type="number"
