@@ -851,7 +851,6 @@ export default {
   components: { VueGoogleAutocomplete, Button },
   data() {
     return {
-      minDate: new Date().toISOString().substr(0, 10),
       showShipping: false
     };
   },
@@ -865,7 +864,7 @@ export default {
      * @param {4} UPS
      */
     async submitQuote(appAmount, transCompanyId) {
-      this.$store.dispatch('address/showQuoteFCL', true);
+      this.$store.dispatch('address/showQuoteLCL', true);
       this.$store.dispatch('address/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
       try {
@@ -891,7 +890,7 @@ export default {
     HideAddress() {
       this.$store.dispatch('address/showAddress', true);
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
-      this.$store.dispatch('address/showQuoteFCL', false);
+      this.$store.dispatch('address/showQuoteLCL', false);
     },
     getFavOriginPort: async function() {
       this.expenses.origin_port_id = '';
@@ -984,7 +983,9 @@ export default {
       'portsDesTemp',
       'addressDate',
       'formAddress',
-      'fclTable'
+      'fclTable',
+      'lclTable',
+      'minDate'
     ]),
     ...mapState('application', ['data', 'currency', 'origin_transport'])
   }
