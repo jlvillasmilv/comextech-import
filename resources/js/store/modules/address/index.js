@@ -103,7 +103,6 @@ const actions = {
   },
   // Origin Port
   async getFavOriginPort({ commit }, payload) {
-    console.log(payload);
     let { data } = await axios.get(`/ports-supplier/${payload.idsupplier}/${payload.type}`);
     commit('SET_PORT_ORIGIN', data);
   },
