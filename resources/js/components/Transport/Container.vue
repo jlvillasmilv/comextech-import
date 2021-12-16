@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="data.condition == 'DDP' && data.type_transport != 'COURIER'">
+    <div v-if="data.condition == 'DDP'">
       <transition name="fade">
         <div
           v-if="
@@ -378,7 +378,7 @@
       </transition>
     </div>
 
-    <div v-if="data.condition == 'DAP' && data.type_transport != 'COURIER'">
+    <div v-if="data.condition == 'DAP'">
       <transition name="fade">
         <div
           v-if="
@@ -754,7 +754,7 @@
       </transition>
     </div>
 
-    <div v-if="data.condition == 'EXW' && data.type_transport != 'COURIER'">
+    <div v-if="data.condition == 'EXW'">
       <transition name="fade">
         <div
           v-if="
@@ -1132,7 +1132,7 @@
       </transition>
     </div>
 
-    <div v-if="data.condition == 'FOB' && data.type_transport != 'COURIER'">
+    <div v-if="data.condition == 'FOB'">
       <transition name="fade">
         <div
           v-if="
@@ -1511,7 +1511,7 @@
       </transition>
     </div>
     <section v-if="fclTable">
-      <div>
+      <!-- <div>
         <table>
           <thead>
             <tr>
@@ -1546,8 +1546,8 @@
             </tr>
           </tbody>
         </table>
-      </div>
-      <div>
+      </div> -->
+      <!-- <div>
         <table>
           <thead>
             <tr>
@@ -1570,9 +1570,9 @@
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="mt-8">
-        <table>
+      </div> -->
+      <div class="mt-8 flex justify-center">
+        <table class="w-full">
           <thead>
             <tr class="bg-gray-100">
               <th>&nbsp;</th>
