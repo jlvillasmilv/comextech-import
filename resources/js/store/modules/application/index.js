@@ -106,7 +106,6 @@ const mutations = {
     state.data.services.push(payload.code);
   },
   DELETE_SERVICE(state, payload) {
-    console.log(payload);
     this.state.selectedServices = this.state.selectedServices.filter(
       (item) => item.sort !== payload
     );

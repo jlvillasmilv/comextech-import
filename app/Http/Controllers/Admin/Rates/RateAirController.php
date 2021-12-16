@@ -17,7 +17,7 @@ class RateAirController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('rates.index')) {
+        if (! Gate::allows('admin.rates.air.index')) {
             return abort(401);
         }
         
@@ -32,7 +32,7 @@ class RateAirController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('rates.create')) {
+        if (! Gate::allows('admin.rates.air.create')) {
             return abort(401);
         }
 
@@ -64,7 +64,7 @@ class RateAirController extends Controller
    
     public function show($id)
     {
-        if (! Gate::allows('rates.show')) {
+        if (! Gate::allows('admin.rates.air.show')) {
             return abort(401);
         }
 
@@ -81,7 +81,7 @@ class RateAirController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('rates.edit')) {
+        if (! Gate::allows('admin.rates.air.edit')) {
             return abort(401);
         }
 

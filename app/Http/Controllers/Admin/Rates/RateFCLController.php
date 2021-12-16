@@ -19,7 +19,7 @@ class RateFCLController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('rates.fcl.index')) {
+        if (! Gate::allows('admin.rates.fcl.index')) {
             return abort(401);
         }
         
@@ -34,7 +34,7 @@ class RateFCLController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('rates.fcl.create')) {
+        if (! Gate::allows('admin.rates.fcl.create')) {
             return abort(401);
         }
 
@@ -66,7 +66,7 @@ class RateFCLController extends Controller
    
     public function show($id)
     {
-        if (! Gate::allows('rates.fcl.show')) {
+        if (! Gate::allows('admin.rates.fcl.show')) {
             return abort(401);
         }
 
@@ -83,7 +83,7 @@ class RateFCLController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('rates.fcl.edit')) {
+        if (! Gate::allows('admin.rates.fcl.edit')) {
             return abort(401);
         }
 

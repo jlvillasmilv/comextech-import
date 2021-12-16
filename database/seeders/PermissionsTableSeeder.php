@@ -23,6 +23,30 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'admin.applications.show']);
         Permission::create(['name' => 'admin.applications.create']);
         Permission::create(['name' => 'admin.applications.destroy']);
+
+        Permission::create(['name' => 'admin.rates.air.index']);
+        Permission::create(['name' => 'admin.rates.air.edit']);
+        Permission::create(['name' => 'admin.rates.air.show']);
+        Permission::create(['name' => 'admin.rates.air.create']);
+        Permission::create(['name' => 'admin.rates.air.destroy']);
+
+        Permission::create(['name' => 'admin.rates.fcl.index']);
+        Permission::create(['name' => 'admin.rates.fcl.edit']);
+        Permission::create(['name' => 'admin.rates.fcl.show']);
+        Permission::create(['name' => 'admin.rates.fcl.create']);
+        Permission::create(['name' => 'admin.rates.fcl.destroy']);
+
+        Permission::create(['name' => 'admin.rates.lcl.index']);
+        Permission::create(['name' => 'admin.rates.lcl.edit']);
+        Permission::create(['name' => 'admin.rates.lcl.show']);
+        Permission::create(['name' => 'admin.rates.lcl.create']);
+        Permission::create(['name' => 'admin.rates.lcl.destroy']);
+
+        Permission::create(['name' => 'admin.rates.local_transport.index']);
+        Permission::create(['name' => 'admin.rates.local_transport.edit']);
+        Permission::create(['name' => 'admin.rates.local_transport.show']);
+        Permission::create(['name' => 'admin.rates.local_transport.create']);
+        Permission::create(['name' => 'admin.rates.local_transport.destroy']);
       
         Permission::create(['name' => 'clients.index']);
         Permission::create(['name' => 'clients.edit']);
@@ -119,7 +143,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'admin.factoring.quote.create']);
         Permission::create(['name' => 'admin.factoring.quote.destroy']);
 
-
         Permission::create(['name' => 'settings.index']);
         Permission::create(['name' => 'settings.edit']);
         Permission::create(['name' => 'settings.show']);
@@ -174,6 +197,18 @@ class PermissionsTableSeeder extends Seeder
             'admin.factoring.disbursements.index',
             'admin.factoring.disbursements.edit',
             'admin.factoring.disbursements.show',
+            'admin.rates.air.index',
+            'admin.rates.air.edit',
+            'admin.rates.air.show',
+            'admin.rates.fcl.index',
+            'admin.rates.fcl.edit',
+            'admin.rates.fcl.show',
+            'admin.rates.lcl.index',
+            'admin.rates.lcl.edit',
+            'admin.rates.lcl.show',
+            'admin.rates.local_transport.index',
+            'admin.rates.local_transport.edit',
+            'admin.rates.local_transport.show',
         ]);
 
         $business_executive = Role::create(['name' => 'business_executive']);

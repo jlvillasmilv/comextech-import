@@ -848,7 +848,7 @@ import { mapState } from 'vuex';
 import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
 
 export default {
-  components: { VueGoogleAutocomplete, mapState, Button },
+  components: { VueGoogleAutocomplete, Button },
   data() {
     return {
       showShipping: false
