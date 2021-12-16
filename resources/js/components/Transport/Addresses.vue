@@ -34,7 +34,8 @@
         v-if="
           data.type_transport !== 'COURIER' &&
             data.type_transport !== 'CONTAINER' &&
-            data.type_transport !== 'CONSOLIDADO'
+            data.type_transport !== 'CONSOLIDADO' &&
+            data.type_transport !== 'AEREO'
         "
       >
         <div v-if="data.condition == 'DDP' && data.type_transport != 'COURIER'">
@@ -1556,12 +1557,17 @@
           </transition>
         </div>
       </div>
-      <!-- Contizacion courier -->
+      <!-- Cotizacion courier -->
       <div v-if="data.type_transport == 'COURIER'">
         <Courier />
       </div>
 
-      <!-- Contizacion container -->
+      <!-- Cotizacion Aereo -->
+      <div v-if="data.type_transport == 'AEREO'">
+        <Aereo />
+      </div>
+
+      <!-- Cotizacion container -->
       <div v-if="data.type_transport == 'CONTAINER'">
         <FCL />
       </div>
@@ -1574,8 +1580,9 @@
       <div
         v-if="
           data.type_transport !== 'COURIER' &&
-            data.type_transport != 'CONTAINER' &&
-            data.type_transport != 'CONSOLIDADO'
+            data.type_transport !== 'CONTAINER' &&
+            data.type_transport !== 'CONSOLIDADO' &&
+            data.type_transport !== 'AEREO'
         "
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
@@ -1630,6 +1637,7 @@
 import VueGoogleAutocomplete from 'vue-google-autocomplete';
 import Load from './Load.vue';
 import Courier from './Courier.vue';
+import Aereo from './Aereo.vue';
 import FCL from './Container.vue';
 import LCL from './Consolidado.vue';
 import { mapState } from 'vuex';
@@ -1637,7 +1645,15 @@ import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources
 import Container from '../Container.vue';
 
 export default {
-  components: { Load, Courier, FCL, LCL, VueGoogleAutocomplete, Button },
+  components: {
+    Load,
+    Courier,
+    Aereo,
+    FCL,
+    LCL,
+    VueGoogleAutocomplete,
+    Button
+  },
   props: {
     Container,
     originTransport: {
