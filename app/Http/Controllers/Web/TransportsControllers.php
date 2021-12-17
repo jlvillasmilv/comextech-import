@@ -80,10 +80,9 @@ class TransportsControllers extends Controller
      * 
     */
     public function add(TransportRequest $request)
-    {
-        
-        //DB::beginTransaction();
-        // try {
+    { 
+        DB::beginTransaction();
+        try {
                       
             $transport =  Transport::updateOrCreate(
                 [
@@ -132,6 +131,9 @@ class TransportsControllers extends Controller
             $cif = $amount + $transport_amount;
             $oth_exp  = 0;
             $fee_date = $request->estimated_date;
+            $local_transp = 0;
+            $from_port_transport = '';
+            $to_port_transport   = '';
 
             $insurance_amount = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
@@ -148,7 +150,8 @@ class TransportsControllers extends Controller
                 ];
                 
                 $transp = Transport::rateTransport($data);
-                $local_transp = 0;
+
+
                 if($request->dest_port_id > 0 && strlen($request->dest_address) > 0)
                 {
                     $local_transp = Transport::rateLocalTransport($request->only([
@@ -160,27 +163,18 @@ class TransportsControllers extends Controller
                         'mode_selected'
                     ]));
 
-                  
                 }
-
-                // update application summary local transport
-                \DB::table('application_summaries')
-                  ->where([
-                  ["application_id", $request->application_id],
-                  ["service_id", 28]
-                  ])
-                  ->update(['amount' =>  $local_transp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
-
 
                 $transport_amount = $transp['int_trans'];
                 $cif            = $transp['cif'];
                 $oth_exp        = $transp['oth_exp'];
                 $t_time         = $transp['t_time'];
                 $insurance_amount  = $transp['insurance'];
-
+              
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
 
             }
+
 
             // update application summary International transport
             $app_summ = \DB::table('application_summaries')
@@ -214,19 +208,29 @@ class TransportsControllers extends Controller
                ])
             ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
+             // update application summary local transport
+             \DB::table('application_summaries')
+             ->where([
+             ["application_id", $request->application_id],
+             ["service_id", 28]
+             ])
+             ->update(['amount' =>  $local_transp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+
             $trans_summary = [
                 'transport_amount' => $transport_amount,
                 'cif'       => $cif,       
                 'oth_exp'   => $oth_exp,  
                 'insurance' => $insurance_amount,
+                'from'      => $transport->originPort->unlocs,
+                'to'        => $transport->destPort->unlocs
             ];
 
-        // DB::commit();
+        DB::commit();
 
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return response()->json(['status' => $e], 500);
-        // }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => $e], 500);
+        }
         return response()->json(['loads' => $transport->application->loads, 'transport' => $trans_summary], 200);
 
     }

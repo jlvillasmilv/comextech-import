@@ -221,3 +221,19 @@ Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namesp
     Route::get('compras/detalle', 'SiiController@compras_detalle')->name('compras.detalle');
     
 });
+
+
+//admin rates
+
+Route::group(['prefix' => 'admin/rates', 'as' => 'admin.rates.', 'namespace' => 'App\Http\Controllers\Admin\Rates', 'middleware' => ['auth:sanctum']], function () {
+
+    Route::resource('air', 'RateAirController');
+    Route::resource('fcl', 'RateFCLController');
+    Route::post('fcl-file-import', 'RateFCLController@fileImport')->name('fcl.file.import');
+
+    Route::resource('lcl', 'RateLCLController');
+    Route::post('lcl-file-import', 'RateLCLController@fileImport')->name('lcl.file.import');
+    
+    Route::resource('local-transport', 'LocalTransportController');
+    
+});
