@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application,ApplicationDetail, ApplicationStatus, Service};
+use App\Models\{Application,ApplicationDetail,ApplicationSummary, ApplicationStatus, Service};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\Admin\{ApplicationRequest,ApplicationServiceRequest};
@@ -102,6 +102,7 @@ class ApplicationController extends Controller
     public function update(ApplicationRequest $request, $id)
     {
 
+        dd($request->all());
         $data = Application::findOrFail($id);
 
         $status = ApplicationStatus::where('id', $data->application_statuses_id)->firstOrFail();
@@ -135,15 +136,15 @@ class ApplicationController extends Controller
             }
         }
 
-        if(!isset($request->detail_id)){
-            return back()->with('error', 'Debe tener al menos un servicio asociado');
-        }
+        // if(!isset($request->detail_id)){
+        //     return back()->with('error', 'Debe tener al menos un servicio asociado');
+        // }
 
         $data->application_statuses_id = $request->application_statuses_id;
         $data->modified_user_id = auth()->user()->id;
         $data->save();
 
-        if(isset($request->detail_id)){
+       /* if(isset($request->detail_id)){
 
             foreach ($request->service_id as $key => $id) {
 
@@ -160,6 +161,7 @@ class ApplicationController extends Controller
                 );
             }
         }
+        */
 
         $notification = array(
             'message'    => 'Registro actualizado',

@@ -124,11 +124,13 @@
                 
 
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
-
+                    @if ($application->status->modify)
+                        @include('admin.applications.summary')
+                    @endif
                     <span class="text-xs text-red-600 dark:text-red-400">
                         {!! session()->get('error') !!} 
                     </span>
-                    @if ($application->status->modify)
+                    {{-- @if ($application->status->modify)
                         
                     <div class="px-2" id="add_services">
                         <div class="flex mb-4">
@@ -206,11 +208,11 @@
                                 </button>
                         </div>
                     </div>
-                    @endif
+                    @endif --}}
 
 
                   
-                    <div class="w-full overflow-x-auto">
+                    {{-- <div class="w-full overflow-x-auto">
                         <table id="table" class="w-full whitespace-no-wrap">
                             <thead>
                                 <tr
@@ -336,8 +338,8 @@
                             @endforelse
                             </tbody>
                         </table>
-                    </div>
-                </div>
+                    </div>--}}
+                </div> 
 
       		</form>
 	</div>
