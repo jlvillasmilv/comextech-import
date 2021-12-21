@@ -76,7 +76,7 @@
 
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
-                <span>Transporte </span>
+                <span class="font-bold text-gray-800 dark:text-gray-400">Transporte </span>
                 <span class="ico-plus"></span>
             </div>
         </a>
@@ -88,80 +88,89 @@
                     <div class="w-1/2 mr-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Origen de Envio</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{ $application->transport->origin_address }}
+
+                            @if($application->transport->fav_origin_address)
+
+                                {{ $application->transport->originAddress->address }}
+                                
+                            @else
+
+                                {{ $application->transport->origin_address }}
+                                
+                            @endif
+
+                           
                         </p>
                     </div>
                     <div class="w-1/2 ml-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Destino de Envio</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{ $application->transport->dest_address }} 
+
+
+                            @if($application->transport->fav_dest_address)
+
+                                {{ $application->transport->destAddress->address }}
+                            
+                            @else
+
+                                {{ $application->transport->dest_address }}
+                                
+                            @endif
+
                         </p>
                     </div>
                 </div>
-                <div class="flex">
-                    <div class="w-full md:w-1/3 mb-6 md:mb-0">
-                        <label class="inline-flex items-center text-gray-500 dark:text-gray-400" ></label>
-                        <input
-                            disabled
-                            type="checkbox"
-                            
-                            {{ $application->transport->destinacion ? 'checked="true"' : '' }}
-                            class="form-checkbox h-4 w-4 text-gray-800"
-                        />
-                        <span class="ml-2">
-                            Incluir Gastos Locales</span
-                        >
+                @if ($application->type_transport != 'COURIER')
+                <div class="flex mb-2">
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> {{ $application->type_transport == 'AEREO' ? 'Aereopuerto' :'Puerto'}} Origen </label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+
+                            {{ $application->transport->originPort->name }} - {{ $application->transport->originPort->unlocs }}
+
+                        </p>
                     </div>
-                    <div class="w-full md:w-1/3 mb-6 md:mb-0">
-                        <label class="inline-flex items-center text-gray-500 dark:text-gray-400" ></label>
-                        <input
-                            disabled
-                            type="checkbox"
-                            {{ $application->transport->destinacion_warehouse ? 'checked="true"' : '' }}
-                            class="form-checkbox h-4 w-4 text-gray-800"
-                        />
-                        <span class="ml-2">Fabricar/Almacen</span
-                        >
-                    </div>
-                    <div class="w-full md:w-1/3 mb-6 md:mb-0">
-                        <label class="inline-flex items-center text-gray-500 dark:text-gray-400" ></label>
-                        <input
-                            disabled
-                            type="checkbox"
-                            {{ $application->transport->origin ? 'checked="true"' : '' }}
-                            class="form-checkbox h-4 w-4 text-gray-800"
-                        />
-                        <span class="ml-2">Incluir Gastos Locales</span
-                        >
+                    <div class="w-1/2 ml-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >{{ $application->type_transport == 'AEREO' ? 'Aereopuerto' :'Puerto'}}  Destino</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+
+
+                            {{ $application->transport->destPort->name }} - {{ $application->transport->destPort->unlocs }}
+
+                        </p>
                     </div>
                 </div>
+               
+                @endif
 
                 <div class="flex mb-2">
                     <div class="w-1/2 mr-1">
-                        <label class="inline-flex items-center text-gray-500 dark:text-gray-400" ></label>
+                        
                         <input
                             disabled
                             type="checkbox"
-                            {{ $application->transport->origin_warehouse ? 'checked="true"' : '' }}
+                            {{ $application->transport->insurance ? 'checked="true"' : '' }}
                             class="form-checkbox h-4 w-4 text-gray-800"
                         />
-                        <span class="ml-2">Factory/Warehouse (EXW)</span
+                        <span class="ml-2">Seguro</span
+                        >
+                        <input
+                            disabled
+                            type="checkbox"
+                            {{ $application->transport->local_transp ? 'checked="true"' : '' }}
+                            class="form-checkbox h-4 w-4 text-gray-800"
+                        />
+                        <span class="ml-2">Transporte Local</span
                         >
                     </div>
                     <div class="w-1/2 ml-1">
-                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Fecha Estimada de Embarcacion</label>
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Fecha Estimada</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{ $application->transport->estimated_date }} 
+                            {{ date('d-m-Y', strtotime($application->transport->estimated_date)) }}
                         </p>
                     </div>
                 </div>
 
-                <label class="block mt-4 text-sm">
-                    <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Descripccion:</span>
-                    <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                        {{$application->transport->description}} 
-                    </p>
-                </label>
             </div>
 
         </div>
@@ -186,7 +195,7 @@
 
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
-                <span> Internación </span>
+                <span class="font-bold text-gray-800 dark:text-gray-400"> Internación </span>
                 <span class="ico-plus"></span>
             </div>
         </a>
@@ -234,7 +243,7 @@
 
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
-                <span>Bodegaje Local </span>
+                <span class="font-bold text-gray-800 dark:text-gray-400">Bodegaje Local </span>
                 <span class="ico-plus"></span>
             </div>
         </a>
@@ -281,7 +290,7 @@
 
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
-                <span>Cargamento </span>
+                <span class="font-bold text-gray-800 dark:text-gray-400">Cargamento </span>
                 <span class="ico-plus"></span>
             </div>
         </a>
@@ -294,9 +303,8 @@
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
                         >
-                            <th class="px-4 py-3">Modo</th>
-                            <th class="px-4 py-3">Tipo de Container</th>
-                            <th class="px-4 py-3">Tipo de Carga</th>
+                           
+                            <th class="px-4 py-3">{{ $application->type_transport == 'CONTAINER' ? 'Tipo de Container' : 'Tipo de Carga' }} </th>
                             <th class="px-4 py-3">CBM</th>
                             <th class="px-4 py-3">Dimension Unitaria (L W H)</th>
                             <th class="px-4 py-3">Peso Unitario</th>
@@ -310,13 +318,8 @@
 
                         <tr class="text-gray-700 dark:text-gray-400">
                             <td class="px-4 py-3">
-                                {{$item->mode_selected}}
-                            </td>
-                            <td class="px-4 py-3">
-                                {{$item->container->name}}
-                            </td>
-                            <td class="px-4 py-3">
-                                {{$item->categoryLoad->name}}
+                                {{ $application->type_transport == 'CONTAINER' ? $item->container->description : $item->categoryLoad->name }} 
+                                
                             </td>
                             <td class="px-4 py-3">
                                {{$item->cbm}}

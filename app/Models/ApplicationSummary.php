@@ -29,4 +29,9 @@ class ApplicationSummary extends Model
     {
         return $this->belongsTo(Service::class, 'service_id');
     }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class,'currency_id')->withDefault(['code' => '', 'symbol' => '' ]);
+    }
 }
