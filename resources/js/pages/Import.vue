@@ -603,19 +603,18 @@ export default {
       const exchange = selectedServices.find((e) => e.code == 'ICS07');
       if (!exchange) selectedServices.push(this.objectPayment);
 
-      if (
-        this.$store.state.application.data.type_transport != 'COURIER' &&
-        selectedServices.indexOf(this.objectPayment2) === -1
-      ) {
-        selectedServices.push(this.objectPayment2);
-      } else if (
-        selectedServices.indexOf(this.objectPayment2) !== -1 &&
-        this.$store.state.application.data.type_transport == 'COURIER'
-      ) {
+      const findEntrega = selectedServices.find((service) => service.code == 'ICS05');
+      const findTransport = selectedServices.find((e) => e.code == 'ICS03');
+      if (findEntrega) {
         let positionEntrega = selectedServices.indexOf(this.objectPayment2);
         selectedServices.splice(positionEntrega, 1);
-      } else {
-        return '';
+      }
+      if (
+        !findEntrega &&
+        findTransport &&
+        this.$store.state.application.data.type_transport !== 'COURIER'
+      ) {
+        selectedServices.push(this.objectPayment2);
       }
     },
     async submitFormApplications() {
