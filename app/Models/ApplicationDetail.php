@@ -10,7 +10,14 @@ class ApplicationDetail extends Model
     use HasFactory;
 
     protected $table = 'application_details';
-    protected $guarded = [];
+    protected $fillable = [
+        'application_id',
+        'service_id',
+        'category_service_id',
+        'fee_date',
+        'currency_id',
+        'amount',
+    ];
 
     protected $dates = [
         'created_at',
