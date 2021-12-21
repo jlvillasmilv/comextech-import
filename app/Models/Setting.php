@@ -18,7 +18,12 @@ class Setting extends Model
         'api_sii',
         'token_sii',
         'terms',
-        'url_video'
+        'url_video',
+        'min_rate_fcl',
+        'min_rate_lcl',
+        'min_rate_aereo',
+        'min_rate_transp',
+
     ];
 
     protected $dates = [

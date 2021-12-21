@@ -222,7 +222,8 @@ class TransportsControllers extends Controller
                 'oth_exp'   => $oth_exp,  
                 'insurance' => $insurance_amount,
                 'from'      => $transport->originPort->unlocs,
-                'to'        => $transport->destPort->unlocs
+                'to'        => $transport->destPort->unlocs,
+                'local_transp' => $local_transp
             ];
 
         DB::commit();

@@ -22,7 +22,7 @@
                 <table class="w-full whitespace-no-wrap">
                     <thead class="">
                         <tr
-                            class="text-xs text-center font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+                            class="text-xs text-center font-semibold tracking-wide text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3"> Nro/Fecha </th>
                             <th class="px-4 py-3"> Costo </th>
                             <th class="px-4 py-3"> Estatus </th>
