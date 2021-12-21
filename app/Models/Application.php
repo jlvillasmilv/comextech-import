@@ -160,7 +160,7 @@ class Application extends Model
         return $this->hasOne(InternmentProcess::class,'application_id')->select('*',\DB::raw("'ICS04' as code_serv"));
     }
 
-    public function cargo()
+    public function loads()
     {
         return $this->hasMany(Load::class,'application_id');
     }

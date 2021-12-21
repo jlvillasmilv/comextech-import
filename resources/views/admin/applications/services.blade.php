@@ -281,7 +281,7 @@
 {{-- Fin Bodegaje Local --}}
 
 {{-- Cargamento  --}}
-@if (isset($application->cargo) && count($application->cargo) > 0)
+@if (isset($application->loads) && count($application->loads) > 0)
 
 <div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
     <ul class="shadow-box">
@@ -314,7 +314,7 @@
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                     
-                        @forelse ($application->cargo as $key => $item)
+                        @forelse ($application->loads as $key => $item)
 
                         <tr class="text-gray-700 dark:text-gray-400">
                             <td class="px-4 py-3">
