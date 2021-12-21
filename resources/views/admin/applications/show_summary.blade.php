@@ -7,7 +7,6 @@
                     <th class="px-4 py-3">Servicio </th>
                     <th class="px-4 py-3">Fecha </th>
                     <th class="px-4 py-3">Moneda / Monto </th>
-                    
                 </tr>
             </thead>
             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
