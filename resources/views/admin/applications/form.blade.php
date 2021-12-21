@@ -76,41 +76,37 @@
                             </p>
                         </label>
         
-                        <label class="block mt-4 text-sm">
+                        {{-- <label class="block mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Descripccion:</span>
                             <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
                                 {{$application->description}} 
                             </p>
-                        </label>
+                        </label> --}}
         
-                        <div class="px-2">
+                       
                             <div class="flex mb-4">
-                                <div class="w-1/2 mr-1">
+                                <div class="w-1/3 mr-1">
                                     <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Monto de la operación:</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
                                         {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }} 
                                     </p>
                                 </div>
-                                <div class="w-1/2 ml-1">
-                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Condicion de Venta del Proveedor</label>
+                                <div class="w-1/3 ml-1">
+                                    <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Condicion de Venta</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
                                         {{ $application->condition }} 
                                     </p>
                                 </div>
-                            </div>
-                        </div>
-        
-                        <div class="px-2">
-                            <div class="flex mb-4">
-                                <div class="w-1/2 mr-1">
+                                
+                                <div class="w-1/3">
                                     <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Fecha Solicitud:</label>
                                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
                                         {{ date('d-m-Y', strtotime($application->created_at)) }}
                                     </p>
                                 </div>
-                               
+                                   
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -124,11 +120,13 @@
                 
 
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
-
+                    @if ($application->status->modify)
+                        @include('admin.applications.summary')
+                    @endif
                     <span class="text-xs text-red-600 dark:text-red-400">
                         {!! session()->get('error') !!} 
                     </span>
-                    @if ($application->status->modify)
+                    {{-- @if ($application->status->modify)
                         
                     <div class="px-2" id="add_services">
                         <div class="flex mb-4">
@@ -206,11 +204,11 @@
                                 </button>
                         </div>
                     </div>
-                    @endif
+                    @endif --}}
 
 
                   
-                    <div class="w-full overflow-x-auto">
+                    {{-- <div class="w-full overflow-x-auto">
                         <table id="table" class="w-full whitespace-no-wrap">
                             <thead>
                                 <tr
@@ -336,8 +334,8 @@
                             @endforelse
                             </tbody>
                         </table>
-                    </div>
-                </div>
+                    </div>--}}
+                </div> 
 
       		</form>
 	</div>

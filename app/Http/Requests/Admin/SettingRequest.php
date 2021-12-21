@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApplicationRequest extends FormRequest
+class SettingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class ApplicationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'application_statuses_id'  => 'required|exists:application_statuses,id',
-            'amount'                   => 'required|array',
-            'amount.*'                 => 'required|numeric',
-            'fee_date.*'               => 'required|date',
-            'detail_id.*'              => 'required',
-            'currency_id.*'            => 'required|exists:currencies,id',
+            'rate'          => 'required|numeric',
+            'mora_rate'     => 'required|numeric',
+            'discount'      => 'required|numeric',
+            'commission'    => 'required|numeric', 
+            'api_sii'       => 'nullable|url',
+            'url_video'     => 'nullable|max:250',
         ];
 
         return $rules;
