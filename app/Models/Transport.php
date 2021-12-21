@@ -40,9 +40,24 @@ class Transport extends Model
         return $this->belongsTo(Port::class,'origin_port_id')->withDefault(['name' => '', 'unlocs' => '' ]);
     }
 
+    public function originAddress()
+    {
+        return $this->belongsTo(SupplierAddress::class,'origin_address')->withDefault(['address' => '', 'place' => '' ]);
+    }
+
+    public function destAddress()
+    {
+        return $this->belongsTo(CompanyAddress::class,'dest_address')->withDefault(['address' => '', 'place' => '' ]);
+    }
+
     public function destPort()
     {
         return $this->belongsTo(Port::class,'dest_port_id')->withDefault(['name' => '', 'unlocs' => '' ]);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class,'supplier_id')->withDefault(['name' => '' ]);
     }
 
     /**

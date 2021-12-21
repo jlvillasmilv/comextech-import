@@ -25,13 +25,6 @@
                         {{$application->user->company->tax_id}} {{$application->user->company->name}} 
                     </p>
                 </label>
-
-                <label class="block mt-4 text-sm">
-                    <span class="text-gray-700 dark:text-gray-400 font-bold mb-2 dark:text-gray-300">Descripccion:</span>
-                    <p class="text-grey-dark mb-2 text-sm dark:text-gray-300 dark:text-gray-300">
-                        {{$application->description}} 
-                    </p>
-                </label>
                
                 <div class="px-2">
                     <div class="flex mb-4">
@@ -71,48 +64,7 @@
         </div>
 
         @include('admin.applications.services')
-
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
-            <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap">
-                    <thead>
-                        <tr
-                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3">Servicio </th>
-                            <th class="px-4 py-3">MO </th>
-                            <th class="px-4 py-3">Monto </th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        @forelse($application->details as $detail)
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            
-                            <td class="px-4 py-3 text-sm">
-                                <p class="font-semibold">{{ $detail->service->name }}</p>
-                            </td>
-                            <td class="px-4 py-3 text-xs">
-                                <div class="flex items-center text-sm">                                 
-                                    {{ $detail->currency->code }}  {{ $detail->currency->symbol }}   {{number_format($detail->amount,0,",",".") }}
-                                </div>
-                                
-                            </td>
-                          
-                            <td class="px-4 py-3 text-sm">
-                                {{ $detail->currency2->code }}  {{ $detail->currency2->symbol }}  {{number_format($detail->amount2,0,",",".") }}
-                            </td>
-                            
-                        </tr>
-     
-                        @empty
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <td class="px-4 py-3 text-sm" colspan="5">No entries found.</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        @include('admin.applications.show_summary')
 
     </div>
 </x-app-layout>

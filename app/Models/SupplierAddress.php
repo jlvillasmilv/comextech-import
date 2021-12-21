@@ -17,6 +17,8 @@ class SupplierAddress extends Model
         'address',
         'address_latitude',
         'address_longitude',
+        'locality',
+        'country_code',
         'postal_code',
     ];
 
