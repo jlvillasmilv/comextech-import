@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\services\DHL;
-use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail, Currency};
+use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail, Currency, User};
+use App\Notifications\TransportRateNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -220,7 +221,7 @@ class TransportsControllers extends Controller
                 'transport_amount' => $transport_amount,
                 'cif'       => $cif,       
                 'oth_exp'   => $oth_exp,  
-                'insurance' => $insurance_amount,
+                'insurance' => $request->insurance ? $insurance_amount : 0,
                 'from'      => $transport->originPort->unlocs,
                 'to'        => $transport->destPort->unlocs,
                 'local_transp' => $local_transp
@@ -372,6 +373,32 @@ class TransportsControllers extends Controller
         } catch (\Exception $e) {
             return response()->json(['status' => $e], 500);
         }
+    }
+
+    public function sendNotification(Request $request) {
+
+        $application =  \DB::table('applications')->where('id', $request->application_id)->first();
+
+        /****Send notification to admin about new applications**/
+        $admin = User::whereHas('roles', function ($query) {
+            $query->where('name','=', 'Admin');
+        })->pluck('id');
+
+        
+        $details = [
+            'title' => 'Usuario '. auth()->user()->name.' ('.auth()->user()->company->name.')',
+            'body'  => 'Solicita cotizacion de transporte para solicitud '.$application->code
+        ];
+
+        User::all()
+            ->whereIn('id', $admin)
+            ->each(function (User $user) use ($application, $details) {
+                $user->notify(new TransportRateNotification($application));
+                \Mail::to($user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
+        });
+        
+        return response()->json(['status' => 200]);
+
     }
 
     public function test()

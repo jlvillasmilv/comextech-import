@@ -2,14 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Models\Application;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AdminApplicationNotification extends Notification
+class TransportRateNotification extends Notification
 {
     use Queueable;
 
@@ -18,7 +17,7 @@ class AdminApplicationNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Application $application)
+    public function __construct($application)
     {
         $this->application =$application;
     }
@@ -57,9 +56,9 @@ class AdminApplicationNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'application' => $this->application->id,
-            'title'       => 'Solicitud N° '. $this->application->code,
-            'description' => 'Se ah generado una Solicitud N° '. $this->application->code,
+            'application' => $this->application->code,
+            'title'       => 'Solicitud:'. $this->application->code,
+            'description' => 'Usuario solicita cotizacion de transporte para solicitud:'. $this->application->code,
             'time'        => Carbon::now()->diffForHumans(),
             'route'       => route('admin.applications.index'),
         ];
