@@ -886,10 +886,19 @@ export default {
           }).then((result) => {
             if (result.isConfirmed) {
               // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-              Toast.fire({
-                icon: 'success',
-                title: 'Datos Agregados'
-              });
+
+              axios.post('/notifications-transport', { application_id: this.data.application_id })
+                .then(function (response) {
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+              // axios.post
+              // Toast.fire({
+              //   icon: 'success',
+              //   title: 'Datos Agregados'
+              // });
             }
           });
         } else {

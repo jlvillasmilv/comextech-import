@@ -31,7 +31,7 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
    
     Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
-     Route::post('asupplier/remove', 'App\Http\Controllers\Web\SupplierController@remove')
+    Route::post('asupplier/remove', 'App\Http\Controllers\Web\SupplierController@remove')
     ->name('supplier.remove'); 
 
     // Applications
@@ -128,6 +128,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('show-notifications', 'App\Http\Controllers\HomeController@showNotifications')->name('show.notifications');
     Route::post('/mark-as-read', 'App\Http\Controllers\HomeController@markNotification')->name('markNotification');
+
+    Route::post('/notifications-transport', 'App\Http\Controllers\Web\TransportsControllers@sendNotification');
 
     Route::get('/convert-currency-date/{date}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrencyDate']);
     Route::get('/custom-convert-currency/{amount}/{from_currency}', [ServicesController::class, 'customsConvertCurrency']);
