@@ -15,7 +15,7 @@ class SeaPortSeeder extends Seeder
      */
     public function run()
     {
-        Port::truncate();
+        //Port::truncate();
   
         $json = File::get("database/data/ports2.json");
         $ports = json_decode($json);
@@ -35,7 +35,7 @@ class SeaPortSeeder extends Seeder
         $ports = json_decode($json);
 
         foreach ($ports as $key => $port) {
-            Port::create([
+            \DB::table('ports')->insert([
                 "country_id" => intval($port->country_id),
                 "name"       => $port->name,
                 "province"	 => isset($port->province) ? $port->province : null ,
