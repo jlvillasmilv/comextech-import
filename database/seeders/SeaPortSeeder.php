@@ -15,7 +15,11 @@ class SeaPortSeeder extends Seeder
      */
     public function run()
     {
+<<<<<<< HEAD
+        // Port::truncate();
+=======
         //Port::truncate();
+>>>>>>> 5774d2457b2de6c45ac3736fac0e005de89822ee
   
         $json = File::get("database/data/ports2.json");
         $ports = json_decode($json);

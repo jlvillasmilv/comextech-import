@@ -254,7 +254,7 @@
       <div name="fade" class="sm:flex sm:justify-center">
         <div
           v-if="
-            showApisQuote == true &&
+            showFedexQuote == true &&
               fedex.DeliveryTimestamp &&
               fedex.ServiceType &&
               fedex.FUEL &&
@@ -370,7 +370,7 @@
       <div name="fade" class="sm:flex sm:justify-center">
         <div
           v-if="
-            showApisQuote == true &&
+            showDHLQuote == true &&
               dhl.DeliveryDate &&
               dhl.DeliveryTime &&
               dhl.ProductShortName &&
@@ -505,7 +505,9 @@ export default {
       transportDHL: '' /* transportation rate Fedex */,
       BaseChargeTotal: '',
       TotalEstimed: '' /* estimated total Fedex */,
-      showApisQuote: false,
+      // showApisQuote: false,
+      showFedexQuote: false,
+      showDHLQuote: false,
       showShipping: false
     };
   },
@@ -557,14 +559,18 @@ export default {
       ); /* Hide / Show loads and dimensions form */
       this.$store.dispatch('address/showAddress', false);
       try {
-        this.showApisQuote = true;
+        // this.showApisQuote = true;
         this.expenses.dataLoad = this.$store.state.load.loads;
 
         /* get data from fedex quote and rate api */
         const fedexApi = await this.expenses.post('/get-fedex-rate');
 
+        /* get data from DHL quote and rate api */
+        const DhlApi = await this.expenses.post('/get-dhl-quote');
+
         /* It is validated if the request was successful to show the quote block (FEDEX) */
         if (fedexApi.status == 200) {
+          this.showFedexQuote = true;
           /* The variable is equalized to later use it in the template */
           this.fedex = fedexApi.data;
 
@@ -572,12 +578,13 @@ export default {
           this.fedex.DeliveryTimestamp = this.$luxon(this.fedex.DeliveryTimestamp);
 
           this.TotalEstimed = this.fedex.TotalEstimed.toFixed(2);
+
+          /* Vue-loader hidden */
+          loader.hide();
         }
 
-        /* get data from DHL quote and rate api */
-        const DhlApi = await this.expenses.post('/get-dhl-quote');
-
         if (DhlApi.status == 200) {
+          this.showDHLQuote = true;
           this.dhl = DhlApi.data;
 
           this.transportDHL =
@@ -589,9 +596,9 @@ export default {
           // );
 
           this.dhl.ComextechDiscount = this.dhl.ComextechDiscount.toFixed(2);
+          /* Vue-loader hidden */
+          loader.hide();
         }
-        /* Vue-loader hidden */
-        loader.hide();
       } catch (error) {
         console.error(error);
       }
@@ -609,7 +616,9 @@ export default {
 
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
 
-      this.showApisQuote = false;
+      // this.showApisQuote = false;
+      this.showFedexQuote = false;
+      this.showDHLQuote = false;
 
       // /* Here the dataLoad is set to 0 to edit the view */
       // this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
