@@ -102,7 +102,7 @@ class ApplicationController extends Controller
     public function update(ApplicationRequest $request, $id)
     {
 
-        dd($request->all());
+       //dd($request->all());
         $data = Application::findOrFail($id);
 
         $status = ApplicationStatus::where('id', $data->application_statuses_id)->firstOrFail();
@@ -144,24 +144,20 @@ class ApplicationController extends Controller
         $data->modified_user_id = auth()->user()->id;
         $data->save();
 
-       /* if(isset($request->detail_id)){
 
-            foreach ($request->service_id as $key => $id) {
+       if(isset($request->detail_id)){
 
-                ApplicationDetail::updateOrCreate(
-                    ['application_id' => $data->id,
-                    'service_id'     => $id
-                    ],
-                    [
-                    'currency_id'  => $request->currency_id[$key],
-                    'amount'       => $request->amount[$key],
-                    'currency2_id' => $request->currency2_id[$key],
-                    'amount2'      => $request->amount2[$key],
-                    ]
-                );
+            foreach ($request->detail_id as $key => $id) {
+
+                ApplicationSummary::where('id',  $id)
+                    ->update([
+                        'fee_date'     => $request->fee_date[$key],
+                        'currency_id'  => $request->currency_id[$key],
+                        'amount'       => $request->amount[$key],
+                    ]);
             }
         }
-        */
+    
 
         $notification = array(
             'message'    => 'Registro actualizado',

@@ -864,7 +864,7 @@ export default {
      * @param {4} UPS
      */
     async submitQuote(appAmount, transCompanyId) {
-      this.$store.dispatch('address/showQuoteLCL', true);
+      this.$store.dispatch('address/showQuoteFCL', true);
       this.$store.dispatch('address/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
       try {
@@ -872,11 +872,41 @@ export default {
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
         const { data } = await this.expenses.post('/applications/transports');
-        Toast.fire({
-          icon: 'success',
-          title: 'Datos Agregados'
-        });
+        // Mensaje para validar si transport_amount es igual a 0
+        if (data.transport.transport_amount === 0) {
+          Swal.fire({
+            title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+            // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Enviar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
 
+              axios.post('/notifications-transport', { application_id: this.data.application_id })
+                .then(function (response) {
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+              // axios.post
+              // Toast.fire({
+              //   icon: 'success',
+              //   title: 'Datos Agregados'
+              // });
+            }
+          });
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: 'Datos Agregados'
+          });
+        }
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
         this.$store.dispatch('load/setLoad', data);
         // this.$store.dispatch('callIncomingOrNextMenu', true);
