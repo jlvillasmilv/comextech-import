@@ -37,7 +37,6 @@ const state = {
   portsDesTemp: [],
   addressDate: true,
   formAddress: false,
-  fclTable: false,
   lclTable: false,
   minDate: new Date().toISOString().substr(0, 10)
 };
