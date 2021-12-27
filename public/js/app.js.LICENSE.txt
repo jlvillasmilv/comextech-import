@@ -10,8 +10,8 @@
  */
 
 /*!
- * Vue.js v2.6.12
- * (c) 2014-2020 Evan You
+ * Vue.js v2.6.14
+ * (c) 2014-2021 Evan You
  * Released under the MIT License.
  */
 
@@ -29,8 +29,10 @@
  * Date: 2021-03-02T17:08Z
  */
 
-/*! DataTables 1.10.18
- * ©2008-2018 SpryMedia Ltd - datatables.net/license
+/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
+ * @license MIT
  */
 
 /**
@@ -41,3 +43,9 @@
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
+
+//! invalid number
+
+//! moment.js
+
+//! moment.js locale configuration
