@@ -652,11 +652,11 @@
         </div>
       </transition>
       <transition name="fade">
-        <div class="flex flex-wrap justify-center -mx-3 mb-6">
+        <div v-if="addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                Fecha Estimada
+                Fecha recogida
               </span>
               <input
                 type="date"
