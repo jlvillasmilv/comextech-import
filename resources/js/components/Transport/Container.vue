@@ -652,11 +652,11 @@
         </div>
       </transition>
       <transition name="fade">
-        <div class="flex flex-wrap justify-center -mx-3 mb-6">
+        <div v-if="addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                Fecha Estimada
+                Fecha recogida
               </span>
               <input
                 type="date"
@@ -735,9 +735,9 @@
         </div>
       </transition>
     </div>
-    <section v-if="fclTable">
+    <section v-if="fclTableQuote">
       <div class="mt-8 flex justify-center">
-        <table class="w-full">
+        <table v-if="data.condition == 'EXW'" class="w-full">
           <thead>
             <tr class="bg-gray-100">
               <th>&nbsp;</th>
@@ -748,7 +748,7 @@
           </thead>
           <tbody class="divide-y">
             <tr class="text-center">
-              <td class="px-4 py-3">EXW</td>
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRAMO LOCAL (ORIGEN)</td>
               <td class="px-4 py-3">POR COTIZAR</td>
               <td class="px-4 py-3">USD</td>
@@ -756,25 +756,80 @@
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td class="px-4 py-3">10.000</td>
+              <td class="px-4 py-3">{{ fclQuote.transport.transport_amount }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
-              <td class="px-4 py-3">100</td>
+              <td class="px-4 py-3">{{ fclQuote.transport.insurance }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td class="px-4 py-3">17.000</td>
+              <td class="px-4 py-3">
+                {{ fclQuote.transport.oth_exp ? fclQuote.transport.oth_exp : 'POR COTIZAR' }}
+              </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td class="px-4 py-3">POR COTIZAR</td>
+              <td class="px-4 py-3">
+                {{
+                  fclQuote.transport.local_transp ? fclQuote.transport.local_transp : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table v-if="data.condition == 'FOB'" class="w-full">
+          <thead>
+            <tr class="bg-gray-100">
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th class="text-blue-700">TARIFA</th>
+              <th class="text-blue-700">MONEDA</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <!-- <tr class="text-center">
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">&nbsp;</td>
+            </tr> -->
+            <tr class="text-center">
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
+              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
+              <td class="px-4 py-3">{{ fclQuote.transport.transport_amount }}</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">SEGURO</td>
+              <td class="px-4 py-3">{{ fclQuote.transport.insurance }}</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">GASTOS LOCALES</td>
+              <td class="px-4 py-3">
+                {{ fclQuote.transport.oth_exp ? fclQuote.transport.oth_exp : 'POR COTIZAR' }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
+              <td class="px-4 py-3">
+                {{
+                  fclQuote.transport.local_transp ? fclQuote.transport.local_transp : 'POR COTIZAR'
+                }}
+              </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
           </tbody>
@@ -825,7 +880,9 @@ export default {
   data() {
     return {
       minDate: new Date().toISOString().substr(0, 10),
-      showShipping: false
+      showShipping: false,
+      fclQuote: {},
+      fclTableQuote: false
     };
   },
   methods: {
@@ -838,16 +895,38 @@ export default {
      * @param {4} UPS
      */
     async submitQuote(appAmount, transCompanyId) {
-      this.$store.dispatch('address/showQuoteFCL', true);
+      /* Vue-loader config */
+      let loader = this.$loading.show({
+        canCancel: true,
+        transition: 'fade',
+        color: '#046c4e',
+        loader: 'spinner',
+        lockScroll: true,
+        enforceFocus: true,
+        height: 100,
+        width: 100
+      });
+
       this.$store.dispatch('address/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
+
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const { data } = await this.expenses.post('/applications/transports');
-        // Mensaje para validar si transport_amount es igual a 0
-        if (data.transport.transport_amount === 0) {
+        const fclResponse = await this.expenses.post('/applications/transports');
+
+        /* Show fclTableQuote  */
+        if (fclResponse.status == 200) {
+          this.fclTableQuote = true;
+          this.fclQuote = fclResponse.data;
+
+          /* Vue-loader hidden */
+          loader.hide();
+        }
+
+        // Message to validate if transport_amount is 0
+        if (fclResponse.data.transport.transport_amount === 0) {
           Swal.fire({
             title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
             // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
@@ -873,7 +952,7 @@ export default {
           });
         }
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
-        this.$store.dispatch('load/setLoad', data);
+        this.$store.dispatch('load/setLoad', fclResponse.data);
         // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         console.error(error);
@@ -885,7 +964,7 @@ export default {
     HideAddress() {
       this.$store.dispatch('address/showAddress', true);
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
-      this.$store.dispatch('address/showQuoteFCL', false);
+      this.fclTableQuote = false;
     },
     getFavOriginPort: async function() {
       this.expenses.origin_port_id = '';
@@ -977,8 +1056,7 @@ export default {
       'portsDestination',
       'portsDesTemp',
       'addressDate',
-      'formAddress',
-      'fclTable'
+      'formAddress'
     ]),
     ...mapState('application', ['data', 'currency', 'origin_transport'])
   }
