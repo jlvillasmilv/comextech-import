@@ -652,11 +652,11 @@
         </div>
       </transition>
       <transition name="fade">
-        <div class="flex flex-wrap justify-center -mx-3 mb-6">
+        <div v-if="addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                Fecha Estimada
+                Fecha recogida
               </span>
               <input
                 type="date"
@@ -737,7 +737,7 @@
     </div>
     <section v-if="fclTableQuote">
       <div class="mt-8 flex justify-center">
-        <table class="w-full">
+        <table v-if="data.condition == 'EXW'" class="w-full">
           <thead>
             <tr class="bg-gray-100">
               <th>&nbsp;</th>
@@ -755,6 +755,55 @@
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
+              <td class="px-4 py-3">{{ fclQuote.transport.transport_amount }}</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">SEGURO</td>
+              <td class="px-4 py-3">{{ fclQuote.transport.insurance }}</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">GASTOS LOCALES</td>
+              <td class="px-4 py-3">
+                {{ fclQuote.transport.oth_exp ? fclQuote.transport.oth_exp : 'POR COTIZAR' }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
+              <td class="px-4 py-3">
+                {{
+                  fclQuote.transport.local_transp ? fclQuote.transport.local_transp : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table v-if="data.condition == 'FOB'" class="w-full">
+          <thead>
+            <tr class="bg-gray-100">
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th class="text-blue-700">TARIFA</th>
+              <th class="text-blue-700">MONEDA</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <!-- <tr class="text-center">
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">&nbsp;</td>
+            </tr> -->
+            <tr class="text-center">
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
               <td class="px-4 py-3">{{ fclQuote.transport.transport_amount }}</td>
               <td class="px-4 py-3">USD</td>
