@@ -166,10 +166,10 @@ class TransportsControllers extends Controller
 
                 }
 
-                $transport_amount = $transp['int_trans'];
-                $cif            = $transp['cif'];
-                $oth_exp        = $transp['oth_exp'];
-                $t_time         = $transp['t_time'];
+                $transport_amount  = $transp['int_trans'];
+                $cif               = $transp['cif'];
+                $oth_exp           = $transp['oth_exp'];
+                $t_time            = $transp['t_time'];
                 $insurance_amount  = $transp['insurance'];
               
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
@@ -400,7 +400,7 @@ class TransportsControllers extends Controller
         return response()->json(['status' => 200]);
 
     }
-
+    // TEST API RATE FEDEX DHL
     public function test()
     {
         $data = [
