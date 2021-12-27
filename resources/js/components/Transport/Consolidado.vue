@@ -758,7 +758,7 @@
     </div>
     <section v-if="lclTable">
       <div class="mt-8 flex justify-center">
-        <table class="w-full">
+        <table v-if="data.condition == 'EXW'" class="w-full">
           <thead>
             <tr class="bg-gray-100">
               <th>&nbsp;</th>
@@ -769,7 +769,7 @@
           </thead>
           <tbody class="divide-y">
             <tr class="text-center">
-              <td class="px-4 py-3">EXW</td>
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRAMO LOCAL (ORIGEN)</td>
               <td class="px-4 py-3">POR COTIZAR</td>
               <td class="px-4 py-3">USD</td>
@@ -777,32 +777,89 @@
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td class="px-4 py-3">675</td>
+              <td class="px-4 py-3">{{ lclTableQuote.transport.transport_amount }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
-              <td class="px-4 py-3">120</td>
+              <td class="px-4 py-3">{{ lclTableQuote.transport.insurance }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td class="px-4 py-3">255.000</td>
+              <td class="px-4 py-3">
+                {{
+                  lclTableQuote.transport.oth_exp ? lclTableQuote.transport.oth_exp : 'POR COTIZAR'
+                }}
+              </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td class="px-4 py-3">POR COTIZAR</td>
+              <td class="px-4 py-3">
+                {{
+                  lclTableQuote.transport.local_transp
+                    ? lclTableQuote.transport.local_transp
+                    : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table v-if="data.condition == 'FOB'" class="w-full">
+          <thead>
+            <tr class="bg-gray-100">
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th class="text-blue-700">TARIFA</th>
+              <th class="text-blue-700">MONEDA</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <!-- <tr class="text-center">
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">&nbsp;</td>
+            </tr> -->
+            <tr class="text-center">
+              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
+              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
+              <td class="px-4 py-3">{{ lclTableQuote.transport.transport_amount }}</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">SEGURO</td>
+              <td class="px-4 py-3">{{ lclTableQuote.transport.insurance }}</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-center">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">GASTOS LOCALES</td>
+              <td class="px-4 py-3">
+                {{
+                  lclTableQuote.transport.oth_exp ? lclTableQuote.transport.oth_exp : 'POR COTIZAR'
+                }}
+              </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
             <tr class="text-center">
               <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">Peso Vol (KG)</td>
-              <td class="px-4 py-3">1.124</td>
-              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
+              <td class="px-4 py-3">
+                {{
+                  lclTableQuote.transport.local_transp
+                    ? lclTableQuote.transport.local_transp
+                    : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
             </tr>
           </tbody>
         </table>
@@ -851,7 +908,9 @@ export default {
   components: { VueGoogleAutocomplete, mapState, Button },
   data() {
     return {
-      showShipping: false
+      showShipping: false,
+      lclTableQuote: {},
+      lclTable: false
     };
   },
   methods: {
@@ -864,16 +923,39 @@ export default {
      * @param {4} UPS
      */
     async submitQuote(appAmount, transCompanyId) {
-      this.$store.dispatch('address/showQuoteFCL', true);
+      /* Vue-loader config */
+      let loader = this.$loading.show({
+        canCancel: true,
+        transition: 'fade',
+        color: '#046c4e',
+        loader: 'spinner',
+        lockScroll: true,
+        enforceFocus: true,
+        height: 100,
+        width: 100
+      });
+
       this.$store.dispatch('address/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
+
+      this.$store.dispatch('address/showQuoteFCL', true);
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const { data } = await this.expenses.post('/applications/transports');
+        const lclResponse = await this.expenses.post('/applications/transports');
+
+        /* Show fclTableQuote  */
+        if (lclResponse.status == 200) {
+          this.lclTableQuote = lclResponse.data;
+          this.lclTable = true;
+
+          /* Vue-loader hidden */
+          loader.hide();
+        }
+
         // Mensaje para validar si transport_amount es igual a 0
-        if (data.transport.transport_amount === 0) {
+        if (lclResponse.data.transport.transport_amount === 0) {
           Swal.fire({
             title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
             // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
@@ -887,11 +969,12 @@ export default {
             if (result.isConfirmed) {
               // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
 
-              axios.post('/notifications-transport', { application_id: this.data.application_id })
-                .then(function (response) {
+              axios
+                .post('/notifications-transport', { application_id: this.data.application_id })
+                .then(function(response) {
                   console.log(response);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.log(error);
                 });
               // axios.post
@@ -908,7 +991,7 @@ export default {
           });
         }
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
-        this.$store.dispatch('load/setLoad', data);
+        this.$store.dispatch('load/setLoad', lclResponse.data);
         // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         console.error(error);
@@ -920,7 +1003,7 @@ export default {
     HideAddress() {
       this.$store.dispatch('address/showAddress', true);
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
-      this.$store.dispatch('address/showQuoteLCL', false);
+      this.lclTable = false;
     },
     getFavOriginPort: async function() {
       this.expenses.origin_port_id = '';
@@ -1013,8 +1096,6 @@ export default {
       'portsDesTemp',
       'addressDate',
       'formAddress',
-      'fclTable',
-      'lclTable',
       'minDate'
     ]),
     ...mapState('application', ['data', 'currency', 'origin_transport'])
