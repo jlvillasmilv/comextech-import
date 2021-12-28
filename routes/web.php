@@ -194,15 +194,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
         'warehouses'       => WarehouseController::class,
         'trans_companies'  => TransCompanyController::class,
         'suppl_cond_sales' => ApplicationCondSaleController::class,
+        'customs-exchange-rates' => CustomsExchangeRateController::class
     ]);
-
+    
     Route::post('clients/excutive/', 'CompanyController@excutive')->name('clients.excutive');
     Route::get('clients/legal/{id}', 'CompanyController@legal')->name('clients.legal');
     Route::resource('settings', 'SettingController')->except(['destroy','create']);    
 });
 
 //admin factoring
-
 Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namespace' => 'App\Http\Controllers\Admin\Factoring', 'middleware' => ['auth:sanctum']], function () {
 
     Route::resource('applications', 'ApplicationController')->except(['destroy','create']);

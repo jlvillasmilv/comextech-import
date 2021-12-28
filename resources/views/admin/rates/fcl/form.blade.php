@@ -189,9 +189,9 @@
 							value="{{ old('c20', isset($data) ? $data->c20 : '') }}" 
 							required="">
 							  
-							  @if($errors->has('valid_from'))
+							  @if($errors->has('c20'))
 								  <span class="text-xs text-red-600 dark:text-red-400">
-									  {{ $errors->first('valid_from') }}
+									  {{ $errors->first('c20') }}
 								  </span>
 							  @endif
 						</div>
