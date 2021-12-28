@@ -21,13 +21,13 @@ class ApplicationSeeder extends Seeder
             'supplier_id'             => 1,
             'application_statuses_id' => 1,
             'currency_id'             => 2,
-            'description'             => 'Necesito importar un Equipo desde China con Valor del Equipo es Usd50.000,00',
             'fee1_date'               => date('Y-m-d'),
             'amount'                  => '50000',
             'fee1'                    => '20',
             'fee2'                    => '80',
             'condition'               => 'EXW',
             'type_transport'          => 'COURIER',
+            'services_code'           => ''
         ]);
 
 

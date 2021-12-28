@@ -712,17 +712,22 @@ export default {
   },
   async mounted() {
     try {
-      this.$store.dispatch('application/getSuppliers');
-      this.$store.dispatch('application/getServices');
-      this.$store.dispatch('application/getCurrencies');
-
+       Promise.all([
+          this.$store.dispatch('application/getSuppliers'),
+          this.$store.dispatch('application/getServices'),
+          this.$store.dispatch('application/getCurrencies')
+        ]);
+      
       let application = document.getElementById('applications');
 
       if (application !== null) {
         const id = application.value;
         const { data } = await axios.get('/get-application/' + id);
-        this.$store.dispatch('application/setData', data);
-        await this.$store.dispatch('application/getServicesSelecteds', id);
+        Promise.all([
+          this.$store.dispatch('application/setData', data),
+          this.$store.dispatch('application/getServicesSelecteds', data.services_code.split(','))
+          ]);
+     
         this.$store.state.selectedServices = this.tabs.filter((e) => e.checked);
         this.$store.dispatch('payment/setPayment', data.payment_provider);
         // this.toogleMenuTabs();
