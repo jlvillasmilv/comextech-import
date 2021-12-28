@@ -148,23 +148,9 @@ class Transport extends Model
              {
                 $type_mark_up = 'air';
                 $rate_insurance_transp =  \DB::table('settings')->first(['min_rate_aereo'])->min_rate_aereo;
-
-                foreach($data['cargo'] as $item) {
-                    $field = 'c'.$item->container->name;
-                    $rate = \DB::table('rate_fcl')
-                    ->where([
-                        ['status', true],
-                        ['from', $data['from']],
-                        ['to', $data['to']],
-                    ])
-                    ->orderBy('valid_to', 'desc')
-                    ->select('c20', 'oth_exp', 't_time')
-                    ->first();
-
-                    $int_trans += is_null($rate) ? 0 : $rate->c20;
-                    $oth_exp   += is_null($rate) ? 0 : $rate->oth_exp;
-                    $t_time =  is_null($rate) ? 12 : $rate->oth_exp;
-                }
+                $int_trans = 0;
+                $oth_exp   = 0;
+                $t_time    = 0;
  
             }
 

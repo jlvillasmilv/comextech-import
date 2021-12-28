@@ -47,7 +47,13 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'admin.rates.local_transport.show']);
         Permission::create(['name' => 'admin.rates.local_transport.create']);
         Permission::create(['name' => 'admin.rates.local_transport.destroy']);
-      
+
+        Permission::create(['name' => 'admin.customs_exchange_rates.index']);
+        Permission::create(['name' => 'admin.customs_exchange_rates.edit']);
+        Permission::create(['name' => 'admin.customs_exchange_rates.show']);
+        Permission::create(['name' => 'admin.customs_exchange_rates.create']);
+        Permission::create(['name' => 'admin.customs_exchange_rates.destroy']);
+
         Permission::create(['name' => 'clients.index']);
         Permission::create(['name' => 'clients.edit']);
         Permission::create(['name' => 'clients.show']);
@@ -209,6 +215,10 @@ class PermissionsTableSeeder extends Seeder
             'admin.rates.local_transport.index',
             'admin.rates.local_transport.edit',
             'admin.rates.local_transport.show',
+            'admin.customs_exchange_rates.index',
+            'admin.customs_exchange_rates.edit',
+            'admin.customs_exchange_rates.show',
+            'admin.customs_exchange_rates.create',
         ]);
 
         $business_executive = Role::create(['name' => 'business_executive']);
@@ -224,6 +234,8 @@ class PermissionsTableSeeder extends Seeder
             'admin.clients.show',
             'admin.factoring.disbursements.index',
             'admin.factoring.disbursements.show',
+            'admin.customs_exchange_rates.index',
+            'admin.customs_exchange_rates.show',
         ]);
 
 
