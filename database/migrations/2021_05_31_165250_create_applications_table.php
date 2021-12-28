@@ -24,7 +24,6 @@ class CreateApplicationsTable extends Migration
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedBigInteger('ecommerce_id')->nullable();
             $table->text('ecommerce_url')->nullable();
-            $table->string('description')->nullable();
             $table->string('condition', 10)->nullable();
             $table->unsignedTinyInteger('fee1')->nullable()->comment('PAGO ADELANTO %');
             $table->date('fee1_date')->nullable();
@@ -33,10 +32,9 @@ class CreateApplicationsTable extends Migration
             $table->unsignedTinyInteger('fee3')->nullable()->comment('PAGO_ENTREGA_% si amerita');
             $table->date('fee3_date')->nullable();
             $table->decimal('amount', 12, 2)->default(0)->nullable();
-            $table->decimal('charge', 12, 2)->default(0)->nullable();
-            $table->decimal('commission', 12, 2)->default(0)->nullable();
-            $table->decimal('interest', 12, 2)->default(0)->nullable();
+            
             $table->unsignedBigInteger('modified_user_id')->nullable();
+            $table->string('services_code', 50)->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
 

@@ -67,6 +67,7 @@ class ApplicationController extends Controller
                     'ecommerce_url' => $request->ecommerce_url,
                     'ecommerce_id'  => $request->statusSuppliers == 'E-commerce' ? $request->supplier_id : null,
                     'condition'     => $request->condition,
+                    'services_code' => implode(',',$request->services)
                 ]
             );
 
@@ -242,14 +243,13 @@ class ApplicationController extends Controller
             'supplier_id',
             'type_transport',
             'amount',
-            'charge',
             'fee1',
             'fee2',
             'currency_id',
             'ecommerce_id',
             'ecommerce_url',
-            'description',
-            'condition')
+            'condition', 
+            'services_code')
         ->with([
             'currency' => function($query) {
                 $query->select('id', 'code', 'name');

@@ -142,9 +142,10 @@ const actions = {
     commit('SET_CURRENCY', data);
     commit('SET_SUPPLIER_TYPE', data);
   },
-  async getServicesSelecteds({ commit }, id) {
-    const { data } = await axios.get('/get-application-category/' + id);
-    commit('TOOGLE_TABS', data);
+  async getServicesSelecteds({ commit }, data) {
+    // console.log(data);
+    //const { data } = await axios.get('/get-application-category/' + id);
+    await commit('TOOGLE_TABS', data);
   },
   updateService({ commit }, service) {
     commit('UPDATE_SERVICE', service);

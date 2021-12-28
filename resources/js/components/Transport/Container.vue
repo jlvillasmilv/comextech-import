@@ -736,36 +736,52 @@
       </transition>
     </div>
     <section v-if="fclTableQuote">
-      <div class="mt-8 flex justify-center">
+      <div class="w-full overflow-x-auto mt-8 flex justify-center">
         <table v-if="data.condition == 'EXW'" class="w-full">
           <thead>
-            <tr class="bg-gray-100">
-              <th>&nbsp;</th>
-              <th>&nbsp;</th>
-              <th class="text-blue-700">TARIFA</th>
-              <th class="text-blue-700">MONEDA</th>
+            <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                &nbsp;
+              </th>
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                &nbsp;
+              </th>
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                TARIFA
+              </th>
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                MONEDA
+              </th>
             </tr>
           </thead>
-          <tbody class="divide-y">
-            <tr class="text-center">
+          <tbody class="text-center bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRAMO LOCAL (ORIGEN)</td>
               <td class="px-4 py-3">POR COTIZAR</td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
               <td class="px-4 py-3">{{ fclQuote.transport.transport_amount }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
               <td class="px-4 py-3">{{ fclQuote.transport.insurance }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
               <td class="px-4 py-3">
@@ -773,7 +789,7 @@
               </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
               <td class="px-4 py-3">
@@ -788,33 +804,49 @@
 
         <table v-if="data.condition == 'FOB'" class="w-full">
           <thead>
-            <tr class="bg-gray-100">
-              <th>&nbsp;</th>
-              <th>&nbsp;</th>
-              <th class="text-blue-700">TARIFA</th>
-              <th class="text-blue-700">MONEDA</th>
+            <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                &nbsp;
+              </th>
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                &nbsp;
+              </th>
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                TARIFA
+              </th>
+              <th
+                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+              >
+                MONEDA
+              </th>
             </tr>
           </thead>
-          <tbody class="divide-y">
+          <tbody class="text-center bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
             <!-- <tr class="text-center">
               <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">&nbsp;</td>
             </tr> -->
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
               <td class="px-4 py-3">{{ fclQuote.transport.transport_amount }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
               <td class="px-4 py-3">{{ fclQuote.transport.insurance }}</td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
               <td class="px-4 py-3">
@@ -822,7 +854,7 @@
               </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
-            <tr class="text-center">
+            <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
               <td class="px-4 py-3">

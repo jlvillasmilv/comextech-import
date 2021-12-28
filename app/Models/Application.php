@@ -22,7 +22,6 @@ class Application extends Model
                            'currency_id',
                            'ecommerce_id',
                            'ecommerce_url',
-                           'description',
                            'condition',
                            'fee1',
                            'fee1_date',
@@ -31,9 +30,7 @@ class Application extends Model
                            'fee3',
                            'fee3_date',
                            'amount',
-                           'charge',
-                           'commission',
-                           'interest',
+                           'services_code',
                            'modified_user_id',
                             ];
 

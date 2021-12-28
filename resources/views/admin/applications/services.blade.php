@@ -7,7 +7,7 @@
 
                 <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
                 <div class="flex items-center justify-between">
-                    <span>Pago proveedor </span>
+                    <span class="font-bold text-gray-800 dark:text-gray-400">Pago proveedor </span>
                     <span class="ico-plus"></span>
                 </div>
             </a>

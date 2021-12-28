@@ -1,9 +1,9 @@
-
-    <div class="w-full overflow-x-auto mb-8">
+<div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
         <table class="w-full whitespace-no-wrap">
             <thead>
                 <tr
-                class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+                class="text-sm font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">Servicio </th>
                     <th class="px-4 py-3">Fecha </th>
                     <th class="px-4 py-3">Moneda / Monto </th>
@@ -37,3 +37,4 @@
             </tbody>
         </table>
     </div>
+</div>
