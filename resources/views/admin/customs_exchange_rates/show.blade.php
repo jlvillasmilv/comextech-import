@@ -10,30 +10,32 @@
 
         	<table class="w-full whitespace-no-wrap">
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        <tr class="text-gray-700 dark:text-gray-400">
+                        
+                        <tr class="text-gray-700 dark:text-gray-400" >
                             <th class="px-4 py-3">
-                               Categoria
+                               Moneda
                             </th>
                             <td class="px-4 py-3">
-                                {{ $data->category->name }}
+                                {{ $data->currency_code }}
                             </td>
                         </tr>
+
                     	<tr class="text-gray-700 dark:text-gray-400" >
                             <th class="px-4 py-3">
-                               Nombre
+                               Monto
                             </th>
                             <td class="px-4 py-3">
-                                {{ $data->name }}
+                                {{ $data->amount }}
                             </td>
                         </tr>
                        
                       
                         <tr class="text-gray-700 dark:text-gray-400">
                             <th class="px-4 py-3">
-                                Descripción
+                                Fecha
                             </th>
                             <td class="px-4 py-3">
-                                {{ $data->description }}
+                                {{ date("d-m-Y", strtotime($data->exchange)) }}
                             </td>
                         </tr>               
 
