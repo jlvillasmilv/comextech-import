@@ -16,7 +16,7 @@
       <container
         v-if="
           $store.state.tabActive == 'ICS05' &&
-          $store.state.application.data.type_transport != 'COURIER'
+            $store.state.application.data.type_transport != 'COURIER'
         "
       >
         <internal-storage :application_id="data.application_id" />
@@ -42,7 +42,7 @@
                   @click="selectedService(item)"
                   :class="[
                     !item.checked ? 'bg-transparent text-blue-700' : 'bg-blue-500 text-white',
-                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center',
+                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
@@ -52,7 +52,7 @@
                   @click="deleteService(item.sort)"
                   :class="[
                     item.checked ? 'bg-blue-500 text-white ' : 'bg-transparent text-blue-700 ',
-                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center',
+                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="white" />
@@ -233,23 +233,34 @@
                   v-html="data.errors.get('currency_id')"
                 ></span>
               </div>
-              <div
-                class="flex flex-wrap justify-center sm:w-4/12 md:w-4/12"
+              <section
+                class="ml-14 border-r-4 flex flex-wrap justify-center sm:w-4/12 md:w-4/12"
                 v-show="data.statusSuppliers == 'with'"
               >
                 <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
                                 </h3> -->
 
+                <!-- <div
+                :class="[
+                    paymentPercentage.valueInitial == data.valuePercentage.valueInitial
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-transparent text-blue-700 ',
+                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                  ]"
+                  @click="handlePercentage()"
+                >
+
+                </div> -->
                 <div
-                  v-for="(item, id) in paymentPercentage"
+                  v-for="(item, id) in paymentPercentage1"
                   :key="id"
                   @click="handlePercentage(item)"
                   :class="[
                     item.valueInitial == data.valuePercentage.valueInitial
                       ? 'bg-blue-500 text-white'
                       : 'bg-transparent text-blue-700 ',
-                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center',
+                    'w-4/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                   ]"
                 >
                   {{ item.name }}
@@ -259,8 +270,46 @@
                   v-if="data.errors.has('valuePercentage')"
                   v-html="data.errors.get('valuePercentage')"
                 ></span>
-              </div>
-              <div class="flex flex-col items-center justify-between sm:w-4/12">
+              </section>
+              <section
+                class="ml-5 flex flex-col flex-wrap justify-center items-start sm:w-4/12 md:w-4/12"
+                v-show="data.statusSuppliers == 'with'"
+              >
+                <!-- <h3 class="my-3 text-gray-500 text-sm">
+                                    Porcentaje de Pago
+                                </h3> -->
+
+                <!-- <div
+                :class="[
+                    paymentPercentage.valueInitial == data.valuePercentage.valueInitial
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-transparent text-blue-700 ',
+                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                  ]"
+                  @click="handlePercentage()"
+                >
+
+                </div> -->
+                <div
+                  v-for="(item, id) in paymentPercentage2"
+                  :key="id"
+                  @click="handlePercentage(item)"
+                  :class="[
+                    item.valueInitial == data.valuePercentage.valueInitial
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-transparent text-blue-700 ',
+                    'w-4/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                  ]"
+                >
+                  {{ item.name }}
+                </div>
+                <span
+                  class="text-xs text-red-600 dark:text-red-400"
+                  v-if="data.errors.has('valuePercentage')"
+                  v-html="data.errors.get('valuePercentage')"
+                ></span>
+              </section>
+              <div class="flex flex-col items-start justify-between sm:w-4/12">
                 <div :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']">
                   <h3 class="my-2.5 text-gray-500 text-sm">Condicion de Venta</h3>
                   <div class="relative">
@@ -352,7 +401,7 @@
                     'mx-1 flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
                     service.name == $store.state.application.data.type_transport
                       ? 'bg-green-600'
-                      : '',
+                      : ''
                   ]"
                   @click="typeSelected(service.name)"
                 >
@@ -496,33 +545,36 @@ export default {
       statusSuppliers: [
         { description: 'Proveedor', name: 'with' },
         { description: 'Sin Proveedor', name: 'without' },
-        { description: 'E-commerce', name: 'E-commerce' },
+        { description: 'E-commerce', name: 'E-commerce' }
       ],
       position: 0,
       title: 'Servicios para Cotizacion',
       next: false,
       classStyle: {
-        span: 'ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ',
+        span:
+          'ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ',
         input:
           'block  text-center  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray',
         wfull: 'w-full',
         formInput: ' form-input',
-        label: 'block  text-gray-700 text-xs dark:text-gray-400',
+        label: 'block  text-gray-700 text-xs dark:text-gray-400'
       },
-      paymentPercentage: [
+      paymentPercentage1: [
         { name: '10/90', valueInitial: 50 },
         { name: '20/80', valueInitial: 20 },
-        { name: '100%', valueInitial: 100 },
         { name: '30/70', valueInitial: 30 },
-        { name: '40/60', valueInitial: 40 },
-        { name: 'OTROS', valueInitial: 0 },
+        { name: '40/60', valueInitial: 40 }
+      ],
+      paymentPercentage2: [
+        { name: '100%', valueInitial: 100 },
+        { name: 'OTROS', valueInitial: 0 }
       ],
       objectPayment: {
         id: 11,
         name: 'Pagos',
         code: 'ICS07',
         selected: true,
-        sort: 11,
+        sort: 11
       },
       objectPayment2: {
         code: 'ICS05',
@@ -530,12 +582,12 @@ export default {
         name: 'Entrega',
         pivot: {
           application_cond_sale_id: 1,
-          category_service_id: 5,
+          category_service_id: 5
         },
         selected: true,
-        sort: 5,
+        sort: 5
       },
-      buttonService: false,
+      buttonService: false
     };
   },
   components: {
@@ -548,7 +600,7 @@ export default {
     Exchange,
     Tabs,
     VueNumeric,
-    Icon,
+    Icon
   },
   methods: {
     selectedService(service) {
@@ -610,11 +662,12 @@ export default {
             icon: 'success',
             title: 'Solicitud creada con exito!',
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
           // Ir a la posicion 0 para mostrar el menu
-          this.$store.state.tabActive =
-            this.$store.state.selectedServices[this.$store.state.positionTabs].code;
+          this.$store.state.tabActive = this.$store.state.selectedServices[
+            this.$store.state.positionTabs
+          ].code;
           // asignar id devuelta al form id
           this.data.application_id = data.id;
           this.$store.dispatch('exchange/getSummary', data.id);
@@ -667,7 +720,7 @@ export default {
     reset() {
       this.$store.state.load.loads = [];
       this.$store.dispatch('load/addLoad', this.$store.state.load.item);
-    },
+    }
   },
   computed: {
     ...mapState('application', [
@@ -679,18 +732,18 @@ export default {
       'currencies',
       'origin_transport',
       'currency',
-      'selectedCondition',
+      'selectedCondition'
     ]),
     servicesCode() {
       return this.$store.state.selectedServices.map((item) => item.code);
-    },
+    }
   },
   async mounted() {
     try {
       Promise.all([
         this.$store.dispatch('application/getSuppliers'),
         this.$store.dispatch('application/getServices'),
-        this.$store.dispatch('application/getCurrencies'),
+        this.$store.dispatch('application/getCurrencies')
       ]);
 
       let application = document.getElementById('applications');
@@ -700,7 +753,7 @@ export default {
         const { data } = await axios.get('/get-application/' + id);
         Promise.all([
           this.$store.dispatch('application/setData', data),
-          this.$store.dispatch('application/getServicesSelecteds', data.services_code.split(',')),
+          this.$store.dispatch('application/getServicesSelecteds', data.services_code.split(','))
         ]);
 
         this.$store.state.selectedServices = this.tabs.filter((e) => e.checked);
@@ -715,6 +768,6 @@ export default {
     } catch (error) {
       console.error(error);
     }
-  },
+  }
 };
 </script>
