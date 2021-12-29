@@ -970,7 +970,6 @@ export default {
       this.$store.dispatch('address/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
 
-      this.$store.dispatch('address/showQuoteFCL', true);
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
