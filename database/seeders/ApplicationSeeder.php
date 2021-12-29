@@ -27,7 +27,7 @@ class ApplicationSeeder extends Seeder
             'fee2'                    => '80',
             'condition'               => 'EXW',
             'type_transport'          => 'COURIER',
-            'services_code'           => ''
+            'services_code'           => 'ICS03'
         ]);
 
 
