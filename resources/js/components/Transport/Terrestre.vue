@@ -29,21 +29,19 @@
               <select
                 v-model="expenses.origin_address"
                 class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  block
+                  w-full
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  mt-1
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                "
               >
-                <option v-for="item in origin_transport" :value="item.id" :key="item.id" class=" ">
+                <option v-for="item in origin_transport" :value="item.id" :key="item.id" class="">
                   {{ item.address }}
                 </option>
               </select>
@@ -70,9 +68,7 @@
         <!-- Destino de Envio -->
         <div class="w-full md:w-1/2 px-3">
           <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 font-semibold">
-              Destino de Envio
-            </span>
+            <span class="text-gray-700 dark:text-gray-400 font-semibold"> Destino de Envio </span>
 
             <vue-google-autocomplete
               v-if="!expenses.fav_dest_address"
@@ -92,26 +88,19 @@
               <select
                 v-model="expenses.dest_address"
                 class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      mt-1
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  block
+                  w-full
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  pr-8
+                  rounded
+                  mt-1
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                "
               >
-                <option
-                  v-for="item in addressDestination"
-                  :value="item.id"
-                  :key="item.id"
-                  class=" "
-                >
+                <option v-for="item in addressDestination" :value="item.id" :key="item.id" class="">
                   {{ item.address }}
                 </option>
               </select>
@@ -122,9 +111,7 @@
                 class="form-checkbox h-4 w-4 text-gray-800"
                 v-model="expenses.fav_dest_address"
                 @change="expenses.dest_address = ''"
-              /><span class="ml-2 text-gray-700">
-                Direccion de Destino Favoritas
-              </span>
+              /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
             </label>
           </label>
 
@@ -139,25 +126,21 @@
         <div class="w-1/4 px-3 mb-6 md:mb-0">
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400 font-semibold">
-              Fecha Estimada
+              Fecha estimada de recogida
             </span>
             <input
               type="date"
               v-model="expenses.estimated_date"
               class="
-                  block
-                  w-full
-                  mt-1
-                  text-sm
-                  dark:border-gray-600
-                  dark:bg-gray-700
-                  focus:border-blue-400
-                  focus:outline-none
-                  focus:shadow-outline-blue
-                  dark:text-gray-300
-                  dark:focus:shadow-outline-gray
-                  form-input
-                "
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600 dark:bg-gray-700
+                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                dark:text-gray-300 dark:focus:shadow-outline-gray
+                form-input
+              "
               placeholder="Nombre o codigo Puerto/Aeropuerto"
               :min="minDate"
             />
@@ -177,19 +160,15 @@
               v-model="expenses.description"
               maxlength="250"
               class="
-                  block
-                  w-full
-                  mt-1
-                  text-sm
-                  dark:border-gray-600
-                  dark:bg-gray-700
-                  focus:border-blue-400
-                  focus:outline-none
-                  focus:shadow-outline-blue
-                  dark:text-gray-300
-                  dark:focus:shadow-outline-gray
-                  form-input
-                "
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600 dark:bg-gray-700
+                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                dark:text-gray-300 dark:focus:shadow-outline-gray
+                form-input
+              "
               placeholder="Introduzca la descripcion aqui"
             />
           </label>
@@ -221,17 +200,26 @@
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
             ? 'flex justify-center'
-            : 'flex justify-center my-5 innline w-1/7 mt-5'
+            : 'flex justify-center my-5 innline w-1/7 mt-5',
         ]"
       >
-        <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">
-          Editar
-        </button>
+        <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
 
         <button
           v-else-if="expenses.dataLoad.length > 0"
           @click="HideAddress()"
-          class="mr-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+          class="
+            mr-4
+            w-24
+            h-12
+            text-white
+            transition-colors
+            text-lg
+            bg-green-700
+            rounded-lg
+            focus:shadow-outline
+            hover:bg-green-800
+          "
         >
           Editar
         </button>
@@ -242,7 +230,7 @@
               ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
               : expenses.dataLoad.length <= 0
               ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800',
           ]"
         >
           Cotizar
@@ -255,18 +243,18 @@
         <div
           v-if="
             showApisQuote == true &&
-              fedex.DeliveryTimestamp &&
-              fedex.ServiceType &&
-              fedex.FUEL &&
-              fedex.PEAK &&
-              fedex.Discount &&
-              TotalEstimed &&
-              fedex.TotalNetCharge
+            fedex.DeliveryTimestamp &&
+            fedex.ServiceType &&
+            fedex.FUEL &&
+            fedex.PEAK &&
+            fedex.Discount &&
+            TotalEstimed &&
+            fedex.TotalNetCharge
           "
           :class="[
             !expenses.dataLoad
               ? 'hidden'
-              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
           ]"
         >
           <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -301,41 +289,31 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-left text-sm">
-                    Tarifa Transporte
-                  </td>
+                  <td class="text-left text-sm">Tarifa Transporte</td>
                   <td class="text-right text-sm">
                     {{ fedex.TotalBaseCharge }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Recargo Combustible
-                  </td>
+                  <td class="text-left text-sm">Recargo Combustible</td>
                   <td class="text-right text-sm">
                     {{ fedex.FUEL }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Recargo por alta demanda
-                  </td>
+                  <td class="text-left text-sm">Recargo por alta demanda</td>
                   <td class="text-right text-sm">
                     {{ fedex.PEAK }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Descuento
-                  </td>
+                  <td class="text-left text-sm">Descuento</td>
                   <td class="text-right text-sm">
                     {{ fedex.Discount }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Total Estimado
-                  </td>
+                  <td class="text-left text-sm">Total Estimado</td>
                   <td class="text-right text-sm">
                     {{ TotalEstimed }}
                   </td>
@@ -355,7 +333,18 @@
               <div class="flex flex-auto items-center justify-center">
                 <button
                   @click="submitQuote(TotalEstimed, 2)"
-                  class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                  class="
+                    w-24
+                    px-2
+                    h-14
+                    text-white
+                    transition-colors
+                    text-sm
+                    bg-green-700
+                    rounded-lg
+                    focus:shadow-outline
+                    hover:bg-green-800
+                  "
                 >
                   Cotizar FEDEX
                 </button>
@@ -371,19 +360,19 @@
         <div
           v-if="
             showApisQuote == true &&
-              dhl.DeliveryDate &&
-              dhl.DeliveryTime &&
-              dhl.ProductShortName &&
-              dhl.WeightCharge &&
-              dhl['FUEL SURCHARGE'] &&
-              dhl['EMERGENCY SITUATION'] &&
-              dhl.Discount &&
-              dhl.ComextechDiscount
+            dhl.DeliveryDate &&
+            dhl.DeliveryTime &&
+            dhl.ProductShortName &&
+            dhl.WeightCharge &&
+            dhl['FUEL SURCHARGE'] &&
+            dhl['EMERGENCY SITUATION'] &&
+            dhl.Discount &&
+            dhl.ComextechDiscount
           "
           :class="[
             !expenses.dataLoad
               ? 'hidden'
-              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
           ]"
         >
           <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -419,41 +408,31 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-left text-sm">
-                    Tarifa Transporte
-                  </td>
+                  <td class="text-left text-sm">Tarifa Transporte</td>
                   <td class="text-right text-sm">
                     {{ transportDHL }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Recargo Combustible
-                  </td>
+                  <td class="text-left text-sm">Recargo Combustible</td>
                   <td class="text-right text-sm">
                     {{ dhl['FUEL SURCHARGE'] }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Situación de emergencia
-                  </td>
+                  <td class="text-left text-sm">Situación de emergencia</td>
                   <td class="text-right text-sm">
                     {{ dhl['EMERGENCY SITUATION'] }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Descuento
-                  </td>
+                  <td class="text-left text-sm">Descuento</td>
                   <td class="text-right text-sm">
                     {{ dhl.ComextechDiscount }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">
-                    Total Estimado
-                  </td>
+                  <td class="text-left text-sm">Total Estimado</td>
                   <td class="text-right text-sm">
                     {{ dhl.ComextechTotal }}
                   </td>
@@ -473,7 +452,18 @@
               <div class="flex flex-auto items-center justify-center">
                 <button
                   @click="submitQuote(dhl.ComextechTotal, 2)"
-                  class="w-24 px-2 h-14 text-white transition-colors text-sm bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                  class="
+                    w-24
+                    px-2
+                    h-14
+                    text-white
+                    transition-colors
+                    text-sm
+                    bg-green-700
+                    rounded-lg
+                    focus:shadow-outline
+                    hover:bg-green-800
+                  "
                 >
                   Cotizar DHL
                 </button>
@@ -495,7 +485,7 @@ import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources
 export default {
   components: { VueGoogleAutocomplete, Button },
   props: {
-    address: String
+    address: String,
   },
   data() {
     return {
@@ -506,7 +496,7 @@ export default {
       BaseChargeTotal: '',
       TotalEstimed: '' /* estimated total Fedex */,
       showApisQuote: false,
-      showShipping: false
+      showShipping: false,
     };
   },
   methods: {
@@ -526,7 +516,7 @@ export default {
         const { data } = await this.expenses.post('/applications/transports');
         Toast.fire({
           icon: 'success',
-          title: 'Datos Agregados'
+          title: 'Datos Agregados',
         });
 
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
@@ -548,7 +538,7 @@ export default {
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100
+        width: 100,
       });
 
       this.$store.dispatch(
@@ -621,7 +611,7 @@ export default {
      * @param {Object} placeResultData PlaceResult object
      * @param {String} id Input container ID
      */
-    getAddressOrigin: function(addressData, placeResultData, id) {
+    getAddressOrigin: function (addressData, placeResultData, id) {
       this.expenses.origin_address = placeResultData.formatted_address;
 
       for (const component of placeResultData.address_components) {
@@ -643,7 +633,7 @@ export default {
         }
       }
     },
-    getAddressDestination: function(addressData, placeResultData, id) {
+    getAddressDestination: function (addressData, placeResultData, id) {
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
 
@@ -669,7 +659,7 @@ export default {
       }
 
       this.expenses.dest_address = placeResultData.formatted_address;
-    }
+    },
   },
   computed: {
     ...mapState('address', [
@@ -677,13 +667,13 @@ export default {
       'addressDestination',
       'portsDestination',
       'portsOrigin',
-      'props'
+      'props',
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport'])
+    ...mapState('application', ['data', 'currency', 'origin_transport']),
   },
   async created() {
     await this.$store.dispatch('address/getAddressDestination');
-  }
+  },
 };
 </script>
 
