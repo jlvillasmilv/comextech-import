@@ -1,132 +1,120 @@
 <template>
   <div class="container grid grid-cols-1 px-6 my-1">
-    <div class="flex justify-end pb-2">
-      <button
-        class="
-          bg-gray-600
-          hover:bg-gray-700
-          text-white
-          font-bold
-          py-2
-          px-4
-          rounded
-          mr-2
-        "
-        @click="clone()"
-      >
-        M O
-      </button>
-      <button
-        class="
-          bg-blue-600
-          hover:bg-blue-700
-          text-white
-          font-bold
-          py-2
-          px-4
-          rounded
-          mr-2
-        "
-        @click="convert('CLP')"
-      >
-        CLP
-      </button>
-      <button
-        class="
-          bg-green-600
-          hover:bg-green-700
-          text-white
-          font-bold
-          py-2
-          px-4
-          rounded
-        "
-        @click="convert('USD')"
-      >
-        USD
-      </button>
-    </div>
-
     <div class="w-full overflow-hidden rounded-lg shadow-xs">
       <div class="w-full overflow-x-auto">
-        <div class="flex space-x-4 ...">
+        <div class="flex justify-end pb-2">
+          <button
+            class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded mr-1"
+            @click="clone()"
+          >
+            M O
+          </button>
+          <button
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded mr-1"
+            @click="convert('CLP')"
+          >
+            CLP
+          </button>
+          <button
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded"
+            @click="convert('USD')"
+          >
+            USD
+          </button>
+        </div>
+        <div class="flex space-x-4">
           <div class="w-full">
             <table class="w-full table-auto">
               <thead>
-                <tr class=" ">
+                <tr class="">
                   <th
-                    class="w-2/5 px-4 py-3  text-xs
-                                    font-semibold
-                                    tracking-wide
-                                    text-left text-white
-                                    uppercase
-                                    border-b
-                                    dark:border-gray-700
-                                    bg-blue-900
-                                    dark:text-gray-400
-                                    dark:bg-gray-800"
+                    class="
+                      w-2/5
+                      px-4
+                      py-3
+                      text-xs
+                      font-semibold
+                      tracking-wide
+                      text-left text-white
+                      uppercase
+                      border-b
+                      dark:border-gray-700
+                      bg-blue-900
+                      dark:text-gray-400 dark:bg-gray-800
+                    "
                   >
                     CONCEPTO
                   </th>
                   <th
-                    class="w-1/4 px-4 py-3
-                                        text-xs
-                                        font-semibold
-                                        tracking-wide
-                                        text-center text-white
-                                        uppercase
-                                        border-b
-                                        dark:border-gray-700
-                                        bg-blue-900
-                                        dark:text-gray-400
-                                        dark:bg-gray-800"
+                    class="
+                      w-1/4
+                      px-4
+                      py-3
+                      text-xs
+                      font-semibold
+                      tracking-wide
+                      text-center text-white
+                      uppercase
+                      border-b
+                      dark:border-gray-700
+                      bg-blue-900
+                      dark:text-gray-400 dark:bg-gray-800
+                    "
                   >
                     FECHA
                   </th>
                   <th
-                    class="w-1/4 px-4 py-3 text-xs
-                                        font-semibold
-                                        tracking-wide
-                                        text-center
-                                        text-white
-                                        uppercase
-                                        border-b
-                                        dark:border-gray-700
-                                        bg-blue-900
-                                        dark:text-gray-400
-                                        dark:bg-gray-800"
+                    class="
+                      w-1/4
+                      px-4
+                      py-3
+                      text-xs
+                      font-semibold
+                      tracking-wide
+                      text-center text-white
+                      uppercase
+                      border-b
+                      dark:border-gray-700
+                      bg-blue-900
+                      dark:text-gray-400 dark:bg-gray-800
+                    "
                   >
                     MONEDA<br />
                     ORIGEN
                   </th>
                   <th
-                    class="w-1/4 px-4 py-3  text-xs
-                                        font-semibold
-                                        tracking-wide
-                                        text-center text-white
-                                        uppercase
-                                        border-b
-                                        dark:border-gray-700
-                                        bg-blue-900
-                                        dark:text-gray-400
-                                        dark:bg-gray-800"
+                    class="
+                      w-1/4
+                      px-4
+                      py-3
+                      text-xs
+                      font-semibold
+                      tracking-wide
+                      text-center text-white
+                      uppercase
+                      border-b
+                      dark:border-gray-700
+                      bg-blue-900
+                      dark:text-gray-400 dark:bg-gray-800
+                    "
                   >
                     MONTO<br />
                     M.O.
                   </th>
                   <th class="px-4 py-3 w-1">&nbsp;</th>
                   <th
-                    class="w-1/4 px-4 py-3
-                                    tracking-wide
-                                    text-xs
-                                    text-center
-                                    text-white
-                                    uppercase
-                                    border-b
-                                    dark:border-gray-700
-                                    bg-blue-900
-                                    dark:text-gray-400
-                                    dark:bg-gray-800"
+                    class="
+                      w-1/4
+                      px-4
+                      py-3
+                      tracking-wide
+                      text-xs text-center text-white
+                      uppercase
+                      border-b
+                      dark:border-gray-700
+                      bg-blue-900
+                      dark:text-gray-400 dark:bg-gray-800
+                    "
                     colspan="2"
                   >
                     Monto <br />
@@ -158,9 +146,7 @@
                   <td class="text-center px-4 py-3">
                     {{ formatPrice(item.amount, item.currency) }}
                   </td>
-                  <td class="text-center px-4 py-3">
-                    &nbsp;
-                  </td>
+                  <td class="text-center px-4 py-3">&nbsp;</td>
                   <td class="px-4 py-3 text-center">
                     {{ formatPrice(item.amo2, item.currency2) }}
                   </td>
@@ -196,23 +182,23 @@ export default {
   props: {
     application_id: {
       type: Number,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       form: new Form({
-        application_id: this.application_id
+        application_id: this.application_id,
       }),
-      currency_ex: 'CLP',
-      total: 0
+      currency_ex: '',
+      total: 0,
     };
   },
   methods: {
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
       });
     },
     formatter(value, currency) {
@@ -221,7 +207,7 @@ export default {
         currency,
         currencyDisplay: 'code',
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
       });
     },
     getHumanDate(date) {
@@ -242,6 +228,7 @@ export default {
         this.currency_ex = e.currency;
       });
       this.total = 0;
+      this.currency_ex = '';
     },
     convert(currency) {
       this.currency_ex = currency;
@@ -268,13 +255,13 @@ export default {
           }
         }
       });
-    }
+    },
   },
   computed: {
-    ...mapState('exchange', ['exchangeItem'])
+    ...mapState('exchange', ['exchangeItem']),
   },
-  mounted: function() {
-    this.convert('CLP');
-  }
+  mounted: function () {
+    //this.convert('CLP');
+  },
 };
 </script>
