@@ -136,7 +136,7 @@ class Transport extends Model
                     ->first();
 
                     $int_trans += is_null($rate) ? 0 : $rate->$field * $higher ;
-                    $oth_exp        += is_null($rate) ? 0 : $rate->oth_exp;
+                    $oth_exp   += is_null($rate) ? 0 : $rate->oth_exp;
                     $t_time    =  is_null($rate) ? 12 : $rate->t_time;
                      
                 }

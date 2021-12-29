@@ -16,7 +16,7 @@
       <container
         v-if="
           $store.state.tabActive == 'ICS05' &&
-            $store.state.application.data.type_transport != 'COURIER'
+          $store.state.application.data.type_transport != 'COURIER'
         "
       >
         <internal-storage :application_id="data.application_id" />
@@ -30,9 +30,7 @@
       <template v-slot:body>
         <div class="mt-1">
           <form @submit.prevent="submitFormApplications" @keydown="data.onKeydown($event)">
-            <h3 class="text-green-700 text-lg">
-              Servicios
-            </h3>
+            <h3 class="text-green-700 text-lg">Servicios</h3>
             <div class="flex w-full">
               <div
                 v-for="(item, id) in $store.state.application.selectedCondition.services"
@@ -44,7 +42,7 @@
                   @click="selectedService(item)"
                   :class="[
                     !item.checked ? 'bg-transparent text-blue-700' : 'bg-blue-500 text-white',
-                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center',
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
@@ -54,14 +52,27 @@
                   @click="deleteService(item.sort)"
                   :class="[
                     item.checked ? 'bg-blue-500 text-white ' : 'bg-transparent text-blue-700 ',
-                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center',
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="white" />
                 </div>
                 <div
                   v-if="!item.checked && !item.selected"
-                  class="bg-gray-300 flex flex-col items-center font-semibold px-1 py-1 text-sm mx-0.5 border border-gray-200 rounded my-2 text-center"
+                  class="
+                    bg-gray-300
+                    flex flex-col
+                    items-center
+                    font-semibold
+                    px-1
+                    py-1
+                    text-sm
+                    mx-0.5
+                    border border-gray-200
+                    rounded
+                    my-2
+                    text-center
+                  "
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="gray" />
                 </div>
@@ -125,9 +136,7 @@
 
             <div class="flex">
               <section class="w-8/12 flex flex-col justify-center">
-                <h3 class="mt-1 text-green-700 text-lg">
-                  Proveedor
-                </h3>
+                <h3 class="mt-1 text-green-700 text-lg">Proveedor</h3>
                 <div class="inline-flex flex-col w-full dark:text-gray-200">
                   <v-select
                     class="w-full"
@@ -142,12 +151,7 @@
                     v-model="data.supplier_id"
                     :reduce="(supplier) => supplier.id"
                   >
-                    <template
-                      v-slot:no-options="{
-                        search,
-                        searching
-                      }"
-                    >
+                    <template v-slot:no-options="{ search, searching }">
                       <template v-if="searching" class="text-sm">
                         Lo sentimos no hay opciones que coincidan
                         <strong>{{ search }}</strong
@@ -197,9 +201,7 @@
               v-if="data.errors.has('supplier_id')"
               v-html="data.errors.get('supplier_id')"
             ></span>
-            <h3 class="mt-1 text-green-700 text-lg">
-              Pago
-            </h3>
+            <h3 class="mt-1 text-green-700 text-lg">Pago</h3>
             <div class="w-full flex items-center">
               <div class="sm:w-4/12 md:w-4/12">
                 <!-- <h3 class="my-3 text-gray-500 text-sm">
@@ -213,20 +215,13 @@
                   @input="handleCurrency"
                   :options="currencies"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Moneda
-                    </em>
+                    <em style="opacity: 0.5" v-else> Moneda </em>
                   </template>
                   <template v-slot:option="currencies">
                     {{ `${currencies.name} (${currencies.code}) ` }}
@@ -254,7 +249,7 @@
                     item.valueInitial == data.valuePercentage.valueInitial
                       ? 'bg-blue-500 text-white'
                       : 'bg-transparent text-blue-700 ',
-                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center',
                   ]"
                 >
                   {{ item.name }}
@@ -267,28 +262,24 @@
               </div>
               <div class="flex flex-col items-center justify-between sm:w-4/12">
                 <div :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']">
-                  <h3 class="my-2.5 text-gray-500 text-sm">
-                    Condicion de Venta
-                  </h3>
+                  <h3 class="my-2.5 text-gray-500 text-sm">Condicion de Venta</h3>
                   <div class="relative">
                     <select
                       v-model="$store.state.application.selectedCondition"
                       @change="toogleMenuTabs()"
                       class="
-                      block
-                      appearance-none
-                      w-full
-                      border border-gray-150
-                      dark:border-gray-600
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                    "
+                        block
+                        appearance-none
+                        w-full
+                        border border-gray-150
+                        dark:border-gray-600
+                        text-gray-700
+                        p-2
+                        pr-8
+                        rounded
+                        leading-tight
+                        focus:outline-none focus:bg-white focus:border-gray-500
+                      "
                     >
                       <option v-for="item in arrayServices" :value="item" :key="item.name">
                         {{ item.name }}
@@ -301,15 +292,15 @@
                     ></span>
                     <div
                       class="
-                      pointer-events-none
-                      absolute
-                      inset-y-0
-                      right-0
-                      flex
-                      items-center
-                      px-2
-                      text-gray-700
-                    "
+                        pointer-events-none
+                        absolute
+                        inset-y-0
+                        right-0
+                        flex
+                        items-center
+                        px-2
+                        text-gray-700
+                      "
                     >
                       <svg
                         class="fill-current h-4 w-4"
@@ -324,9 +315,7 @@
                   </div>
                 </div>
                 <div class="w-7/12">
-                  <h3 class="my-3 text-gray-500 text-sm">
-                    Monto de Operacion
-                  </h3>
+                  <h3 class="my-3 text-gray-500 text-sm">Monto de Operacion</h3>
                   <vue-numeric
                     thousand-separator="."
                     v-bind:minus="false"
@@ -351,9 +340,7 @@
                 </div>
               </div>
             </div>
-            <h3 class="my-3 text-green-700 text-lg">
-              Tipo de Transporte
-            </h3>
+            <h3 class="my-3 text-green-700 text-lg">Tipo de Transporte</h3>
             <div class="flex flex-wrap justify-center w-full">
               <div
                 v-for="service in $store.state.load.types"
@@ -365,7 +352,7 @@
                     'mx-1 flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
                     service.name == $store.state.application.data.type_transport
                       ? 'bg-green-600'
-                      : ''
+                      : '',
                   ]"
                   @click="typeSelected(service.name)"
                 >
@@ -447,15 +434,12 @@
             border border-gray-300
             rounded-lg
             dark:text-gray-400
-            sm:px-4
-            sm:py-2
-            sm:w-auto
+            sm:px-4 sm:py-2 sm:w-auto
             active:bg-transparent
             hover:border-gray-500
             focus:border-gray-500
             active:text-gray-500
-            focus:outline-none
-            focus:shadow-outline-gray
+            focus:outline-none focus:shadow-outline-gray
           "
         >
           Cancelar
@@ -479,13 +463,10 @@
             bg-green-600
             border border-transparent
             rounded-lg
-            sm:w-auto
-            sm:px-4
-            sm:py-2
+            sm:w-auto sm:px-4 sm:py-2
             active:bg-green-600
             hover:bg-green-700
-            focus:outline-none
-            focus:shadow-outline-green
+            focus:outline-none focus:shadow-outline-green
           "
         >
           Aceptar
@@ -515,19 +496,18 @@ export default {
       statusSuppliers: [
         { description: 'Proveedor', name: 'with' },
         { description: 'Sin Proveedor', name: 'without' },
-        { description: 'E-commerce', name: 'E-commerce' }
+        { description: 'E-commerce', name: 'E-commerce' },
       ],
       position: 0,
       title: 'Servicios para Cotizacion',
       next: false,
       classStyle: {
-        span:
-          'ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ',
+        span: 'ml-15 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray ',
         input:
           'block  text-center  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none   dark:text-gray-300 dark:focus:shadow-outline-gray',
         wfull: 'w-full',
         formInput: ' form-input',
-        label: 'block  text-gray-700 text-xs dark:text-gray-400'
+        label: 'block  text-gray-700 text-xs dark:text-gray-400',
       },
       paymentPercentage: [
         { name: '10/90', valueInitial: 50 },
@@ -535,18 +515,14 @@ export default {
         { name: '100%', valueInitial: 100 },
         { name: '30/70', valueInitial: 30 },
         { name: '40/60', valueInitial: 40 },
-        { name: 'OTROS', valueInitial: 0 }
+        { name: 'OTROS', valueInitial: 0 },
       ],
       objectPayment: {
         id: 11,
-        name: 'Tipo de cambio',
+        name: 'Pagos',
         code: 'ICS07',
         selected: true,
-        pivot: {
-          application_cond_sale_id: 1,
-          category_service_id: 8
-        },
-        sort: 11
+        sort: 11,
       },
       objectPayment2: {
         code: 'ICS05',
@@ -554,12 +530,12 @@ export default {
         name: 'Entrega',
         pivot: {
           application_cond_sale_id: 1,
-          category_service_id: 5
+          category_service_id: 5,
         },
         selected: true,
-        sort: 5
+        sort: 5,
       },
-      buttonService: false
+      buttonService: false,
     };
   },
   components: {
@@ -572,7 +548,7 @@ export default {
     Exchange,
     Tabs,
     VueNumeric,
-    Icon
+    Icon,
   },
   methods: {
     selectedService(service) {
@@ -634,12 +610,11 @@ export default {
             icon: 'success',
             title: 'Solicitud creada con exito!',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
           // Ir a la posicion 0 para mostrar el menu
-          this.$store.state.tabActive = this.$store.state.selectedServices[
-            this.$store.state.positionTabs
-          ].code;
+          this.$store.state.tabActive =
+            this.$store.state.selectedServices[this.$store.state.positionTabs].code;
           // asignar id devuelta al form id
           this.data.application_id = data.id;
           this.$store.dispatch('exchange/getSummary', data.id);
@@ -692,7 +667,7 @@ export default {
     reset() {
       this.$store.state.load.loads = [];
       this.$store.dispatch('load/addLoad', this.$store.state.load.item);
-    }
+    },
   },
   computed: {
     ...mapState('application', [
@@ -704,20 +679,20 @@ export default {
       'currencies',
       'origin_transport',
       'currency',
-      'selectedCondition'
+      'selectedCondition',
     ]),
     servicesCode() {
       return this.$store.state.selectedServices.map((item) => item.code);
-    }
+    },
   },
   async mounted() {
     try {
-       Promise.all([
-          this.$store.dispatch('application/getSuppliers'),
-          this.$store.dispatch('application/getServices'),
-          this.$store.dispatch('application/getCurrencies')
-        ]);
-      
+      Promise.all([
+        this.$store.dispatch('application/getSuppliers'),
+        this.$store.dispatch('application/getServices'),
+        this.$store.dispatch('application/getCurrencies'),
+      ]);
+
       let application = document.getElementById('applications');
 
       if (application !== null) {
@@ -725,9 +700,9 @@ export default {
         const { data } = await axios.get('/get-application/' + id);
         Promise.all([
           this.$store.dispatch('application/setData', data),
-          this.$store.dispatch('application/getServicesSelecteds', data.services_code.split(','))
-          ]);
-     
+          this.$store.dispatch('application/getServicesSelecteds', data.services_code.split(',')),
+        ]);
+
         this.$store.state.selectedServices = this.tabs.filter((e) => e.checked);
         this.$store.dispatch('payment/setPayment', data.payment_provider);
         // this.toogleMenuTabs();
@@ -740,6 +715,6 @@ export default {
     } catch (error) {
       console.error(error);
     }
-  }
+  },
 };
 </script>

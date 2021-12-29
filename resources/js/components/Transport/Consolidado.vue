@@ -11,9 +11,7 @@
           <h3 class="mb-10">Direcciones y Puertos</h3>
           <div class="flex justify-around w-full px-3 mb-6 md:mb-0">
             <div class="flex justify-start w-2/12">
-              <h3 class="mt-2">
-                Direccion Origen
-              </h3>
+              <h3 class="mt-2">Direccion Origen</h3>
             </div>
             <label class="w-8/12 text-sm">
               <!-- <span
@@ -38,26 +36,19 @@
                 <select
                   v-model="expenses.origin_address"
                   class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
+                    block
+                    w-full
+                    border border-gray-150
+                    text-gray-700
+                    p-2
+                    mt-1
+                    pr-8
+                    rounded
+                    leading-tight
+                    focus:outline-none focus:bg-white focus:border-gray-500
                   "
                 >
-                  <option
-                    v-for="item in origin_transport"
-                    :value="item.id"
-                    :key="item.id"
-                    class=" "
-                  >
+                  <option v-for="item in origin_transport" :value="item.id" :key="item.id" class="">
                     {{ item.address }}
                   </option>
                 </select>
@@ -101,20 +92,13 @@
                   :options="portsOrigin"
                   :reduce="(portsOrigin) => portsOrigin.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsOrigin">
                     {{ portsOrigin.name }}
@@ -160,20 +144,13 @@
                   :options="portsDestination"
                   :reduce="(portsDestination) => portsDestination.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsDestination">
                     {{ portsDestination.name }}
@@ -207,7 +184,22 @@
           <div class="flex w-full py-4">
             <button
               @click="showShippingMethod()"
-              class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+              class="
+                w-2/12
+                bg-transparent
+                focus:outline-none
+                uppercase
+                text-xs
+                hover:bg-blue-600
+                text-blue-700
+                font-semibold
+                hover:text-white
+                py-2
+                px-2
+                border border-blue-500
+                hover:border-transparent
+                rounded
+              "
             >
               Transporte Local
             </button>
@@ -217,9 +209,7 @@
           <!-- Destino de Envio -->
           <div v-if="showShipping == true" class="flex justify-around w-full px-3 mb-6 md:mb-0">
             <div class="flex justify-start w-2/12">
-              <h3 class="mt-2">
-                Direccion Destino
-              </h3>
+              <h3 class="mt-2">Direccion Destino</h3>
             </div>
             <label class="w-8/12 text-sm">
               <!-- <span
@@ -246,25 +236,23 @@
                 <select
                   v-model="expenses.dest_address"
                   class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      mt-1
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
+                    block
+                    w-full
+                    border border-gray-150
+                    text-gray-700
+                    p-2
+                    pr-8
+                    rounded
+                    mt-1
+                    leading-tight
+                    focus:outline-none focus:bg-white focus:border-gray-500
                   "
                 >
                   <option
                     v-for="item in addressDestination"
                     :value="item.id"
                     :key="item.id"
-                    class=" "
+                    class=""
                   >
                     {{ item.address }}
                   </option>
@@ -276,9 +264,7 @@
                   class="form-checkbox h-4 w-4 text-gray-800"
                   v-model="expenses.fav_dest_address"
                   @change="expenses.dest_address = ''"
-                /><span class="ml-2 text-gray-700">
-                  Direccion de Destino Favoritas
-                </span>
+                /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
               </label>
             </label>
             <div class="flex justify-center w-2/12">
@@ -297,9 +283,7 @@
         <div v-if="addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
-              <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                Fecha recogida
-              </span>
+              <span class="text-gray-700 dark:text-gray-400 font-semibold"> Fecha recogida </span>
               <input
                 type="date"
                 v-model="expenses.estimated_date"
@@ -308,13 +292,9 @@
                   w-full
                   mt-1
                   text-sm
-                  dark:border-gray-600
-                  dark:bg-gray-700
-                  focus:border-blue-400
-                  focus:outline-none
-                  focus:shadow-outline-blue
-                  dark:text-gray-300
-                  dark:focus:shadow-outline-gray
+                  dark:border-gray-600 dark:bg-gray-700
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:text-gray-300 dark:focus:shadow-outline-gray
                   form-input
                 "
                 placeholder="Nombre o codigo Puerto/Aeropuerto"
@@ -340,13 +320,9 @@
                   w-full
                   mt-1
                   text-sm
-                  dark:border-gray-600
-                  dark:bg-gray-700
-                  focus:border-blue-400
-                  focus:outline-none
-                  focus:shadow-outline-blue
-                  dark:text-gray-300
-                  dark:focus:shadow-outline-gray
+                  dark:border-gray-600 dark:bg-gray-700
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:text-gray-300 dark:focus:shadow-outline-gray
                   form-input
                 "
                 placeholder="Introduzca la descripcion aqui"
@@ -480,20 +456,13 @@
                   :options="portsOrigin"
                   :reduce="(portsOrigin) => portsOrigin.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsOrigin">
                     {{ portsOrigin.name }}
@@ -539,20 +508,13 @@
                   :options="portsDestination"
                   :reduce="(portsDestination) => portsDestination.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsDestination">
                     {{ portsDestination.name }}
@@ -586,7 +548,22 @@
           <div class="flex w-full py-4">
             <button
               @click="showShippingMethod()"
-              class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+              class="
+                w-2/12
+                bg-transparent
+                focus:outline-none
+                uppercase
+                text-xs
+                hover:bg-blue-600
+                text-blue-700
+                font-semibold
+                hover:text-white
+                py-2
+                px-2
+                border border-blue-500
+                hover:border-transparent
+                rounded
+              "
             >
               Transporte Local
             </button>
@@ -596,9 +573,7 @@
           <!-- Destino de Envio -->
           <div v-if="showShipping == true" class="flex justify-around w-full px-3 mb-6 md:mb-0">
             <div class="flex justify-start w-2/12">
-              <h3 class="mt-2">
-                Direccion Destino
-              </h3>
+              <h3 class="mt-2">Direccion Destino</h3>
             </div>
             <label class="w-8/12 text-sm">
               <!-- <span
@@ -625,25 +600,23 @@
                 <select
                   v-model="expenses.dest_address"
                   class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      mt-1
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
+                    block
+                    w-full
+                    border border-gray-150
+                    text-gray-700
+                    p-2
+                    pr-8
+                    rounded
+                    mt-1
+                    leading-tight
+                    focus:outline-none focus:bg-white focus:border-gray-500
                   "
                 >
                   <option
                     v-for="item in addressDestination"
                     :value="item.id"
                     :key="item.id"
-                    class=" "
+                    class=""
                   >
                     {{ item.address }}
                   </option>
@@ -655,9 +628,7 @@
                   class="form-checkbox h-4 w-4 text-gray-800"
                   v-model="expenses.fav_dest_address"
                   @change="expenses.dest_address = ''"
-                /><span class="ml-2 text-gray-700">
-                  Direccion de Destino Favoritas
-                </span>
+                /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
               </label>
             </label>
             <div class="flex justify-center w-2/12">
@@ -677,7 +648,7 @@
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                Fecha Estimada
+                Fecha estimada de recogida
               </span>
               <input
                 type="date"
@@ -687,13 +658,9 @@
                   w-full
                   mt-1
                   text-sm
-                  dark:border-gray-600
-                  dark:bg-gray-700
-                  focus:border-blue-400
-                  focus:outline-none
-                  focus:shadow-outline-blue
-                  dark:text-gray-300
-                  dark:focus:shadow-outline-gray
+                  dark:border-gray-600 dark:bg-gray-700
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:text-gray-300 dark:focus:shadow-outline-gray
                   form-input
                 "
                 placeholder="Nombre o codigo Puerto/Aeropuerto"
@@ -719,13 +686,9 @@
                   w-full
                   mt-1
                   text-sm
-                  dark:border-gray-600
-                  dark:bg-gray-700
-                  focus:border-blue-400
-                  focus:outline-none
-                  focus:shadow-outline-blue
-                  dark:text-gray-300
-                  dark:focus:shadow-outline-gray
+                  dark:border-gray-600 dark:bg-gray-700
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:text-gray-300 dark:focus:shadow-outline-gray
                   form-input
                 "
                 placeholder="Introduzca la descripcion aqui"
@@ -901,17 +864,26 @@
       :class="[
         !expenses.dataLoad || expenses.dataLoad.length <= 0
           ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5'
+          : 'flex justify-center my-5 innline w-1/7 mt-5',
       ]"
     >
-      <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">
-        Editar
-      </button>
+      <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
 
       <button
         v-else-if="expenses.dataLoad.length > 0"
         @click="HideAddress()"
-        class="mr-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+        class="
+          mr-4
+          w-24
+          h-12
+          text-white
+          transition-colors
+          text-lg
+          bg-green-700
+          rounded-lg
+          focus:shadow-outline
+          hover:bg-green-800
+        "
       >
         Editar
       </button>
@@ -922,7 +894,7 @@
             ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
             : expenses.dataLoad.length <= 0
             ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800',
         ]"
       >
         Cotizar
@@ -942,7 +914,7 @@ export default {
     return {
       showShipping: false,
       lclTableQuote: {},
-      lclTable: false
+      lclTable: false,
     };
   },
   methods: {
@@ -964,7 +936,7 @@ export default {
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100
+        width: 100,
       });
 
       this.$store.dispatch('address/showAddress', false);
@@ -995,17 +967,17 @@ export default {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Enviar'
+            confirmButtonText: 'Enviar',
           }).then((result) => {
             if (result.isConfirmed) {
               // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
 
               axios
                 .post('/notifications-transport', { application_id: this.data.application_id })
-                .then(function(response) {
+                .then(function (response) {
                   console.log(response);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   console.log(error);
                 });
               // axios.post
@@ -1018,7 +990,7 @@ export default {
         } else {
           Toast.fire({
             icon: 'success',
-            title: 'Datos Agregados'
+            title: 'Datos Agregados',
           });
         }
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
@@ -1036,20 +1008,20 @@ export default {
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
       this.lclTable = false;
     },
-    getFavOriginPort: async function() {
+    getFavOriginPort: async function () {
       this.expenses.origin_port_id = '';
       if (this.expenses.fav_origin_port && this.data.supplier_id) {
         let idsupplier = this.data.supplier_id;
         const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
         await this.$store.dispatch('address/getFavOriginPort', {
           idsupplier,
-          type
+          type,
         });
       } else {
         await this.$store.dispatch('address/setOrigFavOritPorts');
       }
     },
-    getFavDestPort: async function() {
+    getFavDestPort: async function () {
       this.expenses.dest_port_id = '';
       const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
       if (this.expenses.fav_dest_port) {
@@ -1067,7 +1039,7 @@ export default {
      * @param {Object} placeResultData PlaceResult object
      * @param {String} id Input container ID
      */
-    getAddressOrigin: function(addressData, placeResultData, id) {
+    getAddressOrigin: function (addressData, placeResultData, id) {
       this.expenses.origin_address = placeResultData.formatted_address;
 
       for (const component of placeResultData.address_components) {
@@ -1089,7 +1061,7 @@ export default {
         }
       }
     },
-    getAddressDestination: function(addressData, placeResultData, id) {
+    getAddressDestination: function (addressData, placeResultData, id) {
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
 
@@ -1115,7 +1087,7 @@ export default {
       }
 
       this.expenses.dest_address = placeResultData.formatted_address;
-    }
+    },
   },
   computed: {
     ...mapState('address', [
@@ -1127,9 +1099,9 @@ export default {
       'portsDesTemp',
       'addressDate',
       'formAddress',
-      'minDate'
+      'minDate',
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport'])
-  }
+    ...mapState('application', ['data', 'currency', 'origin_transport']),
+  },
 };
 </script>
