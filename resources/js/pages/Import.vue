@@ -203,7 +203,7 @@
             ></span>
             <h3 class="mt-1 text-green-700 text-lg">Pago</h3>
             <div class="w-full flex items-center">
-              <div class="sm:w-4/12 md:w-4/12">
+              <div class="sm:w-2/6 md:w-2/6">
                 <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Moneda de Pago
                                 </h3> -->
@@ -233,15 +233,16 @@
                   v-html="data.errors.get('currency_id')"
                 ></span>
               </div>
-              <section
-                class="ml-14 border-r-4 flex flex-wrap justify-center sm:w-4/12 md:w-4/12"
-                v-show="data.statusSuppliers == 'with'"
-              >
-                <!-- <h3 class="my-3 text-gray-500 text-sm">
+              <div class="flex w-2/6 justify-center">
+                <section
+                  class="flex flex-wrap justify-end sm:w-full md:w-full"
+                  v-show="data.statusSuppliers == 'with'"
+                >
+                  <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
                                 </h3> -->
 
-                <!-- <div
+                  <!-- <div
                 :class="[
                     paymentPercentage.valueInitial == data.valuePercentage.valueInitial
                       ? 'bg-blue-500 text-white'
@@ -252,34 +253,34 @@
                 >
 
                 </div> -->
-                <div
-                  v-for="(item, id) in paymentPercentage1"
-                  :key="id"
-                  @click="handlePercentage(item)"
-                  :class="[
-                    item.valueInitial == data.valuePercentage.valueInitial
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-transparent text-blue-700 ',
-                    'w-4/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
-                  ]"
+                  <div
+                    v-for="(item, id) in paymentPercentage1"
+                    :key="id"
+                    @click="handlePercentage(item)"
+                    :class="[
+                      item.valueInitial == data.valuePercentage.valueInitial
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-transparent text-blue-700 ',
+                      'w-2/6 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    ]"
+                  >
+                    {{ item.name }}
+                  </div>
+                  <span
+                    class="text-xs text-red-600 dark:text-red-400"
+                    v-if="data.errors.has('valuePercentage')"
+                    v-html="data.errors.get('valuePercentage')"
+                  ></span>
+                </section>
+                <section
+                  class="ml-5 border-l-4 flex flex-col flex-wrap justify-center items-start sm:w-4/6 md:w-4/6"
+                  v-show="data.statusSuppliers == 'with'"
                 >
-                  {{ item.name }}
-                </div>
-                <span
-                  class="text-xs text-red-600 dark:text-red-400"
-                  v-if="data.errors.has('valuePercentage')"
-                  v-html="data.errors.get('valuePercentage')"
-                ></span>
-              </section>
-              <section
-                class="ml-5 flex flex-col flex-wrap justify-center items-start sm:w-4/12 md:w-4/12"
-                v-show="data.statusSuppliers == 'with'"
-              >
-                <!-- <h3 class="my-3 text-gray-500 text-sm">
+                  <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
                                 </h3> -->
 
-                <!-- <div
+                  <!-- <div
                 :class="[
                     paymentPercentage.valueInitial == data.valuePercentage.valueInitial
                       ? 'bg-blue-500 text-white'
@@ -290,26 +291,27 @@
                 >
 
                 </div> -->
-                <div
-                  v-for="(item, id) in paymentPercentage2"
-                  :key="id"
-                  @click="handlePercentage(item)"
-                  :class="[
-                    item.valueInitial == data.valuePercentage.valueInitial
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-transparent text-blue-700 ',
-                    'w-4/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
-                  ]"
-                >
-                  {{ item.name }}
-                </div>
-                <span
-                  class="text-xs text-red-600 dark:text-red-400"
-                  v-if="data.errors.has('valuePercentage')"
-                  v-html="data.errors.get('valuePercentage')"
-                ></span>
-              </section>
-              <div class="flex flex-col items-start justify-between sm:w-4/12">
+                  <div
+                    v-for="(item, id) in paymentPercentage2"
+                    :key="id"
+                    @click="handlePercentage(item)"
+                    :class="[
+                      item.valueInitial == data.valuePercentage.valueInitial
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-transparent text-blue-700 ',
+                      'ml-4 w-3/6 hover:bg-blue-500 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    ]"
+                  >
+                    {{ item.name }}
+                  </div>
+                  <span
+                    class="text-xs text-red-600 dark:text-red-400"
+                    v-if="data.errors.has('valuePercentage')"
+                    v-html="data.errors.get('valuePercentage')"
+                  ></span>
+                </section>
+              </div>
+              <div class="flex flex-col items-center justify-between w-2/6">
                 <div :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']">
                   <h3 class="my-2.5 text-gray-500 text-sm">Condicion de Venta</h3>
                   <div class="relative">
