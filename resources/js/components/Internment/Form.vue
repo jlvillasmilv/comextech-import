@@ -653,6 +653,10 @@ export default {
       nameFileUpload: '',
       transpAmount: 0,
       AppAmount: 0,
+      portChargesFcl: 265,
+      portChargesLcl: 230,
+      pchargeLcl: 30
+
     };
   },
   methods: {
@@ -736,18 +740,31 @@ export default {
       }
     },
     async portCharge() {
+
+       // get default amount 
+      let settings = await axios.get('/settings');
+
+      if (settings.status == 200) {
+        this.portChargesFcl = parseInt(settings.data.port_charges_fcl)
+        this.portChargesLcl = parseInt(settings.data.port_charges_lcl)
+        this.pchargeLcl     = parseInt(settings.data.pcharge_lcl)
+       }
+
+
       this.expenses.port_charges = 0;
 
       if (this.data.type_transport == 'CONSOLIDADO') {
-        const sumall = this.$store.state.load.loads
+        const cargoW = this.$store.state.load.loads
           .map((item) => item.weight)
           .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
 
-        this.expenses.port_charges = (sumall / 1000) * 30 + 230;
+        this.expenses.port_charges = (cargoW / 1000) * this.pchargeLcl + this.portChargesLcl;
       } else {
-        this.expenses.port_charges = 265;
+        this.expenses.port_charges = this.portChargesFcl;
       }
+      console.log(this.expenses.port_charges)
     },
+    
   },
   watch: {
     'expenses.customs_house': {
@@ -760,6 +777,7 @@ export default {
   },
   async mounted() {
     try {
+
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
