@@ -45,6 +45,7 @@ class ApplicationController extends Controller
     {
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
+        //$services_code = array_diff($request->services, array("ICS07"));
         /** Evalua la el estado de una solicitud **/
         if ($status <> 0) { return response()->json($status, 400); }
 
@@ -80,7 +81,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [20, 21,22])
+                ->whereIn('service_id', [19, 20,21])
                 ->update(['currency_id' => $application->currency_id]);
 
                 \DB::table('application_details')
@@ -112,7 +113,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [20, 21,22])
+                ->whereIn('service_id', [19, 20,21])
                 ->update(['amount' => 0]);
             }
 
@@ -122,7 +123,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [23, 24, 28])
+                ->whereIn('service_id', [22, 23, 24])
                 ->update(['amount' => 0]);
             }
 
@@ -362,26 +363,28 @@ class ApplicationController extends Controller
                  );
 
                  // update application summary
-                 $service_id = $key == 0 ? 21 : 22;
-                 $app_summ = \DB::table('application_summaries')
-                 ->where([
-                    ["application_id", $application->id],
-                    ["category_service_id", 1],
-                    ["service_id", $service_id]
+                 $service_id = $key == 0 ? 'CS01-02' : 'CS01-03';
+                 // update application summary local transport
+                 
+                \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $application->id],
+                        ["s.code",  $service_id]
                     ])
-                ->update(['fee_date' => $data['date_pay'],
-                         'amount'    =>  $application->amount * ($data['percentage'] / 100)
+                ->update(['as.fee_date' => $data['date_pay'],
+                         'as.amount'    =>  $application->amount * ($data['percentage'] / 100)
                         ]);
              }
 
              // update application summary
-             $app_summ = \DB::table('application_summaries')
-             ->where([
-                ["application_id", $application->id],
-                ["category_service_id", 1],
-                ["service_id", 20]
+           \DB::table('application_summaries as as')
+                ->join('services as s', 'as.service_id', '=', 's.id')
+                ->where([
+                    ["as.application_id", $application->id],
+                    ["s.code", 'CS01-01']
                 ])
-            ->update(['amount' =>  $application->amount]);
+            ->update(['as.amount' =>  $application->amount]);
 
              return response()->json(['status' => 'OK'], 200);
         }
@@ -416,6 +419,7 @@ class ApplicationController extends Controller
                     'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
                     'cif_amt'              => round($request->cif_amt, 0),
                     'insurance'            => round($request->insurance, 0),
+                    'port_charges'         => $request->port_charges,
                 ]
             );
 
@@ -442,16 +446,26 @@ class ApplicationController extends Controller
                  );
 
              // update application summary
-              $service_id = $key == 0 ? 25 :($key == 1 ? 26 : 27);
-              $app_summ = \DB::table('application_summaries')
-              ->where([
-                 ["application_id", $request->application_id],
-                 ["category_service_id", 4],
-                 ["service_id", $service_id]
-                 ])
-             ->update(['amount' =>  $mount,  'currency_id' =>  1]);
- 
+              $service_id = $key == 0 ? 'CS04-01' :($key == 1 ? 'CS04-02' : 'CS04-03');
+
+              \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $request->application_id],
+                        ["s.code",  $service_id]
+                    ])
+                ->update(['as.amount' =>  $mount,  'as.currency_id' =>  $key == 0 ? 8:1]);
+
              }
+
+              // update AGA
+              \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $request->application_id],
+                        ["s.code",  'CS04-04']
+                    ])
+                ->update(['as.amount' =>  $request->port_charges,  'as.currency_id' =>  8]);
 
             // agregar datos de subida de archivo
             if ($request->hasFile('files')) {
@@ -495,10 +509,10 @@ class ApplicationController extends Controller
         
             DB::commit();
 
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['status' => $e], 400);
-        }
+         } catch (\Exception $e) {
+             DB::rollback();
+             return response()->json(['status' => $e], 500);
+         }
 
         return response()->json(['loads' => $internment->application->loads], 200);
     }

@@ -30,9 +30,7 @@
       <template v-slot:body>
         <div class="mt-1">
           <form @submit.prevent="submitFormApplications" @keydown="data.onKeydown($event)">
-            <h3 class="text-green-700 text-lg">
-              Servicios
-            </h3>
+            <h3 class="text-green-700 text-lg">Servicios</h3>
             <div class="flex w-full">
               <div
                 v-for="(item, id) in $store.state.application.selectedCondition.services"
@@ -61,7 +59,20 @@
                 </div>
                 <div
                   v-if="!item.checked && !item.selected"
-                  class="bg-gray-300 flex flex-col items-center font-semibold px-1 py-1 text-sm mx-0.5 border border-gray-200 rounded my-2 text-center"
+                  class="
+                    bg-gray-300
+                    flex flex-col
+                    items-center
+                    font-semibold
+                    px-1
+                    py-1
+                    text-sm
+                    mx-0.5
+                    border border-gray-200
+                    rounded
+                    my-2
+                    text-center
+                  "
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="gray" />
                 </div>
@@ -125,9 +136,7 @@
 
             <div class="flex">
               <section class="w-8/12 flex flex-col justify-center">
-                <h3 class="mt-1 text-green-700 text-lg">
-                  Proveedor
-                </h3>
+                <h3 class="mt-1 text-green-700 text-lg">Proveedor</h3>
                 <div class="inline-flex flex-col w-full dark:text-gray-200">
                   <v-select
                     class="w-full"
@@ -142,12 +151,7 @@
                     v-model="data.supplier_id"
                     :reduce="(supplier) => supplier.id"
                   >
-                    <template
-                      v-slot:no-options="{
-                        search,
-                        searching
-                      }"
-                    >
+                    <template v-slot:no-options="{ search, searching }">
                       <template v-if="searching" class="text-sm">
                         Lo sentimos no hay opciones que coincidan
                         <strong>{{ search }}</strong
@@ -197,11 +201,9 @@
               v-if="data.errors.has('supplier_id')"
               v-html="data.errors.get('supplier_id')"
             ></span>
-            <h3 class="mt-1 text-green-700 text-lg">
-              Pago
-            </h3>
+            <h3 class="mt-1 text-green-700 text-lg">Pago</h3>
             <div class="w-full flex items-center">
-              <div class="sm:w-4/12 md:w-4/12">
+              <div class="sm:w-2/6 md:w-2/6">
                 <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Moneda de Pago
                                 </h3> -->
@@ -213,20 +215,13 @@
                   @input="handleCurrency"
                   :options="currencies"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Moneda
-                    </em>
+                    <em style="opacity: 0.5" v-else> Moneda </em>
                   </template>
                   <template v-slot:option="currencies">
                     {{ `${currencies.name} (${currencies.code}) ` }}
@@ -238,57 +233,104 @@
                   v-html="data.errors.get('currency_id')"
                 ></span>
               </div>
-              <div
-                class="flex flex-wrap justify-center sm:w-4/12 md:w-4/12"
-                v-show="data.statusSuppliers == 'with'"
-              >
-                <!-- <h3 class="my-3 text-gray-500 text-sm">
+              <div class="flex w-2/6 justify-center">
+                <section
+                  class="flex flex-wrap justify-end sm:w-full md:w-full"
+                  v-show="data.statusSuppliers == 'with'"
+                >
+                  <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
                                 </h3> -->
 
-                <div
-                  v-for="(item, id) in paymentPercentage"
-                  :key="id"
-                  @click="handlePercentage(item)"
-                  :class="[
-                    item.valueInitial == data.valuePercentage.valueInitial
+                  <!-- <div
+                :class="[
+                    paymentPercentage.valueInitial == data.valuePercentage.valueInitial
                       ? 'bg-blue-500 text-white'
                       : 'bg-transparent text-blue-700 ',
                     'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
                   ]"
+                  @click="handlePercentage()"
                 >
-                  {{ item.name }}
-                </div>
-                <span
-                  class="text-xs text-red-600 dark:text-red-400"
-                  v-if="data.errors.has('valuePercentage')"
-                  v-html="data.errors.get('valuePercentage')"
-                ></span>
+
+                </div> -->
+                  <div
+                    v-for="(item, id) in paymentPercentage1"
+                    :key="id"
+                    @click="handlePercentage(item)"
+                    :class="[
+                      item.valueInitial == data.valuePercentage.valueInitial
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-transparent text-blue-700 ',
+                      'w-2/6 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    ]"
+                  >
+                    {{ item.name }}
+                  </div>
+                  <span
+                    class="text-xs text-red-600 dark:text-red-400"
+                    v-if="data.errors.has('valuePercentage')"
+                    v-html="data.errors.get('valuePercentage')"
+                  ></span>
+                </section>
+                <section
+                  class="ml-5 border-l-4 flex flex-col flex-wrap justify-center items-start sm:w-4/6 md:w-4/6"
+                  v-show="data.statusSuppliers == 'with'"
+                >
+                  <!-- <h3 class="my-3 text-gray-500 text-sm">
+                                    Porcentaje de Pago
+                                </h3> -->
+
+                  <!-- <div
+                :class="[
+                    paymentPercentage.valueInitial == data.valuePercentage.valueInitial
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-transparent text-blue-700 ',
+                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                  ]"
+                  @click="handlePercentage()"
+                >
+
+                </div> -->
+                  <div
+                    v-for="(item, id) in paymentPercentage2"
+                    :key="id"
+                    @click="handlePercentage(item)"
+                    :class="[
+                      item.valueInitial == data.valuePercentage.valueInitial
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-transparent text-blue-700 ',
+                      'ml-4 w-3/6 hover:bg-blue-500 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    ]"
+                  >
+                    {{ item.name }}
+                  </div>
+                  <span
+                    class="text-xs text-red-600 dark:text-red-400"
+                    v-if="data.errors.has('valuePercentage')"
+                    v-html="data.errors.get('valuePercentage')"
+                  ></span>
+                </section>
               </div>
-              <div class="flex flex-col items-center justify-between sm:w-4/12">
+              <div class="flex flex-col items-center justify-between w-2/6">
                 <div :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']">
-                  <h3 class="my-2.5 text-gray-500 text-sm">
-                    Condicion de Venta
-                  </h3>
+                  <h3 class="my-2.5 text-gray-500 text-sm">Condicion de Venta</h3>
                   <div class="relative">
                     <select
                       v-model="$store.state.application.selectedCondition"
                       @change="toogleMenuTabs()"
                       class="
-                      block
-                      appearance-none
-                      w-full
-                      border border-gray-150
-                      dark:border-gray-600
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                    "
+                        block
+                        appearance-none
+                        w-full
+                        border border-gray-150
+                        dark:border-gray-600
+                        text-gray-700
+                        p-2
+                        pr-8
+                        rounded
+                        leading-tight
+                        focus:outline-none focus:bg-white focus:border-gray-500
+                      "
                     >
                       <option v-for="item in arrayServices" :value="item" :key="item.name">
                         {{ item.name }}
@@ -301,15 +343,15 @@
                     ></span>
                     <div
                       class="
-                      pointer-events-none
-                      absolute
-                      inset-y-0
-                      right-0
-                      flex
-                      items-center
-                      px-2
-                      text-gray-700
-                    "
+                        pointer-events-none
+                        absolute
+                        inset-y-0
+                        right-0
+                        flex
+                        items-center
+                        px-2
+                        text-gray-700
+                      "
                     >
                       <svg
                         class="fill-current h-4 w-4"
@@ -324,9 +366,7 @@
                   </div>
                 </div>
                 <div class="w-7/12">
-                  <h3 class="my-3 text-gray-500 text-sm">
-                    Monto de Operacion
-                  </h3>
+                  <h3 class="my-3 text-gray-500 text-sm">Monto de Operacion</h3>
                   <vue-numeric
                     thousand-separator="."
                     v-bind:minus="false"
@@ -351,9 +391,7 @@
                 </div>
               </div>
             </div>
-            <h3 class="my-3 text-green-700 text-lg">
-              Tipo de Transporte
-            </h3>
+            <h3 class="my-3 text-green-700 text-lg">Tipo de Transporte</h3>
             <div class="flex flex-wrap justify-center w-full">
               <div
                 v-for="service in $store.state.load.types"
@@ -447,15 +485,12 @@
             border border-gray-300
             rounded-lg
             dark:text-gray-400
-            sm:px-4
-            sm:py-2
-            sm:w-auto
+            sm:px-4 sm:py-2 sm:w-auto
             active:bg-transparent
             hover:border-gray-500
             focus:border-gray-500
             active:text-gray-500
-            focus:outline-none
-            focus:shadow-outline-gray
+            focus:outline-none focus:shadow-outline-gray
           "
         >
           Cancelar
@@ -479,13 +514,10 @@
             bg-green-600
             border border-transparent
             rounded-lg
-            sm:w-auto
-            sm:px-4
-            sm:py-2
+            sm:w-auto sm:px-4 sm:py-2
             active:bg-green-600
             hover:bg-green-700
-            focus:outline-none
-            focus:shadow-outline-green
+            focus:outline-none focus:shadow-outline-green
           "
         >
           Aceptar
@@ -529,23 +561,21 @@ export default {
         formInput: ' form-input',
         label: 'block  text-gray-700 text-xs dark:text-gray-400'
       },
-      paymentPercentage: [
+      paymentPercentage1: [
         { name: '10/90', valueInitial: 50 },
         { name: '20/80', valueInitial: 20 },
-        { name: '100%', valueInitial: 100 },
         { name: '30/70', valueInitial: 30 },
-        { name: '40/60', valueInitial: 40 },
+        { name: '40/60', valueInitial: 40 }
+      ],
+      paymentPercentage2: [
+        { name: '100%', valueInitial: 100 },
         { name: 'OTROS', valueInitial: 0 }
       ],
       objectPayment: {
         id: 11,
-        name: 'Tipo de cambio',
+        name: 'Pagos',
         code: 'ICS07',
         selected: true,
-        pivot: {
-          application_cond_sale_id: 1,
-          category_service_id: 8
-        },
         sort: 11
       },
       objectPayment2: {
@@ -712,12 +742,12 @@ export default {
   },
   async mounted() {
     try {
-       Promise.all([
-          this.$store.dispatch('application/getSuppliers'),
-          this.$store.dispatch('application/getServices'),
-          this.$store.dispatch('application/getCurrencies')
-        ]);
-      
+      Promise.all([
+        this.$store.dispatch('application/getSuppliers'),
+        this.$store.dispatch('application/getServices'),
+        this.$store.dispatch('application/getCurrencies')
+      ]);
+
       let application = document.getElementById('applications');
 
       if (application !== null) {
@@ -726,8 +756,8 @@ export default {
         Promise.all([
           this.$store.dispatch('application/setData', data),
           this.$store.dispatch('application/getServicesSelecteds', data.services_code.split(','))
-          ]);
-     
+        ]);
+
         this.$store.state.selectedServices = this.tabs.filter((e) => e.checked);
         this.$store.dispatch('payment/setPayment', data.payment_provider);
         // this.toogleMenuTabs();

@@ -1,62 +1,63 @@
 [
-    {
-      "id": 1,
-      "name": "Pagos",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 1
-      }
-    },
-    {
-      "id": 2,
-      "name": "Bodegaje y Fulfillment",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 2
-      }
-    },
-    {
-      "id": 3,
-      "name": "Transporte",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 3
-      }
-    },
-    {
-      "id": 4,
-      "name": "Aduana",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 4
-      }
-    },
-    {
-      "id": 5,
-      "name": "Entrega",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 5
-      }
-    }, 
-    {
-      "id": 8,
-      "name": "Financiamiento",
-      "selected": false,
-      "aggregate": false,
-      "pivot": {
-        "application_cond_sale_id": 1,
-        "category_service_id": 8
-      }
+  {
+    "id": 1,
+    "name": "Pagos",
+    "selected": false,
+    "aggregate": false,
+    "pivot": {
+      "application_cond_sale_id": 1,
+      "category_service_id": 1
     }
-  ]
+  },
+  {
+    "id": 2,
+    "name": "Moneda",
+    "code": "ICS02",
+    "selected": true,
+    "aggregate": false,
+    "pivot": {
+      "application_cond_sale_id": 1,
+      "category_service_id": 2
+    }
+  },
+  {
+    "id": 3,
+    "name": "Transporte",
+    "selected": false,
+    "aggregate": false,
+    "pivot": {
+      "application_cond_sale_id": 1,
+      "category_service_id": 3
+    }
+  },
+  {
+    "id": 4,
+    "name": "Aduana",
+    "selected": false,
+    "aggregate": false,
+    "pivot": {
+      "application_cond_sale_id": 1,
+      "category_service_id": 4
+    }
+  },
+  {
+    "id": 5,
+    "name": "Entrega",
+    "selected": false,
+    "aggregate": false,
+    "pivot": {
+      "application_cond_sale_id": 1,
+      "category_service_id": 5
+    }
+  },
+  {
+    "id": 8,
+    "name": "Financiamiento",
+    "selected": false,
+    "aggregate": false,
+    "pivot": {
+      "application_cond_sale_id": 1,
+      "category_service_id": 8
+    }
+  }
+]

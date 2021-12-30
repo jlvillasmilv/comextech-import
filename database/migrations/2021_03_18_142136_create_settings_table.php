@@ -24,6 +24,9 @@ class CreateSettingsTable extends Migration
             $table->decimal('min_rate_lcl', 8, 2)->nullable()->default(60);
             $table->decimal('min_rate_aereo', 8, 2)->nullable()->default(60);
             $table->decimal('min_rate_transp', 8, 2)->nullable()->default(60);
+            $table->decimal('port_charges_fcl', 8, 2)->nullable()->default(265);
+            $table->decimal('port_charges_lcl', 8, 2)->nullable()->default(230);
+            $table->decimal('pcharge_lcl', 8, 2)->nullable()->default(30);
             $table->unsignedBigInteger('created_users_id')->nullable();
             $table->unsignedBigInteger('modified_users_id')->nullable();
             $table->timestamps();

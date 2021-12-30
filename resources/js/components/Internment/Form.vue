@@ -27,25 +27,19 @@
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
               />
-              <span class="mx-2 text-xs text-black text-gray-500">
-                Comextech
-              </span>
+              <span class="mx-2 text-xs text-black text-gray-500"> Comextech </span>
               <input
                 v-bind:value="false"
                 v-model="expenses.customs_house"
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
               />
-              <span class="ml-2 text-xs text-black text-gray-500">
-                Cliente
-              </span>
+              <span class="ml-2 text-xs text-black text-gray-500"> Cliente </span>
             </div>
             <div class="flex md:2/3">
               <div class="w-auto px-1 mb-2 md:mb-0">
-                <label class="block text-sm " v-if="!expenses.customs_house">
-                  <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                    Seleccion
-                  </span>
+                <label class="block text-sm" v-if="!expenses.customs_house">
+                  <span class="text-gray-700 dark:text-gray-400 font-semibold"> Seleccion </span>
                   <select
                     v-model="expenses.custom_agent_id"
                     class="
@@ -58,9 +52,7 @@
                       pr-8
                       rounded
                       leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
+                      focus:outline-none focus:bg-white focus:border-gray-500
                     "
                   >
                     <option v-for="item in custom_agents" :value="item.id" :key="item.id" class="">
@@ -73,10 +65,8 @@
                     v-html="expenses.errors.get('custom_agent_id')"
                   ></span>
                 </label>
-                <label class="block text-sm " v-if="expenses.customs_house">
-                  <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                    Seleccion
-                  </span>
+                <label class="block text-sm" v-if="expenses.customs_house">
+                  <span class="text-gray-700 dark:text-gray-400 font-semibold"> Seleccion </span>
                   <select
                     v-model="expenses.custom_agent_id"
                     class="
@@ -89,9 +79,7 @@
                       pr-8
                       rounded
                       leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
+                      focus:outline-none focus:bg-white focus:border-gray-500
                     "
                   >
                     <!-- <option
@@ -121,19 +109,15 @@
                     v-model.number="expenses.agent_payment"
                     type="number"
                     class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600
-                dark:bg-gray-700
-                focus:border-blue-400
-                focus:outline-none
-                focus:shadow-outline-blue
-                dark:text-gray-300
-                dark:focus:shadow-outline-gray
-                form-input
-              "
+                      block
+                      w-full
+                      mt-1
+                      text-sm
+                      dark:border-gray-600 dark:bg-gray-700
+                      focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                      dark:text-gray-300 dark:focus:shadow-outline-gray
+                      form-input
+                    "
                     placeholder="Monto"
                   />
                   <span
@@ -148,44 +132,23 @@
                   <span class="text-gray-700 dark:text-gray-400 font-semibold">
                     Costo Servicio
                   </span>
-                  <!-- <input
-                                        v-model.number="expenses.agent_payment"
-                                        type="number"
-                                        class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600
-                dark:bg-gray-700
-                focus:border-blue-400
-                focus:outline-none
-                focus:shadow-outline-blue
-                dark:text-gray-300
-                dark:focus:shadow-outline-gray
-                form-input
-              "
-                                        placeholder="Monto"
-                                    /> -->
+
                   <div class="flex items-center">
                     <span class="mx-2">USD</span>
                     <input
-                      value="250"
+                      v-model.number="expenses.agent_payment"
                       type="number"
                       class="
-                block
-                w-36
-                mt-1
-                text-sm
-                dark:border-gray-600
-                dark:bg-gray-700
-                focus:border-blue-400
-                focus:outline-none
-                focus:shadow-outline-blue
-                dark:text-gray-300
-                dark:focus:shadow-outline-gray
-                form-input
-              "
+                        block
+                        w-36
+                        mt-1
+                        text-sm
+                        dark:border-gray-600 dark:bg-gray-700
+                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                        dark:text-gray-300 dark:focus:shadow-outline-gray
+                        form-input
+                      "
+                      :disabled="expenses.customs_house ? true : false"
                       placeholder="Monto"
                     />
                     <span
@@ -208,7 +171,16 @@
           </h4>
         </div>
         <div
-          class="flex flex-wrap justify-center py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
+          class="
+            flex flex-wrap
+            justify-center
+            py-4
+            mb-8
+            bg-white
+            rounded-lg
+            shadow-md
+            dark:bg-gray-800
+          "
         >
           <div class="w-auto px-1 px-3">
             <input
@@ -224,23 +196,22 @@
                 <a
                   @click="openWindowFileCert(item)"
                   class="
-                flex
-                px-2
-                py-2
-                m-2
-                text-sm
-                font-medium
-                leading-5
-                text-white
-                transition-colors
-                duration-150
-                border border-transparent
-                rounded-lg
-                focus:outline-none
-                focus:shadow-outline-blue
-              "
+                    flex
+                    px-2
+                    py-2
+                    m-2
+                    text-sm
+                    font-medium
+                    leading-5
+                    text-white
+                    transition-colors
+                    duration-150
+                    border border-transparent
+                    rounded-lg
+                    focus:outline-none focus:shadow-outline-blue
+                  "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800'
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800',
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -256,7 +227,7 @@
                       :d="[
                         item.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
+                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z',
                       ]"
                     ></path>
                   </svg>
@@ -288,23 +259,22 @@
                 <a
                   @click="openWindowFile(item)"
                   class="
-                flex
-                px-2
-                py-2
-                m-2
-                text-sm
-                font-medium
-                leading-5
-                text-white
-                transition-colors
-                duration-150
-                border border-transparent
-                rounded-lg
-                focus:outline-none
-                focus:shadow-outline-blue
-              "
+                    flex
+                    px-2
+                    py-2
+                    m-2
+                    text-sm
+                    font-medium
+                    leading-5
+                    text-white
+                    transition-colors
+                    duration-150
+                    border border-transparent
+                    rounded-lg
+                    focus:outline-none focus:shadow-outline-blue
+                  "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800'
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800',
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +290,7 @@
                       :d="[
                         item.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
+                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z',
                       ]"
                     ></path>
                   </svg>
@@ -353,23 +323,22 @@
                 <a
                   @click="openWindowFile(item)"
                   class="
-                flex
-                px-2
-                py-2
-                m-2
-                text-sm
-                font-medium
-                leading-5
-                text-white
-                transition-colors
-                duration-150
-                border border-transparent
-                rounded-lg
-                focus:outline-none
-                focus:shadow-outline-blue
-              "
+                    flex
+                    px-2
+                    py-2
+                    m-2
+                    text-sm
+                    font-medium
+                    leading-5
+                    text-white
+                    transition-colors
+                    duration-150
+                    border border-transparent
+                    rounded-lg
+                    focus:outline-none focus:shadow-outline-blue
+                  "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800'
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800',
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -385,7 +354,7 @@
                       :d="[
                         item.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
+                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z',
                       ]"
                     ></path>
                   </svg>
@@ -404,7 +373,7 @@
       </section>
     </div>
 
-    <section class="container grid px-6 mx-auto">
+    <section class="container grid px-3">
       <div class="flex justify-between items-end">
         <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
           Cálculo de Impuestos
@@ -412,7 +381,7 @@
       </div>
 
       <div
-        class="mx-10 w-2/3 flex"
+        class="mx-4 w-3/4 flex"
         :class="[!$store.getters.findService('ICS04') ? '' : 'justify-start']"
       >
         <div class="w-full overflow-x-auto">
@@ -420,27 +389,18 @@
             <thead>
               <tr
                 class="
-                    text-center
-                    font-semibold
-                    tracking-wide
-                    border-b
-                    dark:border-gray-700
-                    dark:text-gray-400
-                    dark:bg-gray-800
-                  "
+                  text-center
+                  font-semibold
+                  tracking-wide
+                  border-b
+                  dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
+                "
               >
-                <th>
-                  Moneda Dólar
-                </th>
-                <th>
-                  &nbsp;
-                </th>
-                <th>
-                  &nbsp;
-                </th>
-                <th colspan="2">
-                  Moneda de Origen
-                </th>
+                <th>Moneda Dólar</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th colspan="2">Moneda de Origen</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -448,6 +408,23 @@
                 <td class="px-4 py-3">{{ formatPrice(AppAmount, 'USD') }}</td>
                 <td class="px-4 py-3">USD</td>
                 <td class="px-4 py-3">Mercaderia</td>
+                <td rowspan="3" class="px-4">
+                  <div class="flex justify-center">
+                    <svg
+                      class="w-8 h-8"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </div>
+                </td>
                 <td class="px-4 py-3">
                   {{ formatPrice(data.amount, currency.code) }}
                 </td>
@@ -475,12 +452,8 @@
                 <td class="text-blue-700 font-semibold px-4 py-3">
                   {{ formatPrice(this.expenses.insure + transpAmount + AppAmount, 'USD') }}
                 </td>
-                <td class="text-blue-700 font-semibold px-4 py-3">
-                  USD
-                </td>
-                <td class="text-blue-700 font-semibold px-4 py-3">
-                  Valor CIF
-                </td>
+                <td class="text-blue-700 font-semibold px-4 py-3">USD</td>
+                <td class="text-blue-700 font-semibold px-4 py-3">Valor CIF</td>
               </tr>
             </tbody>
             <!-- <tfoot
@@ -502,7 +475,8 @@
         :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-start']"
       >
         <div class="flex flex-wrap flex-col my-2 w-10/12">
-          <div class="flex justify-start items-center h-28 my-2">
+          <span class="text-start font-semibold">Incluir</span>
+          <div class="flex justify-start items-center h-20 my-2 ml-2">
             <div>
               <input
                 type="checkbox"
@@ -515,7 +489,7 @@
                 {{ formatPrice(expenses.iva_amt, 'CLP') }}
               </p>
             </div>
-            <div class="w-3/12">
+            <div class="w-4/12">
               <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
                 IVA ( 19% )
               </h1>
@@ -523,7 +497,7 @@
             <div class="w-2/12">
               <img class="h-full w-8/12" src="https://homer.sii.cl/responsive/images/logo.jpg" />
             </div>
-            <div class="w-2/12">
+            <!-- <div class="w-2/12">
               <button
                 v-if="!expenses.iva"
                 class="disabled:opacity-100 w-full h-10 text-white text-sm bg-gray-300 rounded-lg"
@@ -537,9 +511,9 @@
               >
                 No Financiar
               </button>
-            </div>
+            </div> -->
           </div>
-          <div class="flex justify-start items-center h-28 my-2">
+          <div class="flex justify-start items-center h-20 my-2 ml-2">
             <div>
               <input
                 type="checkbox"
@@ -552,7 +526,7 @@
                 {{ formatPrice(expenses.adv_amt, 'CLP') }}
               </p>
             </div>
-            <div class="w-3/12">
+            <div class="w-4/12">
               <h1 :class="[expenses.adv ? 'text-center mx-4' : 'text-center text-gray-400 mx-4']">
                 Ad Valorem ( 6% )
               </h1>
@@ -563,7 +537,7 @@
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
               />
             </div>
-            <div class="w-2/12">
+            <!-- <div class="w-2/12">
               <button
                 v-if="!expenses.adv"
                 class="disabled:opacity-100 w-full h-10 text-white text-sm bg-gray-300 rounded-lg"
@@ -573,11 +547,22 @@
               </button>
               <button
                 v-if="expenses.adv"
-                class="w-full h-10 text-white transition-colors text-sm duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+                class="
+                  w-full
+                  h-10
+                  text-white
+                  transition-colors
+                  text-sm
+                  duration-150
+                  bg-green-700
+                  rounded-lg
+                  focus:shadow-outline
+                  hover:bg-green-800
+                "
               >
                 Financiar
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- <div class="flex">
@@ -586,22 +571,43 @@
                     </div>
                 </div> -->
       </div>
+      <div v-if="data.type_transport != 'COURIER'">
+        <div class="flex justify-between items-end">
+          <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
+            Gastos de Puerto
+          </h4>
+        </div>
+
+        <div class="flex justify-start items-center h-20 my-2 ml-2">
+          <div class="w-2/12">
+            <p class="text-center mx-2">
+              {{ formatPrice(expenses.port_charges, 'USD') }}
+            </p>
+          </div>
+          <div class="w-4/12">
+            <h1 class="text-center mx-4">
+              Para Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
+            </h1>
+          </div>
+        </div>
+      </div>
+
       <div class="flex justify-center">
         <button
           @click="submitForm()"
           class="
-          w-1/6
-          h-12
-          my-10
-          text-white
-          transition-colors
-          text-lg
-          duration-150
-          bg-blue-700
-          rounded-lg
-          focus:shadow-outline
-          hover:bg-green-800
-        "
+            w-1/6
+            h-12
+            my-10
+            text-white
+            transition-colors
+            text-lg
+            duration-150
+            bg-blue-700
+            rounded-lg
+            focus:shadow-outline
+            hover:bg-green-800
+          "
         >
           Guardar
         </button>
@@ -618,42 +624,46 @@ export default {
   props: {
     application_id: {
       required: true,
-      type: Number
-    }
+      type: Number,
+    },
   },
   components: { Load },
   computed: {
     ...mapState('internment', ['expenses']),
     ...mapState('application', ['data', 'currency']),
-    ...mapState('exchange', ['exchangeItem'])
+    ...mapState('exchange', ['exchangeItem']),
   },
   data() {
     return {
       certif: [
         {
           name: 'Cargar Invoice',
-          submit: false
-        }
+          submit: false,
+        },
       ],
       treaties: [
         {
           name: 'Otro Documento',
-          submit: false
-        }
+          submit: false,
+        },
       ],
       certificate: {},
       custom_agents: [],
       showInputFile: false,
       nameFileUpload: '',
       transpAmount: 0,
-      AppAmount: 0
+      AppAmount: 0,
+      portChargesFcl: 265,
+      portChargesLcl: 230,
+      pchargeLcl: 30
+
     };
   },
   methods: {
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
       });
     },
     changeCustomHouse() {},
@@ -712,16 +722,14 @@ export default {
     async submitForm() {
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
-        // console.log(
-        //     this.$store.state.load.loads,
-        //     ' ENVIO DE INTERNAMIA'
-        // );
+
         const { data } = await this.expenses.post('/internment');
         Toast.fire({
           icon: 'success',
-          title: 'Datos Agregados'
+          title: 'Datos Agregados',
         });
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
+
         if (!$store.getters.findService('ICS03')) {
           this.$store.dispatch('load/setLoad', data);
         }
@@ -730,19 +738,46 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    }
+    },
+    async portCharge() {
+
+       // get default amount 
+      let settings = await axios.get('/settings');
+
+      if (settings.status == 200) {
+        this.portChargesFcl = parseInt(settings.data.port_charges_fcl)
+        this.portChargesLcl = parseInt(settings.data.port_charges_lcl)
+        this.pchargeLcl     = parseInt(settings.data.pcharge_lcl)
+       }
+
+
+      this.expenses.port_charges = 0;
+
+      if (this.data.type_transport == 'CONSOLIDADO') {
+        const cargoW = this.$store.state.load.loads
+          .map((item) => item.weight)
+          .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
+
+        this.expenses.port_charges = (cargoW / 1000) * this.pchargeLcl + this.portChargesLcl;
+      } else {
+        this.expenses.port_charges = this.portChargesFcl;
+      }
+      console.log(this.expenses.port_charges)
+    },
+    
   },
   watch: {
     'expenses.customs_house': {
       handler(after, before) {
         this.expenses.custom_agent_id = '';
-        this.expenses.agent_payment = 0;
+        this.expenses.agent_payment = 250;
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   async mounted() {
     try {
+
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
@@ -789,11 +824,15 @@ export default {
         this.expenses.cif_amt += transp.data;
       }
 
+      if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
+        this.portCharge();
+      }
+
       this.expenses.iva_amt = Math.round((this.expenses.cif_amt * 19) / 100);
       this.expenses.adv_amt = (this.expenses.cif_amt * 6) / 100;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  }
+  },
 };
 </script>

@@ -178,10 +178,11 @@ class TransportsControllers extends Controller
 
 
             // update application summary International transport
-            $app_summ = \DB::table('application_summaries')
+            $app_summ = \DB::table('application_summaries as as')
+            ->join('services as s', 'as.service_id', '=', 's.id')
             ->where([
-               ["application_id", $request->application_id],
-               ["service_id", 23]
+               ["as.application_id", $request->application_id],
+               ["s.code", 'CS03-01']
                ])
             ->update([
                     'amount'      =>  $transport_amount,
@@ -191,40 +192,41 @@ class TransportsControllers extends Controller
 
           
                 // update application summary insurance
-            $app_summ = \DB::table('application_summaries')
+            $app_summ = \DB::table('application_summaries as as')
+                ->join('services as s', 'as.service_id', '=', 's.id')
                 ->where([
-                ["application_id", $request->application_id],
-                ["service_id", 24]
+                ["as.application_id", $request->application_id],
+                ["s.code", 'CS03-02']
                 ])
                 ->update([
                     'amount'      => $request->insurance ? $insurance_amount : 0,
                     'currency_id' =>  8,
                     'fee_date'    => $request->estimated_date]);
 
-            // update application summary local expenses
-            $app_summ = \DB::table('application_summaries')
-            ->where([
-               ["application_id", $request->application_id],
-               ["service_id", 29]
-               ])
-            ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+            // update application summary other expenses
+                \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $request->application_id],
+                        ["s.code", 'CS06-02']
+                    ])
+                ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
              // update application summary local transport
-             \DB::table('application_summaries')
-             ->where([
-             ["application_id", $request->application_id],
-             ["service_id", 28]
-             ])
+             \DB::table('application_summaries as as')
+                ->join('services as s', 'as.service_id', '=', 's.id')
+                ->where([
+                    ["as.application_id", $request->application_id],
+                    ["s.code", 'CS06-01']
+                ])
              ->update(['amount' =>  $local_transp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
             $trans_summary = [
-                'transport_amount' => $transport_amount,
+                'transport_amount' => round($transport_amount, 2),
                 'cif'       => $cif,       
                 'oth_exp'   => $oth_exp,  
-                'insurance' => $request->insurance ? $insurance_amount : 0,
-                'from'      => $transport->originPort->unlocs,
-                'to'        => $transport->destPort->unlocs,
-                'local_transp' => $local_transp
+                'insurance' => $request->insurance ?  round($insurance_amount, 2) : 0,
+                'local_transp' => round($local_transp, 2)
             ];
 
         DB::commit();
