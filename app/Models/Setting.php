@@ -23,7 +23,9 @@ class Setting extends Model
         'min_rate_lcl',
         'min_rate_aereo',
         'min_rate_transp',
-
+        'port_charges_fcl',
+        'port_charges_lcl',
+        'pcharge_lcl',
     ];
 
     protected $dates = [

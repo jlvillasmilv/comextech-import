@@ -136,7 +136,7 @@
                   <div class="flex items-center">
                     <span class="mx-2">USD</span>
                     <input
-                      value="0"
+                      v-model.number="expenses.agent_payment"
                       type="number"
                       class="
                         block
@@ -418,10 +418,9 @@
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                        fill-rule="evenodd"
+                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd"
                       ></path>
                     </svg>
                   </div>
@@ -490,7 +489,7 @@
                 {{ formatPrice(expenses.iva_amt, 'CLP') }}
               </p>
             </div>
-            <div class="w-3/12">
+            <div class="w-4/12">
               <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
                 IVA ( 19% )
               </h1>
@@ -527,7 +526,7 @@
                 {{ formatPrice(expenses.adv_amt, 'CLP') }}
               </p>
             </div>
-            <div class="w-3/12">
+            <div class="w-4/12">
               <h1 :class="[expenses.adv ? 'text-center mx-4' : 'text-center text-gray-400 mx-4']">
                 Ad Valorem ( 6% )
               </h1>
@@ -572,9 +571,25 @@
                     </div>
                 </div> -->
       </div>
+      <div v-if="data.type_transport != 'COURIER'">
+        <div class="flex justify-between items-end">
+          <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
+            Gastos de Puerto
+          </h4>
+        </div>
 
-      <div class="flex justify-between items-end">
-        <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">Gastos de Puerto</h4>
+        <div class="flex justify-start items-center h-20 my-2 ml-2">
+          <div class="w-2/12">
+            <p class="text-center mx-2">
+              {{ formatPrice(expenses.port_charges, 'USD') }}
+            </p>
+          </div>
+          <div class="w-4/12">
+            <h1 class="text-center mx-4">
+              Para Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
+            </h1>
+          </div>
+        </div>
       </div>
 
       <div class="flex justify-center">
@@ -638,6 +653,10 @@ export default {
       nameFileUpload: '',
       transpAmount: 0,
       AppAmount: 0,
+      portChargesFcl: 265,
+      portChargesLcl: 230,
+      pchargeLcl: 30
+
     };
   },
   methods: {
@@ -703,16 +722,14 @@ export default {
     async submitForm() {
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
-        // console.log(
-        //     this.$store.state.load.loads,
-        //     ' ENVIO DE INTERNAMIA'
-        // );
+
         const { data } = await this.expenses.post('/internment');
         Toast.fire({
           icon: 'success',
           title: 'Datos Agregados',
         });
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
+
         if (!$store.getters.findService('ICS03')) {
           this.$store.dispatch('load/setLoad', data);
         }
@@ -722,18 +739,45 @@ export default {
         console.error(error);
       }
     },
+    async portCharge() {
+
+       // get default amount 
+      let settings = await axios.get('/settings');
+
+      if (settings.status == 200) {
+        this.portChargesFcl = parseInt(settings.data.port_charges_fcl)
+        this.portChargesLcl = parseInt(settings.data.port_charges_lcl)
+        this.pchargeLcl     = parseInt(settings.data.pcharge_lcl)
+       }
+
+
+      this.expenses.port_charges = 0;
+
+      if (this.data.type_transport == 'CONSOLIDADO') {
+        const cargoW = this.$store.state.load.loads
+          .map((item) => item.weight)
+          .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
+
+        this.expenses.port_charges = (cargoW / 1000) * this.pchargeLcl + this.portChargesLcl;
+      } else {
+        this.expenses.port_charges = this.portChargesFcl;
+      }
+      console.log(this.expenses.port_charges)
+    },
+    
   },
   watch: {
     'expenses.customs_house': {
       handler(after, before) {
         this.expenses.custom_agent_id = '';
-        this.expenses.agent_payment = 0;
+        this.expenses.agent_payment = 250;
       },
       deep: true,
     },
   },
   async mounted() {
     try {
+
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
@@ -780,10 +824,14 @@ export default {
         this.expenses.cif_amt += transp.data;
       }
 
+      if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
+        this.portCharge();
+      }
+
       this.expenses.iva_amt = Math.round((this.expenses.cif_amt * 19) / 100);
       this.expenses.adv_amt = (this.expenses.cif_amt * 6) / 100;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   },
 };

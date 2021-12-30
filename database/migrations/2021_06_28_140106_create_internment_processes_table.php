@@ -25,7 +25,7 @@ class CreateInternmentProcessesTable extends Migration
             $table->unsignedDecimal('insurance', 12, 2)->default(0)->nullable();
             $table->boolean('adv')->default(false);
             $table->decimal('adv_amt', 12, 2)->default(0)->nullable();
-            $table->boolean('finance')->default(false);
+            $table->decimal('port_charges')->default(0)->nullable();
             // $table->enum('certificate', ['Origen', 'Fitosanitario', 'Form F'])->nullable();
             $table->timestamps();
             

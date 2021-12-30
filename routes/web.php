@@ -133,7 +133,24 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('/convert-currency-date/{date}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrencyDate']);
     Route::get('/custom-convert-currency/{amount}/{from_currency}', [ServicesController::class, 'customsConvertCurrency']);
+
     
+    Route::get('settings', function(){
+       
+        $sett = \DB::table('settings')
+            ->first([
+                'min_rate_fcl',
+                'min_rate_lcl',
+                'min_rate_aereo',
+                'min_rate_transp',
+                'port_charges_fcl',
+                'port_charges_lcl',
+                'pcharge_lcl'
+                ]);
+    
+        return response()->json($sett, 200);
+
+    });
 
 });
 
