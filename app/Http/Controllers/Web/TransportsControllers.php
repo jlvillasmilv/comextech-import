@@ -222,7 +222,7 @@ class TransportsControllers extends Controller
              ->update(['amount' =>  $local_transp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
             $trans_summary = [
-                'transport_amount' => $transport_amount,
+                'transport_amount' => round($transport_amount, 2),
                 'cif'       => $cif,       
                 'oth_exp'   => $oth_exp,  
                 'insurance' => $request->insurance ?  round($insurance_amount, 2) : 0,

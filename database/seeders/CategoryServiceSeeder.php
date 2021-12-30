@@ -52,8 +52,9 @@ class CategoryServiceSeeder extends Seeder
             ['category_service_id' => 4, 'code' => 'CS04-01', 'name' => 'D.- Servicio AGA', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 4, 'code' => 'CS04-02', 'name' => 'E.- IVA Internacion', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 4, 'code' => 'CS04-03', 'name' => 'F.- Aranceles', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 6, 'code' => 'CS06-01', 'name' => 'G.- Transporte Local', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 6, 'code' => 'CS06-02', 'name' => 'H.- Otros gastos', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 4, 'code' => 'CS04-04', 'name' => 'G.- Gastos de Puerto', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 6, 'code' => 'CS06-01', 'name' => 'H.- Transporte Local', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 6, 'code' => 'CS06-02', 'name' => 'I.- Otros gastos', 'created_at' => now(), 'summary' => true ],
         ]);
 
 

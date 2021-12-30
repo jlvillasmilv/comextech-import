@@ -45,6 +45,7 @@ class ApplicationController extends Controller
     {
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
+        //$services_code = array_diff($request->services, array("ICS07"));
         /** Evalua la el estado de una solicitud **/
         if ($status <> 0) { return response()->json($status, 400); }
 
@@ -418,6 +419,7 @@ class ApplicationController extends Controller
                     'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
                     'cif_amt'              => round($request->cif_amt, 0),
                     'insurance'            => round($request->insurance, 0),
+                    'port_charges'         => $request->port_charges,
                 ]
             );
 
@@ -452,9 +454,18 @@ class ApplicationController extends Controller
                         ["as.application_id", $request->application_id],
                         ["s.code",  $service_id]
                     ])
-                ->update(['as.amount' =>  $mount,  'as.currency_id' =>  1]);
+                ->update(['as.amount' =>  $mount,  'as.currency_id' =>  $key == 0 ? 8:1]);
 
              }
+
+              // update AGA
+              \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $request->application_id],
+                        ["s.code",  'CS04-04']
+                    ])
+                ->update(['as.amount' =>  $request->port_charges,  'as.currency_id' =>  8]);
 
             // agregar datos de subida de archivo
             if ($request->hasFile('files')) {
