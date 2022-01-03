@@ -10,8 +10,8 @@ class ExecutiveComposer {
 	public function compose(View $view)
 	{
 		
-        	$executive = User::role('business_executive')->pluck('name','id');
-        	$view->with('executive',  $executive);
+        $executive = User::role('BusinessExecutive')->pluck('name','id');
+        $view->with('executive',  $executive);
 		
 	}
 }

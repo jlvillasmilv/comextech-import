@@ -136,8 +136,9 @@
 	                @endif
 	        </label>
 
+			<hr>
+			
             <label class="block text-sm my-3 font-bold ">Importaciones</label>
-            <hr>
 
             <label class="block text-sm my-3">
 				<div class="px-2" id="add_to">
@@ -201,6 +202,63 @@
 								@if($errors->has('min_rate_transp'))
 									<span class="text-xs text-red-600 dark:text-red-400">
 										{{ $errors->first('min_rate_transp') }}
+									</span>
+								@endif
+						</div>
+
+					</div>
+				</div>
+			  
+			</label>
+
+			<hr>
+			<label class="block text-sm my-3 font-bold ">Gatos de puerto (Aduana)</label>
+
+            <label class="block text-sm my-3">
+				<div class="px-2" id="add_to">
+					<div class="flex mb-4">
+						<div class="w-1/4 mr-1 sm:w-full ">
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> FCL</label>
+							<input class="{{ $errors->has('port_charges_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							name="port_charges_fcl"
+							value="{{ old('port_charges_fcl', isset($data) ? $data->port_charges_fcl : '') }}"
+							type="number"
+							required="">
+							@if($errors->has('port_charges_fcl'))
+								<span class="text-xs text-red-600 dark:text-red-400">
+									{{ $errors->first('port_charges_fcl') }}
+								</span>
+							@endif
+						</div>
+					   
+						<div class="w-1/4 ml-1 sm:w-full ">
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">LCL</label>
+							<input class="{{ $errors->has('port_charges_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							type="number"
+							name="port_charges_lcl"
+							value="{{ old('port_charges_lcl', isset($data) ? $data->port_charges_lcl : '') }}"
+							required="">
+							@if($errors->has('port_charges_lcl'))
+								<span class="text-xs text-red-600 dark:text-red-400">
+									{{ $errors->first('port_charges_lcl') }}
+								</span>
+							@endif
+						</div>
+
+						<div class="w-1/4 ml-1 sm:w-full">
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA MIN LCL</label>
+
+                            <input class="{{ $errors->has('pcharge_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							type="number"
+							name="pcharge_lcl"
+							value="{{ old('pcharge_lcl', isset($data) ? $data->pcharge_lcl : '') }}"
+							max="100"
+							required="">
+
+								
+								@if($errors->has('pcharge_lcl'))
+									<span class="text-xs text-red-600 dark:text-red-400">
+										{{ $errors->first('pcharge_lcl') }}
 									</span>
 								@endif
 						</div>

@@ -168,20 +168,10 @@
                         CBM
                     </span>
                     <input
-                        v-if="item.mode_calculate"
                         :value="
-                            (item.cbm =
-                                (item.length * item.width * item.height) /
-                                10000)
-                        "
-                        class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"
+                            (item.cbm = (item.length * item.width * item.height) / 1000000)"
+                        class="h-9 w-20 focus:outline-none border rounded-lg flex text-center text-sm"
                         :disabled="item.mode_calculate"
-                        placeholder="CBM"
-                    />
-                    <input
-                        v-else
-                        v-model="item.cbm"
-                        class="h-9 w-15 focus:outline-none border  rounded-lg flex text-center   text-sm"
                         placeholder="CBM"
                     />
                 </div>
@@ -191,6 +181,7 @@
                     </span>
                     <input
                         v-model.number="item.weight"
+                        :max="99999"
                         type="number"
                         :class="[
                             'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
@@ -350,14 +341,14 @@ export default {
                 case loads[loads.length - 1].weight == '':
                     return '';
                 case loads[loads.length - 1].weight_units == 'KG' &&
-                    loads[loads.length - 1].weight < 2:
-                    return 'Limite minimo de peso: 2 KG';
+                    loads[loads.length - 1].weight < 1:
+                    return 'Limite minimo de peso: 1 KG';
                 case loads[loads.length - 1].weight_units == 'LB' &&
                     loads[loads.length - 1].weight < 4.4:
                     return 'Limite minimo de peso: 4.4 LB';
-                case loads[loads.length - 1].weight_units == 'KG' &&
-                    loads[loads.length - 1].weight > 2268:
-                    return 'Excede limite maximo de peso: 2268 KG';
+                // case loads[loads.length - 1].weight_units == 'KG' &&
+                //     loads[loads.length - 1].weight > 2268:
+                //     return 'Excede limite maximo de peso: 2268 KG';
                 case loads[loads.length - 1].weight_units == 'LB' &&
                     loads[loads.length - 1].weight > 5000:
                     return 'Excede limite maximo de peso: 5000 LB';

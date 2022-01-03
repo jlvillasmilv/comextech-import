@@ -187,7 +187,7 @@ class PermissionsTableSeeder extends Seeder
             'factoring.quote.destroy',
         ]);
 
-        $operator = Role::create(['name' => 'operator']);
+        $operator = Role::create(['name' => 'Operator']);
 
         $operator->givePermissionTo([
             'admin.factoring.applications.index',
@@ -221,7 +221,7 @@ class PermissionsTableSeeder extends Seeder
             'admin.customs_exchange_rates.create',
         ]);
 
-        $business_executive = Role::create(['name' => 'business_executive']);
+        $business_executive = Role::create(['name' => 'BusinessExecutive']);
 
         $business_executive->givePermissionTo([
             'admin.factoring.fees_history.index',
@@ -249,15 +249,15 @@ class PermissionsTableSeeder extends Seeder
 
          //User Operator
          $user = User::find(3); 
-         $user->assignRole('operator');
+         $user->assignRole('Operator');
  
          //User Business_executive
          $user = User::find(4); 
-         $user->assignRole('business_executive');
+         $user->assignRole('BusinessExecutive');
  
-         //User Business_executive
+         //User BusinessExecutive
          $user = User::find(5); 
-         $user->assignRole('business_executive');
+         $user->assignRole('BusinessExecutive');
 
     }
 }
