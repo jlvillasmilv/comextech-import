@@ -1,119 +1,95 @@
 <x-app-layout title="Detalle Registro">
 	<div class="container grid px-6 mx-auto">
-        <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            <a href="{{route('admin.clients.index')}}">Clientes</a>  
-        </h2>
 
-        <div class="flex justify-between items-end">
-            <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
-                Detalle Registro 
-            </h4>
-           
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg mt-4">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <a href="{{route('admin.clients.index')}}">Clientes</a>  
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                Detalle Registro.
+                </p>
+            </div>
+            <div class="border-t border-gray-200">
+                <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Usuario
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <p class="font-semibold">{{ $data->user->name }}</p>
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Nro. identificación tributaria
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ $data->tax_id }}
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Nombre
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ $data->name }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Correo electrónico
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ $data->email }}
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Teléfono
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ $data->phone }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Representado por
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ $data->contact_name }}
+                    </dd>
+                </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Telefono representante
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ $data->contact_telf }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Pais
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    ({{ $data->country->code }}) {{ $data->country->name }}
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Fecha de registro
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ date('d-m-Y', strtotime($data->created_at)) }}
+                    </dd>
+                </div>
+                </dl>
+            </div>
         </div>
        
     <div class="w-full overflow-hidden rounded-lg shadow-xs">
-        <div class="w-full overflow-x-auto">
-
-        	<table class="w-full whitespace-no-wrap">
-                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        <tr class="text-gray-700 dark:text-gray-400" >
-                            <th class="px-4 py-3">
-                               Usuario
-                            </th>
-                            <td class="px-4 py-3">
-                                 <div class="flex items-center text-sm">
-                                    
-                                    <div>
-                                        <p class="font-semibold">{{ $data->user->name }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr> 
-
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Nro. identificación tributaria
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->tax_id }}
-                            </td>
-                        </tr>
-
-                    	<tr class="text-gray-700 dark:text-gray-400" >
-                            <th class="px-4 py-3">
-                               Nombre
-                            </th>
-                            <td class="px-4 py-3">
-                                 <div class="flex items-center text-sm">
-                                    
-                                    <div>
-                                        <p class="font-semibold">{{ $data->name }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr> 
-                         <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Email
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->email }}
-                            </td>
-                        </tr>
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Telefono
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->phone }}
-                            </td>
-                        </tr>
-
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Nombre reresentante
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->contact_name }}
-                            </td>
-                        </tr>
-
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Telefono reresentante
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->contact_telf }}
-                            </td>
-                        </tr>
-                       
-
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Pais
-                            </th>
-                            <td class="px-4 py-3">
-                                ({{ $data->country->code }}) {{ $data->country->name }}
-                            </td>
-                        </tr> 
-                      
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Fecha de registro
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ date('d-m-Y', strtotime($data->created_at)) }}
-                            </td>
-                        </tr> 
-
-                            
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <hr>
+        
 
         <div class="flex justify-between items-end mt-2">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">

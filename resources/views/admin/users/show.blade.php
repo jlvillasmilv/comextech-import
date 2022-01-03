@@ -1,21 +1,23 @@
 <x-app-layout title="Detalle Registro">
 	<div class="container grid px-6 mx-auto">
-		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Detalle Registro 
-        </h2>
-	
 
-    <div class="w-full overflow-hidden rounded-lg shadow-xs">
-        <div class="w-full overflow-x-auto">
-
-        	<table class="w-full whitespace-no-wrap">
-                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    	<tr class="text-gray-700 dark:text-gray-400" >
-                            <th class="px-4 py-3">
-                               Nombre
-                            </th>
-                            <td class="px-4 py-3">
-                                 <div class="flex items-center text-sm">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg mt-4">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <a href="{{route('admin.users.index')}}">Usuarios</a>  
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                Detalle Registro.
+                </p>
+            </div>
+            <div class="border-t border-gray-200">
+                <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Nombre
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                         <div class="flex items-center text-sm">
                                     <!-- Avatar with inset shadow -->
                                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                         <img class="object-cover w-full h-full rounded-full"
@@ -29,40 +31,46 @@
                                         <p class="font-semibold">{{ $data->name }}</p>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                         <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Email
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ $data->email }}
-                            </td>
-                        </tr>
-                      
-                        <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                               Fecha de registro
-                            </th>
-                            <td class="px-4 py-3">
-                                {{ date('d-m-Y', strtotime($data->created_at)) }}
-                            </td>
-                        </tr> 
-
-                         <tr class="text-gray-700 dark:text-gray-400">
-                            <th class="px-4 py-3">
-                                Roles
-                            </th>
-                            <td class="px-4 py-3">
-                                @foreach($data->getRoleNames() as $id => $roles)
-                                    <span class="label label-info label-many">{{ $roles }}</span>
-                                @endforeach
-                            </td>
-                        </tr>            
-
-                    </tbody>
-                </table>
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Correo electrónico
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ $data->email }}
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Teléfono
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ $data->phone }}
+                    </dd>
+                </div>
+               
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Roles
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        @foreach($data->getRoleNames() as $id => $roles)
+                            <span class="label label-info label-many">{{ $roles }}</span>
+                        @endforeach
+                    </dd>
+                </div>
+               
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Fecha de registro
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ date('d-m-Y', strtotime($data->created_at)) }}
+                    </dd>
+                </div>
+                </dl>
+            </div>
         </div>
-    </div>
     </div>
 </x-app-layout>

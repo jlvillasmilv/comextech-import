@@ -228,8 +228,8 @@ export default {
           return false;
         if (
           loads[loads.length - 1].weight_units == 'KG' &&
-          loads[loads.length - 1].weight >= 2 &&
-          loads[loads.length - 1].weight <= 2268
+          loads[loads.length - 1].weight >= 1 &&
+          loads[loads.length - 1].weight <= 99268
         )
           return true;
         if (loads[loads.length - 1].weight_units == 'LB' && loads[loads.length - 1].weight < 4.4)
