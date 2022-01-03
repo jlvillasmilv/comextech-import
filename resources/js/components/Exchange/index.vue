@@ -29,10 +29,11 @@
                 <tr class="">
                   <th
                     class="
-                      w-2/5
+                      w-2/6
                       px-4
                       py-3
                       text-xs
+                      text-center
                       font-semibold
                       tracking-wide
                       text-left text-white
@@ -47,7 +48,7 @@
                   </th>
                   <th
                     class="
-                      w-1/4
+                      w-1/6
                       px-4
                       py-3
                       text-xs
@@ -65,7 +66,7 @@
                   </th>
                   <th
                     class="
-                      w-1/4
+                      w-1/12
                       px-4
                       py-3
                       text-xs
@@ -84,7 +85,7 @@
                   </th>
                   <th
                     class="
-                      w-1/4
+                      w-1/12
                       px-4
                       py-3
                       text-xs
@@ -101,11 +102,11 @@
                     MONTO<br />
                     M.O.
                   </th>
-                  <th class="px-4 py-3 w-1">&nbsp;</th>
+                  <th class="">&nbsp;</th>
                   <th
                     class="
-                      w-1/4
-                      px-4
+                      w-1/6
+                      px-16
                       py-3
                       tracking-wide
                       text-xs text-center text-white
@@ -182,23 +183,23 @@ export default {
   props: {
     application_id: {
       type: Number,
-      required: false,
-    },
+      required: false
+    }
   },
   data() {
     return {
       form: new Form({
-        application_id: this.application_id,
+        application_id: this.application_id
       }),
       currency_ex: '',
-      total: 0,
+      total: 0
     };
   },
   methods: {
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
     formatter(value, currency) {
@@ -207,7 +208,7 @@ export default {
         currency,
         currencyDisplay: 'code',
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
     getHumanDate(date) {
@@ -255,13 +256,13 @@ export default {
           }
         }
       });
-    },
+    }
   },
   computed: {
-    ...mapState('exchange', ['exchangeItem']),
+    ...mapState('exchange', ['exchangeItem'])
   },
-  mounted: function () {
+  mounted: function() {
     //this.convert('CLP');
-  },
+  }
 };
 </script>
