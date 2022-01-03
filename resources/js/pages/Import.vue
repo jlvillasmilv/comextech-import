@@ -573,7 +573,7 @@ export default {
       ],
       objectPayment: {
         id: 11,
-        name: 'Pagos',
+        name: 'Pagos/Moneda',
         code: 'ICS07',
         selected: true,
         sort: 11
