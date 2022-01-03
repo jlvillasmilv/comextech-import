@@ -283,7 +283,7 @@
         <div v-if="addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
-              <span class="text-gray-700 dark:text-gray-400 font-semibold"> Fecha recogida </span>
+              <span class="text-gray-700 dark:text-gray-400 font-semibold">Fecha estimada de recogida</span>
               <input
                 type="date"
                 v-model="expenses.estimated_date"
