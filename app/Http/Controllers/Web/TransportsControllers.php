@@ -129,12 +129,28 @@ class TransportsControllers extends Controller
 
             }
 
+
             $cif = $amount + $transport_amount;
             $oth_exp  = 0;
             $fee_date = $request->estimated_date;
             $local_transp = 0;
             $from_port_transport = '';
             $to_port_transport   = '';
+
+            //data calculate other expenses courier
+
+            if($transport->application->type_transport == "COURIER")
+            {
+                $data = [
+                        'trans_company_id'   => $transport->trans_company_id,
+                        'amount'             => $amount,
+                ];
+
+                $oth_exp  = Transport::rateLocalCourierExpenses($data);
+            }
+
+            $currency_id         = $oth_exp  == 0 ? 1 : 8;
+
 
             $insurance_amount = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
 
@@ -146,7 +162,6 @@ class TransportsControllers extends Controller
                     'to'             => $transport->destPort->unlocs,
                     'type_transport' => $transport->application->type_transport,
                     'weight'         => $transport->application->loads->sum('weight')/1000,
-                    'cbm'            => $transport->application->loads->sum('cbm'),
                     'cargo'          => $transport->application->loads,
                 ];
                 
@@ -171,6 +186,7 @@ class TransportsControllers extends Controller
                 $oth_exp           = $transp['oth_exp'];
                 $t_time            = $transp['t_time'];
                 $insurance_amount  = $transp['insurance'];
+                $currency_id       = 1;
               
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
 
@@ -210,7 +226,7 @@ class TransportsControllers extends Controller
                         ["as.application_id", $request->application_id],
                         ["s.code", 'CS06-02']
                     ])
-                ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+                ->update(['amount' =>  $oth_exp,  'currency_id' =>  $currency_id, 'fee_date' => $request->estimated_date]);
 
              // update application summary local transport
              \DB::table('application_summaries as as')

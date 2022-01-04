@@ -213,4 +213,25 @@ class Transport extends Model
         return $rtl;
     }
 
+    public static function rateLocalCourierExpenses($data=null)
+    {
+        // if (!is_null($data)){
+
+        //     $rlce = \DB::table('rate_lce')
+        //     ->where([
+        //         ['status', true],
+        //         ['trans_company_id', $data['trans_company_id']],
+        //         ])
+        //     ->whereRaw("? BETWEEN initial AND limit", $data['amount'])
+        //     ->first(['rate']);
+
+        //     dd($rlce);
+
+        //     return 0;
+
+        // }
+        return 0;
+    }
+    
+
 }
