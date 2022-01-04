@@ -18,8 +18,8 @@ class CreateRateLcesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->index();
             $table->foreignId('trans_company_id')->references('id')->on('trans_companies')->onDelete('cascade');
-            $table->unsignedDecimal('initial', $precision = 8, $scale = 2)->comment('Initial PRODUCT value USD');
-            $table->unsignedDecimal('limit', $precision = 8, $scale = 2)->comment('Limit PRODUCT value USD');
+            $table->decimal('val_init', $precision = 8, $scale = 2)->comment('Initial PRODUCT value USD');
+            $table->decimal('val_limit', $precision = 9, $scale = 2)->comment('Limit PRODUCT value USD');
             $table->unsignedDecimal('rate', $precision = 8, $scale = 2)->comment('Rate in USD');
             $table->date('valid_to')->nullable();
             $table->boolean('tax')->default(true)->comment('apply tax');

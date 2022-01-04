@@ -165,7 +165,7 @@ class Transport extends Model
 
             $cif = $int_trans + $data['commodity'];
 
-            $insurance = $cif * 0.035 > $rate_insurance_transp ? $cif * 0.035 : $rate_insurance_transp;
+            $insurance = $cif * 0.0035 > $rate_insurance_transp ? $cif * 0.0035 : $rate_insurance_transp;
 
             if($oth_exp>0){ 
                 $exchange = New Currency;
@@ -215,21 +215,41 @@ class Transport extends Model
 
     public static function rateLocalCourierExpenses($data=null)
     {
-        // if (!is_null($data)){
+        if (!is_null($data)){
 
-        //     $rlce = \DB::table('rate_lce')
-        //     ->where([
-        //         ['status', true],
-        //         ['trans_company_id', $data['trans_company_id']],
-        //         ])
-        //     ->whereRaw("? BETWEEN initial AND limit", $data['amount'])
-        //     ->first(['rate']);
+            $rlce = \DB::table('rate_lce')
+            ->where([
+                ['status', true],
+                ['trans_company_id', $data['trans_company_id']],
+                ])
+            ->whereRaw("? BETWEEN val_init AND val_limit", $data['amount'])
+            ->orderBy('valid_to', 'DESC')
+            ->select('rate', 'tax')
+            ->first();
 
-        //     dd($rlce);
+            $total = is_null($rlce->rate) ? 0 : $rlce->rate;
 
-        //     return 0;
+            if ($rlce->tax) {
+                
+              $tax = \DB::table('settings')->first()->tax;
+              $total += ($total * is_null($tax) ? 19 : $tax) / 100;
+            }
 
-        // }
+              // update application summary International transport
+            $app_summ = \DB::table('application_summaries as as')
+            ->join('services as s', 'as.service_id', '=', 's.id')
+            ->where([
+               ["as.application_id", $data['application_id'] ],
+               ["s.code", 'CS03-03']
+               ])
+            ->update([
+                    'amount'      =>  $total,
+                    'currency_id' =>  8, 
+                ]);
+
+            return $total;
+
+        }
         return 0;
     }
     
