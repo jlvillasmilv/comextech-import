@@ -200,7 +200,7 @@
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
             ? 'flex justify-center'
-            : 'flex justify-center my-5 innline w-1/7 mt-5',
+            : 'flex justify-center my-5 innline w-1/7 mt-5'
         ]"
       >
         <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
@@ -230,7 +230,7 @@
               ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
               : expenses.dataLoad.length <= 0
               ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800',
+              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
           ]"
         >
           Cotizar
@@ -243,18 +243,18 @@
         <div
           v-if="
             showFedexQuote == true &&
-            fedex.DeliveryTimestamp &&
-            fedex.ServiceType &&
-            fedex.FUEL &&
-            fedex.PEAK &&
-            fedex.Discount &&
-            TotalEstimed &&
-            fedex.TotalNetCharge
+              fedex.DeliveryTimestamp &&
+              fedex.ServiceType &&
+              fedex.FUEL &&
+              fedex.PEAK &&
+              fedex.Discount &&
+              TotalEstimed &&
+              fedex.TotalNetCharge
           "
           :class="[
             !expenses.dataLoad
               ? 'hidden'
-              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
           ]"
         >
           <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -291,7 +291,7 @@
                 <tr>
                   <td class="text-left text-sm">Tarifa Transporte</td>
                   <td class="text-right text-sm">
-                    {{ fedex.TotalBaseCharge }}
+                    {{ fedex.TotalBaseCharge - fedex.Discount }}
                   </td>
                 </tr>
                 <tr>
@@ -306,12 +306,12 @@
                     {{ fedex.PEAK }}
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td class="text-left text-sm">Descuento</td>
                   <td class="text-right text-sm">
                     {{ fedex.Discount }}
                   </td>
-                </tr>
+                </tr> -->
                 <tr>
                   <td class="text-left text-sm">Total Estimado</td>
                   <td class="text-right text-sm">
@@ -360,19 +360,19 @@
         <div
           v-if="
             showDHLQuote == true &&
-            dhl.DeliveryDate &&
-            dhl.DeliveryTime &&
-            dhl.ProductShortName &&
-            dhl.WeightCharge &&
-            dhl['FUEL SURCHARGE'] &&
-            dhl['EMERGENCY SITUATION'] &&
-            dhl.Discount &&
-            dhl.ComextechDiscount
+              dhl.DeliveryDate &&
+              dhl.DeliveryTime &&
+              dhl.ProductShortName &&
+              dhl.WeightCharge &&
+              dhl['FUEL SURCHARGE'] &&
+              dhl['EMERGENCY SITUATION'] &&
+              dhl.Discount &&
+              dhl.ComextechDiscount
           "
           :class="[
             !expenses.dataLoad
               ? 'hidden'
-              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
           ]"
         >
           <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -408,13 +408,13 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-left text-sm">Tarifa Transporte</td>
+                  <td class="text-left text-sm">Tarifa de Transporte</td>
                   <td class="text-right text-sm">
-                    {{ transportDHL }}
+                    {{ transportDHL - dhl.ComextechDiscount }}
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-left text-sm">Recargo Combustible</td>
+                  <td class="text-left text-sm">Recargo por Combustible</td>
                   <td class="text-right text-sm">
                     {{ dhl['FUEL SURCHARGE'] }}
                   </td>
@@ -425,12 +425,12 @@
                     {{ dhl['EMERGENCY SITUATION'] }}
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td class="text-left text-sm">Descuento</td>
                   <td class="text-right text-sm">
                     {{ dhl.ComextechDiscount }}
                   </td>
-                </tr>
+                </tr> -->
                 <tr>
                   <td class="text-left text-sm">Total Estimado</td>
                   <td class="text-right text-sm">
@@ -485,7 +485,7 @@ import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources
 export default {
   components: { VueGoogleAutocomplete, Button },
   props: {
-    address: String,
+    address: String
   },
   data() {
     return {
@@ -498,7 +498,7 @@ export default {
       // showApisQuote: false,
       showFedexQuote: false,
       showDHLQuote: false,
-      showShipping: false,
+      showShipping: false
     };
   },
   methods: {
@@ -518,7 +518,7 @@ export default {
         const { data } = await this.expenses.post('/applications/transports');
         Toast.fire({
           icon: 'success',
-          title: 'Datos Agregados',
+          title: 'Datos Agregados'
         });
 
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
@@ -540,7 +540,7 @@ export default {
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100,
+        width: 100
       });
 
       this.$store.dispatch(
@@ -620,7 +620,7 @@ export default {
      * @param {Object} placeResultData PlaceResult object
      * @param {String} id Input container ID
      */
-    getAddressOrigin: function (addressData, placeResultData, id) {
+    getAddressOrigin: function(addressData, placeResultData, id) {
       this.expenses.origin_address = placeResultData.formatted_address;
 
       for (const component of placeResultData.address_components) {
@@ -642,7 +642,7 @@ export default {
         }
       }
     },
-    getAddressDestination: function (addressData, placeResultData, id) {
+    getAddressDestination: function(addressData, placeResultData, id) {
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
 
@@ -668,7 +668,7 @@ export default {
       }
 
       this.expenses.dest_address = placeResultData.formatted_address;
-    },
+    }
   },
   computed: {
     ...mapState('address', [
@@ -676,13 +676,13 @@ export default {
       'addressDestination',
       'portsDestination',
       'portsOrigin',
-      'props',
+      'props'
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport']),
+    ...mapState('application', ['data', 'currency', 'origin_transport'])
   },
   async created() {
     await this.$store.dispatch('address/getAddressDestination');
-  },
+  }
 };
 </script>
 

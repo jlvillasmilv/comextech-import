@@ -318,6 +318,9 @@
                     <select
                       v-model="$store.state.application.selectedCondition"
                       @change="toogleMenuTabs()"
+                      :disabled="
+                        $store.state.address.expenses.mode_selected != 'COURIER' ? false : true
+                      "
                       class="
                         block
                         appearance-none
@@ -332,6 +335,7 @@
                         focus:outline-none focus:bg-white focus:border-gray-500
                       "
                     >
+                      <!-- :class="[$store.state.address.expenses.mode_selected == 'COURIER' ? 'bg-gray-600' : 'bg-blue-400']" -->
                       <option v-for="item in arrayServices" :value="item" :key="item.name">
                         {{ item.name }}
                       </option>
