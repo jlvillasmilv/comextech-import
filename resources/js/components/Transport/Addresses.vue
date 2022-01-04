@@ -213,31 +213,69 @@ export default {
     isActivateAddress() {
       const { loads } = this.$store.state.load;
 
-      if (loads.length) {
-        if (this.data.type_transport == 'CONTAINER') {
-          if (loads[loads.length - 1].weight > 0) {
-            return true;
-          }
-          return false;
-        }
-      }
+      // if (loads.length) {
+      //   if (
+      //     // this.data.type_transport == 'CONTAINER' ||
+      //     // this.data.type_transport == 'CONSOLIDADO' ||
+      //     // this.data.type_transport == 'AEREO'
+      //     this.data.type_transport == 'COURIER'
+      //   ) {
+      //     if (
+      //       loads[loads.length - 1].weight_units == 'KG' &&
+      //       loads[loads.length - 1].weight >= 0.01
+      //     ) {
+      //       return true;
+      //     } else if (
+      //       loads[loads.length - 1].weight_units == 'LB' &&
+      //       loads[loads.length - 1].weight >= 0.02
+      //     ) {
+      //       return true;
+      //     }
+      //     return false;
+      //   }
+      // }
 
       /* Condicionales para mostrar el formulario de addresses dependiendo de la validacion del peso */
-      if (loads.length) {
-        if (loads[loads.length - 1].weight_units == 'KG' && loads[loads.length - 1].weight < 2)
+      if (loads.length && this.data.type_transport == 'COURIER') {
+        if (loads[loads.length - 1].weight_units == 'KG' && loads[loads.length - 1].weight < 0.01)
           return false;
         if (
           loads[loads.length - 1].weight_units == 'KG' &&
-          loads[loads.length - 1].weight >= 1 &&
-          loads[loads.length - 1].weight <= 99268
+          loads[loads.length - 1].weight >= 0.01 &&
+          loads[loads.length - 1].weight <= 2268
         )
           return true;
-        if (loads[loads.length - 1].weight_units == 'LB' && loads[loads.length - 1].weight < 4.4)
+        if (loads[loads.length - 1].weight_units == 'LB' && loads[loads.length - 1].weight < 0.02)
           return false;
         if (
           loads[loads.length - 1].weight_units == 'LB' &&
-          loads[loads.length - 1].weight >= 4.4 &&
+          loads[loads.length - 1].weight >= 0.02 &&
           loads[loads.length - 1].weight <= 5000
+        )
+          return true;
+        else false;
+      }
+
+      if (
+        loads.length &&
+        (this.data.type_transport == 'AEREO' ||
+          this.data.type_transport == 'CONTAINER' ||
+          this.data.type_transport == 'CONSOLIDADO')
+      ) {
+        if (loads[loads.length - 1].weight_units == 'KG' && loads[loads.length - 1].weight < 0.01)
+          return false;
+        if (
+          loads[loads.length - 1].weight_units == 'KG' &&
+          loads[loads.length - 1].weight >= 0.01 &&
+          loads[loads.length - 1].weight <= 24000
+        )
+          return true;
+        if (loads[loads.length - 1].weight_units == 'LB' && loads[loads.length - 1].weight < 0.02)
+          return false;
+        if (
+          loads[loads.length - 1].weight_units == 'LB' &&
+          loads[loads.length - 1].weight >= 0.02 &&
+          loads[loads.length - 1].weight <= 52910
         )
           return true;
         else false;
