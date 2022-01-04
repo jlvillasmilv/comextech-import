@@ -471,12 +471,12 @@
         </div>
       </div>
       <div
-        class="flex my-8"
+        class="flex my-4"
         :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-start']"
       >
-        <div class="flex flex-wrap flex-col my-2 w-10/12">
+        <div class="flex flex-wrap flex-col w-10/12">
           <span class="text-start font-semibold">Incluir</span>
-          <div class="flex justify-start items-center h-20 my-2 ml-2">
+          <div class="flex justify-start items-center my-4 ml-2">
             <div>
               <input
                 type="checkbox"
@@ -484,9 +484,9 @@
                 class="form-checkbox h-5 w-5 text-blue-600"
               />
             </div>
-            <div class="w-2/12">
+            <div class="w-3/12">
               <p :class="[expenses.iva ? 'text-center mx-2' : 'text-center mx-2 text-gray-400']">
-                {{ formatPrice(expenses.iva_amt, 'CLP') }}
+                {{ formatPrice(expenses.iva_amt, 'CLP') }} CLP
               </p>
             </div>
             <div class="w-4/12">
@@ -513,7 +513,7 @@
               </button>
             </div> -->
           </div>
-          <div class="flex justify-start items-center h-20 my-2 ml-2">
+          <div class="flex justify-start items-center my-4 ml-2">
             <div>
               <input
                 type="checkbox"
@@ -521,9 +521,9 @@
                 class="form-checkbox h-5 w-5 text-blue-600"
               />
             </div>
-            <div class="w-2/12">
+            <div class="w-3/12">
               <p :class="[expenses.adv ? 'text-center mx-2' : 'text-center text-gray-400 mx-2']">
-                {{ formatPrice(expenses.adv_amt, 'CLP') }}
+                {{ formatPrice(expenses.adv_amt, 'CLP') }} CLP
               </p>
             </div>
             <div class="w-4/12">
@@ -571,24 +571,70 @@
                     </div>
                 </div> -->
       </div>
-      <div v-if="data.type_transport != 'COURIER'">
-        <div class="flex justify-between items-end">
-          <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
-            Gastos de Puerto
-          </h4>
-        </div>
+      <div class="flex justify-start" v-if="data.type_transport != 'COURIER'">
+        
+        <div class="items-center ml-2 w-1/2">
 
-        <div class="flex justify-start items-center h-20 my-2 ml-2">
-          <div class="w-2/12">
-            <p class="text-center mx-2">
-              {{ formatPrice(expenses.port_charges, 'USD') }}
-            </p>
-          </div>
-          <div class="w-4/12">
-            <h1 class="text-center mx-4">
-              Para Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
-            </h1>
-          </div>
+          <table class="w-full whitespace-no-wrap">
+            <thead>
+              <tr
+                class="
+                  text-left
+                  font-semibold
+                  tracking-wide
+                  border-b
+                  dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
+                "
+              >
+                <th class="px-4 py-1 bg-gray-200 text-black-600 dark:text-gray-300" colspan="2">
+                    Gastos de Puerto
+                </th>
+               
+              </tr>
+            </thead>
+            <tbody v-if="data.type_transport == 'CONSOLIDADO'"
+             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3">{{ formatPrice(docMgmtLcl, 'USD') }} USD</td>
+                <td class="px-4 py-3">Gestión Documental (por cada BL) </td>
+              </tr>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3">{{ formatPrice(docVisaLcl, 'USD') }} USD</td>
+                <td class="px-4 py-3">Visación documental (por cada BL)  </td>
+              </tr>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3">{{ formatPrice(dispatchLcl, 'USD') }} USD</td>
+                <td class="px-4 py-3">Despacho (por Ton&M3)</td>
+              </tr>
+            </tbody>
+            <tbody v-if="data.type_transport == 'CONTAINER'"
+             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3">{{ formatPrice(docMgmtFcl, 'USD') }} USD</td>
+                <td class="px-4 py-3">Gestión Documental (por cada BL) </td>
+              </tr>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3">{{ formatPrice(loanFcl, 'USD') }} USD</td>
+                <td class="px-4 py-3">Comodato ( X Conteiner)</td>
+              </tr>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3">{{ formatPrice(gateInFcl, 'USD') }} USD</td>
+                <td class="px-4 py-3">Gate In ( X Conteiner) </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="bg-gray-100">
+                <td class="text-center text-blue-700 font-semibold px-4 py-3"> 
+                    {{ formatPrice(expenses.port_charges, 'USD') }} USD
+                </td>
+                <td class="text-blue-700 font-semibold px-4 py-3"> 
+                    Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
+                </td>
+              </tr>
+            </tfoot>
+
+          </table>
+
         </div>
       </div>
 
@@ -653,10 +699,12 @@ export default {
       nameFileUpload: '',
       transpAmount: 0,
       AppAmount: 0,
-      portChargesFcl: 265,
-      portChargesLcl: 230,
-      pchargeLcl: 30
-
+      docMgmtFcl: 25,
+      loanFcl : 120,
+      gateInFcl : 120,
+      docMgmtLcl : 195, 
+      docVisaLcl : 30, 
+      dispatchLcl : 30
     };
   },
   methods: {
@@ -745,24 +793,33 @@ export default {
       let settings = await axios.get('/settings');
 
       if (settings.status == 200) {
-        this.portChargesFcl = parseInt(settings.data.port_charges_fcl)
-        this.portChargesLcl = parseInt(settings.data.port_charges_lcl)
-        this.pchargeLcl     = parseInt(settings.data.pcharge_lcl)
-       }
+        this.docMgmtFcl = parseInt(settings.data.doc_mgmt_fcl)
+        this.loanFcl    = parseInt(settings.data.loan_fcl)
+        this.gateInFcl  = parseInt(settings.data.gate_in_fcl)
 
+        this.docMgmtLcl = parseInt(settings.data.doc_mgmt_lcl) 
+        this.docVisaLcl = parseInt(settings.data.doc_visa_lcl)
+        this.dispatchLcl = parseInt(settings.data.dispatch_lcl)  
+
+       }
 
       this.expenses.port_charges = 0;
 
       if (this.data.type_transport == 'CONSOLIDADO') {
+
+        const cargoCBM = this.$store.state.load.loads
+          .map((item) => item.cbm)
+          .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
+
         const cargoW = this.$store.state.load.loads
           .map((item) => item.weight)
           .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
 
-        this.expenses.port_charges = (cargoW / 1000) * this.pchargeLcl + this.portChargesLcl;
+        this.expenses.port_charges = (( cargoCBM > cargoW ? cargoCBM : cargoW / 1000) * this.dispatchLcl) + this.docMgmtLcl + this.docVisaLcl;
       } else {
-        this.expenses.port_charges = this.portChargesFcl;
+        this.expenses.port_charges = this.docMgmtFcl + this.loanFcl + this.gateInFcl;
       }
-      console.log(this.expenses.port_charges)
+     // console.log(this.expenses.port_charges)
     },
     
   },

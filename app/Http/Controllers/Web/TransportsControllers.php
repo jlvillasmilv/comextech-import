@@ -142,14 +142,13 @@ class TransportsControllers extends Controller
             if($transport->application->type_transport == "COURIER")
             {
                 $data = [
+                        'application_id'     => $request->application_id,
                         'trans_company_id'   => $transport->trans_company_id,
                         'amount'             => $amount,
                 ];
 
-                $oth_exp  = Transport::rateLocalCourierExpenses($data);
+                Transport::rateLocalCourierExpenses($data);
             }
-
-            $currency_id         = $oth_exp  == 0 ? 1 : 8;
 
 
             $insurance_amount = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
@@ -226,7 +225,7 @@ class TransportsControllers extends Controller
                         ["as.application_id", $request->application_id],
                         ["s.code", 'CS06-02']
                     ])
-                ->update(['amount' =>  $oth_exp,  'currency_id' =>  $currency_id, 'fee_date' => $request->estimated_date]);
+                ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
              // update application summary local transport
              \DB::table('application_summaries as as')
