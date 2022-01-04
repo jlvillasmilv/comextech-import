@@ -185,7 +185,7 @@
               class="form-checkbox h-4 w-4 text-gray-800"
               v-model="expenses.insurance"
             />
-            <span class="ml-2 text-gray-700">Seguro </span>
+            <span class="ml-2 text-gray-700">Seguro (1,5%)</span>
           </label>
         </div>
         <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
