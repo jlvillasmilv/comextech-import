@@ -25,9 +25,14 @@ class CreateSettingsTable extends Migration
             $table->decimal('min_rate_lcl', 8, 2)->nullable()->default(60);
             $table->decimal('min_rate_aereo', 8, 2)->nullable()->default(60);
             $table->decimal('min_rate_transp', 8, 2)->nullable()->default(60);
-            $table->decimal('port_charges_fcl', 8, 2)->nullable()->default(265);
-            $table->decimal('port_charges_lcl', 8, 2)->nullable()->default(230);
-            $table->decimal('pcharge_lcl', 8, 2)->nullable()->default(30);
+
+            $table->decimal('doc_mgmt_fcl', 6, 2)->nullable()->default(25)->comment('Gestión Documental');
+            $table->decimal('loan_fcl', 6, 2)->nullable()->default(120)->comment('Comodato ( X Conteiner)');
+            $table->decimal('gate_in_fcl', 6, 2)->nullable()->default(120)->comment('Gate In ( X Conteiner)');
+            $table->decimal('doc_mgmt_lcl', 6, 2)->nullable()->default(195)->comment('Gestión Documental LCL');
+            $table->decimal('doc_visa_lcl', 6, 2)->nullable()->default(30)->comment('Visación documental LCL');
+            $table->decimal('dispatch_lcl', 6, 2)->nullable()->default(30)->comment('Despacho (por Ton&M3) LCL');
+           
             $table->unsignedBigInteger('created_users_id')->nullable();
             $table->unsignedBigInteger('modified_users_id')->nullable();
             $table->timestamps();

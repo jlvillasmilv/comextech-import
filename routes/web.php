@@ -143,9 +143,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
                 'min_rate_lcl',
                 'min_rate_aereo',
                 'min_rate_transp',
-                'port_charges_fcl',
-                'port_charges_lcl',
-                'pcharge_lcl'
+                'doc_mgmt_fcl',
+                'loan_fcl',
+                'gate_in_fcl',
+                'doc_mgmt_lcl', 
+                'doc_visa_lcl', 
+                'dispatch_lcl'
                 ]);
     
         return response()->json($sett, 200);
