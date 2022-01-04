@@ -151,7 +151,7 @@ class TransportsControllers extends Controller
             }
 
 
-            $insurance_amount = $cif * 0.003 > $rate_insurance_transp ? $cif * 0.003 : $rate_insurance_transp;
+            $insurance_amount = $cif * 0.015 > $rate_insurance_transp ? $cif * 0.015 : $rate_insurance_transp;
 
             if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
             {

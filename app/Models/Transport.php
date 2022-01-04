@@ -165,7 +165,7 @@ class Transport extends Model
 
             $cif = $int_trans + $data['commodity'];
 
-            $insurance = $cif * 0.035 > $rate_insurance_transp ? $cif * 0.035 : $rate_insurance_transp;
+            $insurance = $cif * 0.0035 > $rate_insurance_transp ? $cif * 0.0035 : $rate_insurance_transp;
 
             if($oth_exp>0){ 
                 $exchange = New Currency;
