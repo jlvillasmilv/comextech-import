@@ -184,16 +184,17 @@
               type="checkbox"
               class="form-checkbox h-4 w-4 text-gray-800"
               v-model="expenses.insurance"
+              @click="convertInsurance(data.amount, currency.code)"
             />
             <span class="ml-2 text-gray-700">Seguro (1,5%)</span>
           </label>
         </div>
-        <!-- <div class="w-1/6 mt-8" v-if="expenses.insurance">
-                            <span class="ml-2 text-gray-700">
-                                {{ data.amount }}
-                                {{ currency.code }}
-                            </span>
-                        </div> -->
+        <div class="w-1/6 mt-8" v-if="expenses.insurance">
+          <span class="ml-2 text-gray-700">
+            {{ data.amount }} USD
+            <!-- {{ currency.code }} -->
+          </span>
+        </div>
       </div>
 
       <div
@@ -479,11 +480,12 @@
 
 <script>
 import VueGoogleAutocomplete from 'vue-google-autocomplete';
+import VueNumeric from 'vue-numeric';
 import { mapState } from 'vuex';
 import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
 
 export default {
-  components: { VueGoogleAutocomplete, Button },
+  components: { VueGoogleAutocomplete, Button, VueNumeric },
   props: {
     address: String
   },
@@ -679,6 +681,17 @@ export default {
       }
 
       this.expenses.dest_address = placeResultData.formatted_address;
+    },
+    async convertInsurance(currencie, currency) {
+      try {
+        const insuranceConvert = await axios.get(
+          `/custom-convert-currency/${currencie}/${currency}`
+        );
+
+        console.log(insuranceConvert);
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   computed: {
