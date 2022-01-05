@@ -30,6 +30,12 @@ class SettingRequest extends FormRequest
             'commission'    => 'required|numeric', 
             'api_sii'       => 'nullable|url',
             'url_video'     => 'nullable|max:250',
+            'doc_mgmt_fcl'  => 'required|numeric', 
+            'loan_fcl'      => 'required|numeric',
+            'gate_in_fcl'   => 'required|numeric',
+            'doc_mgmt_lcl'  => 'required|numeric', 
+            'doc_visa_lcl'  => 'required|numeric',
+            'dispatch_lcl'  => 'required|numeric',  
         ];
 
         return $rules;

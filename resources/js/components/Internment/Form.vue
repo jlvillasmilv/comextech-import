@@ -846,7 +846,6 @@ export default {
       const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-02');
 
       this.expenses.insure = Number(insure_cost.amount);
-      this.expenses.cif_amt = Number(this.data.amount);
       this.transpAmount = Number(transp_cost.amount);
       this.AppAmount = Number(this.data.amount);
 
@@ -858,35 +857,20 @@ export default {
         this.AppAmount = app_usd.data;
       }
 
-      if (this.expenses.insure > 0 && this.currency.code != 'CLP') {
-        const insure_clp = await axios.get(
-          `/custom-convert-currency/${this.expenses.insure}/${this.currency.code}`
-        );
+      this.expenses.cif_amt = this.AppAmount + this.transpAmount + this.expenses.insure;
 
-        this.expenses.insure = insure_clp.data;
-        this.expenses.cif_amt += insure_clp.data;
-      }
+      let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
 
-      if (this.currency.code != 'CLP') {
-        const commodity = await axios.get(
-          `/custom-convert-currency/${this.expenses.cif_amt}/${this.currency.code}`
-        );
-
-        this.expenses.cif_amt = commodity.data;
-      }
-
-      if (transp_cost.amount > 0) {
-        const transp = await axios.get(`/custom-convert-currency/${transp_cost.amount}/USD`);
-
-        this.expenses.cif_amt += transp.data;
+      if(cif_clp.data <= 0) {
+        cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
       }
 
       if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
         this.portCharge();
       }
 
-      this.expenses.iva_amt = Math.round((this.expenses.cif_amt * 19) / 100);
-      this.expenses.adv_amt = (this.expenses.cif_amt * 6) / 100;
+      this.expenses.iva_amt = Math.round((cif_clp.data * 19) / 100);
+      this.expenses.adv_amt = (cif_clp.data * 6) / 100;
     } catch (error) {
       console.error(error);
     }

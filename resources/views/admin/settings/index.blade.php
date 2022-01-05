@@ -218,47 +218,101 @@
 				<div class="px-2" id="add_to">
 					<div class="flex mb-4">
 						<div class="w-1/4 mr-1 sm:w-full ">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> FCL</label>
-							<input class="{{ $errors->has('port_charges_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-							name="port_charges_fcl"
-							value="{{ old('port_charges_fcl', isset($data) ? $data->port_charges_fcl : '') }}"
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Gestión Documental LCL</label>
+							<input class="{{ $errors->has('doc_mgmt_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							name="doc_mgmt_lcl"
+							value="{{ old('doc_mgmt_lcl', isset($data) ? $data->doc_mgmt_lcl : '') }}"
 							type="number"
 							required="">
-							@if($errors->has('port_charges_fcl'))
+							@if($errors->has('doc_mgmt_lcl'))
 								<span class="text-xs text-red-600 dark:text-red-400">
-									{{ $errors->first('port_charges_fcl') }}
+									{{ $errors->first('doc_mgmt_lcl') }}
 								</span>
 							@endif
 						</div>
 					   
 						<div class="w-1/4 ml-1 sm:w-full ">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">LCL</label>
-							<input class="{{ $errors->has('port_charges_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Visación documental LCL</label>
+							<input class="{{ $errors->has('doc_visa_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="number"
-							name="port_charges_lcl"
-							value="{{ old('port_charges_lcl', isset($data) ? $data->port_charges_lcl : '') }}"
+							name="doc_visa_lcl"
+							value="{{ old('doc_visa_lcl', isset($data) ? $data->doc_visa_lcl : '') }}"
 							required="">
-							@if($errors->has('port_charges_lcl'))
+							@if($errors->has('doc_visa_lcl'))
 								<span class="text-xs text-red-600 dark:text-red-400">
-									{{ $errors->first('port_charges_lcl') }}
+									{{ $errors->first('doc_visa_lcl') }}
 								</span>
 							@endif
 						</div>
 
 						<div class="w-1/4 ml-1 sm:w-full">
-							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA MIN LCL</label>
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Despacho LCL</label>
 
-                            <input class="{{ $errors->has('pcharge_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            <input class="{{ $errors->has('dispatch_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="number"
-							name="pcharge_lcl"
-							value="{{ old('pcharge_lcl', isset($data) ? $data->pcharge_lcl : '') }}"
+							name="dispatch_lcl"
+							value="{{ old('dispatch_lcl', isset($data) ? $data->dispatch_lcl : '') }}"
 							max="100"
 							required="">
 
 								
-								@if($errors->has('pcharge_lcl'))
+								@if($errors->has('dispatch_lcl'))
 									<span class="text-xs text-red-600 dark:text-red-400">
-										{{ $errors->first('pcharge_lcl') }}
+										{{ $errors->first('dispatch_lcl') }}
+									</span>
+								@endif
+						</div>
+
+					</div>
+				</div>
+			  
+			</label>
+
+			<label class="block text-sm my-3">
+				<div class="px-2" id="add_to">
+					<div class="flex mb-4">
+						<div class="w-1/4 mr-1 sm:w-full ">
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Gestión Documental FCL</label>
+							<input class="{{ $errors->has('doc_mgmt_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							name="doc_mgmt_fcl"
+							value="{{ old('doc_mgmt_fcl', isset($data) ? $data->doc_mgmt_fcl : '') }}"
+							type="number"
+							required="">
+							@if($errors->has('doc_mgmt_fcl'))
+								<span class="text-xs text-red-600 dark:text-red-400">
+									{{ $errors->first('doc_mgmt_fcl') }}
+								</span>
+							@endif
+						</div>
+					   
+						<div class="w-1/4 ml-1 sm:w-full ">
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Comodato</label>
+							<input class="{{ $errors->has('loan_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							type="number"
+							name="loan_fcl"
+							value="{{ old('loan_fcl', isset($data) ? $data->loan_fcl : '') }}"
+							required="">
+							@if($errors->has('loan_fcl'))
+								<span class="text-xs text-red-600 dark:text-red-400">
+									{{ $errors->first('loan_fcl') }}
+								</span>
+							@endif
+						</div>
+
+						<div class="w-1/4 ml-1 sm:w-full">
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Gate In</label>
+
+                            <input class="{{ $errors->has('gate_in_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							type="number"
+							name="gate_in_fcl"
+							value="{{ old('gate_in_fcl', isset($data) ? $data->gate_in_fcl : '') }}"
+							max="900"
+							required="">
+
+								
+								@if($errors->has('gate_in_fcl'))
+									<span class="text-xs text-red-600 dark:text-red-400">
+										{{ $errors->first('gate_in_fcl') }}
 									</span>
 								@endif
 						</div>
