@@ -599,11 +599,9 @@ export default {
           loader.hide();
         }
       } catch (error) {
+        console.error(error);
         this.HideAddress();
         loader.hide();
-        console.error(error);
-         this.HideAddress();
-          loader.hide();
       }
     },
 
