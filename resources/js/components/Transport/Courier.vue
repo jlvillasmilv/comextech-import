@@ -291,7 +291,7 @@
                 <tr>
                   <td class="text-left text-sm">Tarifa Transporte</td>
                   <td class="text-right text-sm">
-                    {{ fedex.TotalBaseCharge - fedex.Discount }}
+                    {{ transportQuote }}
                   </td>
                 </tr>
                 <tr>
@@ -410,7 +410,7 @@
                 <tr>
                   <td class="text-left text-sm">Tarifa de Transporte</td>
                   <td class="text-right text-sm">
-                    {{ transportDHL - dhl.ComextechDiscount }}
+                    {{ transportDHL }}
                   </td>
                 </tr>
                 <tr>
@@ -496,6 +496,7 @@ export default {
       BaseChargeTotal: '',
       TotalEstimed: '' /* estimated total Fedex */,
       // showApisQuote: false,
+      transportQuote: 0,
       showFedexQuote: false,
       showDHLQuote: false,
       showShipping: false
@@ -561,11 +562,16 @@ export default {
         /* It is validated if the request was successful to show the quote block (FEDEX) */
         if (fedexApi.status == 200) {
           this.showFedexQuote = true;
+
           /* The variable is equalized to later use it in the template */
           this.fedex = fedexApi.data;
 
           /* transforming the time into format "day-month-yyyy" */
           this.fedex.DeliveryTimestamp = this.$luxon(this.fedex.DeliveryTimestamp);
+
+          this.transportQuote = this.fedex.TotalBaseCharge - this.fedex.Discount;
+          // this.transportQuote = parseFloat(this.transportQuote);
+          this.transportQuote = this.transportQuote.toFixed(2);
 
           this.TotalEstimed = this.fedex.TotalEstimed.toFixed(2);
 
@@ -579,17 +585,22 @@ export default {
 
           this.transportDHL =
             parseFloat(this.dhl.WeightCharge) + parseFloat(this.dhl.TotalDiscount);
-
           // this.dhl.Discount = (this.transportDHL * 60) / 100;
           // this.dhl.Discount = parseFloat(this.dhl.Discount).toFixed(
           //     2
           // );
 
           this.dhl.ComextechDiscount = this.dhl.ComextechDiscount.toFixed(2);
+
+          this.transportDHL = this.transportDHL - this.dhl.ComextechDiscount;
+
+          this.transportDHL = this.transportDHL.toFixed(2);
           /* Vue-loader hidden */
           loader.hide();
         }
       } catch (error) {
+        this.HideAddress();
+        loader.hide();
         console.error(error);
          this.HideAddress();
           loader.hide();
