@@ -406,9 +406,9 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
         try {
-
+            //dd($request->all());
             $internment = InternmentProcess::updateOrCreate(
-                ['application_id'   => $request->application_id, ],
+                [   'application_id'   => $request->application_id, ],
                 [
                     'custom_agent_id'      => $request->custom_agent_id,
                     'customs_house'        => $request->customs_house,
@@ -417,11 +417,13 @@ class ApplicationController extends Controller
                     'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
                     'adv'                  => $request->adv,
                     'adv_amt'              => $request->adv ? round($request->adv_amt, 0) : 0,
-                    'cif_amt'              => round($request->cif_amt, 0),
-                    'insurance'            => round($request->insurance, 0),
+                    'cif_amt'              => $request->cif_amt,
+                    'insurance'            => $request->insurance,
                     'port_charges'         => $request->port_charges,
+                    'transport_amt'        => $request->transport_amt,
                 ]
             );
+
 
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)

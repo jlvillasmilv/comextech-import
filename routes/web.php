@@ -256,5 +256,6 @@ Route::group(['prefix' => 'admin/rates', 'as' => 'admin.rates.', 'namespace' => 
     Route::post('lcl-file-import', 'RateLCLController@fileImport')->name('lcl.file.import');
     
     Route::resource('local-transport', 'LocalTransportController');
-    
+    Route::resource('local-spending', 'LocalSpendingController');
+
 });

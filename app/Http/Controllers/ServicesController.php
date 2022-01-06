@@ -37,9 +37,9 @@ class ServicesController extends Controller
     public function customsConvertCurrency($amount,$from_currency){
 
         $current = \DB::table('customs_exchange_rates')->where('currency_code',$from_currency)->first();
-        $amount = (is_null($current) ? 1 : $current->amount) * $amount; 
+        $amount = (is_null($current) ? 0 : $current->amount) * $amount; 
 
-        return $amount;
+        return number_format($amount, 2, '.', '');
 
     }
 
