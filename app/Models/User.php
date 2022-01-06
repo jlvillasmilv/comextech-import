@@ -106,6 +106,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserDiscount::class);
     }
 
+    public function discounts()
+    {
+        return $this->hasMany(UserDiscount::class);
+    }
+
     public function credential()
     {
         return $this->hasOne(UserCredential::class);
@@ -140,7 +145,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->where('trans_company_id', $trans_company_id->id )
                 ->first()->$zone;
     }
-
 
     //factoring 
     public function InvoicesHistory()
