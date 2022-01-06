@@ -48,6 +48,12 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'admin.rates.local_transport.create']);
         Permission::create(['name' => 'admin.rates.local_transport.destroy']);
 
+        Permission::create(['name' => 'admin.rates.local_spending.index']);
+        Permission::create(['name' => 'admin.rates.local_spending.edit']);
+        Permission::create(['name' => 'admin.rates.local_spending.show']);
+        Permission::create(['name' => 'admin.rates.local_spending.create']);
+        Permission::create(['name' => 'admin.rates.local_spending.destroy']);
+
         Permission::create(['name' => 'admin.customs_exchange_rates.index']);
         Permission::create(['name' => 'admin.customs_exchange_rates.edit']);
         Permission::create(['name' => 'admin.customs_exchange_rates.show']);

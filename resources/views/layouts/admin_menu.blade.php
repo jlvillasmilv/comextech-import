@@ -180,6 +180,16 @@
               @can('admin.rates.local_transport.index')
               <li
                 class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
+                {!! (request()->is('admin/rates/local-spending') || request()->is('admin/rates/local-spending/*')) ? 'italic font-black' : '' !!} "
+                >
+                  <a class="w-full" href="{{ route('admin.rates.local-spending.index')}}">
+                  Gasto Local
+                  </a>
+                </li>
+              @endcan
+              @can('admin.rates.local_transport.index')
+              <li
+                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200
                 {!! (request()->is('admin/rates/local-transport') || request()->is('admin/rates/local-transport/*')) ? 'italic font-black' : '' !!} "
                 >
                   <a class="w-full" href="{{ route('admin.rates.local-transport.index')}}">

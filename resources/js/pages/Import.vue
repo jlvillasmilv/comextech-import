@@ -312,7 +312,10 @@
                 </section>
               </div>
               <div class="flex flex-col items-center justify-between w-2/6">
-                <div :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']">
+                <div
+                  v-if="$store.state.address.expenses.mode_selected != 'COURIER'"
+                  :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']"
+                >
                   <h3 class="my-2.5 text-gray-500 text-sm">Condicion de Venta</h3>
                   <div class="relative">
                     <select
@@ -332,6 +335,7 @@
                         focus:outline-none focus:bg-white focus:border-gray-500
                       "
                     >
+                      <!-- :class="[$store.state.address.expenses.mode_selected == 'COURIER' ? 'bg-gray-600' : 'bg-blue-400']" -->
                       <option v-for="item in arrayServices" :value="item" :key="item.name">
                         {{ item.name }}
                       </option>
@@ -364,6 +368,13 @@
                       </svg>
                     </div>
                   </div>
+                </div>
+                <div
+                  v-else
+                  :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']"
+                >
+                  <h3 class="my-2.5 text-gray-500 text-base p-4">Puerta a Puerta</h3>
+                  <div class="relative"></div>
                 </div>
                 <div class="w-7/12">
                   <h3 class="my-3 text-gray-500 text-sm">Monto de Operacion</h3>
@@ -576,7 +587,7 @@ export default {
         name: 'Pagos/Moneda',
         code: 'ICS07',
         selected: true,
-        sort: 11
+        sort: 7
       },
       objectPayment2: {
         code: 'ICS05',

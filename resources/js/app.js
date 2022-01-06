@@ -6,6 +6,7 @@ import Import from './pages/Import';
 import Vue from 'vue';
 import store from './store';
 
+
 //Import Sweetalert2
 import Swal from 'sweetalert2';
 window.Swal = Swal;
