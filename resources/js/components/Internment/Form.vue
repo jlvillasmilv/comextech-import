@@ -435,38 +435,70 @@
                 <td class="px-4 py-3">USD</td>
                 <td class="px-4 py-3">Transporte</td>
                 <td class="px-4 py-3">
-                  {{ formatPrice(transpAmount, 'USD') }}
+                  <span v-if="transport">
+                      <input
+                      v-model.number="transpAmount"
+                      type="number"
+                      class="
+                        block
+                        w-full
+                        mt-1
+                        text-sm
+                        dark:border-gray-600 dark:bg-gray-700
+                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                        dark:text-gray-300 dark:focus:shadow-outline-gray
+                        form-input
+                      "
+                      placeholder="Monto Transporte"
+                    />
+                  </span>
+                  <span v-else>
+                      {{ formatPrice(transpAmount, 'USD') }}
+                  </span>
+
                 </td>
                 <td class="px-4 py-3">USD</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(this.expenses.insure) }}</td>
+                <td class="px-4 py-3">
+                  {{ formatPrice(this.insureAmount) }}
+                </td>
                 <td class="px-4 py-3">USD</td>
                 <td class="px-4 py-3">Seguro</td>
                 <td class="px-4 py-3">
-                  {{ formatPrice(this.expenses.insure) }}
+                  <span v-if="insure">
+                     <input
+                      v-model.number="insureAmount"
+                      type="number"
+                      class="
+                        block
+                        w-full
+                        mt-1
+                        text-sm
+                        dark:border-gray-600 dark:bg-gray-700
+                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                        dark:text-gray-300 dark:focus:shadow-outline-gray
+                        form-input
+                      "
+                      placeholder="Monto Seguro"
+                    />
+                    
+                  </span>
+                  <span v-else>
+                    {{ formatPrice(this.insureAmount) }}
+                  </span>
                 </td>
                 <td class="px-4 py-3">USD</td>
               </tr>
               <tr class="bg-gray-100">
                 <td class="text-blue-700 font-semibold px-4 py-3">
-                  {{ formatPrice(this.expenses.insure + transpAmount + AppAmount, 'USD') }}
+                  {{ expenses.cif_amt }}
                 </td>
                 <td class="text-blue-700 font-semibold px-4 py-3">USD</td>
                 <td class="text-blue-700 font-semibold px-4 py-3">Valor CIF</td>
               </tr>
             </tbody>
-            <!-- <tfoot
-                            class="divide-y dark:divide-gray-700 dark:bg-gray-800"
-                        >
-                            <tr>
-                                <td class="px-4 py-3">
-                                    {{ formatPrice(expenses.cif_amt, 'CLP') }}
-                                </td>
-                                <td class="px-4 py-3">USD</td>
-                                <td class="px-4 py-3">Valor CIF</td>
-                            </tr>
-                        </tfoot> -->
+           
           </table>
         </div>
       </div>
@@ -663,7 +695,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Load from '../Transport/Load.vue';
 
 export default {
@@ -678,7 +710,9 @@ export default {
     ...mapState('internment', ['expenses']),
     ...mapState('application', ['data', 'currency']),
     ...mapState('exchange', ['exchangeItem']),
+    
   },
+ 
   data() {
     return {
       certif: [
@@ -698,13 +732,16 @@ export default {
       showInputFile: false,
       nameFileUpload: '',
       transpAmount: 0,
+      insureAmount: 0,
       AppAmount: 0,
       docMgmtFcl: 25,
       loanFcl : 120,
       gateInFcl : 120,
       docMgmtLcl : 195, 
       docVisaLcl : 30, 
-      dispatchLcl : 30
+      dispatchLcl : 30,
+      insure: false,
+      transport: false
     };
   },
   methods: {
@@ -787,6 +824,27 @@ export default {
         console.error(error);
       }
     },
+
+    async taxCheck() {
+
+        this.expenses.cif_amt = parseFloat(Number(this.AppAmount) + Number(this.transpAmount) + Number(this.insureAmount)).toFixed(2); 
+
+        this.expenses.insurance = Number(this.insureAmount);
+        this.expenses.transport_amt = Number(this.transpAmount);
+
+        let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
+
+        if(cif_clp.data <= 0) {
+          cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
+        }
+
+        this.expenses.iva_amt = cif_clp.data * (19 / 100);
+        this.expenses.adv_amt = cif_clp.data * (6/100);
+
+       console.log(cif_clp.data, this.expenses.adv_amt, this.expenses.iva_amt);
+
+    },
+
     async portCharge() {
 
        // get default amount 
@@ -816,7 +874,9 @@ export default {
           .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
 
         this.expenses.port_charges = (( cargoCBM > cargoW ? cargoCBM : cargoW / 1000) * this.dispatchLcl) + this.docMgmtLcl + this.docVisaLcl;
-      } else {
+      } 
+      
+      if (this.data.type_transport == 'CONTAINER') {
         this.expenses.port_charges = this.docMgmtFcl + this.loanFcl + this.gateInFcl;
       }
      // console.log(this.expenses.port_charges)
@@ -827,14 +887,25 @@ export default {
     'expenses.customs_house': {
       handler(after, before) {
         this.expenses.custom_agent_id = '';
+         console.log('se ejecuta')
         this.expenses.agent_payment = 250;
       },
       deep: true,
     },
+    insureAmount: function(after, before) {
+
+        this.debouncedGetTaxs()
+    },
+    transpAmount: function(after, before) {
+        this.debouncedGetTaxs()
+    },
+    AppAmount: function(after, before) {
+        this.debouncedGetTaxs()
+    }
   },
   async mounted() {
     try {
-
+        
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
@@ -845,9 +916,13 @@ export default {
       const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
       const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-02');
 
-      this.expenses.insure = Number(insure_cost.amount);
-      this.transpAmount = Number(transp_cost.amount);
+
+      this.insureAmount = Number(insure_cost.amount) == 0 ? this.expenses.insurance : Number(insure_cost.amount);
+      this.transpAmount = Number(transp_cost.amount)  == 0 ? this.expenses.transport_amt : Number(transp_cost.amount);
       this.AppAmount = Number(this.data.amount);
+
+      this.insure    = !this.$store.getters.findService('ICS03') ? true : false;
+      this.transport = !this.$store.getters.findService('ICS03') ? true : false;
 
       if (this.AppAmount > 0 && this.currency.code != 'USD') {
         const app_usd = await axios.get(
@@ -857,23 +932,25 @@ export default {
         this.AppAmount = app_usd.data;
       }
 
-      this.expenses.cif_amt = this.AppAmount + this.transpAmount + this.expenses.insure;
-
-      let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
-
-      if(cif_clp.data <= 0) {
-        cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
-      }
+      this.taxCheck();
 
       if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
         this.portCharge();
       }
-
-      this.expenses.iva_amt = Math.round((cif_clp.data * 19) / 100);
-      this.expenses.adv_amt = (cif_clp.data * 6) / 100;
+     
     } catch (error) {
       console.error(error);
     }
   },
+  created: function () {
+    // _.debounce is a function provided by lodash to limit how
+    // often a particularly expensive operation can be run.
+    // In this case, we want to limit how often we access
+    // waiting until the user has completely
+    // finished typing before making the ajax request. To learn
+    // more about the _.debounce function (and its cousin
+    // _.throttle), visit: https://lodash.com/docs#debounce
+    this.debouncedGetTaxs = _.debounce(this.taxCheck, 500)
+  }, 
 };
 </script>

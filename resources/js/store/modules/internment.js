@@ -22,6 +22,7 @@ export default {
             cif_amt: 0,
             port_charges: 0,
             insurance: 0,
+            transport_amt: 0,
             code_serv: 'ICS04',
         }),
 
@@ -30,14 +31,19 @@ export default {
 
     },
     mutations: {
-        SET_DATA(state, { application_id, custom_agent_id, customs_house, iva, adv, agent_payment, port_charges }) {
-            state.expenses.application_id = application_id
-            state.expenses.customs_house = customs_house
-            state.expenses.iva = iva
-            state.expenses.adv = adv
-            state.expenses.agent_payment = agent_payment
-            state.expenses.port_charges = port_charges
-            state.expenses.custom_agent_id = custom_agent_id
+        SET_DATA(state, payload) {
+            state.expenses.application_id = payload.application_id
+            state.expenses.customs_house = payload.customs_house
+            state.expenses.iva = payload.iva
+            state.expenses.adv = payload.adv
+            state.expenses.agent_payment = payload.agent_payment
+            state.expenses.port_charges = payload.port_charges
+            state.expenses.custom_agent_id = payload.custom_agent_id
+            state.expenses.insurance = payload.insurance
+            state.expenses.adv_amt = payload.adv_amt
+            state.expenses.iva_amt = payload.iva_amt
+            state.expenses.cif_amt = payload.cif_amt
+            state.expenses.transport_amt = payload.transport_amt
         },
     },
     actions: {

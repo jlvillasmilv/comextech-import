@@ -6,6 +6,11 @@ import Import from './pages/Import';
 import Vue from 'vue';
 import store from './store';
 
+import AsyncComputed from 'vue-async-computed'
+
+/* Initialize the plugin */
+Vue.use(AsyncComputed)
+
 //Import Sweetalert2
 import Swal from 'sweetalert2';
 window.Swal = Swal;
