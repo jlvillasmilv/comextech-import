@@ -316,7 +316,7 @@
                   v-if="$store.state.address.expenses.mode_selected != 'COURIER'"
                   :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']"
                 >
-                  <h3 class="my-2.5 text-gray-500 text-sm">Condicion de Venta</h3>
+                  <h3 class="my-2.5 text-gray-500 text-base">Condicion de Venta</h3>
                   <div class="relative">
                     <select
                       v-model="$store.state.application.selectedCondition"
@@ -377,7 +377,7 @@
                   <div class="relative"></div>
                 </div>
                 <div class="w-7/12">
-                  <h3 class="my-3 text-gray-500 text-sm">Monto de Operacion</h3>
+                  <h3 class="my-3 text-gray-500 text-base">Monto de Operacion</h3>
                   <vue-numeric
                     thousand-separator="."
                     v-bind:minus="false"

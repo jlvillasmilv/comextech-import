@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $client->company()->create([
-            'country_id' => 41,
+            'country_id' => \DB::table('countries')->where('code','CL')->first()->id,
             'tax_id'  => '76722268-8',
             'name'    => 'Comextech',
             'email'   => 'info@Comex.Tech',
@@ -59,9 +59,9 @@ class UsersTableSeeder extends Seeder
 
         $supplier->supplierAddress()->create([
             'place'             => 'FABRICA',
-            'address_latitude'  => -8372284,
-            'address_longitude' => -135,
-            'postal_code'       => '38017',
+            'latitude'          =>  35.1208505,
+            'longitude'         => -90.070634,
+            'postal_code'       => '38106',
             'locality'          => 'Memphis',
             'country_code'      => 'US',
             'address'           => '401 Stark Ramp Nienowland, MT 57331'
@@ -88,15 +88,17 @@ class UsersTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
+        
         \DB::table('company_addresses')->insert([
             [ 'company_id'  => 1,
-              'country_id'  => 41,
+              'country_id'  => \DB::table('countries')->where('code','CL')->first()->id,
               'province'    => 'Santiago',
               'postal_code' => '7550214',
               'locality'    => 'Las Condes',
               'place'       => 'ALMACEN',
-              'address'     => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile'
+              'address'     => 'Augusto Leguía Sur 79, Of. 1110, Las Condes, Región Metropolitana, Chile',
+              'latitude'    => -33.418089046025656,
+              'longitude'   => -70.5969086286471,
             ],
         ]);
 

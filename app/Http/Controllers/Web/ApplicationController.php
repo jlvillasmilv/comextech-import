@@ -113,7 +113,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [19, 20,21])
+                ->where('category_service_id', 1)
                 ->update(['amount' => 0]);
             }
 
@@ -123,7 +123,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [22, 23, 24])
+                ->where('category_service_id', 3)
                 ->update(['amount' => 0]);
             }
 
@@ -133,7 +133,7 @@ class ApplicationController extends Controller
 
                 \DB::table('application_summaries')
                 ->where("application_id", $application->id)
-                ->whereIn('service_id', [25, 26,27])
+                ->where('category_service_id', 4)
                 ->update(['amount' => 0]);
             }
 

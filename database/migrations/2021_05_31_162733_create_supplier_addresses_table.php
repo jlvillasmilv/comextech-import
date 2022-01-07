@@ -17,8 +17,8 @@ class CreateSupplierAddressesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->enum('place', ['ALMACEN', 'FABRICA', 'PUERTO'])->default('ALMACEN');
-            $table->double('address_latitude')->nullable();
-            $table->double('address_longitude')->nullable();
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->string('postal_code',25)->nullable();
             $table->string('locality', 25)->nullable();
             $table->string('country_code',4)->nullable();

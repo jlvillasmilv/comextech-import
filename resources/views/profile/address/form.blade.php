@@ -88,7 +88,7 @@
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Provincia</span>
 
                             <input class="block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            placeholder="Codigo postal"
+                            placeholder="Provincia"
                             id='province'
                             name="province"
                             value="{{ old('province', isset($companyAddress) ? $companyAddress->province : '') }}"

@@ -283,7 +283,9 @@
         <div v-if="addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
           <div class="w-1/4 px-3 mb-6 md:mb-0">
             <label class="block text-sm">
-              <span class="text-gray-700 dark:text-gray-400 font-semibold">Fecha estimada de recogida</span>
+              <span class="text-gray-700 dark:text-gray-400 font-semibold"
+                >Fecha estimada de recogida</span
+              >
               <input
                 type="date"
                 v-model="expenses.estimated_date"
@@ -750,25 +752,47 @@
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRAMO LOCAL (ORIGEN)</td>
-              <td class="px-4 py-3">POR COTIZAR</td>
+              <td class="text-red-600 px-4 py-3">POR COTIZAR</td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td class="px-4 py-3">{{ lclTableQuote.transport.transport_amount }}</td>
+              <td
+                :class="[
+                  !lclTableQuote.transport.transport_amount ? 'text-red-600 px-4 py-3' : 'px-4 py-3'
+                ]"
+              >
+                {{
+                  lclTableQuote.transport.transport_amount
+                    ? lclTableQuote.transport.transport_amount
+                    : 'POR COTIZAR'
+                }}
+              </td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
-              <td class="px-4 py-3">{{ lclTableQuote.transport.insurance }}</td>
+              <td
+                :class="[
+                  !lclTableQuote.transport.insurance ? 'text-red-600 px-4 py-3' : 'px-4 py-3'
+                ]"
+              >
+                {{
+                  lclTableQuote.transport.insurance
+                    ? lclTableQuote.transport.insurance
+                    : 'POR COTIZAR'
+                }}
+              </td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td class="px-4 py-3">
+              <td
+                :class="[!lclTableQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
+              >
                 {{
                   lclTableQuote.transport.oth_exp ? lclTableQuote.transport.oth_exp : 'POR COTIZAR'
                 }}
@@ -778,7 +802,11 @@
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td class="px-4 py-3">
+              <td
+                :class="[
+                  !lclTableQuote.transport.local_transp ? 'text-red-600 px-4 py-3' : 'px-4 py-3'
+                ]"
+              >
                 {{
                   lclTableQuote.transport.local_transp
                     ? lclTableQuote.transport.local_transp
@@ -825,19 +853,41 @@
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td class="px-4 py-3">{{ lclTableQuote.transport.transport_amount }}</td>
+              <td
+                :class="[
+                  !lclTableQuote.transport.transport_amount ? 'text-red-600 px-4 py-3' : 'px-4 py-3'
+                ]"
+              >
+                {{
+                  lclTableQuote.transport.transport_amount
+                    ? lclTableQuote.transport.transport_amount
+                    : 'POR COTIZAR'
+                }}
+              </td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
-              <td class="px-4 py-3">{{ lclTableQuote.transport.insurance }}</td>
+              <td
+                :class="[
+                  !lclTableQuote.transport.insurance ? 'text-red-600 px-4 py-3' : 'px-4 py-3'
+                ]"
+              >
+                {{
+                  lclTableQuote.transport.insurance
+                    ? lclTableQuote.transport.insurance
+                    : 'POR COTIZAR'
+                }}
+              </td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td class="px-4 py-3">
+              <td
+                :class="[!lclTableQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
+              >
                 {{
                   lclTableQuote.transport.oth_exp ? lclTableQuote.transport.oth_exp : 'POR COTIZAR'
                 }}
@@ -847,7 +897,11 @@
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td class="px-4 py-3">
+              <td
+                :class="[
+                  !lclTableQuote.transport.local_transp ? 'text-red-600 px-4 py-3' : 'px-4 py-3'
+                ]"
+              >
                 {{
                   lclTableQuote.transport.local_transp
                     ? lclTableQuote.transport.local_transp
@@ -864,7 +918,7 @@
       :class="[
         !expenses.dataLoad || expenses.dataLoad.length <= 0
           ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5',
+          : 'flex justify-center my-5 innline w-1/7 mt-5'
       ]"
     >
       <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
@@ -894,7 +948,7 @@
             ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
             : expenses.dataLoad.length <= 0
             ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800',
+            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
         ]"
       >
         Cotizar
@@ -914,7 +968,7 @@ export default {
     return {
       showShipping: false,
       lclTableQuote: {},
-      lclTable: false,
+      lclTable: false
     };
   },
   methods: {
@@ -936,7 +990,7 @@ export default {
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100,
+        width: 100
       });
 
       this.$store.dispatch('address/showAddress', false);
@@ -967,17 +1021,17 @@ export default {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Enviar',
+            confirmButtonText: 'Enviar'
           }).then((result) => {
             if (result.isConfirmed) {
               // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
 
               axios
                 .post('/notifications-transport', { application_id: this.data.application_id })
-                .then(function (response) {
+                .then(function(response) {
                   console.log(response);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.log(error);
                 });
               // axios.post
@@ -990,7 +1044,7 @@ export default {
         } else {
           Toast.fire({
             icon: 'success',
-            title: 'Datos Agregados',
+            title: 'Datos Agregados'
           });
         }
         this.$store.dispatch('exchange/getSummary', this.data.application_id);
@@ -1008,20 +1062,20 @@ export default {
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
       this.lclTable = false;
     },
-    getFavOriginPort: async function () {
+    getFavOriginPort: async function() {
       this.expenses.origin_port_id = '';
       if (this.expenses.fav_origin_port && this.data.supplier_id) {
         let idsupplier = this.data.supplier_id;
         const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
         await this.$store.dispatch('address/getFavOriginPort', {
           idsupplier,
-          type,
+          type
         });
       } else {
         await this.$store.dispatch('address/setOrigFavOritPorts');
       }
     },
-    getFavDestPort: async function () {
+    getFavDestPort: async function() {
       this.expenses.dest_port_id = '';
       const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
       if (this.expenses.fav_dest_port) {
@@ -1039,7 +1093,7 @@ export default {
      * @param {Object} placeResultData PlaceResult object
      * @param {String} id Input container ID
      */
-    getAddressOrigin: function (addressData, placeResultData, id) {
+    getAddressOrigin: function(addressData, placeResultData, id) {
       this.expenses.origin_address = placeResultData.formatted_address;
 
       for (const component of placeResultData.address_components) {
@@ -1061,7 +1115,7 @@ export default {
         }
       }
     },
-    getAddressDestination: function (addressData, placeResultData, id) {
+    getAddressDestination: function(addressData, placeResultData, id) {
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
 
@@ -1087,7 +1141,7 @@ export default {
       }
 
       this.expenses.dest_address = placeResultData.formatted_address;
-    },
+    }
   },
   computed: {
     ...mapState('address', [
@@ -1099,9 +1153,9 @@ export default {
       'portsDesTemp',
       'addressDate',
       'formAddress',
-      'minDate',
+      'minDate'
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport']),
-  },
+    ...mapState('application', ['data', 'currency', 'origin_transport'])
+  }
 };
 </script>

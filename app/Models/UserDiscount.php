@@ -19,4 +19,9 @@ class UserDiscount extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function transCompany()
+    {
+        return $this->belongsTo(TransCompany::class,'trans_company_id');
+    }
 }

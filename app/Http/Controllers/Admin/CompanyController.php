@@ -109,7 +109,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {  
         if (! Gate::allows('admin.clients.edit')) {
             return abort(401);
         }
@@ -148,6 +148,42 @@ class CompanyController extends Controller
 
         $notification = array(
             'message'    => 'Ejecutivo Asignado, exitosamente!',
+            'alert_type' => 'success'
+        );
+
+        \Session::flash('notification', $notification);
+        return redirect()->route('admin.clients.edit', $data->id);
+    }
+
+    public function clientDiscount(Request $request)
+    {
+
+        //dd($request->all());
+
+        foreach ($request->input('discount_id') as $key => $item) {
+
+           \DB::table('user_discounts')
+                    ->where([
+                        ["id",  $item],
+                        ["user_id", $request->input('user_id')],
+                    ])
+            ->update([
+                'imp_a' =>  $request->input("imp_a.$key"),
+                'imp_b' =>  $request->input("imp_b.$key"),
+                'imp_c' =>  $request->input("imp_c.$key"),
+                'imp_d' =>  $request->input("imp_d.$key"),
+                'imp_e' =>  $request->input("imp_e.$key"),
+                'imp_f' =>  $request->input("imp_e.$key"),
+                'exp_a' =>  $request->input("exp_a.$key"),
+                'exp_b' =>  $request->input("exp_b.$key"),
+                'exp_c' =>  $request->input("exp_c.$key"),
+            ]);
+        }
+
+        $data  = Company::where('user_id', $request->input('user_id'))->firstOrFail();
+
+        $notification = array(
+            'message'    => 'Descuento asignado',
             'alert_type' => 'success'
         );
 
