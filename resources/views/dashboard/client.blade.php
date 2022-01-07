@@ -51,3 +51,30 @@
         </div>
     </div>
 </div>
+
+ <div class="form-group">
+        
+        <input type="hidden" id="address-input" name="address_address" class="form-control map-input">
+        <input type="hidden" name="latitude" id="latitude"  />
+        <input type="hidden" name="longitude" id="longitude"  />
+ 
+    </div>
+    <div id="address-map-container" style="width:100%;height:400px; ">
+        <div style="width: 100%; height: 100%" id="address-map"></div>
+    </div>
+@section('scripts')
+@parent
+
+
+<script type="text/javascript">
+
+    (function() {
+        // your page initialization code here
+        // the DOM will be available here
+        initial_map();
+
+    })();
+
+</script>
+
+@endsection

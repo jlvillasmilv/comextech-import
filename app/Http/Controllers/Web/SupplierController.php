@@ -50,8 +50,8 @@ class SupplierController extends Controller
                 $supplier->supplierAddress()->create([
                     'address' => $value,
                     'place'   => $request->place[$key],
-                    'address_latitude'  => $request->address_latitude[$key],
-                    'address_longitude' => $request->address_longitude[$key],
+                    'latitude'  => $request->latitude[$key],
+                    'longitude' => $request->longitude[$key],
                     'postal_code'       => $request->postal_code[$key],
                     ]);
             }
@@ -109,8 +109,8 @@ class SupplierController extends Controller
                 $supplier->supplierAddress()->create([
                     'address' => $value,
                     'place'   => $request->place[$key],
-                    'address_latitude'  => $request->address_latitude[$key],
-                    'address_longitude' => $request->address_longitude[$key],
+                    'latitude'  => $request->latitude[$key],
+                    'longitude' => $request->longitude[$key],
                     'postal_code'       => $request->postal_code[$key],
                     ]);
             }

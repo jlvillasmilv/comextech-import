@@ -143,7 +143,15 @@
                 @include('admin.clients.table')
     
             </div>
-        
         </div>  
+
     </div>
+
+   
+      
+		  
+@include('admin.clients.discount_table')
+    
+
+
 </x-app-layout>

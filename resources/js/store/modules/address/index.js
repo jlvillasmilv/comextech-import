@@ -10,12 +10,16 @@ const state = {
     origin_locality: '',
     origin_ctry_code: '',
     origin_port_id: '',
+    origin_latitude: 0,
+    origin_longitude: 0,
     dest_address: '',
     dest_postal_code: '',
     dest_locality: '',
     dest_ctry_code: '',
     dest_province: '',
     dest_port_id: '',
+    dest_latitude: 0,
+    dest_longitude: 0,
     estimated_date: new Date().toISOString().slice(0, 10),
     description: '',
     dataLoad: [],
@@ -131,6 +135,10 @@ const actions = {
   },
   showQuoteLCL({ commit }, value) {
     commit('SHOW_QUOTE_LCL', value);
+  },
+
+  mapa({ state, commit }) {
+    console.log('mapa google');
   }
 };
 

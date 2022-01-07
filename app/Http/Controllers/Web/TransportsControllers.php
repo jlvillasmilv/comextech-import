@@ -99,6 +99,8 @@ class TransportsControllers extends Controller
                     'origin_ctry_code'      => $request->origin_ctry_code,
                     'fav_origin_port'       => $request->fav_origin_port,
                     'origin_port_id'        => $request->origin_port_id,
+                    'origin_latitude'       => $request->origin_latitude,
+                    'origin_longitude'      => $request->origin_longitude,
                    
                     'fav_dest_address'      => $request->fav_dest_address,
                     'dest_address'          => $request->dest_address,
@@ -108,6 +110,8 @@ class TransportsControllers extends Controller
                     'dest_ctry_code'        => $request->dest_ctry_code,
                     'dest_locality'         => $request->dest_locality,
                     'dest_province'         => $request->dest_province,
+                    'dest_latitude'         => $request->dest_latitude,
+                    'dest_longitude'        => $request->dest_longitude,
                     
                     'estimated_date'        => $request->estimated_date,
                     'insurance'             => $request->insurance,
@@ -191,9 +195,8 @@ class TransportsControllers extends Controller
 
             }
 
-
             // update application summary International transport
-            $app_summ = \DB::table('application_summaries as as')
+            \DB::table('application_summaries as as')
             ->join('services as s', 'as.service_id', '=', 's.id')
             ->where([
                ["as.application_id", $request->application_id],
@@ -207,7 +210,7 @@ class TransportsControllers extends Controller
 
           
                 // update application summary insurance
-            $app_summ = \DB::table('application_summaries as as')
+            \DB::table('application_summaries as as')
                 ->join('services as s', 'as.service_id', '=', 's.id')
                 ->where([
                 ["as.application_id", $request->application_id],
@@ -219,13 +222,13 @@ class TransportsControllers extends Controller
                     'fee_date'    => $request->estimated_date]);
 
             // update application summary other expenses
-                \DB::table('application_summaries as as')
+            \DB::table('application_summaries as as')
                     ->join('services as s', 'as.service_id', '=', 's.id')
                     ->where([
                         ["as.application_id", $request->application_id],
                         ["s.code", 'CS06-02']
                     ])
-                ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
+            ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
              // update application summary local transport
              \DB::table('application_summaries as as')
