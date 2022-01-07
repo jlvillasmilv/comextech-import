@@ -126,6 +126,8 @@ export default {
      */
     getAddressOrigin: function(addressData, placeResultData, id) {
       this.expenses.origin_address = placeResultData.formatted_address;
+      this.expenses.origin_latitude = addressData.latitude;
+      this.expenses.origin_longitude = addressData.longitude;
 
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
@@ -147,6 +149,11 @@ export default {
       }
     },
     getAddressDestination: function(addressData, placeResultData, id) {
+
+      this.expenses.address_destination = placeResultData.formatted_address;
+      this.expenses.dest_latitude  = addressData.latitude;
+      this.expenses.dest_longitude = addressData.longitude;
+
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
 
@@ -171,7 +178,6 @@ export default {
         }
       }
 
-      this.expenses.dest_address = placeResultData.formatted_address;
     },
 
     getFavOriginPort: async function() {

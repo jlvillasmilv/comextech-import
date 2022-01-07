@@ -99,6 +99,8 @@ class TransportsControllers extends Controller
                     'origin_ctry_code'      => $request->origin_ctry_code,
                     'fav_origin_port'       => $request->fav_origin_port,
                     'origin_port_id'        => $request->origin_port_id,
+                    'origin_latitude'       => $request->origin_latitude,
+                    'origin_longitude'      => $request->origin_longitude,
                    
                     'fav_dest_address'      => $request->fav_dest_address,
                     'dest_address'          => $request->dest_address,
@@ -108,6 +110,8 @@ class TransportsControllers extends Controller
                     'dest_ctry_code'        => $request->dest_ctry_code,
                     'dest_locality'         => $request->dest_locality,
                     'dest_province'         => $request->dest_province,
+                    'dest_latitude'         => $request->dest_latitude,
+                    'dest_longitude'        => $request->dest_longitude,
                     
                     'estimated_date'        => $request->estimated_date,
                     'insurance'             => $request->insurance,

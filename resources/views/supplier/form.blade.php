@@ -147,9 +147,16 @@
                                   id="_address"
                                   onfocus="this.value=''" >
 
-                                  <input type="hidden" class="form-input" name="latitude" id="address_latitude" value="{{ old('latitude') }}" />
-                                  <input type="hidden" class="form-input" name="longitude" id="address_longitude" value="{{ old('longitude') }}" />
+                                  <input type="hidden" class="form-input" name="latitude" id="latitude" value="{{ old('latitude') }}" />
+                                  <input type="hidden" class="form-input" name="longitude" id="longitude" value="{{ old('longitude') }}" />
                                   
+                            <input type="hidden"
+                                placeholder="Provincia"
+                                id='province'
+                                name="province"
+                                value="{{ old('province') }}"
+                                max="50"
+                                >
 
                                 <span id="amountError" class="text-xs text-red-600 dark:text-red-400">
                                     <strong></strong>
@@ -268,8 +275,8 @@
         var value  = user.options[user.selectedIndex].value;
 
         const address  = document.getElementById("_address").value;
-        const latit    = document.getElementById("address_latitude").value;
-        const logit    = document.getElementById("address_longitude").value; 
+        const latit    = document.getElementById("latitude").value;
+        const logit    = document.getElementById("longitude").value; 
         const post_cod = document.getElementById("postal_code").value;  
 
         if (address.length <= 0 || post_cod.length <= 0 ) { return;  }
@@ -279,9 +286,9 @@
                 <td><input type="hidden" name="place[]" value="${value}">  ${value}</td>
                 <td>
                     <input type="hidden" name="origin_address[]" value="${address}"> ${address} ${post_cod}
-                    <input type="hidden" class="form-input" name="address_latitude[]" id="address_latitude" value="${latit}" />
-                    <input type="hidden" class="form-input" name="address_longitude[]" id="address_longitude" value="${logit}" />
-                    <input type="hidden" class="form-input" name="postal_code[]" id="address_longitude" value="${post_cod}" />
+                    <input type="hidden" class="form-input" name="latitude[]" id="latitude" value="${latit}" />
+                    <input type="hidden" class="form-input" name="longitude[]" id="longitude" value="${logit}" />
+                    <input type="hidden" class="form-input" name="postal_code[]" id="longitude" value="${post_cod}" />
                 </td>
                 <td>
                     <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red" onclick="onDeleteRow(${Date.now()})">

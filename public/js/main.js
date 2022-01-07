@@ -297,6 +297,7 @@ function initialize() {
       });
       autocomplete.key = fieldKey;
       autocompletes.push({input: input, autocomplete: autocomplete});
+      
 
   }
 
@@ -308,7 +309,7 @@ function initialize() {
           const place = autocomplete.getPlace();
          
           let postcode = postalField.value;
-          let province = ""
+          let province = '';
           let placId = place.place_id;
           // Get each component of the address from the place details,
           // and then fill-in the corresponding field on the form.
@@ -324,7 +325,7 @@ function initialize() {
               }
 
               case "administrative_area_level_2": {
-                  province = component.long_name;
+                  province = `${component.long_name}`;
                   break;
               }
 
@@ -336,14 +337,105 @@ function initialize() {
             }
           }
 
+          document.querySelector("#latitude").value = place.geometry['location'].lat();
+          document.querySelector("#longitude").value = place.geometry['location'].lng();
+
           postalField.value = postcode;
           provinceField.value = province;
           placeId = placId;
-          
-          document.querySelector("#address_latitude").value = place.geometry['location'].lat();
-          document.querySelector("#address_longitude").value = place.geometry['location'].lng();
-
       });
   }
 
+}
+
+
+function initial_map() {
+
+  $('form').on('keyup keypress', function(e) {
+      var keyCode = e.keyCode || e.which;
+      if (keyCode === 13) {
+          e.preventDefault();
+          return false;
+      }
+  });
+  
+  const locationInputs = document.getElementsByClassName("map-input");
+
+  const autocompletes = [];
+  let postalField;
+  let placeId;
+
+
+  for (let i = 0; i < locationInputs.length; i++) {
+
+      const input = locationInputs[i];
+      const fieldKey = input.id.replace("-input", "");
+
+      const autocomplete = new google.maps.places.Autocomplete(input,{
+        fields: ["address_components", "geometry"],
+        types: ["address"],
+      });
+      autocomplete.key = fieldKey;
+      autocompletes.push({input: input, autocomplete: autocomplete});
+
+      const isEdit = true;
+
+        const latitude = parseFloat(document.getElementById("latitude").value) || -33.418089046026;
+        const longitude = parseFloat(document.getElementById("longitude").value) || -70.596908628647;
+
+        const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
+            center: {lat: latitude, lng: longitude},
+            zoom: 4
+        });
+
+        const marker = new google.maps.Marker({
+            map: map,
+            position: {lat: latitude, lng: longitude},
+        });
+
+        marker.setVisible(isEdit);
+  }
+
+  for (let i = 0; i < autocompletes.length; i++) {
+        const input = autocompletes[i].input;
+        const autocomplete = autocompletes[i].autocomplete;
+        const map = autocompletes[i].map;
+        const marker = autocompletes[i].marker;
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            marker.setVisible(false);
+            const place = autocomplete.getPlace();
+
+            geocoder.geocode({'placeId': place.place_id}, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    const lat = results[0].geometry.location.lat();
+                    const lng = results[0].geometry.location.lng();
+                    setLocationCoordinates(autocomplete.key, lat, lng);
+                }
+            });
+
+            if (!place.geometry) {
+                window.alert("No details available for input: '" + place.name + "'");
+                input.value = "";
+                return;
+            }
+
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+        });
+    }
+}
+
+function setLocationCoordinates(key, lat, lng) {
+    const latitudeField = document.getElementById("latitude");
+    const longitudeField = document.getElementById("longitude");
+    latitudeField.value = lat;
+    longitudeField.value = lng;
 }

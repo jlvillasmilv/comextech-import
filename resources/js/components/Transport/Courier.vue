@@ -22,7 +22,7 @@
               id="addressOrigin"
               classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
               v-on:placechanged="getAddressOrigin"
-              placeholder="Direccion, Codigo Postal"
+              placeholder="Direccion de Origen"
             >
             </vue-google-autocomplete>
             <div v-else class="relative">
@@ -635,6 +635,8 @@ export default {
      */
     getAddressOrigin: function(addressData, placeResultData, id) {
       this.expenses.origin_address = placeResultData.formatted_address;
+      this.expenses.origin_latitude = addressData.latitude;
+      this.expenses.origin_longitude = addressData.longitude;
 
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
@@ -656,6 +658,10 @@ export default {
       }
     },
     getAddressDestination: function(addressData, placeResultData, id) {
+      
+      this.expenses.dest_latitude  = addressData.latitude;
+      this.expenses.dest_longitude = addressData.longitude;
+
       for (const component of placeResultData.address_components) {
         const componentType = component.types[0];
 
