@@ -5,17 +5,24 @@
         v-if="
           !expenses.dataLoad || expenses.dataLoad.length == 0 || $store.state.address.formAddress
         "
-        class="flex flex-wrap -mx-3 my-8"
+        class="w-full flex flex-col flex-wrap items-center -mx-3 my-8"
       >
-        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 font-semibold">
+        <div class="flex justify-around w-full px-3 mb-6 md:mb-0">
+          <div class="mt-2 mr-8 flex justify-start w-2/12">
+            {{
+              data.condition === 'FOB'
+                ? ' Puertos de Proveedor'
+                : ' Almacen o Fabrica del Proveedor'
+            }}
+          </div>
+          <label class="w-7/12 text-sm">
+            <!-- <span class="text-gray-700 dark:text-gray-400 font-semibold">
               {{
                 data.condition === 'FOB'
                   ? ' Puertos de Proveedor'
                   : ' Almacen o Fabrica del Proveedor'
               }}
-            </span>
+            </span> -->
             <vue-google-autocomplete
               v-if="!expenses.fav_origin_address"
               v-model="expenses.origin_address"
@@ -64,12 +71,14 @@
               v-html="expenses.errors.get('origin_address')"
             ></span>
           </label>
+          <div class="flex justify-center w-2/12">
+            <h3 class="mt-2"></h3>
+          </div>
         </div>
         <!-- Destino de Envio -->
-        <div class="w-full md:w-1/2 px-3">
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 font-semibold"> Destino de Envio </span>
-
+        <div class="flex justify-around w-full px-3 mb-6 md:mb-0">
+          <div class="mt-2 mr-8 flex justify-start w-2/12">Destino de Envio</div>
+          <label class="w-7/12 text-sm">
             <vue-google-autocomplete
               v-if="!expenses.fav_dest_address"
               v-model="expenses.dest_address"
@@ -114,7 +123,9 @@
               /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
             </label>
           </label>
-
+          <div class="flex justify-center w-2/12">
+            <h3 class="mt-2"></h3>
+          </div>
           <span
             class="text-xs text-red-600 dark:text-red-400"
             v-if="expenses.errors.has('dest_address')"
@@ -122,7 +133,7 @@
           ></span>
         </div>
       </div>
-      <div v-if="$store.state.address.addressDate" class="flex flex-wrap -mx-3 mb-6">
+      <div v-if="$store.state.address.addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
         <div class="w-1/4 px-3 mb-6 md:mb-0">
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400 font-semibold">
@@ -658,8 +669,7 @@ export default {
       }
     },
     getAddressDestination: function(addressData, placeResultData, id) {
-      
-      this.expenses.dest_latitude  = addressData.latitude;
+      this.expenses.dest_latitude = addressData.latitude;
       this.expenses.dest_longitude = addressData.longitude;
 
       for (const component of placeResultData.address_components) {
