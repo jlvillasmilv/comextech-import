@@ -612,9 +612,9 @@ export default {
           loader.hide();
         }
       } catch (error) {
-        console.error(error);
         this.HideAddress();
         loader.hide();
+        console.error(error);
       }
     },
 
@@ -644,60 +644,14 @@ export default {
      * @param {Object} placeResultData PlaceResult object
      * @param {String} id Input container ID
      */
-    getAddressOrigin: function(addressData, placeResultData, id) {
-      this.expenses.origin_address = placeResultData.formatted_address;
-      this.expenses.origin_latitude = addressData.latitude;
-      this.expenses.origin_longitude = addressData.longitude;
-
-      for (const component of placeResultData.address_components) {
-        const componentType = component.types[0];
-
-        switch (componentType) {
-          case 'country':
-            this.expenses.origin_ctry_code = component.short_name;
-            break;
-
-          case 'locality':
-            this.expenses.origin_locality = component.long_name;
-            break;
-
-          case 'postal_code': {
-            this.expenses.origin_postal_code = component.long_name;
-            break;
-          }
-        }
-      }
+    getAddressOrigin(addressData, placeResultData, id) {
+      this.$store.dispatch('address/getAddressOrigin', { addressData, placeResultData });
     },
-    getAddressDestination: function(addressData, placeResultData, id) {
-      this.expenses.dest_latitude = addressData.latitude;
-      this.expenses.dest_longitude = addressData.longitude;
 
-      for (const component of placeResultData.address_components) {
-        const componentType = component.types[0];
-
-        switch (componentType) {
-          case 'country':
-            this.expenses.dest_ctry_code = component.short_name;
-            break;
-
-          case 'locality':
-            this.expenses.dest_locality = component.long_name;
-            break;
-
-          case 'administrative_area_level_2': {
-            this.expenses.dest_province = component.long_name;
-            break;
-          }
-
-          case 'postal_code': {
-            this.expenses.dest_postal_code = component.long_name;
-            break;
-          }
-        }
-      }
-
-      this.expenses.dest_address = placeResultData.formatted_address;
+    getAddressDestination(addressData, placeResultData, id) {
+      this.$store.dispatch('address/getAddressDestination2', { addressData, placeResultData });
     },
+
     async convertInsurance(currencie, currency) {
       try {
         const insuranceConvert = await axios.get(
@@ -706,7 +660,7 @@ export default {
 
         console.log(insuranceConvert);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   },
