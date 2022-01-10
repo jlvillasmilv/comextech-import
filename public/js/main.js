@@ -17,184 +17,184 @@ $(document).ready(function () {
     }
   });
 
-   /*Notificaciones si hay mensaje de confirmacion*/
+  /*Notificaciones si hay mensaje de confirmacion*/
 
-   if (document.body.dataset.notification == ""){
+  if (document.body.dataset.notification == "") {
 
-        var type = document.body.dataset.notificationType;
-        var types = ['info', 'warning', 'success', 'error'];
+    var type = document.body.dataset.notificationType;
+    var types = ['info', 'warning', 'success', 'error'];
 
     // Check if `type` is in our `types` array, otherwise default to info.
-        Toast.fire({ icon: types.indexOf(type) !== -1 ? type : 'info', title: JSON.parse(document.body.dataset.notificationMessage) });
-    
-    }
+    Toast.fire({ icon: types.indexOf(type) !== -1 ? type : 'info', title: JSON.parse(document.body.dataset.notificationMessage) });
 
-    // Agrega nuevo registro al detalle de la solicitud 
-    $('#add_services').on('click', '.btn-add[data-remote]', function (e) {
-          e.preventDefault();
+  }
 
-          var button = document.getElementById('add');
-          var service_id = document.getElementById('services_id');
-          var currency_id = document.getElementById('_currency_id');
-          var amount = document.getElementById('_amount');
-          var currency2_id = document.getElementById('_currency2_id');
-          var amount2 = document.getElementById('_amount2');
+  // Agrega nuevo registro al detalle de la solicitud 
+  $('#add_services').on('click', '.btn-add[data-remote]', function (e) {
+    e.preventDefault();
 
-          
-          const url = button.dataset.remote;
-          const application_id = button.dataset.id;
-          $(".invalid-feedback").children("strong").text("");
-          $("#add_services input").removeClass("is-invalid");
-
-          Swal.fire({
-            title: '¿Agregar registro?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Si',
-            cancelButtonText:'No',
-            showLoaderOnConfirm: true,
-                preConfirm: () => {
-          
-                      axios.post(url, {
-                        application_id: application_id,
-                        service_id: service_id.value,
-                        amount: amount.value,
-                        currency_id:currency_id.value,
-                        amount2: amount2.value,
-                        currency2_id: currency2_id.value
-
-                      }).then(response => {
-
-                        Toast.fire({
-                          icon: 'success',
-                          title: 'Registro agregado con exito'
-                        })
-                        window.location.reload();
-                      
-                      }).catch(error => {
-                        
-
-                        let errors = error.response.data.errors;
-
-                        Toast.fire({
-                          icon: 'error',
-                          title: 'Error ingresando datos'
-                        })
-
-                        Object.keys(errors).forEach(function (key) {
-  
-                          $("#" + key + "Input").addClass("is-invalid");
-                          $("#" + key + "Error").children("strong").text(errors[key][0]);
-                          });
-
-                       
-                        console.error(errors)
-                      });
-
-                }
-           });
-
-      });
+    var button = document.getElementById('add');
+    var service_id = document.getElementById('services_id');
+    var currency_id = document.getElementById('_currency_id');
+    var amount = document.getElementById('_amount');
+    var currency2_id = document.getElementById('_currency2_id');
+    var amount2 = document.getElementById('_amount2');
 
 
-    $('#table').on('click', '.btn-delete[data-remote]', function (e) { 
-      
-          const url = $(this).data('remote');
-          var id = $(this).data('id');
-                      
-          Swal.fire({
-            title: '¿Desea eliminar este registro?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Si',
-            cancelButtonText:'No',
-            showLoaderOnConfirm: true,
-                preConfirm: () => {
+    const url = button.dataset.remote;
+    const application_id = button.dataset.id;
+    $(".invalid-feedback").children("strong").text("");
+    $("#add_services input").removeClass("is-invalid");
 
-                      axios.delete(url).then(response => {
+    Swal.fire({
+      title: '¿Agregar registro?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
 
-                        Toast.fire({
-                          icon: 'success',
-                          title: 'Operacion realizada con exito'
-                        })
-                        $(`#${id}`).remove();  
-                      
-                      }).catch(error => {
-                        Toast.fire({
-                          icon: 'error',
-                          title: 'Errore de Conexion'
-                        })
+        axios.post(url, {
+          application_id: application_id,
+          service_id: service_id.value,
+          amount: amount.value,
+          currency_id: currency_id.value,
+          amount2: amount2.value,
+          currency2_id: currency2_id.value
 
-                        console.error(error.response.data)
-                      });
+        }).then(response => {
 
-                }
-           });
+          Toast.fire({
+            icon: 'success',
+            title: 'Registro agregado con exito'
+          })
+          window.location.reload();
+
+        }).catch(error => {
+
+
+          let errors = error.response.data.errors;
+
+          Toast.fire({
+            icon: 'error',
+            title: 'Error ingresando datos'
+          })
+
+          Object.keys(errors).forEach(function (key) {
+
+            $("#" + key + "Input").addClass("is-invalid");
+            $("#" + key + "Error").children("strong").text(errors[key][0]);
+          });
+
+
+          console.error(errors)
+        });
+
+      }
     });
+
+  });
+
+
+  $('#table').on('click', '.btn-delete[data-remote]', function (e) {
+
+    const url = $(this).data('remote');
+    var id = $(this).data('id');
+
+    Swal.fire({
+      title: '¿Desea eliminar este registro?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+
+        axios.delete(url).then(response => {
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Operacion realizada con exito'
+          })
+          $(`#${id}`).remove();
+
+        }).catch(error => {
+          Toast.fire({
+            icon: 'error',
+            title: 'Errore de Conexion'
+          })
+
+          console.error(error.response.data)
+        });
+
+      }
+    });
+  });
 
   // facotirng
 
-  $('#table').on('click', '.btn-status[data-remote]', function (e) { 
+  $('#table').on('click', '.btn-status[data-remote]', function (e) {
     e.preventDefault();
     var url = $(this).data('remote');
-    
+
     Swal.fire({
-    title: '¿Desea solicitar desembolso?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Si',
-    cancelButtonText:'No',
-    cancelButtonColor: '#d33',
-    showLoaderOnConfirm: true,
-        preConfirm: () => {
+      title: '¿Desea solicitar desembolso?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      cancelButtonColor: '#d33',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
 
-              axios.put(url).then(response => {
-                // document.getElementById(this).style.visibility = 'hidden';
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Se ha solicitado el desembolso! ',
-              
-                  timer: 5000,
-                  timerProgressBar: true,
-                  }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                      location.reload()
-                    }
-                  })
+        axios.put(url).then(response => {
+          // document.getElementById(this).style.visibility = 'hidden';
+          Swal.fire({
+            icon: 'success',
+            title: 'Se ha solicitado el desembolso! ',
 
-                  window.setTimeout(function(){location.reload()},3000)
-              
-              }).catch(error => {
-                Toast.fire({
-                  icon: 'error',
-                  title: 'Errore de Conexion'
-                })
+            timer: 5000,
+            timerProgressBar: true,
+          }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+              location.reload()
+            }
+          })
 
-                console.error(error.response.data)
-              });
+          window.setTimeout(function () { location.reload() }, 3000)
 
-        }
-   });
-    
-});
+        }).catch(error => {
+          Toast.fire({
+            icon: 'error',
+            title: 'Errore de Conexion'
+          })
 
-$('#table').on('click', '.btn-info[data-remote]', function (e) { 
-      
-  const url = $(this).data('remote');
-  const profile = $(this).data('profile');
+          console.error(error.response.data)
+        });
 
-  Swal.fire({
-    html:
-    'Para la solicitud de crédito de sus operaciones, ' +
-    'es necesario que complete la información requerida ' +
-    'en la sección <a href="'+profile+'"><b> “Perfil Empresarial”</b></a> ',
-    icon: 'info',
-    showCancelButton: true,
-    showDenyButton: true,
-    confirmButtonText: 'Perfil &nbsp;',
-    confirmButtonColor: '#3085d6',
-    denyButtonText: `Solicitar`,
+      }
+    });
+
+  });
+
+  $('#table').on('click', '.btn-info[data-remote]', function (e) {
+
+    const url = $(this).data('remote');
+    const profile = $(this).data('profile');
+
+    Swal.fire({
+      html:
+        'Para la solicitud de crédito de sus operaciones, ' +
+        'es necesario que complete la información requerida ' +
+        'en la sección <a href="' + profile + '"><b> “Perfil Empresarial”</b></a> ',
+      icon: 'info',
+      showCancelButton: true,
+      showDenyButton: true,
+      confirmButtonText: 'Perfil &nbsp;',
+      confirmButtonColor: '#3085d6',
+      denyButtonText: `Solicitar`,
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -203,50 +203,50 @@ $('#table').on('click', '.btn-info[data-remote]', function (e) {
         window.location.href = url;
       }
     });
-});
+  });
 
 
-  $('#table').on('click', '.btn-sync[data-remote]', function (e) { 
+  $('#table').on('click', '.btn-sync[data-remote]', function (e) {
     e.preventDefault();
     var url = $(this).data('remote');
     let msg = $(this).data('type');
-    
+
     Swal.fire({
-    title: '¿Desea cargar ultimos 24 meses de '+msg+'?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Si',
-    cancelButtonText:'No',
-    cancelButtonColor: '#d33',
-    showLoaderOnConfirm: true,
-    preConfirm: () => {
-      return fetch(url)
-        .then(response => {
-          if (!response.ok) {
-           
-            throw new Error(response.statusText)
-          }
-          return response.json()
-        })
-        .catch(error => {
-        
-          Swal.showValidationMessage(
-            `Falla al cargar: ${error}`
-          )
-         //window.setTimeout(function(){location.reload()},3000)
-        })
-    },
-    allowOutsideClick: () => !Swal.isLoading()
+      title: '¿Desea cargar ultimos 24 meses de ' + msg + '?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      cancelButtonColor: '#d33',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return fetch(url)
+          .then(response => {
+            if (!response.ok) {
+
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          })
+          .catch(error => {
+
+            Swal.showValidationMessage(
+              `Falla al cargar: ${error}`
+            )
+            //window.setTimeout(function(){location.reload()},3000)
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
           icon: 'success',
           title: 'Carga generada con exito',
-          
+
         })
       }
     })
-    
+
   });
 
   $('#import_file_info').on('click', function (e) {
@@ -256,9 +256,9 @@ $('#table').on('click', '.btn-info[data-remote]', function (e) {
     Swal.fire({
       icon: 'info',
       title: 'Importar datos ',
-      html:`Para Importar informacion a sistema debe ser desde un archivo csv puedes <b>descargar</b> formato a llenar 
+      html: `Para Importar informacion a sistema debe ser desde un archivo csv puedes <b>descargar</b> formato a llenar 
       <b> <u> <a href="${url}">en este enlace </u></a></b>`
-      
+
     })
 
   });
@@ -269,81 +269,81 @@ $('#table').on('click', '.btn-info[data-remote]', function (e) {
 
 function initialize() {
 
-  $('form').on('keyup keypress', function(e) {
-      var keyCode = e.keyCode || e.which;
-      if (keyCode === 13) {
-          e.preventDefault();
-          return false;
-      }
+  $('form').on('keyup keypress', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      e.preventDefault();
+      return false;
+    }
   });
-  
+
   const locationInputs = document.getElementsByClassName("map-input");
 
   const autocompletes = [];
   let postalField;
   let placeId;
 
-  postalField   = document.querySelector("#postal_code");
+  postalField = document.querySelector("#postal_code");
   provinceField = document.querySelector("#province");
 
   for (let i = 0; i < locationInputs.length; i++) {
 
-      const input = locationInputs[i];
-      const fieldKey = input.id.replace("-input", "");
+    const input = locationInputs[i];
+    const fieldKey = input.id.replace("-input", "");
 
-      const autocomplete = new google.maps.places.Autocomplete(input,{
-        fields: ["address_components", "geometry"],
-        types: ["address"],
-      });
-      autocomplete.key = fieldKey;
-      autocompletes.push({input: input, autocomplete: autocomplete});
-      
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+      fields: ["address_components", "geometry"],
+      types: ["address"],
+    });
+    autocomplete.key = fieldKey;
+    autocompletes.push({ input: input, autocomplete: autocomplete });
+
 
   }
 
   for (let i = 0; i < autocompletes.length; i++) {
 
-      const autocomplete = autocompletes[i].autocomplete;
-      
-      google.maps.event.addListener(autocomplete, 'place_changed', function () {
-          const place = autocomplete.getPlace();
-         
-          let postcode = postalField.value;
-          let province = '';
-          let placId = place.place_id;
-          // Get each component of the address from the place details,
-          // and then fill-in the corresponding field on the form.
-          // place.address_components are google.maps.GeocoderAddressComponent objects
-          for (const component of place.address_components) {
-              const componentType = component.types[0];
-              
-            switch (componentType) {
-              
-              case "postal_code": {
-                  postcode = `${component.long_name}`;
-                  break;
-              }
+    const autocomplete = autocompletes[i].autocomplete;
 
-              case "administrative_area_level_2": {
-                  province = `${component.long_name}`;
-                  break;
-              }
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+      const place = autocomplete.getPlace();
 
-              case "postal_code_suffix": {
-                  postcode = `${postcode}-${component.long_name}`;
-                  break;
-              }
-              
-            }
+      let postcode = postalField.value;
+      let province = '';
+      let placId = place.place_id;
+      // Get each component of the address from the place details,
+      // and then fill-in the corresponding field on the form.
+      // place.address_components are google.maps.GeocoderAddressComponent objects
+      for (const component of place.address_components) {
+        const componentType = component.types[0];
+
+        switch (componentType) {
+
+          case "postal_code": {
+            postcode = `${component.long_name}`;
+            break;
           }
 
-          document.querySelector("#latitude").value = place.geometry['location'].lat();
-          document.querySelector("#longitude").value = place.geometry['location'].lng();
+          case "administrative_area_level_2": {
+            province = `${component.long_name}`;
+            break;
+          }
 
-          postalField.value = postcode;
-          provinceField.value = province;
-          placeId = placId;
-      });
+          case "postal_code_suffix": {
+            postcode = `${postcode}-${component.long_name}`;
+            break;
+          }
+
+        }
+      }
+
+      document.querySelector("#latitude").value = place.geometry['location'].lat();
+      document.querySelector("#longitude").value = place.geometry['location'].lng();
+
+      postalField.value = postcode;
+      provinceField.value = province;
+      placeId = placId;
+    });
   }
 
 }
@@ -351,91 +351,98 @@ function initialize() {
 
 function initial_map() {
 
-  $('form').on('keyup keypress', function(e) {
-      var keyCode = e.keyCode || e.which;
-      if (keyCode === 13) {
-          e.preventDefault();
-          return false;
-      }
+  $('form').on('keyup keypress', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      e.preventDefault();
+      return false;
+    }
   });
-  
+
   const locationInputs = document.getElementsByClassName("map-input");
 
-  const autocompletes = [];
-  let postalField;
-  let placeId;
+  const latitude = parseFloat(document.getElementById("latitude").value) || -33.418089046026;
+  const longitude = parseFloat(document.getElementById("longitude").value) || -70.596908628647;
+
+  map = new google.maps.Map(document.getElementById("address-map"), {
+    center: { lat: latitude, lng: longitude },
+    zoom: 2,
+  });
 
 
-  for (let i = 0; i < locationInputs.length; i++) {
+  axios.get('/user-applications/dashboard-map').then(response => {
 
-      const input = locationInputs[i];
-      const fieldKey = input.id.replace("-input", "");
+    if (response.data.length > 0) {
 
-      const autocomplete = new google.maps.places.Autocomplete(input,{
-        fields: ["address_components", "geometry"],
-        types: ["address"],
-      });
-      autocomplete.key = fieldKey;
-      autocompletes.push({input: input, autocomplete: autocomplete});
+      response.data.forEach(async (e, index) => {
 
-      const isEdit = true;
+        console.log(Number(e.origin_latitude));
 
-        const latitude = parseFloat(document.getElementById("latitude").value) || -33.418089046026;
-        const longitude = parseFloat(document.getElementById("longitude").value) || -70.596908628647;
+        if (e.origin_latitude != 0 && e.origin_longitude != 0) {
 
-        const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
-            center: {lat: latitude, lng: longitude},
-            zoom: 4
-        });
+          let originLat = Number(e.origin_latitude);
+          let originlng = Number(e.origin_longitude);
 
-        const marker = new google.maps.Marker({
+          let destLat = Number(e.dest_latitude);
+          let destlng = Number(e.dest_longitude);
+
+          new google.maps.Marker({
             map: map,
-            position: {lat: latitude, lng: longitude},
-        });
+            position: { lat: originLat, lng: originlng },
+            title: 'Origen ' + e.code,
+          });
 
-        marker.setVisible(isEdit);
-  }
+          new google.maps.Marker({
+            map: map,
+            position: { lat: destLat, lng: destlng },
+            title: 'Destino ' + e.code,
+          });
 
-  for (let i = 0; i < autocompletes.length; i++) {
-        const input = autocompletes[i].input;
-        const autocomplete = autocompletes[i].autocomplete;
-        const map = autocompletes[i].map;
-        const marker = autocompletes[i].marker;
+          const flightPlanCoordinates = [
+            { lat: originLat, lng: originlng },
+            { lat: destLat, lng: destlng },
+          ];
 
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            marker.setVisible(false);
-            const place = autocomplete.getPlace();
 
-            geocoder.geocode({'placeId': place.place_id}, function (results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    const lat = results[0].geometry.location.lat();
-                    const lng = results[0].geometry.location.lng();
-                    setLocationCoordinates(autocomplete.key, lat, lng);
-                }
-            });
+          // Define a symbol using SVG path notation, with an opacity of 1.
+          var lineSymbol = {
+            path: 'M 0,-1 0,1',
+            strokeOpacity: 1,
+            scale: 4
+          };
 
-            if (!place.geometry) {
-                window.alert("No details available for input: '" + place.name + "'");
-                input.value = "";
-                return;
-            }
+          const flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            strokeColor: "#FF0000",
+            strokeOpacity: 0,
+            icons: [{
+              icon: lineSymbol,
+              offset: '0',
+              repeat: '20px'
+            }],
+          });
 
-            if (place.geometry.viewport) {
-                map.fitBounds(place.geometry.viewport);
-            } else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(17);
-            }
-            marker.setPosition(place.geometry.location);
-            marker.setVisible(true);
+          flightPath.setMap(map);
 
-        });
+        }
+
+
+
+      });
+
     }
-}
 
-function setLocationCoordinates(key, lat, lng) {
-    const latitudeField = document.getElementById("latitude");
-    const longitudeField = document.getElementById("longitude");
-    latitudeField.value = lat;
-    longitudeField.value = lng;
+  }).catch(error => {
+
+    console.error(error);
+  });
+
+
+
+  // const marker2 = new google.maps.Marker({
+  //     map: map,
+  //     position: {lat: 35.1208505, lng: -90.070634},
+  //     label: "A"
+  // });
+
 }

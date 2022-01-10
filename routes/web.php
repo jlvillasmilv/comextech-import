@@ -36,6 +36,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     // Applications
     Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
+
+    Route::get('user-applications/dashboard-map',  'App\Http\Controllers\Web\ApplicationController@dashboardMap');
     
     //Summry Applications
     Route::get('/application-summary/{id}', function ($id) {
