@@ -335,7 +335,6 @@ class TransportsControllers extends Controller
     */
     public function dhlQuote(TransportRequest $request)
     {
-       
        try {
             if($request->has('dataLoad.0.length') && $request->has('dataLoad.0.width') && $request->has('dataLoad.0.height')) 
             {   
@@ -343,17 +342,29 @@ class TransportsControllers extends Controller
                 $api = $connect->quoteApi($request->except(['id','application_id','code_serv']));
                 $objJsonDocument = json_encode($api);
                 $arrOutput = json_decode($objJsonDocument, TRUE);
-
+                
                 // validate data from DHL return errors
                 if (empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['GetQuoteResponse']['Note'])) {
 
                     $notifications = array();
-                    foreach ($arrOutput['GetQuoteResponse']['Note']['Condition'] as $key => $notification) {
+                    foreach ($arrOutput['GetQuoteResponse']['Note']['Condition'] as $notification) {
+                           
+                        if (isset($notification['ConditionCode'])){
                             $notifications[] = $notification['ConditionCode'].'-'.$notification['ConditionData'];
+                        }
+                        else {
+                            $notifications[0] = $notification;
+                        }
                     }
         
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
                 }
+
+                if (empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => ['Servicio no disponible']]], 422);
+                }
+
         
                 $quote = array();
                
@@ -429,12 +440,12 @@ class TransportsControllers extends Controller
     {
         $data = [
             "fav_origin_address" => false,
-            "origin_address" => "Port Rd, Singapur",
+            "origin_address" => "Miami Beach Boardwalk, Miami Beach, FL 33140, EE. UU.",
             "origin_latitude" => 1.2670996,
             "origin_longitude" => 103.8037803,
-            "origin_postal_code" => 10302,
-            "origin_locality" => "Singapore",
-            "origin_ctry_code" => "SG",
+            "origin_postal_code" => 33140,
+            "origin_locality" => "Miami Beach",
+            "origin_ctry_code" => "US",
             "fav_dest_address" => true,
             "dest_address" => "1",
             "dest_latitude" => null,
@@ -478,9 +489,14 @@ class TransportsControllers extends Controller
         if (empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['GetQuoteResponse']['Note'])) {
 
             $notifications = array();
-            // dd($arrOutput['GetQuoteResponse']['Note']['Condition']);
-            foreach ($arrOutput['GetQuoteResponse']['Note']['Condition'] as $key => $notification) {
-                    $notifications[] = $notification['ConditionCode'].'-'.$notification['ConditionData'];
+            foreach ($arrOutput['GetQuoteResponse']['Note']['Condition'] as $notification) {
+                   
+                    if (isset($notification['ConditionCode'])){
+                        $notifications[] = $notification['ConditionCode'].'-'.$notification['ConditionData'];
+                    }
+                    else {
+                        $notifications[0] = $notification;
+                    }
             }
 
             return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
