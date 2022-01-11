@@ -5,9 +5,9 @@
         v-if="
           !expenses.dataLoad || expenses.dataLoad.length == 0 || $store.state.address.formAddress
         "
-        class="w-full flex flex-col flex-wrap items-center -mx-3 my-8"
+        class="w-full flex flex-col flex-wrap items-center my-8"
       >
-        <div class="flex justify-around w-full px-3 mb-6 md:mb-0">
+        <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             {{
               data.condition === 'FOB'
@@ -15,7 +15,7 @@
                 : ' Almacen o Fabrica del Proveedor'
             }}
           </div>
-          <label class="w-7/12 text-sm">
+          <label class="w-6/12 text-sm">
             <!-- <span class="text-gray-700 dark:text-gray-400 font-semibold">
               {{
                 data.condition === 'FOB'
@@ -71,14 +71,14 @@
               v-html="expenses.errors.get('origin_address')"
             ></span>
           </label>
-          <div class="flex justify-center w-2/12">
+          <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
           </div>
         </div>
         <!-- Destino de Envio -->
-        <div class="flex justify-around w-full px-3 mb-6 md:mb-0">
+        <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">Destino de Envio</div>
-          <label class="w-7/12 text-sm">
+          <label class="w-6/12 text-sm">
             <vue-google-autocomplete
               v-if="!expenses.fav_dest_address"
               v-model="expenses.dest_address"
@@ -123,7 +123,7 @@
               /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
             </label>
           </label>
-          <div class="flex justify-center w-2/12">
+          <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
           </div>
           <span
@@ -276,7 +276,7 @@
             ></span>
           </label>
         </div>
-        <div class="w-1/3 px-2">
+        <div class="w-1/4 px-2">
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400 font-semibold">
               Descripcion de la carga
@@ -314,8 +314,10 @@
             <span class="ml-2 text-gray-700">Seguro (1,5%)</span>
           </label>
         </div>
-        <div class="w-1/6 mt-8" v-if="expenses.insurance">
-          <span class="ml-2 text-gray-700"> {{ formatPrice(data.amount) }} USD </span>
+        <div class="w-1/6 mt-8">
+          <span v-show="expenses.insurance" class="ml-2 text-gray-700">
+            {{ formatPrice(data.amount) }} USD
+          </span>
         </div>
       </div>
 
