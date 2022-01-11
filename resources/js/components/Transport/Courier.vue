@@ -201,10 +201,7 @@
           </label>
         </div>
         <div class="w-1/6 mt-8" v-if="expenses.insurance">
-          <span class="ml-2 text-gray-700">
-            {{ data.amount }} USD
-            <!-- {{ currency.code }} -->
-          </span>
+          <span class="ml-2 text-gray-700"> {{ formatPrice(data.amount) }} USD </span>
         </div>
       </div>
 
@@ -650,6 +647,13 @@ export default {
 
     getAddressDestination(addressData, placeResultData, id) {
       this.$store.dispatch('address/getAddressDestination2', { addressData, placeResultData });
+    },
+
+    formatPrice(value, currency) {
+      return Number(value).toLocaleString(navigator.language, {
+        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+      });
     },
 
     async convertInsurance(currencie, currency) {
