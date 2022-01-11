@@ -41,7 +41,9 @@ const state = {
   portsDesTemp: [],
   addressDate: true,
   formAddress: false,
-  minDate: new Date().toISOString().substr(0, 10)
+  minDate: new Date().toISOString().substr(0, 10),
+  postalCodeOrigin: false,
+  postalCodeDestination: false
 };
 
 const getters = {};
@@ -107,6 +109,13 @@ const mutations = {
           break;
         }
       }
+    }
+    if (!state.expenses.origin_postal_code) {
+      state.postalCodeOrigin = true;
+      state.postalCodeDestination = true;
+    } else {
+      state.postalCodeOrigin = false;
+      state.postalCodeDestination = false;
     }
   },
   GET_ADDRESS_DESTINATION(state, { addressData, placeResultData }) {

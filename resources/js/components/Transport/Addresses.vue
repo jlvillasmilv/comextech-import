@@ -29,6 +29,11 @@
       v-if="expenses.errors.has('fedex')"
       v-html="expenses.errors.get('fedex')"
     ></span>
+    <span
+      class="text-xs text-red-600 dark:text-red-400"
+      v-if="expenses.errors.has('dhl')"
+      v-html="expenses.errors.get('dhl')"
+    ></span>
     <div v-show="isActivateAddress">
       <!-- Cotizacion courier -->
       <div v-if="data.type_transport == 'COURIER'">
@@ -149,9 +154,8 @@ export default {
       }
     },
     getAddressDestination: function(addressData, placeResultData, id) {
-
       this.expenses.address_destination = placeResultData.formatted_address;
-      this.expenses.dest_latitude  = addressData.latitude;
+      this.expenses.dest_latitude = addressData.latitude;
       this.expenses.dest_longitude = addressData.longitude;
 
       for (const component of placeResultData.address_components) {
@@ -177,7 +181,6 @@ export default {
           }
         }
       }
-
     },
 
     getFavOriginPort: async function() {
