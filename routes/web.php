@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     // Connect with apis courier service
     Route::post('/get-fedex-rate','App\Http\Controllers\Web\TransportsControllers@fedexRate');
     Route::post('/get-dhl-quote','App\Http\Controllers\Web\TransportsControllers@dhlQuote');
-    Route::get('/test-fedex','App\Http\Controllers\Web\TransportsControllers@test');
+    Route::get('/test-courier','App\Http\Controllers\Web\TransportsControllers@test');
 
     Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
 
