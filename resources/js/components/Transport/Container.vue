@@ -779,7 +779,7 @@
               >
                 {{
                   fclQuote.transport.transport_amount
-                    ? fclQuote.transport.transport_amount
+                    ? formatPrice(fclQuote.transport.transport_amount)
                     : 'POR COTIZAR'
                 }}
               </td>
@@ -789,7 +789,11 @@
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
               <td :class="[!fclQuote.transport.insurance ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
-                {{ fclQuote.transport.insurance ? fclQuote.transport.insurance : 'POR COTIZAR' }}
+                {{
+                  fclQuote.transport.insurance
+                    ? formatPrice(fclQuote.transport.insurance)
+                    : 'POR COTIZAR'
+                }}
               </td>
               <td class="px-4 py-3">USD</td>
             </tr>
@@ -797,7 +801,11 @@
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
               <td :class="[!fclQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
-                {{ fclQuote.transport.oth_exp ? fclQuote.transport.oth_exp : 'POR COTIZAR' }}
+                {{
+                  fclQuote.transport.oth_exp
+                    ? formatPrice(fclQuote.transport.oth_exp)
+                    : 'POR COTIZAR'
+                }}
               </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
@@ -808,7 +816,9 @@
                 :class="[!fclQuote.transport.local_transp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
               >
                 {{
-                  fclQuote.transport.local_transp ? fclQuote.transport.local_transp : 'POR COTIZAR'
+                  fclQuote.transport.local_transp
+                    ? formatPrice(fclQuote.transport.local_transp)
+                    : 'POR COTIZAR'
                 }}
               </td>
               <td class="px-4 py-3">CLP</td>
@@ -851,14 +861,20 @@
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td class="text-red-600 px-4 py-3">{{ fclQuote.transport.transport_amount }}</td>
+              <td class="text-red-600 px-4 py-3">
+                {{ formatPrice(fclQuote.transport.transport_amount) }}
+              </td>
               <td class="px-4 py-3">USD</td>
             </tr>
             <tr class="text-xs text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
               <td :class="[!fclQuote.transport.insurance ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
-                {{ fclQuote.transport.insurance ? fclQuote.transport.insurance : 'POR COTIZAR' }}
+                {{
+                  fclQuote.transport.insurance
+                    ? formatPrice(fclQuote.transport.insurance)
+                    : 'POR COTIZAR'
+                }}
               </td>
               <td class="px-4 py-3">USD</td>
             </tr>
@@ -866,7 +882,11 @@
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
               <td :class="[!fclQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
-                {{ fclQuote.transport.oth_exp ? fclQuote.transport.oth_exp : 'POR COTIZAR' }}
+                {{
+                  fclQuote.transport.oth_exp
+                    ? formatPrice(fclQuote.transport.oth_exp)
+                    : 'POR COTIZAR'
+                }}
               </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
@@ -877,7 +897,9 @@
                 :class="[!fclQuote.transport.local_transp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
               >
                 {{
-                  fclQuote.transport.local_transp ? fclQuote.transport.local_transp : 'POR COTIZAR'
+                  fclQuote.transport.local_transp
+                    ? formatPrice(fclQuote.transport.local_transp)
+                    : 'POR COTIZAR'
                 }}
               </td>
               <td class="px-4 py-3">CLP</td>
@@ -1095,6 +1117,12 @@ export default {
       }
 
       this.expenses.dest_address = placeResultData.formatted_address;
+    },
+    formatPrice(value, currency) {
+      return Number(value).toLocaleString(navigator.language, {
+        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+      });
     }
   },
   computed: {
