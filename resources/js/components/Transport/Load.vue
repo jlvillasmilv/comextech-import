@@ -64,15 +64,13 @@
               Tipo de Carga
             </label>
             <select
-              v-model="item.type_load"
+              v-model="item.category_load_id"
               value="Seleccionar"
               class="block text-sm  w-2/3 bg-white border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             >
-              <option value="1" selected> Pallet / s</option>
-              <option value="2"> Caja / s</option>
-              <option value="3"> Unidad/es</option>
-              <option value="4"> Bidón / es</option>
-              <option value="5"> Bags </option>
+              <option value="1"> Caja / s</option>
+              <option value="2" selected> Pallet / s</option>
+              <option value="3" selected> Unidad/es</option> 
             </select>
           </div>
         </div>

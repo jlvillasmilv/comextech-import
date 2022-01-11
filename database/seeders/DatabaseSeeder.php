@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ApplicationStatusSeeder::class);
         $this->call(CategoryServiceSeeder::class);
         $this->call(TransportModeSeeder::class);
-        $this->call(ApplicationSeeder::class);
         $this->call(CategoryLoadSeeder::class);
         $this->call(CategoryContainerSeeder::class);
+        $this->call(ApplicationSeeder::class);
         $this->call(WarehouseSeeder::class);
         $this->call(SupplCondSaleSeeder::class);
         $this->call(CustomAgentSeeder::class);

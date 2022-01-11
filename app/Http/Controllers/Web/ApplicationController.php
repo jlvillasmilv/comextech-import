@@ -538,7 +538,8 @@ class ApplicationController extends Controller
         $data  =  \DB::table('transports as trans')
         ->join('applications as app', 'trans.application_id', '=', 'app.id')
         ->where([
-            ["app.user_id", auth()->user()->id]
+            ["app.user_id", auth()->user()->id],
+            ["app.application_statuses_id", '<=', 3]
         ])
         ->select('app.code','app.type_transport',
         'trans.fav_origin_address','trans.origin_address','trans.origin_latitude','trans.origin_longitude',

@@ -30,7 +30,7 @@ class Load extends Model
 
     public function categoryLoad()
     {
-        return $this->belongsTo(CategoryLoad::class,'type_load')->withDefault(['name' => '' ]);
+        return $this->belongsTo(CategoryLoad::class,'category_load_id')->withDefault(['name' => '' ]);
     }
 
     public function container()
@@ -68,7 +68,7 @@ class Load extends Model
                     'width'          => $item['width'],
                     'height'         => $item['height'],
                     'type_container' => $item['type_container'],
-                    'type_load'      => $item['type_load'],
+                    'category_load_id'      => $item['category_load_id'],
                     'weight'         => $item['weight'],
                     'weight_units'   => $item['weight_units'],
                 ]);
@@ -89,7 +89,7 @@ class Load extends Model
                         'length'         => $item['length'],
                         'width'          => $item['width'],
                         'height'         => $item['height'],
-                        'type_load'      => $item['type_load'],
+                        'category_load_id'      => $item['category_load_id'],
                         'weight'         => $item['weight'],
                         'weight_units'   => $item['weight_units'],
                     ]

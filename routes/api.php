@@ -36,11 +36,20 @@ Route::get('/currencies', function (Request $request) {
 });
 
 Route::get('/category_services', function (Request $request) {
-    $currencies = CategoryService::select('id', 'name', DB::raw("false as selected"))
+    $cartegory = CategoryService::select('id', 'name', DB::raw("false as selected"))
         ->where('status', '=', true)
         ->where('ind_service', '=', true)
         ->OrderBy('sort')->get();
-    return response()->json($currencies, 200);
+    return response()->json($cartegory, 200);
+});
+
+Route::get('/category_load', function (Request $request) {
+    $cartegory_load = \DB::table('currencies')
+        ->select('id', 'name')
+        ->where('status', '=', true)
+        ->OrderBy('name')->get();
+        
+    return response()->json($cartegory_load, 200);
 });
 
 Route::get('/warehouses', function (Request $request) {

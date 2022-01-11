@@ -77,7 +77,7 @@ class ApplicationSeeder extends Seeder
                 'height'         => 12,
                 'mode_calculate' => 1,
                 'type_container' => 1,
-                'type_load'      => 1,
+                'category_load_id' => 1,
                 'weight'         => 12,
                 'weight_units'   => 'KG',
             ]
