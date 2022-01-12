@@ -154,7 +154,8 @@ class ApplicationController extends Controller
 
             if($request->application_id == 0)
             {
-                $add_summary = Service::where('summary', true)
+                $add_summary = \DB::table('services')
+                ->where('summary', true)
                 ->select('id','name','category_service_id')
                 ->orderby('name')
                 ->get();
@@ -184,11 +185,35 @@ class ApplicationController extends Controller
                 });
             }
 
+            if($request->type_transport == 'COURIER')
+            {
+                \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $application->id],
+                        ["as.status", true]
+                    ])
+                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->update(["as.status" => false, "as.amount" => 0]);
+
+            }
+            else {
+                \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $application->id],
+                        ["as.status", false]
+                    ])
+                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->update(["as.status" => true]);
+            }
+
             DB::commit();
             
-            $appli = Application::where('id', $application->id)
+            $appli = \DB::table('applications')
+            ->where('id', $application->id)
             ->select('id', 'code', 'supplier_id', 'currency_id')
-            ->firstOrFail();  
+            ->first();  
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -209,7 +234,20 @@ class ApplicationController extends Controller
         $application  = Application::where([
             ['id', '=',  Crypt::decryptString($id)],
             ['user_id', auth()->user()->id],
-        ])->firstOrFail();
+        ])
+        ->with([
+            'currency' => function($query) {
+                $query->select('id', 'code', 'name');
+            }, 
+            'paymentProvider' => function($query) {
+                $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay');
+            },
+            'summary' => function($query) {
+                $query->where('status', true);
+            }
+            ,'transport','loads','internmentProcess','status'
+        ])
+        ->firstOrFail();
 
         return view('applications.show', compact('application'));
        
@@ -377,15 +415,6 @@ class ApplicationController extends Controller
                         ]);
              }
 
-             // update application summary
-           \DB::table('application_summaries as as')
-                ->join('services as s', 'as.service_id', '=', 's.id')
-                ->where([
-                    ["as.application_id", $application->id],
-                    ["s.code", 'CS01-01']
-                ])
-            ->update(['as.amount' =>  $application->amount]);
-
              return response()->json(['status' => 'OK'], 200);
         }
 
@@ -408,11 +437,13 @@ class ApplicationController extends Controller
         try {
             //dd($request->all());
             $internment = InternmentProcess::updateOrCreate(
-                [   'application_id'   => $request->application_id, ],
+                [   'application_id'       => $request->application_id, ],
                 [
                     'custom_agent_id'      => $request->custom_agent_id,
                     'customs_house'        => $request->customs_house,
                     'agent_payment'        => $request->agent_payment,
+                    'trans_company_id'     => $request->trans_company_id,
+                    'courier_svc'          => $request->courier_svc,
                     'iva'                  => $request->iva,
                     'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
                     'adv'                  => $request->adv,
@@ -538,7 +569,8 @@ class ApplicationController extends Controller
         $data  =  \DB::table('transports as trans')
         ->join('applications as app', 'trans.application_id', '=', 'app.id')
         ->where([
-            ["app.user_id", auth()->user()->id]
+            ["app.user_id", auth()->user()->id],
+            ["app.application_statuses_id", '<=', 3]
         ])
         ->select('app.code','app.type_transport',
         'trans.fav_origin_address','trans.origin_address','trans.origin_latitude','trans.origin_longitude',

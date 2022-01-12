@@ -342,15 +342,30 @@ class TransportsControllers extends Controller
                 $api = $connect->quoteApi($request->except(['id','application_id','code_serv']));
                 $objJsonDocument = json_encode($api);
                 $arrOutput = json_decode($objJsonDocument, TRUE);
-
+                
                 // validate data from DHL return errors
-                if (!empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['Note'])) {
+                if (empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['GetQuoteResponse']['Note'])) {
+
                     $notifications = array();
-                   
-                    $notifications['ConditionData'] = $notification['ConditionData'];
+                    foreach ($arrOutput['GetQuoteResponse']['Note']['Condition'] as $notification) {
+                           
+                        if (isset($notification['ConditionCode'])){
+                            $notifications[] = $notification['ConditionCode'].'-'.$notification['ConditionData'];
+                        }
+                        else {
+                            $notifications[0] = $notification;
+                        }
+                    }
+        
                     return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
                 }
 
+                if (empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
+
+                    return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => ['Servicio no disponible']]], 422);
+                }
+
+        
                 $quote = array();
                
                 // validate data from DHL
@@ -424,13 +439,13 @@ class TransportsControllers extends Controller
     public function test()
     {
         $data = [
-            "fav_origin_address" => true,
-            "origin_address" => "1",
-            "origin_latitude" => null,
-            "origin_longitude" => null,
-            "origin_postal_code" => null,
-            "origin_locality" => null,
-            "origin_ctry_code" => null,
+            "fav_origin_address" => false,
+            "origin_address" => "Miami Beach Boardwalk, Miami Beach, FL 33140, EE. UU.",
+            "origin_latitude" => 1.2670996,
+            "origin_longitude" => 103.8037803,
+            "origin_postal_code" => 33140,
+            "origin_locality" => "Miami Beach",
+            "origin_ctry_code" => "US",
             "fav_dest_address" => true,
             "dest_address" => "1",
             "dest_latitude" => null,
@@ -445,7 +460,7 @@ class TransportsControllers extends Controller
             "dataLoad" => [
                [
                 "mode_calculate" => true,
-                "type_load" => 1,
+                "category_load_id" => 1,
                 "type_container" => 1,
                 "length" => 30,
                 "width"  => 30,
@@ -467,12 +482,23 @@ class TransportsControllers extends Controller
         $objJsonDocument = json_encode($api);
         $arrOutput = json_decode($objJsonDocument, TRUE);
 
+      
+        
         $quote = array();
 
-        if (!empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['Note'])) {
+        if (empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['GetQuoteResponse']['Note'])) {
+
             $notifications = array();
-           
-            $notifications['ConditionData'] = $notification['ConditionData'];
+            foreach ($arrOutput['GetQuoteResponse']['Note']['Condition'] as $notification) {
+                   
+                    if (isset($notification['ConditionCode'])){
+                        $notifications[] = $notification['ConditionCode'].'-'.$notification['ConditionData'];
+                    }
+                    else {
+                        $notifications[0] = $notification;
+                    }
+            }
+
             return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
         }
 

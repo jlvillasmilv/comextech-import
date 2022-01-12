@@ -32,7 +32,7 @@ const state = {
   ],
   item: {
     mode_calculate: true,
-    type_load: 1,
+    category_load_id: 1,
     type_container: 1,
     length: '',
     width: '',
@@ -88,11 +88,6 @@ const mutations = {
       }
     });
     state.loads = [...newLoads];
-    // state = {
-    //     ...state,
-    //     loads: [...newLoads],
-    //     loadType: unit
-    // };
   },
   SHOW_LOAD_CHARGE(state, value) {
     state.showLoad = value;

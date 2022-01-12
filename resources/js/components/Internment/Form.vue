@@ -18,14 +18,15 @@
           </h4>
         </div>
 
-        <div class="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="px-4 py-2 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <div class="md:flex md:items-center my-2">
-            <div class="md:w-1/3">
+            <div class="md:w-auto">
               <input
                 v-bind:value="true"
                 v-model="expenses.customs_house"
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
+                :disabled="expenses.courier_svc ? true : false"
               />
               <span class="mx-2 text-xs text-black text-gray-500"> Comextech </span>
               <input
@@ -33,12 +34,58 @@
                 v-model="expenses.customs_house"
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
+                :disabled="expenses.courier_svc ? true : false"
               />
               <span class="ml-2 text-xs text-black text-gray-500"> Cliente </span>
             </div>
-            <div class="flex md:2/3">
-              <div class="w-auto px-1 mb-2 md:mb-0">
-                <label class="block text-sm" v-if="!expenses.customs_house">
+
+            <div class="md:w-1/5" v-if="expenses.courier_svc">
+              <input
+                v-bind:value="true"
+                v-model="expenses.courier_svc"
+                type="radio"
+                class="form-checkbox h-5 w-5 text-blue-600"
+                checked
+              />
+              <span class="mx-2 text-xs text-black text-gray-500"> Servicio incluido </span>
+            </div>
+
+            <div class="flex md:1/2">
+              <div class="w-1/2 px-1 mb-2 md:mb-0">
+                <label class="block text-sm" v-if="expenses.courier_svc && AppAmount < 3000">
+                  <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
+                  <select
+                    v-model="expenses.trans_company_id"
+                    class="
+                      block
+                      w-full
+                      border border-gray-150
+                      text-gray-700
+                      p-2
+                      mt-1.5
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none focus:bg-white focus:border-gray-500
+                    "
+                  >
+                    <option
+                      v-for="item in trans_companies"
+                      :value="item.id"
+                      :key="item.id"
+                      class=""
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                  <span
+                    class="text-xs text-red-600 dark:text-red-400"
+                    v-if="expenses.errors.has('trans_company_id')"
+                    v-html="expenses.errors.get('trans_company_id')"
+                  ></span>
+                </label>
+
+                <label class="block text-sm" v-if="!expenses.courier_svc">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Seleccion </span>
                   <select
                     v-model="expenses.custom_agent_id"
@@ -55,9 +102,18 @@
                       focus:outline-none focus:bg-white focus:border-gray-500
                     "
                   >
-                    <option v-for="item in custom_agents" :value="item.id" :key="item.id" class="">
-                      {{ item.contact_person }}
-                    </option>
+                    <template v-if="!expenses.customs_house">
+                      <option
+                        v-for="item in custom_agents"
+                        :value="item.id"
+                        :key="item.id"
+                        class=""
+                      >
+                        {{ item.contact_person }}
+                      </option>
+                    </template>
+
+                    <option v-if="expenses.customs_house" value="">Asociado</option>
                   </select>
                   <span
                     class="text-xs text-red-600 dark:text-red-400"
@@ -65,46 +121,15 @@
                     v-html="expenses.errors.get('custom_agent_id')"
                   ></span>
                 </label>
-                <label class="block text-sm" v-if="expenses.customs_house">
-                  <span class="text-gray-700 dark:text-gray-400 font-semibold"> Seleccion </span>
-                  <select
-                    v-model="expenses.custom_agent_id"
-                    class="
-                      block
-                      w-36
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1.5
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none focus:bg-white focus:border-gray-500
-                    "
-                  >
-                    <!-- <option
-                                            v-for="item in custom_agents"
-                                            :value="item.id"
-                                            :key="item.id"
-                                            class=""
-                                        >
-                                            {{ item.contact_person }}
-                                        </option> -->
-                    <option value="">Asociado</option>
-                  </select>
-                  <span
-                    class="text-xs text-red-600 dark:text-red-400"
-                    v-if="expenses.errors.has('custom_agent_id')"
-                    v-html="expenses.errors.get('custom_agent_id')"
-                  ></span>
-                </label>
+                
               </div>
 
-              <div class="w-auto px-1 mb-2 md:mb-0" v-if="!expenses.customs_house">
+              <div class="w-auto px-1 mx-4 mb-2 md:mb-0">
                 <label class="block text-sm">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold">
                     Costo Servicio
                   </span>
+                  <span class="mx-2">USD</span>
                   <input
                     v-model.number="expenses.agent_payment"
                     type="number"
@@ -118,6 +143,7 @@
                       dark:text-gray-300 dark:focus:shadow-outline-gray
                       form-input
                     "
+                    :disabled="expenses.customs_house ? true : false"
                     placeholder="Monto"
                   />
                   <span
@@ -125,38 +151,6 @@
                     v-if="expenses.errors.has('agent_payment')"
                     v-html="expenses.errors.get('agent_payment')"
                   ></span>
-                </label>
-              </div>
-              <div class="w-auto px-1 mx-4 mb-2 md:mb-0" v-if="expenses.customs_house">
-                <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400 font-semibold">
-                    Costo Servicio
-                  </span>
-
-                  <div class="flex items-center">
-                    <span class="mx-2">USD</span>
-                    <input
-                      v-model.number="expenses.agent_payment"
-                      type="number"
-                      class="
-                        block
-                        w-36
-                        mt-1
-                        text-sm
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                      :disabled="expenses.customs_house ? true : false"
-                      placeholder="Monto"
-                    />
-                    <span
-                      class="text-xs text-red-600 dark:text-red-400"
-                      v-if="expenses.errors.has('agent_payment')"
-                      v-html="expenses.errors.get('agent_payment')"
-                    ></span>
-                  </div>
                 </label>
               </div>
             </div>
@@ -436,7 +430,7 @@
                 <td class="px-4 py-3">Transporte</td>
                 <td class="px-4 py-3">
                   <span v-if="transport">
-                      <input
+                    <input
                       v-model.number="transpAmount"
                       type="number"
                       class="
@@ -453,9 +447,8 @@
                     />
                   </span>
                   <span v-else>
-                      {{ formatPrice(transpAmount, 'USD') }}
+                    {{ formatPrice(transpAmount, 'USD') }}
                   </span>
-
                 </td>
                 <td class="px-4 py-3">USD</td>
               </tr>
@@ -467,7 +460,7 @@
                 <td class="px-4 py-3">Seguro</td>
                 <td class="px-4 py-3">
                   <span v-if="insure">
-                     <input
+                    <input
                       v-model.number="insureAmount"
                       type="number"
                       class="
@@ -482,7 +475,6 @@
                       "
                       placeholder="Monto Seguro"
                     />
-                    
                   </span>
                   <span v-else>
                     {{ formatPrice(this.insureAmount) }}
@@ -498,7 +490,6 @@
                 <td class="text-blue-700 font-semibold px-4 py-3">Valor CIF</td>
               </tr>
             </tbody>
-           
           </table>
         </div>
       </div>
@@ -569,44 +560,12 @@
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
               />
             </div>
-            <!-- <div class="w-2/12">
-              <button
-                v-if="!expenses.adv"
-                class="disabled:opacity-100 w-full h-10 text-white text-sm bg-gray-300 rounded-lg"
-                disabled
-              >
-                Financiar
-              </button>
-              <button
-                v-if="expenses.adv"
-                class="
-                  w-full
-                  h-10
-                  text-white
-                  transition-colors
-                  text-sm
-                  duration-150
-                  bg-green-700
-                  rounded-lg
-                  focus:shadow-outline
-                  hover:bg-green-800
-                "
-              >
-                Financiar
-              </button>
-            </div> -->
+            
           </div>
         </div>
-        <!-- <div class="flex">
-                    <div class="w-1/7 ml-8 mr-3">
-                        <div class="w-1/7 space-y-9"></div>
-                    </div>
-                </div> -->
       </div>
       <div class="flex justify-start" v-if="data.type_transport != 'COURIER'">
-        
         <div class="items-center ml-2 w-1/2">
-
           <table class="w-full whitespace-no-wrap">
             <thead>
               <tr
@@ -619,31 +578,34 @@
                 "
               >
                 <th class="px-4 py-1 bg-gray-200 text-black-600 dark:text-gray-300" colspan="2">
-                    Gastos de Puerto
+                  Gastos de Puerto
                 </th>
-               
               </tr>
             </thead>
-            <tbody v-if="data.type_transport == 'CONSOLIDADO'"
-             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <tbody
+              v-if="data.type_transport == 'CONSOLIDADO'"
+              class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+            >
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">{{ formatPrice(docMgmtLcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Gestión Documental (por cada BL) </td>
+                <td class="px-4 py-3">Gestión Documental (por cada BL)</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">{{ formatPrice(docVisaLcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Visación documental (por cada BL)  </td>
+                <td class="px-4 py-3">Visación documental (por cada BL)</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">{{ formatPrice(dispatchLcl, 'USD') }} USD</td>
                 <td class="px-4 py-3">Despacho (por Ton&M3)</td>
               </tr>
             </tbody>
-            <tbody v-if="data.type_transport == 'CONTAINER'"
-             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <tbody
+              v-if="data.type_transport == 'CONTAINER'"
+              class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+            >
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">{{ formatPrice(docMgmtFcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Gestión Documental (por cada BL) </td>
+                <td class="px-4 py-3">Gestión Documental (por cada BL)</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">{{ formatPrice(loanFcl, 'USD') }} USD</td>
@@ -651,22 +613,20 @@
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">{{ formatPrice(gateInFcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Gate In ( X Conteiner) </td>
+                <td class="px-4 py-3">Gate In ( X Conteiner)</td>
               </tr>
             </tbody>
             <tfoot>
               <tr class="bg-gray-100">
-                <td class="text-center text-blue-700 font-semibold px-4 py-3"> 
-                    {{ formatPrice(expenses.port_charges, 'USD') }} USD
+                <td class="text-center text-blue-700 font-semibold px-4 py-3">
+                  {{ formatPrice(expenses.port_charges, 'USD') }} USD
                 </td>
-                <td class="text-blue-700 font-semibold px-4 py-3"> 
-                    Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
+                <td class="text-blue-700 font-semibold px-4 py-3">
+                  Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
                 </td>
               </tr>
             </tfoot>
-
           </table>
-
         </div>
       </div>
 
@@ -710,9 +670,8 @@ export default {
     ...mapState('internment', ['expenses']),
     ...mapState('application', ['data', 'currency']),
     ...mapState('exchange', ['exchangeItem']),
-    
   },
- 
+
   data() {
     return {
       certif: [
@@ -729,19 +688,20 @@ export default {
       ],
       certificate: {},
       custom_agents: [],
+      trans_companies: [],
       showInputFile: false,
       nameFileUpload: '',
       transpAmount: 0,
       insureAmount: 0,
       AppAmount: 0,
       docMgmtFcl: 25,
-      loanFcl : 120,
-      gateInFcl : 120,
-      docMgmtLcl : 195, 
-      docVisaLcl : 30, 
-      dispatchLcl : 30,
+      loanFcl: 120,
+      gateInFcl: 120,
+      docMgmtLcl: 195,
+      docVisaLcl: 30,
+      dispatchLcl: 30,
       insure: false,
-      transport: false
+      transport: false,
     };
   },
   methods: {
@@ -826,45 +786,40 @@ export default {
     },
 
     async taxCheck() {
+      this.expenses.cif_amt = parseFloat(
+        Number(this.AppAmount) + Number(this.transpAmount) + Number(this.insureAmount)
+      ).toFixed(2);
 
-        this.expenses.cif_amt = parseFloat(Number(this.AppAmount) + Number(this.transpAmount) + Number(this.insureAmount)).toFixed(2); 
+      this.expenses.insurance = Number(this.insureAmount);
+      this.expenses.transport_amt = Number(this.transpAmount);
 
-        this.expenses.insurance = Number(this.insureAmount);
-        this.expenses.transport_amt = Number(this.transpAmount);
+      let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
 
-        let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
+      if (cif_clp.data <= 0) {
+        cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
+      }
 
-        if(cif_clp.data <= 0) {
-          cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
-        }
-
-        this.expenses.iva_amt = cif_clp.data * (19 / 100);
-        this.expenses.adv_amt = cif_clp.data * (6/100);
-
-       console.log(cif_clp.data, this.expenses.adv_amt, this.expenses.iva_amt);
-
+      this.expenses.iva_amt = cif_clp.data * (19 / 100);
+      this.expenses.adv_amt = cif_clp.data * (6 / 100);
     },
 
     async portCharge() {
-
-       // get default amount 
+      // get default amount
       let settings = await axios.get('/settings');
 
       if (settings.status == 200) {
-        this.docMgmtFcl = parseInt(settings.data.doc_mgmt_fcl)
-        this.loanFcl    = parseInt(settings.data.loan_fcl)
-        this.gateInFcl  = parseInt(settings.data.gate_in_fcl)
+        this.docMgmtFcl = parseInt(settings.data.doc_mgmt_fcl);
+        this.loanFcl = parseInt(settings.data.loan_fcl);
+        this.gateInFcl = parseInt(settings.data.gate_in_fcl);
 
-        this.docMgmtLcl = parseInt(settings.data.doc_mgmt_lcl) 
-        this.docVisaLcl = parseInt(settings.data.doc_visa_lcl)
-        this.dispatchLcl = parseInt(settings.data.dispatch_lcl)  
-
-       }
+        this.docMgmtLcl = parseInt(settings.data.doc_mgmt_lcl);
+        this.docVisaLcl = parseInt(settings.data.doc_visa_lcl);
+        this.dispatchLcl = parseInt(settings.data.dispatch_lcl);
+      }
 
       this.expenses.port_charges = 0;
 
       if (this.data.type_transport == 'CONSOLIDADO') {
-
         const cargoCBM = this.$store.state.load.loads
           .map((item) => item.cbm)
           .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
@@ -873,42 +828,56 @@ export default {
           .map((item) => item.weight)
           .reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0);
 
-        this.expenses.port_charges = (( cargoCBM > cargoW ? cargoCBM : cargoW / 1000) * this.dispatchLcl) + this.docMgmtLcl + this.docVisaLcl;
-      } 
-      
+        this.expenses.port_charges =
+          (cargoCBM > cargoW ? cargoCBM : cargoW / 1000) * this.dispatchLcl +
+          this.docMgmtLcl +
+          this.docVisaLcl;
+      }
+
       if (this.data.type_transport == 'CONTAINER') {
         this.expenses.port_charges = this.docMgmtFcl + this.loanFcl + this.gateInFcl;
       }
-     // console.log(this.expenses.port_charges)
+      // console.log(this.expenses.port_charges)
     },
-    
   },
   watch: {
     'expenses.customs_house': {
       handler(after, before) {
         this.expenses.custom_agent_id = '';
-         console.log('se ejecuta')
-        this.expenses.agent_payment = 250;
+
+        this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
       },
       deep: true,
     },
-    insureAmount: function(after, before) {
-
-        this.debouncedGetTaxs()
+    insureAmount: function (after, before) {
+      this.debouncedGetTaxs();
     },
-    transpAmount: function(after, before) {
-        this.debouncedGetTaxs()
+    transpAmount: function (after, before) {
+      this.debouncedGetTaxs();
     },
-    AppAmount: function(after, before) {
-        this.debouncedGetTaxs()
-    }
+    AppAmount: function (after, before) {
+      this.debouncedGetTaxs();
+    },
   },
   async mounted() {
     try {
-        
+
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
+
+      // agente de Aduana del cliente
+      const transCompanies = await axios.get('/api/category_load');
+      this.trans_companies = transCompanies.data;
+
+      if (this.data.type_transport == 'COURIER') {
+        this.expenses.courier_svc = true;
+        this.expenses.trans_company_id =
+          this.$store.state.address.expenses.trans_company_id == ''
+            ? 2
+            : this.$store.state.address.expenses.trans_company_id;
+      }
+
       //asignar id de solicitud
       this.expenses.application_id = this.application_id;
       this.expenses.transport = !this.$store.getters.findService('ICS03');
@@ -916,12 +885,13 @@ export default {
       const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
       const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-02');
 
-
-      this.insureAmount = Number(insure_cost.amount) == 0 ? this.expenses.insurance : Number(insure_cost.amount);
-      this.transpAmount = Number(transp_cost.amount)  == 0 ? this.expenses.transport_amt : Number(transp_cost.amount);
+      this.insureAmount =
+        Number(insure_cost.amount) == 0 ? this.expenses.insurance : Number(insure_cost.amount);
+      this.transpAmount =
+        Number(transp_cost.amount) == 0 ? this.expenses.transport_amt : Number(transp_cost.amount);
       this.AppAmount = Number(this.data.amount);
 
-      this.insure    = !this.$store.getters.findService('ICS03') ? true : false;
+      this.insure = !this.$store.getters.findService('ICS03') ? true : false;
       this.transport = !this.$store.getters.findService('ICS03') ? true : false;
 
       if (this.AppAmount > 0 && this.currency.code != 'USD') {
@@ -937,7 +907,6 @@ export default {
       if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
         this.portCharge();
       }
-     
     } catch (error) {
       console.error(error);
     }
@@ -950,7 +919,8 @@ export default {
     // finished typing before making the ajax request. To learn
     // more about the _.debounce function (and its cousin
     // _.throttle), visit: https://lodash.com/docs#debounce
-    this.debouncedGetTaxs = _.debounce(this.taxCheck, 500)
-  }, 
+    this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
+    this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
+  },
 };
 </script>

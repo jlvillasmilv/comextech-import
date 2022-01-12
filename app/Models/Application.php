@@ -118,7 +118,7 @@ class Application extends Model
 
     public function summary()
     {
-        return $this->hasMany(ApplicationSummary::class,'application_id')->OrderBy('id');
+        return $this->hasMany(ApplicationSummary::class,'application_id')->where('status', true)->OrderBy('id');
     }
 
     public function requirements()

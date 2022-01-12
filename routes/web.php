@@ -45,7 +45,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         $summary = \DB::table('application_summaries as aps')
                     ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
                     ->join('services as s', 'aps.service_id', 's.id')
-                    ->where('application_id', $id)
+                    ->join('applications', 'aps.application_id', '=', 'applications.id')
+                    ->where([
+                        ["aps.application_id", $id],
+                        ["aps.status", true],
+                        ["applications.user_id", auth()->user()->id]
+                    ])
                     ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date','aps.amount', 'aps.amount as amo2', 'currencies.code as currency2' )
                     ->orderBy('s.id')
                     ->get();
@@ -79,7 +84,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     // Connect with apis courier service
     Route::post('/get-fedex-rate','App\Http\Controllers\Web\TransportsControllers@fedexRate');
     Route::post('/get-dhl-quote','App\Http\Controllers\Web\TransportsControllers@dhlQuote');
-    Route::get('/test-fedex','App\Http\Controllers\Web\TransportsControllers@test');
+    Route::get('/test-courier','App\Http\Controllers\Web\TransportsControllers@test');
 
     Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
 
