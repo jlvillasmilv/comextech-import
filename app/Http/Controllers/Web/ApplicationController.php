@@ -408,11 +408,13 @@ class ApplicationController extends Controller
         try {
             //dd($request->all());
             $internment = InternmentProcess::updateOrCreate(
-                [   'application_id'   => $request->application_id, ],
+                [   'application_id'       => $request->application_id, ],
                 [
                     'custom_agent_id'      => $request->custom_agent_id,
                     'customs_house'        => $request->customs_house,
                     'agent_payment'        => $request->agent_payment,
+                    'trans_company_id'     => $request->trans_company_id,
+                    'courier_svc'          => $request->courier_svc,
                     'iva'                  => $request->iva,
                     'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
                     'adv'                  => $request->adv,
@@ -538,7 +540,8 @@ class ApplicationController extends Controller
         $data  =  \DB::table('transports as trans')
         ->join('applications as app', 'trans.application_id', '=', 'app.id')
         ->where([
-            ["app.user_id", auth()->user()->id]
+            ["app.user_id", auth()->user()->id],
+            ["app.application_statuses_id", '<=', 3]
         ])
         ->select('app.code','app.type_transport',
         'trans.fav_origin_address','trans.origin_address','trans.origin_latitude','trans.origin_longitude',

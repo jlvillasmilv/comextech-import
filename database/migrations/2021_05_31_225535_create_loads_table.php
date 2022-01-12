@@ -17,7 +17,7 @@ class CreateLoadsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('type_container')->nullable();
-            $table->unsignedBigInteger('type_load')->nullable();
+            $table->unsignedBigInteger('category_load_id')->nullable();
             $table->boolean('mode_calculate')->default(true);
             $table->string('cbm',20)->nullable();
             $table->string('length_unit',10)->nullable();
@@ -28,8 +28,9 @@ class CreateLoadsTable extends Migration
             $table->string('weight_units',10)->nullable();
             $table->boolean('stackable')->default(false);
             $table->timestamps();
-
+            
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
+            $table->foreign('category_load_id')->references('id')->on('category_loads')->onDelete('cascade');
         });
     }
 

@@ -17,6 +17,8 @@ class CreateInternmentProcessesTable extends Migration
             $table->id();       
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('custom_agent_id')->nullable();
+            $table->unsignedBigInteger('trans_company_id')->nullable();
+            $table->boolean('courier_svc')->default(false)->comment('courier service included');
             $table->boolean('customs_house')->default(true);
             $table->decimal('agent_payment', 12, 2)->default(0)->nullable();
             $table->decimal('cif_amt', 12, 2)->default(0)->nullable();
@@ -27,8 +29,7 @@ class CreateInternmentProcessesTable extends Migration
             $table->decimal('adv_amt', 12, 2)->default(0)->nullable();
             $table->decimal('port_charges')->default(0)->nullable();
             $table->decimal('transport_amt', 12, 2)->default(0)->nullable();
-            
-            // $table->enum('certificate', ['Origen', 'Fitosanitario', 'Form F'])->nullable();
+        
             $table->timestamps();
             
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');

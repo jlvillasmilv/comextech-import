@@ -460,7 +460,7 @@ class TransportsControllers extends Controller
             "dataLoad" => [
                [
                 "mode_calculate" => true,
-                "type_load" => 1,
+                "category_load_id" => 1,
                 "type_container" => 1,
                 "length" => 30,
                 "width"  => 30,

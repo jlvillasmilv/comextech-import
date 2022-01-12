@@ -33,7 +33,7 @@ class TransportRequest extends FormRequest
             'mode_selected'              => 'required|string|max:15',
             'dataLoad'                   => 'required|array',
             "dataLoad.*.weight"          => 'required|numeric|gt:0|between:0,99999',
-            "dataLoad.*.type_load"       => 'required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
+            "dataLoad.*.category_load_id"       => 'required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
             "dataLoad.*.type_container"  => 'required_if:mode_selected,==,CONTAINER',
         ];
 
@@ -70,7 +70,7 @@ class TransportRequest extends FormRequest
             'dataLoad.*.width'           => 'Archo',
             "dataLoad.*.height"          => "Altura",
             "dataLoad.*.weight"          => 'Peso',
-            "dataLoad.*.type_load"       => 'Tipo de carga',
+            "dataLoad.*.category_load_id"       => 'Tipo de carga',
             "dataLoad.*.type_container"  => 'Container',
         ];
     }
