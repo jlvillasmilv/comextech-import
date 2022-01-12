@@ -463,7 +463,7 @@
               </div>
               <div class="flex flex-auto items-center justify-center">
                 <button
-                  @click="submitQuote(dhl.ComextechTotal, 2)"
+                  @click="submitQuote(dhl.ComextechTotal, 3)"
                   class="
                     w-24
                     px-2

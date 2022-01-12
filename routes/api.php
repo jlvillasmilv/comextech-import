@@ -44,7 +44,7 @@ Route::get('/category_services', function (Request $request) {
 });
 
 Route::get('/category_load', function (Request $request) {
-    $cartegory_load = \DB::table('currencies')
+    $cartegory_load = \DB::table('trans_companies')
         ->select('id', 'name')
         ->where('status', '=', true)
         ->OrderBy('name')->get();

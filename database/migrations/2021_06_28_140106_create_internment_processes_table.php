@@ -18,6 +18,7 @@ class CreateInternmentProcessesTable extends Migration
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('custom_agent_id')->nullable();
             $table->unsignedBigInteger('trans_company_id')->nullable();
+            $table->boolean('courier_svc')->default(false)->comment('courier service included');
             $table->boolean('customs_house')->default(true);
             $table->decimal('agent_payment', 12, 2)->default(0)->nullable();
             $table->decimal('cif_amt', 12, 2)->default(0)->nullable();

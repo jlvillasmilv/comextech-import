@@ -88,11 +88,6 @@ const mutations = {
       }
     });
     state.loads = [...newLoads];
-    // state = {
-    //     ...state,
-    //     loads: [...newLoads],
-    //     loadType: unit
-    // };
   },
   SHOW_LOAD_CHARGE(state, value) {
     state.showLoad = value;

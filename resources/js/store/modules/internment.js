@@ -7,7 +7,9 @@ export default {
             application_id: '',
             transport: '',
             custom_agent_id: "",
-            agent_payment: 250,
+            trans_company_id: '',
+            courier_svc: false,
+            agent_payment: '',
             treatiesSelected: [],
             file_descrip: [],
             customs_house: true,
@@ -44,6 +46,8 @@ export default {
             state.expenses.iva_amt = payload.iva_amt
             state.expenses.cif_amt = payload.cif_amt
             state.expenses.transport_amt = payload.transport_amt
+            state.expenses.trans_company_id = payload.trans_company_id
+            state.expenses.courier_svc = payload.courier_svc
         },
     },
     actions: {

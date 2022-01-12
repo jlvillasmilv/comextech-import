@@ -408,11 +408,13 @@ class ApplicationController extends Controller
         try {
             //dd($request->all());
             $internment = InternmentProcess::updateOrCreate(
-                [   'application_id'   => $request->application_id, ],
+                [   'application_id'       => $request->application_id, ],
                 [
                     'custom_agent_id'      => $request->custom_agent_id,
                     'customs_house'        => $request->customs_house,
                     'agent_payment'        => $request->agent_payment,
+                    'trans_company_id'     => $request->trans_company_id,
+                    'courier_svc'          => $request->courier_svc,
                     'iva'                  => $request->iva,
                     'iva_amt'              => $request->iva ? round($request->iva_amt, 0) : 0, 
                     'adv'                  => $request->adv,
