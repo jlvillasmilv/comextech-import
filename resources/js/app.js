@@ -27,7 +27,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.use(VueSweetalert2);
 
-import 'alpinejs';
+//import 'alpinejs';
 
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';

@@ -765,7 +765,7 @@
               >
                 {{
                   lclTableQuote.transport.transport_amount
-                    ? lclTableQuote.transport.transport_amount
+                    ? formatPrice(lclTableQuote.transport.transport_amount)
                     : 'POR COTIZAR'
                 }}
               </td>
@@ -781,7 +781,7 @@
               >
                 {{
                   lclTableQuote.transport.insurance
-                    ? lclTableQuote.transport.insurance
+                    ? formatPrice(lclTableQuote.transport.insurance)
                     : 'POR COTIZAR'
                 }}
               </td>
@@ -794,7 +794,9 @@
                 :class="[!lclTableQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
               >
                 {{
-                  lclTableQuote.transport.oth_exp ? lclTableQuote.transport.oth_exp : 'POR COTIZAR'
+                  lclTableQuote.transport.oth_exp
+                    ? formatPrice(lclTableQuote.transport.oth_exp)
+                    : 'POR COTIZAR'
                 }}
               </td>
               <td class="px-4 py-3">CLP</td>
@@ -809,7 +811,7 @@
               >
                 {{
                   lclTableQuote.transport.local_transp
-                    ? lclTableQuote.transport.local_transp
+                    ? formatPrice(lclTableQuote.transport.local_transp)
                     : 'POR COTIZAR'
                 }}
               </td>
@@ -860,7 +862,7 @@
               >
                 {{
                   lclTableQuote.transport.transport_amount
-                    ? lclTableQuote.transport.transport_amount
+                    ? formatPrice(lclTableQuote.transport.transport_amount)
                     : 'POR COTIZAR'
                 }}
               </td>
@@ -876,7 +878,7 @@
               >
                 {{
                   lclTableQuote.transport.insurance
-                    ? lclTableQuote.transport.insurance
+                    ? formatPrice(lclTableQuote.transport.insurance)
                     : 'POR COTIZAR'
                 }}
               </td>
@@ -889,7 +891,9 @@
                 :class="[!lclTableQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
               >
                 {{
-                  lclTableQuote.transport.oth_exp ? lclTableQuote.transport.oth_exp : 'POR COTIZAR'
+                  lclTableQuote.transport.oth_exp
+                    ? formatPrice(lclTableQuote.transport.oth_exp)
+                    : 'POR COTIZAR'
                 }}
               </td>
               <td class="px-4 py-3">CLP</td>
@@ -904,7 +908,7 @@
               >
                 {{
                   lclTableQuote.transport.local_transp
-                    ? lclTableQuote.transport.local_transp
+                    ? formatPrice(lclTableQuote.transport.local_transp)
                     : 'POR COTIZAR'
                 }}
               </td>
@@ -1141,6 +1145,12 @@ export default {
       }
 
       this.expenses.dest_address = placeResultData.formatted_address;
+    },
+    formatPrice(value, currency) {
+      return Number(value).toLocaleString(navigator.language, {
+        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+      });
     }
   },
   computed: {

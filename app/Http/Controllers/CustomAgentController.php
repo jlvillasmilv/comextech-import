@@ -94,7 +94,7 @@ class CustomAgentController extends Controller
 
     public function list()
     {
-        $data = CustomAgent::where('user_id', auth()->user()->id)->get();
+        $data = CustomAgent::where('user_id', auth()->user()->id)->get(['id','name','contact_person']);
         return response()->json($data, 200);
     }
 
