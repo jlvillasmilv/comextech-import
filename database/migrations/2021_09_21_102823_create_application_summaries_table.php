@@ -15,12 +15,13 @@ class CreateApplicationSummariesTable extends Migration
     {
         Schema::create('application_summaries', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('application_id')->references('id')->on('applications');
+            $table->foreignId('application_id')->references('id')->on('applications');
             $table->foreignId('service_id')->nullable()->references('id')->on('services')->onDelete('SET NULL');
             $table->unsignedBigInteger('category_service_id');
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->date('fee_date')->nullable();
             $table->decimal('amount', 12, 2)->default(0)->nullable();
+            $table->boolean('status')->default(true);
         });
     }
 

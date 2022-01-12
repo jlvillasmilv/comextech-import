@@ -52,7 +52,7 @@
 
             <div class="flex md:1/2">
               <div class="w-1/2 px-1 mb-2 md:mb-0">
-                <label class="block text-sm" v-if="expenses.courier_svc">
+                <label class="block text-sm" v-if="expenses.courier_svc && AppAmount < 3000">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
                     v-model="expenses.trans_company_id"
@@ -121,31 +121,7 @@
                     v-html="expenses.errors.get('custom_agent_id')"
                   ></span>
                 </label>
-                <!-- <label class="block text-sm" v-if="expenses.customs_house && !expenses.courier_svc">
-                  <span class="text-gray-700 dark:text-gray-400 font-semibold"> Seleccion </span>
-                  <select
-                    v-model="expenses.custom_agent_id"
-                    class="
-                      block
-                      w-36
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1.5
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none focus:bg-white focus:border-gray-500
-                    "
-                  >
-                    <option value="">Asociado</option>
-                  </select>
-                  <span
-                    class="text-xs text-red-600 dark:text-red-400"
-                    v-if="expenses.errors.has('custom_agent_id')"
-                    v-html="expenses.errors.get('custom_agent_id')"
-                  ></span>
-                </label> -->
+                
               </div>
 
               <div class="w-auto px-1 mx-4 mb-2 md:mb-0">
@@ -584,39 +560,9 @@
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
               />
             </div>
-            <!-- <div class="w-2/12">
-              <button
-                v-if="!expenses.adv"
-                class="disabled:opacity-100 w-full h-10 text-white text-sm bg-gray-300 rounded-lg"
-                disabled
-              >
-                Financiar
-              </button>
-              <button
-                v-if="expenses.adv"
-                class="
-                  w-full
-                  h-10
-                  text-white
-                  transition-colors
-                  text-sm
-                  duration-150
-                  bg-green-700
-                  rounded-lg
-                  focus:shadow-outline
-                  hover:bg-green-800
-                "
-              >
-                Financiar
-              </button>
-            </div> -->
+            
           </div>
         </div>
-        <!-- <div class="flex">
-                    <div class="w-1/7 ml-8 mr-3">
-                        <div class="w-1/7 space-y-9"></div>
-                    </div>
-                </div> -->
       </div>
       <div class="flex justify-start" v-if="data.type_transport != 'COURIER'">
         <div class="items-center ml-2 w-1/2">
@@ -915,6 +861,7 @@ export default {
   },
   async mounted() {
     try {
+
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
@@ -973,6 +920,7 @@ export default {
     // more about the _.debounce function (and its cousin
     // _.throttle), visit: https://lodash.com/docs#debounce
     this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
+    this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
   },
 };
 </script>
