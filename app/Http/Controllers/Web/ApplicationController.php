@@ -154,7 +154,8 @@ class ApplicationController extends Controller
 
             if($request->application_id == 0)
             {
-                $add_summary = Service::where('summary', true)
+                $add_summary = \DB::table('services')
+                ->where('summary', true)
                 ->select('id','name','category_service_id')
                 ->orderby('name')
                 ->get();
@@ -184,6 +185,29 @@ class ApplicationController extends Controller
                 });
             }
 
+            if($request->type_transport == 'COURIER')
+            {
+                \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $application->id],
+                        ["as.status", true]
+                    ])
+                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->update(["as.status" => false, "as.amount" => 0]);
+
+            }
+            else {
+                \DB::table('application_summaries as as')
+                    ->join('services as s', 'as.service_id', '=', 's.id')
+                    ->where([
+                        ["as.application_id", $application->id],
+                        ["as.status", false]
+                    ])
+                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->update(["as.status" => true]);
+            }
+
             DB::commit();
             
             $appli = Application::where('id', $application->id)
@@ -209,7 +233,20 @@ class ApplicationController extends Controller
         $application  = Application::where([
             ['id', '=',  Crypt::decryptString($id)],
             ['user_id', auth()->user()->id],
-        ])->firstOrFail();
+        ])
+        ->with([
+            'currency' => function($query) {
+                $query->select('id', 'code', 'name');
+            }, 
+            'paymentProvider' => function($query) {
+                $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay');
+            },
+            'summary' => function($query) {
+                $query->where('status', true);
+            }
+            ,'transport','loads','internmentProcess','status'
+        ])
+        ->firstOrFail();
 
         return view('applications.show', compact('application'));
        
