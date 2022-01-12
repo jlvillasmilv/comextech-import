@@ -5,9 +5,9 @@
         v-if="
           !expenses.dataLoad || expenses.dataLoad.length == 0 || $store.state.address.formAddress
         "
-        class="w-full flex flex-col flex-wrap items-center -mx-3 my-8"
+        class="w-full flex flex-col flex-wrap items-center my-8"
       >
-        <div class="flex justify-around w-full px-3 mb-6 md:mb-0">
+        <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             {{
               data.condition === 'FOB'
@@ -15,7 +15,7 @@
                 : ' Almacen o Fabrica del Proveedor'
             }}
           </div>
-          <label class="w-7/12 text-sm">
+          <label class="w-6/12 text-sm">
             <!-- <span class="text-gray-700 dark:text-gray-400 font-semibold">
               {{
                 data.condition === 'FOB'
@@ -71,13 +71,126 @@
               v-html="expenses.errors.get('origin_address')"
             ></span>
           </label>
-          <div class="flex justify-center w-2/12">
+          <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
           </div>
         </div>
         <!-- Destino de Envio -->
-        <div class="flex justify-around w-full px-3 mb-6 md:mb-0">
+        <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">Destino de Envio</div>
+          <label class="w-6/12 text-sm">
+            <vue-google-autocomplete
+              v-if="!expenses.fav_dest_address"
+              v-model="expenses.dest_address"
+              id="addressDestination"
+              classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              :placeholder="
+                expenses.fav_dest_address
+                  ? 'Nombre o codigo Puerto/Aeropuerto'
+                  : 'Direccion, Codigo Postal'
+              "
+              v-on:placechanged="getAddressDestination"
+            >
+            </vue-google-autocomplete>
+
+            <div v-else class="relative">
+              <select
+                v-model="expenses.dest_address"
+                class="
+                  block
+                  w-full
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  pr-8
+                  rounded
+                  mt-1
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                "
+              >
+                <option v-for="item in addressDestination" :value="item.id" :key="item.id" class="">
+                  {{ item.address }}
+                </option>
+              </select>
+            </div>
+            <label class="inline-flex text-sm items-center mx-2 mt-2">
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-gray-800"
+                v-model="expenses.fav_dest_address"
+                @change="expenses.dest_address = ''"
+              /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
+            </label>
+          </label>
+          <div class="flex justify-center w-1/12">
+            <h3 class="mt-2"></h3>
+          </div>
+          <span
+            class="text-xs text-red-600 dark:text-red-400"
+            v-if="expenses.errors.has('dest_address')"
+            v-html="expenses.errors.get('dest_address')"
+          ></span>
+        </div>
+        <!-- Codigo postal origen -->
+        <!-- <div v-if="postalCodeOrigin" class="flex justify-around w-full px-3 mb-6 md:mb-0">
+          <div class="mt-2 mr-8 flex justify-start w-2/12">
+            Codigo postal de origen
+          </div>
+          <label class="w-7/12 text-sm">
+            <vue-google-autocomplete
+              v-if="!expenses.fav_origin_address"
+              v-model="expenses.origin_address"
+              id="addressOrigin"
+              classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              v-on:placechanged="getAddressOrigin"
+              placeholder="Direccion de Origen"
+            >
+            </vue-google-autocomplete>
+            <div v-else class="relative">
+              <select
+                v-model="expenses.origin_address"
+                class="
+                  block
+                  w-full
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  mt-1
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                "
+              >
+                <option v-for="item in origin_transport" :value="item.id" :key="item.id" class="">
+                  {{ item.address }}
+                </option>
+              </select>
+            </div>
+            <label class="inline-flex text-sm items-center mx-2 mt-2">
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-gray-800"
+                v-model="expenses.fav_origin_address"
+                @change="expenses.origin_address = ''"
+              /><span class="ml-2 text-gray-700">
+                Tu codigo postal favorito
+              </span>
+            </label>
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="expenses.errors.has('origin_address')"
+              v-html="expenses.errors.get('origin_address')"
+            ></span>
+          </label>
+          <div class="flex justify-center w-2/12">
+            <h3 class="mt-2"></h3>
+          </div>
+        </div> -->
+        <!-- codigo postal de destino -->
+        <!-- <div v-if="postalCodeDestination" class="flex justify-around w-full px-3 mb-6 md:mb-0">
+          <div class="mt-2 mr-8 flex justify-start w-2/12">Codigo postal de Envio</div>
           <label class="w-7/12 text-sm">
             <vue-google-autocomplete
               v-if="!expenses.fav_dest_address"
@@ -131,8 +244,9 @@
             v-if="expenses.errors.has('dest_address')"
             v-html="expenses.errors.get('dest_address')"
           ></span>
-        </div>
+        </div> -->
       </div>
+      <!-- Date and description -->
       <div v-if="$store.state.address.addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
         <div class="w-1/4 px-3 mb-6 md:mb-0">
           <label class="block text-sm">
@@ -162,7 +276,7 @@
             ></span>
           </label>
         </div>
-        <div class="w-1/3 px-2">
+        <div class="w-1/4 px-2">
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400 font-semibold">
               Descripcion de la carga
@@ -200,10 +314,9 @@
             <span class="ml-2 text-gray-700">Seguro (1,5%)</span>
           </label>
         </div>
-        <div class="w-1/6 mt-8" v-if="expenses.insurance">
-          <span class="ml-2 text-gray-700">
-            {{ data.amount }} USD
-            <!-- {{ currency.code }} -->
+        <div class="w-1/6 mt-8">
+          <span v-show="expenses.insurance" class="ml-2 text-gray-700">
+            {{ formatPrice(data.amount) }} USD
           </span>
         </div>
       </div>
@@ -652,6 +765,13 @@ export default {
       this.$store.dispatch('address/getAddressDestination2', { addressData, placeResultData });
     },
 
+    formatPrice(value, currency) {
+      return Number(value).toLocaleString(navigator.language, {
+        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+      });
+    },
+
     async convertInsurance(currencie, currency) {
       try {
         const insuranceConvert = await axios.get(
@@ -670,7 +790,9 @@ export default {
       'addressDestination',
       'portsDestination',
       'portsOrigin',
-      'props'
+      'props',
+      'postalCodeOrigin',
+      'postalCodeDestination'
     ]),
     ...mapState('application', ['data', 'currency', 'origin_transport'])
   },

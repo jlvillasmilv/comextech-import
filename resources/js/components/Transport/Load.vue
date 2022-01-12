@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="flex flex-wrap">
-      <h1 class="flex-auto text-2xl text-blue-900">
+  <div class="flex flex-wrap flex-col">
+    <div class="flex flex-wrap mb-8">
+      <h1 class="flex-auto text-2xl text-blue-900 ">
         {{ title }}
       </h1>
     </div>
@@ -24,7 +24,7 @@
       <div
         v-for="(item, id) in loads"
         :key="id"
-        class="flex w-full justify-items-center dark:text-gray-400 space-x-5 mt-2"
+        class="flex w-full justify-center dark:text-gray-400 space-x-5 mt-2"
       >
         <!-- <div
                     class="inline w-1/6"
