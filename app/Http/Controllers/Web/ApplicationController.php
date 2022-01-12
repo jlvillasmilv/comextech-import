@@ -210,9 +210,10 @@ class ApplicationController extends Controller
 
             DB::commit();
             
-            $appli = Application::where('id', $application->id)
+            $appli = \DB::table('applications')
+            ->where('id', $application->id)
             ->select('id', 'code', 'supplier_id', 'currency_id')
-            ->firstOrFail();  
+            ->first();  
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -413,15 +414,6 @@ class ApplicationController extends Controller
                          'as.amount'    =>  $application->amount * ($data['percentage'] / 100)
                         ]);
              }
-
-             // update application summary
-           \DB::table('application_summaries as as')
-                ->join('services as s', 'as.service_id', '=', 's.id')
-                ->where([
-                    ["as.application_id", $application->id],
-                    ["s.code", 'CS01-01']
-                ])
-            ->update(['as.amount' =>  $application->amount]);
 
              return response()->json(['status' => 'OK'], 200);
         }
