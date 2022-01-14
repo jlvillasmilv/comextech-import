@@ -185,7 +185,9 @@ const actions = {
     commit('SET_PORT_DEST', data);
   },
   setTransport({ commit }, data) {
-    commit('SET_TRANSPORT', data);
+    if(data.transport){
+      commit('SET_TRANSPORT', data);
+    }
   },
   showAddress({ commit }, value) {
     commit('SHOW_ADDRESS', value);

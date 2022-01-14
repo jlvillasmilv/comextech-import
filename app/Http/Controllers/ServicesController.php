@@ -44,6 +44,8 @@ class ServicesController extends Controller
     }
 
     public function convertCurrencyDate($date,$from_currency,$to_currency){
+
+
       $apikey = env('API_KEY_CURRENCY');
 
       $from_Currency = urlencode($from_currency);
