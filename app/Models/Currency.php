@@ -32,6 +32,10 @@ class Currency extends Model
 
     public function convertCurrency($amount,$from_currency,$to_currency){
 
+        if ($from_currency == $to_currency) {
+            return $amount;
+        }
+
         $apikey = env('API_KEY_CURRENCY');
   
         $from_Currency = urlencode($from_currency);

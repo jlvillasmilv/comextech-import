@@ -770,11 +770,11 @@ export default {
         ]);
 
         this.$store.state.selectedServices = this.tabs.filter((e) => e.checked);
-        this.$store.dispatch('payment/setPayment', data.payment_provider);
         // this.toogleMenuTabs();
+        this.$store.dispatch('payment/setPayment', data.payment_provider);
         this.$store.dispatch('load/setLoad', data);
         this.$store.dispatch('address/setTransport', data);
-        this.$store.dispatch('internment/setData', data);
+        this.$store.dispatch('internment/setData', data);  
       } else {
         this.$store.state.application.tabs = servicedefault;
       }
