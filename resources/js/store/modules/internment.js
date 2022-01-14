@@ -50,8 +50,9 @@ export default {
     },
     actions: {
         setData({ commit }, { internment_process }) {
-
-            commit("SET_DATA", internment_process);
+            if(internment_process){
+                commit("SET_DATA", internment_process);
+            }
         }
     }
 }

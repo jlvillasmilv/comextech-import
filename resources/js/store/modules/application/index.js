@@ -143,7 +143,6 @@ const actions = {
     commit('SET_SUPPLIER_TYPE', data);
   },
   async getServicesSelecteds({ commit }, data) {
-    // console.log(data);
     //const { data } = await axios.get('/get-application-category/' + id);
     await commit('TOOGLE_TABS', data);
   },
