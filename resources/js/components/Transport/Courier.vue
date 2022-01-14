@@ -133,14 +133,14 @@
           ></span>
         </div>
         <!-- Codigo postal origen -->
-        <!-- <div v-if="postalCodeOrigin" class="flex justify-around w-full px-3 mb-6 md:mb-0">
+        <div v-if="postalCodeOrigin" class="flex justify-around w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             Codigo postal de origen
           </div>
           <label class="w-7/12 text-sm">
             <vue-google-autocomplete
               v-if="!expenses.fav_origin_address"
-              v-model="expenses.origin_address"
+              v-model="expenses.origin_postal_code"
               id="addressOrigin"
               classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
               v-on:placechanged="getAddressOrigin"
@@ -149,7 +149,7 @@
             </vue-google-autocomplete>
             <div v-else class="relative">
               <select
-                v-model="expenses.origin_address"
+                v-model="expenses.origin_postal_code"
                 class="
                   block
                   w-full
@@ -172,7 +172,7 @@
               <input
                 type="checkbox"
                 class="form-checkbox h-4 w-4 text-gray-800"
-                v-model="expenses.fav_origin_address"
+                v-model="expenses.origin_postal_code"
                 @change="expenses.origin_address = ''"
               /><span class="ml-2 text-gray-700">
                 Tu codigo postal favorito
@@ -187,42 +187,39 @@
           <div class="flex justify-center w-2/12">
             <h3 class="mt-2"></h3>
           </div>
-        </div> -->
+        </div>
         <!-- codigo postal de destino -->
-        <!-- <div v-if="postalCodeDestination" class="flex justify-around w-full px-3 mb-6 md:mb-0">
-          <div class="mt-2 mr-8 flex justify-start w-2/12">Codigo postal de Envio</div>
+        <div v-if="postalCodeOrigin" class="flex justify-around w-full px-3 mb-6 md:mb-0">
+          <div class="mt-2 mr-8 flex justify-start w-2/12">
+            Codigo postal de destino
+          </div>
           <label class="w-7/12 text-sm">
             <vue-google-autocomplete
-              v-if="!expenses.fav_dest_address"
-              v-model="expenses.dest_address"
-              id="addressDestination"
+              v-if="!expenses.fav_origin_address"
+              v-model="expenses.dest_postal_code"
+              id="addressOrigin"
               classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              :placeholder="
-                expenses.fav_dest_address
-                  ? 'Nombre o codigo Puerto/Aeropuerto'
-                  : 'Direccion, Codigo Postal'
-              "
-              v-on:placechanged="getAddressDestination"
+              v-on:placechanged="getAddressOrigin"
+              placeholder="Direccion de Origen"
             >
             </vue-google-autocomplete>
-
             <div v-else class="relative">
               <select
-                v-model="expenses.dest_address"
+                v-model="expenses.dest_postal_code"
                 class="
                   block
                   w-full
                   border border-gray-150
                   text-gray-700
                   p-2
+                  mt-1
                   pr-8
                   rounded
-                  mt-1
                   leading-tight
                   focus:outline-none focus:bg-white focus:border-gray-500
                 "
               >
-                <option v-for="item in addressDestination" :value="item.id" :key="item.id" class="">
+                <option v-for="item in origin_transport" :value="item.id" :key="item.id" class="">
                   {{ item.address }}
                 </option>
               </select>
@@ -231,20 +228,22 @@
               <input
                 type="checkbox"
                 class="form-checkbox h-4 w-4 text-gray-800"
-                v-model="expenses.fav_dest_address"
-                @change="expenses.dest_address = ''"
-              /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
+                v-model="expenses.dest_postal_code"
+                @change="expenses.origin_address = ''"
+              /><span class="ml-2 text-gray-700">
+                Tu codigo postal favorito
+              </span>
             </label>
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="expenses.errors.has('origin_address')"
+              v-html="expenses.errors.get('origin_address')"
+            ></span>
           </label>
           <div class="flex justify-center w-2/12">
             <h3 class="mt-2"></h3>
           </div>
-          <span
-            class="text-xs text-red-600 dark:text-red-400"
-            v-if="expenses.errors.has('dest_address')"
-            v-html="expenses.errors.get('dest_address')"
-          ></span>
-        </div> -->
+        </div>
       </div>
       <!-- Date and description -->
       <div v-if="$store.state.address.addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
@@ -657,7 +656,7 @@ export default {
     },
 
     /* Quote to wait for the apis (button cotizar) */
-    async submitForm() {
+    submitForm() {
       /* Vue-loader config */
       let loader = this.$loading.show({
         canCancel: true,
@@ -670,65 +669,74 @@ export default {
         width: 100
       });
 
-      this.$store.dispatch(
-        'load/showLoadCharge',
-        false
-      ); /* Hide / Show loads and dimensions form */
+      /* Hide / Show loads and dimensions form */
+      this.$store.dispatch('load/showLoadCharge', false);
       this.$store.dispatch('address/showAddress', false);
-      try {
-        // this.showApisQuote = true;
-        this.expenses.dataLoad = this.$store.state.load.loads;
 
-        /* get data from fedex quote and rate api */
-        const fedexApi = await this.expenses.post('/get-fedex-rate');
+      this.expenses.dataLoad = this.$store.state.load.loads;
 
-        /* get data from DHL quote and rate api */
-        const DhlApi = await this.expenses.post('/get-dhl-quote');
+      /* get data from fedex quote and rate api */
+      const fedexApi = this.expenses
+        .post('/get-fedex-rate')
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => console.error(error));
 
-        /* It is validated if the request was successful to show the quote block (FEDEX) */
-        if (fedexApi.status == 200) {
-          this.showFedexQuote = true;
+      /* get data from DHL quote and rate api */
+      const DhlApi = this.expenses
+        .post('/get-dhl-quote')
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => console.error(error));
 
-          /* The variable is equalized to later use it in the template */
-          this.fedex = fedexApi.data;
+      Promise.all([fedexApi, DhlApi])
+        .then((data) => {
+          /* It is validated if the request was successful to show the quote block (FEDEX) */
+          if (data[0]) {
+            // this.showApisQuote = true;
+            this.showFedexQuote = true;
 
-          /* transforming the time into format "day-month-yyyy" */
-          this.fedex.DeliveryTimestamp = this.$luxon(this.fedex.DeliveryTimestamp);
+            /* The variable is equalized to later use it in the template */
+            this.fedex = data[0];
 
-          this.transportQuote = this.fedex.TotalBaseCharge - this.fedex.Discount;
-          // this.transportQuote = parseFloat(this.transportQuote);
-          this.transportQuote = this.transportQuote.toFixed(2);
+            /* transforming the time into format "day-month-yyyy" */
+            this.fedex.DeliveryTimestamp = this.$luxon(this.fedex.DeliveryTimestamp);
 
-          this.TotalEstimed = this.fedex.TotalEstimed.toFixed(2);
+            this.transportQuote = this.fedex.TotalBaseCharge - this.fedex.Discount;
+            // this.transportQuote = parseFloat(this.transportQuote);
+            this.transportQuote = this.transportQuote.toFixed(2);
+
+            this.TotalEstimed = this.fedex.TotalEstimed.toFixed(2);
+          }
+
+          if (data[1]) {
+            this.showDHLQuote = true;
+            this.dhl = data[1];
+
+            this.transportDHL =
+              parseFloat(this.dhl.WeightCharge) + parseFloat(this.dhl.TotalDiscount);
+            // this.dhl.Discount = (this.transportDHL * 60) / 100;
+            // this.dhl.Discount = parseFloat(this.dhl.Discount).toFixed(
+            //     2
+            // );
+
+            this.dhl.ComextechDiscount = this.dhl.ComextechDiscount.toFixed(2);
+
+            this.transportDHL = this.transportDHL - this.dhl.ComextechDiscount;
+
+            this.transportDHL = this.transportDHL.toFixed(2);
+          }
 
           /* Vue-loader hidden */
           loader.hide();
-        }
-
-        if (DhlApi.status == 200) {
-          this.showDHLQuote = true;
-          this.dhl = DhlApi.data;
-
-          this.transportDHL =
-            parseFloat(this.dhl.WeightCharge) + parseFloat(this.dhl.TotalDiscount);
-          // this.dhl.Discount = (this.transportDHL * 60) / 100;
-          // this.dhl.Discount = parseFloat(this.dhl.Discount).toFixed(
-          //     2
-          // );
-
-          this.dhl.ComextechDiscount = this.dhl.ComextechDiscount.toFixed(2);
-
-          this.transportDHL = this.transportDHL - this.dhl.ComextechDiscount;
-
-          this.transportDHL = this.transportDHL.toFixed(2);
-          /* Vue-loader hidden */
+        })
+        .catch((error) => {
+          this.HideAddress();
           loader.hide();
-        }
-      } catch (error) {
-        this.HideAddress();
-        loader.hide();
-        console.error(error);
-      }
+          console.error(error);
+        });
     },
 
     /**
