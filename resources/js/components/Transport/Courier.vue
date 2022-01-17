@@ -7,6 +7,7 @@
         "
         class="w-full flex flex-col flex-wrap items-center my-8"
       >
+        <!-- Direccion de origen -->
         <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             {{
@@ -75,7 +76,30 @@
             <h3 class="mt-2"></h3>
           </div>
         </div>
-        <!-- Destino de Envio -->
+        <!-- Codigo postal origen -->
+        <div v-if="postalCodeOrigin" class="flex justify-center w-full px-3 mb-6 md:mb-0">
+          <div class="mt-2 mr-8 flex justify-start w-2/12">
+            Codigo postal de origen
+          </div>
+          <label class="w-6/12 text-sm">
+            <input
+              class="w-full block border border-gray-150 text-gray-700 p-2 mt-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              type="number"
+              max="15"
+              v-model="expenses.origin_postal_code"
+              placeholder="Código postal de origen"
+            />
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="expenses.errors.has('origin_postal_code')"
+              v-html="expenses.errors.get('origin_postal_code')"
+            ></span>
+          </label>
+          <div class="flex justify-center w-1/12">
+            <h3 class="mt-2"></h3>
+          </div>
+        </div>
+        <!-- Destino de envio -->
         <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">Destino de Envio</div>
           <label class="w-6/12 text-sm">
@@ -132,115 +156,26 @@
             v-html="expenses.errors.get('dest_address')"
           ></span>
         </div>
-        <!-- Codigo postal origen -->
-        <div v-if="postalCodeOrigin" class="flex justify-around w-full px-3 mb-6 md:mb-0">
-          <div class="mt-2 mr-8 flex justify-start w-2/12">
-            Codigo postal de origen
-          </div>
-          <label class="w-7/12 text-sm">
-            <vue-google-autocomplete
-              v-if="!expenses.fav_origin_address"
-              v-model="expenses.origin_postal_code"
-              id="addressOrigin"
-              classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              v-on:placechanged="getAddressOrigin"
-              placeholder="Direccion de Origen"
-            >
-            </vue-google-autocomplete>
-            <div v-else class="relative">
-              <select
-                v-model="expenses.origin_postal_code"
-                class="
-                  block
-                  w-full
-                  border border-gray-150
-                  text-gray-700
-                  p-2
-                  mt-1
-                  pr-8
-                  rounded
-                  leading-tight
-                  focus:outline-none focus:bg-white focus:border-gray-500
-                "
-              >
-                <option v-for="item in origin_transport" :value="item.id" :key="item.id" class="">
-                  {{ item.address }}
-                </option>
-              </select>
-            </div>
-            <label class="inline-flex text-sm items-center mx-2 mt-2">
-              <input
-                type="checkbox"
-                class="form-checkbox h-4 w-4 text-gray-800"
-                v-model="expenses.origin_postal_code"
-                @change="expenses.origin_address = ''"
-              /><span class="ml-2 text-gray-700">
-                Tu codigo postal favorito
-              </span>
-            </label>
-            <span
-              class="text-xs text-red-600 dark:text-red-400"
-              v-if="expenses.errors.has('origin_address')"
-              v-html="expenses.errors.get('origin_address')"
-            ></span>
-          </label>
-          <div class="flex justify-center w-2/12">
-            <h3 class="mt-2"></h3>
-          </div>
-        </div>
         <!-- codigo postal de destino -->
-        <div v-if="postalCodeOrigin" class="flex justify-around w-full px-3 mb-6 md:mb-0">
+        <div v-if="postalCodeDestination" class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             Codigo postal de destino
           </div>
-          <label class="w-7/12 text-sm">
-            <vue-google-autocomplete
-              v-if="!expenses.fav_origin_address"
+          <label class="w-6/12 text-sm">
+            <input
+              class="w-full block border border-gray-150 text-gray-700 p-2 mt-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              type="number"
+              max="15"
               v-model="expenses.dest_postal_code"
-              id="addressOrigin"
-              classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              v-on:placechanged="getAddressOrigin"
-              placeholder="Direccion de Origen"
-            >
-            </vue-google-autocomplete>
-            <div v-else class="relative">
-              <select
-                v-model="expenses.dest_postal_code"
-                class="
-                  block
-                  w-full
-                  border border-gray-150
-                  text-gray-700
-                  p-2
-                  mt-1
-                  pr-8
-                  rounded
-                  leading-tight
-                  focus:outline-none focus:bg-white focus:border-gray-500
-                "
-              >
-                <option v-for="item in origin_transport" :value="item.id" :key="item.id" class="">
-                  {{ item.address }}
-                </option>
-              </select>
-            </div>
-            <label class="inline-flex text-sm items-center mx-2 mt-2">
-              <input
-                type="checkbox"
-                class="form-checkbox h-4 w-4 text-gray-800"
-                v-model="expenses.dest_postal_code"
-                @change="expenses.origin_address = ''"
-              /><span class="ml-2 text-gray-700">
-                Tu codigo postal favorito
-              </span>
-            </label>
+              placeholder="Código postal de destino"
+            />
             <span
               class="text-xs text-red-600 dark:text-red-400"
-              v-if="expenses.errors.has('origin_address')"
-              v-html="expenses.errors.get('origin_address')"
+              v-if="expenses.errors.has('dest_postal_code')"
+              v-html="expenses.errors.get('dest_postal_code')"
             ></span>
           </label>
-          <div class="flex justify-center w-2/12">
+          <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
           </div>
         </div>

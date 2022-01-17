@@ -112,10 +112,8 @@ const mutations = {
     }
     if (!state.expenses.origin_postal_code) {
       state.postalCodeOrigin = true;
-      state.postalCodeDestination = true;
     } else {
       state.postalCodeOrigin = false;
-      state.postalCodeDestination = false;
     }
   },
   GET_ADDRESS_DESTINATION(state, { addressData, placeResultData }) {
@@ -147,6 +145,12 @@ const mutations = {
     }
 
     state.expenses.dest_address = placeResultData.formatted_address;
+
+    if (!state.expenses.dest_postal_code) {
+      state.postalCodeDestination = true;
+    } else {
+      state.postalCodeDestination = false;
+    }
   }
 };
 
@@ -185,7 +189,7 @@ const actions = {
     commit('SET_PORT_DEST', data);
   },
   setTransport({ commit }, data) {
-    if(data.transport){
+    if (data.transport) {
       commit('SET_TRANSPORT', data);
     }
   },
