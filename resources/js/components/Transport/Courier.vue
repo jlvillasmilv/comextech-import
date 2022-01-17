@@ -77,7 +77,10 @@
           </div>
         </div>
         <!-- Codigo postal origen -->
-        <div v-if="postalCodeOrigin" class="flex justify-center w-full px-3 mb-6 md:mb-0">
+        <div
+          v-if="postalCodeOrigin && !expenses.fav_origin_address"
+          class="flex justify-center w-full px-3 mb-6 md:mb-0"
+        >
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             Codigo postal de origen
           </div>
@@ -157,7 +160,10 @@
           ></span>
         </div>
         <!-- codigo postal de destino -->
-        <div v-if="postalCodeDestination" class="flex justify-center w-full px-3 mb-6 md:mb-0">
+        <div
+          v-if="postalCodeDestination && !expenses.fav_dest_address"
+          class="flex justify-center w-full px-3 mb-6 md:mb-0"
+        >
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             Codigo postal de destino
           </div>
@@ -701,6 +707,7 @@ export default {
      * @param {String} id Input container ID
      */
     getAddressOrigin(addressData, placeResultData, id) {
+      console.log(true);
       this.$store.dispatch('address/getAddressOrigin', { addressData, placeResultData });
     },
 
