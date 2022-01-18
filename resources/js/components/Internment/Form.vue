@@ -26,7 +26,7 @@
                 v-model="expenses.customs_house"
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
-                :disabled="expenses.courier_svc ? true : false"
+                :disabled="expenses.courier_svc"
               />
               <span class="mx-2 text-xs text-black text-gray-500"> Comextech </span>
               <input
@@ -34,7 +34,7 @@
                 v-model="expenses.customs_house"
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
-                :disabled="expenses.courier_svc ? true : false"
+                :disabled="expenses.courier_svc"
               />
               <span class="ml-2 text-xs text-black text-gray-500"> Cliente </span>
             </div>
@@ -52,7 +52,7 @@
 
             <div class="flex md:1/2">
               <div class="w-1/2 px-1 mb-2 md:mb-0">
-                <label class="block text-sm" v-if="expenses.courier_svc && AppAmount < 3000">
+                <label class="block text-sm" v-if="expenses.courier_svc">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
                     v-model="expenses.trans_company_id"
@@ -121,7 +121,6 @@
                     v-html="expenses.errors.get('custom_agent_id')"
                   ></span>
                 </label>
-                
               </div>
 
               <div class="w-auto px-1 mx-4 mb-2 md:mb-0">
@@ -520,21 +519,6 @@
             <div class="w-2/12">
               <img class="h-full w-8/12" src="https://homer.sii.cl/responsive/images/logo.jpg" />
             </div>
-            <!-- <div class="w-2/12">
-              <button
-                v-if="!expenses.iva"
-                class="disabled:opacity-100 w-full h-10 text-white text-sm bg-gray-300 rounded-lg"
-                disabled
-              >
-                No Financiar
-              </button>
-              <button
-                v-if="expenses.iva"
-                class="w-full h-10 text-white transition-colors text-sm duration-150 bg-gray-400 rounded-lg focus:shadow-outline hover:bg-gray-500"
-              >
-                No Financiar
-              </button>
-            </div> -->
           </div>
           <div class="flex justify-start items-center my-4 ml-2">
             <div>
@@ -560,7 +544,6 @@
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
               />
             </div>
-            
           </div>
         </div>
       </div>
@@ -773,9 +756,9 @@ export default {
           icon: 'success',
           title: 'Datos Agregados',
         });
-        this.$store.dispatch('exchange/getSummary', this.data.application_id);
+       
 
-        if (!$store.getters.findService('ICS03')) {
+        if (!this.$store.getters.findService('ICS03')) {
           this.$store.dispatch('load/setLoad', data);
         }
 
@@ -861,7 +844,6 @@ export default {
   },
   async mounted() {
     try {
-
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
@@ -912,13 +894,6 @@ export default {
     }
   },
   created: function () {
-    // _.debounce is a function provided by lodash to limit how
-    // often a particularly expensive operation can be run.
-    // In this case, we want to limit how often we access
-    // waiting until the user has completely
-    // finished typing before making the ajax request. To learn
-    // more about the _.debounce function (and its cousin
-    // _.throttle), visit: https://lodash.com/docs#debounce
     this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
     this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
   },

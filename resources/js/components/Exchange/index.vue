@@ -136,7 +136,7 @@
                       </p>
                     </div>
                   </td>
-                  <td class="text-center px-4 py-3">
+                  <td class="text-center">
                     <div :class="key == 0 ? 'invisible' : ''">
                       {{ getHumanDate(item.fee_date) }}
                     </div>
@@ -262,6 +262,8 @@ export default {
     ...mapState('exchange', ['exchangeItem'])
   },
   mounted: function() {
+     this.$store.dispatch('exchange/getSummary', this.application_id);
+     console.log(123);
     //this.convert('CLP');
   }
 };

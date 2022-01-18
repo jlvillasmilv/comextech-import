@@ -24,7 +24,7 @@
       <div
         v-for="(item, id) in loads"
         :key="id"
-        class="flex w-full justify-center dark:text-gray-400 space-x-5 mt-2"
+        class="mt-8 flex w-full justify-center dark:text-gray-400 space-x-5 mt-2"
       >
         <!-- <div
                     class="inline w-1/6"
@@ -198,14 +198,14 @@
           />
         </div>
         <div class="inline">
-          <span class="text-sm text-center font-semibold"> Peso Unitario </span>
+          <span v-if="id == 0" class="text-sm text-center font-semibold"> Peso Unitario </span>
           <input
             v-model.number="item.weight"
             :max="99999"
             type="number"
             :class="[
               'h-9 focus:outline-none border rounded-lg flex text-center text-sm',
-              data.type_transport != 'CONTAINER' ? ' w-16' : ' w-17',
+              data.type_transport != 'CONTAINER' ? ' w-16' : ' w-17'
             ]"
           />
           <span v-if="validateweight" class="text-center text-red-600 text-xs">{{
@@ -254,6 +254,7 @@
             v-if="id > 0"
             @click="deleteForm(id)"
             class="
+              w-28
               bg-transparent
               focus:outline-none
               uppercase
@@ -276,6 +277,7 @@
             v-else
             @click="AddFielForm"
             class="
+              w-28
               bg-transparent
               focus:outline-none
               uppercase
@@ -306,24 +308,21 @@ export default {
   props: {
     title: {
       require: false,
-      default: 'Cotizador Online',
-    },
+      default: 'Cotizador Online'
+    }
   },
   data() {
     return {
       showKg: true,
-      showIn: true,
+      showIn: true
     };
   },
   methods: {
     AddFielForm() {
-     
       this.$store.dispatch('load/addLoad', this.item);
     },
     deleteForm(id) {
-     
       this.$store.dispatch('load/removedLoad', id);
-    
     },
     changeMode() {
       // this.$store.state.load.item.mode_calculate = !this.$store.state.load
@@ -340,7 +339,7 @@ export default {
     },
     changeLoadType(unit) {
       this.$store.dispatch('load/changeLoadType', unit);
-    },
+    }
   },
   computed: {
     ...mapState('load', ['item', 'loads', 'mode_selected']),
@@ -397,11 +396,11 @@ export default {
           break;
       }
       return false;
-    },
+    }
   },
   created() {
     this.$store.state.load.mode_selected = this.$store.state.application.data.type_transport;
     if (!this.loads.length) this.reset();
-  },
+  }
 };
 </script>
