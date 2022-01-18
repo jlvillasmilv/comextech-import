@@ -26,7 +26,7 @@
                 v-model="expenses.customs_house"
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
-                :disabled="expenses.courier_svc ? true : false"
+                :disabled="expenses.courier_svc"
               />
               <span class="mx-2 text-xs text-black text-gray-500"> Comextech </span>
               <input
@@ -34,7 +34,7 @@
                 v-model="expenses.customs_house"
                 type="radio"
                 class="form-checkbox h-5 w-5 text-blue-600"
-                :disabled="expenses.courier_svc ? true : false"
+                :disabled="expenses.courier_svc"
               />
               <span class="ml-2 text-xs text-black text-gray-500"> Cliente </span>
             </div>
@@ -52,7 +52,7 @@
 
             <div class="flex md:1/2">
               <div class="w-1/2 px-1 mb-2 md:mb-0">
-                <label class="block text-sm" v-if="expenses.courier_svc && AppAmount < 3000">
+                <label class="block text-sm" v-if="expenses.courier_svc">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
                     v-model="expenses.trans_company_id"
@@ -756,7 +756,7 @@ export default {
           icon: 'success',
           title: 'Datos Agregados',
         });
-        this.$store.dispatch('exchange/getSummary', this.data.application_id);
+       
 
         if (!this.$store.getters.findService('ICS03')) {
           this.$store.dispatch('load/setLoad', data);

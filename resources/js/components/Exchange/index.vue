@@ -262,6 +262,8 @@ export default {
     ...mapState('exchange', ['exchangeItem'])
   },
   mounted: function() {
+     this.$store.dispatch('exchange/getSummary', this.application_id);
+     console.log(123);
     //this.convert('CLP');
   }
 };
