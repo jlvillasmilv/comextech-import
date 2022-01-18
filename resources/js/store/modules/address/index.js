@@ -151,6 +151,12 @@ const mutations = {
     } else {
       state.postalCodeDestination = false;
     }
+  },
+  GET_FORMAT_PRICE(state, { value, currency }) {
+    return Number(value).toLocaleString(navigator.language, {
+      minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+      maximumFractionDigits: currency == 'CLP' ? 0 : 2
+    });
   }
 };
 
@@ -213,6 +219,10 @@ const actions = {
   },
   getAddressDestination2({ commit }, { addressData, placeResultData }) {
     commit('GET_ADDRESS_DESTINATION', { addressData, placeResultData });
+  },
+  getFormatPrice({ commit }, { value, currency }) {
+    console.log('recibiendo actions', value, currency);
+    commit('GET_FORMAT_PRICE', { value, currency });
   }
 };
 
