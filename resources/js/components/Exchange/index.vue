@@ -1,6 +1,6 @@
 <template>
-  <div class="container grid grid-cols-1 px-6 my-1">
-    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+  <div class="flex justify-center container px-6 my-1">
+    <div class="w-9/12 overflow-hidden rounded-lg shadow-xs">
       <div class="w-full overflow-x-auto">
         <div class="flex justify-end pb-2">
           <button
@@ -66,7 +66,7 @@
                   </th>
                   <th
                     class="
-                      w-1/12
+                      w-1/6
                       px-4
                       py-3
                       text-xs
@@ -85,7 +85,7 @@
                   </th>
                   <th
                     class="
-                      w-1/12
+                      w-1/6
                       px-4
                       py-3
                       text-xs
