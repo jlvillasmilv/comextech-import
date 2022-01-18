@@ -358,68 +358,73 @@ class ApplicationController extends Controller
         $application = Application::findOrFail($request[0]['application_id']); 
 
         if ($values->sum('percentage') == 100){
-          
-            PaymentProvider::where('application_id', $application->id)->delete();
 
-            $cat_serv = CategoryService::where('code',  $request[0]['code_serv'])
-                 ->select('id')
-                 ->pluck('id');
+            try {
+                PaymentProvider::where('application_id', $application->id)->delete();
 
+            // $add_serv = \DB::table('services as serv')
+            //      ->join('category_services as cs',  'serv.category_service_id', '=','cs.id')
+            //      ->where([
+            //          ["cs.code", 'ICS01'],
+            //          ["serv.summary", false ]
+            //      ])
+            //      ->select('serv.id')
+            //      ->pluck('serv.id');
 
-            $add_serv = Service::where('category_service_id', $cat_serv)
-                 ->where('summary', false)
-                 ->select('id')
-                 ->pluck('id');
+            // dd( $add_serv);
+            // foreach ($add_serv as $key => $id) {
                 
-            foreach ($add_serv as $key => $id) {
-                
-               if (isset($request[$key]['application_id']))
-                    ApplicationDetail::updateOrCreate([
-                    'application_id' =>  $application->id,
-                    'service_id' => $id
-                    ],                    
-                    [
-                        'amount' =>  $application->amount * ($request[$key]['percentage'] / 100),
-                        'estimated' =>  $request[$key]['date_pay']
-                    ],
-                );
+            //    if (isset($request[$key]['application_id']))
+            //         ApplicationDetail::updateOrCreate([
+            //         'application_id' =>  $application->id,
+            //         'service_id' => $id
+            //         ],                    
+            //         [
+            //             'amount' =>  $application->amount * ($request[$key]['percentage'] / 100),
+            //             'estimated' =>  $request[$key]['date_pay']
+            //         ],
+            //     );
 
+            // }
+
+                foreach ($request->input() as $key => $data) {
+
+                    PaymentProvider::updateOrCreate(
+                        [
+                            'application_id'  => $application->id,
+                            'percentage'      => $data['percentage'],
+                        ],
+                        [
+                            'type_pay'        => $data['type_pay'],
+                            'date_pay'        => $data['date_pay'],
+                            'payment_release' => $data['payment_release'],
+                        ]
+                    );
+
+                    // update application summary
+                    $service_id = $key == 0 ? 'CS01-02' : 'CS01-03';
+                    
+                    \DB::table('application_summaries as as')
+                        ->join('services as s', 'as.service_id', '=', 's.id')
+                        ->where([
+                            ["as.application_id", $application->id],
+                            ["s.code",  $service_id]
+                        ])
+                    ->update(['as.fee_date' => $data['date_pay'],
+                            'as.amount'    => $application->amount * ($data['percentage'] / 100)
+                            ]);
+                }
+
+            
+            } catch (\Exception $e) {
+                DB::rollback();
+                return response()->json(['status' => $e], 500);
             }
-
-            foreach ($request->input() as $key => $data) {
-
-                 PaymentProvider::updateOrCreate(
-                     [
-                        'application_id'  => $application->id,
-                        'percentage'      => $data['percentage'],
-                     ],
-                     [
-                        'type_pay'        => $data['type_pay'],
-                        'date_pay'        => $data['date_pay'],
-                        'payment_release' => $data['payment_release'],
-                     ]
-                 );
-
-                 // update application summary
-                 $service_id = $key == 0 ? 'CS01-02' : 'CS01-03';
-                 // update application summary local transport
-                 
-                \DB::table('application_summaries as as')
-                    ->join('services as s', 'as.service_id', '=', 's.id')
-                    ->where([
-                        ["as.application_id", $application->id],
-                        ["s.code",  $service_id]
-                    ])
-                ->update(['as.fee_date' => $data['date_pay'],
-                         'as.amount'    =>  $application->amount * ($data['percentage'] / 100)
-                        ]);
-             }
-
-             return response()->json(['status' => 'OK'], 200);
+          
+            return response()->json(['status' => 'OK'], 200);
         }
 
     }
-
 
     /**
      * @author Jorge Villasmil.
