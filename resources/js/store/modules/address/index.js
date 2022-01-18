@@ -43,7 +43,8 @@ const state = {
   formAddress: false,
   minDate: new Date().toISOString().substr(0, 10),
   postalCodeOrigin: false,
-  postalCodeDestination: false
+  postalCodeDestination: false,
+  showShipping: false
 };
 
 const getters = {};
@@ -112,10 +113,8 @@ const mutations = {
     }
     if (!state.expenses.origin_postal_code) {
       state.postalCodeOrigin = true;
-      state.postalCodeDestination = true;
     } else {
       state.postalCodeOrigin = false;
-      state.postalCodeDestination = false;
     }
   },
   GET_ADDRESS_DESTINATION(state, { addressData, placeResultData }) {
@@ -147,6 +146,28 @@ const mutations = {
     }
 
     state.expenses.dest_address = placeResultData.formatted_address;
+
+    if (!state.expenses.dest_postal_code) {
+      state.postalCodeDestination = true;
+    } else {
+      state.postalCodeDestination = false;
+    }
+  },
+  GET_FORMAT_PRICE(state, { value, currency }) {
+    return Number(value).toLocaleString(navigator.language, {
+      minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+      maximumFractionDigits: currency == 'CLP' ? 0 : 2
+    });
+  },
+  SHOW_LOCAL_SHIPPING(state, value) {
+    if (value) {
+      state.showShipping = value;
+      state.expenses.dest_address = '';
+    } else if (!value) {
+      state.showShipping = value;
+      state.expenses.dest_address = '';
+      state.postalCodeDestination = false;
+    }
   }
 };
 
@@ -185,7 +206,7 @@ const actions = {
     commit('SET_PORT_DEST', data);
   },
   setTransport({ commit }, data) {
-    if(data.transport){
+    if (data.transport) {
       commit('SET_TRANSPORT', data);
     }
   },
@@ -209,6 +230,12 @@ const actions = {
   },
   getAddressDestination2({ commit }, { addressData, placeResultData }) {
     commit('GET_ADDRESS_DESTINATION', { addressData, placeResultData });
+  },
+  getFormatPrice({ commit }, { value, currency }) {
+    commit('GET_FORMAT_PRICE', { value, currency });
+  },
+  showLocalShipping({ commit }, value) {
+    commit('SHOW_LOCAL_SHIPPING', value);
   }
 };
 

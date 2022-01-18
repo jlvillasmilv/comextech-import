@@ -83,132 +83,14 @@ export default {
     Button
   },
   props: {
-    Container,
-    originTransport: {
-      type: Array,
-      required: false
-    }
+    Container
   },
   data() {
     return {
-      address: '',
-      minDate: new Date().toISOString().substr(0, 10),
-      showShipping: false
+      address: ''
     };
   },
-  methods: {
-    /**
-     * Send api quote (button Cotizar fedex, dhl, ups)
-     * @param {Number} appAmount selected service amount if fedex, dhl or ups
-     * @param {Number} transCompanyId number of the service that is selected:
-     * @param {2} FEDEX
-     * @param {3} DHL
-     * @param {4} UPS
-     */
-    async submitQuote(appAmount, transCompanyId) {
-      try {
-        this.expenses.dataLoad = this.$store.state.load.loads;
-        this.expenses.app_amount = appAmount;
-        this.expenses.trans_company_id = transCompanyId;
-        const { data } = await this.expenses.post('/applications/transports');
-        Toast.fire({
-          icon: 'success',
-          title: 'Datos Agregados'
-        });
-
-        this.$store.dispatch('exchange/getSummary', this.data.application_id);
-        this.$store.dispatch('load/setLoad', data);
-        this.$store.dispatch('callIncomingOrNextMenu', true);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    /**
-     * When the location found
-     * @param {Object} addressData Data of the found location
-     * @param {Object} placeResultData PlaceResult object
-     * @param {String} id Input container ID
-     */
-    getAddressOrigin: function(addressData, placeResultData, id) {
-      this.expenses.origin_address = placeResultData.formatted_address;
-      this.expenses.origin_latitude = addressData.latitude;
-      this.expenses.origin_longitude = addressData.longitude;
-
-      for (const component of placeResultData.address_components) {
-        const componentType = component.types[0];
-
-        switch (componentType) {
-          case 'country':
-            this.expenses.origin_ctry_code = component.short_name;
-            break;
-
-          case 'locality':
-            this.expenses.origin_locality = component.long_name;
-            break;
-
-          case 'postal_code': {
-            this.expenses.origin_postal_code = component.long_name;
-            break;
-          }
-        }
-      }
-    },
-    getAddressDestination: function(addressData, placeResultData, id) {
-      this.expenses.address_destination = placeResultData.formatted_address;
-      this.expenses.dest_latitude = addressData.latitude;
-      this.expenses.dest_longitude = addressData.longitude;
-
-      for (const component of placeResultData.address_components) {
-        const componentType = component.types[0];
-
-        switch (componentType) {
-          case 'country':
-            this.expenses.dest_ctry_code = component.short_name;
-            break;
-
-          case 'locality':
-            this.expenses.dest_locality = component.long_name;
-            break;
-
-          case 'administrative_area_level_2': {
-            this.expenses.dest_province = component.long_name;
-            break;
-          }
-
-          case 'postal_code': {
-            this.expenses.dest_postal_code = component.long_name;
-            break;
-          }
-        }
-      }
-    },
-
-    getFavOriginPort: async function() {
-      this.expenses.origin_port_id = '';
-      if (this.expenses.fav_origin_port && this.data.supplier_id) {
-        let idsupplier = this.data.supplier_id;
-        const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
-        await this.$store.dispatch('address/getFavOriginPort', {
-          idsupplier,
-          type
-        });
-      } else {
-        await this.$store.dispatch('address/setOrigFavOritPorts');
-      }
-    },
-    getFavDestPort: async function() {
-      this.expenses.dest_port_id = '';
-      const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
-      if (this.expenses.fav_dest_port) {
-        await this.$store.dispatch('address/getFavDestPorts', type);
-      } else {
-        await this.$store.dispatch('address/setOrigFavDestPorts');
-      }
-    },
-    showShippingMethod() {
-      this.showShipping = !this.showShipping;
-    }
-  },
+  methods: {},
   computed: {
     ...mapState('address', ['expenses', 'addressDestination', 'portsDestination', 'portsOrigin']),
     ...mapState('application', ['data', 'currency', 'origin_transport']),
@@ -221,28 +103,6 @@ export default {
     },
     isActivateAddress() {
       const { loads } = this.$store.state.load;
-
-      // if (loads.length) {
-      //   if (
-      //     // this.data.type_transport == 'CONTAINER' ||
-      //     // this.data.type_transport == 'CONSOLIDADO' ||
-      //     // this.data.type_transport == 'AEREO'
-      //     this.data.type_transport == 'COURIER'
-      //   ) {
-      //     if (
-      //       loads[loads.length - 1].weight_units == 'KG' &&
-      //       loads[loads.length - 1].weight >= 0.01
-      //     ) {
-      //       return true;
-      //     } else if (
-      //       loads[loads.length - 1].weight_units == 'LB' &&
-      //       loads[loads.length - 1].weight >= 0.02
-      //     ) {
-      //       return true;
-      //     }
-      //     return false;
-      //   }
-      // }
 
       /* Condicionales para mostrar el formulario de addresses dependiendo de la validacion del peso */
       if (loads.length && this.data.type_transport == 'COURIER') {
