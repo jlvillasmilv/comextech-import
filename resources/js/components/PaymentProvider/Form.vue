@@ -42,9 +42,6 @@
             {{ Number(data.amount).toLocaleString() }}
             {{ currency.code }}
           </h3>
-          <!-- <h3 class="my-4 dark:text-gray-200">
-                        
-                    </h3> -->
         </div>
         <hr class="w-full mt-4 mb-4 border-solid border-t-2" />
         <div
@@ -175,9 +172,6 @@
                 :disabled="$store.state.payment.discount === 0"
               >
                 <option value="Transferencia">Transferencia</option>
-                <!-- <option value="Cobranza Documentaria">
-                                    Cobranza Documentaria
-                                </option> -->
                 <option value="Carta de Credito">Carta de Credito</option>
               </select>
               <div
@@ -513,7 +507,6 @@ export default {
         await axios.post('/applications/payment_provider', this.payment);
         // this.$store.dispatch('payment/getPayment', this.payment);
         this.$store.dispatch('callIncomingOrNextMenu', true);
-        this.$store.dispatch('exchange/getSummary', this.data.application_id);
       } catch (error) {
         console.log(error);
       }
