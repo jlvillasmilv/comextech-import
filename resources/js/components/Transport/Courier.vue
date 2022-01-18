@@ -46,10 +46,12 @@
                   pr-8
                   rounded
                   leading-tight
-                  focus:outline-none focus:bg-white focus:border-gray-500
+                  focus:outline-none 
+                  focus:bg-white 
+                  focus:border-gray-500
                 "
               >
-                <option v-for="item in origin_transport" :value="item.id" :key="item.id" class="">
+                <option v-for="item in origin_transport" :value="item.id" :key="item.id">
                   {{ item.address }}
                 </option>
               </select>
@@ -60,7 +62,8 @@
                 class="form-checkbox h-4 w-4 text-gray-800"
                 v-model="expenses.fav_origin_address"
                 @change="expenses.origin_address = ''"
-              /><span class="ml-2 text-gray-700">
+              />
+              <span class="ml-2 text-gray-700">
                 Tus
                 {{ data.condition === 'FOB' ? 'Puertos' : 'Almacenes o Fabricas' }}
                 Favoritos
@@ -77,7 +80,10 @@
           </div>
         </div>
         <!-- Codigo postal origen -->
-        <div v-if="postalCodeOrigin" class="flex justify-center w-full px-3 mb-6 md:mb-0">
+        <div
+          v-if="postalCodeOrigin && !expenses.fav_origin_address"
+          class="flex justify-center w-full px-3 mb-6 md:mb-0"
+        >
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             Codigo postal de origen
           </div>
@@ -157,7 +163,10 @@
           ></span>
         </div>
         <!-- codigo postal de destino -->
-        <div v-if="postalCodeDestination" class="flex justify-center w-full px-3 mb-6 md:mb-0">
+        <div
+          v-if="postalCodeDestination && !expenses.fav_dest_address"
+          class="flex justify-center w-full px-3 mb-6 md:mb-0"
+        >
           <div class="mt-2 mr-8 flex justify-start w-2/12">
             Codigo postal de destino
           </div>
@@ -181,80 +190,10 @@
         </div>
       </div>
       <!-- Date and description -->
-      <div v-if="$store.state.address.addressDate" class="flex flex-wrap justify-center -mx-3 mb-6">
-        <div class="w-1/4 px-3 mb-6 md:mb-0">
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 font-semibold">
-              Fecha estimada de recogida
-            </span>
-            <input
-              type="date"
-              v-model="expenses.estimated_date"
-              class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600 dark:bg-gray-700
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
-                form-input
-              "
-              placeholder="Nombre o codigo Puerto/Aeropuerto"
-              :min="minDate"
-            />
-            <span
-              class="text-xs text-red-600 dark:text-red-400"
-              v-if="expenses.errors.has('estimated_date')"
-              v-html="expenses.errors.get('estimated_date')"
-            ></span>
-          </label>
-        </div>
-        <div class="w-1/4 px-2">
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 font-semibold">
-              Descripcion de la carga
-            </span>
-            <input
-              v-model="expenses.description"
-              maxlength="250"
-              class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600 dark:bg-gray-700
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
-                form-input
-              "
-              placeholder="Introduzca la descripcion aqui"
-            />
-          </label>
-          <span
-            class="text-xs text-red-600 dark:text-red-400"
-            v-if="expenses.errors.has('description')"
-            v-html="expenses.errors.get('description')"
-          ></span>
-        </div>
-        <div class="w-1/6 mt-8">
-          <label class="ml-6 text-gray-500 dark:text-gray-400">
-            <input
-              type="checkbox"
-              class="form-checkbox h-4 w-4 text-gray-800"
-              v-model="expenses.insurance"
-              @click="convertInsurance(data.amount, currency.code)"
-            />
-            <span class="ml-2 text-gray-700">Seguro (1,5%)</span>
-          </label>
-        </div>
-        <div class="w-1/6 mt-8">
-          <span v-show="expenses.insurance" class="ml-2 text-gray-700">
-            {{ formatPrice(data.amount) }} USD
-          </span>
-        </div>
-      </div>
-
+      <transition name="fade">
+        <FormDate v-if="$store.state.address.addressDate" />
+      </transition>
+      <!-- Botones editar y cotizar -->
       <div
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
@@ -537,19 +476,20 @@
 </template>
 
 <script>
+import FormDate from './FormDate.vue';
 import VueGoogleAutocomplete from 'vue-google-autocomplete';
 import VueNumeric from 'vue-numeric';
 import { mapState } from 'vuex';
 import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
+import Form from '../Internment/Form.vue';
 
 export default {
-  components: { VueGoogleAutocomplete, Button, VueNumeric },
+  components: { VueGoogleAutocomplete, Button, VueNumeric, FormDate, Form },
   props: {
     address: String
   },
   data() {
     return {
-      minDate: new Date().toISOString().substr(0, 10),
       fedex: {} /* response object api fedex */,
       dhl: {} /* response object api DHL */,
       transportDHL: '' /* transportation rate Fedex */,
@@ -558,8 +498,7 @@ export default {
       // showApisQuote: false,
       transportQuote: 0,
       showFedexQuote: false,
-      showDHLQuote: false,
-      showShipping: false
+      showDHLQuote: false
     };
   },
   methods: {
@@ -706,25 +645,6 @@ export default {
 
     getAddressDestination(addressData, placeResultData, id) {
       this.$store.dispatch('address/getAddressDestination2', { addressData, placeResultData });
-    },
-
-    formatPrice(value, currency) {
-      return Number(value).toLocaleString(navigator.language, {
-        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
-      });
-    },
-
-    async convertInsurance(currencie, currency) {
-      try {
-        const insuranceConvert = await axios.get(
-          `/custom-convert-currency/${currencie}/${currency}`
-        );
-
-        console.log(insuranceConvert);
-      } catch (error) {
-        console.error(error);
-      }
     }
   },
   computed: {

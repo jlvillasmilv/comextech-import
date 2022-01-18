@@ -43,7 +43,8 @@ const state = {
   formAddress: false,
   minDate: new Date().toISOString().substr(0, 10),
   postalCodeOrigin: false,
-  postalCodeDestination: false
+  postalCodeDestination: false,
+  showShipping: false
 };
 
 const getters = {};
@@ -151,6 +152,22 @@ const mutations = {
     } else {
       state.postalCodeDestination = false;
     }
+  },
+  GET_FORMAT_PRICE(state, { value, currency }) {
+    return Number(value).toLocaleString(navigator.language, {
+      minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+      maximumFractionDigits: currency == 'CLP' ? 0 : 2
+    });
+  },
+  SHOW_LOCAL_SHIPPING(state, value) {
+    if (value) {
+      state.showShipping = value;
+      state.expenses.dest_address = '';
+    } else if (!value) {
+      state.showShipping = value;
+      state.expenses.dest_address = '';
+      state.postalCodeDestination = false;
+    }
   }
 };
 
@@ -213,6 +230,12 @@ const actions = {
   },
   getAddressDestination2({ commit }, { addressData, placeResultData }) {
     commit('GET_ADDRESS_DESTINATION', { addressData, placeResultData });
+  },
+  getFormatPrice({ commit }, { value, currency }) {
+    commit('GET_FORMAT_PRICE', { value, currency });
+  },
+  showLocalShipping({ commit }, value) {
+    commit('SHOW_LOCAL_SHIPPING', value);
   }
 };
 
