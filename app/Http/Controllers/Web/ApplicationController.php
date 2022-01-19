@@ -337,8 +337,7 @@ class ApplicationController extends Controller
         return response()->json(['status' => 'OK'], 200);
     }
 
-
-     /**
+    /**
      * @author Jorge Villasmil.
      *
      * Generate a new or update Payment Provider in storage.
@@ -346,7 +345,7 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request Array
      * @return \Illuminate\Http\Response
      * 
-     */
+    */
     public function paymentProvider(Request $request)
     {
         $values = collect($request);

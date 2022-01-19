@@ -521,6 +521,7 @@
             hover:bg-green-700
             focus:outline-none focus:shadow-outline-green
           "
+          
         >
           Aceptar
         </button>
@@ -736,7 +737,12 @@ export default {
           }
         }
       } catch (error) {
-        console.error(error);
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Se ha producido un error al procesar los datos',
+        });
+
         this.$store.dispatch('application/busyButton', false);
       } finally {
         this.$store.dispatch('application/busyButton', false);
