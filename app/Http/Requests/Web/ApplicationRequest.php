@@ -52,7 +52,7 @@ class ApplicationRequest extends FormRequest
     {
         return [
             'supplier_id'     => 'Proveedor',
-            'amount'          => 'Monto Total de Operacion',
+            'amount'          => 'Monto Operación',
             'valuePercentage' => 'Porcentaje de Pago',
             'condition'       => 'Condicion de Venta del Proveedor',
             'type_transport'  => ' Tipo de Transporte'

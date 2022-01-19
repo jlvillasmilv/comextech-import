@@ -35,7 +35,7 @@
               <div
                 v-for="(item, id) in $store.state.application.selectedCondition.services"
                 :key="id"
-                class="flex flex-col w-3/12 mr-4"
+                class="flex flex-col w-2/12 mr-4"
               >
                 <div
                   v-if="item.selected && !item.checked"
@@ -377,23 +377,14 @@
                   <div class="relative"></div>
                 </div>
                 <div class="w-7/12">
-                  <h3 class="my-3 text-gray-500 text-base">Monto de Operacion</h3>
+                  <h3 class="my-3 text-gray-500 text-base">Monto Operación</h3>
                   <vue-numeric
                     thousand-separator="."
                     v-bind:minus="false"
                     v-model="data.amount"
                     :class="[classStyle.input, classStyle.formInput, classStyle.wfull]"
                   />
-                  <!-- <input
-                                        type="number"
-                                        v-mask="'#########'"
-                                        v-model="data.amount"
-                                        :class="[
-                                            classStyle.input,
-                                            classStyle.formInput,
-                                            classStyle.wfull
-                                        ]"
-                                    /> -->
+                  
                   <span
                     class="text-xs text-red-600 dark:text-red-400"
                     v-if="data.errors.has('amount')"
@@ -403,9 +394,9 @@
               </div>
             </div>
             <h3 class="my-3 text-green-700 text-lg">Tipo de Transporte</h3>
-            <div class="flex flex-wrap justify-center w-full">
+            <div class="flex flex-wrap w-full">
               <div
-                v-for="service in $store.state.load.types"
+                v-for="service in typeTransport"
                 :key="service.name"
                 class="w-2/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
               >
@@ -745,7 +736,8 @@ export default {
       'currencies',
       'origin_transport',
       'currency',
-      'selectedCondition'
+      'selectedCondition',
+      'typeTransport'
     ]),
     servicesCode() {
       return this.$store.state.selectedServices.map((item) => item.code);
