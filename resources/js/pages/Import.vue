@@ -507,8 +507,8 @@
           Cancelar
         </a>
         <button
+          v-if="!busy"
           type="submit"
-          :disabled="busy"
           @click="submitFormApplications()"
           class="
             transform
@@ -533,6 +533,55 @@
         >
           Aceptar
         </button>
+        <button
+          v-else
+          type="submit"
+          @click="submitFormApplications()"
+          class="
+            flex
+            transform
+            motion-safe:hover:scale-110
+            w-auto
+            px-5
+            py-3
+            text-sm
+            font-medium
+            leading-5
+            text-white
+            transition-colors
+            duration-150
+            bg-green-600
+            border border-transparent
+            rounded-lg
+            sm:w-auto sm:px-4 sm:py-2
+            active:bg-green-600
+            hover:bg-green-700
+            focus:outline-none focus:shadow-outline-green
+          "
+          disabled
+        >
+          <svg
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Aceptar
+        </button>
       </template>
     </modal>
   </div>
@@ -554,7 +603,6 @@ import { mapState } from 'vuex';
 export default {
   data() {
     return {
-      busy: false,
       statusSuppliers: [
         { description: 'Proveedor', name: 'with' },
         { description: 'Sin Proveedor', name: 'without' },
@@ -660,13 +708,15 @@ export default {
     },
     async submitFormApplications() {
       try {
+        this.$store.dispatch('application/busyButton', true);
+
         //obtener id de la moneda seleccionada antes del submit
         this.data.currency_id = this.$store.state.application.currency.id;
         //obtener solo los codigo de los services
         this.data.services = this.servicesCode;
         // enviar form de data
         const { data } = await this.data.post('/applications');
-        this.busy = true;
+
         if (data) {
           this.insertPaymentsToServices();
           // Mostrar mensaje confirmacion
@@ -689,7 +739,6 @@ export default {
           this.$store.state.statusModal = !this.$store.state.statusModal;
           //  posicion de modal comienzan en 0
           this.$store.state.positionTabs = 0;
-          this.busy = false;
 
           if (data.supplier_id != null) {
             this.$store.dispatch('application/getOriginTransport', data.supplier_id);
@@ -697,6 +746,9 @@ export default {
         }
       } catch (error) {
         console.error(error);
+        this.$store.dispatch('application/busyButton', false);
+      } finally {
+        this.$store.dispatch('application/busyButton', false);
       }
     },
     clearEcommerceSupplier(provider) {
@@ -745,7 +797,8 @@ export default {
       'currencies',
       'origin_transport',
       'currency',
-      'selectedCondition'
+      'selectedCondition',
+      'busy'
     ]),
     servicesCode() {
       return this.$store.state.selectedServices.map((item) => item.code);
@@ -774,7 +827,7 @@ export default {
         this.$store.dispatch('payment/setPayment', data.payment_provider);
         this.$store.dispatch('load/setLoad', data);
         this.$store.dispatch('address/setTransport', data);
-        this.$store.dispatch('internment/setData', data);  
+        this.$store.dispatch('internment/setData', data);
       } else {
         this.$store.state.application.tabs = servicedefault;
       }
