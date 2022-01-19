@@ -40,7 +40,7 @@ const state = {
     length_unit: 'CM',
     id: 1,
     cbm: '',
-    weight: false,
+    weight: '',
     weight_units: 'KG',
     stackable: false,
     id: 0

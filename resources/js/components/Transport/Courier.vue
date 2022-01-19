@@ -521,7 +521,7 @@ export default {
           title: 'Datos Agregados'
         });
 
-        this.$store.dispatch('exchange/getSummary', this.data.application_id);
+       
         this.$store.dispatch('load/setLoad', data);
         this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {

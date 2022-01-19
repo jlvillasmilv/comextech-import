@@ -152,6 +152,18 @@ class TransportsControllers extends Controller
                 ];
 
                 Transport::rateLocalCourierExpenses($data);
+            }else {
+                // update application summary local expense
+                \DB::table('application_summaries as as')
+                ->join('services as s', 'as.service_id', '=', 's.id')
+                ->where([
+                ["as.application_id", $request->application_id ],
+                ["s.code", 'CS03-03']
+                ])
+                ->update([
+                        'amount'      =>  0,
+                        'currency_id' =>  8, 
+                    ]);
             }
 
 
