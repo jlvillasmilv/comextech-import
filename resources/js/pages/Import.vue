@@ -35,7 +35,7 @@
               <div
                 v-for="(item, id) in $store.state.application.selectedCondition.services"
                 :key="id"
-                class="flex flex-col w-2/12 mr-4"
+                class="flex flex-col w-4/12 sm:w-2/12 mr-4"
               >
                 <div
                   v-if="item.selected && !item.checked"
@@ -134,9 +134,9 @@
               v-html="data.errors.get('services')"
             ></span>
 
-            <div class="flex">
-              <section class="w-8/12 flex flex-col justify-center">
-                <h3 class="mt-1 text-green-700 text-lg">Proveedor</h3>
+            <div class="flex flex-col sm:flex-row">
+              <section class="sm:w-8/12 flex flex-col justify-center mt-6 mb-2">
+                <h3 class="mt-1 mb-2 text-green-700 text-lg">Proveedor</h3>
                 <div class="inline-flex flex-col w-full dark:text-gray-200">
                   <v-select
                     class="w-full"
@@ -174,8 +174,8 @@
                   </div>
                 </div>
               </section>
-              <section class="w-4/12 flex justify-center mt-2">
-                <div class="w-full mx-1 flex flex-wrap content-center">
+              <section class="w-6/12 sm:w-4/12 flex justify-center mt-2">
+                <div class="w-full sm:mx-1 flex flex-wrap content-center">
                   <label
                     v-for="(item, index) in statusSuppliers"
                     :key="index"
@@ -201,9 +201,9 @@
               v-if="data.errors.has('supplier_id')"
               v-html="data.errors.get('supplier_id')"
             ></span>
-            <h3 class="mt-1 text-green-700 text-lg">Pago</h3>
-            <div class="w-full flex items-center">
-              <div class="sm:w-2/6 md:w-2/6">
+            <h3 class="mt-6 mb-2 sm:mt-1 text-green-700 text-lg">Pago</h3>
+            <div class="w-full flex flex-col sm:flex-row sm:items-center">
+              <div class="w-full sm:w-2/6 md:w-2/6">
                 <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Moneda de Pago
                                 </h3> -->
@@ -233,9 +233,9 @@
                   v-html="data.errors.get('currency_id')"
                 ></span>
               </div>
-              <div class="flex w-2/6 justify-center">
+              <div class="my-4 w-full flex sm:w-2/6 md:w-2/6 justify-center">
                 <section
-                  class="flex flex-wrap justify-end sm:w-full md:w-full"
+                  class="w-6/12 flex flex-wrap justify-end sm:w-full md:w-full"
                   v-show="data.statusSuppliers == 'with'"
                 >
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
@@ -273,7 +273,7 @@
                   ></span>
                 </section>
                 <section
-                  class="ml-5 border-l-4 flex flex-col flex-wrap justify-center items-start sm:w-4/6 md:w-4/6"
+                  class="ml-5 border-l-4 flex flex-col flex-wrap justify-center items-start w-4/12 sm:w-4/6 md:w-4/6"
                   v-show="data.statusSuppliers == 'with'"
                 >
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
@@ -311,28 +311,33 @@
                   ></span>
                 </section>
               </div>
-              <div class="flex flex-col items-center justify-between w-2/6">
+              <div class="w-full flex sm:flex-col sm:items-center sm:justify-between sm:w-2/6">
                 <div
                   v-if="$store.state.address.expenses.mode_selected != 'COURIER'"
-                  :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']"
+                  :class="[
+                    data.statusSuppliers == 'with'
+                      ? 'flex flex-col items-center w-6/12 sm:w-7/12'
+                      : 'flex flex-col items-center w-6/12 sm:w-7/12',
+                    'md:mb-0'
+                  ]"
                 >
                   <h3 class="my-2.5 text-gray-500 text-base">Condicion de Venta</h3>
-                  <div class="relative">
+                  <div class="relative w-7/12 sm:w-full">
                     <select
                       v-model="$store.state.application.selectedCondition"
                       @change="toogleMenuTabs()"
-                      class="
-                        block
-                        appearance-none
-                        w-full
-                        border border-gray-150
-                        dark:border-gray-600
-                        text-gray-700
-                        p-2
-                        pr-8
-                        rounded
-                        leading-tight
-                        focus:outline-none focus:bg-white focus:border-gray-500
+                      class="    
+                      block
+                      appearance-none
+                      w-full
+                      border border-gray-150
+                      dark:border-gray-600
+                      text-gray-700
+                      p-2
+                      pr-8
+                      rounded
+                      leading-tight
+                      focus:outline-none focus:bg-white focus:border-gray-500
                       "
                     >
                       <!-- :class="[$store.state.address.expenses.mode_selected == 'COURIER' ? 'bg-gray-600' : 'bg-blue-400']" -->
@@ -376,15 +381,15 @@
                   <h3 class="my-2.5 text-gray-500 text-base p-4">Puerta a Puerta</h3>
                   <div class="relative"></div>
                 </div>
-                <div class="w-7/12">
+                <div class="flex flex-col items-center w-6/12 sm:w-7/12 md:mb-0">
                   <h3 class="my-3 text-gray-500 text-base">Monto Operación</h3>
                   <vue-numeric
                     thousand-separator="."
                     v-bind:minus="false"
                     v-model="data.amount"
-                    :class="[classStyle.input, classStyle.formInput, classStyle.wfull]"
+                    class="sm:block text-center mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-7/12 sm:w-full"
                   />
-                  
+
                   <span
                     class="text-xs text-red-600 dark:text-red-400"
                     v-if="data.errors.has('amount')"
@@ -398,7 +403,7 @@
               <div
                 v-for="service in typeTransport"
                 :key="service.name"
-                class="w-2/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
+                class="w-4/12 sm:w-2/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
               >
                 <div
                   :class="[
