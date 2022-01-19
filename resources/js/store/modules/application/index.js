@@ -65,7 +65,8 @@ const state = {
   currency: '',
   selectedCondition: '',
   tabs: '',
-  editing: false
+  editing: false,
+  busy: false
 };
 
 const mutations = {
@@ -143,6 +144,9 @@ const mutations = {
     state.selectedCondition.services = state.selectedCondition.services.map((tab) =>
       tab.sort == payload ? { ...tab, checked: false } : tab
     );
+  },
+  BUSY_BUTTON(state, value) {
+    state.busy = value;
   }
 };
 const actions = {
@@ -182,6 +186,9 @@ const actions = {
   },
   deleteService({ commit }, id) {
     commit('DELETE_SERVICE', id);
+  },
+  busyButton({ commit }, value) {
+    commit('BUSY_BUTTON', value);
   }
 };
 
