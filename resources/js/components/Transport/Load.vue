@@ -5,59 +5,14 @@
         {{ title }}
       </h1>
     </div>
-    <!-- <div class="flex  mt-3 mb-8   ">
-            <ul class="flex  space-x-2 mt-3 ">
-                <li
-                    v-for="name in $store.state.load.types"
-                    :key="name"
-                    :class="[
-                        'cursor-pointer px-5 text-gray-900 border-b-2',
-                        name == item.mode_selected ? ' border-blue-500' : ''
-                    ]"
-                    @click="typeSelected(name)"
-                >
-                    {{ name }}
-                </li>
-            </ul>
-        </div> -->
+   
     <div v-if="data.type_transport">
       <div
         v-for="(item, id) in loads"
         :key="id"
         class="mt-8 flex w-full justify-center dark:text-gray-400 space-x-5 mt-2"
       >
-        <!-- <div
-                    class="inline w-1/6"
-                    v-if="data.type_transport != 'CONTAINER'"
-                >
-                    <span v-if="id == 0" class=" text-sm my-2 font-semibold ">
-                        Calcular por
-                    </span>
-                    <div v-if="id == 0" class="block space-x-0">
-                        <button
-                            @click="changeMode()"
-                            :class="[
-                                'focus:outline-none  font-medium py-2 px-4 rounded-2 rounded-lg',
-                                !item.mode_calculate
-                                    ? 'bg-blue-800 text-white'
-                                    : 'bg-gray-50'
-                            ]"
-                        >
-                            Envio
-                        </button>
-                        <button
-                            @click="changeMode()"
-                            :class="[
-                                'focus:outline-none font-medium py-2 px-4 rounded-2 rounded-lg',
-                                item.mode_calculate
-                                    ? 'bg-blue-800 text-white'
-                                    : 'bg-gray-50'
-                            ]"
-                        >
-                            Unidad
-                        </button>
-                    </div>
-                </div> -->
+       
         <div v-if="data.type_transport != 'CONTAINER'" class="inline w-1/6 p-1">
           <div class="relative">
             <label v-if="id == 0" class="block text-sm font-semibold"> Tipo de Carga </label>
@@ -323,11 +278,6 @@ export default {
     },
     deleteForm(id) {
       this.$store.dispatch('load/removedLoad', id);
-    },
-    changeMode() {
-      // this.$store.state.load.item.mode_calculate = !this.$store.state.load
-      //     .item.mode_calculate;
-      // this.reset();
     },
     typeSelected(value) {
       this.mode_selected = value;

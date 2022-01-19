@@ -963,7 +963,6 @@ export default {
             title: 'Datos Agregados'
           });
         }
-        this.$store.dispatch('exchange/getSummary', this.data.application_id);
         this.$store.dispatch('load/setLoad', fclResponse.data);
         // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
@@ -984,7 +983,7 @@ export default {
       this.expenses.origin_port_id = '';
       if (this.expenses.fav_origin_port && this.data.supplier_id) {
         let idsupplier = this.data.supplier_id;
-        const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
+        const type = 'P';
         await this.$store.dispatch('address/getFavOriginPort', {
           idsupplier,
           type
@@ -996,7 +995,7 @@ export default {
 
     async getFavDestPort() {
       this.expenses.dest_port_id = '';
-      const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
+      const type = 'P';
       if (this.expenses.fav_dest_port) {
         await this.$store.dispatch('address/getFavDestPorts', type);
       } else {
