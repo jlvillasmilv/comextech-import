@@ -30,8 +30,7 @@ class SupplCondSaleSeeder extends Seeder
         3=> ['selected' => true],
         4=> ['selected' => true],
         5=> ['selected' => true],
-        7=> ['selected' => true],
-        8=> ['selected' => true]]);
+        7=> ['selected' => true]]);
 
         $sup = ApplicationCondSale::create([
             'user_id'   => 1,
@@ -50,7 +49,6 @@ class SupplCondSaleSeeder extends Seeder
             4=> ['selected' => true],
             5=> ['selected' => true],
             7=> ['selected' => true],
-            8=> ['selected' => true]
         ]);
 
         $sup = ApplicationCondSale::create([
@@ -67,7 +65,6 @@ class SupplCondSaleSeeder extends Seeder
             4=> ['selected' => false],
             5=> ['selected' => true],
             7=> ['selected' => false],
-            8=> ['selected' => true]
         ]);
 
         $sup = ApplicationCondSale::create([
@@ -83,8 +80,7 @@ class SupplCondSaleSeeder extends Seeder
             3=> ['selected' => false],
             4=> ['selected' => true],
             5=> ['selected' => true],
-            7=> ['selected' => true],
-            8=> ['selected' => true]
+            7=> ['selected' => true]
         ]);
 
     }
