@@ -45,7 +45,7 @@
         py-1
         rounded-md rounded-l-lg
         focus:outline-none
-        focus:shadow-outline-purple
+        focus:shadow-outline-blue
       "
             @click="$store.dispatch('callIncomingOrNextMenu', false)"
             :disabled="$store.state.positionTabs == 0"
@@ -64,7 +64,7 @@
                 :class="[
                     'cursor-pointer py-2 px-5 text-gray-500 border-b-8',
                     item.code == $store.state.tabActive
-                        ? 'text-b-500 border-indigo-500'
+                        ? 'text-b-500 border-blue-500'
                         : ''
                 ]"
             >
@@ -78,7 +78,7 @@
         py-1
         rounded-md rounded-l-lg
         focus:outline-none
-        focus:shadow-outline-purple
+        focus:shadow-outline-blue
       "
             @click="$store.dispatch('callIncomingOrNextMenu', true)"
             :disabled="

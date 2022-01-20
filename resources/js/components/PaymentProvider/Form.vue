@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col w-full sm:flex-row dark:bg-gray-800">
+  <div class="flex flex-col w-full sm:flex-row dark:bg-gray-900">
     <div class="md:w-2/5 overflow-x-auto ">
       <div class="mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div v-if="$store.state.application.statusSuppliers !== 'E-commerce'">
-          <h3 class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200">
+          <h3 class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200 dark:bg-gray-800">
             Pagos al Proveedor
           </h3>
           <!-- <h3
@@ -138,13 +138,17 @@
                   appearance-none
                   w-full
                   border border-gray-150
-                  dark:border-gray-600
                   text-gray-700
                   p-2
                   pr-8
                   rounded
                   leading-tight
-                  focus:outline-none focus:bg-white focus:border-gray-500
+                  focus:outline-none focus:bg-white
+                  focus:border-gray-500
+                  dark:text-gray-300
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  dark:focus:shadow-outline-gray
                 "
                 id="grid-state"
                 :disabled="$store.state.payment.discount === 0"
@@ -199,14 +203,19 @@
                   appearance-none
                   w-full
                   border border-gray-150
-                  dark:border-gray-600
                   text-gray-700
                   p-2
                   pr-8
                   rounded
                   leading-tight
-                  focus:outline-none focus:bg-white focus:border-gray-500
-                "
+                  focus:outline-none
+                  focus:bg-white
+                  focus:border-gray-500
+                  dark:text-gray-300
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  dark:focus:shadow-outline-gray
+                  "
                 id="grid-state"
                 :disabled="$store.state.payment.discount === 0"
               >
@@ -346,9 +355,10 @@
                   text-left text-white
                   uppercase
                   border-b
-                  dark:border-gray-700
                   bg-blue-900
-                  dark:text-gray-400 dark:bg-gray-800
+                  dark:border-gray-700
+                  dark:text-gray-200
+                  dark:bg-blue-900
                 "
               >
                 <th class="px-4 py-3">Pago</th>

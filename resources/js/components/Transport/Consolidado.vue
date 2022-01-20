@@ -27,20 +27,7 @@
               <div v-else class="relative">
                 <select
                   v-model="expenses.origin_address"
-                  class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                 >
                   <option v-for="item in origin_transport" :value="item.id" :key="item.id">
                     {{ item.address }}
@@ -259,20 +246,7 @@
               <div v-else class="relative">
                 <select
                   v-model="expenses.dest_address"
-                  class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      mt-1
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                 >
                   <option
                     v-for="item in addressDestination"
@@ -593,20 +567,7 @@
               <div v-else class="relative">
                 <select
                   v-model="expenses.dest_address"
-                  class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      mt-1
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                 >
                   <option
                     v-for="item in addressDestination"

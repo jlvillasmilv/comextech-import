@@ -61,7 +61,7 @@
             rounded-lg
             active:bg-green-600
             hover:bg-green-700
-            focus:outline-none focus:shadow-outline-purple
+            focus:outline-none focus:shadow-outline-blue
           "
           :disabled="busy"
           @click="submitForm()"
