@@ -20,7 +20,7 @@
                   <th class="px-4 py-3  border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">Utilizar</th>
                  </tr>
               </thead>
-              <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+              <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 text-center">
                   <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
                         <p class="text-xs text-gray-600 dark:text-gray-400">
