@@ -1,8 +1,10 @@
 <template>
   <div class="container grid px-6 my-1">
-    <transition name="fade">
-      <Load v-if="$store.state.load.showLoad" />
-    </transition>
+
+    <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <Load v-if="$store.state.load.showLoad" />
+    </div>
+    
     <!-- Notification validation error -->
     <span
       class="text-xs text-red-600 dark:text-red-400"
