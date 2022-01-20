@@ -503,34 +503,6 @@
           Cancelar
         </a>
         <button
-          v-if="!busy"
-          type="submit"
-          @click="submitFormApplications()"
-          class="
-            transform
-            motion-safe:hover:scale-110
-            w-full
-            px-5
-            py-3
-            text-sm
-            font-medium
-            leading-5
-            text-white
-            transition-colors
-            duration-150
-            bg-green-600
-            border border-transparent
-            rounded-lg
-            sm:w-auto sm:px-4 sm:py-2
-            active:bg-green-600
-            hover:bg-green-700
-            focus:outline-none focus:shadow-outline-green
-          "
-        >
-          Aceptar
-        </button>
-        <button
-          v-else
           type="submit"
           @click="submitFormApplications()"
           class="
@@ -554,9 +526,10 @@
             hover:bg-green-700
             focus:outline-none focus:shadow-outline-green
           "
-          disabled
+          :disabled="busy"
         >
           <svg
+            v-if="busy"
             class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
