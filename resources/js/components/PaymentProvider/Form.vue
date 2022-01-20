@@ -1,6 +1,6 @@
 <template>
-  <div class="flex w-full">
-    <div class="w-2/5 overflow-x-auto">
+  <div class="flex flex-col w-full sm:flex-row dark:bg-gray-800">
+    <div class="md:w-2/5 overflow-x-auto ">
       <div class="mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div v-if="$store.state.application.statusSuppliers !== 'E-commerce'">
           <h3 class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200">
@@ -32,25 +32,22 @@
         </div>
         <hr class="w-full mt-4 mb-4 border-solid border-t-2" />
         <div
-          class="flex justify-around flex-wrap"
+          class="flex justify-around flex-row"
           v-if="$store.state.application.statusSuppliers !== 'E-commerce'"
         >
-          <div class="md:w-1/3 md:mb-0">
+          <div class="w-full md:w-2/5">
             <span
-              v-if="$store.state.payment.payment.length == 0"
               class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs"
             >
-              Primer pago
+              {{$store.state.payment.payment.length == 0 ? 'Primer pago' : 'Segundo pago'}}
+              
             </span>
-            <span v-else class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs">
-              Segundo pago
-            </span>
-
+           
             <input
               :class="[]"
               class="
                 block
-                w-10/12
+                w-full
                 mt-1
                 text-sm
                 dark:border-gray-600 dark:bg-gray-700
@@ -77,7 +74,7 @@
                             type="number" 
                         />-->
           </div>
-          <div class="w-2/3 md:w-auto md:mb-0">
+          <div class="w-full md:w-3/5">
             <!--  <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Monto Agregado
                         </span> -->
@@ -246,7 +243,7 @@
         <span v-if="$store.state.payment.discount > 0" class="text-center text-red-600 text-xs"
           >Complete todos los campos*</span
         >
-        <div class="flex space-x-2 px-3 mb-6 md:mb-0 my-5">
+        <div class="flex space-x-2 px-3 md:mb-0 my-4">
           <button
             :disabled="
               $store.state.payment.discount < 0 ||
@@ -336,7 +333,7 @@
         </div>
       </div>
     </div>
-    <div class="w-3/5 overflow-x-auto">
+    <div class="md:w-3/5 overflow-x-auto">
       <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-no-wrap">
