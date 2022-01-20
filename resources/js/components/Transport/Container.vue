@@ -12,9 +12,7 @@
           <!-- Direccion de origen -->
           <h3 class="mb-10">Direcciones y Puertos</h3>
           <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
-            <div class="mt-2 mr-8 flex justify-start w-2/12">
-              Origen
-            </div>
+            <div class="mt-2 mr-8 flex justify-start w-2/12">Origen</div>
             <label class="w-6/12 text-sm">
               <vue-google-autocomplete
                 v-if="!expenses.fav_origin_address"
@@ -28,20 +26,7 @@
               <div v-else class="relative">
                 <select
                   v-model="expenses.origin_address"
-                  class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                 >
                   <option v-for="item in origin_transport" :value="item.id" :key="item.id">
                     {{ item.address }}
@@ -76,12 +61,21 @@
             v-if="postalCodeOrigin && !expenses.fav_origin_address"
             class="flex justify-center w-full px-3 mb-6 md:mb-0"
           >
-            <div class="mt-2 mr-8 flex justify-start w-2/12">
-              Codigo postal de origen
-            </div>
+            <div class="mt-2 mr-8 flex justify-start w-2/12">Codigo postal de origen</div>
             <label class="w-6/12 text-sm">
               <input
-                class="w-full block border border-gray-150 text-gray-700 p-2 mt-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                class="
+                  w-full
+                  block
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  mt-1
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                "
                 type="number"
                 max="15"
                 v-model="expenses.origin_postal_code"
@@ -114,20 +108,13 @@
                   :options="portsOrigin"
                   :reduce="(portsOrigin) => portsOrigin.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsOrigin">
                     {{ portsOrigin.name }}
@@ -174,20 +161,13 @@
                   :options="portsDestination"
                   :reduce="(portsDestination) => portsDestination.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsDestination">
                     {{ portsDestination.name }}
@@ -222,14 +202,44 @@
             <button
               v-if="!showShipping"
               @click="showShippingMethod()"
-              class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+              class="
+                w-2/12
+                bg-transparent
+                focus:outline-none
+                uppercase
+                text-xs
+                hover:bg-blue-600
+                text-blue-700
+                font-semibold
+                hover:text-white
+                py-2
+                px-2
+                border border-blue-500
+                hover:border-transparent
+                rounded
+              "
             >
               Transporte Local
             </button>
             <button
               v-else-if="showShipping"
               @click="HideShippingMethod()"
-              class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+              class="
+                w-2/12
+                bg-transparent
+                focus:outline-none
+                uppercase
+                text-xs
+                hover:bg-blue-600
+                text-blue-700
+                font-semibold
+                hover:text-white
+                py-2
+                px-2
+                border border-blue-500
+                hover:border-transparent
+                rounded
+              "
             >
               Transporte Local
             </button>
@@ -239,9 +249,7 @@
           <!-- Destino de Envio -->
           <div v-if="showShipping" class="flex justify-center w-full px-3 mb-6 md:mb-0">
             <div class="mt-2 mr-8 flex justify-start w-2/12">
-              <h3>
-                Direccion Destino
-              </h3>
+              <h3>Direccion Destino</h3>
             </div>
             <label class="w-6/12 text-sm">
               <vue-google-autocomplete
@@ -261,26 +269,13 @@
               <div v-else class="relative">
                 <select
                   v-model="expenses.dest_address"
-                  class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      mt-1
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                 >
                   <option
                     v-for="item in addressDestination"
                     :value="item.id"
                     :key="item.id"
-                    class=" "
+                    class=""
                   >
                     {{ item.address }}
                   </option>
@@ -292,9 +287,7 @@
                   class="form-checkbox h-4 w-4 text-gray-800"
                   v-model="expenses.fav_dest_address"
                   @change="expenses.dest_address = ''"
-                /><span class="ml-2 text-gray-700">
-                  Direccion de Destino Favoritas
-                </span>
+                /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
               </label>
             </label>
             <div class="flex justify-end w-1/12">
@@ -311,12 +304,21 @@
             v-if="postalCodeDestination && !expenses.fav_dest_address"
             class="flex justify-center w-full px-3 mb-6 md:mb-0"
           >
-            <div class="mt-2 mr-8 flex justify-start w-2/12">
-              Codigo postal de destino
-            </div>
+            <div class="mt-2 mr-8 flex justify-start w-2/12">Codigo postal de destino</div>
             <label class="w-6/12 text-sm">
               <input
-                class="w-full block border border-gray-150 text-gray-700 p-2 mt-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                class="
+                  w-full
+                  block
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  mt-1
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                "
                 type="number"
                 max="15"
                 v-model="expenses.dest_postal_code"
@@ -351,83 +353,6 @@
           class="flex flex-col items-center flex-wrap w-full -mx-3 my-8"
         >
           <h3 class="mb-10">Direcciones y Puertos</h3>
-          <!-- <div
-                            class="flex justify-around w-full px-3 mb-6 md:mb-0"
-                        >
-                            <div class="flex justify-start w-2/12">
-                                <h3 class="mt-2">
-                                    Direccion Origen
-                                </h3>
-                            </div>
-                            <label class="w-8/12 text-sm">
-                                <vue-google-autocomplete
-                                    v-if="!expenses.fav_origin_address"
-                                    v-model="expenses.origin_address"
-                                    id="addressOrigin"
-                                    classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                    v-on:placechanged="getAddressOrigin"
-                                    placeholder="Direccion, Codigo Postal"
-                                >
-                                </vue-google-autocomplete>
-                                <div v-else class="relative">
-                                    <select
-                                        v-model="expenses.origin_address"
-                                        class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      mt-1
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
-                                    >
-                                        <option
-                                            v-for="item in origin_transport"
-                                            :value="item.id"
-                                            :key="item.id"
-                                            class=" "
-                                        >
-                                            {{ item.address }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <label
-                                    class="inline-flex text-sm items-center mx-2 mt-2"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        class="form-checkbox h-4 w-4 text-gray-800"
-                                        v-model="expenses.fav_origin_address"
-                                        @change="expenses.origin_address = ''"
-                                    />
-                                    <span class="ml-2 text-gray-700">
-                                        Tus
-                                        {{
-                                            data.condition === 'FOB'
-                                                ? 'Puertos'
-                                                : 'Almacenes o Fabricas'
-                                        }}
-                                        Favoritos
-                                    </span>
-                                </label>
-                                <span
-                                    class="text-xs text-red-600 dark:text-red-400"
-                                    v-if="expenses.errors.has('origin_address')"
-                                    v-html="
-                                        expenses.errors.get('origin_address')
-                                    "
-                                ></span>
-                            </label>
-                            <div class="flex justify-center w-2/12">
-                                <h3 class="mt-2">Recogida</h3>
-                            </div>
-                        </div> -->
 
           <!-- Aeropuerto / Puerto origen -->
           <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
@@ -446,20 +371,13 @@
                   :options="portsOrigin"
                   :reduce="(portsOrigin) => portsOrigin.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsOrigin">
                     {{ portsOrigin.name }}
@@ -507,20 +425,13 @@
                   :options="portsDestination"
                   :reduce="(portsDestination) => portsDestination.id"
                 >
-                  <template
-                    v-slot:no-options="{
-                      search,
-                      searching
-                    }"
-                  >
+                  <template v-slot:no-options="{ search, searching }">
                     <template v-if="searching" class="text-sm">
                       Lo sentimos no hay opciones que coincidan
                       <strong>{{ search }}</strong
                       >.
                     </template>
-                    <em style="opacity: 0.5" v-else>
-                      Puertos
-                    </em>
+                    <em style="opacity: 0.5" v-else> Puertos </em>
                   </template>
                   <template v-slot:option="portsDestination">
                     {{ portsDestination.name }}
@@ -556,14 +467,44 @@
             <button
               v-if="!showShipping"
               @click="showShippingMethod()"
-              class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+              class="
+                w-2/12
+                bg-transparent
+                focus:outline-none
+                uppercase
+                text-xs
+                hover:bg-blue-600
+                text-blue-700
+                font-semibold
+                hover:text-white
+                py-2
+                px-2
+                border border-blue-500
+                hover:border-transparent
+                rounded
+              "
             >
               Transporte Local
             </button>
             <button
               v-else-if="showShipping"
               @click="HideShippingMethod()"
-              class="w-2/12 bg-transparent focus:outline-none uppercase text-xs hover:bg-blue-600 text-blue-700 font-semibold hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+              class="
+                w-2/12
+                bg-transparent
+                focus:outline-none
+                uppercase
+                text-xs
+                hover:bg-blue-600
+                text-blue-700
+                font-semibold
+                hover:text-white
+                py-2
+                px-2
+                border border-blue-500
+                hover:border-transparent
+                rounded
+              "
             >
               Transporte Local
             </button>
@@ -573,9 +514,7 @@
           <!-- Destino de Envio -->
           <div v-if="showShipping" class="flex justify-center w-full px-3 mb-6 md:mb-0">
             <div class="mt-2 mr-8 flex justify-start w-2/12">
-              <h3>
-                Direccion Destino
-              </h3>
+              <h3>Direccion Destino</h3>
             </div>
             <label class="w-6/12 text-sm">
               <vue-google-autocomplete
@@ -595,26 +534,13 @@
               <div v-else class="relative">
                 <select
                   v-model="expenses.dest_address"
-                  class="
-                      block
-                      w-full
-                      border border-gray-150
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      mt-1
-                      leading-tight
-                      focus:outline-none
-                      focus:bg-white
-                      focus:border-gray-500
-                  "
+                  class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                 >
                   <option
                     v-for="item in addressDestination"
                     :value="item.id"
                     :key="item.id"
-                    class=" "
+                    class=""
                   >
                     {{ item.address }}
                   </option>
@@ -626,9 +552,7 @@
                   class="form-checkbox h-4 w-4 text-gray-800"
                   v-model="expenses.fav_dest_address"
                   @change="expenses.dest_address = ''"
-                /><span class="ml-2 text-gray-700">
-                  Direccion de Destino Favoritas
-                </span>
+                /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
               </label>
             </label>
             <div class="flex justify-end w-1/12">
@@ -645,12 +569,21 @@
             v-if="postalCodeDestination && !expenses.fav_dest_address"
             class="flex justify-center w-full px-3 mb-6 md:mb-0"
           >
-            <div class="mt-2 mr-8 flex justify-start w-2/12">
-              Codigo postal de destino
-            </div>
+            <div class="mt-2 mr-8 flex justify-start w-2/12">Codigo postal de destino</div>
             <label class="w-6/12 text-sm">
               <input
-                class="w-full block border border-gray-150 text-gray-700 p-2 mt-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                class="
+                  w-full
+                  block
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  mt-1
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                "
                 type="number"
                 max="15"
                 v-model="expenses.dest_postal_code"
@@ -682,22 +615,50 @@
           <thead>
             <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 &nbsp;
               </th>
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 &nbsp;
               </th>
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 TARIFA
               </th>
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 MONEDA
               </th>
@@ -715,7 +676,7 @@
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
               <td
                 :class="[
-                  !fclQuote.transport.transport_amount ? 'text-red-600 px-4 py-3' : 'px-4 py-3'
+                  !fclQuote.transport.transport_amount ? 'text-red-600 px-4 py-3' : 'px-4 py-3',
                 ]"
               >
                 {{
@@ -771,22 +732,50 @@
           <thead>
             <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 &nbsp;
               </th>
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 &nbsp;
               </th>
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 TARIFA
               </th>
               <th
-                class="px-4 py-3 border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                class="
+                  px-4
+                  py-3
+                  border-b
+                  dark:border-gray-700
+                  bg-blue-900
+                  dark:text-gray-400 dark:bg-gray-800
+                "
               >
                 MONEDA
               </th>
@@ -853,17 +842,26 @@
       :class="[
         !expenses.dataLoad || expenses.dataLoad.length <= 0
           ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5'
+          : 'flex justify-center my-5 innline w-1/7 mt-5',
       ]"
     >
-      <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">
-        Editar
-      </button>
+      <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
 
       <button
         v-else-if="expenses.dataLoad.length > 0"
         @click="HideAddress()"
-        class="mr-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800"
+        class="
+          mr-4
+          w-24
+          h-12
+          text-white
+          transition-colors
+          text-lg
+          bg-green-700
+          rounded-lg
+          focus:shadow-outline
+          hover:bg-green-800
+        "
       >
         Editar
       </button>
@@ -874,7 +872,7 @@
             ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
             : expenses.dataLoad.length <= 0
             ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800',
         ]"
       >
         Cotizar
@@ -894,7 +892,7 @@ export default {
   data() {
     return {
       fclQuote: {},
-      fclTableQuote: false
+      fclTableQuote: false,
     };
   },
   methods: {
@@ -916,7 +914,7 @@ export default {
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100
+        width: 100,
       });
 
       this.$store.dispatch('address/showAddress', false);
@@ -947,20 +945,20 @@ export default {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Enviar'
+            confirmButtonText: 'Enviar',
           }).then((result) => {
             if (result.isConfirmed) {
               // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
               Toast.fire({
                 icon: 'success',
-                title: 'Datos Agregados'
+                title: 'Datos Agregados',
               });
             }
           });
         } else {
           Toast.fire({
             icon: 'success',
-            title: 'Datos Agregados'
+            title: 'Datos Agregados',
           });
         }
         this.$store.dispatch('load/setLoad', fclResponse.data);
@@ -986,7 +984,7 @@ export default {
         const type = 'P';
         await this.$store.dispatch('address/getFavOriginPort', {
           idsupplier,
-          type
+          type,
         });
       } else {
         await this.$store.dispatch('address/setOrigFavOritPorts');
@@ -1027,9 +1025,9 @@ export default {
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
       });
-    }
+    },
   },
   computed: {
     ...mapState('address', [
@@ -1043,9 +1041,9 @@ export default {
       'formAddress',
       'postalCodeOrigin',
       'postalCodeDestination',
-      'showShipping'
+      'showShipping',
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport'])
-  }
+    ...mapState('application', ['data', 'currency', 'origin_transport']),
+  },
 };
 </script>
