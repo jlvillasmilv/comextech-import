@@ -382,7 +382,7 @@
                   <div class="relative"></div>
                 </div>
                 <div class="flex flex-col items-center w-6/12 sm:w-7/12 md:mb-0">
-                  <h3 class="my-3 text-gray-500 text-base">Monto Operación</h3>
+                  <h3 class="my-2.5 text-gray-500 text-base">Monto Operación</h3>
                   <vue-numeric
                     thousand-separator="."
                     v-bind:minus="false"
@@ -480,7 +480,7 @@
         <a
           href="/applications"
           class="
-            w-full
+            w-auto
             px-5
             py-3
             text-sm
