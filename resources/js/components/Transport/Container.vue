@@ -13,7 +13,7 @@
           <h3 class="mb-10">Direcciones y Puertos</h3>
           <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
             <div class="mt-2 mr-8 flex justify-start w-2/12">
-              Direccion Origen
+              Origen
             </div>
             <label class="w-6/12 text-sm">
               <vue-google-autocomplete
