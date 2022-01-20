@@ -1,41 +1,41 @@
 <template>
+  <div
+    class="overflow-x-auto fixed inset-0 z-30 flex bg-black bg-opacity-50 sm:items-center sm:justify-center"
+  >
     <div
-        class="overflow-x-hidden fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+      class="w-full px-6 py-4 overflow-y-auto bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:h-auto sm:m-4 sm:max-w-4xl md:h-auto"
+      role="dialog"
+      id="modal"
     >
-        <div
-            class="w-full  h-auto px-6 py-4 overflow-y-auto bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-4xl"
-            role="dialog"
-            id="modal"
-        >
-            <!-- <header class="flex justify-between">
+      <!-- <header class="flex justify-between">
                  <p class="mb-1 text-lg text-gray-400 dark:text-gray-300">
                     {{ title }}
                 </p>
             </header> -->
-            <!-- Modal body -->
-            <div class="">
-                <slot name="body"> </slot>
-            </div>
-            <footer
-                class="flex flex-col items-center justify-end px-6 py-1 -mx-6 -mb-2 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row dark:bg-gray-800"
-            >
-                <slot name="footer"> </slot>
-            </footer>
-        </div>
+      <!-- Modal body -->
+      <div class="">
+        <slot name="body"> </slot>
+      </div>
+      <footer
+        class="flex flex-col items-center justify-end px-6 py-1 -mx-6 -mb-2 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row dark:bg-gray-800"
+      >
+        <slot name="footer"> </slot>
+      </footer>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            statusModal: this.default
-        };
-    },
-    props: {
-        default: Boolean,
-        title: String
-    }
+  data() {
+    return {
+      statusModal: this.default
+    };
+  },
+  props: {
+    default: Boolean,
+    title: String
+  }
 };
 </script>
 
