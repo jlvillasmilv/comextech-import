@@ -22,7 +22,7 @@
               class="
                 block
                 text-sm
-                w-2/3
+                w-auto
                 bg-white
                 border border-gray-200
                 text-gray-700

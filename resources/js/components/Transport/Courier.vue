@@ -10,11 +10,7 @@
         <!-- Direccion de origen -->
         <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
           <div class="mt-2 mr-8 flex justify-start w-2/12">
-            {{
-              data.condition === 'FOB'
-                ? ' Puertos de Proveedor'
-                : ' Almacen o Fabrica del Proveedor'
-            }}
+            Origen
           </div>
           <label class="w-6/12 text-sm">
             <!-- <span class="text-gray-700 dark:text-gray-400 font-semibold">
@@ -107,7 +103,7 @@
         </div>
         <!-- Destino de envio -->
         <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
-          <div class="mt-2 mr-8 flex justify-start w-2/12">Destino de Envio</div>
+          <div class="mt-2 mr-8 flex justify-start w-2/12">Destino</div>
           <label class="w-6/12 text-sm">
             <vue-google-autocomplete
               v-if="!expenses.fav_dest_address"

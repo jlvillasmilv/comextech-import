@@ -617,19 +617,45 @@
         <button
           @click="submitForm()"
           class="
-            w-1/6
+            w-auto
+            transform
             h-12
             my-10
+            px-5
+            py-3
+            flex
             text-white
             transition-colors
             text-lg
             duration-150
-            bg-blue-700
+            bg-green-600
             rounded-lg
             focus:shadow-outline
-            hover:bg-green-800
+            active:bg-green-600
+            hover:bg-green-700
           "
+          :disabled="busy"
         >
+          <svg v-if="busy"
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
           Guardar
         </button>
       </div>
@@ -651,7 +677,7 @@ export default {
   components: { Load },
   computed: {
     ...mapState('internment', ['expenses']),
-    ...mapState('application', ['data', 'currency']),
+    ...mapState('application', ['data', 'currency','busy']),
     ...mapState('exchange', ['exchangeItem']),
   },
 
@@ -749,6 +775,7 @@ export default {
     },
     async submitForm() {
       try {
+        this.$store.dispatch('application/busyButton', true);
         this.expenses.dataLoad = this.$store.state.load.loads;
 
         const { data } = await this.expenses.post('/internment');
@@ -764,7 +791,14 @@ export default {
 
         this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
-        console.error(error);
+
+        Toast.fire({
+          icon: 'error',
+          title: 'Se ha producido un error al procesar los datos',
+        });
+        
+      } finally {
+        this.$store.dispatch('application/busyButton', false);
       }
     },
 
