@@ -77,7 +77,7 @@
             </select>
           </div>
         </div>
-        <div class="inline" v-if="item.mode_calculate">
+        <div class="inline" >
           <div v-if="data.type_transport != 'CONTAINER'">
             <span v-if="id == 0" class="text-sm text-center font-semibold">
               Dimension Unitaria
