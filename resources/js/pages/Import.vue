@@ -723,7 +723,7 @@ export default {
         }
       } catch (error) {
         Toast.fire({
-          icon: 'success',
+          icon: 'error',
           title: 'Se ha producido un error al procesar los datos'
         });
 
