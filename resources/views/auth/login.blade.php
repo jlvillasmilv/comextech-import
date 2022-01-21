@@ -47,13 +47,13 @@
                         </form>
 
                         <p class="mt-4">
-                            <a class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline" href="{{ route('password.request') }}">
+                            <a class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline" href="{{ route('password.request') }}">
                                 ¿Olvidaste tu Contraseña?
                             </a>
                         </p>
 
                         <p class="mt-4">
-                            <a class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline" href="{{ route('register') }}">
+                            <a class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline" href="{{ route('register') }}">
                                ¿No tienes cuenta?
                             </a>
                         </p>

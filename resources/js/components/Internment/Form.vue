@@ -13,7 +13,7 @@
     >
       <section class="container grid px-6 mx-auto">
         <div class="flex justify-between items-end">
-          <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
+          <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-600">
             Asignación de Agente de Aduana
           </h4>
         </div>
@@ -374,11 +374,11 @@
       </div>
 
       <div
-        class="mx-4 w-3/4 flex"
+        class="mx-4 w-3/4 flex overflow-hidden rounded-lg "
         :class="[!$store.getters.findService('ICS04') ? '' : 'justify-start']"
       >
         <div class="w-full overflow-x-auto">
-          <table class="w-full whitespace-no-wrap">
+          <table class="table-auto whitespace-no-wrap">
             <thead>
               <tr
                 class="
@@ -396,12 +396,12 @@
                 <th colspan="2">Moneda de Origen</th>
               </tr>
             </thead>
-            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <tbody class="bg-white dark:bg-gray-800">
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(AppAmount, 'USD') }}</td>
-                <td class="px-4 py-3">USD</td>
-                <td class="px-4 py-3">Mercaderia</td>
-                <td rowspan="3" class="px-4">
+                <td class="px-2 py-3">{{ formatPrice(AppAmount, 'USD') }}</td>
+                <td class="px-2 py-3">USD</td>
+                <td class="px-2 py-3">Mercaderia</td>
+                <td rowspan="3" class="px-2">
                   <div class="flex justify-center">
                     <svg
                       class="w-8 h-8"
@@ -418,16 +418,16 @@
                     </svg>
                   </div>
                 </td>
-                <td class="px-4 py-3">
+                <td class="px-2 py-3">
                   {{ formatPrice(data.amount, currency.code) }}
                 </td>
-                <td class="px-4 py-3">{{ currency.code }}</td>
+                <td class="px-2 py-3">{{ currency.code }}</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(transpAmount, 'USD') }}</td>
-                <td class="px-4 py-3">USD</td>
-                <td class="px-4 py-3">Transporte</td>
-                <td class="px-4 py-3">
+                <td class="px-2 py-3">{{ formatPrice(transpAmount, 'USD') }}</td>
+                <td class="px-2 py-3">USD</td>
+                <td class="px-2 py-3">Transporte</td>
+                <td class="px-2 py-3">
                   <span v-if="transport">
                     <input
                       v-model.number="transpAmount"
@@ -449,15 +449,15 @@
                     {{ formatPrice(transpAmount, 'USD') }}
                   </span>
                 </td>
-                <td class="px-4 py-3">USD</td>
+                <td class="px-2 py-3">USD</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">
+                <td class="px-2 py-3">
                   {{ formatPrice(this.insureAmount) }}
                 </td>
-                <td class="px-4 py-3">USD</td>
-                <td class="px-4 py-3">Seguro</td>
-                <td class="px-4 py-3">
+                <td class="px-2 py-3">USD</td>
+                <td class="px-2 py-3">Seguro</td>
+                <td class="px-2 py-3">
                   <span v-if="insure">
                     <input
                       v-model.number="insureAmount"
@@ -479,14 +479,14 @@
                     {{ formatPrice(this.insureAmount) }}
                   </span>
                 </td>
-                <td class="px-4 py-3">USD</td>
+                <td class="px-2 py-3">USD</td>
               </tr>
               <tr class="bg-gray-100">
-                <td class="text-blue-700 font-semibold px-4 py-3">
+                <td class="text-blue-700 font-semibold px-2 py-3">
                   {{ expenses.cif_amt }}
                 </td>
-                <td class="text-blue-700 font-semibold px-4 py-3">USD</td>
-                <td class="text-blue-700 font-semibold px-4 py-3">Valor CIF</td>
+                <td class="text-blue-700 font-semibold px-2 py-3">USD</td>
+                <td class="text-blue-700 font-semibold px-2 py-3">Valor CIF</td>
               </tr>
             </tbody>
           </table>
@@ -547,9 +547,13 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-start" v-if="data.type_transport != 'COURIER'">
-        <div class="items-center ml-2 w-1/2">
-          <table class="w-full whitespace-no-wrap">
+    
+    </section>
+
+
+    <div class="flex justify-start overflow-hidden rounded-lg shadow-xs" v-if="data.type_transport != 'COURIER'">
+        <div class="w-full items-center md:w-2/3 overflow-x-auto">
+          <table class="table-auto whitespace-no-wrap">
             <thead>
               <tr
                 class="
@@ -560,7 +564,7 @@
                   dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
                 "
               >
-                <th class="px-4 py-1 bg-gray-200 text-black-600 dark:text-gray-300" colspan="2">
+                <th class="px-2 py-1 bg-gray-200 text-black-600 dark:text-gray-300" colspan="2">
                   Gastos de Puerto
                 </th>
               </tr>
@@ -570,16 +574,16 @@
               class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
             >
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(docMgmtLcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Gestión Documental (por cada BL)</td>
+                <td class="px-2 py-3">{{ formatPrice(docMgmtLcl, 'USD') }} USD</td>
+                <td class="px-2 py-3">Gestión Documental (por cada BL)</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(docVisaLcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Visación documental (por cada BL)</td>
+                <td class="px-2 py-3">{{ formatPrice(docVisaLcl, 'USD') }} USD</td>
+                <td class="px-2 py-3">Visación documental (por cada BL)</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(dispatchLcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Despacho (por Ton&M3)</td>
+                <td class="px-2 py-3">{{ formatPrice(dispatchLcl, 'USD') }} USD</td>
+                <td class="px-2 py-3">Despacho (por Ton&M3)</td>
               </tr>
             </tbody>
             <tbody
@@ -587,24 +591,24 @@
               class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
             >
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(docMgmtFcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Gestión Documental (por cada BL)</td>
+                <td class="px-2 py-3">{{ formatPrice(docMgmtFcl, 'USD') }} USD</td>
+                <td class="px-2 py-3">Gestión Documental (por cada BL)</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(loanFcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Comodato ( X Conteiner)</td>
+                <td class="px-2 py-3">{{ formatPrice(loanFcl, 'USD') }} USD</td>
+                <td class="px-2 py-3">Comodato ( X Conteiner)</td>
               </tr>
               <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">{{ formatPrice(gateInFcl, 'USD') }} USD</td>
-                <td class="px-4 py-3">Gate In ( X Conteiner)</td>
+                <td class="px-2 py-3">{{ formatPrice(gateInFcl, 'USD') }} USD</td>
+                <td class="px-2 py-3">Gate In ( X Conteiner)</td>
               </tr>
             </tbody>
             <tfoot>
               <tr class="bg-gray-100">
-                <td class="text-center text-blue-700 font-semibold px-4 py-3">
+                <td class="text-center text-blue-700 font-semibold px-2 py-3">
                   {{ formatPrice(expenses.port_charges, 'USD') }} USD
                 </td>
-                <td class="text-blue-700 font-semibold px-4 py-3">
+                <td class="text-blue-700 font-semibold px-2 py-3">
                   Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
                 </td>
               </tr>
@@ -613,27 +617,65 @@
         </div>
       </div>
 
-      <div class="flex justify-center">
+
+
+
+
+
+
+
+     <div class="flex justify-center">
         <button
           @click="submitForm()"
           class="
-            w-1/6
+            w-auto
+            transform
             h-12
             my-10
+            px-5
+            py-3
+            flex
             text-white
             transition-colors
             text-lg
             duration-150
-            bg-blue-700
+            bg-green-600
             rounded-lg
             focus:shadow-outline
-            hover:bg-green-800
+            active:bg-green-600
+            hover:bg-green-700
           "
+          :disabled="busy"
         >
+          <svg v-if="busy"
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
           Guardar
         </button>
       </div>
-    </section>
+
+      
+
+
+
+
   </div>
 </template>
 
@@ -651,7 +693,7 @@ export default {
   components: { Load },
   computed: {
     ...mapState('internment', ['expenses']),
-    ...mapState('application', ['data', 'currency']),
+    ...mapState('application', ['data', 'currency','busy']),
     ...mapState('exchange', ['exchangeItem']),
   },
 
@@ -749,6 +791,7 @@ export default {
     },
     async submitForm() {
       try {
+        this.$store.dispatch('application/busyButton', true);
         this.expenses.dataLoad = this.$store.state.load.loads;
 
         const { data } = await this.expenses.post('/internment');
@@ -764,7 +807,14 @@ export default {
 
         this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
-        console.error(error);
+
+        Toast.fire({
+          icon: 'error',
+          title: 'Se ha producido un error al procesar los datos',
+        });
+        
+      } finally {
+        this.$store.dispatch('application/busyButton', false);
       }
     },
 

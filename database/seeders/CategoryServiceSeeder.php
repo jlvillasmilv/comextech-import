@@ -22,7 +22,6 @@ class CategoryServiceSeeder extends Seeder
             ['code' => 'ICS05','name' => 'Entrega', 'user_id' => 1,'ind_service' => true, 'sort' => 5,'status' => false,'icon' => "vs:e-square" ],
             ['code' => 'ICS06','name' => 'Transporte Local', 'user_id' => 1, 'ind_service' => false, 'sort' => 6,'status' => true,'icon' => "vs:t-square" ],
             ['code' => 'ICS07','name' => 'Pagos/Moneda', 'user_id' => 1, 'ind_service' => false, 'sort' => 7,'status' => false,'icon' => "vs:p-square" ], 
-            ['code' => 'ICS08','name' => 'Financiamiento', 'user_id' => 1, 'ind_service' => true, 'sort' => 9,'status' => true, 'icon' => "vs:f-square" ],
         ]);
 
         \DB::table('services')->insert([
@@ -43,7 +42,6 @@ class CategoryServiceSeeder extends Seeder
             ['category_service_id' => 6, 'code' => 'ICS06-02', 'name' => 'Transporte Local', 'created_at' => now(), 'summary' => false ],
             ['category_service_id' => 7, 'code' => 'ICS07-01', 'name' => 'Compra y venta', 'created_at' => now(), 'summary' => false ],
             ['category_service_id' => 7, 'code' => 'ICS07-02', 'name' => 'Transferencia', 'created_at' => now(), 'summary' => false ],
-            ['category_service_id' => 8, 'code' => 'ICS08-01', 'name' => 'Financiamiento', 'created_at' => now(), 'summary' => false ],
             ['category_service_id' => 1, 'code' => 'CS01-01', 'name' => 'A.- Pago proveedor', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 1, 'code' => 'CS01-02', 'name' => 'A.1.- Adelanto', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 1, 'code' => 'CS01-03', 'name' => 'A.2.- Saldo', 'created_at' => now(), 'summary' => true ],

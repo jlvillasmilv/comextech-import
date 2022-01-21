@@ -1,20 +1,9 @@
 <template>
-  <div class="flex w-full">
-    <div class="w-2/5 overflow-x-auto">
-      <div
-        class="
-          mx-3
-          px-4
-          py-3
-          mb-8
-          bg-white
-          rounded-lg
-          shadow-md
-          dark:bg-gray-800
-        "
-      >
+  <div class="flex flex-col w-full sm:flex-row dark:bg-gray-900">
+    <div class="md:w-2/5 overflow-x-auto ">
+      <div class="mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div v-if="$store.state.application.statusSuppliers !== 'E-commerce'">
-          <h3 class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200">
+          <h3 class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200 dark:bg-gray-800">
             Pagos al Proveedor
           </h3>
           <!-- <h3
@@ -35,9 +24,7 @@
                     </h3> -->
         </div>
         <div class="flex justify-around flex-wrap">
-          <h3 class="md:w-1/3 my-4 dark:text-gray-200">
-            Total
-          </h3>
+          <h3 class="md:w-1/3 my-4 dark:text-gray-200">Total</h3>
           <h3 class="my-4 dark:text-gray-200">
             {{ Number(data.amount).toLocaleString() }}
             {{ currency.code }}
@@ -45,36 +32,30 @@
         </div>
         <hr class="w-full mt-4 mb-4 border-solid border-t-2" />
         <div
-          class="flex justify-around flex-wrap"
+          class="flex justify-around flex-row"
           v-if="$store.state.application.statusSuppliers !== 'E-commerce'"
         >
-          <div class="md:w-1/3 md:mb-0">
+          <div class="w-full md:w-2/5">
             <span
-              v-if="$store.state.payment.payment.length == 0"
               class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs"
             >
-              Primer pago
+              {{$store.state.payment.payment.length == 0 ? 'Primer pago' : 'Segundo pago'}}
+              
             </span>
-            <span v-else class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs">
-              Segundo pago
-            </span>
-
+           
             <input
               :class="[]"
-              class=" block
-                                w-10/12
-                                mt-1
-                                text-sm
-                                dark:border-gray-600
-                                dark:bg-gray-700
-                                focus:border-blue-400
-                                focus:outline-none
-                                focus:shadow-outline-blue
-                                dark:text-gray-300
-                                dark:focus:shadow-outline-gray
-                                form-input
-                                text-center
-                              "
+              class="
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600 dark:bg-gray-700
+                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                dark:text-gray-300 dark:focus:shadow-outline-gray
+                form-input
+                text-center
+              "
               placeholder="%"
               v-model.number="$store.state.payment.discount"
               :disabled="$store.state.payment.percentageInitial == 0"
@@ -93,7 +74,7 @@
                             type="number" 
                         />-->
           </div>
-          <div class="w-2/3 md:w-auto md:mb-0">
+          <div class="w-full md:w-3/5">
             <!--  <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Monto Agregado
                         </span> -->
@@ -119,19 +100,16 @@
               id="date_pay"
               v-model="form.date_pay"
               type="date"
-              class=" block
-                                w-full
-                                mt-1
-                                text-sm
-                                dark:border-gray-600
-                                dark:bg-gray-700
-                                focus:border-blue-400
-                                focus:outline-none
-                                focus:shadow-outline-blue
-                                dark:text-gray-300
-                                dark:focus:shadow-outline-gray
-                                form-input
-                              "
+              class="
+                block
+                w-full
+                mt-1
+                text-sm
+                dark:border-gray-600 dark:bg-gray-700
+                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                dark:text-gray-300 dark:focus:shadow-outline-gray
+                form-input
+              "
               placeholder="Empresa"
               :min="minDate"
               :disabled="$store.state.payment.discount === 0"
@@ -155,19 +133,23 @@
             <div class="relative">
               <select
                 v-model="form.type_pay"
-                class=" block
-                              appearance-none
-                              w-full
-                              border border-gray-150
-                              dark:border-gray-600
-                              text-gray-700
-                              p-2
-                              pr-8
-                              rounded
-                              leading-tight
-                              focus:outline-none
-                              focus:bg-white
-                              focus:border-gray-500"
+                class="
+                  block
+                  appearance-none
+                  w-full
+                  border border-gray-150
+                  text-gray-700
+                  p-2
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white
+                  focus:border-gray-500
+                  dark:text-gray-300
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  dark:focus:shadow-outline-gray
+                "
                 id="grid-state"
                 :disabled="$store.state.payment.discount === 0"
               >
@@ -176,14 +158,15 @@
               </select>
               <div
                 class="
-                              pointer-events-none
-                              absolute
-                              inset-y-0
-                              right-0
-                              flex
-                              items-center
-                              px-2
-                              text-gray-700 "
+                  pointer-events-none
+                  absolute
+                  inset-y-0
+                  right-0
+                  flex
+                  items-center
+                  px-2
+                  text-gray-700
+                "
               >
                 <svg
                   class="fill-current h-4 w-4"
@@ -220,7 +203,6 @@
                   appearance-none
                   w-full
                   border border-gray-150
-                  dark:border-gray-600
                   text-gray-700
                   p-2
                   pr-8
@@ -229,7 +211,11 @@
                   focus:outline-none
                   focus:bg-white
                   focus:border-gray-500
-                "
+                  dark:text-gray-300
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  dark:focus:shadow-outline-gray
+                  "
                 id="grid-state"
                 :disabled="$store.state.payment.discount === 0"
               >
@@ -266,14 +252,14 @@
         <span v-if="$store.state.payment.discount > 0" class="text-center text-red-600 text-xs"
           >Complete todos los campos*</span
         >
-        <div class="flex space-x-2 px-3 mb-6 md:mb-0 my-5">
+        <div class="flex space-x-2 px-3 md:mb-0 my-4">
           <button
             :disabled="
               $store.state.payment.discount < 0 ||
-                $store.state.payment.percentageInitial == 0 ||
-                !form.date_pay ||
-                form.type_pay == '' ||
-                form.payment_release == ''
+              $store.state.payment.percentageInitial == 0 ||
+              !form.date_pay ||
+              form.type_pay == '' ||
+              form.payment_release == ''
             "
             :class="[
               $store.state.payment.discount > 0 &&
@@ -283,13 +269,13 @@
               form.payment_release != ''
                 ? 'active:bg-blue-600 hover:bg-blue-700  bg-blue-600'
                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
-              'flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue'
+              'flex  px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue',
             ]"
             @click="addPayment()"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
+              class="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -305,18 +291,19 @@
           </button>
 
           <button
-            :disabled="$store.state.payment.percentageInitial !== 0"
+            :disabled="$store.state.payment.percentageInitial !== 0 || busy"
             :class="[
               $store.state.payment.percentageInitial !== 0
                 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300'
                 : 'bg-green-600 active:bg-green-600 hover:bg-green-700',
-              'flex   px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150  border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue'
+              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue',
             ]"
             @click="submitPayment()"
           >
             <svg
+              v-if="!busy"
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
+              class="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -328,12 +315,34 @@
                 d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
               />
             </svg>
+
+            <svg
+              v-if="busy"
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
             <span> Guardar</span>
           </button>
         </div>
       </div>
     </div>
-    <div class="w-3/5 overflow-x-auto">
+    <div class="md:w-3/5 overflow-x-auto">
       <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-no-wrap">
@@ -346,10 +355,10 @@
                   text-left text-white
                   uppercase
                   border-b
-                  dark:border-gray-700
                   bg-blue-900
-                  dark:text-gray-400
-                  dark:bg-gray-800
+                  dark:border-gray-700
+                  dark:text-gray-200
+                  dark:bg-blue-900
                 "
               >
                 <th class="px-4 py-3">Pago</th>
@@ -394,8 +403,7 @@
                       text-green-700
                       bg-green-100
                       rounded-full
-                      dark:text-white
-                      dark:bg-green-600
+                      dark:text-white dark:bg-green-600
                     "
                   >
                     {{ item.type_pay }}
@@ -442,12 +450,12 @@ export default {
         type_pay: '',
         payment_release: '',
         manyPayment: '',
-        id: ''
+        id: '',
       },
       application_id: this.$store.state.application.application_id,
       code_serv: 'ICS01',
       minDate: new Date().toISOString().substr(0, 10),
-      percentajeDelete: {}
+      percentajeDelete: {},
     };
   },
   methods: {
@@ -490,7 +498,7 @@ export default {
           percentage: discount,
           id: this.payment.length,
           application_id: this.data.application_id,
-          code_serv: 'ICS01'
+          code_serv: 'ICS01',
         });
         this.form = {
           percentage: '',
@@ -498,23 +506,29 @@ export default {
           type_pay: '',
           payment_release: '',
           manyPayment: '',
-          id: ''
+          id: '',
         };
       }
     },
     async submitPayment() {
       try {
+        this.$store.dispatch('application/busyButton', true);
         await axios.post('/applications/payment_provider', this.payment);
         // this.$store.dispatch('payment/getPayment', this.payment);
         this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
-        console.log(error);
+        Toast.fire({
+          icon: 'error',
+          title: 'Se ha producido un error al procesar los datos',
+        });
+      } finally {
+        this.$store.dispatch('application/busyButton', false);
       }
-    }
+    },
   },
   computed: {
     ...mapState('payment', ['payment']),
-    ...mapState('application', ['data', 'currency', 'editing']),
+    ...mapState('application', ['data', 'currency', 'editing', 'busy']),
     amountRound() {
       const { discount } = this.$store.state.payment;
       return (
@@ -522,7 +536,7 @@ export default {
         ' ' +
         this.currency.code
       );
-    }
+    },
   },
   created() {
     const { name: typePayment, valueInitial } = this.data.valuePercentage;
@@ -535,7 +549,7 @@ export default {
     else if (this.$store.state.application.statusSuppliers == 'E-commerce')
       this.$store.state.payment.discount = 100;
     else if (typePayment !== 'Otros') this.$store.state.payment.discount = valueInitial;
-  }
+  },
 };
 </script>
 

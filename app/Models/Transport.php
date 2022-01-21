@@ -235,7 +235,7 @@ class Transport extends Model
               $total += ($total * is_null($tax) ? 19 : $tax) / 100;
             }
 
-              // update application summary International transport
+            // update application summary local expense
             $app_summ = \DB::table('application_summaries as as')
             ->join('services as s', 'as.service_id', '=', 's.id')
             ->where([
