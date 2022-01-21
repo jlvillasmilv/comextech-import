@@ -135,9 +135,9 @@
               v-html="data.errors.get('services')"
             ></span>
             <!-- Proveedor -->
-            <div class="w-full flex flex-col sm:flex-row">
-              <section class="sm:w-full flex flex-col justify-center mt-6 sm:mt-0 mb-2">
-                <h3 class="mt-1 mb-4 text-green-700 text-lg">Proveedor</h3>
+            <div class="w-full mb-4 sm:my-4 flex flex-col sm:flex-row">
+              <section class="sm:w-6/12 flex flex-col justify-center mt-4 sm:mt-0 sm:mb-0">
+                <h3 class="mt-1 mb-1 text-green-700 text-lg">Proveedor</h3>
                 <div class="inline-flex flex-col w-full dark:text-gray-200">
                   <v-select
                     class="w-full"
@@ -175,12 +175,14 @@
                   </div>
                 </div>
               </section>
-              <section class="w-6/12 sm:w-full flex justify-center mt-2 lg:-mt-8">
-                <div class="w-full sm:mx-1 flex flex-wrap sm:content-end content-start">
+              <section class="mt-4 w-6/12 sm:w-7/12 flex justify-center">
+                <div
+                  class="w-full sm:mx-1 flex sm:justify-center flex-wrap sm:content-end content-start"
+                >
                   <label
                     v-for="(item, index) in statusSuppliers"
                     :key="index"
-                    class="inline-flex justify-start items-center sm:px-6"
+                    class="sm:w-52 inline-flex justify-start items-center sm:px-6"
                   >
                     <input
                       type="radio"
@@ -203,9 +205,9 @@
               v-html="data.errors.get('supplier_id')"
             ></span>
             <!-- Pago -->
-            <div class="w-full my-6 flex flex-col sm:items-center sm:flex-row">
+            <div class="w-full sm:my-4 flex flex-col sm:items-center sm:flex-row">
               <section class="sm:w-6/12 flex flex-col justify-center">
-                <h3 class="text-green-700 text-lg">Pago</h3>
+                <h3 class="text-green-700 text-lg my-1">Pago</h3>
                 <div class="w-full sm:w-2/6 md:w-2/6">
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Moneda de Pago
@@ -306,13 +308,13 @@
                     <h3 class="my-2.5 text-gray-500 text-base p-4">Puerta a Puerta</h3>
                     <div class="relative"></div>
                   </div>
-                  <div class="flex flex-col w-6/12 sm:w-full md:mb-0">
+                  <div class="px-1 flex flex-col w-6/12 sm:w-full md:mb-0">
                     <h3 class="my-2.5 text-gray-500 text-base">Monto Operación</h3>
                     <vue-numeric
                       thousand-separator="."
                       v-bind:minus="false"
                       v-model="data.amount"
-                      class="sm:block text-center text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-7/12 sm:w-2/3"
+                      class="sm:block text-center text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-full sm:w-full"
                     />
 
                     <span
@@ -324,7 +326,7 @@
                 </div>
               </section>
               <!-- Porcentajes -->
-              <section class="my-4 sm:my-0 h-26 flex sm:w-6/12 md:w-7/12 justify-center">
+              <section class="my-8 sm:my-0 h-26 flex sm:w-6/12 md:w-7/12 justify-center">
                 <div
                   class="w-6/12 flex flex-wrap justify-end sm:w-full md:w-full"
                   v-show="data.statusSuppliers == 'with'"
