@@ -1,177 +1,181 @@
 <template>
   <div class="flex justify-center container px-6 my-1">
-    <div class="w-9/12 overflow-hidden rounded-lg shadow-xs">
-      <div class="w-full overflow-x-auto">
-        <div class="flex justify-end pb-2">
-          <button
-            class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded mr-1"
-            @click="clone()"
-          >
-            M O
-          </button>
-          <button
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded mr-1"
-            @click="convert('CLP')"
-          >
-            CLP
-          </button>
-          <button
-            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded"
-            @click="convert('USD')"
-          >
-            USD
-          </button>
-        </div>
+    <div class="overflow-hidden rounded-lg shadow-xs">
+      <div class="w-full md:w-3/4 overflow-x-auto">
+       
         <div class="flex space-x-4">
-          <div class="w-full">
-            <table class="w-full table-auto">
-              <thead>
-                <tr class="">
-                  <th
-                    class="
-                      w-2/6
-                      px-4
-                      py-3
-                      text-xs
-                      text-center
-                      font-semibold
-                      tracking-wide
-                      text-left text-white
-                      uppercase
-                      border-b
-                      dark:border-gray-700
-                      bg-blue-900
-                      dark:text-gray-400 dark:bg-gray-800
-                    "
-                  >
-                    CONCEPTO
-                  </th>
-                  <th
-                    class="
-                      w-1/6
-                      px-4
-                      py-3
-                      text-xs
-                      font-semibold
-                      tracking-wide
-                      text-center text-white
-                      uppercase
-                      border-b
-                      dark:border-gray-700
-                      bg-blue-900
-                      dark:text-gray-400 dark:bg-gray-800
-                    "
-                  >
-                    FECHA
-                  </th>
-                  <th
-                    class="
-                      w-1/6
-                      px-4
-                      py-3
-                      text-xs
-                      font-semibold
-                      tracking-wide
-                      text-center text-white
-                      uppercase
-                      border-b
-                      dark:border-gray-700
-                      bg-blue-900
-                      dark:text-gray-400 dark:bg-gray-800
-                    "
-                  >
-                    MONEDA<br />
-                    ORIGEN
-                  </th>
-                  <th
-                    class="
-                      w-1/6
-                      px-4
-                      py-3
-                      text-xs
-                      font-semibold
-                      tracking-wide
-                      text-center text-white
-                      uppercase
-                      border-b
-                      dark:border-gray-700
-                      bg-blue-900
-                      dark:text-gray-400 dark:bg-gray-800
-                    "
-                  >
-                    MONTO<br />
-                    M.O.
-                  </th>
-                  <th class="">&nbsp;</th>
-                  <th
-                    class="
-                      w-1/6
-                      px-16
-                      py-3
-                      tracking-wide
-                      text-xs text-center text-white
-                      uppercase
-                      border-b
-                      dark:border-gray-700
-                      bg-blue-900
-                      dark:text-gray-400 dark:bg-gray-800
-                    "
-                    colspan="2"
-                  >
-                    Monto <br />
-                    {{ currency_ex }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                <tr
-                  v-for="(item, key) in exchangeItem"
-                  :key="key"
-                  class="text-gray-700 dark:text-gray-400"
+          <table class="table-auto">
+            <thead>
+              <tr>
+                <td colspan="7">
+
+                  <div class="flex justify-end pb-2">
+                    <button
+                      class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded mr-2"
+                      @click="clone()"
+                    >
+                      M O
+                    </button>
+                    <button
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded mr-1"
+                      @click="convert('CLP')"
+                    >
+                      CLP
+                    </button>
+                    <button
+                      class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded"
+                      @click="convert('USD')"
+                    >
+                      USD
+                    </button>
+                  </div>
+
+                </td>
+              </tr>
+              <tr class="">
+                <th
+                  class="
+                    w-2/6
+                    px-4
+                    py-3
+                    text-xs text-center
+                    font-semibold
+                    tracking-wide
+                    text-left text-white
+                    uppercase
+                    border-b
+                    dark:border-gray-700
+                    bg-blue-900
+                    dark:text-gray-400 dark:bg-gray-800
+                  "
                 >
-                  <td class="text-left px-4 py-3">
-                    <div>
-                      <p class="font-semibold input" :class="key == 1 || key == 2 ? 'ml-5' : ''">
-                        {{ item.description }}
-                      </p>
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <div :class="key == 0 ? 'invisible' : ''">
-                      {{ getHumanDate(item.fee_date) }}
-                    </div>
-                  </td>
-                  <td class="text-center px-4 py-3">
-                    {{ item.currency }}
-                  </td>
-                  <td class="text-center px-4 py-3">
-                    {{ formatPrice(item.amount, item.currency) }}
-                  </td>
-                  <td class="text-center px-4 py-3">&nbsp;</td>
-                  <td class="px-4 py-3 text-center">
-                    {{ formatPrice(item.amo2, item.currency2) }}
-                  </td>
-                  <td class="px-4 py-3 text-right">
-                    {{ item.currency2 }}
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="6" class="text-right px-4 py-3">
-                    <strong>
-                      {{ formatPrice(total, currency_ex) }}
-                    </strong>
-                  </td>
-                  <td class="text-center px-4 py-3">
-                    <strong>
-                      {{ currency_ex }}
-                    </strong>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+                  CONCEPTO
+                </th>
+                <th
+                  class="
+                    w-1/6
+                    px-4
+                    py-3
+                    text-xs
+                    font-semibold
+                    tracking-wide
+                    text-center text-white
+                    uppercase
+                    border-b
+                    dark:border-gray-700
+                    bg-blue-900
+                    dark:text-gray-400 dark:bg-gray-800
+                  "
+                >
+                  FECHA
+                </th>
+                <th
+                  class="
+                    w-1/6
+                    px-4
+                    py-3
+                    text-xs
+                    font-semibold
+                    tracking-wide
+                    text-center text-white
+                    uppercase
+                    border-b
+                    dark:border-gray-700
+                    bg-blue-900
+                    dark:text-gray-400 dark:bg-gray-800
+                  "
+                >
+                  MONEDA<br />
+                  ORIGEN
+                </th>
+                <th
+                  class="
+                    w-1/6
+                    px-4
+                    py-3
+                    text-xs
+                    font-semibold
+                    tracking-wide
+                    text-center text-white
+                    uppercase
+                    border-b
+                    dark:border-gray-700
+                    bg-blue-900
+                    dark:text-gray-400 dark:bg-gray-800
+                  "
+                >
+                  MONTO<br />
+                  M.O.
+                </th>
+                <th class="">&nbsp;</th>
+                <th
+                  class="
+                    w-1/6
+                    px-16
+                    py-3
+                    tracking-wide
+                    text-xs text-center text-white
+                    uppercase
+                    border-b
+                    dark:border-gray-700
+                    bg-blue-900
+                    dark:text-gray-400 dark:bg-gray-800
+                  "
+                  colspan="2"
+                >
+                  Monto <br />
+                  {{ currency_ex }}
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+              <tr
+                v-for="(item, key) in exchangeItem"
+                :key="key"
+                class="text-gray-700 dark:text-gray-400"
+              >
+                <td class="text-left px-4 py-3">
+                  <div>
+                    <p class="font-semibold input" :class="key == 1 || key == 2 ? 'ml-5' : ''">
+                      {{ item.description }}
+                    </p>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div :class="key == 0 ? 'invisible' : ''">
+                    {{ getHumanDate(item.fee_date) }}
+                  </div>
+                </td>
+                <td class="text-center px-4 py-3">
+                  {{ item.currency }}
+                </td>
+                <td class="text-center px-4 py-3">
+                  {{ formatPrice(item.amount, item.currency) }}
+                </td>
+                <td class="text-center px-4 py-3">&nbsp;</td>
+                <td class="px-4 py-3 text-center">
+                  {{ formatPrice(item.amo2, item.currency2) }}
+                </td>
+                <td class="px-4 py-3 text-right">
+                  {{ item.currency2 }}
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6" class="text-right px-4 py-3">
+                  <strong>
+                    {{ formatPrice(total, currency_ex) }}
+                  </strong>
+                </td>
+                <td class="text-center px-4 py-3">
+                  <strong>
+                    {{ currency_ex }}
+                  </strong>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
     </div>
@@ -183,23 +187,23 @@ export default {
   props: {
     application_id: {
       type: Number,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       form: new Form({
-        application_id: this.application_id
+        application_id: this.application_id,
       }),
       currency_ex: '',
-      total: 0
+      total: 0,
     };
   },
   methods: {
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
       });
     },
     formatter(value, currency) {
@@ -208,7 +212,7 @@ export default {
         currency,
         currencyDisplay: 'code',
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
       });
     },
     getHumanDate(date) {
@@ -256,14 +260,14 @@ export default {
           }
         }
       });
-    }
+    },
   },
   computed: {
-    ...mapState('exchange', ['exchangeItem'])
+    ...mapState('exchange', ['exchangeItem']),
   },
-  mounted: function() {
-     this.$store.dispatch('exchange/getSummary', this.application_id);
+  mounted: function () {
+    this.$store.dispatch('exchange/getSummary', this.application_id);
     //this.convert('CLP');
-  }
+  },
 };
 </script>

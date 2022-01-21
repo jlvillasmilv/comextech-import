@@ -1,15 +1,15 @@
 <template>
-  <div class="w-2/4 overflow-x-auto">
     <div class="mx-3 px-4 py-3 mb-8 bg-white rounded-lg dark:bg-gray-800">
       <h3 class="my-2 font-semibold text-gray-700 dark:text-gray-200">Destino</h3>
       <div class="flex flex-wrap -mx-3">
-        <div class="w-full px-3 md:mb-0">
+        <div class="px-3 md:mb-0 ">
           <span class="text-gray-700 dark:text-gray-400 my-2 text-sm"> Ubicacion de Destino </span>
           <select
             v-model="form.warehouse_id"
             class="
               block
               w-full
+              md:w-2/4
               border border-gray-150
               dark:border-gray-600
               text-gray-700
@@ -18,6 +18,11 @@
               rounded
               leading-tight
               focus:outline-none focus:bg-white focus:border-gray-500
+              dark:text-gray-300
+              dark:border-gray-600
+              dark:bg-gray-700
+              dark:focus:shadow-outline-gray
+              form-select
             "
           >
             <option v-for="item in warehouses" :value="item.id" :key="item.name">
@@ -44,7 +49,7 @@
           <span class="ml-2"> Servicio Grua Horquilla </span>
         </label>
       </div>
-      <div class="flex space-x-2 px-3 mb-6 md:mb-0 my-5">
+      <div class="flex space-x-2 px-3 mb-6 md:mb-0 mt-5">
         <button
           class="
             flex
@@ -104,7 +109,7 @@
         </button>
       </div>
     </div>
-  </div>
+
 </template>
 
 <script>
