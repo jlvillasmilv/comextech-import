@@ -361,12 +361,14 @@ function initial_map() {
 
   // const locationInputs = document.getElementsByClassName("map-input");
 
-  const latitude = parseFloat(document.getElementById("latitude").value) || -33.418089046026;
-  const longitude = parseFloat(document.getElementById("longitude").value) || -70.596908628647;
+  const latitude = parseFloat(document.getElementById("latitude").value) ||  0.3548239491793361;
+  const longitude = parseFloat(document.getElementById("longitude").value) || -10.148460204173084;
 
   map = new google.maps.Map(document.getElementById("address-map"), {
     center: { lat: latitude, lng: longitude },
     zoom: 2,
+    minZoom: 1,
+    maxZoom: 4,
   });
 
 

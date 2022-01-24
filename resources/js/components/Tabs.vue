@@ -1,7 +1,8 @@
 <template>
   <div class="overflow-visible rounded-lg shadow-xs">
+
     <div class="overflow-x-auto">
-      <ul class="flex justify-center items-center mt-2 ">
+      <ul class="flex items-center mt-2 sm:justify-center ">
         <button
           @click="$store.state.statusModal = !$store.state.statusModal"
           class="
@@ -22,7 +23,7 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
+            class="h-4 w-4 sm:w-5 sm:h-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -38,7 +39,7 @@
 
         <button
           rel="prev"
-          class="px-1 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-blue"
+          class="hidden md:block px-1 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-blue"
           @click="$store.dispatch('callIncomingOrNextMenu', false)"
           :disabled="$store.state.positionTabs == 0"
         >
@@ -54,7 +55,7 @@
           <li
             @click="$store.dispatch('callActiveTabs', item)"
             :class="[
-              'cursor-pointer py-2 px-2 text-gray-500 border-b-8 text-xs',
+              'cursor-pointer py-2 px-2 text-gray-500 border-b-8 text-xs sm:text-sm md:text-base lg:text-lg',
               item.code == $store.state.tabActive ? 'text-b-500 border-blue-500 font-semibold' : '',
             ]"
           >
@@ -63,7 +64,7 @@
         </div>
         <button
           rel="next"
-          class="px-1 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-blue"
+          class=" hidden md:block px-1 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-blue"
           @click="$store.dispatch('callIncomingOrNextMenu', true)"
           :disabled="$store.state.positionTabs + 1 == $store.state.selectedServices.length"
         >
@@ -82,7 +83,14 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      open: false,
+    };
+  },
+  methods: {
+    toggle() {
+      this.open = !this.open;
+    },
   },
   computed: {
     sortServices() {
