@@ -5,7 +5,7 @@
         </div>
     @endif
     <div class="relative">
-        <div class="flex justify-between items-center mb-1">
+        <div class="flex justify-between items-center ml-1 mb-1">
             <div class="flex-grow h-10 flex items-center my-2 ">
                 @if($this->searchableColumns()->count())
                 
@@ -60,7 +60,7 @@
             <div class="rounded-lg @unless($this->hidePagination) rounded-b-none @endif">
                 <div class="table w-full whitespace-no-wrap ">
                     @unless($this->hideHeader)
-                    <div class="table-row divide-x divide-gray-200 dark:divide-gray-700">
+                    <div class="table-row border-b dark:border-gray-700 bg-blue-900">
                         
                         @foreach($this->columns as $index => $column)
                             @if($hideable === 'inline')
@@ -111,7 +111,7 @@
                     </div>
                     @endif
                     @forelse($this->results as $result)
-                        <div class="table-row p-1 divide-x divide-gray-100 dark:divide-gray-700 dark:bg-gray-800 {{ isset($result->checkbox_attribute) && in_array($result->checkbox_attribute, $selected) ? 'bg-orange-100' : ($loop->even ? 'bg-gray-100' : 'bg-gray-50') }}">
+                        <div class="table-row p-1  dark:bg-gray-800 {{ isset($result->checkbox_attribute) && in_array($result->checkbox_attribute, $selected) ? 'bg-orange-100' : ($loop->even ? 'bg-gray-100' : 'bg-gray-50') }}">
                             @foreach($this->columns as $column)
                                 @if($column['hidden'])
                                     @if($hideable === 'inline')
