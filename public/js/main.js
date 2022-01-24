@@ -359,7 +359,7 @@ function initial_map() {
     }
   });
 
-  const locationInputs = document.getElementsByClassName("map-input");
+  // const locationInputs = document.getElementsByClassName("map-input");
 
   const latitude = parseFloat(document.getElementById("latitude").value) || -33.418089046026;
   const longitude = parseFloat(document.getElementById("longitude").value) || -70.596908628647;
@@ -375,8 +375,6 @@ function initial_map() {
     if (response.data.length > 0) {
 
       response.data.forEach(async (e, index) => {
-
-        console.log(Number(e.origin_latitude));
 
         if (e.origin_latitude != 0 && e.origin_longitude != 0) {
 
@@ -427,7 +425,6 @@ function initial_map() {
         }
 
 
-
       });
 
     }
@@ -437,12 +434,5 @@ function initial_map() {
     console.error(error);
   });
 
-
-
-  // const marker2 = new google.maps.Marker({
-  //     map: map,
-  //     position: {lat: 35.1208505, lng: -90.070634},
-  //     label: "A"
-  // });
 
 }

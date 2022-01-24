@@ -7,12 +7,12 @@
                  </div>
                 <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
                     <div class="w-full">
-                        <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
+                        <!-- <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
                             Login
-                        </h1>
+                        </h1> -->
                         @if ($errors->any())
                         <div class="mb-4">
-                            <div class="font-medium text-red-600">Whoops! Something went wrong.</div>
+                            <div class="font-medium text-red-600">Whoops! Algo ha salido mal</div>
 
                             <ul class="mt-3 text-sm text-red-600 list-disc list-inside">
                                 @foreach ($errors->all() as $error)
@@ -30,8 +30,8 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Correo Electronico</span>
-                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe" name="email" value="{{ old('email') }}" required autofocus />
+                                <span class="text-gray-700 dark:text-gray-400">Correo Electónico</span>
+                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Correo Electrónico" name="email" value="{{ old('email') }}" required autofocus />
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
