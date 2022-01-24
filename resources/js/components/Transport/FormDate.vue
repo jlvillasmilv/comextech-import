@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div class="ml-6 flex flex-wrap justify-center -mx-3 mb-6">
-      <div class="w-1/4 px-3 mb-6 md:mb-0">
-        <label class="block text-sm">
+<div class="flex flex-col">
+    <div class="ml-6 justify-center -mx-3 md:flex mb-2">
+      <div class="w-full md:w-1/4 px-3">
+        <label class="text-sm">
           <span class="text-gray-700 dark:text-gray-400 font-semibold">
             Fecha de envío
           </span>
@@ -12,14 +12,15 @@
             class="
                 block
                 w-full
-                mt-1
                 text-sm
-                dark:border-gray-600 dark:bg-gray-700
                 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
+                dark:text-gray-300
+                dark:border-gray-600
+                dark:bg-gray-700
+                dark:focus:shadow-outline-gray
                 form-input
               "
-            placeholder="Nombre o codigo Puerto/Aeropuerto"
+            placeholder="Fecha de envío"
             :min="minDate"
           />
           <span
@@ -29,8 +30,8 @@
           ></span>
         </label>
       </div>
-      <div class="w-1/4 px-2">
-        <label class="block text-sm">
+      <div class="w-full md:w-1/4 px-2">
+        <label class="text-sm">
           <span class="text-gray-700 dark:text-gray-400 font-semibold">
             Descripcion
           </span>
@@ -40,11 +41,12 @@
             class="
                 block
                 w-full
-                mt-1
                 text-sm
-                dark:border-gray-600 dark:bg-gray-700
                 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
+                dark:text-gray-300
+                dark:border-gray-600
+                dark:bg-gray-700
+                dark:focus:shadow-outline-gray
                 form-input
               "
             placeholder="Descripcion del cargamento"
@@ -56,7 +58,7 @@
           v-html="expenses.errors.get('description')"
         ></span>
       </div>
-      <div class="w-1/6 mt-8">
+      <div class="w-3/6 sm:w-2/6 md:w-1/4 mt-8">
         <label class="ml-6 text-gray-500 dark:text-gray-400">
           <input
             type="checkbox"
@@ -70,13 +72,13 @@
           <span v-else class="ml-2 text-gray-700">Seguro (0,35%)</span>
         </label>
       </div>
-      <div class="w-1/6 mt-8">
+      <div class="w-3/6 sm:w-2/6 md:w-1/4 mt-8">
         <span v-show="expenses.insurance" class="ml-2 text-gray-700">
           {{ formatPrice(data.amount) }} USD
         </span>
       </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
