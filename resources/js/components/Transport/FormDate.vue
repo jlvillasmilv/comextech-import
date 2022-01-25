@@ -1,6 +1,6 @@
 <template>
-<div class="flex flex-col">
-    <div class="ml-6 justify-center -mx-3 md:flex mb-2">
+  <div class="flex flex-col flex-wrap">
+    <div class="sm:ml-6 justify-center -mx-3 md:flex mb-2">
       <div class="w-full md:w-1/4 px-3">
         <label class="text-sm">
           <span class="text-gray-700 dark:text-gray-400 font-semibold">
@@ -58,8 +58,8 @@
           v-html="expenses.errors.get('description')"
         ></span>
       </div>
-      <div class="w-3/6 sm:w-2/6 md:w-1/4 mt-8">
-        <label class="ml-6 text-gray-500 dark:text-gray-400">
+      <div class="flex justify-center w-full sm:w-2/6 md:w-1/4 mt-4 sm:mt-8">
+        <label class="sm:ml-6 text-gray-500 dark:text-gray-400">
           <input
             type="checkbox"
             class="form-checkbox h-4 w-4 text-gray-800"
@@ -72,13 +72,13 @@
           <span v-else class="ml-2 text-gray-700">Seguro (0,35%)</span>
         </label>
       </div>
-      <div class="w-3/6 sm:w-2/6 md:w-1/4 mt-8">
+      <div class="flex justify-center w-full sm:w-2/6 md:w-1/4 mt-4 sm:mt-8">
         <span v-show="expenses.insurance" class="ml-2 text-gray-700">
           {{ formatPrice(data.amount) }} USD
         </span>
       </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
