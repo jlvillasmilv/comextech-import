@@ -40,24 +40,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('user-applications/dashboard-map',  'App\Http\Controllers\Web\ApplicationController@dashboardMap');
     
     //Summry Applications
-    Route::get('/application-summary/{id}', function ($id) {
-   
-        $summary = \DB::table('application_summaries as aps')
-                    ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
-                    ->join('services as s', 'aps.service_id', 's.id')
-                    ->join('applications', 'aps.application_id', '=', 'applications.id')
-                    ->where([
-                        ["aps.application_id", $id],
-                        ["aps.status", true],
-                        ["applications.user_id", auth()->user()->id]
-                    ])
-                    ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date','aps.amount', 'aps.amount as amo2', 'currencies.code as currency2' )
-                    ->orderBy('s.id')
-                    ->get();
-        
-        return response()->json($summary, 200);
-
-    })->where('id', '[0-9]+');
+    Route::get('/application-summary/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationSummary')->where('id', '[0-9]+');
+    Route::post('application-summary','App\Http\Controllers\Web\ApplicationController@setApplicationSummary');
+    
 
     // Get condition sale
     Route::get('/suppl_cond_sales', function (Request $request) {

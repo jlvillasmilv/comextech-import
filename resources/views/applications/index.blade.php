@@ -52,8 +52,8 @@
                             </td>
                             <td class="px-2 py-2  text-sm">
                                 <ol>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>   </li>
-                                   
+                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>
+                                   </li>
                                 </ol>
                             </td>
                             <td class="px-4 py-3 text-sm">
@@ -62,7 +62,9 @@
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                    <p class="font-semibold  text-md">  {{$application->supplier->name}} </p>
+                                <p class="font-semibold  text-md">
+                                    {{$application->supplier->name}}
+                                </p>
                             </td>  
                             <td class=" py-3" >
                                 <div class="flex flex-nowrap">
