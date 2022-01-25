@@ -2,22 +2,38 @@
   <div class="flex justify-center container px-6 my-1">
     <div class="overflow-hidden rounded-lg shadow-xs">
       <div class="w-full md:w-3/4 overflow-x-auto">
-       
         <div class="flex space-x-4">
           <table class="table-auto">
             <thead>
               <tr>
                 <td colspan="7">
-
                   <div class="flex justify-end pb-2">
                     <button
-                      class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded mr-2"
+                      class="
+                        bg-gray-600
+                        hover:bg-gray-700
+                        text-white
+                        font-bold
+                        py-2
+                        px-3
+                        rounded
+                        mr-2
+                      "
                       @click="clone()"
                     >
                       M O
                     </button>
                     <button
-                      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded mr-1"
+                      class="
+                        bg-blue-600
+                        hover:bg-blue-700
+                        text-white
+                        font-bold
+                        py-2
+                        px-3
+                        rounded
+                        mr-1
+                      "
                       @click="convert('CLP')"
                     >
                       CLP
@@ -29,7 +45,6 @@
                       USD
                     </button>
                   </div>
-
                 </td>
               </tr>
               <tr class="">
@@ -254,6 +269,14 @@ export default {
             this.exchangeItem[objIndex].currency2 = currency;
 
             this.total += resp.data;
+
+            await axios.post('/application-summary', {
+              application_id: this.application_id,
+              summary_id: e.id,
+              amount: resp.data,
+              currency: currency,
+            });
+
           } catch (err) {
             // Handle Error Here
             console.error(err);
