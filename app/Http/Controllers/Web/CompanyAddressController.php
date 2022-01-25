@@ -26,7 +26,7 @@ class CompanyAddressController extends Controller
         }
 
         $ports = Port::join('countries as c', 'ports.country_id', '=', 'c.id')
-        ->where('ports.country_id',41)
+        ->where('ports.country_id', auth()->user()->company->country_id)
         ->where('ports.type', 'P')
         ->whereNotIn('ports.id', $id_ports)
         ->select('ports.id', \DB::raw("CONCAT(ports.name,' ',c.name,' (', ports.unlocs,')') AS name"))

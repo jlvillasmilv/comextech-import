@@ -96,7 +96,6 @@ $(document).ready(function () {
 
   });
 
-
   $('#table').on('click', '.btn-delete[data-remote]', function (e) {
 
     const url = $(this).data('remote');
@@ -125,7 +124,6 @@ $(document).ready(function () {
             title: 'Errore de Conexion'
           })
 
-          console.error(error.response.data)
         });
 
       }
@@ -266,7 +264,6 @@ $(document).ready(function () {
 })
 
 
-
 function initialize() {
 
   $('form').on('keyup keypress', function (e) {
@@ -359,14 +356,16 @@ function initial_map() {
     }
   });
 
-  const locationInputs = document.getElementsByClassName("map-input");
+  // const locationInputs = document.getElementsByClassName("map-input");
 
-  const latitude = parseFloat(document.getElementById("latitude").value) || -33.418089046026;
-  const longitude = parseFloat(document.getElementById("longitude").value) || -70.596908628647;
+  const latitude = parseFloat(document.getElementById("latitude").value) || 0.3548239491793361;
+  const longitude = parseFloat(document.getElementById("longitude").value) || -10.148460204173084;
 
   map = new google.maps.Map(document.getElementById("address-map"), {
     center: { lat: latitude, lng: longitude },
     zoom: 2,
+    minZoom: 1,
+    maxZoom: 4,
   });
 
 
@@ -375,8 +374,6 @@ function initial_map() {
     if (response.data.length > 0) {
 
       response.data.forEach(async (e, index) => {
-
-        console.log(Number(e.origin_latitude));
 
         if (e.origin_latitude != 0 && e.origin_longitude != 0) {
 
@@ -427,7 +424,6 @@ function initial_map() {
         }
 
 
-
       });
 
     }
@@ -437,12 +433,5 @@ function initial_map() {
     console.error(error);
   });
 
-
-
-  // const marker2 = new google.maps.Marker({
-  //     map: map,
-  //     position: {lat: 35.1208505, lng: -90.070634},
-  //     label: "A"
-  // });
 
 }

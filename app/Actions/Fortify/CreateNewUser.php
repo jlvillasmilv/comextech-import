@@ -52,9 +52,11 @@ class CreateNewUser implements CreatesNewUsers
     {
         $user->assignRole('Client'); //assign role to user
         $user->company()->create([
-            'tax_id'  => $input['tax_id'],
-            'name'    => $input['company_name'],
-            'status'  => 1
+            'tax_id'        => $input['tax_id'],
+            'name'          => $input['company_name'],
+            'email'         => $input['email'],
+            'contact_name'  => $input['name'],
+            'status'        => 1
         ]);
 
         $trans_company  = TransCompany::get();
@@ -66,7 +68,7 @@ class CreateNewUser implements CreatesNewUsers
             ]);
         }
 
-        \DB::table('user_mark_ups')->insert(['user_id' => $client->id,]);
+        \DB::table('user_mark_ups')->insert(['user_id' => $user->id,]);
     
         // $user->ownedTeams()->save(Team::forceCreate([
         //     'user_id' => $user->id,

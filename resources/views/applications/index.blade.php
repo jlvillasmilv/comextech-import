@@ -9,31 +9,32 @@
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
                 Lista de Solicitudes
             </h4>
-            <a   href="{{ route('applications.create')}}" class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
+            <a   href="{{ route('applications.create')}}" class="flex  px-2 py-2 m-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue" title="Nueva Solicitud">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>   
-                <span> Nuevo Solicitud </span>
+                <span> Solicitud </span>
             </a>
         </div>
       
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap">
+                <table id="table" class="table-auto md:w-full whitespace-no-wrap">
                     <thead class="">
                         <tr
                             class="text-xs text-center font-semibold tracking-wide text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3"> Nro/Fecha </th>
-                            <th class="px-4 py-3"> Costo </th>
+                            <th class="px-4 py-3"> Total Operacion </th>
+                            <th class="px-4 py-3"> Pago Proveedor </th>
                             <th class="px-4 py-3"> Estatus </th>
                             <th class="px-4 py-3"> Proveedor </th> 
-                            <th class="px-4 py-3">  &nbsp; </th> 
+                            <th class="px-4 py-3"> &nbsp; </th> 
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                         @forelse($data as $application)
-                        <tr class="text-gray-700 dark:text-gray-400 text-center">
-                            <td class="px-4 py-3 text-center ">
+                        <tr id="{{$application->id}}" class="text-gray-700 dark:text-gray-400 text-center">
+                            <td class="px-2 py-2 text-center ">
                                 <div>
                                     <p class="font-semibold"> {{$application->code}} </p>
                                      
@@ -44,9 +45,15 @@
                             </td>
                             <td class="px-2 py-2  text-sm">
                                 <ol>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>   </li>
+                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currencyTco->code }} {{ $application->currencyTco->symbol }} {{number_format($application->tco,0,",",".") }}</strong>   </li>
                                     {{-- <li class=" dark:text-gray-400 py-1">  <strong> Intereses : </strong>  MM $ 25.345 </li>
                                     <li class=" dark:text-gray-400 py-1">  <strong> Comision : </strong> MM $ 25.345 </li> --}}
+                                </ol>
+                            </td>
+                            <td class="px-2 py-2  text-sm">
+                                <ol>
+                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>
+                                   </li>
                                 </ol>
                             </td>
                             <td class="px-4 py-3 text-sm">
@@ -55,13 +62,15 @@
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                    <p class="font-semibold  text-md">  {{$application->supplier->name}} </p>
+                                <p class="font-semibold  text-md">
+                                    {{$application->supplier->name}}
+                                </p>
                             </td>  
                             <td class=" py-3" >
                                 <div class="flex flex-nowrap">
                                  <a  
                                 href="{{ route('applications.show', \Crypt::encryptString($application->id)) }}" 
-                                    class="px-2 py-2  text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    class="px-1 py-2  text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -76,13 +85,26 @@
 
                                 <a  
                                 href="{{ route('applications.edit', \Crypt::encryptString($application->id)) }}" 
-                                    class="   px-2 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    class=" px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                    
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                       </svg>
                                 </a>
+                                @if($application->status->name == 'Borrador')
+                               
+                                    <button
+                                        data-id="{{$application->id}}"
+                                        data-remote="{{route('applications.destroy', $application->id)}}"
+                                        class="px-1 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-delete" aria-label="Delete">
+                                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>  
+
+                                @endif
                                 </div>
                             </td>
                         </tr>

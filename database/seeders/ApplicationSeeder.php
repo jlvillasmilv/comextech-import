@@ -27,7 +27,9 @@ class ApplicationSeeder extends Seeder
             'fee2'                    => '80',
             'condition'               => 'EXW',
             'type_transport'          => 'COURIER',
-            'services_code'           => 'ICS03'
+            'services_code'           => 'ICS03',
+            'tco'                     => '7899.02',
+            'currency_tco'            => 8,
         ]);
 
 
@@ -96,6 +98,8 @@ class ApplicationSeeder extends Seeder
                     "category_service_id" => $item->category_service_id,
                     "service_id"          => $item->id, 
                     "currency_id"         => 1,
+                    'amount2'             => 0,
+                    'currency2_id'        => 8,
                     "fee_date"            => date('Y-m-d')
                 ]
             ]);

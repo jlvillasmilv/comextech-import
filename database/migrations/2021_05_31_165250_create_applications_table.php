@@ -18,10 +18,10 @@ class CreateApplicationsTable extends Migration
             $table->string('code', 10)->nullable()->unique()->index()->comment('codigo para consultas');
             $table->unsignedTinyInteger('type')->default(1)->nullable();
             $table->foreignId('user_id')->index();
-            $table->string('type_transport',20)->nullable();
+            $table->string('type_transport',15)->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('application_statuses_id')->default(1);
-            $table->unsignedBigInteger('currency_id')->nullable();
+            $table->foreignId('currency_id')->nullable()->references('id')->on('currencies')->onDelete('SET NULL');
             $table->unsignedBigInteger('ecommerce_id')->nullable();
             $table->text('ecommerce_url')->nullable();
             $table->string('condition', 10)->nullable();
@@ -32,7 +32,8 @@ class CreateApplicationsTable extends Migration
             $table->unsignedTinyInteger('fee3')->nullable()->comment('PAGO_ENTREGA_% si amerita');
             $table->date('fee3_date')->nullable();
             $table->decimal('amount', 12, 2)->default(0)->nullable();
-            
+            $table->decimal('tco', 12, 2)->default(0)->nullable()->comment('Total Cost of Operation');
+            $table->foreignId('currency_tco')->nullable()->references('id')->on('currencies')->onDelete('SET NULL');
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->string('services_code', 50)->nullable();
             $table->timestamps();

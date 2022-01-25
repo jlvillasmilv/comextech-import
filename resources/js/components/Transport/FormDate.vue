@@ -1,66 +1,56 @@
 <template>
-  <div>
-    <div class="ml-6 flex flex-wrap justify-center -mx-3 mb-6">
-      <div class="w-1/4 px-3 mb-6 md:mb-0">
-        <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400 font-semibold">
+  <div class="w-12/12 flex flex-col flex-wrap">
+    <div class="justify-end md:flex mb-2">
+      <!-- Fecha -->
+      <div class="lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
+        <div class="w-full">
+          <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Fecha de envío
           </span>
-          <input
-            type="date"
-            v-model="expenses.estimated_date"
-            class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600 dark:bg-gray-700
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
-                form-input
-              "
-            placeholder="Nombre o codigo Puerto/Aeropuerto"
-            :min="minDate"
-          />
+          <label class="flex">
+            <input
+              type="date"
+              v-model="expenses.estimated_date"
+              class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
+              placeholder="Fecha de envío"
+              :min="minDate"
+            />
+          </label>
           <span
             class="text-xs text-red-600 dark:text-red-400"
             v-if="expenses.errors.has('estimated_date')"
             v-html="expenses.errors.get('estimated_date')"
           ></span>
-        </label>
+        </div>
       </div>
-      <div class="w-1/4 px-2">
-        <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400 font-semibold">
+      <!-- Descripcion -->
+      <div class="lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
+        <div class="w-full">
+          <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Descripcion
           </span>
-          <input
-            v-model="expenses.description"
-            maxlength="250"
-            class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600 dark:bg-gray-700
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
-                form-input
-              "
-            placeholder="Descripcion del cargamento"
-          />
-        </label>
-        <span
-          class="text-xs text-red-600 dark:text-red-400"
-          v-if="expenses.errors.has('description')"
-          v-html="expenses.errors.get('description')"
-        ></span>
+          <label class="flex">
+            <input
+              v-model="expenses.description"
+              maxlength="250"
+              class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
+              placeholder="Descripcion del cargamento"
+            />
+          </label>
+          <span
+            class="text-xs text-red-600 dark:text-red-400"
+            v-if="expenses.errors.has('description')"
+            v-html="expenses.errors.get('description')"
+          >
+          </span>
+        </div>
       </div>
-      <div class="w-1/6 mt-8">
-        <label class="ml-6 text-gray-500 dark:text-gray-400">
+      <!-- Seguro -->
+      <div class="lg:w-2/12 flex flex-col justify-center px-3 md:mb-0">
+        <label class="sm:w-44 sm:flex sm:ml-6 text-gray-500 dark:text-gray-400">
           <input
             type="checkbox"
-            class="form-checkbox h-4 w-4 text-gray-800"
+            class="sm:mt-1 form-checkbox h-4 w-4 text-gray-800"
             v-model="expenses.insurance"
             @click="convertInsurance(data.amount, currency.code)"
           />
@@ -70,9 +60,9 @@
           <span v-else class="ml-2 text-gray-700">Seguro (0,35%)</span>
         </label>
       </div>
-      <div class="w-1/6 mt-8">
-        <span v-show="expenses.insurance" class="ml-2 text-gray-700">
-          {{ formatPrice(data.amount) }} USD
+      <div class="lg:w-2/12 flex flex-col justify-center px-3 md:mb-0">
+        <span class="ml-2 text-gray-700">
+          {{ expenses.insurance ? `${formatPrice(data.amount)} USD` : '' }}
         </span>
       </div>
     </div>
