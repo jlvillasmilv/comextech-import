@@ -9,8 +9,9 @@
       >
         <!-- Direccion de origen -->
         <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
-          <div class="mt-2 mr-8 flex justify-start w-2/12">Origen</div>
-          <label class="w-6/12 text-sm">
+          <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
+          <label class="w-8/12 text-sm">
+            <span class="text-sm font-semibold">Origen</span>
             <!-- <span class="text-gray-700 dark:text-gray-400 font-semibold">
               {{
                 data.condition === 'FOB'
@@ -30,7 +31,7 @@
             <div v-else class="relative">
               <select
                 v-model="expenses.origin_address"
-                class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
+                class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
               >
                 <option v-for="item in origin_transport" :value="item.id" :key="item.id">
                   {{ item.address }}
@@ -45,9 +46,7 @@
                 @change="expenses.origin_address = ''"
               />
               <span class="ml-2 text-gray-700">
-                Tus
-                {{ data.condition === 'FOB' ? 'Puertos' : 'Almacenes o Fabricas' }}
-                Favoritos
+                {{ data.condition === 'FOB' ? 'Puertos favoritos' : 'Origen favorito' }}
               </span>
             </label>
             <span
@@ -56,23 +55,25 @@
               v-html="expenses.errors.get('origin_address')"
             ></span>
           </label>
-          <div class="flex justify-center w-1/12">
+          <!-- <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
-          </div>
+          </div> -->
         </div>
         <!-- Codigo postal origen -->
         <div
           v-if="postalCodeOrigin && !expenses.fav_origin_address"
           class="flex justify-center w-full px-3 mb-6 md:mb-0"
         >
-          <div class="mt-2 mr-8 flex justify-start w-2/12">Codigo postal de origen</div>
-          <label class="w-6/12 text-sm">
+          <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
+          <label class="w-8/12">
+            <span class="text-sm font-semibold">Código postal origen</span>
             <input
               class="
                 w-full
                 block
                 border border-gray-150
                 text-gray-700
+                text-sm
                 p-2
                 mt-1
                 pr-8
@@ -96,25 +97,33 @@
               v-html="expenses.errors.get('origin_postal_code')"
             ></span>
           </label>
-          <div class="flex justify-center w-1/12">
+          <!-- <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
-          </div>
+          </div> -->
         </div>
         <!-- Destino de envio -->
         <div class="flex justify-center w-full px-3 mb-6 md:mb-0">
-          <div class="mt-2 mr-8 flex justify-start w-2/12">Destino</div>
-          <label class="w-6/12 text-sm">
+          <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
+          <label class="w-8/12">
+            <span class="text-sm font-semibold">Destino</span>
             <vue-google-autocomplete
               v-if="!expenses.fav_dest_address"
               v-model="expenses.dest_address"
               id="addressDestination"
-              classname="block w-full
-               mt-1 text-sm dark:border-gray-600
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 form-input
+              classname="
+                block 
+                w-full
+                mt-1 
+                text-sm 
+                dark:border-gray-600
+                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                dark:text-gray-300
                 dark:text-gray-300
                 dark:border-gray-600
                 dark:bg-gray-700
-                dark:focus:shadow-outline-gray"
+                dark:focus:shadow-outline-gray
+                form-input
+                "
               :placeholder="
                 expenses.fav_dest_address
                   ? 'Nombre o codigo Puerto/Aeropuerto'
@@ -127,7 +136,7 @@
             <div v-else class="relative">
               <select
                 v-model="expenses.dest_address"
-                class="block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
+                class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
               >
                 <option v-for="item in addressDestination" :value="item.id" :key="item.id" class="">
                   {{ item.address }}
@@ -140,12 +149,12 @@
                 class="form-checkbox h-4 w-4 text-gray-800"
                 v-model="expenses.fav_dest_address"
                 @change="expenses.dest_address = ''"
-              /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
+              /><span class="ml-2 text-gray-700">Destino favorito</span>
             </label>
           </label>
-          <div class="flex justify-center w-1/12">
+          <!-- <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
-          </div>
+          </div> -->
           <span
             class="text-xs text-red-600 dark:text-red-400"
             v-if="expenses.errors.has('dest_address')"
@@ -157,8 +166,9 @@
           v-if="postalCodeDestination && !expenses.fav_dest_address"
           class="flex justify-center w-full px-3 mb-6 md:mb-0"
         >
-          <div class="mt-2 mr-8 flex justify-start w-2/12">Codigo postal de destino</div>
-          <label class="w-6/12 text-sm">
+          <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
+          <label class="w-8/12">
+            <span class="text-sm font-semibold">Código postal origen</span>
             <input
               class="
                 form-input
@@ -166,6 +176,7 @@
                 block
                 border border-gray-150
                 text-gray-700
+                text-sm
                 p-2
                 mt-1
                 pr-8
@@ -188,9 +199,9 @@
               v-html="expenses.errors.get('dest_postal_code')"
             ></span>
           </label>
-          <div class="flex justify-center w-1/12">
+          <!-- <div class="flex justify-center w-1/12">
             <h3 class="mt-2"></h3>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- Date and description -->
@@ -202,7 +213,7 @@
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
             ? 'flex justify-center'
-            : 'flex justify-center my-5 innline w-1/7 mt-5',
+            : 'flex justify-center my-5 innline w-1/7 mt-5'
         ]"
       >
         <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
@@ -232,7 +243,7 @@
               ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
               : expenses.dataLoad.length <= 0
               ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800',
+              : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
           ]"
         >
           Cotizar
@@ -245,18 +256,18 @@
         <div
           v-if="
             showFedexQuote == true &&
-            fedex.DeliveryTimestamp &&
-            fedex.ServiceType &&
-            fedex.FUEL &&
-            fedex.PEAK &&
-            fedex.Discount &&
-            TotalEstimed &&
-            fedex.TotalNetCharge
+              fedex.DeliveryTimestamp &&
+              fedex.ServiceType &&
+              fedex.FUEL &&
+              fedex.PEAK &&
+              fedex.Discount &&
+              TotalEstimed &&
+              fedex.TotalNetCharge
           "
           :class="[
             !expenses.dataLoad
               ? 'hidden'
-              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
           ]"
         >
           <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -362,19 +373,19 @@
         <div
           v-if="
             showDHLQuote == true &&
-            dhl.DeliveryDate &&
-            dhl.DeliveryTime &&
-            dhl.ProductShortName &&
-            dhl.WeightCharge &&
-            dhl['FUEL SURCHARGE'] &&
-            dhl['EMERGENCY SITUATION'] &&
-            dhl.Discount &&
-            dhl.ComextechDiscount
+              dhl.DeliveryDate &&
+              dhl.DeliveryTime &&
+              dhl.ProductShortName &&
+              dhl.WeightCharge &&
+              dhl['FUEL SURCHARGE'] &&
+              dhl['EMERGENCY SITUATION'] &&
+              dhl.Discount &&
+              dhl.ComextechDiscount
           "
           :class="[
             !expenses.dataLoad
               ? 'hidden'
-              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
           ]"
         >
           <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -490,7 +501,7 @@ import Form from '../Internment/Form.vue';
 export default {
   components: { VueGoogleAutocomplete, Button, VueNumeric, FormDate, Form },
   props: {
-    address: String,
+    address: String
   },
   data() {
     return {
@@ -502,7 +513,7 @@ export default {
       // showApisQuote: false,
       transportQuote: 0,
       showFedexQuote: false,
-      showDHLQuote: false,
+      showDHLQuote: false
     };
   },
   methods: {
@@ -522,7 +533,7 @@ export default {
         const { data } = await this.expenses.post('/applications/transports');
         Toast.fire({
           icon: 'success',
-          title: 'Datos Agregados',
+          title: 'Datos Agregados'
         });
 
         this.$store.dispatch('load/setLoad', data);
@@ -543,7 +554,7 @@ export default {
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100,
+        width: 100
       });
 
       /* Hide / Show loads and dimensions form */
@@ -648,7 +659,7 @@ export default {
 
     getAddressDestination(addressData, placeResultData, id) {
       this.$store.dispatch('address/getAddressDestination2', { addressData, placeResultData });
-    },
+    }
   },
   computed: {
     ...mapState('address', [
@@ -658,13 +669,13 @@ export default {
       'portsOrigin',
       'props',
       'postalCodeOrigin',
-      'postalCodeDestination',
+      'postalCodeDestination'
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport']),
+    ...mapState('application', ['data', 'currency', 'origin_transport'])
   },
   async created() {
     await this.$store.dispatch('address/getAddressDestination');
-  },
+  }
 };
 </script>
 
