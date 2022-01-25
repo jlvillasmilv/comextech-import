@@ -257,7 +257,6 @@ class ApplicationController extends Controller
     {
         $summary = \DB::table('application_summaries as aps')
         ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
-        ->join('currencies as c2', 'aps.currency2_id', '=', 'c2.id')
         ->join('services as s', 'aps.service_id', 's.id')
         ->join('applications', 'aps.application_id', '=', 'applications.id')
         ->where([
@@ -271,6 +270,7 @@ class ApplicationController extends Controller
         ->get();
 
         $to_currency = is_null($currency) ? 'USD' : $currency;
+
         $total = 0;
         foreach ($summary as $key => $item) {
 
