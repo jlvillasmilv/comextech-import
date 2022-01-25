@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-wrap flex-col">
-    <div class="flex flex-wrap mb-8">
-      <h1 class="flex-auto text-2xl text-blue-900">
+  <div>
+    <div>
+      <h1 class="text-2xl text-blue-900">
         {{ title }}
       </h1>
     </div>
@@ -10,15 +10,20 @@
       <div
         v-for="(item, id) in loads"
         :key="id"
-        class="mt-8 flex w-full justify-center dark:text-gray-400 space-x-5 mt-2"
+        class="my-4 sm:mt-8 flex flex-col sm:flex-row sm:justify-center items-top dark:text-gray-400 sm:space-x-5"
       >
-        <div v-if="data.type_transport != 'CONTAINER'" class="inline w-1/6 p-1">
-          <div class="relative">
-            <label v-if="id == 0" class="block text-sm font-semibold"> Tipo de Carga </label>
-            <select
-              v-model="item.category_load_id"
-              value="Seleccionar"
-              class="
+        <!-- tipo de carga -->
+        <div
+          v-if="data.type_transport != 'CONTAINER'"
+          class="my-2 flex justify-center md:inline md:w-24"
+        >
+          <div>
+            <label v-if="id == 0" class="text-sm font-semibold"> Tipo de Carga </label>
+            <div class="flex justify-center">
+              <select
+                v-model="item.category_load_id"
+                value="Seleccionar"
+                class="
                 block
                 text-sm
                 w-auto
@@ -37,14 +42,16 @@
                 dark:focus:shadow-outline-gray
                 form-select
               "
-            >
-              <option value="1" selected>Caja / s</option>
-              <option value="2">Pallet / s</option>
-              <option value="3">Unidad/es</option>
-            </select>
+              >
+                <option value="1" selected>Caja / s</option>
+                <option value="2">Pallet / s</option>
+                <option value="3">Unidad/es</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="inline w-1/6 p-1" v-else>
+        <!-- Tipo container -->
+        <div class="my-2 flex justify-center w-full sm:inline" v-else>
           <div class="relative">
             <label v-if="id == 0" class="block text-sm font-semibold"> Tipo de Container </label>
             <select
@@ -77,9 +84,10 @@
             </select>
           </div>
         </div>
-        <div class="inline" >
+        <!-- dimensiones unitarias -->
+        <div class="my-2 flex justify-center sm:inline md:inline text-center">
           <div v-if="data.type_transport != 'CONTAINER'">
-            <span v-if="id == 0" class="text-sm text-center font-semibold">
+            <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
             </span>
             <div class="flex">
@@ -176,13 +184,19 @@
             </label>
           </div>
         </div>
-        <div class="inline text-center" v-if="data.type_transport != 'CONTAINER'">
-          <span v-if="id == 0" class="text-sm text-center font-semibold"> CBM </span>
-          <input
-            :value="(item.cbm = (item.length * item.width * item.height) / 1000000)"
-            class="
-              h-9
-              w-20
+        <!-- CBM -->
+        <div
+          class="my-2 flex md:inline md:w-20 text-center"
+          v-if="data.type_transport != 'CONTAINER'"
+        >
+          <div>
+            <span v-if="id == 0" class="text-sm font-semibold"> CBM </span>
+            <div class="flex">
+              <input
+                :value="(item.cbm = (item.length * item.width * item.height) / 1000000)"
+                class="
+              w-full
+              h-9 
               flex
               text-center text-sm
               dark:bg-gray-700
@@ -190,33 +204,39 @@
               dark:text-gray-300 dark:focus:shadow-outline-gray
               form-input
             "
-            :disabled="item.mode_calculate"
-            placeholder="CBM"
-          />
+                :disabled="item.mode_calculate"
+                placeholder="CBM"
+              />
+            </div>
+          </div>
         </div>
-        <div class="inline">
-          <span v-if="id == 0" class="text-sm text-center font-semibold"> Peso Unitario </span>
-          <input
-            v-model.number="item.weight"
-            :max="99999"
-            type="number"
-            :class="[
-              'h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input',
-              data.type_transport != 'CONTAINER' ? ' w-16' : ' w-17',
-            ]"
-          />
-          <span v-if="validateweight" class="text-center text-red-600 text-xs">{{
-            validateweight
-          }}</span>
-          <br v-if="validateweight" />
-          <label class="inline-flex text-sm items-center mx-2 mt-2">
-            <input
-              type="radio"
-              v-model="item.weight_units"
-              @click="changeLoadType('CM')"
-              :id="'weight_units' + id"
-              :name="'weight_units' + id"
-              class="
+        <!-- peso unitario -->
+        <div class="my-2 flex flex-col md:w-32 text-center">
+          <div>
+            <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
+            <div class="flex">
+              <input
+                v-model.number="item.weight"
+                :max="99999"
+                type="number"
+                :class="[
+                  'h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-full',
+                  data.type_transport != 'CONTAINER' ? '' : ''
+                ]"
+              />
+              <span v-if="validateweight" class="text-center text-red-600 text-xs">{{
+                validateweight
+              }}</span>
+              <br v-if="validateweight" />
+            </div>
+            <label class="inline-flex text-sm items-center mx-2 mt-2">
+              <input
+                type="radio"
+                v-model="item.weight_units"
+                @click="changeLoadType('CM')"
+                :id="'weight_units' + id"
+                :name="'weight_units' + id"
+                class="
                 form-checkbox
                 h-4
                 w-4
@@ -225,19 +245,19 @@
                 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
                 dark:focus:shadow-outline-gray dark:text-gray-300
               "
-              checked
-              value="KG"
-            />
-            <span class="ml-2 text-gray-700"> Kg </span>
-          </label>
-          <label class="inline-flex text-sm items-center mx-2 mt-2">
-            <input
-              type="radio"
-              v-model="item.weight_units"
-              @click="changeLoadType('IN')"
-              :id="'weight_units' + id"
-              :name="'weight_units' + id"
-              class="
+                checked
+                value="KG"
+              />
+              <span class="ml-2 text-gray-700"> Kg </span>
+            </label>
+            <label class="inline-flex text-sm items-center mx-2 mt-2">
+              <input
+                type="radio"
+                v-model="item.weight_units"
+                @click="changeLoadType('IN')"
+                :id="'weight_units' + id"
+                :name="'weight_units' + id"
+                class="
                 form-checkbox
                 h-4
                 w-4
@@ -246,13 +266,17 @@
                 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
                 dark:focus:shadow-outline-gray dark:text-gray-300
               "
-              value="LB"
-            />
-            <span class="ml-2 text-gray-700"> Lbs </span>
-          </label>
+                value="LB"
+              />
+              <span class="ml-2 text-gray-700"> Lbs </span>
+            </label>
+          </div>
         </div>
-        <div class="flex">
-          <label class="inline-flex text-sm items-center" v-if="data.type_transport != 'CONTAINER'">
+        <div class="my-2 flex justify-center">
+          <label
+            class="inline-flex text-sm items-center sm:mb-1.5"
+            v-if="data.type_transport != 'CONTAINER'"
+          >
             <input
               type="checkbox"
               v-model="item.stackable"
@@ -270,7 +294,10 @@
             <span class="ml-2 text-gray-700">No Apilable</span>
           </label>
         </div>
-        <div class="innline w-1/7 mt-5" v-if="item.mode_calculate || typeSelected == 'CONTAINER'">
+        <div
+          class="flex justify-center h-10 mt-5 sm:mt-7"
+          v-if="item.mode_calculate || typeSelected == 'CONTAINER'"
+        >
           <button
             v-if="id > 0"
             @click="deleteForm(id)"
@@ -329,13 +356,13 @@ export default {
   props: {
     title: {
       require: false,
-      default: 'Cotizador Online',
-    },
+      default: 'Cotizador Online'
+    }
   },
   data() {
     return {
       showKg: true,
-      showIn: true,
+      showIn: true
     };
   },
   methods: {
@@ -355,7 +382,7 @@ export default {
     },
     changeLoadType(unit) {
       this.$store.dispatch('load/changeLoadType', unit);
-    },
+    }
   },
   computed: {
     ...mapState('load', ['item', 'loads', 'mode_selected']),
@@ -412,11 +439,11 @@ export default {
           break;
       }
       return false;
-    },
+    }
   },
   created() {
     this.$store.state.load.mode_selected = this.$store.state.application.data.type_transport;
     if (!this.loads.length) this.reset();
-  },
+  }
 };
 </script>
