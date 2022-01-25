@@ -17,10 +17,12 @@ class CreateApplicationSummariesTable extends Migration
             $table->id();
             $table->foreignId('application_id')->references('id')->on('applications');
             $table->foreignId('service_id')->nullable()->references('id')->on('services')->onDelete('SET NULL');
-            $table->unsignedBigInteger('category_service_id');
-            $table->unsignedBigInteger('currency_id')->nullable();
+            $table->foreignId('category_service_id')->nullable()->references('id')->on('category_services')->onDelete('SET NULL');
+            $table->foreignId('currency_id')->nullable()->references('id')->on('currencies')->onDelete('SET NULL');
             $table->date('fee_date')->nullable();
             $table->decimal('amount', 12, 2)->default(0)->nullable();
+            $table->decimal('amount2', 12, 2)->default(0)->nullable();
+            $table->unsignedBigInteger('currency2_id')->nullable();
             $table->boolean('status')->default(true);
         });
     }

@@ -124,8 +124,8 @@
             </label>
 
            
-            <input type="hidden" class="form-input" name="address_latitude" id="address_latitude" value="{{ old('address_latitude', isset($companyAddress) ? $companyAddress->address_latitude : 0) }}" />
-            <input type="hidden" class="form-input" name="address_longitude" id="address_longitude" value="{{ old('address_longitude', isset($companyAddress) ? $companyAddress->address_longitude : 0) }}" />
+            <input type="hidden" class="form-input" name="latitude" id="address_latitude" value="{{ old('address_latitude', isset($companyAddress) ? $companyAddress->address_latitude : 0) }}" />
+            <input type="hidden" class="form-input" name="longitude" id="address_longitude" value="{{ old('address_longitude', isset($companyAddress) ? $companyAddress->address_longitude : 0) }}" />
                
                 <div class="flex  justify-start">
                         <button type="submit" class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">

@@ -111,6 +111,11 @@ class Application extends Model
         return $this->belongsTo(Currency::class,'currency_id')->withDefault(['code' => '', 'symbol' => '' ]);
     }
 
+    public function currencyTco()
+    {
+        return $this->belongsTo(Currency::class,'currency_tco')->withDefault(['code' => '', 'symbol' => '' ]);
+    }
+
     public function details()
     {
         return $this->hasMany(ApplicationDetail::class,'application_id')->OrderBy('id');
