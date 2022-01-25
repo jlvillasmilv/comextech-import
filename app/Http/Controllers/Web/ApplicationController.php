@@ -253,6 +253,77 @@ class ApplicationController extends Controller
        
     }
 
+    public function getApplicationSummary($id, $currency=null)
+    {
+        $summary = \DB::table('application_summaries as aps')
+        ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
+        ->join('services as s', 'aps.service_id', 's.id')
+        ->join('applications', 'aps.application_id', '=', 'applications.id')
+        ->where([
+            ["aps.application_id", $id],
+            ["aps.status", true],
+            ["applications.user_id", auth()->user()->id]
+        ])
+        ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date',
+        'aps.amount', 'aps.amount as amo2', 'currencies.code as currency2' )
+        ->orderBy('s.id')
+        ->get();
+
+        $to_currency = is_null($currency) ? 'USD' : $currency;
+
+        $total = 0;
+        foreach ($summary as $key => $item) {
+
+            if ($item->amount != 0 || $item->amo2 != 0) {
+
+                $exchange = New Currency;
+                $amount = $exchange->convertCurrency($item->amount, $item->currency, $to_currency);
+
+                \DB::table('application_summaries')
+                ->where('id', $item->id)
+                ->update(["amount2" => $amount]);
+                $total += $amount;
+            } 
+        }
+
+        if($total > 0) {
+            \DB::table('applications')->where('id', $id)->update(["tco" => $amount]);
+        }
+
+        return response()->json($summary, 200);
+    }
+
+    public function setApplicationSummary(Request $request)
+    {
+        $currency_id = \DB::table('currencies')
+        ->where("code", $request->currency)
+        ->first()->id;
+
+        try {
+            \DB::table('application_summaries')
+            ->where('id', $request->summary_id)
+            ->update([
+                "amount2"      => $request->amount,
+                "currency2_id" => $currency_id
+            ]);
+
+           $tco = \DB::table('application_summaries')
+            ->where('application_id', $request->application_id)
+            ->sum('amount2');
+
+            if($request->amount > 0) {
+                \DB::table('applications')->where('id', $request->application_id)
+                    ->update(["tco" => $tco, "currency_tco" => $currency_id]);
+            }
+
+       } catch (\Throwable $th) {
+            return response()->json(['error' => $th],500);
+       }
+
+       return response()->json('ok', 200);
+       
+    }
+
     public function edit($id)
     {   
         $id= Crypt::decryptString($id);
