@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-6 my-1">
+  <div class="container px-1 md:px-6 my-1">
     <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
       <Load v-if="$store.state.load.showLoad" />
     </div>
