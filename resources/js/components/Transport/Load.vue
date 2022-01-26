@@ -50,6 +50,7 @@
             </div>
           </div>
         </div>
+
         <!-- Tipo container -->
         <div class="my-2 flex justify-center w-full sm:inline" v-else>
           <div class="relative">
@@ -84,6 +85,7 @@
             </select>
           </div>
         </div>
+
         <!-- dimensiones unitarias -->
         <div class="my-2 flex justify-center sm:inline md:inline text-center">
           <div v-if="data.type_transport != 'CONTAINER'">
@@ -147,6 +149,7 @@
                   dark:focus:shadow-outline-gray
                 "
                 placeholder="H"
+                :disabled="item.stackable"
               />
             </div>
             <label class="inline-flex text-sm items-center mx-2 mt-2">
@@ -184,6 +187,7 @@
             </label>
           </div>
         </div>
+
         <!-- CBM -->
         <div
           class="my-2 flex md:inline md:w-20 text-center"
@@ -210,6 +214,7 @@
             </div>
           </div>
         </div>
+
         <!-- peso unitario -->
         <div class="my-2 flex flex-col md:w-32 text-center">
           <div>
@@ -272,10 +277,12 @@
             </label>
           </div>
         </div>
+
+        <!-- No aplilable -->
         <div class="my-2 flex justify-center">
           <label
             class="inline-flex text-sm items-center sm:mb-1.5"
-            v-if="data.type_transport != 'CONTAINER'"
+            v-if="data.type_transport === 'CONSOLIDADO'"
           >
             <input
               type="checkbox"
@@ -289,11 +296,14 @@
                 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
                 dark:focus:shadow-outline-gray dark:text-gray-300
               "
+              @click="stackable(id)"
               checked
             />
             <span class="ml-2 text-gray-700">No Apilable</span>
           </label>
         </div>
+
+        <!-- Botones añadir/eliminar -->
         <div
           class="flex justify-center h-10 mt-5 sm:mt-7"
           v-if="item.mode_calculate || typeSelected == 'CONTAINER'"
@@ -382,11 +392,15 @@ export default {
     },
     changeLoadType(unit) {
       this.$store.dispatch('load/changeLoadType', unit);
+    },
+    stackable(id) {
+      this.loads[id].height = this.loads[id].stackable ? 0 : 230;
     }
   },
   computed: {
     ...mapState('load', ['item', 'loads', 'mode_selected']),
     ...mapState('application', ['data']),
+
     validateweight() {
       const { loads } = this.$store.state.load;
 
