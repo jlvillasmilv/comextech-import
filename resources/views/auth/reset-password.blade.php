@@ -13,8 +13,8 @@
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
             <div class="block">
-                <x-label value="Correo Electronico" />
-                <x-input class="block mt-1 w-full" type="email" name="email" disabled="true" :value="old('email', $request->email)" required autofocus />
+                <!-- <x-label value="Correo Electronico" /> -->
+                <x-input type="hidden" class="block mt-1 w-full" name="email" :value="old('email', $request->email)" required autofocus />
             </div>
 
             <div class="mt-4">
