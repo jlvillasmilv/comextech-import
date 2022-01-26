@@ -17,7 +17,7 @@
           v-if="data.type_transport != 'CONTAINER'"
           class="my-2 flex justify-center md:inline md:w-24"
         >
-          <div>
+          <div class="w-full text-center">
             <label v-if="id == 0" class="text-sm font-semibold"> Tipo de Carga </label>
             <div class="flex justify-center">
               <select
@@ -26,7 +26,7 @@
                 class="
                 block
                 text-sm
-                w-auto
+                w-full
                 bg-white
                 border border-gray-200
                 text-gray-700
@@ -52,15 +52,16 @@
         </div>
 
         <!-- Tipo container -->
-        <div class="my-2 flex justify-center w-full sm:inline" v-else>
-          <div class="relative">
-            <label v-if="id == 0" class="block text-sm font-semibold"> Tipo de Container </label>
-            <select
-              v-model="item.type_container"
-              class="
+        <div class="my-2.5 flex justify-center md:inline md:w-34" v-else>
+          <div class="w-full text-center">
+            <label v-if="id == 0" class="text-sm font-semibold">Tipo de Container</label>
+            <div class="w-full text-center">
+              <select
+                v-model="item.type_container"
+                class="
                 block
                 text-sm
-                w-2/3
+                w-full
                 bg-white
                 border border-gray-200
                 text-gray-700
@@ -76,23 +77,24 @@
                 dark:focus:shadow-outline-gray
                 form-select
               "
-            >
-              <option value="1">20'DV</option>
-              <option value="2">40'DV</option>
-              <option value="3">40'HC</option>
-              <option value="4">40'NOR</option>
-              <option value="5">45'HC</option>
-            </select>
+              >
+                <option value="1">20'DV</option>
+                <option value="2">40'DV</option>
+                <option value="3">40'HC</option>
+                <option value="4">40'NOR</option>
+                <option value="5">45'HC</option>
+              </select>
+            </div>
           </div>
         </div>
 
         <!-- dimensiones unitarias -->
         <div class="my-2 flex justify-center sm:inline md:inline text-center">
-          <div v-if="data.type_transport != 'CONTAINER'">
+          <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
             </span>
-            <div class="flex">
+            <div class="flex justify-center">
               <input
                 v-model.number="item.length"
                 type="number"
@@ -193,7 +195,7 @@
           class="my-2 flex md:inline md:w-20 text-center"
           v-if="data.type_transport != 'CONTAINER'"
         >
-          <div>
+          <div class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold"> CBM </span>
             <div class="flex">
               <input
