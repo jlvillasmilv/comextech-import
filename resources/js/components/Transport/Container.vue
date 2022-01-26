@@ -609,74 +609,80 @@
     </div>
 
     <!-- fcl table quote   -->
-    <section v-if="fclTableQuote">
-      <div class="w-full overflow-x-auto mt-8 flex justify-center">
-        <table v-if="data.condition == 'EXW'" class="w-full">
+    <section v-if="fclTableQuote" class="md:flex md:justify-center">
+      <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg shadow-xs">
+        <table v-if="data.condition == 'EXW'" class="table-auto md:w-full whitespace-no-wrap">
           <thead>
             <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
               <th
                 class="
-                  px-4
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-900
-                  dark:text-gray-400 dark:bg-gray-800
+                w-1/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-900
+                dark:text-gray-400 dark:bg-gray-800
                 "
               >
-                &nbsp;
+                {{ this.$store.state.application.selectedCondition.name }}
               </th>
               <th
                 class="
-                  px-4
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-900
-                  dark:text-gray-400 dark:bg-gray-800
+                w-4/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-900
+                dark:text-gray-400 dark:bg-gray-800
                 "
               >
-                &nbsp;
+                CONCEPTO
               </th>
               <th
                 class="
-                  px-4
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-900
-                  dark:text-gray-400 dark:bg-gray-800
+                w-2/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-900
+                dark:text-gray-400 dark:bg-gray-800
                 "
               >
                 TARIFA
               </th>
               <th
                 class="
-                  px-4
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-900
-                  dark:text-gray-400 dark:bg-gray-800
+                w-1/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-900
+                dark:text-gray-400 dark:bg-gray-800
                 "
               >
                 MONEDA
               </th>
             </tr>
           </thead>
-          <tbody class="text-center bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
+          <tbody class="text-center bg-white dark:bg-gray-800">
+            <tr class="text-sm text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRAMO LOCAL (ORIGEN)</td>
-              <td class="text-red-600 px-4 py-3">POR COTIZAR</td>
+              <td class="text-red-600 font-semibold px-4 py-3">POR COTIZAR</td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
               <td
                 :class="[
-                  !fclQuote.transport.transport_amount ? 'text-red-600 px-4 py-3' : 'px-4 py-3',
+                  !fclQuote.transport.transport_amount
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
                 ]"
               >
                 {{
@@ -687,10 +693,16 @@
               </td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
-              <td :class="[!fclQuote.transport.insurance ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
+              <td
+                :class="[
+                  !fclQuote.transport.insurance
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
                 {{
                   fclQuote.transport.insurance
                     ? formatPrice(fclQuote.transport.insurance)
@@ -699,10 +711,16 @@
               </td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td :class="[!fclQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
+              <td
+                :class="[
+                  !fclQuote.transport.oth_exp
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
                 {{
                   fclQuote.transport.oth_exp
                     ? formatPrice(fclQuote.transport.oth_exp)
@@ -711,11 +729,15 @@
               </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
               <td
-                :class="[!fclQuote.transport.local_transp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
+                :class="[
+                  !fclQuote.transport.local_transp
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
               >
                 {{
                   fclQuote.transport.local_transp
@@ -728,12 +750,13 @@
           </tbody>
         </table>
 
-        <table v-if="data.condition == 'FOB'" class="w-full">
+        <table v-if="data.condition == 'FOB'" class="table-auto md:w-full whitespace-no-wrap">
           <thead>
             <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
               <th
                 class="
-                  px-4
+                  w-1/12
+                  px-4 
                   py-3
                   border-b
                   dark:border-gray-700
@@ -741,11 +764,12 @@
                   dark:text-gray-400 dark:bg-gray-800
                 "
               >
-                &nbsp;
+                {{ this.$store.state.application.selectedCondition.name }}
               </th>
               <th
                 class="
-                  px-4
+                  w-4/12
+                  px-4 
                   py-3
                   border-b
                   dark:border-gray-700
@@ -753,11 +777,12 @@
                   dark:text-gray-400 dark:bg-gray-800
                 "
               >
-                &nbsp;
+                CONCEPTO
               </th>
               <th
                 class="
-                  px-4
+                  w-2/12
+                  px-4 
                   py-3
                   border-b
                   dark:border-gray-700
@@ -769,7 +794,8 @@
               </th>
               <th
                 class="
-                  px-4
+                  w-1/12
+                  px-4 
                   py-3
                   border-b
                   dark:border-gray-700
@@ -781,25 +807,41 @@
               </th>
             </tr>
           </thead>
-          <tbody class="text-center bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+          <tbody class="text-center bg-white dark:bg-gray-800">
             <!-- <tr class="text-center">
               <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">&nbsp;</td>
             </tr> -->
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
+              <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td class="text-red-600 px-4 py-3">
-                {{ formatPrice(fclQuote.transport.transport_amount) }}
+              <td
+                :class="[
+                  !fclQuote.transport.transport_amount
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
+                {{
+                  fclQuote.transport.transport_amount
+                    ? formatPrice(fclQuote.transport.transport_amount)
+                    : 'POR COTIZAR'
+                }}
               </td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">SEGURO</td>
-              <td :class="[!fclQuote.transport.insurance ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
+              <td
+                :class="[
+                  !fclQuote.transport.insurance
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
                 {{
                   fclQuote.transport.insurance
                     ? formatPrice(fclQuote.transport.insurance)
@@ -808,10 +850,16 @@
               </td>
               <td class="px-4 py-3">USD</td>
             </tr>
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td :class="[!fclQuote.transport.oth_exp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']">
+              <td
+                :class="[
+                  !fclQuote.transport.oth_exp
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
                 {{
                   fclQuote.transport.oth_exp
                     ? formatPrice(fclQuote.transport.oth_exp)
@@ -820,11 +868,15 @@
               </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
-            <tr class="text-xs text-gray-700 dark:text-gray-400">
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
               <td
-                :class="[!fclQuote.transport.local_transp ? 'text-red-600 px-4 py-3' : 'px-4 py-3']"
+                :class="[
+                  !fclQuote.transport.local_transp
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
               >
                 {{
                   fclQuote.transport.local_transp
@@ -842,7 +894,7 @@
       :class="[
         !expenses.dataLoad || expenses.dataLoad.length <= 0
           ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5',
+          : 'flex justify-center my-5 innline w-1/7 mt-5'
       ]"
     >
       <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
@@ -872,7 +924,7 @@
             ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
             : expenses.dataLoad.length <= 0
             ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800',
+            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
         ]"
       >
         Cotizar
@@ -892,7 +944,7 @@ export default {
   data() {
     return {
       fclQuote: {},
-      fclTableQuote: false,
+      fclTableQuote: false
     };
   },
   methods: {
@@ -914,7 +966,7 @@ export default {
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100,
+        width: 100
       });
 
       this.$store.dispatch('address/showAddress', false);
@@ -945,20 +997,20 @@ export default {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Enviar',
+            confirmButtonText: 'Enviar'
           }).then((result) => {
             if (result.isConfirmed) {
               // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
               Toast.fire({
                 icon: 'success',
-                title: 'Datos Agregados',
+                title: 'Datos Agregados'
               });
             }
           });
         } else {
           Toast.fire({
             icon: 'success',
-            title: 'Datos Agregados',
+            title: 'Datos Agregados'
           });
         }
         this.$store.dispatch('load/setLoad', fclResponse.data);
@@ -984,7 +1036,7 @@ export default {
         const type = 'P';
         await this.$store.dispatch('address/getFavOriginPort', {
           idsupplier,
-          type,
+          type
         });
       } else {
         await this.$store.dispatch('address/setOrigFavOritPorts');
@@ -1025,9 +1077,9 @@ export default {
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
-    },
+    }
   },
   computed: {
     ...mapState('address', [
@@ -1041,9 +1093,9 @@ export default {
       'formAddress',
       'postalCodeOrigin',
       'postalCodeDestination',
-      'showShipping',
+      'showShipping'
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport']),
-  },
+    ...mapState('application', ['data', 'currency', 'origin_transport'])
+  }
 };
 </script>
