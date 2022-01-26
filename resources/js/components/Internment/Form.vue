@@ -374,7 +374,7 @@
       </div>
 
       <div
-        class="mx-4 w-3/4 flex overflow-hidden rounded-lg "
+        class="w-full md:w-3/4 md:mx-4 overflow-hidden rounded-lg "
         :class="[!$store.getters.findService('ICS04') ? '' : 'justify-start']"
       >
         <div class="w-full overflow-x-auto">
@@ -493,57 +493,49 @@
         </div>
       </div>
       <div
-        class="flex my-4"
+        class=" mt-4"
         :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-start']"
       >
-        <div class="flex flex-wrap flex-col w-10/12">
+        <div class="w-10/12 flex flex-wrap flex-col">
           <span class="text-start font-semibold">Incluir</span>
           <div class="flex justify-start items-center my-4 ml-2">
-            <div>
+            <div class="w-full sm:w-3/5 sm:flex items-center">
               <input
                 type="checkbox"
                 v-model="expenses.iva"
                 class="form-checkbox h-5 w-5 text-blue-600"
               />
-            </div>
-            <div class="w-3/12">
-              <p :class="[expenses.iva ? 'text-center mx-2' : 'text-center mx-2 text-gray-400']">
+              <span :class="[expenses.iva ? 'text-center mx-2' : 'text-center mx-2 text-gray-400']">
                 {{ formatPrice(expenses.iva_amt, 'CLP') }} CLP
-              </p>
-            </div>
-            <div class="w-4/12">
+              </span>
               <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
                 IVA ( 19% )
               </h1>
+               <img class="w-16 md:w-32" src="https://homer.sii.cl/responsive/images/logo.jpg" />
             </div>
-            <div class="w-2/12">
-              <img class="h-full w-8/12" src="https://homer.sii.cl/responsive/images/logo.jpg" />
-            </div>
+      
+           
           </div>
           <div class="flex justify-start items-center my-4 ml-2">
-            <div>
+            <div class="w-full sm:w-3/5 sm:flex items-center">
               <input
                 type="checkbox"
                 v-model="expenses.adv"
                 class="form-checkbox h-5 w-5 text-blue-600"
               />
-            </div>
-            <div class="w-3/12">
-              <p :class="[expenses.adv ? 'text-center mx-2' : 'text-center text-gray-400 mx-2']">
+              <span :class="[expenses.adv ? 'text-center mx-2' : 'text-center text-gray-400 mx-2']">
                 {{ formatPrice(expenses.adv_amt, 'CLP') }} CLP
-              </p>
-            </div>
-            <div class="w-4/12">
+              </span>
               <h1 :class="[expenses.adv ? 'text-center mx-4' : 'text-center text-gray-400 mx-4']">
                 Ad Valorem ( 6% )
               </h1>
-            </div>
-            <div class="w-2/12">
               <img
-                class="h-full w-8/12"
+                class="w-16 md:w-32"
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
               />
             </div>
+           
+            
           </div>
         </div>
       </div>
@@ -616,12 +608,6 @@
           </table>
         </div>
       </div>
-
-
-
-
-
-
 
 
      <div class="flex justify-center">
