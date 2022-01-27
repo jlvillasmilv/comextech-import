@@ -1,7 +1,7 @@
 <template>
-  <section class="flex flex-col w-full dark:bg-gray-900">
+  <section class="flex flex-col lg:items-center w-full dark:bg-gray-900">
     <!-- Pagos -->
-    <section class="lg:flex lg:w-full overflow-x-auto">
+    <section class="lg:flex lg:w-8/12 overflow-x-auto">
       <!-- pagos, fecha, tipo, restriccion -->
       <div class="lg:w-6/12 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <!-- primer/segundo pago -->
@@ -9,7 +9,7 @@
           class="md:flex md:justify-around md:flex-row"
           v-if="$store.state.application.statusSuppliers !== 'E-commerce'"
         >
-          <div class="lg:w-3/12">
+          <div class="lg:w-5/12">
             <span class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs">
               {{ $store.state.payment.payment.length == 0 ? 'Primer pago' : 'Segundo pago' }}
             </span>
@@ -46,7 +46,7 @@
                             type="number" 
                         />-->
           </div>
-          <div class="lg:w-6/12">
+          <div class="lg:w-7/12">
             <!--  <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Monto Agregado
                         </span> -->
@@ -349,7 +349,7 @@
     </section>
 
     <!-- table  -->
-    <section class="px-3 py-3 w-full md:w-3/5 overflow-x-auto md:w-3/5 overflow-x-auto">
+    <section class="lg:w-8/12 overflow-x-auto px-3 py-3">
       <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-no-wrap">

@@ -3,38 +3,6 @@
     <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
       <Load v-if="$store.state.load.showLoad" />
     </div>
-
-    <!-- Notification validation error -->
-    <span
-      class="text-xs text-red-600 dark:text-red-400"
-      v-if="expenses.errors.has('dataLoad.0.length')"
-      v-html="expenses.errors.get('dataLoad.0.length')"
-    ></span>
-    <span
-      class="text-xs text-red-600 dark:text-red-400"
-      v-if="expenses.errors.has('dataLoad.0.width')"
-      v-html="expenses.errors.get('dataLoad.0.width')"
-    ></span>
-    <span
-      class="text-xs text-red-600 dark:text-red-400"
-      v-if="expenses.errors.has('dataLoad.0.height')"
-      v-html="expenses.errors.get('dataLoad.0.height')"
-    ></span>
-    <span
-      class="text-xs text-red-600 dark:text-red-400"
-      v-if="expenses.errors.has('dataLoad.0.weight')"
-      v-html="expenses.errors.get('dataLoad.0.weight')"
-    ></span>
-    <span
-      class="text-xs text-red-600 dark:text-red-400"
-      v-if="expenses.errors.has('fedex')"
-      v-html="expenses.errors.get('fedex')"
-    ></span>
-    <span
-      class="text-xs text-red-600 dark:text-red-400"
-      v-if="expenses.errors.has('dhl')"
-      v-html="expenses.errors.get('dhl')"
-    ></span>
     <div v-show="isActivateAddress">
       <!-- Cotizacion courier -->
       <div v-if="data.type_transport == 'COURIER'">
