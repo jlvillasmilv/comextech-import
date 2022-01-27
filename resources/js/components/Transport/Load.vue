@@ -89,7 +89,7 @@
         </div>
 
         <!-- dimensiones unitarias -->
-        <div class="my-2 flex justify-center sm:inline md:inline text-center">
+        <div class="my-2 flex flex-col justify-center sm:inline md:inline text-center">
           <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
@@ -100,7 +100,8 @@
                 type="number"
                 class="
                   h-9
-                  w-13
+                  w-1/3
+                  sm:w-13
                   focus:outline-none
                   border
                   rounded-l-lg
@@ -119,7 +120,8 @@
                 type="number"
                 class="
                   h-9
-                  w-13
+                  w-1/3
+                  sm:w-13
                   focus:outline-none
                   border
                   rounded-none
@@ -138,7 +140,8 @@
                 type="number"
                 class="
                   h-9
-                  w-13
+                  w-1/3
+                  sm:w-13
                   focus:outline-none
                   border
                   rounded-r-lg
@@ -188,6 +191,21 @@
               /><span class="ml-2 text-gray-700"> pulg </span>
             </label>
           </div>
+          <span
+            class="text-xs text-red-600 dark:text-red-400"
+            v-if="expenses.errors.has('dataLoad.0.length')"
+            v-html="expenses.errors.get('dataLoad.0.length')"
+          ></span>
+          <span
+            class="text-xs text-red-600 dark:text-red-400"
+            v-if="expenses.errors.has('dataLoad.0.width')"
+            v-html="expenses.errors.get('dataLoad.0.width')"
+          ></span>
+          <span
+            class="text-xs text-red-600 dark:text-red-400"
+            v-if="expenses.errors.has('dataLoad.0.height')"
+            v-html="expenses.errors.get('dataLoad.0.height')"
+          ></span>
         </div>
 
         <!-- CBM -->
@@ -358,6 +376,23 @@
         </div>
       </div>
     </div>
+    <!-- Notification validation error -->
+
+    <span
+      class="text-xs text-red-600 dark:text-red-400"
+      v-if="expenses.errors.has('dataLoad.0.weight')"
+      v-html="expenses.errors.get('dataLoad.0.weight')"
+    ></span>
+    <span
+      class="text-xs text-red-600 dark:text-red-400"
+      v-if="expenses.errors.has('fedex')"
+      v-html="expenses.errors.get('fedex')"
+    ></span>
+    <span
+      class="text-xs text-red-600 dark:text-red-400"
+      v-if="expenses.errors.has('dhl')"
+      v-html="expenses.errors.get('dhl')"
+    ></span>
   </div>
 </template>
 
@@ -401,6 +436,7 @@ export default {
   },
   computed: {
     ...mapState('load', ['item', 'loads', 'mode_selected']),
+    ...mapState('address', ['expenses']),
     ...mapState('application', ['data']),
 
     validateweight() {
