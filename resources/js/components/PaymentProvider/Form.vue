@@ -1,51 +1,22 @@
 <template>
-  <div class="flex flex-col w-full sm:flex-row dark:bg-gray-900">
-    <div class="md:w-2/5 overflow-x-auto ">
-      <div class="mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <div v-if="$store.state.application.statusSuppliers !== 'E-commerce'">
-          <h3 class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200 dark:bg-gray-800">
-            Pagos al Proveedor
-          </h3>
-          <!-- <h3
-                        :class="[
-                            $store.state.payment.percentageInitial -
-                                $store.state.payment.discount >=
-                            0
-                                ? 'text-black'
-                                : 'text-red-600  ',
-                            ' text-xs dark:text-gray-200'
-                        ]"
-                    >
-                        Porcentaje Restante :
-                        {{
-                            $store.state.payment.percentageInitial -
-                                $store.state.payment.discount
-                        }}
-                    </h3> -->
-        </div>
-        <div class="flex justify-around flex-wrap">
-          <h3 class="md:w-1/3 my-4 dark:text-gray-200">Total</h3>
-          <h3 class="my-4 dark:text-gray-200">
-            {{ Number(data.amount).toLocaleString() }}
-            {{ currency.code }}
-          </h3>
-        </div>
-        <hr class="w-full mt-4 mb-4 border-solid border-t-2" />
+  <section class="flex flex-col w-full dark:bg-gray-900">
+    <!-- Pagos -->
+    <section class="lg:flex lg:w-full overflow-x-auto">
+      <!-- pagos, fecha, tipo, restriccion -->
+      <div class="lg:w-6/12 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <!-- primer/segundo pago -->
         <div
-          class="flex justify-around flex-row"
+          class="md:flex md:justify-around md:flex-row"
           v-if="$store.state.application.statusSuppliers !== 'E-commerce'"
         >
-          <div class="w-full md:w-2/5">
-            <span
-              class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs"
-            >
-              {{$store.state.payment.payment.length == 0 ? 'Primer pago' : 'Segundo pago'}}
-              
+          <div class="lg:w-3/12">
+            <span class="text-gray-700 dark:text-gray-400 text-lg font-bold text-xs">
+              {{ $store.state.payment.payment.length == 0 ? 'Primer pago' : 'Segundo pago' }}
             </span>
-           
-            <input
-              :class="[]"
-              class="
+            <div class="w-full flex justify-start">
+              <input
+                :class="[]"
+                class="
                 block
                 w-full
                 mt-1
@@ -56,12 +27,13 @@
                 form-input
                 text-center
               "
-              placeholder="%"
-              v-model.number="$store.state.payment.discount"
-              :disabled="$store.state.payment.percentageInitial == 0"
-              step="1"
-              type="number"
-            />
+                placeholder="%"
+                v-model.number="$store.state.payment.discount"
+                :disabled="$store.state.payment.percentageInitial == 0"
+                step="1"
+                type="number"
+              />
+            </div>
             <!-- valid if the field is empty -->
             <!-- <input
                             v-else
@@ -74,7 +46,7 @@
                             type="number" 
                         />-->
           </div>
-          <div class="w-full md:w-3/5">
+          <div class="lg:w-6/12">
             <!--  <span class="text-gray-700 dark:text-gray-400 text-xs">
                             Monto Agregado
                         </span> -->
@@ -85,7 +57,6 @@
         </div>
 
         <!-- date_pay -->
-
         <div class="md:flex md:items-center my-3">
           <div class="md:w-1/3">
             <label
@@ -116,10 +87,8 @@
             />
           </div>
         </div>
-        <!-- end date_pay -->
 
         <!-- type_pay -->
-
         <div class="md:flex md:items-center my-3">
           <div class="md:w-1/3">
             <label
@@ -181,10 +150,8 @@
             </div>
           </div>
         </div>
-        <!-- end type_pay -->
 
-        <!-- date_pay -->
-
+        <!-- restriccion -->
         <div class="md:flex md:items-center my-3">
           <div class="md:w-1/3">
             <label
@@ -247,19 +214,57 @@
               </div>
             </div>
           </div>
-          <!-- date_pay -->
         </div>
-        <span v-if="$store.state.payment.discount > 0" class="text-center text-red-600 text-xs"
-          >Complete todos los campos*</span
-        >
+      </div>
+
+      <!-- pagos proveedor -->
+      <div class="lg:w-6/12 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div v-if="$store.state.application.statusSuppliers !== 'E-commerce'">
+          <h3
+            class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200 dark:bg-gray-800"
+          >
+            Pagos al Proveedor
+          </h3>
+          <!-- <h3
+                        :class="[
+                            $store.state.payment.percentageInitial -
+                                $store.state.payment.discount >=
+                            0
+                                ? 'text-black'
+                                : 'text-red-600  ',
+                            ' text-xs dark:text-gray-200'
+                        ]"
+                    >
+                        Porcentaje Restante :
+                        {{
+                            $store.state.payment.percentageInitial -
+                                $store.state.payment.discount
+                        }}
+                    </h3> -->
+        </div>
+        <div class="flex justify-around flex-wrap">
+          <h3 class="md:w-1/3 my-4 dark:text-gray-200">Total</h3>
+          <h3 class="my-4 dark:text-gray-200">
+            {{ Number(data.amount).toLocaleString() }}
+            {{ currency.code }}
+          </h3>
+        </div>
+        <hr class="w-full mt-4 mb-4 border-solid border-t-2" />
+        <div class="h-8 block">
+          <span class="text-center text-red-600 text-xs">
+            {{ $store.state.payment.discount > 0 ? 'Complete todos los campos*' : '' }}
+          </span>
+        </div>
+
+        <!-- botones -->
         <div class="flex space-x-2 px-3 md:mb-0 my-4">
           <button
             :disabled="
               $store.state.payment.discount < 0 ||
-              $store.state.payment.percentageInitial == 0 ||
-              !form.date_pay ||
-              form.type_pay == '' ||
-              form.payment_release == ''
+                $store.state.payment.percentageInitial == 0 ||
+                !form.date_pay ||
+                form.type_pay == '' ||
+                form.payment_release == ''
             "
             :class="[
               $store.state.payment.discount > 0 &&
@@ -269,7 +274,7 @@
               form.payment_release != ''
                 ? 'active:bg-blue-600 hover:bg-blue-700  bg-blue-600'
                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
-              'flex  px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue',
+              'flex  px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue'
             ]"
             @click="addPayment()"
           >
@@ -296,7 +301,7 @@
               $store.state.payment.percentageInitial !== 0
                 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300'
                 : 'bg-green-600 active:bg-green-600 hover:bg-green-700',
-              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue',
+              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue'
             ]"
             @click="submitPayment()"
           >
@@ -341,8 +346,10 @@
           </button>
         </div>
       </div>
-    </div>
-    <div class="md:w-3/5 overflow-x-auto">
+    </section>
+
+    <!-- table  -->
+    <section class="px-3 py-3 w-full md:w-3/5 overflow-x-auto md:w-3/5 overflow-x-auto">
       <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-no-wrap">
@@ -434,8 +441,8 @@
           </table>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -450,12 +457,12 @@ export default {
         type_pay: '',
         payment_release: '',
         manyPayment: '',
-        id: '',
+        id: ''
       },
       application_id: this.$store.state.application.application_id,
       code_serv: 'ICS01',
       minDate: new Date().toISOString().substr(0, 10),
-      percentajeDelete: {},
+      percentajeDelete: {}
     };
   },
   methods: {
@@ -498,7 +505,7 @@ export default {
           percentage: discount,
           id: this.payment.length,
           application_id: this.data.application_id,
-          code_serv: 'ICS01',
+          code_serv: 'ICS01'
         });
         this.form = {
           percentage: '',
@@ -506,7 +513,7 @@ export default {
           type_pay: '',
           payment_release: '',
           manyPayment: '',
-          id: '',
+          id: ''
         };
       }
     },
@@ -519,12 +526,12 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: 'error',
-          title: 'Se ha producido un error al procesar los datos',
+          title: 'Se ha producido un error al procesar los datos'
         });
       } finally {
         this.$store.dispatch('application/busyButton', false);
       }
-    },
+    }
   },
   computed: {
     ...mapState('payment', ['payment']),
@@ -536,7 +543,7 @@ export default {
         ' ' +
         this.currency.code
       );
-    },
+    }
   },
   created() {
     const { name: typePayment, valueInitial } = this.data.valuePercentage;
@@ -549,7 +556,7 @@ export default {
     else if (this.$store.state.application.statusSuppliers == 'E-commerce')
       this.$store.state.payment.discount = 100;
     else if (typePayment !== 'Otros') this.$store.state.payment.discount = valueInitial;
-  },
+  }
 };
 </script>
 
