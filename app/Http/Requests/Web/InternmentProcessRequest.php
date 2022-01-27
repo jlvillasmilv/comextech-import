@@ -34,7 +34,7 @@ class InternmentProcessRequest extends FormRequest
             'files.*'                 => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
             'file_certificate'        => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
             'dataLoad'                => 'required_if:transport,true',
-            "dataLoad.*.weight"       => "required_if:transport,true",
+            //"dataLoad.*.weight"       => "required_if:transport,true",
             // "dataLoad.*.cbm"          => "required_if:transport,true",
         ];
 
