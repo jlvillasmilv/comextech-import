@@ -510,7 +510,7 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
         try {
-            //dd($request->all());
+           
             $internment = InternmentProcess::updateOrCreate(
                 [   'application_id'       => $request->application_id, ],
                 [
@@ -577,6 +577,7 @@ class ApplicationController extends Controller
 
             // agregar datos de subida de archivo
             if ($request->hasFile('files')) {
+                
                 foreach ($request->input('file_descrip') as $key => $file) {
                     $data = new FileStore;
                     $file_storage = $data->addFile(
@@ -589,7 +590,7 @@ class ApplicationController extends Controller
                         ],
                         [ 'intl_treaty' => $file, ]
                     );
-
+                   
                 }
             }
 
@@ -610,8 +611,8 @@ class ApplicationController extends Controller
             }
 
             //Agrega datos a carga de transporte
-            if($request->input('transport')){
-               
+            if($request->input('transport')=='true'){
+
                 Load::cargo($request->input('dataLoad'),$request->application_id);
             }
         

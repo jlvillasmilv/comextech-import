@@ -18,8 +18,8 @@
           </h4>
         </div>
 
-        <div class="px-4 py-2 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-          <div class="md:flex md:items-center my-2">
+        <div class="px-4 py-2 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
+          <div class="md:flex md:items-center my-1">
             <div class="md:w-auto">
               <input
                 v-bind:value="true"
@@ -44,14 +44,14 @@
                 v-bind:value="true"
                 v-model="expenses.courier_svc"
                 type="radio"
-                class="form-checkbox h-5 w-5 text-blue-600"
+                class="md:ml-2 form-checkbox h-5 w-5 text-blue-600"
                 checked
               />
-              <span class="mx-2 text-xs text-black text-gray-500"> Servicio incluido </span>
+              <span class="mx-1 text-xs text-black text-gray-500"> Servicio incluido </span>
             </div>
 
-            <div class="flex md:1/2">
-              <div class="w-1/2 px-1 mb-2 md:mb-0">
+            <div class="mt-2 md:mt-0 md:flex md:1/2">
+              <div class="w-full md:w-1/2 px-1 mb-2 md:mb-0">
                 <label class="block text-sm" v-if="expenses.courier_svc">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
@@ -123,7 +123,7 @@
                 </label>
               </div>
 
-              <div class="w-auto px-1 mx-4 mb-2 md:mb-0">
+              <div class="w-auto mx-2 mb-2 md:mb-0">
                 <label class="block text-sm">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold">
                     Costo Servicio
@@ -298,70 +298,7 @@
               v-html="expenses.errors.get('file_descrip')"
             ></span>
           </div>
-          <div class="w-auto px-1 px-3">
-            <input
-              id="fileid"
-              v-show="showInputFile"
-              @change="handleFile()"
-              ref="file"
-              type="file"
-              hidden
-            />
-            <div class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
-              <label
-                v-for="(item, key) in treaties"
-                :key="key"
-                class="inline-flex items-center mt-3"
-              >
-                <a
-                  @click="openWindowFile(item)"
-                  class="
-                    flex
-                    px-2
-                    py-2
-                    m-2
-                    text-sm
-                    font-medium
-                    leading-5
-                    text-white
-                    transition-colors
-                    duration-150
-                    border border-transparent
-                    rounded-lg
-                    focus:outline-none focus:shadow-outline-blue
-                  "
-                  :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800',
-                  ]"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    class="h-6 w-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      :d="[
-                        item.submit
-                          ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z',
-                      ]"
-                    ></path>
-                  </svg>
-                  <span> {{ item.name }} </span></a
-                >
-              </label>
-            </div>
-
-            <span
-              class="text-xs text-red-600 dark:text-red-400"
-              v-if="expenses.errors.has('file_descrip')"
-              v-html="expenses.errors.get('file_descrip')"
-            ></span>
-          </div>
+       
         </div>
       </section>
     </div>
@@ -511,7 +448,7 @@
               <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
                 IVA ( 19% )
               </h1>
-               <img class="w-16 md:w-32" src="https://homer.sii.cl/responsive/images/logo.jpg" />
+               <img class="w-16 md:w-24" src="https://homer.sii.cl/responsive/images/logo.jpg" />
             </div>
       
            
@@ -530,7 +467,7 @@
                 Ad Valorem ( 6% )
               </h1>
               <img
-                class="w-16 md:w-32"
+                class="w-16 md:w-24"
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
               />
             </div>
@@ -657,11 +594,6 @@
         </button>
       </div>
 
-      
-
-
-
-
   </div>
 </template>
 
@@ -742,13 +674,13 @@ export default {
         let fileInputElement = this.$refs.file_cert;
         fileInputElement.click();
       } else {
-        this.handleStatusCertificate();
+        this.handleStatusSubmitFile('certif');
       }
     },
     certificateFile() {
       const file = this.$refs.file_cert.files[0];
       if (file) {
-        this.handleStatusCertificate();
+        this.handleStatusSubmitFile('certif');
         this.expenses.file_certificate = file;
         this.certificate = this.nameFileUpload;
       }
@@ -757,20 +689,26 @@ export default {
       const file = this.$refs.file.files[0];
       if (file) {
         this.handleStatusSubmitFile();
-        this.expenses.files.append(this.nameFileUpload, file);
+        this.expenses.files.push(file);
         this.expenses.file_descrip.push(this.nameFileUpload);
       }
     },
     handleStatusSubmitFile(ref = null) {
-      this.treaties = this.treaties.map((e) =>
-        e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
-      );
+      if(ref == 'certif'){
+
+         this.certif = this.certif.map((e) =>
+          e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
+        );
+
+      }
+      else{
+        this.treaties = this.treaties.map((e) =>
+          e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
+        );
+      }
+      
     },
-    handleStatusCertificate(ref = null) {
-      this.certif = this.certif.map((e) =>
-        e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
-      );
-    },
+  
     previewFiles(event) {
       const certificate = event.target.files[0];
       this.expenses.file_certificate = certificate;

@@ -16,7 +16,7 @@ export default {
             certificate: "Invoice",
             file_certificate: "",
             dataLoad: [],
-            files: new FormData(),
+            files: [],
             iva: false,
             iva_amt: 0,
             adv: false,
