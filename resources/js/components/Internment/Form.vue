@@ -741,7 +741,7 @@ export default {
         this.$store.dispatch('application/busyButton', false);
       }
     },
-
+    
     async taxCheck() {
       this.expenses.cif_amt = parseFloat(
         Number(this.AppAmount) + Number(this.transpAmount) + Number(this.insureAmount)

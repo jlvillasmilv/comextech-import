@@ -80,7 +80,7 @@ class Application extends Model
         * @return response()
         */
         static::creating(function($model){
-            $number = Application::max('id')+1;
+            $number =  \DB::table('applications')->max('id')+1;
            
             $model->code = 'AI-'.str_pad($number,6,0, STR_PAD_LEFT); // Str::upper(Str::random(6));
         });
