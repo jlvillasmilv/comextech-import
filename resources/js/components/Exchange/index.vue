@@ -161,17 +161,17 @@
                     {{ getHumanDate(item.fee_date) }}
                   </div>
                 </td>
-                <td class="text-center px-4 py-3">
+                <td :class="key == 0 ? 'invisible' : ''" class="text-center px-4 py-3">
                   {{ item.currency }}
                 </td>
-                <td class="text-center px-4 py-3">
+                <td :class="key == 0 ? 'invisible' : ''" class="text-center px-4 py-3">
                   {{ formatPrice(item.amount, item.currency) }}
                 </td>
                 <td class="text-center px-4 py-3">&nbsp;</td>
-                <td class="px-4 py-3 text-center">
+                <td :class="key == 0 ? 'invisible' : ''" class="px-4 py-3 text-center">
                   {{ formatPrice(item.amo2, item.currency2) }}
                 </td>
-                <td class="px-4 py-3 text-right">
+                <td :class="key == 0 ? 'invisible' : ''" class="px-4 py-3 text-right">
                   {{ item.currency2 }}
                 </td>
               </tr>
@@ -180,7 +180,7 @@
               <tr>
                 <td colspan="6" class="text-right px-4 py-3">
                   <strong>
-                    {{ formatPrice(total, currency_ex) }}
+                    {{ formatPrice(totalAmount, currency_ex) }}
                   </strong>
                 </td>
                 <td class="text-center px-4 py-3">
@@ -250,47 +250,34 @@ export default {
       this.total = 0;
       this.currency_ex = '';
     },
-    convert(currency) {
+    async convert(currency) {
       this.currency_ex = currency;
-
+     
+      await axios.post('/set-application-summary', {application_id: btoa(this.application_id), currency_code: currency});
+      this.$store.dispatch('exchange/getSummary', this.application_id);
+      
       this.exchangeItem.forEach(async (e) => {
-        this.total = 0;
-        if (e.amount != 0) {
-          try {
-            const resp = await axios.get(
-              `/api/convert-currency/${e.amount}/${e.currency}/${currency}`
-            );
 
-            //Find index of specific object using findIndex method.
-            let objIndex = this.exchangeItem.findIndex((obj) => obj.id == e.id);
-
-            //Update object's name property.
-            this.exchangeItem[objIndex].amo2 = resp.data;
-            this.exchangeItem[objIndex].currency2 = currency;
-
-            this.total += resp.data;
-
-            await axios.post('/application-summary', {
-              application_id: this.application_id,
-              summary_id: e.id,
-              amount: resp.data,
-              currency: currency,
-            });
-
-          } catch (err) {
-            // Handle Error Here
-            console.error(err);
-          }
-        }
+        //Find index of specific object using findIndex method.
+        let objIndex = this.exchangeItem.findIndex((obj) => obj.id == e.id);
+        this.exchangeItem[objIndex].currency2 = currency;
+        
       });
     },
   },
   computed: {
     ...mapState('exchange', ['exchangeItem']),
+     totalAmount: function() {
+            var sum = 0;
+            this.exchangeItem.forEach(e => {
+                sum += Number.parseFloat(e.amo2);
+            });
+            return sum;
+        }
   },
   mounted: function () {
     this.$store.dispatch('exchange/getSummary', this.application_id);
-    //this.convert('CLP');
+   // this.convert('CLP');
   },
 };
 </script>
