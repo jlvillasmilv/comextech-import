@@ -2,7 +2,7 @@
   <div class="w-12/12 flex flex-col flex-wrap">
     <div class="justify-end md:flex mb-2">
       <!-- Fecha -->
-      <div class="lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
+      <div class="w-72 lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
         <div class="w-full">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Fecha de envío
@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- Descripcion -->
-      <div class="lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
+      <div class="w-72 lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
         <div class="w-full">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Descripcion
