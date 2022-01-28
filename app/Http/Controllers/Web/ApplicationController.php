@@ -166,9 +166,10 @@ class ApplicationController extends Controller
                         [   
                             "application_id"      => $application->id,
                             "category_service_id" => $item->category_service_id,
-                            "service_id"  => $item->id, 
-                            "currency_id" => $application->currency_id,
-                            "fee_date"    => date('Y-m-d')
+                            "service_id"          => $item->id, 
+                            "currency_id"         => $application->currency_id,
+                            "fee_date"            => date('Y-m-d'),
+                            "currency2_id"        => 1
                         ]
                     ]);
                 }
@@ -257,6 +258,7 @@ class ApplicationController extends Controller
     {
         $summary = \DB::table('application_summaries as aps')
         ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
+        ->join('currencies as c2', 'aps.currency2_id', '=', 'c2.id')
         ->join('services as s', 'aps.service_id', 's.id')
         ->join('applications', 'aps.application_id', '=', 'applications.id')
         ->where([
@@ -265,62 +267,70 @@ class ApplicationController extends Controller
             ["applications.user_id", auth()->user()->id]
         ])
         ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date',
-        'aps.amount', 'aps.amount as amo2', 'currencies.code as currency2' )
+        'aps.amount', 'aps.amount2 as amo2', 'c2.code as currency2' )
         ->orderBy('s.id')
         ->get();
-
-        $to_currency = is_null($currency) ? 'USD' : $currency;
-
-        $total = 0;
-        foreach ($summary as $key => $item) {
-
-            if ($item->amount != 0 || $item->amo2 != 0) {
-
-                $exchange = New Currency;
-                $amount = $exchange->convertCurrency($item->amount, $item->currency, $to_currency);
-
-                \DB::table('application_summaries')
-                ->where('id', $item->id)
-                ->update(["amount2" => $amount]);
-                $total += $amount;
-            } 
-        }
-
-        if($total > 0) {
-            \DB::table('applications')->where('id', $id)->update(["tco" => $amount]);
-        }
 
         return response()->json($summary, 200);
     }
 
     public function setApplicationSummary(Request $request)
     {
-        $currency_id = \DB::table('currencies')
-        ->where("code", $request->currency)
-        ->first()->id;
+        $summary = \DB::table('application_summaries as aps')
+        ->join('applications', 'aps.application_id', '=', 'applications.id')
+        ->join('currencies as c1', 'aps.currency_id', '=', 'c1.id')
+        ->join('currencies as c2', 'aps.currency2_id', '=', 'c2.id')
+        ->where([
+            ["aps.application_id", base64_decode($request->application_id)],
+            ["aps.status", true],
+            ["applications.user_id", auth()->user()->id]
+        ])
+        ->select(
+            'aps.id',
+            'aps.amount',
+            'c1.code as currency',
+            'aps.amount2',
+            'aps.currency2_id',
+            'c2.code as currency2',
+        )
+        ->get();
 
-        try {
-            \DB::table('application_summaries')
-            ->where('id', $request->summary_id)
-            ->update([
-                "amount2"      => $request->amount,
-                "currency2_id" => $currency_id
-            ]);
+      //  dd($request->all());
 
-           $tco = \DB::table('application_summaries')
-            ->where('application_id', $request->application_id)
-            ->sum('amount2');
+        $total = 0;
+        $currency = null;
+        if(isset($request->currency_code) || !is_null($request->currency_code)){
+            $currency = \DB::table('currencies')
+            ->where("code", $request->currency_code)
+            ->first();
+        }
 
-            if($request->amount > 0) {
-                \DB::table('applications')->where('id', $request->application_id)
-                    ->update(["tco" => $tco, "currency_tco" => $currency_id]);
-            }
+        foreach ($summary as $key => $item) {
 
-       } catch (\Throwable $th) {
-            return response()->json(['error' => $th],500);
-       }
+                $to_currency_code = is_null($currency) ? $item->currency2 : $currency->code;
+                $currency2_id     = is_null($currency) ? $item->currency2_id : $currency->id;
 
-       return response()->json('ok', 200);
+                // dd($item->currency.'  '.$to_currency_code);
+                $exchange = New Currency;
+                $amount = $exchange->convertCurrency($item->amount, $item->currency, $to_currency_code);
+
+                \DB::table('application_summaries')
+                ->where('id', $item->id)
+                ->update([
+                    "amount2"      => $amount, 
+                    "currency2_id" => $currency2_id
+                ]);
+  
+        }
+        $total = \DB::table('application_summaries')
+                ->where("application_id", base64_decode($request->application_id))
+                ->sum('amount2');
+
+        $total_app = \DB::table('applications')
+            ->where('id', base64_decode($request->application_id))
+            ->update(["tco" => $total, "currency_tco" => $currency2_id]);
+
+        return response()->json($total, 200);
        
     }
 

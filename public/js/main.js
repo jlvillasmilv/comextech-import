@@ -51,6 +51,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
+      confirmButtonColor: '#1a56db',
       cancelButtonText: 'No',
       showLoaderOnConfirm: true,
       preConfirm: () => {
@@ -106,6 +107,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
+      confirmButtonColor: '#1a56db',
       cancelButtonText: 'No',
       showLoaderOnConfirm: true,
       preConfirm: () => {
@@ -141,6 +143,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
+      confirmButtonColor: '#1a56db',
       cancelButtonText: 'No',
       cancelButtonColor: '#d33',
       showLoaderOnConfirm: true,
@@ -214,6 +217,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
+      confirmButtonColor: '#1a56db',
       cancelButtonText: 'No',
       cancelButtonColor: '#d33',
       showLoaderOnConfirm: true,
@@ -366,6 +370,7 @@ function initial_map() {
     zoom: 2,
     minZoom: 1,
     maxZoom: 4,
+    disableDefaultUI: true,
   });
 
 
@@ -433,5 +438,52 @@ function initial_map() {
     console.error(error);
   });
 
-
 }
+
+$('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
+  e.preventDefault();
+
+  const url = $(this).data('remote');
+  const msg = $(this).data('msg');
+  const application_id  = $(this).data('id');
+   
+  Swal.fire({
+    title: msg,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Si',
+    confirmButtonColor: '#1a56db',
+    cancelButtonText: 'No',
+    cancelButtonColor: '#d33',
+    showLoaderOnConfirm: true,
+    preConfirm: async () => {
+      await axios.post(url, {
+        application_id: application_id,
+      }).then(response => {
+        console.log(response);
+        // Toast.fire({
+        //   icon: 'success',
+        //   title: 'Registro agregado con exito'
+        // })
+       
+
+      }).catch(error => {
+        console.error(errors)
+      });
+      
+       
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        confirmButtonColor: '#1a56db',
+        icon: 'success',
+        title: 'Actualizado con exito',
+
+      })
+      window.location.reload();
+    }
+  })
+
+});
