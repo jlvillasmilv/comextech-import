@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full p-4">
+  <section class="w-full p-4">
     <div
       class="mb-5"
       v-show="$store.getters.findService('ICS04') && !$store.getters.findService('ICS03')"
@@ -7,7 +7,7 @@
       <Load />
     </div>
 
-    <div
+    <section
       class="flex flex-wrap -mx-3"
       :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-center']"
     >
@@ -18,9 +18,9 @@
           </h4>
         </div>
 
-        <div class="px-4 py-2 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="px-4 py-4 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <div class="md:flex md:items-center my-1">
-            <div class="md:w-auto">
+            <div class="my-4 md:w-auto">
               <input
                 v-bind:value="true"
                 v-model="expenses.customs_house"
@@ -36,7 +36,7 @@
                 class="form-checkbox h-5 w-5 text-blue-600"
                 :disabled="expenses.courier_svc"
               />
-              <span class="ml-2 text-xs text-black text-gray-500"> Cliente </span>
+              <span class="mx-2 text-xs text-black text-gray-500"> Cliente </span>
             </div>
 
             <div class="md:w-1/5" v-if="expenses.courier_svc">
@@ -47,10 +47,10 @@
                 class="md:ml-2 form-checkbox h-5 w-5 text-blue-600"
                 checked
               />
-              <span class="mx-1 text-xs text-black text-gray-500"> Servicio incluido </span>
+              <span class="mx-2 text-xs text-black text-gray-500"> Servicio incluido </span>
             </div>
 
-            <div class="mt-2 md:mt-0 md:flex md:1/2">
+            <div class="my-5 md:my-0 md:flex md:justify-end md:w-1/2">
               <div class="w-full md:w-1/2 px-1 mb-2 md:mb-0">
                 <label class="block text-sm" v-if="expenses.courier_svc">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
@@ -189,8 +189,10 @@
                 <a
                   @click="openWindowFileCert(item)"
                   class="
+                  w-42
                     flex
-                    px-2
+                    items-center
+                    px-3.5
                     py-2
                     m-2
                     text-sm
@@ -204,14 +206,14 @@
                     focus:outline-none focus:shadow-outline-blue
                   "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800',
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800'
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    class="h-6 w-6"
+                    class="h-6 w-6 mx-1"
                   >
                     <path
                       stroke-linecap="round"
@@ -220,7 +222,7 @@
                       :d="[
                         item.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z',
+                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
                       ]"
                     ></path>
                   </svg>
@@ -252,7 +254,9 @@
                 <a
                   @click="openWindowFile(item)"
                   class="
+                  w-42
                     flex
+                    items-center
                     px-2
                     py-2
                     m-2
@@ -267,14 +271,14 @@
                     focus:outline-none focus:shadow-outline-blue
                   "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800',
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800'
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    class="h-6 w-6"
+                    class="h-6 w-6 mx-1"
                   >
                     <path
                       stroke-linecap="round"
@@ -283,7 +287,7 @@
                       :d="[
                         item.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z',
+                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
                       ]"
                     ></path>
                   </svg>
@@ -298,10 +302,9 @@
               v-html="expenses.errors.get('file_descrip')"
             ></span>
           </div>
-       
         </div>
       </section>
-    </div>
+    </section>
 
     <section class="container grid px-3">
       <div class="flex justify-between items-end">
@@ -429,14 +432,11 @@
           </table>
         </div>
       </div>
-      <div
-        class=" mt-4"
-        :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-start']"
-      >
+      <div class=" mt-4" :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-start']">
         <div class="w-10/12 flex flex-wrap flex-col">
           <span class="text-start font-semibold">Incluir</span>
           <div class="flex justify-start items-center my-4 ml-2">
-            <div class="w-full sm:w-3/5 sm:flex items-center">
+            <div class="w-full sm:w-3/5 flex flex-col md:flex-row items-center">
               <input
                 type="checkbox"
                 v-model="expenses.iva"
@@ -448,13 +448,11 @@
               <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
                 IVA ( 19% )
               </h1>
-               <img class="w-16 md:w-24" src="https://homer.sii.cl/responsive/images/logo.jpg" />
+              <img class="w-24 my-4" src="https://homer.sii.cl/responsive/images/logo.jpg" />
             </div>
-      
-           
           </div>
           <div class="flex justify-start items-center my-4 ml-2">
-            <div class="w-full sm:w-3/5 sm:flex items-center">
+            <div class="w-full sm:w-3/5 flex flex-col md:flex-row items-center">
               <input
                 type="checkbox"
                 v-model="expenses.adv"
@@ -467,90 +465,88 @@
                 Ad Valorem ( 6% )
               </h1>
               <img
-                class="w-16 md:w-24"
+                class="w-24 my-4"
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
               />
             </div>
-           
-            
           </div>
         </div>
       </div>
-    
     </section>
 
-
-    <div class="flex justify-start overflow-hidden rounded-lg shadow-xs" v-if="data.type_transport != 'COURIER'">
-        <div class="w-full items-center md:w-2/3 overflow-x-auto">
-          <table class="table-auto whitespace-no-wrap">
-            <thead>
-              <tr
-                class="
+    <section
+      class="flex justify-start overflow-hidden rounded-lg shadow-xs"
+      v-if="data.type_transport != 'COURIER'"
+    >
+      <div class="w-full items-center md:w-2/3 overflow-x-auto">
+        <table class="table-auto whitespace-no-wrap">
+          <thead>
+            <tr
+              class="
                   text-left
                   font-semibold
                   tracking-wide
                   border-b
                   dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
                 "
-              >
-                <th class="px-2 py-1 bg-gray-200 text-black-600 dark:text-gray-300" colspan="2">
-                  Gastos de Puerto
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              v-if="data.type_transport == 'CONSOLIDADO'"
-              class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
             >
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(docMgmtLcl, 'USD') }} USD</td>
-                <td class="px-2 py-3">Gestión Documental (por cada BL)</td>
-              </tr>
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(docVisaLcl, 'USD') }} USD</td>
-                <td class="px-2 py-3">Visación documental (por cada BL)</td>
-              </tr>
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(dispatchLcl, 'USD') }} USD</td>
-                <td class="px-2 py-3">Despacho (por Ton&M3)</td>
-              </tr>
-            </tbody>
-            <tbody
-              v-if="data.type_transport == 'CONTAINER'"
-              class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
-            >
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(docMgmtFcl, 'USD') }} USD</td>
-                <td class="px-2 py-3">Gestión Documental (por cada BL)</td>
-              </tr>
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(loanFcl, 'USD') }} USD</td>
-                <td class="px-2 py-3">Comodato ( X Conteiner)</td>
-              </tr>
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(gateInFcl, 'USD') }} USD</td>
-                <td class="px-2 py-3">Gate In ( X Conteiner)</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr class="bg-gray-100">
-                <td class="text-center text-blue-700 font-semibold px-2 py-3">
-                  {{ formatPrice(expenses.port_charges, 'USD') }} USD
-                </td>
-                <td class="text-blue-700 font-semibold px-2 py-3">
-                  Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+              <th class="px-2 py-1 bg-gray-200 text-black-600 dark:text-gray-300" colspan="2">
+                Gastos de Puerto
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            v-if="data.type_transport == 'CONSOLIDADO'"
+            class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+          >
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-2 py-3">{{ formatPrice(docMgmtLcl, 'USD') }} USD</td>
+              <td class="px-2 py-3">Gestión Documental (por cada BL)</td>
+            </tr>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-2 py-3">{{ formatPrice(docVisaLcl, 'USD') }} USD</td>
+              <td class="px-2 py-3">Visación documental (por cada BL)</td>
+            </tr>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-2 py-3">{{ formatPrice(dispatchLcl, 'USD') }} USD</td>
+              <td class="px-2 py-3">Despacho (por Ton&M3)</td>
+            </tr>
+          </tbody>
+          <tbody
+            v-if="data.type_transport == 'CONTAINER'"
+            class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+          >
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-2 py-3">{{ formatPrice(docMgmtFcl, 'USD') }} USD</td>
+              <td class="px-2 py-3">Gestión Documental (por cada BL)</td>
+            </tr>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-2 py-3">{{ formatPrice(loanFcl, 'USD') }} USD</td>
+              <td class="px-2 py-3">Comodato ( X Conteiner)</td>
+            </tr>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-2 py-3">{{ formatPrice(gateInFcl, 'USD') }} USD</td>
+              <td class="px-2 py-3">Gate In ( X Conteiner)</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="bg-gray-100">
+              <td class="text-center text-blue-700 font-semibold px-2 py-3">
+                {{ formatPrice(expenses.port_charges, 'USD') }} USD
+              </td>
+              <td class="text-blue-700 font-semibold px-2 py-3">
+                Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
+    </section>
 
-
-     <div class="flex justify-center">
-        <button
-          @click="submitForm()"
-          class="
+    <div class="flex justify-center">
+      <button
+        @click="submitForm()"
+        class="
             w-auto
             transform
             h-12
@@ -568,33 +564,33 @@
             active:bg-green-600
             hover:bg-green-700
           "
-          :disabled="busy"
+        :disabled="busy"
+      >
+        <svg
+          v-if="busy"
+          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
         >
-          <svg v-if="busy"
-            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-          Guardar
-        </button>
-      </div>
-
-  </div>
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        Guardar
+      </button>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -605,14 +601,14 @@ export default {
   props: {
     application_id: {
       required: true,
-      type: Number,
-    },
+      type: Number
+    }
   },
   components: { Load },
   computed: {
     ...mapState('internment', ['expenses']),
-    ...mapState('application', ['data', 'currency','busy']),
-    ...mapState('exchange', ['exchangeItem']),
+    ...mapState('application', ['data', 'currency', 'busy']),
+    ...mapState('exchange', ['exchangeItem'])
   },
 
   data() {
@@ -620,14 +616,14 @@ export default {
       certif: [
         {
           name: 'Cargar Invoice',
-          submit: false,
-        },
+          submit: false
+        }
       ],
       treaties: [
         {
           name: 'Otro Documento',
-          submit: false,
-        },
+          submit: false
+        }
       ],
       certificate: {},
       custom_agents: [],
@@ -644,14 +640,14 @@ export default {
       docVisaLcl: 30,
       dispatchLcl: 30,
       insure: false,
-      transport: false,
+      transport: false
     };
   },
   methods: {
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
     changeCustomHouse() {},
@@ -694,21 +690,17 @@ export default {
       }
     },
     handleStatusSubmitFile(ref = null) {
-      if(ref == 'certif'){
-
-         this.certif = this.certif.map((e) =>
+      if (ref == 'certif') {
+        this.certif = this.certif.map((e) =>
           e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
         );
-
-      }
-      else{
+      } else {
         this.treaties = this.treaties.map((e) =>
           e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
         );
       }
-      
     },
-  
+
     previewFiles(event) {
       const certificate = event.target.files[0];
       this.expenses.file_certificate = certificate;
@@ -721,9 +713,8 @@ export default {
         const { data } = await this.expenses.post('/internment');
         Toast.fire({
           icon: 'success',
-          title: 'Datos Agregados',
+          title: 'Datos Agregados'
         });
-       
 
         if (!this.$store.getters.findService('ICS03')) {
           this.$store.dispatch('load/setLoad', data);
@@ -731,12 +722,10 @@ export default {
 
         this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
-
         Toast.fire({
           icon: 'error',
-          title: 'Se ha producido un error al procesar los datos',
+          title: 'Se ha producido un error al procesar los datos'
         });
-        
       } finally {
         this.$store.dispatch('application/busyButton', false);
       }
@@ -795,7 +784,7 @@ export default {
         this.expenses.port_charges = this.docMgmtFcl + this.loanFcl + this.gateInFcl;
       }
       // console.log(this.expenses.port_charges)
-    },
+    }
   },
   watch: {
     'expenses.customs_house': {
@@ -804,17 +793,17 @@ export default {
 
         this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
       },
-      deep: true,
+      deep: true
     },
-    insureAmount: function (after, before) {
+    insureAmount: function(after, before) {
       this.debouncedGetTaxs();
     },
-    transpAmount: function (after, before) {
+    transpAmount: function(after, before) {
       this.debouncedGetTaxs();
     },
-    AppAmount: function (after, before) {
+    AppAmount: function(after, before) {
       this.debouncedGetTaxs();
-    },
+    }
   },
   async mounted() {
     try {
@@ -867,9 +856,9 @@ export default {
       console.error(error);
     }
   },
-  created: function () {
+  created: function() {
     this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
     this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
-  },
+  }
 };
 </script>
