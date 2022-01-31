@@ -391,13 +391,13 @@ function initial_map() {
           new google.maps.Marker({
             map: map,
             position: { lat: originLat, lng: originlng },
-            title: 'Origen ' + e.code,
+            title:  `Solicitud  ${e.code} Origen ${e.origin_address}`,
           });
 
           new google.maps.Marker({
             map: map,
             position: { lat: destLat, lng: destlng },
-            title: 'Destino ' + e.code,
+            title: `Solicitud  ${e.code} Destino ${e.dest_address}`,
           });
 
           const flightPlanCoordinates = [
