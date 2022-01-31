@@ -59,7 +59,7 @@
         <input type="hidden" name="longitude" id="longitude"  />
  
 </div>
-    <div id="address-map-container" class="w-full" style="height:400px; ">
+    <div id="address-map-container" class="w-full md:w-5/6" style="height:400px; ">
         <div class="w-full h-full" id="address-map"></div>
     </div>
 @section('scripts')
