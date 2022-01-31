@@ -31,7 +31,7 @@
         <div class="mt-1">
           <form @submit.prevent="submitFormApplications" @keydown="data.onKeydown($event)">
             <!-- Servicios -->
-            <h3 class="font-semibold text-blue-1300 text-lg">Servicios</h3>
+            <h3 class="font-semibold text-blue-1300 text-lg dark:text-white">Servicios</h3>
             <div class="flex w-full">
               <div
                 v-for="(item, id) in $store.state.application.selectedCondition.services"
@@ -42,8 +42,8 @@
                   v-if="item.selected && !item.checked"
                   @click="selectedService(item)"
                   :class="[
-                    !item.checked ? 'bg-transparent' : 'bg-blue-1000',
-                    'flex flex-col items-center hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                    !item.checked ? 'bg-transparent dark:bg-gray-300' : 'bg-blue-1000',
+                    'flex flex-col items-center hover:bg-blue-1000 dark:hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
@@ -79,7 +79,11 @@
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="gray" />
                 </div>
-                <p :class="[item.selected ? 'text-center' : 'text-center text-gray-300']">
+                <p
+                  :class="[
+                    item.selected ? 'text-center dark:text-white' : 'text-center text-gray-300'
+                  ]"
+                >
                   {{ item.name }}
                 </p>
               </div>
@@ -140,7 +144,9 @@
             <!-- Proveedor -->
             <div class="w-full mb-4 sm:my-4 flex flex-col sm:flex-row">
               <section class="sm:w-6/12 flex flex-col justify-center mt-4 sm:mt-0 sm:mb-0">
-                <h3 class="mt-1 mb-1 font-semibold text-blue-1300 text-lg">Proveedor</h3>
+                <h3 class="mt-1 mb-1 font-semibold text-blue-1300 text-lg dark:text-white">
+                  Proveedor
+                </h3>
                 <div class="inline-flex flex-col w-full dark:text-gray-200">
                   <v-select
                     class="w-full"
@@ -421,9 +427,9 @@
               >
                 <div
                   :class="[
-                    'mx-1 flex flex-col items-center border border-blue-1000 rounded hover:bg-blue-1000 px-3 py-2 text-gray-900 border-b-2',
+                    'mx-1 flex flex-col items-center border border-blue-1300 rounded hover:bg-blue-1300 px-3 py-2 text-gray-900 hover:text-white border-b-2',
                     service.name == $store.state.application.data.type_transport
-                      ? 'bg-blue-1000 hover:bg-blue-1100 text-white'
+                      ? 'bg-blue-1300 hover:bg-blue-1200 text-white'
                       : ''
                   ]"
                   @click="typeSelected(service.name)"
@@ -500,17 +506,17 @@
             text-sm
             font-medium
             leading-5
-            text-white text-gray-700
+            text-gray-700
             transition-colors
             duration-150
+            bg-gray-300
             border border-gray-300
             rounded-lg
-            dark:text-gray-400
+            dark:text-gray-800
             sm:px-4 sm:py-2 sm:w-auto
-            active:bg-transparent
-            hover:border-gray-500
-            focus:border-gray-500
-            active:text-gray-500
+            hover:border-gray-400
+            focus:border-gray-400
+            active:text-gray-400
             focus:outline-none focus:shadow-outline-gray
           "
         >
@@ -533,12 +539,13 @@
             transition-colors
             duration-150
             bg-blue-1300
-            border border-transparent
+            border
+            border-blue-1300
             rounded-lg
             sm:w-auto sm:px-4 sm:py-2
-            active:bg-blue-1200
             hover:bg-blue-1200
-            focus:outline-none focus:shadow-outline-green
+            hover:border-blue-1200
+            focus:outline-none focus:shadow-outline-blue-1300
           "
           :disabled="busy"
         >
