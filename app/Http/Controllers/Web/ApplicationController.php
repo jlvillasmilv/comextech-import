@@ -666,21 +666,21 @@ class ApplicationController extends Controller
 
         foreach($data as $key => $value) {
             if ($value->fav_origin_address) {
-                $origin = \DB::table('supplier_addresses')->where('id', $value->origin_address)->first(['latitude','longitude']);
+                $origin = \DB::table('supplier_addresses')->where('id', $value->origin_address)->first(['latitude','longitude','address']);
+                $value->origin_address   = $origin->address;
                 $value->origin_latitude  = $origin->latitude;
                 $value->origin_longitude = $origin->longitude;
             }
 
             if ($value->fav_dest_address) {
 
-                $dest = \DB::table('company_addresses')->where('id', $value->dest_address)->first(['latitude','longitude']);
+                $dest = \DB::table('company_addresses')->where('id', $value->dest_address)->first(['latitude','longitude','address']);
+                $value->dest_address   = $dest->address;
                 $value->dest_latitude  = $dest->latitude;
                 $value->dest_longitude = $dest->longitude;
             }
            
         }
-
-        //dd($data);
 
         return response()->json($data, 200);
 
