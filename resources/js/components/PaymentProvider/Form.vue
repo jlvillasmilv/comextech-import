@@ -272,9 +272,9 @@
               form.date_pay &&
               form.type_pay != '' &&
               form.payment_release != ''
-                ? 'active:bg-blue-600 hover:bg-blue-700  bg-blue-600'
+                ? 'active:bg-blue-1300 hover:bg-blue-1100  bg-blue-1000'
                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
-              'flex  px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-blue'
+              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue'
             ]"
             @click="addPayment()"
           >
@@ -300,7 +300,7 @@
             :class="[
               $store.state.payment.percentageInitial !== 0
                 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300'
-                : 'bg-green-600 active:bg-green-600 hover:bg-green-700',
+                : 'bg-blue-1300 active:bg-blue-1300 hover:bg-blue-1200',
               'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue'
             ]"
             @click="submitPayment()"
@@ -362,7 +362,7 @@
                   text-left text-white
                   uppercase
                   border-b
-                  bg-blue-900
+                  bg-blue-1300
                   dark:border-gray-700
                   dark:text-gray-200
                   dark:bg-blue-900
@@ -407,8 +407,8 @@
                       py-1
                       font-semibold
                       leading-tight
-                      text-green-700
-                      bg-green-100
+                      text-blue-1300
+                      bg-blue-1000
                       rounded-full
                       dark:text-white dark:bg-green-600
                     "
