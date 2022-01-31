@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1 class="text-2xl text-blue-900">
+      <h1 class="text-2xl text-blue-1300">
         {{ title }}
       </h1>
     </div>
@@ -337,15 +337,16 @@
               focus:outline-none
               uppercase
               text-xs
-              hover:bg-red-600
-              text-red-700
+              hover:bg-gray-300
+              text-gray-600
               font-semibold
-              hover:text-white
               py-2
               px-2
-              border border-red-500
+              border border-gray-600
               hover:border-transparent
               rounded
+              active:text-white
+              active:bg-gray-500
             "
           >
             Eliminar
@@ -354,21 +355,21 @@
           <button
             v-else
             @click="AddFielForm"
-            class="
-              w-28
-              bg-transparent
-              focus:outline-none
-              uppercase
-              text-xs
-              hover:bg-blue-600
-              text-blue-700
-              font-semibold
-              hover:text-white
-              py-2
-              px-2
-              border border-blue-500
-              hover:border-transparent
-              rounded
+            class="  
+            w-28
+            bg-transparent
+            focus:outline-none
+            uppercase
+            text-xs
+            hover:bg-blue-1000
+            text-blue-1000
+            font-semibold
+            hover:text-white
+            active:bg-blue-1200
+            py-2
+            px-2
+            border border-blue-1000
+            rounded
             "
           >
             Añadir Carga
