@@ -1,6 +1,5 @@
 <template>
   <div class="overflow-visible rounded-lg shadow-xs">
-
     <div class="overflow-x-auto">
       <ul class="flex items-center mt-2 sm:justify-center ">
         <button
@@ -13,17 +12,17 @@
             text-white
             transition-colors
             duration-150
-            bg-green-600
+            bg-blue-1300
             border border-transparent
             rounded-lg
-            active:bg-green-600
-            hover:bg-green-700
+            active:bg-blue-1300
+            hover:bg-blue-1200
             focus:outline-none focus:shadow-outline-blue
           "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4 sm:w-5 sm:h-5"
+            class="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -55,8 +54,10 @@
           <li
             @click="$store.dispatch('callActiveTabs', item)"
             :class="[
-              'cursor-pointer py-2 px-2 text-gray-500 border-b-8 text-xs sm:text-sm md:text-base lg:text-lg',
-              item.code == $store.state.tabActive ? 'text-b-500 border-blue-500 font-semibold' : '',
+              'cursor-pointer py-2 px-4 border-b-8 text-base',
+              item.code == $store.state.tabActive
+                ? 'text-b-500 text-blue-1300 border-blue-1000 font-semibold hover:text-blue-1200'
+                : 'text-b-500 text-gray-500 font-semibold hover:text-blue-1300'
             ]"
           >
             {{ item.name }}
@@ -84,20 +85,20 @@
 export default {
   data() {
     return {
-      open: false,
+      open: false
     };
   },
   methods: {
     toggle() {
       this.open = !this.open;
-    },
+    }
   },
   computed: {
     sortServices() {
       if (this.$store.state.selectedServices)
         return this.$store.state.selectedServices.sort((a, b) => a.sort - b.sort);
       else return [];
-    },
-  },
+    }
+  }
 };
 </script>
