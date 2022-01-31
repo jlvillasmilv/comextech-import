@@ -31,7 +31,7 @@
         <div class="mt-1">
           <form @submit.prevent="submitFormApplications" @keydown="data.onKeydown($event)">
             <!-- Servicios -->
-            <h3 class="text-green-700 text-lg">Servicios</h3>
+            <h3 class="font-semibold text-blue-1300 text-lg">Servicios</h3>
             <div class="flex w-full">
               <div
                 v-for="(item, id) in $store.state.application.selectedCondition.services"
@@ -42,8 +42,8 @@
                   v-if="item.selected && !item.checked"
                   @click="selectedService(item)"
                   :class="[
-                    !item.checked ? 'bg-transparent text-blue-700' : 'bg-blue-500 text-white',
-                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    !item.checked ? 'bg-transparent' : 'bg-blue-1000',
+                    'flex flex-col items-center hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
@@ -52,8 +52,10 @@
                   v-if="item.checked"
                   @click="deleteService(item.sort)"
                   :class="[
-                    item.checked ? 'bg-blue-500 text-white ' : 'bg-transparent text-blue-700 ',
-                    'flex flex-col items-center hover:bg-blue-500 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                    item.checked
+                      ? 'bg-blue-1000 text-blue-1300 '
+                      : 'bg-transparent text-blue-1000 ',
+                    'flex flex-col items-center hover:bg-blue-1100 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="white" />
@@ -134,10 +136,11 @@
               v-if="data.errors.has('services')"
               v-html="data.errors.get('services')"
             ></span>
+
             <!-- Proveedor -->
             <div class="w-full mb-4 sm:my-4 flex flex-col sm:flex-row">
               <section class="sm:w-6/12 flex flex-col justify-center mt-4 sm:mt-0 sm:mb-0">
-                <h3 class="mt-1 mb-1 text-green-700 text-lg">Proveedor</h3>
+                <h3 class="mt-1 mb-1 font-semibold text-blue-1300 text-lg">Proveedor</h3>
                 <div class="inline-flex flex-col w-full dark:text-gray-200">
                   <v-select
                     class="w-full"
@@ -204,10 +207,11 @@
               v-if="data.errors.has('supplier_id')"
               v-html="data.errors.get('supplier_id')"
             ></span>
+
             <!-- Pago -->
             <div class="w-full sm:my-4 flex flex-col sm:items-center sm:flex-row">
               <section class="sm:w-6/12 flex flex-col justify-center">
-                <h3 class="text-green-700 text-lg my-1">Pago</h3>
+                <h3 class="font-semibold text-blue-1300 text-lg my-1">Pago</h3>
                 <div class="w-full sm:w-2/6 md:w-2/6">
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Moneda de Pago
@@ -325,6 +329,7 @@
                   </div>
                 </div>
               </section>
+
               <!-- Porcentajes -->
               <section class="my-8 sm:my-0 h-26 flex sm:w-6/12 md:w-7/12 justify-center">
                 <div
@@ -352,9 +357,9 @@
                     @click="handlePercentage(item)"
                     :class="[
                       item.valueInitial == data.valuePercentage.valueInitial
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-transparent text-blue-700 ',
-                      'w-2/6 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                        ? 'bg-blue-1000 text-white hover:bg-blue-1100'
+                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000',
+                      'w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                     ]"
                   >
                     {{ item.name }}
@@ -390,9 +395,9 @@
                     @click="handlePercentage(item)"
                     :class="[
                       item.valueInitial == data.valuePercentage.valueInitial
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-transparent text-blue-700 ',
-                      'ml-4 w-3/6 hover:bg-blue-500 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                        ? 'bg-blue-1000 text-white'
+                        : 'bg-transparent text-blue-1000 ',
+                      'ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                     ]"
                   >
                     {{ item.name }}
@@ -405,8 +410,9 @@
                 </div>
               </section>
             </div>
+
             <!-- Tipo de transporte -->
-            <h3 class="my-3 text-green-700 text-lg">Tipo de Transporte</h3>
+            <h3 class="my-3 font-semibold text-blue-1300 text-lg">Tipo de Transporte</h3>
             <div class="flex flex-wrap w-full">
               <div
                 v-for="service in typeTransport"
@@ -415,9 +421,9 @@
               >
                 <div
                   :class="[
-                    'mx-1 flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 py-2 text-gray-900 border-b-2',
+                    'mx-1 flex flex-col items-center border border-blue-1000 rounded hover:bg-blue-1000 px-3 py-2 text-gray-900 border-b-2',
                     service.name == $store.state.application.data.type_transport
-                      ? 'bg-green-600'
+                      ? 'bg-blue-1000 hover:bg-blue-1100 text-white'
                       : ''
                   ]"
                   @click="typeSelected(service.name)"
@@ -526,12 +532,12 @@
             text-white
             transition-colors
             duration-150
-            bg-green-600
+            bg-blue-1300
             border border-transparent
             rounded-lg
             sm:w-auto sm:px-4 sm:py-2
-            active:bg-green-600
-            hover:bg-green-700
+            active:bg-blue-1200
+            hover:bg-blue-1200
             focus:outline-none focus:shadow-outline-green
           "
           :disabled="busy"
