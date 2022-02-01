@@ -86,3 +86,5 @@ Route::get('/provider/{id}', function ($id) {
 })->where('id', '[0-9]+');
 
 Route::get('/convert-currency/{amount}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrency']);
+
+Route::get('/jump-seller-web-hooks', [ServicesController::class, 'jumpSellerWebHookOrder']);

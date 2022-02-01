@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     //Summry Applications
     Route::get('/application-summary/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationSummary')->where('id', '[0-9]+');
     Route::post('set-application-summary','App\Http\Controllers\Web\ApplicationController@setApplicationSummary')->name('application.importUpdateCost');
+    Route::post('application-generate-order','App\Http\Controllers\Web\ApplicationController@setApplicationSummary')->name('application.generate.order');
     
 
     // Get condition sale

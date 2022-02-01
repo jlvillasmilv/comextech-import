@@ -33,6 +33,10 @@ class UsersTableSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        $client->jumpSellerUser()->create([
+            'customer_id' => 6933744
+        ]);
+
         $client->company()->create([
             'country_id' => \DB::table('countries')->where('code','CL')->first()->id,
             'tax_id'  => '76722268-8',

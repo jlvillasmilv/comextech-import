@@ -86,6 +86,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+
     public function setEmailAttribute($value)
     {
         $this->attributes['email'] = strtolower($value);
@@ -109,6 +110,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function discounts()
     {
         return $this->hasMany(UserDiscount::class);
+    }
+
+    public function jumpSellerUser()
+    {
+        return $this->hasOne(JumpSellerUser::class);
     }
 
     public function credential()
