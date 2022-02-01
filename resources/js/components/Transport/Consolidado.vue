@@ -199,15 +199,15 @@
                 focus:outline-none
                 uppercase
                 text-xs
-                hover:bg-blue-600
-                text-blue-700
+                hover:bg-blue-1000
+                text-blue-1000
                 font-semibold
                 hover:text-white
                 py-2
                 px-2
-                border border-blue-500
+                border border-blue-1000
                 hover:border-transparent
-                rounded
+                rounded active:bg-blue-1100
               "
             >
               Transporte Local
@@ -221,15 +221,15 @@
                 focus:outline-none
                 uppercase
                 text-xs
-                hover:bg-blue-600
-                text-blue-700
+                hover:bg-blue-1000
+                text-blue-1000
                 font-semibold
                 hover:text-white
                 py-2
                 px-2
-                border border-blue-500
+                border border-blue-1000
                 hover:border-transparent
-                rounded
+                rounded active:bg-blue-1100
               "
             >
               Transporte Local
@@ -453,15 +453,15 @@
                 focus:outline-none
                 uppercase
                 text-xs
-                hover:bg-blue-600
-                text-blue-700
+                hover:bg-blue-1000
+                text-blue-1000
                 font-semibold
                 hover:text-white
                 py-2
                 px-2
-                border border-blue-500
+                border border-blue-1000
                 hover:border-transparent
-                rounded
+                rounded active:bg-blue-1100
               "
             >
               Transporte Local
@@ -475,15 +475,15 @@
                 focus:outline-none
                 uppercase
                 text-xs
-                hover:bg-blue-600
-                text-blue-700
+                hover:bg-blue-1000
+                text-blue-1000
                 font-semibold
                 hover:text-white
                 py-2
                 px-2
-                border border-blue-500
+                border border-blue-1000
                 hover:border-transparent
-                rounded
+                rounded active:bg-blue-1100
               "
             >
               Transporte Local
@@ -601,7 +601,7 @@
                 py-3
                 border-b
                 dark:border-gray-700
-                bg-blue-900
+                bg-blue-1300
                 dark:text-gray-400 dark:bg-gray-800"
               >
                 {{ this.$store.state.application.selectedCondition.name }}
@@ -612,7 +612,7 @@
                 py-3
                 border-b
                 dark:border-gray-700
-                bg-blue-900
+                bg-blue-1300
                 dark:text-gray-400 dark:bg-gray-800"
               >
                 CONCEPTO
@@ -623,7 +623,7 @@
                 py-3
                 border-b
                 dark:border-gray-700
-                bg-blue-900
+                bg-blue-1300
                 dark:text-gray-400 dark:bg-gray-800"
               >
                 TARIFA
@@ -634,7 +634,7 @@
                 py-3
                 border-b
                 dark:border-gray-700
-                bg-blue-900
+                bg-blue-1300
                 dark:text-gray-400 dark:bg-gray-800"
               >
                 MONEDA
@@ -732,7 +732,7 @@
                   py-3
                   border-b
                   dark:border-gray-700
-                  bg-blue-900
+                  bg-blue-1300
                   dark:text-gray-400 dark:bg-gray-800"
               >
                 {{ this.$store.state.application.selectedCondition.name }}
@@ -743,7 +743,7 @@
                   py-3
                   border-b
                   dark:border-gray-700
-                  bg-blue-900
+                  bg-blue-1300
                   dark:text-gray-400 dark:bg-gray-800"
               >
                 CONCEPTO
@@ -754,7 +754,7 @@
                   py-3
                   border-b
                   dark:border-gray-700
-                  bg-blue-900
+                  bg-blue-1300
                   dark:text-gray-400 dark:bg-gray-800"
               >
                 TARIFA
@@ -765,7 +765,7 @@
                   py-3
                   border-b
                   dark:border-gray-700
-                  bg-blue-900
+                  bg-blue-1300
                   dark:text-gray-400 dark:bg-gray-800"
               >
                 MONEDA
@@ -871,15 +871,15 @@
         @click="HideAddress()"
         class="
           mr-4
-          w-24
+          w-32
           h-12
           text-white
           transition-colors
           text-lg
-          bg-green-700
+          bg-blue-1000
           rounded-lg
           focus:shadow-outline
-          hover:bg-green-800
+          hover:bg-blue-1100 active:bg-blue-1000
         "
       >
         Editar
@@ -888,12 +888,34 @@
         @click="submitQuote()"
         :class="[
           !expenses.dataLoad
-            ? 'w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
             : expenses.dataLoad.length <= 0
-            ? 'vld-parent w-1/3 h-12 px-4 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
-            : 'ml-4 w-24 h-12 text-white transition-colors text-lg bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800'
+            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
         ]"
+        :disabled="busy"
       >
+        <svg
+          v-if="busy"
+          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
         Cotizar
       </button>
     </section>
@@ -935,7 +957,7 @@ export default {
         height: 100,
         width: 100
       });
-
+      this.$store.dispatch('application/busyButton', true);
       this.$store.dispatch('address/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
 
@@ -949,6 +971,8 @@ export default {
         if (lclResponse.status == 200) {
           this.lclTableQuote = lclResponse.data;
           this.lclTable = true;
+
+          this.$store.dispatch('application/busyButton', false);
 
           /* Vue-loader hidden */
           loader.hide();
@@ -994,7 +1018,11 @@ export default {
         this.$store.dispatch('load/setLoad', lclResponse.data);
         // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
+        this.HideAddress();
         console.error(error);
+      } finally {
+        this.$store.dispatch('application/busyButton', false);
+        loader.hide();
       }
     },
 
@@ -1074,7 +1102,7 @@ export default {
       'postalCodeDestination',
       'showShipping'
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport'])
+    ...mapState('application', ['data', 'currency', 'origin_transport', 'busy'])
   }
 };
 </script>
