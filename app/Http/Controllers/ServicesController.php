@@ -45,7 +45,6 @@ class ServicesController extends Controller
 
     public function convertCurrencyDate($date,$from_currency,$to_currency){
 
-
       $apikey = env('API_KEY_CURRENCY');
 
       $from_Currency = urlencode($from_currency);
@@ -59,6 +58,22 @@ class ServicesController extends Controller
 
       // $total = $val * $amount;
        return number_format($obj["$query"]["$date"], 2, '.', '');
+    }
+
+    public function jumpSellerWebHookOrder(Request $request)
+    {
+        try {
+            if(isset($request->order)){
+
+                dd($request->order);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+       
+
+        
+
     }
 
 }

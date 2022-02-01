@@ -3,7 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\Team;
-use App\Models\{User, TransCompany};
+use App\Models\{User, TransCompany, JumpSellerUser};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -59,6 +59,7 @@ class CreateNewUser implements CreatesNewUsers
             'status'        => 1
         ]);
 
+
         $trans_company  = TransCompany::get();
 
         foreach ($trans_company as $key => $company) {
@@ -69,11 +70,26 @@ class CreateNewUser implements CreatesNewUsers
         }
 
         \DB::table('user_mark_ups')->insert(['user_id' => $user->id,]);
+
+        $data = [
+            "customer" => [
+                "name"      => $input['name'],
+                "surname"   => $input['name'],
+                "email"     => $input['email'],
+                "phone"     => "00000000",
+                "password"  => "MXYAV0.",
+                "status"    => "approved"
+            ]
+        ];
+
+       $user_jumpseller = JumpSellerUser::createJumpSellerUser($data);
+
+       if(isset($user_jumpseller["id"]) || $user_jumpseller["id"] > 0 )
+       {
+            $user->jumpSellerUser()->create([
+                'customer_id' => $user_jumpseller["id"]
+            ]);
+       }
     
-        // $user->ownedTeams()->save(Team::forceCreate([
-        //     'user_id' => $user->id,
-        //     'name' => explode(' ', $user->name, 2)[0]."'s Team",
-        //     'personal_team' => true,
-        // ]));
     }
 }

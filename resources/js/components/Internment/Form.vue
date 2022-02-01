@@ -189,7 +189,7 @@
                 <a
                   @click="openWindowFileCert(item)"
                   class="
-                  w-42
+                    w-42
                     flex
                     items-center
                     px-3.5
@@ -204,9 +204,12 @@
                     border border-transparent
                     rounded-lg
                     focus:outline-none focus:shadow-outline-blue
+                    bg-blue-1000 
+                    hover:bg-blue-1100 
+                    active:bg-blue-1000
                   "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800'
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-1000 hover:bg-blue-1100'
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -254,7 +257,7 @@
                 <a
                   @click="openWindowFile(item)"
                   class="
-                  w-42
+                    w-42
                     flex
                     items-center
                     px-2
@@ -269,9 +272,12 @@
                     border border-transparent
                     rounded-lg
                     focus:outline-none focus:shadow-outline-blue
+                    bg-blue-1000 
+                    hover:bg-blue-1100 
+                    active:bg-blue-1000
                   "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-500 hover:bg-blue-800'
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-1000 hover:bg-blue-1100'
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -422,11 +428,11 @@
                 <td class="px-2 py-3">USD</td>
               </tr>
               <tr class="bg-gray-100">
-                <td class="text-blue-700 font-semibold px-2 py-3">
+                <td class="text-blue-1000 font-semibold px-2 py-3">
                   {{ expenses.cif_amt }}
                 </td>
-                <td class="text-blue-700 font-semibold px-2 py-3">USD</td>
-                <td class="text-blue-700 font-semibold px-2 py-3">Valor CIF</td>
+                <td class="text-blue-1000 font-semibold px-2 py-3">USD</td>
+                <td class="text-blue-1000 font-semibold px-2 py-3">Valor CIF</td>
               </tr>
             </tbody>
           </table>
@@ -531,10 +537,10 @@
           </tbody>
           <tfoot>
             <tr class="bg-gray-100">
-              <td class="text-center text-blue-700 font-semibold px-2 py-3">
+              <td class="text-center text-blue-1000 font-semibold px-2 py-3">
                 {{ formatPrice(expenses.port_charges, 'USD') }} USD
               </td>
-              <td class="text-blue-700 font-semibold px-2 py-3">
+              <td class="text-blue-1000 font-semibold px-2 py-3">
                 Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
               </td>
             </tr>
@@ -546,24 +552,7 @@
     <div class="flex justify-center">
       <button
         @click="submitForm()"
-        class="
-            w-auto
-            transform
-            h-12
-            my-10
-            px-5
-            py-3
-            flex
-            text-white
-            transition-colors
-            text-lg
-            duration-150
-            bg-green-600
-            rounded-lg
-            focus:shadow-outline
-            active:bg-green-600
-            hover:bg-green-700
-          "
+        class="my-10 flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300"
         :disabled="busy"
       >
         <svg
@@ -730,7 +719,7 @@ export default {
         this.$store.dispatch('application/busyButton', false);
       }
     },
-    
+
     async taxCheck() {
       this.expenses.cif_amt = parseFloat(
         Number(this.AppAmount) + Number(this.transpAmount) + Number(this.insureAmount)
