@@ -349,16 +349,16 @@
               <button
                 @click="submitQuote(TotalEstimed, 2)"
                 class="
-                    w-24
-                    px-2
-                    h-14
-                    text-white
-                    transition-colors
-                    text-sm
-                    bg-green-700
-                    rounded-lg
-                    focus:shadow-outline
-                    hover:bg-green-800
+                  w-24
+                  px-2
+                  h-14
+                  text-white
+                  transition-colors
+                  text-sm
+                  bg-blue-1300
+                  rounded-lg
+                  focus:shadow-outline
+                  hover:bg-blue-1200 active:bg-blue-1300
                   "
               >
                 Cotizar FEDEX
@@ -468,16 +468,16 @@
               <button
                 @click="submitQuote(dhl.ComextechTotal, 3)"
                 class="
-                    w-24
-                    px-2
-                    h-14
-                    text-white
-                    transition-colors
-                    text-sm
-                    bg-green-700
-                    rounded-lg
-                    focus:shadow-outline
-                    hover:bg-green-800
+                  w-24
+                  px-2
+                  h-14
+                  text-white
+                  transition-colors
+                  text-sm
+                  bg-blue-1300
+                  rounded-lg
+                  focus:shadow-outline
+                  hover:bg-blue-1200 active:bg-blue-1300
                   "
               >
                 Cotizar DHL
