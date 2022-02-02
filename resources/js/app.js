@@ -2,6 +2,7 @@ window.$ = window.jQuery = require('jquery');
 require('./bootstrap');
 
 import Import from './pages/Import';
+import FreightQuote from './components/FreightQuote/Addresses';
 
 import Vue from 'vue';
 import store from './store';
@@ -88,6 +89,7 @@ const app = new Vue({
         'home-import-app': Import,
         'view-quote': Quote,
         'menu-profile': Menu,
-        'vue-numeric': Import
+        'vue-numeric': Import,
+        'freight-quote' : FreightQuote
     }
 });

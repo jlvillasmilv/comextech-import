@@ -128,7 +128,7 @@
 
                                 @endif
 
-                                @if(!$application->status->client_modify)
+                                @if($application->tco > 0 && (!$application->status->client_modify || $application->payment->status != 'Paid' ||  $application->payment->status != 'Canceled'))
                                 
                                     <button
                                         title="Pagar Solicitud {{$application->code}}"
@@ -143,8 +143,6 @@
 
                                 @endif
 
-                               
-                               
                                 </div>
                             </td>
                         </tr>
