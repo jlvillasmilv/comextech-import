@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Client;
 
 use App\Models\services\DHL;
 use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail, Currency, User};
