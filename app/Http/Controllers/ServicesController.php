@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Currency;
+use App\Models\{Currency, JumpSellerAppPayment};
 
 class ServicesController extends Controller
 {
@@ -62,18 +62,21 @@ class ServicesController extends Controller
 
     public function jumpSellerWebHookOrder(Request $request)
     {
-        try {
-            if(isset($request->order)){
 
-                dd($request->order);
+        try {   
+            if(isset($request->order)){
+                JumpSellerAppPayment::where('order_id', $request->order['id'])
+                ->update([
+                    'status'       => $request->order['status'],
+                    'recovery_url' => $request->order['recovery_url']
+                ]);
+
+                return response()->json(['ok' => 'OK'], 200);
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            return response()->json(['ok' => $th], 500);
         }
        
-
-        
-
     }
 
 }
