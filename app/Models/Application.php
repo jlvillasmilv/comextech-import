@@ -106,6 +106,11 @@ class Application extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function payment()
+    {
+        return $this->hasOne(JumpSellerAppPayment::class, 'application_id')->withDefault(['status' => '']);
+    }   
+
     public function currency()
     {
         return $this->belongsTo(Currency::class,'currency_id')->withDefault(['code' => '', 'symbol' => '' ]);

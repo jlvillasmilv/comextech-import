@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
-use App\Models\{Currency, FileStore, FedexApi, FileStoreInternment, InternmentProcess, LocalWarehouse};
+use App\Models\{Currency, FileStore, FedexApi, FileStoreInternment, InternmentProcess, LocalWarehouse, JumpSellerAppPayment};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +16,7 @@ class ApplicationController extends Controller
 {
     public function index()
     {
+
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
         ->paginate(7);
@@ -414,6 +415,13 @@ class ApplicationController extends Controller
      */
     public function destroy($id)
     {
+        PaymentProvider::where('application_id', $id)->delete();
+        Transport::where('application_id', $id)->delete();
+
+        if(Load::where('application_id', $application->id)->exists()){
+            Load::where('application_id', $application->id)->delete();
+        }
+
         Application::findOrFail($id)->delete();
         return response()->json(['status' => 'OK'], 200);
     }
@@ -683,6 +691,46 @@ class ApplicationController extends Controller
         }
 
         return response()->json($data, 200);
+
+    }
+
+    public function generateOrder(Request $request)
+    {
+
+        $application_order = \DB::table('applications as app')
+        ->leftjoin('jump_seller_app_payments as jsap', 'jsap.application_id', '=', 'app.id')
+        ->where([
+            ["app.id", base64_decode($request->application_id)],
+            ["app.user_id", auth()->user()->id]
+        ])
+        ->select('app.*','jsap.application_id','jsap.order_id','jsap.duplicate_url','jsap.recovery_url','jsap.checkout_url')
+        ->first();
+
+        if(is_null($application_order) || $application_order->tco <= 0){
+            return response()->json(['Error' => 'Solicitud no encontrada'], 500);
+        }
+
+        if (!is_null($application_order->duplicate_url))
+        {
+           $url_order =  is_null($application_order->recovery_url) ? $application_order->duplicate_url : $application_order->recovery_url ;
+        }
+
+        if (is_null($application_order->recovery_url) && is_null($application_order->duplicate_url))
+        {
+           $data = [
+               "application_id"      => $application_order->id,
+               "qty"                 => $application_order->tco
+            ];
+           $url = JumpSellerAppPayment::createJumpSellerOrder($data);
+
+           if (!empty($url["message"])) {
+            return response()->json($url["message"], 500);
+           }
+
+           $url_order = $url["duplicate_url"];
+        }
+       
+        return response()->json(['order' => $url_order], 200);
 
     }
 
