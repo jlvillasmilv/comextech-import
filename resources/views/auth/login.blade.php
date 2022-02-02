@@ -31,29 +31,29 @@
                             @csrf
                             <label class="block text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Correo Electónico</span>
-                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Correo Electrónico" name="email" value="{{ old('email') }}" required autofocus />
+                                <x-jet-input class="form-input rounded-md shadow-sm block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 hover:border-blue-1000 focus:border-blue-1000 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Correo Electrónico" name="email" value="{{ old('email') }}" required autofocus />
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
-                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" name="password" required autocomplete="current-password" />
+                                <input class="form-input rounded-md shadow-sm block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 hover:border-blue-1000 focus:border-blue-1000 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" name="password" required autocomplete="current-password" />
                             </label>
                             <label class="block mt-4 text-sm">
                                 <input type="checkbox" class="form-checkbox" name="remember"> <span class="ml-1 text-gray-700 dark:text-gray-400">{{ __('Recordar me') }}</span>
                             </label>
                             <!-- You should use a button here, as the anchor is only used for the example  -->
-                            <button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-700 border border-transparent rounded-lg active:bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline-blue" type="submit">
-                                {{ __('Login') }}
+                            <button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1000 focus:outline-none focus:shadow-outline-blue" type="submit">
+                              {{ __('Login') }}
                             </button>
                         </form>
 
                         <p class="mt-4">
-                            <a class="text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline" href="{{ route('password.request') }}">
+                            <a class="text-sm font-medium text-blue-1100 dark:text-blue-400 hover:underline" href="{{ route('password.request') }}">
                                 ¿Olvidaste tu Contraseña?
                             </a>
                         </p>
 
                         <p class="mt-4">
-                            <a class="text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline" href="{{ route('register') }}">
+                            <a class="text-sm font-medium text-blue-1100 dark:text-blue-400 hover:underline" href="{{ route('register') }}">
                                ¿No tienes cuenta?
                             </a>
                         </p>
