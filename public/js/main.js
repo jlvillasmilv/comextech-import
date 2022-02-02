@@ -461,6 +461,10 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
         application_id: application_id,
       }).then(response => {
         console.log(response);
+        if (response.data.order){
+          window.open(response.data.order, '_blank');
+        }
+        window.location.reload();
         // Toast.fire({
         //   icon: 'success',
         //   title: 'Registro agregado con exito'
@@ -468,7 +472,11 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
        
 
       }).catch(error => {
-        console.error(errors)
+        Toast.fire({
+            icon: 'error',
+            title: errors
+        })
+       
       });
       
        
@@ -476,13 +484,11 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire({
-        confirmButtonColor: '#1a56db',
+      Toast.fire({
         icon: 'success',
-        title: 'Actualizado con exito',
-
+        title: 'Generado con exito',
       })
-      window.location.reload();
+
     }
   })
 

@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $client->jumpSellerUser()->create([
-            'customer_id' => 6933744
+            'customer_id' => 6934324
         ]);
 
         $client->company()->create([

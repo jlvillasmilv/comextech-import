@@ -60,6 +60,11 @@
                                 <span class="px-2 py-1 font-semibold leading-tight {{$application->status->status_color}}  rounded-full dark:text-white dark:bg-green-600">
                                     {{$application->status->name}}
                                 </span>
+                                <br>
+                                <span class="py-2 font-semibold leading-tight  rounded-full dark:text-white dark:bg-green-600">
+                                {{$application->payment->status}}
+                                </span>
+                                
                             </td>
                             <td class="px-4 py-3">
                                 <p class="font-semibold  text-md">
@@ -123,7 +128,7 @@
 
                                 @endif
 
-                                @if($application->status->client_modify)
+                                @if(!$application->status->client_modify)
                                 
                                     <button
                                         title="Pagar Solicitud {{$application->code}}"
