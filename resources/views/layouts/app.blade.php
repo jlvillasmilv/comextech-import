@@ -25,12 +25,7 @@
     <script src="{{asset('js/init-alpine.js')}}" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons.png') }}">
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" /> --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script> --}}
-    {{-- <script src="{{asset('js/charts-lines.js')}}" defer></script>
-    <script src="{{asset('js/charts-pie.js')}}" defer></script>
-    <script src="{{asset('js/charts-bars.js')}}" defer></script> --}}
-
+    
     @livewireStyles
     {{-- <script>
         import Turbolinks from 'turbolinks';
@@ -55,7 +50,6 @@ data-notification-message="{{ Session::has('notification') ? json_encode(Session
                 {{ $slot }}
             </main>
         </div>
-
 
         @stack('modals')
         <script src="{{ mix('js/app.js') }}" ></script>

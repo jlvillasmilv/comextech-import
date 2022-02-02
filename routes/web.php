@@ -28,21 +28,23 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->name('dashboard');
 
+Route::resource('freight-quotes',  'App\Http\Controllers\Web\FreightQuotesController');
+
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
    
-    Route::resource('supplier',  'App\Http\Controllers\Web\SupplierController');
-    Route::post('asupplier/remove', 'App\Http\Controllers\Web\SupplierController@remove')
+    Route::resource('supplier',  'App\Http\Controllers\Client\SupplierController');
+    Route::post('asupplier/remove', 'App\Http\Controllers\Client\SupplierController@remove')
     ->name('supplier.remove'); 
 
     // Applications
-    Route::resource('applications',  'App\Http\Controllers\Web\ApplicationController');
+    Route::resource('applications',  'App\Http\Controllers\Client\ApplicationController');
 
-    Route::get('user-applications/dashboard-map',  'App\Http\Controllers\Web\ApplicationController@dashboardMap');
+    Route::get('user-applications/dashboard-map',  'App\Http\Controllers\Client\ApplicationController@dashboardMap');
     
     //Summry Applications
-    Route::get('/application-summary/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationSummary')->where('id', '[0-9]+');
-    Route::post('set-application-summary','App\Http\Controllers\Web\ApplicationController@setApplicationSummary')->name('application.importUpdateCost');
-    Route::post('application-generate-order','App\Http\Controllers\Web\ApplicationController@setApplicationSummary')->name('application.generate.order');
+    Route::get('/application-summary/{id}','App\Http\Controllers\Client\ApplicationController@getApplicationSummary')->where('id', '[0-9]+');
+    Route::post('set-application-summary','App\Http\Controllers\Client\ApplicationController@setApplicationSummary')->name('application.importUpdateCost');
+    Route::post('application-generate-order','App\Http\Controllers\Client\ApplicationController@generateOrder')->name('application.generate.order');
     
 
     // Get condition sale
@@ -61,39 +63,39 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     ** id number or code country
     ** flag indicate if code country o id addres supplier
     */
-    Route::get('/ports-supplier/{id}/{type}','App\Http\Controllers\Web\TransportsControllers@portSupplier')->where('id', '[0-9]+');
-    Route::get('/ports/{type}','App\Http\Controllers\Web\TransportsControllers@ports')->name('ports')->where('type', '[A-Z]+');
-    Route::get('/ports-user/{type}','App\Http\Controllers\Web\TransportsControllers@portUser')->where('type', '[A-Z]+')->name('port.user');
+    Route::get('/ports-supplier/{id}/{type}','App\Http\Controllers\Client\TransportsControllers@portSupplier')->where('id', '[0-9]+');
+    Route::get('/ports/{type}','App\Http\Controllers\Client\TransportsControllers@ports')->name('ports')->where('type', '[A-Z]+');
+    Route::get('/ports-user/{type}','App\Http\Controllers\Client\TransportsControllers@portUser')->where('type', '[A-Z]+')->name('port.user');
 
-    Route::post('applications/transports', 'App\Http\Controllers\Web\TransportsControllers@add')->name('applications.transports'); 
+    Route::post('applications/transports', 'App\Http\Controllers\Client\TransportsControllers@add')->name('applications.transports'); 
 
     // Connect with apis courier service
-    Route::post('/get-fedex-rate','App\Http\Controllers\Web\TransportsControllers@fedexRate');
-    Route::post('/get-dhl-quote','App\Http\Controllers\Web\TransportsControllers@dhlQuote');
-    Route::get('/test-courier','App\Http\Controllers\Web\TransportsControllers@test');
+    Route::post('/get-fedex-rate','App\Http\Controllers\Client\TransportsControllers@fedexRate');
+    Route::post('/get-dhl-quote','App\Http\Controllers\Client\TransportsControllers@dhlQuote');
+    Route::get('/test-courier','App\Http\Controllers\Client\TransportsControllers@test');
 
-    Route::get('/get-application/{id}','App\Http\Controllers\Web\ApplicationController@getApplication')->where('id', '[0-9]+');
+    Route::get('/get-application/{id}','App\Http\Controllers\Client\ApplicationController@getApplication')->where('id', '[0-9]+');
 
-    Route::get('/get-application-category/{id}','App\Http\Controllers\Web\ApplicationController@getApplicationCategory')->where('id', '[0-9]+');
+    Route::get('/get-application-category/{id}','App\Http\Controllers\Client\ApplicationController@getApplicationCategory')->where('id', '[0-9]+');
 
-    Route::post('applications/payment_provider', 'App\Http\Controllers\Web\ApplicationController@paymentProvider')
+    Route::post('applications/payment_provider', 'App\Http\Controllers\Client\ApplicationController@paymentProvider')
     ->name('applications.payment.provider'); 
 
      // Internment Process
-    Route::post('internment', 'App\Http\Controllers\Web\ApplicationController@internmentProcesses')
+    Route::post('internment', 'App\Http\Controllers\Client\ApplicationController@internmentProcesses')
     ->name('applications.internment'); 
 
      // Bodegaje local "Entrega"
-    Route::post('local-warehouse', 'App\Http\Controllers\Web\ApplicationController@localWarehouse');
+    Route::post('local-warehouse', 'App\Http\Controllers\Client\ApplicationController@localWarehouse');
 
 
-    Route::resource('company',  'App\Http\Controllers\Web\CompanyController')->except(['destroy','create']);
+    Route::resource('company',  'App\Http\Controllers\Client\CompanyController')->except(['destroy','create']);
    
-    Route::resource('address',  'App\Http\Controllers\Web\CompanyAddressController');
-    Route::post('address/add-port', 'App\Http\Controllers\Web\CompanyAddressController@addPorts')->name('address.addPorts'); 
-    Route::post('address/del-port/{id}', 'App\Http\Controllers\Web\CompanyAddressController@delPorts')->name('address.delPorts');
+    Route::resource('address',  'App\Http\Controllers\Client\CompanyAddressController');
+    Route::post('address/add-port', 'App\Http\Controllers\Client\CompanyAddressController@addPorts')->name('address.addPorts'); 
+    Route::post('address/del-port/{id}', 'App\Http\Controllers\Client\CompanyAddressController@delPorts')->name('address.delPorts');
     
-    Route::get('supplierlist', 'App\Http\Controllers\Web\SupplierController@list');
+    Route::get('supplierlist', 'App\Http\Controllers\Client\SupplierController@list');
 
     Route::resource('custom-agents',  'App\Http\Controllers\CustomAgentController');
 
@@ -108,9 +110,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     
     //company address
-    Route::get('/company/address/all', 'App\Http\Controllers\Web\CompanyController@address')->name('company.address');
+    Route::get('/company/address/all', 'App\Http\Controllers\Client\CompanyController@address')->name('company.address');
 
-    Route::resource('bank-accounts', 'App\Http\Controllers\Web\BankAccountController'); 
+    Route::resource('bank-accounts', 'App\Http\Controllers\Client\BankAccountController'); 
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
@@ -122,7 +124,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('show-notifications', 'App\Http\Controllers\HomeController@showNotifications')->name('show.notifications');
     Route::post('/mark-as-read', 'App\Http\Controllers\HomeController@markNotification')->name('markNotification');
 
-    Route::post('/notifications-transport', 'App\Http\Controllers\Web\TransportsControllers@sendNotification');
+    Route::post('/notifications-transport', 'App\Http\Controllers\Client\TransportsControllers@sendNotification');
 
     Route::get('/convert-currency-date/{date}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrencyDate']);
     Route::get('/custom-convert-currency/{amount}/{from_currency}', [ServicesController::class, 'customsConvertCurrency']);

@@ -7,20 +7,23 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
+       <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons.png') }}">
 
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.2.1/dist/alpine.js" defer></script>
-        <script src="{{ mix('js/app.js') }}"></script>
+        
     </head>
     <body>
-        <div class="font-sans antialiased text-gray-900">
+        <div class="font-sans antialiased text-gray-900" >
             {{ $slot }}
         </div>
+        
     </body>
 </html>

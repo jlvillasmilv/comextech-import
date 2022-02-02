@@ -225,8 +225,9 @@
             ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
             : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
         ]"
+        :disabled="busy"
       >
-        <!-- <svg
+        <svg
           v-if="busy"
           class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
           xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +247,7 @@
             fill="currentColor"
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           ></path>
-        </svg> -->
+        </svg>
         Cotizar
       </button>
     </div>
@@ -347,35 +348,20 @@
             <div class="flex flex-auto items-center justify-center">
               <button
                 @click="submitQuote(TotalEstimed, 2)"
-                :class="[
-                  busyFedex
-                    ? 'flex flex-col items-center w-24 px-2 h-16 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-                    : 'w-24 px-2 h-14 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-                ]"
-                :disabled="busyFedex"
+                class="
+                  w-24
+                  px-2
+                  h-14
+                  text-white
+                  transition-colors
+                  text-sm
+                  bg-blue-1300
+                  rounded-lg
+                  focus:shadow-outline
+                  hover:bg-blue-1200 active:bg-blue-1300
+                  "
               >
                 Cotizar FEDEX
-                <svg
-                  v-if="busyFedex"
-                  class="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
               </button>
             </div>
           </div>
@@ -482,13 +468,9 @@
               <button
                 @click="submitQuote(dhl.ComextechTotal, 3)"
                 class="
-                  flex 
-                  flex-col 
-                  items-center 
-                  justify-center 
                   w-24
-                  h-14
                   px-2
+                  h-14
                   text-white
                   transition-colors
                   text-sm
@@ -496,31 +478,9 @@
                   rounded-lg
                   focus:shadow-outline
                   hover:bg-blue-1200 active:bg-blue-1300
-                "
-                :disabled="busyDHL"
+                  "
               >
                 Cotizar DHL
-                <svg
-                  v-if="busyDHL"
-                  class="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
               </button>
             </div>
           </div>
@@ -554,9 +514,7 @@ export default {
       // showApisQuote: false,
       transportQuote: 0,
       showFedexQuote: false,
-      showDHLQuote: false,
-      busyFedex: false,
-      busyDHL: false
+      showDHLQuote: false
     };
   },
   methods: {
@@ -570,9 +528,6 @@ export default {
      */
     async submitQuote(appAmount, transCompanyId) {
       try {
-        if (transCompanyId === 2) this.busyFedex = true;
-        if (transCompanyId === 3) this.busyDHL = true;
-
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
@@ -586,9 +541,6 @@ export default {
         this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         console.error(error);
-      } finally {
-        this.busyFedex = false;
-        this.busyDHL = false;
       }
     },
 
@@ -598,13 +550,14 @@ export default {
       let loader = this.$loading.show({
         canCancel: true,
         transition: 'fade',
-        color: '#4db2dc',
+        color: '#046c4e',
         loader: 'spinner',
         lockScroll: true,
         enforceFocus: true,
         height: 100,
         width: 100
       });
+      this.$store.dispatch('application/busyButton', true);
 
       /* Hide / Show loads and dimensions form */
       this.$store.dispatch('load/showLoadCharge', false);
@@ -630,6 +583,7 @@ export default {
 
       Promise.all([fedexApi, DhlApi])
         .then((data) => {
+          this.$store.dispatch('application/busyButton', false);
           /* It is validated if the request was successful to show the quote block (FEDEX) */
           if (data[0]) {
             // this.showApisQuote = true;
@@ -672,6 +626,7 @@ export default {
         .catch((error) => {
           this.HideAddress();
           loader.hide();
+          this.$store.dispatch('application/busyButton', false);
           console.error(error);
         });
     },
