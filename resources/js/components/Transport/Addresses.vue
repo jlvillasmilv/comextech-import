@@ -1,9 +1,12 @@
 <template>
-  <div class="container px-1 md:px-6 my-1">
-    <div class="p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-      <Load v-if="$store.state.load.showLoad" />
+  <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
+    <div
+      v-if="$store.state.load.showLoad"
+      class="md:w-8/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
+    >
+      <Load />
     </div>
-    <div v-show="isActivateAddress">
+    <div class="w-8/12 mt-6 pt-2 pb-4 rounded-lg shadow-md" v-show="isActivateAddress">
       <!-- Cotizacion courier -->
       <div v-if="data.type_transport == 'COURIER'">
         <Courier />
