@@ -44,7 +44,7 @@
                   @click="selectedService(item)"
                   :class="[
                     !item.checked ? 'bg-transparent dark:bg-gray-300' : 'bg-blue-1000',
-                    'flex flex-col items-center hover:bg-blue-1000 dark:hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                    'flex flex-col items-center hover:bg-blue-1000 dark:hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
@@ -57,7 +57,7 @@
                     item.checked
                       ? 'bg-blue-1000 text-blue-1300 '
                       : 'bg-transparent text-blue-1000 ',
-                    'flex flex-col items-center hover:bg-blue-1100 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                    'flex flex-col items-center hover:bg-blue-1100 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="white" />
@@ -78,6 +78,7 @@
                     rounded
                     my-2
                     text-center
+                    focus:outline-none
                   "
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="gray" />
@@ -251,6 +252,8 @@
                     v-html="data.errors.get('currency_id')"
                   ></span>
                 </div>
+
+                <!-- Condicion y monto -->
                 <div class="flex sm:items-center sm:w-full">
                   <div
                     v-if="$store.state.address.expenses.mode_selected != 'COURIER'"
@@ -321,6 +324,8 @@
                     <h3 class="my-2.5 text-gray-500 text-base p-4">Puerta a Puerta</h3>
                     <div class="relative"></div>
                   </div>
+
+                  <!-- monto operacion -->
                   <div class="px-1 flex flex-col w-6/12 sm:w-full md:mb-0">
                     <h3 class="my-2.5 text-gray-500 text-base">Monto Operación</h3>
                     <vue-numeric
@@ -363,13 +368,13 @@
                     :key="id"
                     @click="handlePercentage(item)"
                     :class="[
-                      data.statusSuppliers !== 'with'
-                        ? 'bg-gray-300 text-gray-600 w-2/6 font-semibold px-1 py-2 text-xs mx-0.5 border border-gray-400 rounded my-2 text-center'
+                      !selectedCondition.services[0].checked
+                        ? 'bg-gray-100 text-gray-600 w-2/6 font-semibold px-1 py-2 text-xs mx-0.5 border border-gray-300 rounded my-2 text-center'
                         : item.valueInitial == data.valuePercentage.valueInitial
-                        ? 'bg-blue-1000 text-white hover:bg-blue-1100 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
-                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                        ? 'bg-blue-1000 text-white hover:bg-blue-1100 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
+                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                     ]"
-                    :disabled="data.statusSuppliers !== 'with'"
+                    :disabled="!selectedCondition.services[0].checked"
                   >
                     {{ item.name }}
                   </button>
@@ -403,13 +408,13 @@
                     :key="id"
                     @click="handlePercentage(item)"
                     :class="[
-                      data.statusSuppliers !== 'with'
-                        ? 'bg-gray-300 text-gray-600 ml-4 w-3/6 font-semibold py-2 text-xs mx-0.5 border border-gray-400 rounded my-2 text-center'
+                      !selectedCondition.services[0].checked
+                        ? 'bg-gray-100 text-gray-600 ml-4 w-3/6 font-semibold py-2 text-xs mx-0.5 border border-gray-300 rounded my-2 text-center'
                         : item.valueInitial == data.valuePercentage.valueInitial
                         ? 'bg-blue-1000 text-white ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                         : 'bg-transparent text-blue-1000 ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                     ]"
-                    :disabled="data.statusSuppliers !== 'with'"
+                    :disabled="!selectedCondition.services[0].checked"
                   >
                     {{ item.name }}
                   </button>
