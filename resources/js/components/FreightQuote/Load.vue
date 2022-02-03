@@ -12,7 +12,7 @@
                     :key="name"
                     :class="[
                         'cursor-pointer px-5 text-gray-900 border-b-2',
-                        name == item.mode_selected ? ' border-blue-500' : ''
+                        name == expenses.type_transport ? ' border-blue-500' : ''
                     ]"
                     @click="typeSelected(name)"
                 >
@@ -21,7 +21,7 @@
             </ul>
         </div>
 
-    <div v-if="type_transport">
+    <div v-if="expenses.type_transport">
       <div
         v-for="(item, id) in loads"
         :key="id"
@@ -29,7 +29,7 @@
       >
         <!-- tipo de carga -->
         <div
-          v-if="data.type_transport != 'CONTAINER'"
+          v-if="expenses.type_transport != 'CONTAINER'"
           class="my-2 flex justify-center md:inline md:w-24"
         >
           <div class="w-full text-center">
@@ -105,7 +105,7 @@
 
         <!-- dimensiones unitarias -->
         <div class="my-2 flex flex-col justify-center sm:inline md:inline text-center">
-          <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
+          <div v-if="expenses.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
             </span>
@@ -226,7 +226,7 @@
         <!-- CBM -->
         <div
           class="my-2 flex md:inline md:w-20 text-center"
-          v-if="data.type_transport != 'CONTAINER'"
+          v-if="expenses.type_transport != 'CONTAINER'"
         >
           <div class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold"> CBM </span>
@@ -261,7 +261,7 @@
                 type="number"
                 :class="[
                   'h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-full',
-                  data.type_transport != 'CONTAINER' ? '' : ''
+                  expenses.type_transport != 'CONTAINER' ? '' : ''
                 ]"
               />
               <span v-if="validateweight" class="text-center text-red-600 text-xs">{{
@@ -317,7 +317,7 @@
         <div class="my-2 flex justify-center">
           <label
             class="inline-flex text-sm items-center sm:mb-1.5"
-            v-if="data.type_transport === 'CONSOLIDADO'"
+            v-if="expenses.type_transport === 'CONSOLIDADO'"
           >
             <input
               type="checkbox"
@@ -437,7 +437,8 @@ export default {
       this.$store.dispatch('load/removedLoad', id);
     },
     typeSelected(value) {
-      this.mode_selected = value;
+      this.expenses.mode_selected = value;
+      this.expenses.type_transport = value; 
       this.reset();
     },
     reset() {
@@ -453,8 +454,7 @@ export default {
   },
   computed: {
     ...mapState('load', ['item', 'loads', 'mode_selected']),
-    ...mapState('address', ['expenses']),
-    ...mapState('application', ['data']),
+    ...mapState('freightQuotes', ['expenses']),
 
     validateweight() {
       const { loads } = this.$store.state.load;
@@ -478,22 +478,22 @@ export default {
           return 'Limite minimo de peso: 0.02 LB';
 
         case loads[loads.length - 1].weight_units == 'KG' &&
-          this.data.type_transport == 'COURIER' &&
+          this.expenses.type_transport == 'COURIER' &&
           loads[loads.length - 1].weight > 2268:
           return 'Excede limite maximo de peso: 2268 KG';
 
         case loads[loads.length - 1].weight_units == 'LB' &&
-          this.data.type_transport == 'COURIER' &&
+          this.expenses.type_transport == 'COURIER' &&
           loads[loads.length - 1].weight > 5000:
           return 'Excede limite maximo de peso: 5000 LB';
 
         case loads[loads.length - 1].weight_units == 'KG' &&
-          this.data.type_transport != 'COURIER' &&
+          this.expenses.type_transport != 'COURIER' &&
           loads[loads.length - 1].weight > 24000:
           return 'Excede limite maximo de peso: 24.000 KG';
 
         case loads[loads.length - 1].weight_units == 'LB' &&
-          this.data.type_transport != 'COURIER' &&
+          this.expenses.type_transport != 'COURIER' &&
           loads[loads.length - 1].weight > 52910:
           return 'Excede limite maximo de peso: 52.910 LB';
 
@@ -511,7 +511,7 @@ export default {
     }
   },
   created() {
-    this.$store.state.load.mode_selected = this.$store.state.application.data.type_transport;
+    // this.mode_selected = this.expenses.type_transport;
     if (!this.loads.length) this.reset();
   }
 };

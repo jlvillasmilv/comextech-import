@@ -14,29 +14,13 @@
           <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
             <div class="w-full">
               <span class="text-sm font-semibold">Origen</span>
-              <div class="flex">
-                <vue-google-autocomplete
-                  v-model="expenses.origin_address"
-                  id="addressOrigin"
-                  classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  v-on:placechanged="getAddressOrigin"
-                  placeholder="Direccion, Codigo Postal"
-                >
-                </vue-google-autocomplete>
-              </div>
-              
-             
-              <span
-                class="text-xs text-red-600 dark:text-red-400"
-                v-if="expenses.errors.has('origin_address')"
-                v-html="expenses.errors.get('origin_address')"
-              ></span>
+               <GoogleAutocomplete />
             </div>
           </div>
 
           <!-- Codigo postal origen -->
           <div
-            v-if="postalCodeOrigin && !expenses.fav_origin_address"
+            v-if="postalCodeOrigin"
             class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
           >
             <div class="w-full">
@@ -61,8 +45,7 @@
           <!-- Aeropuerto / Puerto origen -->
           <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
             <div class="w-full">
-              <span class="text-sm font-semibold"
-                >{{ data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto' }} Origen</span
+              <span class="text-sm font-semibold">Puerto Origen</span
               >
               <div class="flex">
                 <v-select
@@ -94,7 +77,7 @@
           <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
             <div class="w-full">
               <span class="text-sm font-semibold"
-                >{{ data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto' }} Destino</span
+                > Puerto Destino</span
               >
               <div class="flex">
                 <v-select
@@ -180,27 +163,7 @@
           <div v-if="showShipping" class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
             <div class="w-full">
               <span class="text-sm font-semibold">Destino</span>
-              <div class="flex" >
-                <vue-google-autocomplete
-                  v-model="expenses.dest_address"
-                  id="addressDestination"
-                  classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  :placeholder="
-                    expenses.fav_dest_address
-                      ? 'Nombre o codigo Puerto/Aeropuerto'
-                      : 'Direccion, Codigo Postal'
-                  "
-                  v-on:placechanged="getAddressDestination"
-                >
-                </vue-google-autocomplete>
-              </div>
-             
-            
-              <span
-                class="text-xs text-red-600 dark:text-red-400"
-                v-if="expenses.errors.has('dest_address')"
-                v-html="expenses.errors.get('dest_address')"
-              ></span>
+                <GoogleAutocomplete :Addresses='false'/>
             </div>
           </div>
 
@@ -858,12 +821,12 @@
 
 <script>
 import FormDate from './FormDate.vue';
-import VueGoogleAutocomplete from 'vue-google-autocomplete';
+import GoogleAutocomplete from './GoogleAutocomplete.vue';
 import { mapState } from 'vuex';
-import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
+
 
 export default {
-  components: { VueGoogleAutocomplete, Button, FormDate },
+  components: { GoogleAutocomplete, FormDate },
   data() {
     return {
       fclQuote: {},
@@ -954,54 +917,17 @@ export default {
      * Show / Hide from address (button "Editar")
      */
     HideAddress() {
-      this.$store.dispatch('address/showAddress', true);
+      this.$store.dispatch('freightQuotes/showAddress', true);
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
       this.fclTableQuote = false;
     },
 
-    async getFavOriginPort() {
-      this.expenses.origin_port_id = '';
-      if (this.expenses.fav_origin_port && this.data.supplier_id) {
-        let idsupplier = this.data.supplier_id;
-        const type = 'P';
-        await this.$store.dispatch('address/getFavOriginPort', {
-          idsupplier,
-          type
-        });
-      } else {
-        await this.$store.dispatch('address/setOrigFavOritPorts');
-      }
-    },
-
-    async getFavDestPort() {
-      this.expenses.dest_port_id = '';
-      const type = 'P';
-      if (this.expenses.fav_dest_port) {
-        await this.$store.dispatch('address/getFavDestPorts', type);
-      } else {
-        await this.$store.dispatch('address/setOrigFavDestPorts');
-      }
-    },
-
+   
     showShippingMethod() {
-      this.$store.dispatch('address/showLocalShipping', true);
+      this.$store.dispatch('freightQuotes/showLocalShipping', true);
     },
     HideShippingMethod() {
-      this.$store.dispatch('address/showLocalShipping', false);
-    },
-
-    /**
-     * When the location found
-     * @param {Object} addressData Data of the found location
-     * @param {Object} placeResultData PlaceResult object
-     * @param {String} id Input container ID
-     */
-    getAddressOrigin(addressData, placeResultData, id) {
-      this.$store.dispatch('address/getAddressOrigin', { addressData, placeResultData });
-    },
-
-    getAddressDestination(addressData, placeResultData, id) {
-      this.$store.dispatch('address/getAddressDestination2', { addressData, placeResultData });
+      this.$store.dispatch('freightQuotes/showLocalShipping', false);
     },
 
     formatPrice(value, currency) {
@@ -1012,7 +938,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('address', [
+    ...mapState('freightQuotes', [
       'expenses',
       'addressDestination',
       'portsOrigin',

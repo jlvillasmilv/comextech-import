@@ -7,6 +7,7 @@ import address from './modules/address';
 import internment from './modules/internment';
 import application from './modules/application';
 import internalStorage from './modules/internalStorage';
+import freightQuotes from './modules/freightQuotes';
 
 Vue.use(Vuex);
 
@@ -103,6 +104,7 @@ export default new Vuex.Store({
     internment,
     application,
     internment,
-    internalStorage
+    internalStorage,
+    freightQuotes
   }
 });
