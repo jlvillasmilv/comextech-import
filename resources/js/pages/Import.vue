@@ -413,11 +413,6 @@
                   >
                     {{ item.name }}
                   </button>
-                  <span
-                    class="text-xs text-red-600 dark:text-red-400"
-                    v-if="data.errors.has('valuePercentage')"
-                    v-html="data.errors.get('valuePercentage')"
-                  ></span>
                 </div>
               </section>
             </div>
@@ -600,7 +595,7 @@ export default {
     return {
       statusSuppliers: [
         { description: 'Proveedor', name: 'with' },
-        { description: 'Sin Proveedor', name: 'without' },
+        // { description: 'Sin Proveedor', name: 'without' },
         { description: 'E-commerce', name: 'E-commerce' }
       ],
       position: 0,
