@@ -18,7 +18,7 @@
 
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.2.1/dist/alpine.js" defer></script>
-        
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&language=es&libraries=places"></script>
     </head>
     <body>
         <div class="font-sans antialiased text-gray-900" >

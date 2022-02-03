@@ -302,6 +302,7 @@ export default {
         application_id: btoa(this.application_id),
         currency_code: currency
       });
+      
       this.$store.dispatch('exchange/getSummary', this.application_id);
 
       this.exchangeItem.forEach(async (e) => {
@@ -324,7 +325,7 @@ export default {
   },
   mounted: function() {
     this.$store.dispatch('exchange/getSummary', this.application_id);
-    // this.convert('CLP');
+    this.convert('CLP');
   }
 };
 </script>
