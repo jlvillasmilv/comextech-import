@@ -38,7 +38,8 @@
                 :key="id"
                 class="flex flex-col w-4/12 sm:w-4/12 mr-4"
               >
-                <div
+                <button
+                  type="button"
                   v-if="item.selected && !item.checked"
                   @click="selectedService(item)"
                   :class="[
@@ -47,8 +48,9 @@
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
                   v-if="item.checked"
                   @click="deleteService(item.sort)"
                   :class="[
@@ -59,8 +61,9 @@
                   ]"
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="white" />
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
                   v-if="!item.checked && !item.selected"
                   class="
                     bg-gray-300
@@ -78,7 +81,7 @@
                   "
                 >
                   <Icon class="w-10 h-10 my-2" :icon="item.icon" color="gray" />
-                </div>
+                </button>
                 <p
                   :class="[
                     item.selected ? 'text-center dark:text-white' : 'text-center text-gray-300'
@@ -338,10 +341,7 @@
 
               <!-- Porcentajes -->
               <section class="my-8 sm:my-0 h-26 flex sm:w-6/12 md:w-7/12 justify-center">
-                <div
-                  class="w-6/12 flex flex-wrap justify-end sm:w-full md:w-full"
-                  v-show="data.statusSuppliers == 'with'"
-                >
+                <div class="w-6/12 flex flex-wrap justify-end sm:w-full md:w-full">
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
                                 </h3> -->
@@ -357,19 +357,22 @@
                 >
 
                 </div> -->
-                  <div
+                  <button
+                    type="button"
                     v-for="(item, id) in paymentPercentage1"
                     :key="id"
                     @click="handlePercentage(item)"
                     :class="[
-                      item.valueInitial == data.valuePercentage.valueInitial
-                        ? 'bg-blue-1000 text-white hover:bg-blue-1100'
-                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000',
-                      'w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                      data.statusSuppliers !== 'with'
+                        ? 'bg-gray-300 text-gray-600 w-2/6 font-semibold px-1 py-2 text-xs mx-0.5 border border-gray-400 rounded my-2 text-center'
+                        : item.valueInitial == data.valuePercentage.valueInitial
+                        ? 'bg-blue-1000 text-white hover:bg-blue-1100 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                     ]"
+                    :disabled="data.statusSuppliers !== 'with'"
                   >
                     {{ item.name }}
-                  </div>
+                  </button>
                   <span
                     class="text-xs text-red-600 dark:text-red-400"
                     v-if="data.errors.has('valuePercentage')"
@@ -378,7 +381,6 @@
                 </div>
                 <div
                   class="ml-5 border-l-4 flex flex-col flex-wrap justify-center items-start w-4/12 sm:w-4/6 md:w-4/6"
-                  v-show="data.statusSuppliers == 'with'"
                 >
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
@@ -395,19 +397,22 @@
                 >
 
                 </div> -->
-                  <div
+                  <button
+                    type="button"
                     v-for="(item, id) in paymentPercentage2"
                     :key="id"
                     @click="handlePercentage(item)"
                     :class="[
-                      item.valueInitial == data.valuePercentage.valueInitial
-                        ? 'bg-blue-1000 text-white'
-                        : 'bg-transparent text-blue-1000 ',
-                      'ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                      data.statusSuppliers !== 'with'
+                        ? 'bg-gray-300 text-gray-600 ml-4 w-3/6 font-semibold py-2 text-xs mx-0.5 border border-gray-400 rounded my-2 text-center'
+                        : item.valueInitial == data.valuePercentage.valueInitial
+                        ? 'bg-blue-1000 text-white ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                        : 'bg-transparent text-blue-1000 ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                     ]"
+                    :disabled="data.statusSuppliers !== 'with'"
                   >
                     {{ item.name }}
-                  </div>
+                  </button>
                   <span
                     class="text-xs text-red-600 dark:text-red-400"
                     v-if="data.errors.has('valuePercentage')"
