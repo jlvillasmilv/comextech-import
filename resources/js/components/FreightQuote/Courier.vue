@@ -52,7 +52,7 @@
         <div class="w-full">
           <span class="text-sm font-semibold">Destino</span>
          
-            <GoogleAutocomplete :Addresses='false'/>
+            <GoogleAutocomplete :Addresses='false' />
            
         </div>
       </div>

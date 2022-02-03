@@ -454,7 +454,7 @@
               <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
                 IVA ( 19% )
               </h1>
-              <img class="w-24 my-4" src="https://homer.sii.cl/responsive/images/logo.jpg" />
+              <!-- <img class="w-24 my-4" src="https://homer.sii.cl/responsive/images/logo.jpg" /> -->
             </div>
           </div>
           <div class="flex justify-start items-center my-4 ml-2">
@@ -470,10 +470,10 @@
               <h1 :class="[expenses.adv ? 'text-center mx-4' : 'text-center text-gray-400 mx-4']">
                 Ad Valorem ( 6% )
               </h1>
-              <img
+              <!-- <img
                 class="w-24 my-4"
                 src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
-              />
+              /> -->
             </div>
           </div>
         </div>
@@ -612,34 +612,7 @@
         </svg>
         <span> Guardar </span>
       </button>
-      <!-- <button
-        @click="submitForm()"
-        class="my-10 flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300"
-        :disabled="busy"
-      >
-        <svg
-          v-if="busy"
-          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        Guardar
-      </button> -->
+
     </div>
   </section>
 </template>
@@ -858,6 +831,22 @@ export default {
   },
   async mounted() {
     try {
+
+      this.$store.dispatch('exchange/getSummary', this.application_id);
+      
+      const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
+
+      if (transpCostp.amount <= 0) {
+
+        await axios.post('/set-application-summary', {
+          application_id: btoa(this.application_id),
+          currency_code: currency
+        });
+
+        this.$store.dispatch('exchange/getSummary', this.application_id);
+        
+      }
+      
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
@@ -908,6 +897,7 @@ export default {
     }
   },
   created: function() {
+    
     this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
     this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
   }
