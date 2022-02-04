@@ -51,8 +51,8 @@ class ApplicationController extends Controller
         if ($status <> 0) { return response()->json($status, 400); }
 
         DB::beginTransaction();
-        
-        try {
+    
+        // try {
 
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
@@ -62,10 +62,8 @@ class ApplicationController extends Controller
                     'supplier_id'     => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'type_transport'  => $request->type_transport,
                     'amount'          => $request->amount,
-                    'fee1'            => $request->statusSuppliers == 'with' ? $request->valuePercentage['valueInitial'] : 0,
-                    'fee2'            => $request->statusSuppliers == 'with' ? 100 - $request->valuePercentage['valueInitial'] : 0,
                     'application_statuses_id' => 1,
-                    'currency_id'   => $request->currency_id,
+                    'currency_id'   => is_null($request->currency_id) ? 1 : $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
                     'ecommerce_id'  => $request->statusSuppliers == 'E-commerce' ? $request->supplier_id : null,
                     'condition'     => $request->condition,
@@ -80,10 +78,11 @@ class ApplicationController extends Controller
 
             if($request->application_id > 0){
 
-                \DB::table('application_summaries')
-                ->where("application_id", $application->id)
-                ->whereIn('service_id', [19, 20,21])
-                ->update(['currency_id' => $application->currency_id]);
+                \DB::table('application_summaries as as')
+                ->join('services as s', 'as.service_id', '=', 's.id')
+                ->where("as.application_id", $application->id)
+                ->whereIn("s.code", ['CS01-01','CS01-02','CS01-03'])
+                ->update(['as.currency_id' => $application->currency_id]);
 
                 \DB::table('application_details')
                 ->whereNotIn('service_id', $add_serv->pluck('services.id as service_id'))
@@ -217,10 +216,10 @@ class ApplicationController extends Controller
             ->select('id', 'code', 'supplier_id', 'currency_id')
             ->first();  
 
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json($e, 400);
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json($e, 400);
+        // }
 
         return response()->json($appli, 200);
     }
@@ -323,13 +322,21 @@ class ApplicationController extends Controller
                 ]);
   
         }
+
         $total = \DB::table('application_summaries')
                 ->where("application_id", base64_decode($request->application_id))
                 ->sum('amount2');
 
+        if($to_currency_code != 'CLP'){
+            $exchange = New Currency;
+            $tco_clp = $exchange->convertCurrency($item->amount, $item->currency, 'CLP');
+        }
+
+        $tco_clp = $total;
+
         $total_app = \DB::table('applications')
             ->where('id', base64_decode($request->application_id))
-            ->update(["tco" => $total, "currency_tco" => $currency2_id]);
+            ->update(["tco" => $total, "currency_tco" => $currency2_id, 'tco_clp' => $tco_clp]);
 
         return response()->json($total, 200);
        
@@ -364,8 +371,6 @@ class ApplicationController extends Controller
             'supplier_id',
             'type_transport',
             'amount',
-            'fee1',
-            'fee2',
             'currency_id',
             'ecommerce_id',
             'ecommerce_url',
@@ -415,14 +420,15 @@ class ApplicationController extends Controller
      */
     public function destroy($id)
     {
-        PaymentProvider::where('application_id', $id)->delete();
-        Transport::where('application_id', $id)->delete();
+       
+        PaymentProvider::where('application_id',  Crypt::decryptString($id))->delete();
+        Transport::where('application_id',  Crypt::decryptString($id))->delete();
 
-        if(Load::where('application_id', $application->id)->exists()){
-            Load::where('application_id', $application->id)->delete();
+        if(Load::where('application_id',  Crypt::decryptString($id))->exists()){
+            Load::where('application_id',  Crypt::decryptString($id))->delete();
         }
 
-        Application::findOrFail($id)->delete();
+        Application::findOrFail( Crypt::decryptString($id))->delete();
         return response()->json(['status' => 'OK'], 200);
     }
 
