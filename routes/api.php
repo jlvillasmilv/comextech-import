@@ -88,3 +88,5 @@ Route::get('/provider/{id}', function ($id) {
 Route::get('/convert-currency/{amount}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrency']);
 
 Route::post('/jump-seller-web-hooks', [ServicesController::class, 'jumpSellerWebHookOrder']);
+
+Route::post('/ports/{type}','App\Http\Controllers\Client\TransportsControllers@ports')->name('ports')->where('type', '[A-Z]+');
