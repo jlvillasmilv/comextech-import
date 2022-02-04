@@ -11,6 +11,7 @@
       class="flex flex-wrap -mx-3"
       :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-center']"
     >
+      <!-- asignacion de aduana -->
       <section class="container grid px-6 mx-auto">
         <div class="flex justify-between items-end">
           <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-600">
@@ -157,6 +158,7 @@
         </div>
       </section>
 
+      <!-- importar archivos -->
       <section class="container grid px-6 mx-auto">
         <div class="flex justify-between items-end">
           <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
@@ -310,75 +312,80 @@
           </div>
         </div>
       </section>
-    </section>
 
-    <section class="container grid px-3">
-      <div class="flex justify-between items-end">
-        <h4 class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
-          Cálculo de Impuestos
-        </h4>
-      </div>
-
-      <div
-        class="w-full md:w-3/4 md:mx-4 overflow-hidden rounded-lg "
-        :class="[!$store.getters.findService('ICS04') ? '' : 'justify-start']"
-      >
-        <div class="w-full overflow-x-auto">
-          <table class="table-auto whitespace-no-wrap">
-            <thead>
-              <tr
-                class="
+      <!-- tabla acordeon -->
+      <section class="container grid px-6 mx-auto">
+        <details
+          class="open:bg-white dark:open:bg-slate-900 open:ring-1 open:ring-black/5 dark:open:ring-white/10 open:shadow-lg p-6 rounded-lg"
+          open
+        >
+          <summary
+            class="mb-4 text-lg bg-gray-200 text-black-600 dark:text-gray-300 leading-6 text-slate-900 font-semibold select-none"
+          >
+            Cálculo de Impuestos
+          </summary>
+          <div class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
+            <section class="container grid px-3">
+              <div
+                class="w-full md:w-3/4 md:mx-4 overflow-hidden rounded-lg "
+                :class="[!$store.getters.findService('ICS04') ? '' : 'justify-start']"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="table-auto whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="
                   text-center
                   font-semibold
                   tracking-wide
                   border-b
                   dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
                 "
-              >
-                <th>Moneda Dólar</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                <th colspan="2">Moneda de Origen</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white dark:bg-gray-800">
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(AppAmount, 'USD') }}</td>
-                <td class="px-2 py-3">USD</td>
-                <td class="px-2 py-3">Mercaderia</td>
-                <td rowspan="3" class="px-2">
-                  <div class="flex justify-center">
-                    <svg
-                      class="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </div>
-                </td>
-                <td class="px-2 py-3">
-                  {{ formatPrice(data.amount, currency.code) }}
-                </td>
-                <td class="px-2 py-3">{{ currency.code }}</td>
-              </tr>
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">{{ formatPrice(transpAmount, 'USD') }}</td>
-                <td class="px-2 py-3">USD</td>
-                <td class="px-2 py-3">Transporte</td>
-                <td class="px-2 py-3">
-                  <span v-if="transport">
-                    <input
-                      v-model.number="transpAmount"
-                      type="number"
-                      class="
+                      >
+                        <th>Moneda Dólar</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th colspan="2">Moneda de Origen</th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800">
+                      <tr class="text-gray-700 dark:text-gray-400">
+                        <td class="px-2 py-3">{{ formatPrice(AppAmount, 'USD') }}</td>
+                        <td class="px-2 py-3">USD</td>
+                        <td class="px-2 py-3">Mercaderia</td>
+                        <td rowspan="3" class="px-2">
+                          <div class="flex justify-center">
+                            <svg
+                              class="w-8 h-8"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="px-2 py-3">
+                          {{ formatPrice(data.amount, currency.code) }}
+                        </td>
+                        <td class="px-2 py-3">{{ currency.code }}</td>
+                      </tr>
+                      <tr class="text-gray-700 dark:text-gray-400">
+                        <td class="px-2 py-3">{{ formatPrice(transpAmount, 'USD') }}</td>
+                        <td class="px-2 py-3">USD</td>
+                        <td class="px-2 py-3">Transporte</td>
+                        <td class="px-2 py-3">
+                          <span v-if="transport">
+                            <input
+                              v-model.number="transpAmount"
+                              type="number"
+                              class="
                         block
                         w-full
                         mt-1
@@ -388,27 +395,27 @@
                         dark:text-gray-300 dark:focus:shadow-outline-gray
                         form-input
                       "
-                      placeholder="Monto Transporte"
-                    />
-                  </span>
-                  <span v-else>
-                    {{ formatPrice(transpAmount, 'USD') }}
-                  </span>
-                </td>
-                <td class="px-2 py-3">USD</td>
-              </tr>
-              <tr class="text-gray-700 dark:text-gray-400">
-                <td class="px-2 py-3">
-                  {{ formatPrice(this.insureAmount) }}
-                </td>
-                <td class="px-2 py-3">USD</td>
-                <td class="px-2 py-3">Seguro</td>
-                <td class="px-2 py-3">
-                  <span v-if="insure">
-                    <input
-                      v-model.number="insureAmount"
-                      type="number"
-                      class="
+                              placeholder="Monto Transporte"
+                            />
+                          </span>
+                          <span v-else>
+                            {{ formatPrice(transpAmount, 'USD') }}
+                          </span>
+                        </td>
+                        <td class="px-2 py-3">USD</td>
+                      </tr>
+                      <tr class="text-gray-700 dark:text-gray-400">
+                        <td class="px-2 py-3">
+                          {{ formatPrice(this.insureAmount) }}
+                        </td>
+                        <td class="px-2 py-3">USD</td>
+                        <td class="px-2 py-3">Seguro</td>
+                        <td class="px-2 py-3">
+                          <span v-if="insure">
+                            <input
+                              v-model.number="insureAmount"
+                              type="number"
+                              class="
                         block
                         w-full
                         mt-1
@@ -418,27 +425,36 @@
                         dark:text-gray-300 dark:focus:shadow-outline-gray
                         form-input
                       "
-                      placeholder="Monto Seguro"
-                    />
-                  </span>
-                  <span v-else>
-                    {{ formatPrice(this.insureAmount) }}
-                  </span>
-                </td>
-                <td class="px-2 py-3">USD</td>
-              </tr>
-              <tr class="bg-gray-100">
-                <td class="text-blue-1000 font-semibold px-2 py-3">
-                  {{ expenses.cif_amt }}
-                </td>
-                <td class="text-blue-1000 font-semibold px-2 py-3">USD</td>
-                <td class="text-blue-1000 font-semibold px-2 py-3">Valor CIF</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class=" mt-4" :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-start']">
+                              placeholder="Monto Seguro"
+                            />
+                          </span>
+                          <span v-else>
+                            {{ formatPrice(this.insureAmount) }}
+                          </span>
+                        </td>
+                        <td class="px-2 py-3">USD</td>
+                      </tr>
+                      <tr class="bg-gray-100">
+                        <td class="text-blue-1000 font-semibold px-2 py-3">
+                          {{ expenses.cif_amt }}
+                        </td>
+                        <td class="text-blue-1000 font-semibold px-2 py-3">USD</td>
+                        <td class="text-blue-1000 font-semibold px-2 py-3">Valor CIF</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+        </details>
+      </section>
+
+      <!-- checkbox incluir -->
+      <section
+        class="container grid px-6 mx-auto mt-4"
+        :class="[!$store.getters.findService('ICS04') ? ' ' : 'justify-start']"
+      >
         <div class="w-10/12 flex flex-wrap flex-col">
           <span class="text-start font-semibold">Incluir</span>
           <div class="flex justify-start items-center my-4 ml-2">
@@ -477,7 +493,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </section>
 
     <section
@@ -612,7 +628,6 @@
         </svg>
         <span> Guardar </span>
       </button>
-
     </div>
   </section>
 </template>
@@ -831,22 +846,19 @@ export default {
   },
   async mounted() {
     try {
-
       this.$store.dispatch('exchange/getSummary', this.application_id);
-      
+
       const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
 
       if (transpCostp.amount <= 0) {
-
         await axios.post('/set-application-summary', {
           application_id: btoa(this.application_id),
           currency_code: currency
         });
 
         this.$store.dispatch('exchange/getSummary', this.application_id);
-        
       }
-      
+
       // agente de Aduana del cliente
       let agents = await axios.get('/agentslist');
       this.custom_agents = agents.data;
@@ -897,7 +909,6 @@ export default {
     }
   },
   created: function() {
-    
     this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
     this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
   }
