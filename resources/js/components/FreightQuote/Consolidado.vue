@@ -14,41 +14,8 @@
           <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
             <div class="w-full">
               <span class="text-sm font-semibold">Origen</span>
-              <div v-if="!expenses.fav_origin_address" class="flex">
-                <vue-google-autocomplete
-                  v-model="expenses.origin_address"
-                  id="addressOrigin"
-                  classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  v-on:placechanged="getAddressOrigin"
-                  placeholder="Direccion, Codigo Postal"
-                >
-                </vue-google-autocomplete>
-              </div>
-              <div v-else class="flex">
-                <select
-                  v-model="expenses.origin_address"
-                  class="block
-                      appearance-none
-                      w-full
-                      border border-gray-150
-                      dark:border-gray-600
-                      text-gray-700
-                      p-2
-                      pr-8
-                      rounded
-                      leading-tight
-                      focus:outline-none focus:bg-white focus:border-gray-500"
-                >
-                  <option
-                    class="text-sm"
-                    v-for="item in origin_transport"
-                    :value="item.id"
-                    :key="item.id"
-                  >
-                    {{ item.address }}
-                  </option>
-                </select>
-              </div>
+             
+                <GoogleAutocomplete />
               <label class="inline-flex text-sm items-center mx-2 mt-2">
                 <input
                   type="checkbox"
@@ -168,18 +135,7 @@
                   </template>
                 </v-select>
               </div>
-              <label class="inline-flex text-sm items-center mx-2 mt-2">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_dest_port"
-                  @change="getFavDestPort"
-                />
-                <span class="ml-2 text-gray-700">
-                  {{ data.type_transport === 'AEREO' ? 'Aeropuertos' : 'Puertos' }}
-                  favoritos
-                </span>
-              </label>
+             
               <span
                 class="text-xs text-red-600 dark:text-red-400"
                 v-if="expenses.errors.has('dest_port_id')"
@@ -241,54 +197,13 @@
           <div v-if="showShipping" class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
             <div class="w-full">
               <span class="text-sm font-semibold">Destino</span>
-              <div class="flex" v-if="!expenses.fav_dest_address">
-                <vue-google-autocomplete
-                  v-model="expenses.dest_address"
-                  id="addressDestination"
-                  classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  :placeholder="
-                    expenses.fav_dest_address
-                      ? 'Nombre o codigo Puerto/Aeropuerto'
-                      : 'Direccion, Codigo Postal'
-                  "
-                  v-on:placechanged="getAddressDestination"
-                >
-                </vue-google-autocomplete>
-              </div>
-              <div v-else class="flex">
-                <select
-                  v-model="expenses.dest_address"
-                  class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
-                >
-                  <option
-                    v-for="item in addressDestination"
-                    :value="item.id"
-                    :key="item.id"
-                    class=""
-                  >
-                    {{ item.address }}
-                  </option>
-                </select>
-              </div>
-              <label class="inline-flex text-sm items-center mx-2 mt-2">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_dest_address"
-                  @change="expenses.dest_address = ''"
-                /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
-              </label>
-              <span
-                class="text-xs text-red-600 dark:text-red-400"
-                v-if="expenses.errors.has('dest_address')"
-                v-html="expenses.errors.get('dest_address')"
-              ></span>
+               <GoogleAutocomplete :Addresses='false'/>
             </div>
           </div>
 
           <!-- codigo postal de destino -->
           <div
-            v-if="postalCodeDestination && !expenses.fav_dest_address"
+            v-if="postalCodeDestination"
             class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
           >
             <div class="w-full">
@@ -495,35 +410,8 @@
           <div v-if="showShipping" class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
             <div class="w-full">
               <span class="text-sm font-semibold">Destino</span>
-              <div class="flex" v-if="!expenses.fav_dest_address">
-                <vue-google-autocomplete
-                  v-model="expenses.dest_address"
-                  id="addressDestination"
-                  classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  :placeholder="
-                    expenses.fav_dest_address
-                      ? 'Nombre o codigo Puerto/Aeropuerto'
-                      : 'Direccion, Codigo Postal'
-                  "
-                  v-on:placechanged="getAddressDestination"
-                >
-                </vue-google-autocomplete>
-              </div>
-              <div v-else class="flex">
-                <select
-                  v-model="expenses.dest_address"
-                  class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
-                >
-                  <option
-                    v-for="item in addressDestination"
-                    :value="item.id"
-                    :key="item.id"
-                    class=""
-                  >
-                    {{ item.address }}
-                  </option>
-                </select>
-              </div>
+              <GoogleAutocomplete :Addresses='false'/>
+              
               <label class="inline-flex text-sm items-center mx-2 mt-2">
                 <input
                   type="checkbox"
@@ -773,12 +661,6 @@
             </tr>
           </thead>
           <tbody class="text-center bg-white dark:bg-gray-800">
-            <!-- <tr class="text-center">
-              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">&nbsp;</td>
-            </tr> -->
             <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
@@ -924,12 +806,11 @@
 
 <script>
 import FormDate from './FormDate.vue';
-import VueGoogleAutocomplete from 'vue-google-autocomplete';
+import GoogleAutocomplete from './GoogleAutocomplete.vue';
 import { mapState } from 'vuex';
-import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
 
 export default {
-  components: { VueGoogleAutocomplete, mapState, Button, FormDate },
+  components: { GoogleAutocomplete, mapState, FormDate },
   data() {
     return {
       lclTableQuote: {},
@@ -937,14 +818,7 @@ export default {
     };
   },
   methods: {
-    /**
-     * Send api quote (button Cotizar fedex, dhl, ups)
-     * @param {Number} appAmount selected service amount if fedex, dhl or ups
-     * @param {Number} transCompanyId number of the service that is selected:
-     * @param {2} FEDEX
-     * @param {3} DHL
-     * @param {4} UPS
-     */
+   
     async submitQuote(appAmount, transCompanyId) {
       /* Vue-loader config */
       let loader = this.$loading.show({
@@ -958,14 +832,14 @@ export default {
         width: 100
       });
       this.$store.dispatch('application/busyButton', true);
-      this.$store.dispatch('address/showAddress', false);
+      this.$store.dispatch('freightQuotes/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
 
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const lclResponse = await this.expenses.post('/applications/transports');
+        const lclResponse = await this.expenses.post('/freight-quotes');
 
         /* Show fclTableQuote  */
         if (lclResponse.status == 200) {
@@ -978,45 +852,45 @@ export default {
           loader.hide();
         }
 
-        // Mensaje para validar si transport_amount es igual a 0
-        if (lclResponse.data.transport.transport_amount === 0) {
-          Swal.fire({
-            title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-            // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Enviar'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        // // Mensaje para validar si transport_amount es igual a 0
+        // if (lclResponse.data.transport.transport_amount === 0) {
+        //   Swal.fire({
+        //     title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+        //     // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     cancelButtonText: 'Cancelar',
+        //     confirmButtonText: 'Enviar'
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+        //       // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
 
-              axios
-                .post('/notifications-transport', { application_id: this.data.application_id })
-                .then(function(response) {
-                  console.log(response);
-                })
-                .catch(function(error) {
-                  console.log(error);
-                });
-              // axios.post
-              // Toast.fire({
-              //   icon: 'success',
-              //   title: 'Datos Agregados'
-              // });
-            }
-          });
-        } else {
-          Toast.fire({
-            icon: 'success',
-            title: 'Datos Agregados'
-          });
-        }
+        //       axios
+        //         .post('/notifications-transport', { application_id: this.data.application_id })
+        //         .then(function(response) {
+        //           console.log(response);
+        //         })
+        //         .catch(function(error) {
+        //           console.log(error);
+        //         });
+        //       // axios.post
+        //       // Toast.fire({
+        //       //   icon: 'success',
+        //       //   title: 'Datos Agregados'
+        //       // });
+        //     }
+        //   });
+        // } else {
+        //   Toast.fire({
+        //     icon: 'success',
+        //     title: 'Datos Agregados'
+        //   });
+        // }
 
-        this.$store.dispatch('load/setLoad', lclResponse.data);
-        // this.$store.dispatch('callIncomingOrNextMenu', true);
+        // this.$store.dispatch('load/setLoad', lclResponse.data);
+        // // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         this.HideAddress();
         console.error(error);
@@ -1030,7 +904,7 @@ export default {
      * Show / Hide from address (button "Editar")
      */
     HideAddress() {
-      this.$store.dispatch('address/showAddress', true);
+      this.$store.dispatch('freightQuotes/showAddress', true);
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
       this.lclTable = false;
     },
@@ -1040,12 +914,12 @@ export default {
       if (this.expenses.fav_origin_port && this.data.supplier_id) {
         let idsupplier = this.data.supplier_id;
         const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
-        await this.$store.dispatch('address/getFavOriginPort', {
+        await this.$store.dispatch('freightQuotes/getFavOriginPort', {
           idsupplier,
           type
         });
       } else {
-        await this.$store.dispatch('address/setOrigFavOritPorts');
+        await this.$store.dispatch('freightQuotes/setOrigFavOritPorts');
       }
     },
 
@@ -1053,32 +927,18 @@ export default {
       this.expenses.dest_port_id = '';
       const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
       if (this.expenses.fav_dest_port) {
-        await this.$store.dispatch('address/getFavDestPorts', type);
+        await this.$store.dispatch('freightQuotes/getFavDestPorts', type);
       } else {
-        await this.$store.dispatch('address/setOrigFavDestPorts');
+        await this.$store.dispatch('freightQuotes/setOrigFavDestPorts');
       }
     },
 
     showShippingMethod() {
-      this.$store.dispatch('address/showLocalShipping', true);
+      this.$store.dispatch('freightQuotes/showLocalShipping', true);
     },
 
     HideShippingMethod() {
-      this.$store.dispatch('address/showLocalShipping', false);
-    },
-
-    /**
-     * When the location found
-     * @param {Object} addressData Data of the found location
-     * @param {Object} placeResultData PlaceResult object
-     * @param {String} id Input container ID
-     */
-    getAddressOrigin(addressData, placeResultData, id) {
-      this.$store.dispatch('address/getAddressOrigin', { addressData, placeResultData });
-    },
-
-    getAddressDestination(addressData, placeResultData, id) {
-      this.$store.dispatch('address/getAddressDestination2', { addressData, placeResultData });
+      this.$store.dispatch('freightQuotes/showLocalShipping', false);
     },
 
     formatPrice(value, currency) {
@@ -1089,7 +949,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('address', [
+    ...mapState('freightQuotes', [
       'expenses',
       'addressDestination',
       'portsOrigin',

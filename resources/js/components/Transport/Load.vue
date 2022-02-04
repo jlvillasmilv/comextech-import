@@ -332,7 +332,7 @@
             v-if="id > 0"
             @click="deleteForm(id)"
             class="
-              w-28
+              w-11
               bg-transparent
               focus:outline-none
               uppercase
@@ -349,14 +349,28 @@
               active:bg-gray-500
             "
           >
-            Eliminar
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <!-- Eliminar -->
           </button>
 
           <button
             v-else
             @click="AddFielForm"
             class="  
-            w-28
+            w-11
             bg-transparent
             focus:outline-none
             uppercase
@@ -372,7 +386,21 @@
             rounded
             "
           >
-            Añadir Carga
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <!-- Añadir Carga -->
           </button>
         </div>
       </div>
