@@ -712,7 +712,7 @@ class ApplicationController extends Controller
         ->select('app.*','jsap.application_id','jsap.order_id','jsap.duplicate_url','jsap.recovery_url','jsap.checkout_url')
         ->first();
 
-        if(is_null($application_order) || $application_order->tco <= 0){
+        if(is_null($application_order) || $application_order->tco_clp <= 0){
             return response()->json(['Error' => 'Solicitud no encontrada'], 500);
         }
 
@@ -725,7 +725,7 @@ class ApplicationController extends Controller
         {
            $data = [
                "application_id"      => $application_order->id,
-               "qty"                 => $application_order->tco
+               "qty"                 => $application_order->tco_clp
             ];
            $url = JumpSellerAppPayment::createJumpSellerOrder($data);
 

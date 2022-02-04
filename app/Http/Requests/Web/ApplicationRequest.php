@@ -25,13 +25,11 @@ class ApplicationRequest extends FormRequest
     {
         $rules = [
             // 'supplier_id'              => 'required_if:statusSuppliers,with',
-            // 'currency_id'              => 'required|exists:currencies,id',
+            'currency_id'              => 'required|exists:currencies,id',
             'type_transport'           => 'required',
-            // 'description'              => 'nullable|max:250',
-            // 'estimated_date'           => 'nullable|date',
             // 'valuePercentage'          => 'required_if:statusSuppliers,with',
             'condition'                => 'required|exists:application_cond_sales,name',
-            'amount'                   => 'required|numeric|gt:-1|between:0,999999999999',
+            'amount'                   => 'required|numeric|gt:0|between:1,999999999999',
             'statusSuppliers'          => 'required',
             'ecommerce_url'            => 'required_if:statusSuppliers,E-commerce',
             'services'                 => 'required',
@@ -55,7 +53,7 @@ class ApplicationRequest extends FormRequest
             'amount'          => 'Monto Operación',
             'valuePercentage' => 'Porcentaje de Pago',
             'condition'       => 'Condicion de Venta del Proveedor',
-            'type_transport'  => ' Tipo de Transporte'
+            'type_transport'  => 'Tipo de Transporte'
         ];
     }
 }
