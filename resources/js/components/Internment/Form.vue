@@ -457,9 +457,9 @@
           </thead>
           <tbody>
             <tr class="bg-gray-100">
-              <td class="text-blue-1000 font-semibold px-2 py-3">{{ expenses.cif_amt }}</td>
-              <td class="text-blue-1000 font-semibold px-2 py-3">USD</td>
-              <td class="text-blue-1000 font-semibold px-2 py-3">Valor CIF</td>
+              <td class="text-blue-1300 font-semibold px-2 py-3">{{ expenses.cif_amt }}</td>
+              <td class="text-blue-1300 font-semibold px-2 py-3">USD</td>
+              <td class="text-blue-1300 font-semibold px-2 py-3">Valor CIF</td>
             </tr>
           </tbody>
         </table>
@@ -618,10 +618,10 @@
         <table>
           <tfoot>
             <tr class="bg-gray-100">
-              <td class="text-blue-1000 font-semibold px-2 py-3">
+              <td class="text-blue-1300 font-semibold px-2 py-3">
                 {{ formatPrice(expenses.port_charges, 'USD') }} USD
               </td>
-              <td class="text-blue-1000 font-semibold px-2 py-3">
+              <td class="text-blue-1300 font-semibold px-2 py-3">
                 Gastos de Puerto {{ data.type_transport == 'CONTAINER' ? 'FCL' : 'LCL' }}
               </td>
             </tr>
