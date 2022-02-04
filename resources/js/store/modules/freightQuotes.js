@@ -24,6 +24,10 @@ const state = {
     estimated_date: new Date().toISOString().slice(0, 10),
     description: '',
     dataLoad: [],
+    fav_origin_address: false,
+    fav_origin_port: false,
+    fav_dest_address: false,
+    fav_dest_port: false,
     insurance: false,
     code_serv: 'ICS03',
     insurance_amt: 0,
@@ -180,7 +184,7 @@ const actions = {
   },
   async getPorts({ state, commit }, type) {
     if (state.portsDestination == '') {
-      let { data } = await axios.get(`/ports/${type}`);
+      let { data } = await axios.post(`/api/ports/${type}`);
       commit('SET_PORTS', data);
     }
   },

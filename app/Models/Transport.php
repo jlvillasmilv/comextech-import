@@ -86,8 +86,11 @@ class Transport extends Model
                 $type_mark_up = 'fcl';
                 $rate_insurance_transp = \DB::table('settings')->first(['min_rate_fcl'])->min_rate_fcl;
 
-                foreach($data['cargo'] as $item) {
-                    $field = 'c'.$item->container->name;
+               
+              
+                foreach($data['cargo'] as $key => $item) {
+                    $field = empty($item['container_name'])  ? 'c'.$item->container->name : 'c'.$item['container_name'];
+
                     $rate = \DB::table('rate_fcl')
                     ->where([
                         ['status', true],
@@ -102,7 +105,7 @@ class Transport extends Model
                     $oth_exp   += is_null($rate) ? 0 : $rate->oth_exp;
                     $t_time    =  is_null($rate) ? 12 : $rate->t_time;
                 }
-
+                
             }
 
             // Rate LCL
@@ -155,7 +158,7 @@ class Transport extends Model
             }
 
             //profit margin 
-            $mark_up =  \DB::table('user_mark_ups')
+            $mark_up = empty(auth()->user()->id) ? 40 : \DB::table('user_mark_ups')
             ->where('user_id', auth()->user()->id)
             ->first($type_mark_up)->$type_mark_up;
 

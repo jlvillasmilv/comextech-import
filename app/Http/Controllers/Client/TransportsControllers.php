@@ -126,6 +126,8 @@ class TransportsControllers extends Controller
 
             $amount = $transport->application->amount;
 
+           
+
             if($transport->application->currency->code != 'USD'){
 
                 $exchange = New Currency;
@@ -166,7 +168,7 @@ class TransportsControllers extends Controller
                     ]);
             }
 
-
+           
             $insurance_amount = $cif * 0.015 > $rate_insurance_transp ? $cif * 0.015 : $rate_insurance_transp;
 
             if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
@@ -206,6 +208,8 @@ class TransportsControllers extends Controller
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
 
             }
+
+     
 
             // update application summary International transport
             \DB::table('application_summaries as as')
@@ -261,7 +265,7 @@ class TransportsControllers extends Controller
 
         DB::commit();
 
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             DB::rollback();
             return response()->json(['status' => $e], 500);
         }
@@ -329,8 +333,8 @@ class TransportsControllers extends Controller
                 return response()->json(['message' => "Datos invalidos", 'errors' => ['fedex' => 'No data']], 422);
             }
 
-         } catch (\Exception $e) {
-             return response()->json(['status' => $e], 500);
+         } catch (Throwable $e) {
+             return response()->json($e, 500);
          }
 
     }
@@ -417,12 +421,13 @@ class TransportsControllers extends Controller
                 return response()->json($quote, 200);
 
             }
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return response()->json(['status' => $e], 500);
         }
     }
 
-    public function sendNotification(Request $request) {
+    public function sendNotification(Request $request)
+    {
 
         $application =  \DB::table('applications')->where('id', $request->application_id)->first();
 
@@ -447,6 +452,8 @@ class TransportsControllers extends Controller
         return response()->json(['status' => 200]);
 
     }
+
+    
     // TEST API RATE FEDEX DHL
     public function test()
     {

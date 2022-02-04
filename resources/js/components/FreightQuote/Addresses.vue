@@ -108,11 +108,7 @@ export default {
   async created() {
     
     const type = this.expenses.type_transport == 'AEREO' ? 'A' : 'P';
-    // await this.$store.dispatch(
-    //   'freightQuotes/setModeSelected',
-    //   this.$store.state.application.data.type_transport
-    // );
-    await this.$store.dispatch('freightQuotes/getAddressDestination');
+   
     await this.$store.dispatch('freightQuotes/getPorts', type);
   }
 };

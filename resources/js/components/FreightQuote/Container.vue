@@ -670,12 +670,6 @@
             </tr>
           </thead>
           <tbody class="text-center bg-white dark:bg-gray-800">
-            <!-- <tr class="text-center">
-              <td class="px-4 py-3">{{ this.$store.state.application.selectedCondition.name }}</td>
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">&nbsp;</td>
-            </tr> -->
             <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
@@ -856,14 +850,14 @@ export default {
       });
 
       this.$store.dispatch('application/busyButton', true);
-      this.$store.dispatch('address/showAddress', false);
+      this.$store.dispatch('freightQuotes/showAddress', false);
       this.$store.dispatch('load/showLoadCharge', false);
 
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
-        this.expenses.trans_company_id = transCompanyId;
-        const fclResponse = await this.expenses.post('/applications/transports');
+        
+        const fclResponse = await this.expenses.post('/freight-quotes');
 
         /* Show fclTableQuote  */
         if (fclResponse.status == 200) {
@@ -876,34 +870,34 @@ export default {
           loader.hide();
         }
 
-        // Message to validate if transport_amount is 0
-        if (fclResponse.data.transport.transport_amount === 0) {
-          Swal.fire({
-            title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-            // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Enviar'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-              Toast.fire({
-                icon: 'success',
-                title: 'Datos Agregados'
-              });
-            }
-          });
-        } else {
-          Toast.fire({
-            icon: 'success',
-            title: 'Datos Agregados'
-          });
-        }
-        this.$store.dispatch('load/setLoad', fclResponse.data);
-        // this.$store.dispatch('callIncomingOrNextMenu', true);
+        // // Message to validate if transport_amount is 0
+        // if (fclResponse.data.transport.transport_amount === 0) {
+        //   Swal.fire({
+        //     title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+        //     // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     cancelButtonText: 'Cancelar',
+        //     confirmButtonText: 'Enviar'
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+        //       // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        //       Toast.fire({
+        //         icon: 'success',
+        //         title: 'Datos Agregados'
+        //       });
+        //     }
+        //   });
+        // } else {
+        //   Toast.fire({
+        //     icon: 'success',
+        //     title: 'Datos Agregados'
+        //   });
+        // }
+        // this.$store.dispatch('load/setLoad', fclResponse.data);
+        // // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         this.HideAddress();
         console.error(error);
