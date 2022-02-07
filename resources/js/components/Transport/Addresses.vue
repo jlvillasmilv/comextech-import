@@ -6,7 +6,7 @@
     >
       <Load />
     </div>
-    <div class="lg:w-11/12 mt-6 p-4 rounded-lg shadow-md" v-show="isActivateAddress">
+    <div class="md:w-11/12 lg:w-10/12 mt-6 p-4 rounded-lg shadow-md" v-show="isActivateAddress">
       <!-- Cotizacion courier -->
       <div v-if="data.type_transport == 'COURIER'">
         <Courier />
