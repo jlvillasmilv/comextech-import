@@ -1,9 +1,9 @@
 <template>
-  <div class="w-12/12 flex flex-col flex-wrap">
-    <div class="justify-end md:flex mb-2">
+  <div class="lg:w-11/12 flex flex-col flex-wrap">
+    <div class="lg:justify-end lg:flex mb-2 mr-4">
       <!-- Fecha -->
-      <div class="w-72 lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
-        <div class="w-full">
+      <div class="lg:w-3/12 flex justify-center mb-6">
+        <div class="w-11/12 md:w-10/12">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Fecha de envío
           </span>
@@ -24,8 +24,8 @@
         </div>
       </div>
       <!-- Descripcion -->
-      <div class="w-72 lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
-        <div class="w-full">
+      <div class="lg:w-4/12 flex justify-center mb-6">
+        <div class="w-11/12 md:w-10/12">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Descripcion
           </span>
@@ -46,24 +46,26 @@
         </div>
       </div>
       <!-- Seguro -->
-      <div class="lg:w-2/12 flex flex-col justify-center px-3 md:mb-0">
-        <label class="sm:w-44 sm:flex sm:ml-6 text-gray-500 dark:text-gray-400">
-          <input
-            type="checkbox"
-            class="sm:mt-1 form-checkbox h-4 w-4 text-gray-800"
-            v-model="expenses.insurance"
-            @click="convertInsurance(data.amount, currency.code)"
-          />
-          <span v-if="data.type_transport == 'COURIER'" class="ml-2 text-gray-700">
-            Seguro (1,5%)
-          </span>
-          <span v-else class="ml-2 text-gray-700">Seguro (0,35%)</span>
-        </label>
-      </div>
-      <div class="lg:w-2/12 flex flex-col justify-center px-3 md:mb-0">
-        <span class="ml-2 text-gray-700">
-          {{ expenses.insurance ? `${formatPrice(data.amount)} USD` : '' }}
-        </span>
+      <div class="lg:w-3/12 flex justify-center mt-6">
+        <div class="w-11/12 md:w-10/12">
+          <label class="w-44 sm:flex text-gray-500 dark:text-gray-400">
+            <input
+              type="checkbox"
+              class="sm:mt-1 form-checkbox h-4 w-4 text-gray-800"
+              v-model="expenses.insurance"
+              @click="convertInsurance(data.amount, currency.code)"
+            />
+            <span v-if="data.type_transport == 'COURIER'" class="ml-2 text-gray-700">
+              Seguro (1,5%)
+            </span>
+            <span v-else class="ml-2 text-gray-700">Seguro (0,35%)</span>
+          </label>
+          <div class="w-44 flex flex-col justify-center px-3 md:mb-0">
+            <span class="ml-2 text-gray-700">
+              {{ expenses.insurance ? `${formatPrice(data.amount)} USD` : '' }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

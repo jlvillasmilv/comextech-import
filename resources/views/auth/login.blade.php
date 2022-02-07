@@ -62,4 +62,5 @@
             </div>
         </div>
     </div>
+
 </x-guest-layout>

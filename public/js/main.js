@@ -464,12 +464,11 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
         if (response.data.order){
           window.open(response.data.order, '_blank');
         }
-        window.location.reload();
+        
         // Toast.fire({
         //   icon: 'success',
         //   title: 'Registro agregado con exito'
         // })
-       
 
       }).catch(error => {
         Toast.fire({
@@ -488,6 +487,8 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
         icon: 'success',
         title: 'Generado con exito',
       })
+
+      window.location.reload();
 
     }
   })
