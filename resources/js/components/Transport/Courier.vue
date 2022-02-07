@@ -2,12 +2,12 @@
   <div>
     <div
       v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || $store.state.address.formAddress"
-      class="w-full flex flex-col flex-wrap items-center my-8"
+      class="flex flex-col items-center my-2"
     >
       <!-- Direccion de origen -->
-      <div class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
+      <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
         <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
-        <div class="w-full">
+        <div>
           <span class="text-sm font-semibold">Origen</span>
           <div v-if="!expenses.fav_origin_address" class="flex">
             <vue-google-autocomplete
@@ -24,12 +24,7 @@
               v-model="expenses.origin_address"
               class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
             >
-              <option
-                class="text-xs md:text-sm"
-                v-for="item in origin_transport"
-                :value="item.id"
-                :key="item.id"
-              >
+              <option v-for="item in origin_transport" :value="item.id" :key="item.id">
                 {{ item.address }}
               </option>
             </select>
@@ -59,9 +54,9 @@
       <!-- Codigo postal origen -->
       <div
         v-if="postalCodeOrigin && !expenses.fav_origin_address"
-        class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
+        class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0"
       >
-        <div class="w-full">
+        <div>
           <span class="text-sm font-semibold">Código postal origen</span>
           <div class="flex">
             <input
@@ -85,8 +80,8 @@
       </div>
 
       <!-- Destino de envio -->
-      <div class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-        <div class="w-full">
+      <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+        <div>
           <span class="text-sm font-semibold">Destino</span>
           <div v-if="!expenses.fav_dest_address" class="flex">
             <vue-google-autocomplete
@@ -107,12 +102,7 @@
               v-model="expenses.dest_address"
               class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
             >
-              <option
-                v-for="item in addressDestination"
-                :value="item.id"
-                :key="item.id"
-                class="text-xs md:text-sm"
-              >
+              <option v-for="item in addressDestination" :value="item.id" :key="item.id">
                 {{ item.address }}
               </option>
             </select>
@@ -140,9 +130,9 @@
       <!-- codigo postal de destino -->
       <div
         v-if="postalCodeDestination && !expenses.fav_dest_address"
-        class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
+        class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0"
       >
-        <div class="w-full">
+        <div>
           <span class="text-sm font-semibold">Código postal origen</span>
           <div class="flex">
             <input

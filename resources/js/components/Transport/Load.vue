@@ -10,12 +10,12 @@
       <div
         v-for="(item, id) in loads"
         :key="id"
-        class="my-4 sm:mt-8 flex flex-col sm:flex-row sm:justify-center items-top dark:text-gray-400 sm:space-x-5"
+        class="my-4 md:mt-8 flex flex-wrap flex-col md:flex-row md:justify-center items-top dark:text-gray-400 md:space-x-5"
       >
         <!-- tipo de carga -->
         <div
           v-if="data.type_transport != 'CONTAINER'"
-          class="my-2 flex justify-center md:inline md:w-24"
+          class="my-2 flex justify-center md:inline lg:w-24"
         >
           <div class="w-full text-center">
             <label v-if="id == 0" class="text-sm font-semibold"> Tipo de Carga </label>
@@ -26,9 +26,10 @@
                 class="
                 block
                 text-sm
-                w-full
+                w-11/12
                 bg-white
-                border border-gray-200
+                border 
+                border-gray-200
                 text-gray-700
                 py-2
                 px-2
@@ -89,7 +90,7 @@
         </div>
 
         <!-- dimensiones unitarias -->
-        <div class="my-2 flex flex-col justify-center sm:inline md:inline text-center">
+        <div class="my-2 flex flex-col justify-center md:inline text-center">
           <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
@@ -100,8 +101,10 @@
                 type="number"
                 class="
                   h-9
-                  w-1/3
-                  sm:w-13
+                  w-24
+                  sm:w-44 
+                  md:w-20 
+                  lg:w-14
                   focus:outline-none
                   border
                   rounded-l-lg
@@ -120,8 +123,10 @@
                 type="number"
                 class="
                   h-9
-                  w-1/3
-                  sm:w-13
+                  w-24
+                  sm:w-44 
+                  md:w-20 
+                  lg:w-14
                   focus:outline-none
                   border
                   rounded-none
@@ -140,8 +145,10 @@
                 type="number"
                 class="
                   h-9
-                  w-1/3
-                  sm:w-13
+                  w-24
+                  sm:w-44 
+                  md:w-20 
+                  lg:w-14
                   focus:outline-none
                   border
                   rounded-r-lg
@@ -210,24 +217,27 @@
 
         <!-- CBM -->
         <div
-          class="my-2 flex md:inline md:w-20 text-center"
+          class="my-2 flex lg:inline lg:w-20 text-center"
           v-if="data.type_transport != 'CONTAINER'"
         >
           <div class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold"> CBM </span>
-            <div class="flex">
+            <div class="flex justify-center">
               <input
                 :value="(item.cbm = (item.length * item.width * item.height) / 1000000)"
                 class="
-              w-full
-              h-9 
-              flex
-              text-center text-sm
-              dark:bg-gray-700
-              focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-              dark:text-gray-300 dark:focus:shadow-outline-gray
-              form-input
-            "
+                  w-11/12 
+                  sm:w-11/12 
+                  md:w-20 
+                  lg:w-20
+                  h-9 
+                  flex
+                  text-center text-sm
+                dark:bg-gray-700
+                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                dark:text-gray-300 dark:focus:shadow-outline-gray
+                  form-input
+                "
                 :disabled="item.mode_calculate"
                 placeholder="CBM"
               />
@@ -236,16 +246,16 @@
         </div>
 
         <!-- peso unitario -->
-        <div class="my-2 flex flex-col md:w-32 text-center">
+        <div class="my-2 flex flex-col lg:w-32 text-center">
           <div>
             <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
-            <div class="flex">
+            <div class="flex justify-center">
               <input
                 v-model.number="item.weight"
                 :max="99999"
                 type="number"
                 :class="[
-                  'h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-full',
+                  'w-11/12 sm:w-11/12 md:w-28 lg:w-28 h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input',
                   data.type_transport != 'CONTAINER' ? '' : ''
                 ]"
               />
@@ -325,7 +335,7 @@
 
         <!-- Botones añadir/eliminar -->
         <div
-          class="flex justify-center h-10 mt-5 sm:mt-7"
+          class="flex justify-center h-10 mt-5 lg:mt-7"
           v-if="item.mode_calculate || typeSelected == 'CONTAINER'"
         >
           <button
