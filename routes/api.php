@@ -90,3 +90,6 @@ Route::get('/convert-currency/{amount}/{from_currency}/{to_currency}', [Services
 Route::post('/jump-seller-web-hooks', [ServicesController::class, 'jumpSellerWebHookOrder']);
 
 Route::post('/ports/{type}','App\Http\Controllers\Client\TransportsControllers@ports')->name('ports')->where('type', '[A-Z]+');
+
+Route::post('/get-fedex-rate','App\Http\Controllers\Client\TransportsControllers@fedexRate');
+Route::post('/get-dhl-quote','App\Http\Controllers\Client\TransportsControllers@dhlQuote');

@@ -38,8 +38,7 @@ class FreightQuotesController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->dataLoad);
-
+        // dd($request->all());
        
         try {
                       
@@ -47,17 +46,14 @@ class FreightQuotesController extends Controller
 
             $rate_insurance_transp = \DB::table('settings')->first(['min_rate_transp'])->min_rate_transp;
 
-            $amount = 0;
+            $amount = $request->cargo_value;
 
-          
             $cif = $amount + $transport_amount;
             $oth_exp  = 0;
             $fee_date = $request->estimated_date;
             $local_transp = 0;
             $from_port_transport = '';
             $to_port_transport   = '';
-
-          
 
             $insurance_amount = $cif * 0.015 > $rate_insurance_transp ? $cif * 0.015 : $rate_insurance_transp;
 
