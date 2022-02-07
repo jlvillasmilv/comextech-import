@@ -15,6 +15,7 @@ class CreateFreightQuotesTable extends Migration
     {
         Schema::create('freight_quotes', function (Blueprint $table) {
             $table->id();
+            $table->string('code', 10)->nullable()->unique()->index()->comment('codigo para consultas');
             
             $table->string('origin_address')->nullable();
             $table->string('origin_postal_code', 25)->nullable();
@@ -35,7 +36,7 @@ class CreateFreightQuotesTable extends Migration
 
             $table->boolean('insurance')->default(false);
             $table->boolean('local_transp')->default(false);
-            $table->date('estimated_date')->nullable();
+            $table->date('shipping_date')->nullable();
             $table->string('description',150)->nullable();
 
             $table->timestamps();
