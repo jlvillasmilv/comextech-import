@@ -1,5 +1,5 @@
 <template>
-  <div class="w-12/12 flex flex-col flex-wrap">
+  <div class="w-11/12 flex flex-col flex-wrap">
     <div class="justify-end md:flex mb-2">
       <!-- Fecha -->
       <div class="w-72 lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- Descripcion -->
-      <div class="w-72 lg:w-3/12 flex justify-center px-3 mb-6 md:mb-0">
+      <div class="w-72 lg:w-4/12 flex justify-center px-3 mb-6 md:mb-0">
         <div class="w-full">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Descripcion
@@ -46,7 +46,7 @@
         </div>
       </div>
       <!-- Seguro -->
-      <div class="lg:w-2/12 flex flex-col justify-center px-3 md:mb-0">
+      <div class="lg:w-3/12 flex flex-col justify-center px-3 md:mb-0">
         <label class="sm:w-44 sm:flex sm:ml-6 text-gray-500 dark:text-gray-400">
           <input
             type="checkbox"
@@ -59,11 +59,11 @@
           </span>
           <span v-else class="ml-2 text-gray-700">Seguro (0,35%)</span>
         </label>
-      </div>
-      <div class="lg:w-2/12 flex flex-col justify-center px-3 md:mb-0">
-        <span class="ml-2 text-gray-700">
-          {{ expenses.insurance ? `${formatPrice(data.amount)} USD` : '' }}
-        </span>
+        <div class="lg:w-full flex flex-col justify-center px-3 md:mb-0">
+          <span class="ml-2 text-gray-700">
+            {{ expenses.insurance ? `${formatPrice(data.amount)} USD` : '' }}
+          </span>
+        </div>
       </div>
     </div>
   </div>

@@ -2,11 +2,11 @@
   <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
     <div
       v-if="$store.state.load.showLoad"
-      class="md:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
+      class="lg:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
     >
       <Load />
     </div>
-    <div class="w-11/12 mt-6 pt-2 pb-4 rounded-lg shadow-md" v-show="isActivateAddress">
+    <div class="lg:w-11/12 mt-6 p-4 rounded-lg shadow-md" v-show="isActivateAddress">
       <!-- Cotizacion courier -->
       <div v-if="data.type_transport == 'COURIER'">
         <Courier />
