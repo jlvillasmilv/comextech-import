@@ -255,11 +255,11 @@
         <div class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2">
           <div class="flex flex-col h-full justify-around">
             <div class="flex flex-auto self-end items-center mt-8">
-              <img
+              <!-- <img
                 src="../../../../public/img/fedex-logo.png"
                 alt="fedex-logo"
                 class="mx-auto my-2 w-4/12 sm:w-9/12"
-              />
+              /> -->
             </div>
             <div class="flex flex-auto items-center justify-center">
               <button
@@ -278,7 +278,7 @@
                   active:bg-blue-1300
                 "
               >
-                Cotizar FEDEX
+               Cotizar
               </button>
             </div>
           </div>
@@ -375,11 +375,11 @@
         <div class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2">
           <div class="flex flex-col h-full justify-around">
             <div class="flex flex-auto self-end items-center mt-8">
-              <img
+              <!-- <img
                 src="../../../../public/img/dhl-express.jpg"
                 alt="dhl-logo"
                 class="mx-auto my-2 w-4/12 sm:w-9/12"
-              />
+              /> -->
             </div>
             <div class="flex flex-auto items-center justify-center">
               <button
@@ -398,7 +398,7 @@
                   active:bg-blue-1300
                 "
               >
-                Cotizar DHL
+                Cotizar
               </button>
             </div>
           </div>
@@ -447,14 +447,14 @@ export default {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const { data } = await this.expenses.post('/applications/transports');
+        const { data } = await this.expenses.post('/freight-quotes');
         Toast.fire({
           icon: 'success',
           title: 'Datos Agregados',
         });
 
-        this.$store.dispatch('load/setLoad', data);
-        this.$store.dispatch('callIncomingOrNextMenu', true);
+        // this.$store.dispatch('load/setLoad', data);
+        // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         console.error(error);
       }
@@ -477,13 +477,13 @@ export default {
 
       /* Hide / Show loads and dimensions form */
       this.$store.dispatch('load/showLoadCharge', false);
-      this.$store.dispatch('address/showAddress', false);
+      this.$store.dispatch('freightQuotes/showAddress', false);
 
       this.expenses.dataLoad = this.$store.state.load.loads;
 
       /* get data from fedex quote and rate api */
       const fedexApi = this.expenses
-        .post('/get-fedex-rate')
+        .post('/api/get-fedex-rate')
         .then((response) => {
           return response.data;
         })
@@ -491,7 +491,7 @@ export default {
 
       /* get data from DHL quote and rate api */
       const DhlApi = this.expenses
-        .post('/get-dhl-quote')
+        .post('/api/get-dhl-quote')
         .then((response) => {
           return response.data;
         })
@@ -551,7 +551,7 @@ export default {
      * Show / Hide from address (button "Editar")
      */
     HideAddress() {
-      this.$store.dispatch('address/showAddress', true);
+      this.$store.dispatch('freightQuotes/showAddress', true);
 
       this.fedex = {};
 
