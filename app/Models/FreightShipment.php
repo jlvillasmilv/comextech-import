@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FreightShipment extends Model
 {
-    use HasFactory;
+    protected $table = 'freight_shipments';
+    protected $guarded = [];
 }

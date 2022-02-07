@@ -718,7 +718,7 @@ class ApplicationController extends Controller
 
         if (!is_null($application_order->duplicate_url))
         {
-           $url_order =  is_null($application_order->recovery_url) ? $application_order->duplicate_url : $application_order->recovery_url ;
+           $url_order =  is_null($application_order->recovery_url) ? $application_order->checkout_url : $application_order->recovery_url ;
         }
 
         if (is_null($application_order->recovery_url) && is_null($application_order->duplicate_url))
@@ -733,7 +733,7 @@ class ApplicationController extends Controller
             return response()->json($url["message"], 500);
            }
 
-           $url_order = $url["duplicate_url"];
+           $url_order = $url["checkout_url"];
         }
        
         return response()->json(['order' => $url_order], 200);
