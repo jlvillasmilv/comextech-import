@@ -5,27 +5,35 @@
         {{ title }}
       </h1>
     </div>
-    <div class="flex  mt-3 mb-8   ">
-            <ul class="flex  space-x-2 mt-3 ">
-                <li
-                    v-for="name in types"
-                    :key="name"
-                    :class="[
-                        'cursor-pointer px-5 text-gray-900 border-b-2',
-                        name == expenses.type_transport ? ' border-blue-500' : ''
-                    ]"
-                    @click="typeSelected(name)"
-                >
-                    {{ name }}
-                </li>
-            </ul>
-        </div>
+    <div class="flex mt-3 mb-8">
+      <ul class="flex space-x-2 mt-3">
+        <li
+          v-for="name in types"
+          :key="name"
+          :class="[
+            'cursor-pointer px-5 text-gray-900 border-b-2',
+            name == expenses.type_transport ? ' border-blue-500' : '',
+          ]"
+          @click="typeSelected(name)"
+        >
+          {{ name }}
+        </li>
+      </ul>
+    </div>
 
     <div v-if="expenses.type_transport">
       <div
         v-for="(item, id) in loads"
         :key="id"
-        class="my-4 sm:mt-8 flex flex-col sm:flex-row sm:justify-center items-top dark:text-gray-400 sm:space-x-5"
+        class="
+          my-4
+          sm:mt-8
+          flex flex-col
+          sm:flex-row sm:justify-center
+          items-top
+          dark:text-gray-400
+          sm:space-x-5
+        "
       >
         <!-- tipo de carga -->
         <div
@@ -39,24 +47,24 @@
                 v-model="item.category_load_id"
                 value="Seleccionar"
                 class="
-                block
-                text-sm
-                w-full
-                bg-white
-                border border-gray-200
-                text-gray-700
-                py-2
-                px-2
-                pr-8
-                rounded
-                leading-tight
-                focus:outline-none focus:bg-white focus:border-gray-500
-                dark:text-gray-300
-                dark:border-gray-600
-                dark:bg-gray-700
-                dark:focus:shadow-outline-gray
-                form-select
-              "
+                  block
+                  text-sm
+                  w-full
+                  bg-white
+                  border border-gray-200
+                  text-gray-700
+                  py-2
+                  px-2
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                  dark:text-gray-300
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  dark:focus:shadow-outline-gray
+                  form-select
+                "
               >
                 <option value="1" selected>Caja / s</option>
                 <option value="2">Pallet / s</option>
@@ -74,24 +82,24 @@
               <select
                 v-model="item.type_container"
                 class="
-                block
-                text-sm
-                w-full
-                bg-white
-                border border-gray-200
-                text-gray-700
-                py-2
-                px-2
-                pr-8
-                rounded
-                leading-tight
-                focus:outline-none focus:bg-white focus:border-gray-500
-                dark:text-gray-300
-                dark:border-gray-600
-                dark:bg-gray-700
-                dark:focus:shadow-outline-gray
-                form-select
-              "
+                  block
+                  text-sm
+                  w-full
+                  bg-white
+                  border border-gray-200
+                  text-gray-700
+                  py-2
+                  px-2
+                  pr-8
+                  rounded
+                  leading-tight
+                  focus:outline-none focus:bg-white focus:border-gray-500
+                  dark:text-gray-300
+                  dark:border-gray-600
+                  dark:bg-gray-700
+                  dark:focus:shadow-outline-gray
+                  form-select
+                "
               >
                 <option value="1">20'DV</option>
                 <option value="2">40'DV</option>
@@ -106,9 +114,7 @@
         <!-- dimensiones unitarias -->
         <div class="my-2 flex flex-col justify-center sm:inline md:inline text-center">
           <div v-if="expenses.type_transport != 'CONTAINER'" class="w-full">
-            <span v-if="id == 0" class="text-sm font-semibold">
-              Dimension Unitaria
-            </span>
+            <span v-if="id == 0" class="text-sm font-semibold"> Dimension Unitaria </span>
             <div class="flex justify-center">
               <input
                 v-model.number="item.length"
@@ -128,7 +134,7 @@
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                 "
-                placeholder="L"
+                placeholder="Largo"
               />
               <input
                 v-model.number="item.width"
@@ -148,7 +154,7 @@
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                 "
-                placeholder="W"
+                placeholder="Ancho"
               />
               <input
                 v-model.number="item.height"
@@ -168,7 +174,7 @@
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                 "
-                placeholder="H"
+                placeholder="Alto"
                 :disabled="item.stackable"
               />
             </div>
@@ -234,15 +240,15 @@
               <input
                 :value="(item.cbm = (item.length * item.width * item.height) / 1000000)"
                 class="
-              w-full
-              h-9 
-              flex
-              text-center text-sm
-              dark:bg-gray-700
-              focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-              dark:text-gray-300 dark:focus:shadow-outline-gray
-              form-input
-            "
+                  w-full
+                  h-9
+                  flex
+                  text-center text-sm
+                  dark:bg-gray-700
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:text-gray-300 dark:focus:shadow-outline-gray
+                  form-input
+                "
                 :disabled="item.mode_calculate"
                 placeholder="CBM"
               />
@@ -261,7 +267,7 @@
                 type="number"
                 :class="[
                   'h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-full',
-                  expenses.type_transport != 'CONTAINER' ? '' : ''
+                  expenses.type_transport != 'CONTAINER' ? '' : '',
                 ]"
               />
               <span v-if="validateweight" class="text-center text-red-600 text-xs">{{
@@ -277,14 +283,14 @@
                 :id="'weight_units' + id"
                 :name="'weight_units' + id"
                 class="
-                form-checkbox
-                h-4
-                w-4
-                text-gray-800
-                form-checkbox
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:focus:shadow-outline-gray dark:text-gray-300
-              "
+                  form-checkbox
+                  h-4
+                  w-4
+                  text-gray-800
+                  form-checkbox
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:focus:shadow-outline-gray dark:text-gray-300
+                "
                 checked
                 value="KG"
               />
@@ -298,14 +304,14 @@
                 :id="'weight_units' + id"
                 :name="'weight_units' + id"
                 class="
-                form-checkbox
-                h-4
-                w-4
-                text-gray-800
-                form-checkbox
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:focus:shadow-outline-gray dark:text-gray-300
-              "
+                  form-checkbox
+                  h-4
+                  w-4
+                  text-gray-800
+                  form-checkbox
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:focus:shadow-outline-gray dark:text-gray-300
+                "
                 value="LB"
               />
               <span class="ml-2 text-gray-700"> Lbs </span>
@@ -344,10 +350,10 @@
           v-if="item.mode_calculate || typeSelected == 'CONTAINER'"
         >
           <button
+            title="Eliminar"
             v-if="id > 0"
             @click="deleteForm(id)"
             class="
-              w-28
               bg-transparent
               focus:outline-none
               uppercase
@@ -360,34 +366,55 @@
               border border-gray-600
               hover:border-transparent
               rounded
-              active:text-white
-              active:bg-gray-500
+              active:text-white active:bg-gray-500
             "
           >
-            Eliminar
+            <svg
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
           </button>
 
           <button
+            title="Añadir Carga"
             v-else
             @click="AddFielForm"
-            class="  
-            w-28
-            bg-transparent
-            focus:outline-none
-            uppercase
-            text-xs
-            hover:bg-blue-1000
-            text-blue-1000
-            font-semibold
-            hover:text-white
-            active:bg-blue-1200
-            py-2
-            px-2
-            border border-blue-1000
-            rounded
+            class="
+              bg-transparent
+              focus:outline-none
+              uppercase
+              text-xs
+              hover:bg-blue-1000
+              text-blue-1000
+              font-semibold
+              hover:text-white
+              active:bg-blue-1200
+              py-2
+              px-2
+              border border-blue-1000
+              rounded
             "
           >
-            Añadir Carga
+            <svg
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
           </button>
         </div>
       </div>
@@ -419,14 +446,14 @@ export default {
   props: {
     title: {
       require: false,
-      default: 'Cotizador Online'
-    }
+      default: 'Cotizador Online',
+    },
   },
   data() {
     return {
-      types: ["COURIER", "CONTAINER", "CONSOLIDADO"],
+      types: ['COURIER', 'CONTAINER', 'CONSOLIDADO'],
       showKg: true,
-      showIn: true
+      showIn: true,
     };
   },
   methods: {
@@ -438,7 +465,7 @@ export default {
     },
     typeSelected(value) {
       this.expenses.mode_selected = value;
-      this.expenses.type_transport = value; 
+      this.expenses.type_transport = value;
       this.reset();
     },
     reset() {
@@ -450,7 +477,7 @@ export default {
     },
     stackable(id) {
       this.loads[id].height = this.loads[id].stackable ? 0 : 230;
-    }
+    },
   },
   computed: {
     ...mapState('load', ['item', 'loads', 'mode_selected']),
@@ -508,11 +535,11 @@ export default {
           break;
       }
       return false;
-    }
+    },
   },
   created() {
     // this.mode_selected = this.expenses.type_transport;
     if (!this.loads.length) this.reset();
-  }
+  },
 };
 </script>

@@ -28,15 +28,6 @@ class JumpSellerAppPayment extends Model
    
     public static function createJumpSellerOrder($data){
 
-        // $application_order =  \DB::table('application_summaries as as')
-        //                         ->join('services as s', 'as.service_id', '=', 's.id')
-        //                         ->where([
-        //                             ["as.application_id", base64_decode($request->application_id)],
-        //                             ["s.category_service_id",  6]
-        //                         ])
-        //                         ->sum('as.amount2');
-                            
-
         $customer_id = JumpSellerUser::where('user_id', auth()->user()->id)->firstOrFail()->customer_id;
 
         if (is_null( $customer_id)) {
@@ -58,16 +49,15 @@ class JumpSellerAppPayment extends Model
                     [
                         "id"         => 12841254,
                         "variant_id" => 0,
-                        "qty"        => $data['qty'],
-                        "price"      => 1,
+                        "qty"        => 1,
+                        "price"      => $data['qty'],
                         "discount"   => 0
                     ]
                 ]
             ]
         ];
 
-
-        // try {
+        try {
             $login = env('JUMPSELLER_LOGIN');
             $auth_token = env('JUMPSELLER_AUTH_TOKEN');
             $url = "https://api.jumpseller.com/v1/orders.json?login={$login}&authtoken={$auth_token}";
@@ -92,9 +82,9 @@ class JumpSellerAppPayment extends Model
 
             return $obj["order"];
       
-        // } catch (\Throwable $th) {
-        //     return response()->json('Id customer not found', 500);
-        // }
+        } catch (\Throwable $th) {
+            return response()->json('Id customer not found', 500);
+        }
 
     }
 }

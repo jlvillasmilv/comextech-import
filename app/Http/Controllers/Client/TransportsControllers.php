@@ -308,7 +308,7 @@ class TransportsControllers extends Controller
                 if(!empty($fedex_response['PREFERRED_ACCOUNT_SHIPMENT'])){
 
                     // obtaining discount %
-                    $discount = auth()->user()
+                    $discount = empty(auth()->user()->id) ? 60 : auth()->user()
                     ->discountImport($request->except(['id','application_id','code_serv']),'FEDEX');
 
                     $quote['DeliveryTimestamp'] = $fedex_response['DeliveryTimestamp'];
@@ -387,7 +387,7 @@ class TransportsControllers extends Controller
                 // validate data from DHL
                 if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
                     // obtaining discount %
-                    $discount = auth()->user()
+                    $discount =  empty(auth()->user()->id) ? 60 : auth()->user()
                     ->discountImport($request->except(['id','application_id','code_serv']),'DHL');
 
                     $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
