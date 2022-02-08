@@ -573,28 +573,35 @@
       <form action="" class="w-6/12 flex flex-col mb-6">
         <label for="" class="flex flex-col"
           >Nombre
-          <input v-model="expenses.formName" class="form-input" type="text" placeholder="Nombre" />
-          <span v-if="expenses.formName === ''" class="text-red-400">Ingrese su nombre*</span>
+          <input
+            v-model="expenses.client.name"
+            class="form-input"
+            type="text"
+            placeholder="Nombre"
+          />
+          <span v-if="expenses.client.name === ''" class="text-red-400">Ingrese su nombre*</span>
         </label>
         <label for="" class="flex flex-col"
           >Correo
           <input
-            v-model="expenses.formEmail"
+            v-model="expenses.client.email"
             class="form-input"
             type="email"
             placeholder="Correo"
           />
-          <span v-if="expenses.formEmail === ''" class="text-red-400">Ingrese su correo*</span>
+          <span v-if="expenses.client.email === ''" class="text-red-400">Ingrese su correo*</span>
         </label>
         <label for="" class="flex flex-col"
           >Telefono
           <input
-            v-model="expenses.formPhone"
+            v-model="expenses.client.phone_number"
             class="form-input"
             type="number"
             placeholder="Telefono"
           />
-          <span v-if="expenses.formPhone === ''" class="text-red-400">Ingrese su telefono*</span>
+          <span v-if="expenses.client.phone_number === ''" class="text-red-400"
+            >Ingrese su telefono*</span
+          >
         </label>
       </form>
       <button
@@ -668,9 +675,9 @@ export default {
       const response = await this.expenses.post('/freight-quotes');
       if (
         response.status == 200 &&
-        (this.expenses.formName !== '' ||
-          this.expenses.formEmail !== '' ||
-          this.expenses.formPhone !== '')
+        (this.expenses.client.name !== '' ||
+          this.expenses.client.email !== '' ||
+          this.expenses.client.phone_number !== '')
       ) {
         Toast.fire({
           icon: 'success',
