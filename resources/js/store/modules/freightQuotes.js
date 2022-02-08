@@ -4,7 +4,7 @@ const state = {
   expenses: new Form({
     type_transport: 'COURIER',
     app_amount: 0,
-    cargo_value:0,
+    cargo_value: 0,
     trans_company_id: '',
     application_id: 1,
     origin_address: '',
@@ -32,7 +32,10 @@ const state = {
     insurance: false,
     code_serv: 'ICS03',
     insurance_amt: 0,
-    mode_selected: 'COURIER'
+    mode_selected: 'COURIER',
+    formName: '',
+    formEmail: '',
+    formPhone: ''
   }),
   Load: false,
   safe: false,
