@@ -526,11 +526,9 @@ import FormDate from './FormDate.vue';
 import VueGoogleAutocomplete from 'vue-google-autocomplete';
 import VueNumeric from 'vue-numeric';
 import { mapState } from 'vuex';
-import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
-import Form from '../Internment/Form.vue';
 
 export default {
-  components: { VueGoogleAutocomplete, Button, VueNumeric, FormDate, Form },
+  components: { VueGoogleAutocomplete, VueNumeric, FormDate },
   props: {
     address: String
   },
