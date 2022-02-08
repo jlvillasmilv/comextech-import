@@ -41,6 +41,11 @@ export default {
       default: true,
       required: false,
     },
+    Transport: {
+      type: Boolean,
+      default: true,
+      required: false,
+    },
   },
   methods: {
     getAddressOrigin: function (addressData, placeResultData, id) {
@@ -71,11 +76,8 @@ export default {
         }
       }
 
-      if (!this.expenses.origin_postal_code) {
-        this.postalCodeOrigin = true;
-      } else {
-        this.postalCodeOrigin = false;
-      }
+      this.postalCodeOrigin = !this.expenses.origin_postal_code ? true : false;
+  
     },
     getAddressDestination: function (addressData, placeResultData, id) {
 
@@ -110,15 +112,14 @@ export default {
         }
       }
 
-      if (!this.expenses.dest_postal_code) {
-        this.postalCodeDestination = true;
-      } else {
-        this.postalCodeDestination = false;
-      }
+      this.postalCodeDestination = !this.expenses.dest_postal_code ? true : false;
+     
     },
   },
   computed: {
-    ...mapState('freightQuotes', ['expenses', 'addressDestination']),
+    
+    ...mapState('freightQuotes', ['expenses','postalCodeOrigin','postalCodeDestination'])
+    
   },
 };
 </script>

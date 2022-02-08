@@ -50,12 +50,17 @@ class CreateNewUser implements CreatesNewUsers
      */
     protected function createCompany(User $user, $input)
     {
+        $country = \DB::table('countries')->where('code', $input['country'],)->first()->id;
+
+        $country_code = is_null($country) ? 41 : $country;
+
         $user->assignRole('Client'); //assign role to user
         $user->company()->create([
             'tax_id'        => $input['tax_id'],
             'name'          => $input['company_name'],
             'email'         => $input['email'],
             'contact_name'  => $input['name'],
+            'country_id'    => $country_code,
             'status'        => 1
         ]);
 
