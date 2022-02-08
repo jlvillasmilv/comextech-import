@@ -20,9 +20,9 @@ class CreateFreightQuotesTable extends Migration
             $table->unsignedBigInteger('freight_users_id');
 
             $table->decimal('transport_amount', 12, 2)->default(0)->nullable();
-            $table->decimal('local_transp', 12, 2)->default(0)->nullable();
+            $table->decimal('local_transp_amt', 12, 2)->default(0)->nullable();
             $table->decimal('oth_exp', 12, 2)->default(0)->nullable();
-            $table->decimal('insurance', 12, 2)->default(0)->nullable();
+            $table->decimal('insurance_amt', 12, 2)->default(0)->nullable();
             $table->decimal('cif', 12, 2)->default(0)->nullable();
             
             $table->string('origin_address')->nullable();
