@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || $store.state.address.formAddress"
+      v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
       class="w-full flex flex-col flex-wrap items-center my-8"
     >
       <!-- Direccion de origen -->
@@ -9,15 +9,12 @@
         <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
         <div class="w-full">
           <span class="text-sm font-semibold">Origen</span>
-            <GoogleAutocomplete />
+          <GoogleAutocomplete />
         </div>
       </div>
 
       <!-- Codigo postal origen -->
-      <div
-        v-if="postalCodeOrigin"
-        class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
-      >
+      <div v-if="postalCodeOrigin" class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
         <div class="w-full">
           <span class="text-sm font-semibold">Código postal origen</span>
           <div class="flex">
@@ -44,24 +41,19 @@
             v-html="expenses.errors.get('origin_postal_code')"
           ></span>
         </div>
-        
       </div>
 
       <!-- Destino de envio -->
       <div class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
         <div class="w-full">
           <span class="text-sm font-semibold">Destino</span>
-         
-            <GoogleAutocomplete :Addresses='false' />
-           
+
+          <GoogleAutocomplete :Addresses="false" />
         </div>
       </div>
 
       <!-- codigo postal de destino -->
-      <div
-        v-if="postalCodeDestination"
-        class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
-      >
+      <div v-if="postalCodeDestination" class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
         <div class="w-full">
           <span class="text-sm font-semibold">Código postal origen</span>
           <div class="flex">
@@ -100,18 +92,43 @@
 
     <!-- Date and description -->
     <transition name="fade">
-      <FormDate v-if="$store.state.address.addressDate" />
+      <FormDate v-if="$store.state.freightQuotes.addressDate" />
     </transition>
 
     <!-- Botones editar y cotizar -->
     <div
+      v-if="buttons"
       :class="[
         !expenses.dataLoad || expenses.dataLoad.length <= 0
           ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5',
+          : 'flex justify-center my-5 innline w-1/7 mt-5'
       ]"
     >
-      <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
+      <button
+        v-show="!expenses.dataLoad"
+        @click="HideAddress()"
+        :class="[
+          expenses.dataLoad.length > 0
+            ? 'mr-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1000 rounded-lg focus:shadow-outline hover:bg-blue-1100 active:bg-blue-1000'
+            : ''
+        ]"
+      >
+        Editar
+      </button>
+
+      <button
+        v-show="expenses.dataLoad.length > 0"
+        @click="HideAddress()"
+        :class="[
+          expenses.dataLoad.length > 0
+            ? 'mr-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1000 rounded-lg focus:shadow-outline hover:bg-blue-1100 active:bg-blue-1000'
+            : ''
+        ]"
+      >
+        Editar
+      </button>
+
+      <!-- <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
 
       <button
         v-else-if="expenses.dataLoad.length > 0"
@@ -131,7 +148,7 @@
         "
       >
         Editar
-      </button>
+      </button> -->
       <button
         @click="submitForm()"
         :class="[
@@ -139,7 +156,7 @@
             ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
             : expenses.dataLoad.length <= 0
             ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300',
+            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
         ]"
         :disabled="busy"
       >
@@ -174,18 +191,18 @@
       <div
         v-if="
           showFedexQuote == true &&
-          fedex.DeliveryTimestamp &&
-          fedex.ServiceType &&
-          fedex.FUEL &&
-          fedex.PEAK &&
-          fedex.Discount &&
-          TotalEstimed &&
-          fedex.TotalNetCharge
+            fedex.DeliveryTimestamp &&
+            fedex.ServiceType &&
+            fedex.FUEL &&
+            fedex.PEAK &&
+            fedex.Discount &&
+            TotalEstimed &&
+            fedex.TotalNetCharge
         "
         :class="[
           !expenses.dataLoad
             ? 'hidden'
-            : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
+            : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
         ]"
       >
         <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -278,7 +295,7 @@
                   active:bg-blue-1300
                 "
               >
-               Cotizar
+                Cotizar
               </button>
             </div>
           </div>
@@ -292,19 +309,19 @@
       <div
         v-if="
           showDHLQuote == true &&
-          dhl.DeliveryDate &&
-          dhl.DeliveryTime &&
-          dhl.ProductShortName &&
-          dhl.WeightCharge &&
-          dhl['FUEL SURCHARGE'] &&
-          dhl['EMERGENCY SITUATION'] &&
-          dhl.Discount &&
-          dhl.ComextechDiscount
+            dhl.DeliveryDate &&
+            dhl.DeliveryTime &&
+            dhl.ProductShortName &&
+            dhl.WeightCharge &&
+            dhl['FUEL SURCHARGE'] &&
+            dhl['EMERGENCY SITUATION'] &&
+            dhl.Discount &&
+            dhl.ComextechDiscount
         "
         :class="[
           !expenses.dataLoad
             ? 'hidden'
-            : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm',
+            : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
         ]"
       >
         <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
@@ -406,6 +423,222 @@
       </div>
     </div>
     <!-- Fin Bloque cotizacion de DHL -->
+
+    <!-- fcl table quote   -->
+    <section v-if="showTable" class="md:flex md:justify-center">
+      <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg shadow-xs">
+        <table class="table-auto md:w-full whitespace-no-wrap">
+          <thead>
+            <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
+              <th
+                class="
+                w-1/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-1300
+                dark:text-gray-400 dark:bg-gray-800
+                "
+              >
+                {{ this.$store.state.application.selectedCondition.name }}
+              </th>
+              <th
+                class="
+                w-4/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-1300
+                dark:text-gray-400 dark:bg-gray-800
+                "
+              >
+                CONCEPTO
+              </th>
+              <th
+                class="
+                w-2/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-1300
+                dark:text-gray-400 dark:bg-gray-800
+                "
+              >
+                TARIFA
+              </th>
+              <th
+                class="
+                w-1/12
+                px-4 
+                py-3
+                border-b
+                dark:border-gray-700
+                bg-blue-1300
+                dark:text-gray-400 dark:bg-gray-800
+                "
+              >
+                MONEDA
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-center bg-white dark:bg-gray-800">
+            <tr class="text-sm text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">VALOR CIF</td>
+              <td class="font-semibold px-4 py-3">{{ tableQuote.transport.cif }}</td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
+              <td
+                :class="[
+                  !tableQuote.transport.transport_amount
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
+                {{
+                  tableQuote.transport.transport_amount
+                    ? formatPrice(tableQuote.transport.transport_amount)
+                    : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">SEGURO</td>
+              <td
+                :class="[
+                  !tableQuote.transport.insurance
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
+                {{
+                  tableQuote.transport.insurance
+                    ? formatPrice(tableQuote.transport.insurance)
+                    : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">USD</td>
+            </tr>
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">GASTOS LOCALES</td>
+              <td
+                :class="[
+                  !tableQuote.transport.oth_exp
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
+                {{
+                  tableQuote.transport.oth_exp
+                    ? formatPrice(tableQuote.transport.oth_exp)
+                    : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
+              <td class="px-4 py-3">&nbsp;</td>
+              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
+              <td
+                :class="[
+                  !tableQuote.transport.local_transp
+                    ? 'text-red-600 font-semibold px-4 py-3'
+                    : 'font-semibold px-4 py-3'
+                ]"
+              >
+                {{
+                  tableQuote.transport.local_transp
+                    ? formatPrice(tableQuote.transport.local_transp)
+                    : 'POR COTIZAR'
+                }}
+              </td>
+              <td class="px-4 py-3">CLP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- form  -->
+    <div v-if="showForm" class="flex flex-col items-center justify-center w-full mt-10">
+      <form action="" class="w-6/12 flex flex-col mb-6">
+        <label for="" class="flex flex-col"
+          >Nombre
+          <input
+            v-model="expenses.client.name"
+            class="form-input"
+            type="text"
+            placeholder="Nombre"
+          />
+          <span v-if="expenses.client.name === ''" class="text-red-400">Ingrese su nombre*</span>
+        </label>
+        <label for="" class="flex flex-col"
+          >Correo
+          <input
+            v-model="expenses.client.email"
+            class="form-input"
+            type="email"
+            placeholder="Correo"
+          />
+          <span v-if="expenses.client.email === ''" class="text-red-400">Ingrese su correo*</span>
+        </label>
+        <label for="" class="flex flex-col"
+          >Telefono
+          <input
+            v-model="expenses.client.phone_number"
+            class="form-input"
+            type="number"
+            placeholder="Telefono"
+          />
+          <span v-if="expenses.client.phone_number === ''" class="text-red-400"
+            >Ingrese su telefono*</span
+          >
+        </label>
+      </form>
+      <button
+        @click="saveForm()"
+        :class="[
+          !expenses.dataLoad
+            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+            : expenses.dataLoad.length <= 0
+            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+        ]"
+        :disabled="busy"
+      >
+        <svg
+          v-if="busy"
+          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        Cotizar
+      </button>
+    </div>
   </div>
 </template>
 
@@ -418,7 +651,7 @@ import { mapState } from 'vuex';
 export default {
   components: { GoogleAutocomplete, FormDate },
   props: {
-    address: String,
+    address: String
   },
   data() {
     return {
@@ -431,9 +664,38 @@ export default {
       transportQuote: 0,
       showFedexQuote: false,
       showDHLQuote: false,
+      showForm: false,
+      showTable: false,
+      tableQuote: {},
+      buttons: true
     };
   },
   methods: {
+    async saveForm() {
+      const response = await this.expenses.post('/freight-quotes');
+      if (
+        response.status == 200 &&
+        (this.expenses.client.name !== '' ||
+          this.expenses.client.email !== '' ||
+          this.expenses.client.phone_number !== '')
+      ) {
+        Toast.fire({
+          icon: 'success',
+          title: 'Datos Agregados'
+        });
+      } else {
+        Swal.fire({
+          title: 'Si desea cotizar con nosotros, llene el siguente formulario',
+          // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+          icon: 'warning',
+          // showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          // cancelButtonColor: '#d33',
+          // cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    },
     /**
      * Send api quote (button Cotizar fedex, dhl, ups)
      * @param {Number} appAmount selected service amount if fedex, dhl or ups
@@ -447,10 +709,34 @@ export default {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const { data } = await this.expenses.post('/freight-quotes');
-        Toast.fire({
-          icon: 'success',
-          title: 'Datos Agregados',
+        const quoteTable = await this.expenses.post('/freight-quotes');
+
+        if (quoteTable.status == 200) {
+          this.tableQuote = quoteTable.data;
+          this.showForm = true;
+          this.showTable = true;
+          this.showFedexQuote = false;
+          this.showDHLQuote = false;
+          this.buttons = false;
+        }
+
+        // if (
+        //   (response.status == 200 && this.expenses.formName === '') ||
+        //   this.expenses.formEmail === '' ||
+        //   this.expenses.formPhone === ''
+        // ) {
+        //   return;
+        // } else {
+        //   }
+        Swal.fire({
+          title: 'Si desea cotizar con nosotros, llene el siguente formulario',
+          // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+          icon: 'warning',
+          // showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          // cancelButtonColor: '#d33',
+          // cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Aceptar'
         });
 
         // this.$store.dispatch('load/setLoad', data);
@@ -466,12 +752,12 @@ export default {
       let loader = this.$loading.show({
         canCancel: true,
         transition: 'fade',
-        color: '#046c4e',
+        color: '#4db2dc',
         loader: 'spinner',
         lockScroll: true,
         enforceFocus: true,
         height: 100,
-        width: 100,
+        width: 100
       });
       this.$store.dispatch('application/busyButton', true);
 
@@ -562,22 +848,24 @@ export default {
       // this.showApisQuote = false;
       this.showFedexQuote = false;
       this.showDHLQuote = false;
+      this.showForm = false;
 
       // /* Here the dataLoad is set to 0 to edit the view */
       // this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
     },
 
-    /**
-     * When the location found
-     * @param {Object} addressData Data of the found location
-     * @param {Object} placeResultData PlaceResult object
-     * @param {String} id Input container ID
-     */
-   
+    formatPrice(value, currency) {
+      return Number(value).toLocaleString(navigator.language, {
+        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+        maximumFractionDigits: currency == 'CLP' ? 0 : 2
+      });
+    }
   },
   computed: {
     ...mapState('freightQuotes', [
       'expenses',
+      'portsDestination',
+      'portsOrigin',
       'addressDestination',
       'addressDate',
       'formAddress',
@@ -586,7 +874,7 @@ export default {
       'showShipping'
     ]),
     ...mapState('application', ['data', 'busy'])
-  },
+  }
 };
 </script>
 
