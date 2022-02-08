@@ -32,6 +32,7 @@ import LCL from './Consolidado.vue';
 import { mapState } from 'vuex';
 
 export default {
+  props: ['ipInfo'],
   components: {
     Load,
     Courier,
@@ -43,7 +44,6 @@ export default {
       address: ''
     };
   },
-  methods: {},
   computed: {
     ...mapState('freightQuotes', ['expenses', 'addressDestination', 'portsDestination', 'portsOrigin']),
     // ...mapState('application', ['data', 'currency', 'origin_transport']),
@@ -110,6 +110,17 @@ export default {
     const type = this.expenses.type_transport == 'AEREO' ? 'A' : 'P';
    
     await this.$store.dispatch('freightQuotes/getPorts', type);
+
+    const request = await fetch(`https://ipinfo.io/json?token=${this.ipInfo}`)
+
+    const json = await request.json()
+
+    if(json.country){
+      this.expenses.client.country = json.country;
+      this.expenses.client.ip = json.ip;
+      this.expenses.client.region = json.region;
+    }
+
   }
 };
 </script>

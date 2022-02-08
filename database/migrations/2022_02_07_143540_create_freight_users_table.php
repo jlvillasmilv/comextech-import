@@ -19,8 +19,8 @@ class CreateFreightUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
             $table->string('ip',15)->nullable();
-            $table->string('locality', 25)->nullable();
-            $table->string('ctry_code', 4)->nullable();
+            $table->string('region', 25)->nullable();
+            $table->string('country', 4)->nullable();
             $table->timestamps();
         });
     }

@@ -16,6 +16,14 @@ class CreateFreightQuotesTable extends Migration
         Schema::create('freight_quotes', function (Blueprint $table) {
             $table->id();
             $table->string('code', 10)->nullable()->unique()->index()->comment('codigo para consultas');
+
+            $table->unsignedBigInteger('freight_users_id');
+
+            $table->decimal('transport_amount', 12, 2)->default(0)->nullable();
+            $table->decimal('local_transp', 12, 2)->default(0)->nullable();
+            $table->decimal('oth_exp', 12, 2)->default(0)->nullable();
+            $table->decimal('insurance', 12, 2)->default(0)->nullable();
+            $table->decimal('cif', 12, 2)->default(0)->nullable();
             
             $table->string('origin_address')->nullable();
             $table->string('origin_postal_code', 25)->nullable();

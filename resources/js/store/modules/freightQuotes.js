@@ -32,7 +32,15 @@ const state = {
     insurance: false,
     code_serv: 'ICS03',
     insurance_amt: 0,
-    mode_selected: 'COURIER'
+    mode_selected: 'COURIER',
+    client: {
+      name: '',
+      email: '',
+      phone_number: '',
+      ip:0,
+      region:'',
+      country:'CL',
+    },
   }),
   Load: false,
   safe: false,
