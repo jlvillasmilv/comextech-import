@@ -22,25 +22,23 @@
         <div class="px-4 pb-4 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <div class="lg:flex lg:flex-col lg:items-center my-1">
             <div class="px-2 md:flex lg:w-7/12 my-4">
-              <div>
+              <div v-if="expenses.courier_svc && data.amount > 2999">
                 <input
                   v-bind:value="true"
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="expenses.courier_svc && data.amount < 3000"
                 />
-                <span class="mx-2 text-xs text-black text-gray-500"> Comextech </span>
+                <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
-              <div>
+              <div v-if="expenses.courier_svc && data.amount > 2999">
                 <input
                   v-bind:value="false"
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="expenses.courier_svc && data.amount < 3000"
                 />
-                <span class="mx-2 text-xs text-black text-gray-500"> Cliente </span>
+                <span class="mx-2 text-xs text-gray-500"> Cliente </span>
               </div>
               <div v-if="expenses.courier_svc && data.amount < 3000">
                 <input
@@ -50,7 +48,7 @@
                   class="md:ml-2 form-checkbox h-5 w-5 text-blue-600"
                   checked
                 />
-                <span class="mx-2 text-xs text-black text-gray-500"> Servicio incluido </span>
+                <span class="mx-2 text-xs text-gray-500"> Servicio incluido </span>
               </div>
             </div>
 
@@ -72,7 +70,9 @@
                       leading-tight
                       focus:outline-none focus:bg-white focus:border-gray-500
                     "
+                    :disabled="$store.state.address.expenses.trans_company_id == '' ? disabled : ''"
                   >
+                    <!--  -->
                     <option
                       v-for="item in trans_companies"
                       :value="item.id"
@@ -918,7 +918,7 @@ export default {
       if (transpCostp.amount <= 0) {
         await axios.post('/set-application-summary', {
           application_id: btoa(this.application_id),
-          currency_code: currency
+          currency_code: 'USD'
         });
 
         this.$store.dispatch('exchange/getSummary', this.application_id);
@@ -931,6 +931,7 @@ export default {
       // agente de Aduana del cliente
       const transCompanies = await axios.get('/api/category_load');
       this.trans_companies = transCompanies.data;
+      console.log(this.trans_companies);
 
       if (this.data.type_transport == 'COURIER') {
         this.expenses.courier_svc = true;
