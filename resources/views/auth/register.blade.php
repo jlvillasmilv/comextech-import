@@ -45,7 +45,7 @@
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Nombre empresa</span>
-                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre empresa" type="text" name="company_name" :value="old('company_name')" required  maxlength="100"/>
+                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre empresa" type="text" id="companyName" name="company_name" :value="old('company_name')" required  maxlength="100"/>
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
@@ -58,10 +58,12 @@
                                 <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" name="password_confirmation" required autocomplete="new-password" />
                             </label>
 
+
+                            <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"  type="hidden" id="country" name="country" />
                             
 
                             <!-- You should use a button here, as the anchor is only used for the example  -->
-                            <button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-700 border border-transparent rounded-lg active:bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline-blue" type="submit">
+                            <button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1000 focus:outline-none focus:shadow-outline-blue" type="submit">
                                 {{ __('Register') }}
                             </button>
                         </form>
@@ -82,7 +84,7 @@
 
 <script>
   function recordData (data) {
-    console.log(data.ip, data.country)
+    el = document.getElementById("country").value = data.country;
   }
 </script>
 <script src="https://ipinfo.io/json?token=95f90ffda2dc97&callback=recordData"></script>
