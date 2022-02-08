@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Transport, Port};
+use App\Models\{Transport, Port, FreightQuote, FreightShipment, FreightUser};
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\Web\TransportRequest;
+use App\Http\Requests\Web\FreightQuotesRequest;
+use App\Notifications\AdminApplicationNotification;
 
 class FreightQuotesController extends Controller
 {
@@ -16,8 +17,9 @@ class FreightQuotesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('web.freight-quotes.index');   
+    {   $ip_info_token = env('IPINFO_TOKEN');
+
+        return view('web.freight-quotes.index', compact('ip_info_token'));   
     }
 
     /**
@@ -36,10 +38,79 @@ class FreightQuotesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function freightQuotes (FreightQuotesRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $user = FreightUser::updateOrCreate(
+                [   'email'     => $request->client->email ],
+                [
+                    'name'          => $request->client['name'],
+                    'phone_number'  => $request->client['phone_number'],
+                    'ip'            => $request->client['ip'],
+                    'region'        => $request->client['region'],
+                    'country'       => $request->client['country'],
+                ]
+            );
+
+            $data = new FreightQuote;
+            $data->freight_users_id = $user->id;
+            $data->fill($request->all());
+            $data->save();
+
+            foreach ($request->input('dataLoad') as $key => $item) {
+
+                FreightShipment::create([
+                    'freight_quotes_id' => $data->id,
+                    'type_container'    => $item['type_container'],
+                    'cbm'               => $item['cbm'],
+                    'stackable'         => $item['stackable'],
+                    'length_unit'       => $item['length_unit'],
+                    'length'            => $item['length'],
+                    'width'             => $item['width'],
+                    'height'            => $item['height'],
+                    'category_load_id'  => $item['category_load_id'],
+                    'weight'            => $item['weight'],
+                    'weight_units'      => $item['weight_units'],
+                ]);
+
+            }
+
+            /****Send notification to admin about new applications**/
+            $user_admin = User::whereHas('roles', function ($query) {
+                $query->where('name','=', 'Admin');
+            })->pluck('id');
+
+
+            $details = [
+                'title' => 'CLiente: '. $user->name." Telf: ".$user->phone_number." Correo: ".$user->email,
+                'body'  => 'Solicita cotizacion de transporte '
+            ];
+
+
+            User::all()
+                ->whereIn('id', $user_admin)
+                ->each(function (User $user) use ($details) {
+                   // $user->notify(new AdminApplicationNotification($application));
+                    \Mail::to($user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
+            });
+
+            DB::commit();
+
+        } catch (Throwable $e) {
+            DB::rollback();
+            return response()->json(['status' => $e], 500);
+        }
+        return response()->json(['transport' => $trans_summary], 200);
+
+
+    }
+    
     public function store(Request $request)
     {
-        // dd($request->all());
-       
+        
         try {
                       
             $transport_amount = is_null($request->app_amount) ? 0 : $request->app_amount;
@@ -116,10 +187,9 @@ class FreightQuotesController extends Controller
                 'local_transp'     => round($local_transp, 2)
             ];
 
-        DB::commit();
-
+        
         } catch (Throwable $e) {
-            DB::rollback();
+
             return response()->json(['status' => $e], 500);
         }
         return response()->json(['transport' => $trans_summary], 200);

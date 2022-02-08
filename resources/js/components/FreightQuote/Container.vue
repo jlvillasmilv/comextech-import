@@ -815,7 +815,7 @@
 
 <script>
 import FormDate from './FormDate.vue';
-import GoogleAutocomplete from './GoogleAutocomplete.vue';
+import GoogleAutocomplete from '../common/GoogleAutocomplete.vue';
 import { mapState } from 'vuex';
 
 
