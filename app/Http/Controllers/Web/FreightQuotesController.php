@@ -40,7 +40,6 @@ class FreightQuotesController extends Controller
      */
     public function store(FreightQuotesRequest $request)
     {
-        dd($request->client['country']);
         try {
 
             DB::beginTransaction();
