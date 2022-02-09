@@ -119,9 +119,9 @@ export default {
     const json = await request.json();
 
     if (json.country) {
-      this.expenses.client.country = json.country;
       this.expenses.client.ip = json.ip;
       this.expenses.client.region = json.region;
+      this.expenses.client.country = json.country;
     }
   }
 };

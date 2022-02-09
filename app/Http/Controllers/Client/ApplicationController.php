@@ -16,7 +16,6 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
         ->paginate(7);

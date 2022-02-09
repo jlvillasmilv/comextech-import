@@ -839,7 +839,7 @@ export default {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const lclResponse = await this.expenses.post('/freight-quotes');
+        const lclResponse = await this.expenses.post('/freight-quotes/calculate');
 
         /* Show fclTableQuote  */
         if (lclResponse.status == 200) {
