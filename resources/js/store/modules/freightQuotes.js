@@ -105,71 +105,7 @@ const mutations = {
   SHOW_QUOTE_LCL(state, value) {
     state.lclTable = value;
   },
-  GET_ADDRESS_ORIGIN(state, { addressData, placeResultData }) {
-    state.expenses.origin_address = placeResultData.formatted_address;
-    state.expenses.origin_latitude = addressData.latitude;
-    state.expenses.origin_longitude = addressData.longitude;
 
-    for (const component of placeResultData.address_components) {
-      const componentType = component.types[0];
-
-      switch (componentType) {
-        case 'country':
-          state.expenses.origin_ctry_code = component.short_name;
-          break;
-
-        case 'locality':
-          state.expenses.origin_locality = component.long_name;
-          break;
-
-        case 'postal_code': {
-          state.expenses.origin_postal_code = component.long_name;
-          break;
-        }
-      }
-    }
-    if (!state.expenses.origin_postal_code) {
-      state.postalCodeOrigin = true;
-    } else {
-      state.postalCodeOrigin = false;
-    }
-  },
-  GET_ADDRESS_DESTINATION(state, { addressData, placeResultData }) {
-    state.expenses.dest_latitude = addressData.latitude;
-    state.expenses.dest_longitude = addressData.longitude;
-
-    for (const component of placeResultData.address_components) {
-      const componentType = component.types[0];
-
-      switch (componentType) {
-        case 'country':
-          state.expenses.dest_ctry_code = component.short_name;
-          break;
-
-        case 'locality':
-          state.expenses.dest_locality = component.long_name;
-          break;
-
-        case 'administrative_area_level_2': {
-          state.expenses.dest_province = component.long_name;
-          break;
-        }
-
-        case 'postal_code': {
-          state.expenses.dest_postal_code = component.long_name;
-          break;
-        }
-      }
-    }
-
-    state.expenses.dest_address = placeResultData.formatted_address;
-
-    if (!state.expenses.dest_postal_code) {
-      state.postalCodeDestination = true;
-    } else {
-      state.postalCodeDestination = false;
-    }
-  },
   GET_FORMAT_PRICE(state, { value, currency }) {
     return Number(value).toLocaleString(navigator.language, {
       minimumFractionDigits: currency == 'CLP' ? 0 : 2,

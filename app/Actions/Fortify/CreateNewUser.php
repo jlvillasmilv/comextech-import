@@ -83,9 +83,24 @@ class CreateNewUser implements CreatesNewUsers
                 "email"     => $input['email'],
                 "phone"     => "00000000",
                 "password"  => "MXYAV0.",
-                "status"    => "approved"
+                "status"    => "approved",
+                "billing_addresses" => [
+                    [
+                         "name"          => $input['name'],
+                         "surname"       => $input['name'],
+                         "address"       => "...",
+                         "city"          => "...",
+                         "postal"        => "0000",
+                         "country"       => "CL",
+                         "region"        => "12",
+                         "taxid"         => null,
+                         "primary"       => true,
+                         "municipality"  => "Las Condes"
+                     ]
+                ],
             ]
         ];
+
 
        $user_jumpseller = JumpSellerUser::createJumpSellerUser($data);
 

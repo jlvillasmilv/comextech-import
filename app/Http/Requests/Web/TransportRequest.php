@@ -25,7 +25,7 @@ class TransportRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'application_id'             => 'required|exists:applications,id',
+            'application_id'             => 'required',
             'dest_address'               => 'required_if:mode_selected,==,COURIER',
             'origin_address'             => 'required_if:mode_selected,==,COURIER',
             'description'                => 'nullable|max:250',
@@ -33,7 +33,7 @@ class TransportRequest extends FormRequest
             'mode_selected'              => 'required|string|max:15',
             'dataLoad'                   => 'required|array',
             "dataLoad.*.weight"          => 'required|numeric|gt:0|between:0,99999',
-            "dataLoad.*.category_load_id"       => 'required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
+            "dataLoad.*.category_load_id"  => 'required_if:mode_selected,in:COURIER, TERRESTRE, AEREO, CONSOLIDADO',
             "dataLoad.*.type_container"  => 'required_if:mode_selected,==,CONTAINER',
         ];
 
