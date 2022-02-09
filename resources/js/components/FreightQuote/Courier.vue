@@ -2,33 +2,24 @@
   <div>
     <div
       v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
-      class="w-full flex flex-col flex-wrap items-center my-8"
+      class="flex flex-col items-center my-2"
     >
       <!-- Direccion de origen -->
-      <div class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
+      <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
         <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
-        <div class="w-full">
+        <div>
           <span class="text-sm font-semibold">Origen</span>
           <GoogleAutocomplete />
         </div>
       </div>
 
       <!-- Codigo postal origen -->
-      <div v-if="postalCodeOrigin" class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-        <div class="w-full">
+      <div v-if="postalCodeOrigin" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+        <div>
           <span class="text-sm font-semibold">Código postal origen</span>
           <div class="flex">
             <input
-              class="
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600 dark:bg-gray-700
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
-                form-input
-                pac-target-input
-              "
+              class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
               type="number"
               max="15"
               v-model="expenses.origin_postal_code"
@@ -44,8 +35,8 @@
       </div>
 
       <!-- Destino de envio -->
-      <div class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-        <div class="w-full">
+      <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+        <div>
           <span class="text-sm font-semibold">Destino</span>
 
           <GoogleAutocomplete :Addresses="false" />
@@ -53,8 +44,8 @@
       </div>
 
       <!-- codigo postal de destino -->
-      <div v-if="postalCodeDestination" class="sm:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-        <div class="w-full">
+      <div v-if="postalCodeDestination" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+        <div>
           <span class="text-sm font-semibold">Código postal origen</span>
           <div class="flex">
             <input
@@ -63,7 +54,8 @@
                 w-full
                 block
                 border border-gray-150
-                text-gray-700 text-sm
+                text-gray-700
+                text-sm
                 p-2
                 mt-1
                 pr-8
@@ -128,27 +120,6 @@
         Editar
       </button>
 
-      <!-- <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
-
-      <button
-        v-else-if="expenses.dataLoad.length > 0"
-        @click="HideAddress()"
-        class="
-          mr-4
-          w-32
-          h-12
-          text-white
-          transition-colors
-          text-lg
-          bg-blue-1000
-          rounded-lg
-          focus:shadow-outline
-          hover:bg-blue-1100
-          active:bg-blue-1000
-        "
-      >
-        Editar
-      </button> -->
       <button
         @click="submitForm()"
         :class="[
@@ -160,27 +131,6 @@
         ]"
         :disabled="busy"
       >
-        <svg
-          v-if="busy"
-          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
         Cotizar
       </button>
     </div>
@@ -429,7 +379,7 @@
       <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg shadow-xs">
         <table class="table-auto md:w-full whitespace-no-wrap">
           <thead>
-            <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
+            <tr class="text-sm text-center font-semibold tracking-wide text-white">
               <th
                 class="
                 w-1/12
@@ -673,6 +623,7 @@ export default {
   methods: {
     async saveForm() {
       const response = await this.expenses.post('/freight-quotes');
+      this.$store.dispatch('application/busyButton', true);
       if (
         response.status == 200 &&
         (this.expenses.client.name !== '' ||
@@ -683,7 +634,12 @@ export default {
           icon: 'success',
           title: 'Datos Agregados'
         });
+
+        setTimeout(() => {
+          window.location.href = '/freight-quotes';
+        }, 2000);
       } else {
+        this.$store.dispatch('application/busyButton', false);
         Swal.fire({
           title: 'Si desea cotizar con nosotros, llene el siguente formulario',
           // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
@@ -720,14 +676,6 @@ export default {
           this.buttons = false;
         }
 
-        // if (
-        //   (response.status == 200 && this.expenses.formName === '') ||
-        //   this.expenses.formEmail === '' ||
-        //   this.expenses.formPhone === ''
-        // ) {
-        //   return;
-        // } else {
-        //   }
         Swal.fire({
           title: 'Si desea cotizar con nosotros, llene el siguente formulario',
           // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',

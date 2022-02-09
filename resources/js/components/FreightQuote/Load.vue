@@ -5,14 +5,14 @@
         {{ title }}
       </h1>
     </div>
-    <div class="flex mt-3 mb-8">
-      <ul class="flex space-x-2 mt-3">
+    <div class="md:flex mt-3 mb-8">
+      <ul class="md:flex md:space-x-2 mt-3">
         <li
           v-for="name in types"
           :key="name"
           :class="[
             'cursor-pointer px-5 text-gray-900 border-b-2',
-            name == expenses.type_transport ? ' border-blue-500' : '',
+            name == expenses.type_transport ? ' border-blue-500' : ''
           ]"
           @click="typeSelected(name)"
         >
@@ -25,20 +25,12 @@
       <div
         v-for="(item, id) in loads"
         :key="id"
-        class="
-          my-4
-          sm:mt-8
-          flex flex-col
-          sm:flex-row sm:justify-center
-          items-top
-          dark:text-gray-400
-          sm:space-x-5
-        "
+        class="my-4 md:mt-8 flex flex-wrap flex-col md:flex-row md:justify-center items-top dark:text-gray-400 md:space-x-5"
       >
         <!-- tipo de carga -->
         <div
           v-if="expenses.type_transport != 'CONTAINER'"
-          class="my-2 flex justify-center md:inline md:w-24"
+          class="my-2 flex justify-center md:inline lg:w-24"
         >
           <div class="w-full text-center">
             <label v-if="id == 0" class="text-sm font-semibold"> Tipo de Carga </label>
@@ -49,9 +41,10 @@
                 class="
                   block
                   text-sm
-                  w-full
+                  w-11/12
                   bg-white
-                  border border-gray-200
+                  border 
+                  border-gray-200
                   text-gray-700
                   py-2
                   px-2
@@ -112,7 +105,7 @@
         </div>
 
         <!-- dimensiones unitarias -->
-        <div class="my-2 flex flex-col justify-center sm:inline md:inline text-center">
+        <div class="my-2 flex flex-col justify-center md:inline text-center">
           <div v-if="expenses.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold"> Dimension Unitaria </span>
             <div class="flex justify-center">
@@ -121,8 +114,10 @@
                 type="number"
                 class="
                   h-9
-                  w-1/3
-                  sm:w-13
+                  w-24
+                  sm:w-44 
+                  md:w-20 
+                  lg:w-14
                   focus:outline-none
                   border
                   rounded-l-lg
@@ -141,8 +136,10 @@
                 type="number"
                 class="
                   h-9
-                  w-1/3
-                  sm:w-13
+                  w-24
+                  sm:w-44 
+                  md:w-20 
+                  lg:w-14
                   focus:outline-none
                   border
                   rounded-none
@@ -161,8 +158,10 @@
                 type="number"
                 class="
                   h-9
-                  w-1/3
-                  sm:w-13
+                  w-24
+                  sm:w-44 
+                  md:w-20 
+                  lg:w-14
                   focus:outline-none
                   border
                   rounded-r-lg
@@ -231,22 +230,25 @@
 
         <!-- CBM -->
         <div
-          class="my-2 flex md:inline md:w-20 text-center"
+          class="my-2 flex lg:inline lg:w-20 text-center"
           v-if="expenses.type_transport != 'CONTAINER'"
         >
           <div class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold"> CBM </span>
-            <div class="flex">
+            <div class="flex justify-center">
               <input
                 :value="(item.cbm = (item.length * item.width * item.height) / 1000000)"
                 class="
-                  w-full
-                  h-9
+                  w-11/12 
+                  sm:w-11/12 
+                  md:w-20 
+                  lg:w-20
+                  h-9 
                   flex
                   text-center text-sm
-                  dark:bg-gray-700
-                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                  dark:text-gray-300 dark:focus:shadow-outline-gray
+                dark:bg-gray-700
+                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                dark:text-gray-300 dark:focus:shadow-outline-gray
                   form-input
                 "
                 :disabled="item.mode_calculate"
@@ -257,17 +259,17 @@
         </div>
 
         <!-- peso unitario -->
-        <div class="my-2 flex flex-col md:w-32 text-center">
+        <div class="my-2 flex flex-col lg:w-32 text-center">
           <div>
             <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
-            <div class="flex">
+            <div class="flex justify-center">
               <input
                 v-model.number="item.weight"
                 :max="99999"
                 type="number"
                 :class="[
-                  'h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-full',
-                  expenses.type_transport != 'CONTAINER' ? '' : '',
+                  'w-11/12 sm:w-11/12 md:w-28 lg:w-28 h-9 flex text-center text-sm dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input',
+                  expenses.type_transport != 'CONTAINER' ? '' : ''
                 ]"
               />
               <span v-if="validateweight" class="text-center text-red-600 text-xs">{{
@@ -346,7 +348,7 @@
 
         <!-- Botones añadir/eliminar -->
         <div
-          class="flex justify-center h-10 mt-5 sm:mt-7"
+          class="flex justify-center h-10 mt-5 lg:mt-7"
           v-if="item.mode_calculate || typeSelected == 'CONTAINER'"
         >
           <button
@@ -354,6 +356,7 @@
             v-if="id > 0"
             @click="deleteForm(id)"
             class="
+              w-11
               bg-transparent
               focus:outline-none
               uppercase
@@ -366,19 +369,22 @@
               border border-gray-600
               hover:border-transparent
               rounded
-              active:text-white active:bg-gray-500
+              active:text-white
+              active:bg-gray-500
             "
           >
             <svg
               class="w-6 h-6"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
               ></path>
             </svg>
           </button>
@@ -388,31 +394,34 @@
             v-else
             @click="AddFielForm"
             class="
-              bg-transparent
-              focus:outline-none
-              uppercase
-              text-xs
-              hover:bg-blue-1000
-              text-blue-1000
-              font-semibold
-              hover:text-white
-              active:bg-blue-1200
-              py-2
-              px-2
-              border border-blue-1000
-              rounded
+              w-11
+            bg-transparent
+            focus:outline-none
+            uppercase
+            text-xs
+            hover:bg-blue-1000
+            text-blue-1000
+            font-semibold
+            hover:text-white
+            active:bg-blue-1200
+            py-2
+            px-2
+            border border-blue-1000
+            rounded
             "
           >
             <svg
               class="w-6 h-6"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
               ></path>
             </svg>
           </button>
@@ -446,14 +455,14 @@ export default {
   props: {
     title: {
       require: false,
-      default: 'Cotizador Online',
-    },
+      default: 'Cotizador Online'
+    }
   },
   data() {
     return {
       types: ['COURIER', 'CONTAINER', 'CONSOLIDADO'],
       showKg: true,
-      showIn: true,
+      showIn: true
     };
   },
   methods: {
@@ -477,7 +486,7 @@ export default {
     },
     stackable(id) {
       this.loads[id].height = this.loads[id].stackable ? 0 : 230;
-    },
+    }
   },
   computed: {
     ...mapState('load', ['item', 'loads', 'mode_selected']),
@@ -535,11 +544,11 @@ export default {
           break;
       }
       return false;
-    },
+    }
   },
   created() {
     // this.mode_selected = this.expenses.type_transport;
     if (!this.loads.length) this.reset();
-  },
+  }
 };
 </script>
