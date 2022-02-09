@@ -60,12 +60,7 @@ export default {
             this.expenses.origin_ctry_code = component.short_name;
             break;
           case 'postal_code': {
-            this.expenses.origin_postal_code = `${component.long_name}${this.expenses.origin_postal_code}`;
-            break;
-          }
-
-          case 'postal_code_suffix': {
-            this.expenses.origin_postal_code = `${this.expenses.origin_postal_code}-${component.long_name}`;
+            this.expenses.origin_postal_code = component.long_name;
             break;
           }
 
@@ -74,9 +69,10 @@ export default {
             break;
           }
         }
-      }
 
-      this.postalCodeOrigin = !this.expenses.origin_postal_code ? true : false;
+      }
+      
+      // this.postalCodeOrigin = !this.expenses.origin_postal_code ? true : false;
     },
     getAddressDestination: function(addressData, placeResultData, id) {
       this.expenses.dest_address = placeResultData.formatted_address;
@@ -109,7 +105,7 @@ export default {
         }
       }
 
-      this.postalCodeDestination = !this.expenses.dest_postal_code ? true : false;
+      // this.postalCodeDestination = !this.expenses.dest_postal_code ? true : false;
     }
   },
   computed: {

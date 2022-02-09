@@ -44,7 +44,7 @@ class FreightQuotesController extends Controller
 
             DB::beginTransaction();
 
-            $user = FreightUser::updateOrCreate(
+            $freight_user = FreightUser::updateOrCreate(
                 [   'email'     => $request->client['email'] ],
                 [
                     'name'          => $request->client['name'],
@@ -56,7 +56,7 @@ class FreightQuotesController extends Controller
             );
 
             $data = new FreightQuote;
-            $data->freight_users_id = $user->id;
+            $data->freight_users_id = $freight_user->id;
             $data->fill($request->all());
             $data->save();
 
@@ -85,20 +85,27 @@ class FreightQuotesController extends Controller
 
 
             $details = [
-                'title' => 'CLiente: '. $user->name." Telf: ".$user->phone_number." Correo: ".$user->email,
-                'body'  => 'Solicita cotizacion de transporte '
+                'title' => 'CLiente: '. $freight_user->name,
+                'body'  => " Telf: {$freight_user->phone_number}  Correo: {$freight_user->email} \n Solicita cotizacion de transporte "
             ];
 
 
             User::all()
                 ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($details) {
+                ->each(function (User $user) use ($details,$freight_user) {
                    // $user->notify(new AdminApplicationNotification($application));
                     \Mail::to($user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
             });
 
-            DB::commit();
+            $details = [
+                'title' => 'Hola: '. $freight_user->name,
+                'body'  => 'Has Solicitado cotizacion de transporte pronto el equipo de Comextech lo contactara'
+            ];
 
+            \Mail::to($freight_user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
+
+            DB::commit();
+            dd('espera');
         } catch (Throwable $e) {
             DB::rollback();
             return response()->json(['status' => $e], 500);
