@@ -1,9 +1,9 @@
 <template>
-  <div v-if="Addresses">
+  <div class="flex" v-if="Addresses">
     <vue-google-autocomplete
       v-model="expenses.origin_address"
       id="addressOrigin"
-      classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+      classname="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
       v-on:placechanged="getAddressOrigin"
       placeholder="Direccion de origen"
     />
@@ -13,11 +13,11 @@
       v-html="expenses.errors.get('origin_address')"
     ></span>
   </div>
-  <div v-else>
+  <div class="flex" v-else>
     <vue-google-autocomplete
       v-model="expenses.dest_address"
       id="addressDestination"
-      classname="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+      classname="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
       v-on:placechanged="getAddressDestination"
       placeholder="Direccion Destino"
     />
@@ -39,16 +39,16 @@ export default {
     Addresses: {
       type: Boolean,
       default: true,
-      required: false,
+      required: false
     },
     Transport: {
       type: Boolean,
       default: true,
-      required: false,
-    },
+      required: false
+    }
   },
   methods: {
-    getAddressOrigin: function (addressData, placeResultData, id) {
+    getAddressOrigin: function(addressData, placeResultData, id) {
       this.expenses.origin_address = placeResultData.formatted_address;
       this.expenses.origin_latitude = addressData.latitude;
       this.expenses.origin_longitude = addressData.longitude;
@@ -77,10 +77,8 @@ export default {
       }
 
       this.postalCodeOrigin = !this.expenses.origin_postal_code ? true : false;
-  
     },
-    getAddressDestination: function (addressData, placeResultData, id) {
-
+    getAddressDestination: function(addressData, placeResultData, id) {
       this.expenses.dest_address = placeResultData.formatted_address;
       this.expenses.dest_latitude = addressData.latitude;
       this.expenses.dest_longitude = addressData.longitude;
@@ -94,11 +92,10 @@ export default {
             break;
           }
 
-          case 'locality':{
+          case 'locality': {
             this.expenses.dest_locality = component.long_name;
             break;
           }
-           
 
           case 'administrative_area_level_2': {
             this.expenses.dest_province = component.long_name;
@@ -113,13 +110,10 @@ export default {
       }
 
       this.postalCodeDestination = !this.expenses.dest_postal_code ? true : false;
-     
-    },
+    }
   },
   computed: {
-    
-    ...mapState('freightQuotes', ['expenses','postalCodeOrigin','postalCodeDestination'])
-    
-  },
+    ...mapState('freightQuotes', ['expenses', 'postalCodeOrigin', 'postalCodeDestination'])
+  }
 };
 </script>
