@@ -495,7 +495,7 @@
               </td>
               <td class="px-4 py-3">CLP</td>
             </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
+            <!-- <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
               <td
@@ -512,7 +512,7 @@
                 }}
               </td>
               <td class="px-4 py-3">CLP</td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
@@ -546,7 +546,8 @@
           <input
             v-model="expenses.client.phone_number"
             class="form-input"
-            type="number"
+            type="text"
+            :maxlength="15"
             placeholder="Telefono"
           />
           <span v-if="expenses.client.phone_number === ''" class="text-red-400"
@@ -630,14 +631,25 @@ export default {
           this.expenses.client.email !== '' ||
           this.expenses.client.phone_number !== '')
       ) {
-        Toast.fire({
-          icon: 'success',
-          title: 'Datos Agregados'
-        });
+        // Toast.fire({
+        //   icon: 'success',
+        //   title: 'Datos Agregados'
+        // });
 
         setTimeout(() => {
+          Swal.fire({
+            title: 'Comextech le enviará un correo para contactarlo',
+            // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+            icon: 'warning',
+            // showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#d33',
+            // cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar'
+          });
+
           window.location.href = '/freight-quotes';
-        }, 2000);
+        }, 3000);
       } else {
         this.$store.dispatch('application/busyButton', false);
         Swal.fire({
