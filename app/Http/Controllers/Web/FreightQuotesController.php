@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Transport, Port, FreightQuote, FreightShipment, FreightUser};
+use App\Models\{Transport, Port, FreightQuote, FreightShipment, FreightUser, User};
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Web\FreightQuotesRequest;
 use App\Notifications\AdminApplicationNotification;
@@ -38,14 +38,15 @@ class FreightQuotesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function freightQuotes (FreightQuotesRequest $request)
+    public function store(FreightQuotesRequest $request)
     {
+        dd($request->client['country']);
         try {
 
             DB::beginTransaction();
 
             $user = FreightUser::updateOrCreate(
-                [   'email'     => $request->client->email ],
+                [   'email'     => $request->client['email'] ],
                 [
                     'name'          => $request->client['name'],
                     'phone_number'  => $request->client['phone_number'],
@@ -103,12 +104,11 @@ class FreightQuotesController extends Controller
             DB::rollback();
             return response()->json(['status' => $e], 500);
         }
-        return response()->json(['transport' => $trans_summary], 200);
-
+        return response()->json(['status' => 'ok'], 200);
 
     }
     
-    public function store(Request $request)
+    public function freightQuotes(Request $request)
     {
         
         try {

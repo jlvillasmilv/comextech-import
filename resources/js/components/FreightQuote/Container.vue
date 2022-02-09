@@ -857,7 +857,7 @@ export default {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         
-        const fclResponse = await this.expenses.post('/freight-quotes');
+        const fclResponse = await this.expenses.post('/freight-quotes/calculate');
 
         /* Show fclTableQuote  */
         if (fclResponse.status == 200) {
