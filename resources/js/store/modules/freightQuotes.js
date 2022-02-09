@@ -58,7 +58,10 @@ const state = {
   minDate: new Date().toISOString().substr(0, 10),
   postalCodeOrigin: false,
   postalCodeDestination: false,
-  showShipping: false
+  showShipping: false,
+  showForm: false,
+  showTable: false,
+  buttons: true
 };
 
 const getters = {};
