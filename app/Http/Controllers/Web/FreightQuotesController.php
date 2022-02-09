@@ -105,7 +105,7 @@ class FreightQuotesController extends Controller
             \Mail::to($freight_user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
 
             DB::commit();
-            dd('espera');
+
         } catch (Throwable $e) {
             DB::rollback();
             return response()->json(['status' => $e], 500);
