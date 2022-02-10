@@ -1,46 +1,23 @@
 <template>
   <section>
-    <!-- form if data.condition is EXW -->
-    <section v-if="data.condition == 'EXW'">
+    <div>
       <transition name="fade">
         <div
-          v-if="
-            !expenses.dataLoad || expenses.dataLoad.length == 0 || $store.state.address.formAddress
-          "
-          class="w-full flex flex-col flex-wrap sm:items-center my-8"
+          v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
+          class="flex flex-col items-center my-2"
         >
           <!-- Direccion de origen -->
           <h3 class="mb-10 text-center">Direcciones y Puertos</h3>
-          <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-            <div class="w-full">
+          <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+            <div>
               <span class="text-sm font-semibold">Origen</span>
-             
-                <GoogleAutocomplete />
-              <label class="inline-flex text-sm items-center mx-2 mt-2">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_origin_address"
-                  @change="expenses.origin_address = ''"
-                />
-                <span class="ml-2 text-gray-700">
-                  {{ data.condition === 'FOB' ? 'Puertos favoritos' : 'Almacenes favoritos' }}
-                </span>
-              </label>
-              <span
-                class="text-xs text-red-600 dark:text-red-400"
-                v-if="expenses.errors.has('origin_address')"
-                v-html="expenses.errors.get('origin_address')"
-              ></span>
+              <GoogleAutocomplete />
             </div>
           </div>
 
           <!-- Codigo postal origen -->
-          <div
-            v-if="postalCodeOrigin && !expenses.fav_origin_address"
-            class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
-          >
-            <div class="w-full">
+          <div v-if="postalCodeOrigin" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+            <div>
               <span class="text-sm font-semibold">Código postal origen</span>
               <div class="flex">
                 <input
@@ -60,11 +37,9 @@
           </div>
 
           <!-- Aeropuerto / Puerto origen -->
-          <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-            <div class="w-full">
-              <span class="text-sm font-semibold"
-                >{{ data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto' }} Origen</span
-              >
+          <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+            <div>
+              <span class="text-sm font-semibold">Puerto Origen</span>
               <div class="flex">
                 <v-select
                   class="text-sm w-full"
@@ -87,32 +62,13 @@
                   </template>
                 </v-select>
               </div>
-              <label class="inline-flex text-sm items-center mx-2 mt-2">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_origin_port"
-                  @change="getFavOriginPort"
-                />
-                <span class="ml-2 text-gray-700">
-                  {{ data.type_transport === 'AEREO' ? 'Aeropuertos' : 'Puertos' }}
-                  favoritos
-                </span>
-                <span
-                  class="text-xs text-red-600 dark:text-red-400"
-                  v-if="expenses.errors.has('origin_port_address')"
-                  v-html="expenses.errors.get('origin_port_address')"
-                ></span>
-              </label>
             </div>
           </div>
 
           <!-- Aeropuerto / Puerto destino -->
-          <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-            <div class="w-full">
-              <span class="text-sm font-semibold"
-                >{{ data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto' }} Destino</span
-              >
+          <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+            <div>
+              <span class="text-sm font-semibold"> Puerto Destino</span>
               <div class="flex">
                 <v-select
                   class="text-sm w-full"
@@ -135,7 +91,7 @@
                   </template>
                 </v-select>
               </div>
-             
+
               <span
                 class="text-xs text-red-600 dark:text-red-400"
                 v-if="expenses.errors.has('dest_port_id')"
@@ -147,32 +103,9 @@
           <!-- transporte local -->
           <div class="flex justify-center w-full py-4">
             <button
-              v-if="!showShipping"
-              @click="showShippingMethod()"
+              @click="!showShipping ? SHOW_LOCAL_SHIPPING(true) : SHOW_LOCAL_SHIPPING(false)"
               class="
-                md:w-2/12
-                bg-transparent
-                focus:outline-none
-                uppercase
-                text-xs
-                hover:bg-blue-1000
-                text-blue-1000
-                font-semibold
-                hover:text-white
-                py-2
-                px-2
-                border border-blue-1000
-                hover:border-transparent
-                rounded active:bg-blue-1100
-              "
-            >
-              Transporte Local
-            </button>
-            <button
-              v-else-if="showShipping"
-              @click="HideShippingMethod()"
-              class="
-                md:w-2/12
+                lg:w-2/12
                 bg-transparent
                 focus:outline-none
                 uppercase
@@ -194,246 +127,19 @@
           </div>
 
           <!-- Destino de Envio -->
-          <div v-if="showShipping" class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-            <div class="w-full">
+          <div v-if="showShipping" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+            <div>
               <span class="text-sm font-semibold">Destino</span>
-               <GoogleAutocomplete :Addresses='false'/>
-            </div>
-          </div>
-
-          <!-- codigo postal de destino -->
-          <div
-            v-if="postalCodeDestination"
-            class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
-          >
-            <div class="w-full">
-              <span class="text-sm font-semibold">Código postal origen</span>
-              <div class="flex">
-                <input
-                  class="
-                form-input
-                w-full
-                block
-                border border-gray-150
-                text-gray-700
-                text-sm
-                p-2
-                mt-1
-                pr-8
-                rounded
-                leading-tight
-                focus:outline-none focus:bg-white focus:border-gray-500
-                dark:text-gray-300
-                dark:border-gray-600
-                dark:bg-gray-700
-                dark:focus:shadow-outline-gray
-              "
-                  type="number"
-                  max="15"
-                  v-model="expenses.dest_postal_code"
-                  placeholder="Código postal de destino"
-                />
-              </div>
-              <span
-                class="text-xs text-red-600 dark:text-red-400"
-                v-if="expenses.errors.has('dest_postal_code')"
-                v-html="expenses.errors.get('dest_postal_code')"
-              ></span>
-            </div>
-          </div>
-        </div>
-      </transition>
-
-      <!-- Date and description -->
-      <transition name="fade">
-        <FormDate v-if="$store.state.address.addressDate" />
-      </transition>
-    </section>
-
-    <!-- Form if data.condition is FOB -->
-    <section v-if="data.condition == 'FOB'">
-      <transition name="fade">
-        <div
-          v-if="
-            !expenses.dataLoad || expenses.dataLoad.length == 0 || $store.state.address.formAddress
-          "
-          class="w-full flex flex-col flex-wrap sm:items-center my-8"
-        >
-          <h3 class="mb-10 text-center">Direcciones y Puertos</h3>
-
-          <!-- Aeropuerto / Puerto origen -->
-          <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-            <div class="w-full">
-              <span class="text-sm font-semibold"
-                >{{ data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto' }} Origen</span
-              >
-              <div class="flex">
-                <v-select
-                  class="w-full"
-                  label="name"
-                  v-model="expenses.origin_port_id"
-                  placeholder="Puerto Origen"
-                  :options="portsOrigin"
-                  :reduce="(portsOrigin) => portsOrigin.id"
-                >
-                  <template v-slot:no-options="{ search, searching }">
-                    <template v-if="searching" class="text-sm">
-                      Lo sentimos no hay opciones que coincidan
-                      <strong>{{ search }}</strong
-                      >.
-                    </template>
-                    <em style="opacity: 0.5" v-else> Puertos </em>
-                  </template>
-                  <template v-slot:option="portsOrigin">
-                    {{ portsOrigin.name }}
-                  </template>
-                </v-select>
-              </div>
-              <label class="inline-flex text-sm items-center mx-2 mt-2">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_origin_port"
-                  @change="getFavOriginPort"
-                />
-                <span class="ml-2 text-gray-700">
-                  {{ data.type_transport === 'AEREO' ? 'Aeropuertos' : 'Puertos' }}
-                  favoritos
-                </span>
-                <span
-                  class="text-xs text-red-600 dark:text-red-400"
-                  v-if="expenses.errors.has('origin_port_address')"
-                  v-html="expenses.errors.get('origin_port_address')"
-                ></span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Aeropuerto / Puerto destino -->
-          <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-            <div class="w-full">
-              <span class="text-sm font-semibold"
-                >{{ data.type_transport === 'AEREO' ? 'Aeropuerto' : 'Puerto' }} Destino</span
-              >
-              <div class="flex">
-                <v-select
-                  class="w-full"
-                  label="name"
-                  v-model="expenses.dest_port_id"
-                  placeholder="Puerto Destino"
-                  :options="portsDestination"
-                  :reduce="(portsDestination) => portsDestination.id"
-                >
-                  <template v-slot:no-options="{ search, searching }">
-                    <template v-if="searching" class="text-sm">
-                      Lo sentimos no hay opciones que coincidan
-                      <strong>{{ search }}</strong
-                      >.
-                    </template>
-                    <em style="opacity: 0.5" v-else> Puertos </em>
-                  </template>
-                  <template v-slot:option="portsDestination">
-                    {{ portsDestination.name }}
-                  </template>
-                </v-select>
-              </div>
-              <label class="inline-flex text-sm items-center mx-2 mt-2">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_dest_port"
-                  @change="getFavDestPort"
-                />
-                <span class="ml-2 text-gray-700">
-                  {{ data.type_transport === 'AEREO' ? 'Aeropuertos' : 'Puertos' }}
-                  favoritos
-                </span>
-              </label>
-              <span
-                class="text-xs text-red-600 dark:text-red-400"
-                v-if="expenses.errors.has('dest_port_id')"
-                v-html="expenses.errors.get('dest_port_id')"
-              ></span>
-            </div>
-          </div>
-
-          <!-- Boton transporte local -->
-          <div class="flex justify-center w-full py-4">
-            <button
-              v-if="!showShipping"
-              @click="showShippingMethod()"
-              class="
-                md:w-2/12
-                bg-transparent
-                focus:outline-none
-                uppercase
-                text-xs
-                hover:bg-blue-1000
-                text-blue-1000
-                font-semibold
-                hover:text-white
-                py-2
-                px-2
-                border border-blue-1000
-                hover:border-transparent
-                rounded active:bg-blue-1100
-              "
-            >
-              Transporte Local
-            </button>
-            <button
-              v-else-if="showShipping"
-              @click="HideShippingMethod()"
-              class="
-                md:w-2/12
-                bg-transparent
-                focus:outline-none
-                uppercase
-                text-xs
-                hover:bg-blue-1000
-                text-blue-1000
-                font-semibold
-                hover:text-white
-                py-2
-                px-2
-                border border-blue-1000
-                hover:border-transparent
-                rounded active:bg-blue-1100
-              "
-            >
-              Transporte Local
-            </button>
-            <hr class="md:w-8/12 md:mt-4 md:mb-4 md:border-solid md:border-t-2" />
-          </div>
-
-          <!-- Destino de Envio -->
-          <div v-if="showShipping" class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
-            <div class="w-full">
-              <span class="text-sm font-semibold">Destino</span>
-              <GoogleAutocomplete :Addresses='false'/>
-              
-              <label class="inline-flex text-sm items-center mx-2 mt-2">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-gray-800"
-                  v-model="expenses.fav_dest_address"
-                  @change="expenses.dest_address = ''"
-                /><span class="ml-2 text-gray-700"> Direccion de Destino Favoritas </span>
-              </label>
-              <span
-                class="text-xs text-red-600 dark:text-red-400"
-                v-if="expenses.errors.has('dest_address')"
-                v-html="expenses.errors.get('dest_address')"
-              ></span>
+              <GoogleAutocomplete :Addresses="false" />
             </div>
           </div>
 
           <!-- codigo postal de destino -->
           <div
             v-if="postalCodeDestination && !expenses.fav_dest_address"
-            class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
+            class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0"
           >
-            <div class="w-full">
+            <div>
               <span class="text-sm font-semibold">Código postal origen</span>
               <div class="flex">
                 <input
@@ -473,479 +179,151 @@
 
       <!-- Date and description -->
       <transition name="fade">
-        <FormDate v-if="$store.state.address.addressDate" />
+        <FormDate v-if="addressDate" />
       </transition>
-    </section>
-
-    <!-- lcl table quote -->
-    <section v-if="lclTable" class="md:flex md:justify-center">
-      <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg shadow-xs">
-        <table v-if="data.condition == 'EXW'" class="table-auto md:w-full whitespace-no-wrap">
-          <thead>
-            <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
-              <th
-                class="w-1/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800"
-              >
-                {{ this.$store.state.application.selectedCondition.name }}
-              </th>
-              <th
-                class="w-4/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800"
-              >
-                CONCEPTO
-              </th>
-              <th
-                class="w-2/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800"
-              >
-                TARIFA
-              </th>
-              <th
-                class="w-1/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800"
-              >
-                MONEDA
-              </th>
-            </tr>
-          </thead>
-          <tbody class="text-center bg-white dark:bg-gray-800">
-            <tr class="text-sm text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRAMO LOCAL (ORIGEN)</td>
-              <td class="text-red-600 font-semibold px-4 py-3">POR COTIZAR</td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.transport_amount
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.transport_amount
-                    ? formatPrice(lclTableQuote.transport.transport_amount)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">SEGURO</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.insurance
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.insurance
-                    ? formatPrice(lclTableQuote.transport.insurance)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.oth_exp
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.oth_exp
-                    ? formatPrice(lclTableQuote.transport.oth_exp)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">CLP</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.local_transp
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.local_transp
-                    ? formatPrice(lclTableQuote.transport.local_transp)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">CLP</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <table v-if="data.condition == 'FOB'" class="table-auto md:w-full whitespace-no-wrap">
-          <thead>
-            <tr class="text-sm text-center font-semibold tracking-wide text-left text-white">
-              <th
-                class="w-1/12
-                  px-4 
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-1300
-                  dark:text-gray-400 dark:bg-gray-800"
-              >
-                {{ this.$store.state.application.selectedCondition.name }}
-              </th>
-              <th
-                class="w-4/12
-                  px-4 
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-1300
-                  dark:text-gray-400 dark:bg-gray-800"
-              >
-                CONCEPTO
-              </th>
-              <th
-                class="w-2/12
-                  px-4 
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-1300
-                  dark:text-gray-400 dark:bg-gray-800"
-              >
-                TARIFA
-              </th>
-              <th
-                class="w-1/12
-                  px-4 
-                  py-3
-                  border-b
-                  dark:border-gray-700
-                  bg-blue-1300
-                  dark:text-gray-400 dark:bg-gray-800"
-              >
-                MONEDA
-              </th>
-            </tr>
-          </thead>
-          <tbody class="text-center bg-white dark:bg-gray-800">
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.transport_amount
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.transport_amount
-                    ? formatPrice(lclTableQuote.transport.transport_amount)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">SEGURO</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.insurance
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.insurance
-                    ? formatPrice(lclTableQuote.transport.insurance)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.oth_exp
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.oth_exp
-                    ? formatPrice(lclTableQuote.transport.oth_exp)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">CLP</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td
-                :class="[
-                  !lclTableQuote.transport.local_transp
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  lclTableQuote.transport.local_transp
-                    ? formatPrice(lclTableQuote.transport.local_transp)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">CLP</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+    </div>
 
     <!-- botones cotizar/editar -->
-    <section
-      :class="[
-        !expenses.dataLoad || expenses.dataLoad.length <= 0
-          ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5'
-      ]"
-    >
-      <button v-if="!expenses.dataLoad" class="hidden" @click="HideAddress()">Editar</button>
-
-      <button
-        v-else-if="expenses.dataLoad.length > 0"
-        @click="HideAddress()"
-        class="
-          mr-4
-          w-32
-          h-12
-          text-white
-          transition-colors
-          text-lg
-          bg-blue-1000
-          rounded-lg
-          focus:shadow-outline
-          hover:bg-blue-1100 active:bg-blue-1000
-        "
-      >
-        Editar
-      </button>
-      <button
-        @click="submitQuote()"
+    <transition name="fade">
+      <div
+        v-if="buttons"
         :class="[
-          !expenses.dataLoad
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : expenses.dataLoad.length <= 0
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+          !expenses.dataLoad || expenses.dataLoad.length <= 0
+            ? 'flex justify-center'
+            : 'flex justify-center my-5 innline w-1/7 mt-5'
         ]"
-        :disabled="busy"
       >
-        <svg
-          v-if="busy"
-          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
+        <button
+          @click="HideAddress()"
+          :class="[
+            !expenses.dataLoad
+              ? 'hidden'
+              : expenses.dataLoad.length > 0
+              ? 'mr-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1000 rounded-lg focus:shadow-outline hover:bg-blue-1100 active:bg-blue-1000'
+              : ''
+          ]"
         >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        Cotizar
-      </button>
-    </section>
+          {{ expenses.dataLoad.length > 0 ? 'Editar' : '' }}
+        </button>
+
+        <button
+          @click="submitQuote()"
+          :class="[
+            !expenses.dataLoad
+              ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+              : expenses.dataLoad.length <= 0
+              ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+              : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+          ]"
+        >
+          Cotizar
+        </button>
+      </div>
+    </transition>
+
+    <!-- fcl table quote   -->
+    <transition name="fade">
+      <Table v-if="showTable" />
+    </transition>
+
+    <!-- form  -->
+    <transition name="fade">
+      <Form v-if="showForm" />
+    </transition>
   </section>
 </template>
 
 <script>
 import FormDate from './FormDate.vue';
+import Form from './FormUsers.vue';
+import Table from './Table.vue';
 import GoogleAutocomplete from '../common/GoogleAutocomplete.vue';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
-  components: { GoogleAutocomplete, mapState, FormDate },
+  components: { GoogleAutocomplete, FormDate, Form, Table },
   data() {
-    return {
-      lclTableQuote: {},
-      lclTable: false
-    };
+    return {};
   },
   methods: {
-   
+    ...mapMutations('application', ['BUSY_BUTTON']),
+    ...mapMutations('freightQuotes', [
+      'SHOW_LOCAL_SHIPPING',
+      'SHOW_ADDRESS',
+      'SHOW_FREIGHT_FORM',
+      'SHOW_HIDE_BUTTONS_QUOTE'
+    ]),
+    ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
+
+    /**
+     * Send api quote (button Cotizar fedex, dhl, ups)
+     * @param {Number} appAmount selected service amount if fedex, dhl or ups
+     * @param {Number} transCompanyId number of the service that is selected:
+     * @param {2} FEDEX
+     * @param {3} DHL
+     * @param {4} UPS
+     */
     async submitQuote(appAmount, transCompanyId) {
       /* Vue-loader config */
       let loader = this.$loading.show({
         canCancel: true,
         transition: 'fade',
-        color: '#046c4e',
+        color: '#142c44',
         loader: 'spinner',
         lockScroll: true,
         enforceFocus: true,
         height: 100,
         width: 100
       });
-      this.$store.dispatch('application/busyButton', true);
-      this.$store.dispatch('freightQuotes/showAddress', false);
-      this.$store.dispatch('load/showLoadCharge', false);
+
+      this.SHOW_ADDRESS(false);
+      this.SHOW_LOAD_CHARGE(false);
 
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const lclResponse = await this.expenses.post('/freight-quotes');
+        const tableQuote = await this.$store.dispatch(
+          'freightQuotes/getTransportTableQuote',
+          this.expenses
+        );
 
-        /* Show fclTableQuote  */
-        if (lclResponse.status == 200) {
-          this.lclTableQuote = lclResponse.data;
-          this.lclTable = true;
+        if (tableQuote.status == 200) {
+          this.SHOW_FREIGHT_FORM(true);
+          this.SHOW_HIDE_BUTTONS_QUOTE(false);
 
-          this.$store.dispatch('application/busyButton', false);
-
-          /* Vue-loader hidden */
-          loader.hide();
+          Swal.fire({
+            title: 'Si desea cotizar con nosotros, llene el siguente formulario',
+            // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+            icon: 'warning',
+            // showCancelButton: true,
+            confirmButtonColor: '#142c44',
+            // cancelButtonColor: '#d33',
+            // cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar'
+          });
         }
-
-        // // Mensaje para validar si transport_amount es igual a 0
-        // if (lclResponse.data.transport.transport_amount === 0) {
-        //   Swal.fire({
-        //     title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-        //     // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-        //     icon: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     cancelButtonText: 'Cancelar',
-        //     confirmButtonText: 'Enviar'
-        //   }).then((result) => {
-        //     if (result.isConfirmed) {
-        //       // Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-
-        //       axios
-        //         .post('/notifications-transport', { application_id: this.data.application_id })
-        //         .then(function(response) {
-        //           console.log(response);
-        //         })
-        //         .catch(function(error) {
-        //           console.log(error);
-        //         });
-        //       // axios.post
-        //       // Toast.fire({
-        //       //   icon: 'success',
-        //       //   title: 'Datos Agregados'
-        //       // });
-        //     }
-        //   });
-        // } else {
-        //   Toast.fire({
-        //     icon: 'success',
-        //     title: 'Datos Agregados'
-        //   });
-        // }
-
-        // this.$store.dispatch('load/setLoad', lclResponse.data);
-        // // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         this.HideAddress();
         console.error(error);
       } finally {
-        this.$store.dispatch('application/busyButton', false);
         loader.hide();
       }
     },
-
     /**
      * Show / Hide from address (button "Editar")
      */
     HideAddress() {
-      this.$store.dispatch('freightQuotes/showAddress', true);
-      this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
-      this.lclTable = false;
-    },
-
-    getFavOriginPort: async function() {
-      this.expenses.origin_port_id = '';
-      if (this.expenses.fav_origin_port && this.data.supplier_id) {
-        let idsupplier = this.data.supplier_id;
-        const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
-        await this.$store.dispatch('freightQuotes/getFavOriginPort', {
-          idsupplier,
-          type
-        });
-      } else {
-        await this.$store.dispatch('freightQuotes/setOrigFavOritPorts');
-      }
-    },
-
-    getFavDestPort: async function() {
-      this.expenses.dest_port_id = '';
-      const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
-      if (this.expenses.fav_dest_port) {
-        await this.$store.dispatch('freightQuotes/getFavDestPorts', type);
-      } else {
-        await this.$store.dispatch('freightQuotes/setOrigFavDestPorts');
-      }
+      this.SHOW_LOAD_CHARGE(true);
+      this.SHOW_ADDRESS(true);
+      this.SHOW_HIDE_BUTTONS_QUOTE(true);
     },
 
     showShippingMethod() {
-      this.$store.dispatch('freightQuotes/showLocalShipping', true);
+      this.$store.state.freightQuotes.showLocalShipping = true;
     },
-
     HideShippingMethod() {
-      this.$store.dispatch('freightQuotes/showLocalShipping', false);
-    },
-
-    formatPrice(value, currency) {
-      return Number(value).toLocaleString(navigator.language, {
-        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
-      });
+      this.$store.state.freightQuotes.showLocalShipping = false;
     }
   },
   computed: {
@@ -960,9 +338,21 @@ export default {
       'formAddress',
       'postalCodeOrigin',
       'postalCodeDestination',
-      'showShipping'
+      'showShipping',
+      'showForm',
+      'showTable',
+      'buttons'
     ]),
     ...mapState('application', ['data', 'currency', 'origin_transport', 'busy'])
   }
 };
 </script>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.7s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

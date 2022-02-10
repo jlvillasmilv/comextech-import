@@ -58,10 +58,21 @@ const state = {
   minDate: new Date().toISOString().substr(0, 10),
   postalCodeOrigin: false,
   postalCodeDestination: false,
-  showShipping: false
+  showShipping: false,
+  showForm: false,
+  table: [],
+  showTable: false,
+  buttons: true
 };
 
-const getters = {};
+const getters = {
+  formatPrice(state, { value, currency }) {
+    return Number(state.table.transport.cif).toLocaleString(navigator.language, {
+      minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+      maximumFractionDigits: currency == 'CLP' ? 0 : 2
+    });
+  }
+};
 
 const mutations = {
   ADD_LOAD(state, payload) {
@@ -96,83 +107,6 @@ const mutations = {
     }
     state.portsOrigin = payload;
   },
-  SHOW_QUOTE_FCL(state, value) {
-    state.fclTable = value;
-  },
-  SHOW_QUOTE_LCL(state, value) {
-    state.lclTable = value;
-  },
-  GET_ADDRESS_ORIGIN(state, { addressData, placeResultData }) {
-    state.expenses.origin_address = placeResultData.formatted_address;
-    state.expenses.origin_latitude = addressData.latitude;
-    state.expenses.origin_longitude = addressData.longitude;
-
-    for (const component of placeResultData.address_components) {
-      const componentType = component.types[0];
-
-      switch (componentType) {
-        case 'country':
-          state.expenses.origin_ctry_code = component.short_name;
-          break;
-
-        case 'locality':
-          state.expenses.origin_locality = component.long_name;
-          break;
-
-        case 'postal_code': {
-          state.expenses.origin_postal_code = component.long_name;
-          break;
-        }
-      }
-    }
-    if (!state.expenses.origin_postal_code) {
-      state.postalCodeOrigin = true;
-    } else {
-      state.postalCodeOrigin = false;
-    }
-  },
-  GET_ADDRESS_DESTINATION(state, { addressData, placeResultData }) {
-    state.expenses.dest_latitude = addressData.latitude;
-    state.expenses.dest_longitude = addressData.longitude;
-
-    for (const component of placeResultData.address_components) {
-      const componentType = component.types[0];
-
-      switch (componentType) {
-        case 'country':
-          state.expenses.dest_ctry_code = component.short_name;
-          break;
-
-        case 'locality':
-          state.expenses.dest_locality = component.long_name;
-          break;
-
-        case 'administrative_area_level_2': {
-          state.expenses.dest_province = component.long_name;
-          break;
-        }
-
-        case 'postal_code': {
-          state.expenses.dest_postal_code = component.long_name;
-          break;
-        }
-      }
-    }
-
-    state.expenses.dest_address = placeResultData.formatted_address;
-
-    if (!state.expenses.dest_postal_code) {
-      state.postalCodeDestination = true;
-    } else {
-      state.postalCodeDestination = false;
-    }
-  },
-  GET_FORMAT_PRICE(state, { value, currency }) {
-    return Number(value).toLocaleString(navigator.language, {
-      minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-      maximumFractionDigits: currency == 'CLP' ? 0 : 2
-    });
-  },
   SHOW_LOCAL_SHIPPING(state, value) {
     if (value) {
       state.showShipping = value;
@@ -181,6 +115,25 @@ const mutations = {
       state.showShipping = value;
       state.expenses.dest_address = '';
       state.postalCodeDestination = false;
+    }
+  },
+  SHOW_FREIGHT_FORM(state, value) {
+    state.showForm = value;
+  },
+  SHOW_HIDE_BUTTONS_QUOTE(state, value) {
+    state.buttons = value;
+  },
+  SET_TABLE(state, payload) {
+    if (payload) {
+      state.showTable = true;
+      state.table = payload;
+      state.expenses.transport_amount = state.table.transport.transport_amount;
+      state.expenses.local_transp_amt = state.table.transport.local_transp;
+      state.expenses.oth_exp = state.table.transport.oth_exp;
+      state.expenses.insurance_amt = state.table.transport.insurance;
+      state.expenses.cif = state.table.transport.cif;
+    } else {
+      state.showTable = false;
     }
   }
 };
@@ -230,26 +183,25 @@ const actions = {
   setModeSelected({ commit }, data) {
     commit('SET_MODE_SELECTED', data);
   },
-  showQuoteFCL({ commit }, value) {
-    commit('SHOW_QUOTE_FCL', value);
-  },
-  showQuoteLCL({ commit }, value) {
-    commit('SHOW_QUOTE_LCL', value);
-  },
-  mapa({ state, commit }) {
-    console.log('mapa google');
-  },
   getAddressOrigin({ commit }, { addressData, placeResultData }) {
     commit('GET_ADDRESS_ORIGIN', { addressData, placeResultData });
   },
   getAddressDestination2({ commit }, { addressData, placeResultData }) {
     commit('GET_ADDRESS_DESTINATION', { addressData, placeResultData });
   },
-  getFormatPrice({ commit }, { value, currency }) {
-    commit('GET_FORMAT_PRICE', { value, currency });
-  },
   showLocalShipping({ commit }, value) {
     commit('SHOW_LOCAL_SHIPPING', value);
+  },
+  async getTransportTableQuote({ commit }, payload) {
+    try {
+      const transportQuote = await payload.post('/freight-quotes/calculate');
+      if (transportQuote.status == 200) {
+        commit('SET_TABLE', transportQuote.data);
+        return transportQuote;
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 

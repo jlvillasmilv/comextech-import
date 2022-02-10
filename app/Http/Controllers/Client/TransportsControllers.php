@@ -410,7 +410,12 @@ class TransportsControllers extends Controller
                     $total =  $total__net_charge - $total_discount;
                     
                     foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
-                        $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
+                        
+                            $quote[!empty($qtdShp_exchrg['GlobalServiceName']) ?
+                                $qtdShp_exchrg['GlobalServiceName']
+                                : 'Services'.$key
+                            ] = $qtdShp_exchrg['ChargeValue'];
+                        
                        /* Calculating the discount on the estimated total */
                         $total = $total + $qtdShp_exchrg['ChargeValue'];
                     }

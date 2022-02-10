@@ -205,9 +205,9 @@ class Transport extends Model
                ['status', true]
             ])
             ->whereRaw("? BETWEEN weight AND weight_limit", $item['weight'])
-            ->first(['amount'])->amount;
+            ->first(['amount']);
     
-            $rtl += $tl;
+            $rtl += is_null($tl) ? 0 : $tl->amount;
 
         }
 

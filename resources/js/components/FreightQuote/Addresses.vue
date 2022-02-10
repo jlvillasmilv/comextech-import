@@ -2,11 +2,11 @@
   <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
     <div
       v-if="$store.state.load.showLoad"
-      class="md:w-8/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
+      class="md:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
     >
       <Load />
     </div>
-    <div class="w-8/12 mt-6 pt-2 pb-4 rounded-lg shadow-md" v-show="isActivateAddress">
+    <div class="md:w-9/12 lg:w-9/12 mt-6 p-4 rounded-lg shadow-md" v-show="isActivateAddress">
       <!-- Cotizacion courier -->
       <div v-if="expenses.type_transport == 'COURIER'">
         <Courier />
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-
 import Load from './Load.vue';
 import Courier from './Courier.vue';
 import FCL from './Container.vue';
@@ -45,7 +44,12 @@ export default {
     };
   },
   computed: {
-    ...mapState('freightQuotes', ['expenses', 'addressDestination', 'portsDestination', 'portsOrigin']),
+    ...mapState('freightQuotes', [
+      'expenses',
+      'addressDestination',
+      'portsDestination',
+      'portsOrigin'
+    ]),
     // ...mapState('application', ['data', 'currency', 'origin_transport']),
     addreses() {
       if (this.data.condiction == 'FOB') {
@@ -106,21 +110,19 @@ export default {
     }
   },
   async created() {
-    
     const type = this.expenses.type_transport == 'AEREO' ? 'A' : 'P';
-   
+
     await this.$store.dispatch('freightQuotes/getPorts', type);
 
-    const request = await fetch(`https://ipinfo.io/json?token=${this.ipInfo}`)
+    const request = await fetch(`https://ipinfo.io/json?token=${this.ipInfo}`);
 
-    const json = await request.json()
+    const json = await request.json();
 
-    if(json.country){
-      this.expenses.client.country = json.country;
+    if (json.country) {
       this.expenses.client.ip = json.ip;
       this.expenses.client.region = json.region;
+      this.expenses.client.country = json.country;
     }
-
   }
 };
 </script>

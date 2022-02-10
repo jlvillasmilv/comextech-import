@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Transport, Port, FreightQuote, FreightShipment, FreightUser};
+use App\Models\{Transport, Port, FreightQuote, FreightShipment, FreightUser, User};
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Web\FreightQuotesRequest;
-use App\Notifications\AdminApplicationNotification;
+use App\Notifications\Admin\FreightQuotesNotification;
 
 class FreightQuotesController extends Controller
 {
@@ -38,14 +38,14 @@ class FreightQuotesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function freightQuotes (FreightQuotesRequest $request)
+    public function store(FreightQuotesRequest $request)
     {
         try {
 
             DB::beginTransaction();
 
-            $user = FreightUser::updateOrCreate(
-                [   'email'     => $request->client->email ],
+            $freight_user = FreightUser::updateOrCreate(
+                [   'email'     => $request->client['email'] ],
                 [
                     'name'          => $request->client['name'],
                     'phone_number'  => $request->client['phone_number'],
@@ -55,15 +55,15 @@ class FreightQuotesController extends Controller
                 ]
             );
 
-            $data = new FreightQuote;
-            $data->freight_users_id = $user->id;
-            $data->fill($request->all());
-            $data->save();
+            $freight_quote = new FreightQuote;
+            $freight_quote->freight_users_id = $freight_user->id;
+            $freight_quote->fill($request->all());
+            $freight_quote->save();
 
             foreach ($request->input('dataLoad') as $key => $item) {
 
                 FreightShipment::create([
-                    'freight_quotes_id' => $data->id,
+                    'freight_quotes_id' => $freight_quote->id,
                     'type_container'    => $item['type_container'],
                     'cbm'               => $item['cbm'],
                     'stackable'         => $item['stackable'],
@@ -84,18 +84,18 @@ class FreightQuotesController extends Controller
             })->pluck('id');
 
 
-            $details = [
-                'title' => 'CLiente: '. $user->name." Telf: ".$user->phone_number." Correo: ".$user->email,
-                'body'  => 'Solicita cotizacion de transporte '
-            ];
-
-
             User::all()
                 ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($details) {
-                   // $user->notify(new AdminApplicationNotification($application));
-                    \Mail::to($user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
+                ->each(function (User $user) use ($freight_quote) {
+                   $user->notify(new FreightQuotesNotification($freight_quote));
             });
+
+            $details = [
+                'title' => 'Hola: '. $freight_user->name,
+                'body'  => 'Has Solicitado cotizacion de transporte pronto el equipo de Comextech lo contactara'
+            ];
+
+            \Mail::to($freight_user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
 
             DB::commit();
 
@@ -103,12 +103,11 @@ class FreightQuotesController extends Controller
             DB::rollback();
             return response()->json(['status' => $e], 500);
         }
-        return response()->json(['transport' => $trans_summary], 200);
-
+        return response()->json(['status' => 'ok'], 200);
 
     }
     
-    public function store(Request $request)
+    public function freightQuotes(Request $request)
     {
         
         try {

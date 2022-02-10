@@ -10,7 +10,7 @@ class FreightUser extends Model
     protected $table = 'freight_users';
 
     protected $fillable = [
-        'name', 'email', 'phone_number','ip','locality','ctry_code',
+        'name', 'email', 'phone_number','ip','region','country',
     ];
 
 }
