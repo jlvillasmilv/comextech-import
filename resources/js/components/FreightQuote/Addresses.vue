@@ -2,7 +2,7 @@
   <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
     <div
       v-if="$store.state.load.showLoad"
-      class="lg:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
+      class="md:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
     >
       <Load />
     </div>

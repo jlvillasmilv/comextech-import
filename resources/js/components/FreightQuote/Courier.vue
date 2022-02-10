@@ -1,55 +1,56 @@
 <template>
-  <div>
-    <div
-      v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
-      class="flex flex-col items-center my-2"
-    >
-      <!-- Direccion de origen -->
-      <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
-        <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
-        <div>
-          <span class="text-sm font-semibold">Origen</span>
-          <GoogleAutocomplete />
-        </div>
-      </div>
-
-      <!-- Codigo postal origen -->
-      <div v-if="postalCodeOrigin" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
-        <div>
-          <span class="text-sm font-semibold">Código postal origen</span>
-          <div class="flex">
-            <input
-              class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
-              type="number"
-              max="15"
-              v-model="expenses.origin_postal_code"
-              placeholder="Código postal de origen"
-            />
+  <section>
+    <transition name="fade">
+      <div
+        v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
+        class="flex flex-col items-center my-2"
+      >
+        <!-- Direccion de origen -->
+        <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+          <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
+          <div>
+            <span class="text-sm font-semibold">Origen</span>
+            <GoogleAutocomplete />
           </div>
-          <span
-            class="text-xs text-red-600 dark:text-red-400"
-            v-if="expenses.errors.has('origin_postal_code')"
-            v-html="expenses.errors.get('origin_postal_code')"
-          ></span>
         </div>
-      </div>
 
-      <!-- Destino de envio -->
-      <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
-        <div>
-          <span class="text-sm font-semibold">Destino</span>
-
-          <GoogleAutocomplete :Addresses="false" />
+        <!-- Codigo postal origen -->
+        <div v-if="postalCodeOrigin" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+          <div>
+            <span class="text-sm font-semibold">Código postal origen</span>
+            <div class="flex">
+              <input
+                class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
+                type="number"
+                max="15"
+                v-model="expenses.origin_postal_code"
+                placeholder="Código postal de origen"
+              />
+            </div>
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="expenses.errors.has('origin_postal_code')"
+              v-html="expenses.errors.get('origin_postal_code')"
+            ></span>
+          </div>
         </div>
-      </div>
 
-      <!-- codigo postal de destino -->
-      <div v-if="postalCodeDestination" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
-        <div>
-          <span class="text-sm font-semibold">Código postal origen</span>
-          <div class="flex">
-            <input
-              class="
+        <!-- Destino de envio -->
+        <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+          <div>
+            <span class="text-sm font-semibold">Destino</span>
+
+            <GoogleAutocomplete :Addresses="false" />
+          </div>
+        </div>
+
+        <!-- codigo postal de destino -->
+        <div v-if="postalCodeDestination" class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+          <div>
+            <span class="text-sm font-semibold">Código postal origen</span>
+            <div class="flex">
+              <input
+                class="
                 form-input
                 w-full
                 block
@@ -67,20 +68,21 @@
                 dark:bg-gray-700
                 dark:focus:shadow-outline-gray
               "
-              type="number"
-              max="15"
-              v-model="expenses.dest_postal_code"
-              placeholder="Código postal de destino"
-            />
+                type="number"
+                max="15"
+                v-model="expenses.dest_postal_code"
+                placeholder="Código postal de destino"
+              />
+            </div>
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="expenses.errors.has('dest_postal_code')"
+              v-html="expenses.errors.get('dest_postal_code')"
+            ></span>
           </div>
-          <span
-            class="text-xs text-red-600 dark:text-red-400"
-            v-if="expenses.errors.has('dest_postal_code')"
-            v-html="expenses.errors.get('dest_postal_code')"
-          ></span>
         </div>
       </div>
-    </div>
+    </transition>
 
     <!-- Date and description -->
     <transition name="fade">
@@ -88,150 +90,142 @@
     </transition>
 
     <!-- Botones editar y cotizar -->
-    <div
-      v-if="buttons"
-      :class="[
-        !expenses.dataLoad || expenses.dataLoad.length <= 0
-          ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5'
-      ]"
-    >
-      <button
-        v-show="!expenses.dataLoad"
-        @click="HideAddress()"
+    <transition name="fade">
+      <div
+        v-if="buttons"
         :class="[
-          expenses.dataLoad.length > 0
-            ? 'mr-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1000 rounded-lg focus:shadow-outline hover:bg-blue-1100 active:bg-blue-1000'
-            : ''
+          !expenses.dataLoad || expenses.dataLoad.length <= 0
+            ? 'flex justify-center'
+            : 'flex justify-center my-5 innline w-1/7 mt-5'
         ]"
       >
-        Editar
-      </button>
+        <button
+          @click="HideAddress()"
+          :class="[
+            !expenses.dataLoad
+              ? 'hidden'
+              : expenses.dataLoad.length > 0
+              ? 'mr-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1000 rounded-lg focus:shadow-outline hover:bg-blue-1100 active:bg-blue-1000'
+              : ''
+          ]"
+        >
+          {{ expenses.dataLoad.length > 0 ? 'Editar' : '' }}
+        </button>
 
-      <button
-        v-show="expenses.dataLoad.length > 0"
-        @click="HideAddress()"
-        :class="[
-          expenses.dataLoad.length > 0
-            ? 'mr-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1000 rounded-lg focus:shadow-outline hover:bg-blue-1100 active:bg-blue-1000'
-            : ''
-        ]"
-      >
-        Editar
-      </button>
-
-      <button
-        @click="submitForm()"
-        :class="[
-          !expenses.dataLoad
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : expenses.dataLoad.length <= 0
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-        ]"
-        :disabled="busy"
-      >
-        Cotizar
-      </button>
-    </div>
+        <button
+          @click="submitForm()"
+          :class="[
+            !expenses.dataLoad
+              ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+              : expenses.dataLoad.length <= 0
+              ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+              : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+          ]"
+          :disabled="busy"
+        >
+          Cotizar
+        </button>
+      </div>
+    </transition>
 
     <!-- Bloque cotizacion de fedex -->
     <!-- <transition name="fade"> -->
-    <div name="fade" class="sm:flex sm:justify-center">
-      <div
-        v-if="
-          showFedexQuote == true &&
-            fedex.DeliveryTimestamp &&
-            fedex.ServiceType &&
-            fedex.FUEL &&
-            fedex.PEAK &&
-            fedex.Discount &&
-            TotalEstimed &&
-            fedex.TotalNetCharge
-        "
-        :class="[
-          !expenses.dataLoad
-            ? 'hidden'
-            : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
-        ]"
-      >
-        <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
-          <div class="mb-8 text-sm font-semibold">
-            <span>LLEGADA</span>
+    <transition name="fade">
+      <div class="sm:flex sm:justify-center">
+        <div
+          v-if="
+            showFedexQuote == true &&
+              fedex.DeliveryTimestamp &&
+              fedex.ServiceType &&
+              fedex.FUEL &&
+              fedex.PEAK &&
+              fedex.Discount &&
+              TotalEstimed &&
+              fedex.TotalNetCharge
+          "
+          :class="[
+            !expenses.dataLoad
+              ? 'hidden'
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
+          ]"
+        >
+          <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
+            <div class="mb-8 text-sm font-semibold">
+              <span>LLEGADA</span>
+            </div>
+            <span>{{ fedex.DeliveryTimestamp }}</span>
           </div>
-          <span>{{ fedex.DeliveryTimestamp }}</span>
-        </div>
 
-        <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
-          <div class="mb-8 text-sm font-semibold">
-            <span>SERVICIO</span>
+          <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
+            <div class="mb-8 text-sm font-semibold">
+              <span>SERVICIO</span>
+            </div>
+            <span>{{ fedex.ServiceType }}</span>
           </div>
-          <span>{{ fedex.ServiceType }}</span>
-        </div>
 
-        <div class="sm:w-5/12 inline-block align-top px-2">
-          <table>
-            <thead>
-              <tr>
-                <th class="text-sm font-semibold">
-                  <div class="mb-8 text-sm font-semibold">
-                    <span>CONCEPTOS</span>
-                  </div>
-                </th>
-                <th class="w-28 sm:w-28 text-sm font-semibold">
-                  <div class="mb-8 text-sm font-semibold">
-                    <span>TARIFA</span>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-left text-sm">Tarifa Transporte</td>
-                <td class="text-right text-sm">
-                  {{ transportQuote }}
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left text-sm">Recargo Combustible</td>
-                <td class="text-right text-sm">
-                  {{ fedex.FUEL }}
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left text-sm">Recargo por alta demanda</td>
-                <td class="text-right text-sm">
-                  {{ fedex.PEAK }}
-                </td>
-              </tr>
-              <!-- <tr>
+          <div class="sm:w-5/12 inline-block align-top px-2">
+            <table>
+              <thead>
+                <tr>
+                  <th class="text-sm font-semibold">
+                    <div class="mb-8 text-sm font-semibold">
+                      <span>CONCEPTOS</span>
+                    </div>
+                  </th>
+                  <th class="w-28 sm:w-28 text-sm font-semibold">
+                    <div class="mb-8 text-sm font-semibold">
+                      <span>TARIFA</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left text-sm">Tarifa Transporte</td>
+                  <td class="text-right text-sm">
+                    {{ transportQuote }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-sm">Recargo Combustible</td>
+                  <td class="text-right text-sm">
+                    {{ fedex.FUEL }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-sm">Recargo por alta demanda</td>
+                  <td class="text-right text-sm">
+                    {{ fedex.PEAK }}
+                  </td>
+                </tr>
+                <!-- <tr>
                   <td class="text-left text-sm">Descuento</td>
                   <td class="text-right text-sm">
                     {{ fedex.Discount }}
                   </td>
                 </tr> -->
-              <tr>
-                <td class="text-left text-sm">Total Estimado</td>
-                <td class="text-right text-sm">
-                  {{ TotalEstimed }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2">
-          <div class="flex flex-col h-full justify-around">
-            <div class="flex flex-auto self-end items-center mt-8">
-              <!-- <img
+                <tr>
+                  <td class="text-left text-sm">Total Estimado</td>
+                  <td class="text-right text-sm">
+                    {{ TotalEstimed }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2">
+            <div class="flex flex-col h-full justify-around">
+              <div class="flex flex-auto self-end items-center mt-8">
+                <!-- <img
                 src="../../../../public/img/fedex-logo.png"
                 alt="fedex-logo"
                 class="mx-auto my-2 w-4/12 sm:w-9/12"
               /> -->
-            </div>
-            <div class="flex flex-auto items-center justify-center">
-              <button
-                @click="submitQuote(TotalEstimed, 2)"
-                class="
+              </div>
+              <div class="flex flex-auto items-center justify-center">
+                <button
+                  @click="submitQuote(TotalEstimed, 2)"
+                  class="
                   w-24
                   px-2
                   h-14
@@ -244,114 +238,115 @@
                   hover:bg-blue-1200
                   active:bg-blue-1300
                 "
-              >
-                Cotizar
-              </button>
+                >
+                  Cotizar
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- </transition> -->
+    </transition>
 
     <!-- Bloque cotizacion de DHL -->
-    <div name="fade" class="sm:flex sm:justify-center">
-      <div
-        v-if="
-          showDHLQuote == true &&
-            dhl.DeliveryDate &&
-            dhl.DeliveryTime &&
-            dhl.ProductShortName &&
-            dhl.WeightCharge &&
-            dhl['FUEL SURCHARGE'] &&
-            dhl['EMERGENCY SITUATION'] &&
-            dhl.Discount &&
-            dhl.ComextechDiscount
-        "
-        :class="[
-          !expenses.dataLoad
-            ? 'hidden'
-            : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
-        ]"
-      >
-        <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
-          <div class="mb-8 text-sm font-semibold">
-            <span>LLEGADA</span>
+    <transition name="fade">
+      <div class="sm:flex sm:justify-center">
+        <div
+          v-if="
+            showDHLQuote == true &&
+              dhl.DeliveryDate &&
+              dhl.DeliveryTime &&
+              dhl.ProductShortName &&
+              dhl.WeightCharge &&
+              dhl['FUEL SURCHARGE'] &&
+              dhl['EMERGENCY SITUATION'] &&
+              dhl.Discount &&
+              dhl.ComextechDiscount
+          "
+          :class="[
+            !expenses.dataLoad
+              ? 'hidden'
+              : 'lg:w-9/12 md:9/12 py-4 my-4 focus:outline-none border rounded-sm'
+          ]"
+        >
+          <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
+            <div class="mb-8 text-sm font-semibold">
+              <span>LLEGADA</span>
+            </div>
+            <span>{{ dhl.DeliveryDate }}</span>
+            <span>{{ dhl.DeliveryTime }}</span>
           </div>
-          <span>{{ dhl.DeliveryDate }}</span>
-          <span>{{ dhl.DeliveryTime }}</span>
-        </div>
 
-        <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
-          <div class="mb-8 text-sm font-semibold">
-            <span>SERVICIO</span>
+          <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
+            <div class="mb-8 text-sm font-semibold">
+              <span>SERVICIO</span>
+            </div>
+            <span>{{ dhl.ProductShortName }}</span>
           </div>
-          <span>{{ dhl.ProductShortName }}</span>
-        </div>
 
-        <div class="sm:w-5/12 inline-block align-top px-2">
-          <table>
-            <thead>
-              <tr>
-                <th class="text-sm font-semibold">
-                  <div class="mb-8 text-sm font-semibold">
-                    <span>CONCEPTOS</span>
-                  </div>
-                </th>
-                <th class="w-28 sm:w-28 text-sm font-semibold">
-                  <div class="mb-8 text-sm font-semibold">
-                    <span>TARIFA</span>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-left text-sm">Tarifa de Transporte</td>
-                <td class="text-right text-sm">
-                  {{ transportDHL }}
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left text-sm">Recargo por Combustible</td>
-                <td class="text-right text-sm">
-                  {{ dhl['FUEL SURCHARGE'] }}
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left text-sm">Situación de emergencia</td>
-                <td class="text-right text-sm">
-                  {{ dhl['EMERGENCY SITUATION'] }}
-                </td>
-              </tr>
-              <!-- <tr>
+          <div class="sm:w-5/12 inline-block align-top px-2">
+            <table>
+              <thead>
+                <tr>
+                  <th class="text-sm font-semibold">
+                    <div class="mb-8 text-sm font-semibold">
+                      <span>CONCEPTOS</span>
+                    </div>
+                  </th>
+                  <th class="w-28 sm:w-28 text-sm font-semibold">
+                    <div class="mb-8 text-sm font-semibold">
+                      <span>TARIFA</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left text-sm">Tarifa de Transporte</td>
+                  <td class="text-right text-sm">
+                    {{ transportDHL }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-sm">Recargo por Combustible</td>
+                  <td class="text-right text-sm">
+                    {{ dhl['FUEL SURCHARGE'] }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-sm">Situación de emergencia</td>
+                  <td class="text-right text-sm">
+                    {{ dhl['EMERGENCY SITUATION'] }}
+                  </td>
+                </tr>
+                <!-- <tr>
                   <td class="text-left text-sm">Descuento</td>
                   <td class="text-right text-sm">
                     {{ dhl.ComextechDiscount }}
                   </td>
                 </tr> -->
-              <tr>
-                <td class="text-left text-sm">Total Estimado</td>
-                <td class="text-right text-sm">
-                  {{ dhl.ComextechTotal }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2">
-          <div class="flex flex-col h-full justify-around">
-            <div class="flex flex-auto self-end items-center mt-8">
-              <!-- <img
+                <tr>
+                  <td class="text-left text-sm">Total Estimado</td>
+                  <td class="text-right text-sm">
+                    {{ dhl.ComextechTotal }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sm:w-2/12 h-full inline-block align-top text-center text-sm px-2">
+            <div class="flex flex-col h-full justify-around">
+              <div class="flex flex-auto self-end items-center mt-8">
+                <!-- <img
                 src="../../../../public/img/dhl-express.jpg"
                 alt="dhl-logo"
                 class="mx-auto my-2 w-4/12 sm:w-9/12"
               /> -->
-            </div>
-            <div class="flex flex-auto items-center justify-center">
-              <button
-                @click="submitQuote(dhl.ComextechTotal, 3)"
-                class="
+              </div>
+              <div class="flex flex-auto items-center justify-center">
+                <button
+                  @click="submitQuote(dhl.ComextechTotal, 3)"
+                  class="
                   w-24
                   px-2
                   h-14
@@ -364,242 +359,39 @@
                   hover:bg-blue-1200
                   active:bg-blue-1300
                 "
-              >
-                Cotizar
-              </button>
+                >
+                  Cotizar
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
     <!-- Fin Bloque cotizacion de DHL -->
 
     <!-- fcl table quote   -->
-    <section v-if="showTable" class="md:flex md:justify-center">
-      <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg shadow-xs">
-        <table class="table-auto md:w-full whitespace-no-wrap">
-          <thead>
-            <tr class="text-sm text-center font-semibold tracking-wide text-white">
-              <th
-                class="
-                w-1/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800
-                "
-              >
-                {{ this.$store.state.application.selectedCondition.name }}
-              </th>
-              <th
-                class="
-                w-4/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800
-                "
-              >
-                CONCEPTO
-              </th>
-              <th
-                class="
-                w-2/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800
-                "
-              >
-                TARIFA
-              </th>
-              <th
-                class="
-                w-1/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800
-                "
-              >
-                MONEDA
-              </th>
-            </tr>
-          </thead>
-          <tbody class="text-center bg-white dark:bg-gray-800">
-            <tr class="text-sm text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">VALOR CIF</td>
-              <td class="font-semibold px-4 py-3">{{ tableQuote.transport.cif }}</td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
-              <td
-                :class="[
-                  !tableQuote.transport.transport_amount
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  tableQuote.transport.transport_amount
-                    ? formatPrice(tableQuote.transport.transport_amount)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">SEGURO</td>
-              <td
-                :class="[
-                  !tableQuote.transport.insurance
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  tableQuote.transport.insurance
-                    ? formatPrice(tableQuote.transport.insurance)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">USD</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">GASTOS LOCALES</td>
-              <td
-                :class="[
-                  !tableQuote.transport.oth_exp
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  tableQuote.transport.oth_exp
-                    ? formatPrice(tableQuote.transport.oth_exp)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">CLP</td>
-            </tr>
-            <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td
-                :class="[
-                  !tableQuote.transport.local_transp
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  tableQuote.transport.local_transp
-                    ? formatPrice(tableQuote.transport.local_transp)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">CLP</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+    <transition name="fade">
+      <Table v-if="showTable" />
+    </transition>
 
     <!-- form  -->
-    <div v-if="showForm" class="flex flex-col items-center justify-center w-full mt-10">
-      <form action="" class="w-6/12 flex flex-col mb-6">
-        <label for="" class="flex flex-col"
-          >Nombre
-          <input
-            v-model="expenses.client.name"
-            class="form-input"
-            type="text"
-            placeholder="Nombre"
-          />
-          <span v-if="expenses.client.name === ''" class="text-red-400">Ingrese su nombre*</span>
-        </label>
-        <label for="" class="flex flex-col"
-          >Correo
-          <input
-            v-model="expenses.client.email"
-            class="form-input"
-            type="email"
-            placeholder="Correo"
-          />
-          <span v-if="expenses.client.email === ''" class="text-red-400">Ingrese su correo*</span>
-        </label>
-        <label for="" class="flex flex-col"
-          >Telefono
-          <input
-            v-model="expenses.client.phone_number"
-            class="form-input"
-            type="number"
-            placeholder="Telefono"
-          />
-          <span v-if="expenses.client.phone_number === ''" class="text-red-400"
-            >Ingrese su telefono*</span
-          >
-        </label>
-      </form>
-      <button
-        @click="saveForm()"
-        :class="[
-          !expenses.dataLoad
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : expenses.dataLoad.length <= 0
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-        ]"
-        :disabled="busy"
-      >
-        <svg
-          v-if="busy"
-          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        Cotizar
-      </button>
-    </div>
-  </div>
+    <transition name="fade">
+      <Form v-if="showForm" />
+    </transition>
+  </section>
 </template>
 
 <script>
 import FormDate from './FormDate.vue';
+import Form from './FormUsers.vue';
+import Table from './Table.vue';
 import GoogleAutocomplete from '../common/GoogleAutocomplete.vue';
 
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
-  components: { GoogleAutocomplete, FormDate },
+  components: { GoogleAutocomplete, FormDate, Form, Table },
   props: {
     address: String
   },
@@ -610,48 +402,19 @@ export default {
       transportDHL: '' /* transportation rate Fedex */,
       BaseChargeTotal: '',
       TotalEstimed: '' /* estimated total Fedex */,
-      // showApisQuote: false,
       transportQuote: 0,
       showFedexQuote: false,
-      showDHLQuote: false,
-      showForm: false,
-      showTable: false,
-      tableQuote: {},
-      buttons: true
+      showDHLQuote: false
     };
   },
   methods: {
-    async saveForm() {
-      const response = await this.expenses.post('/freight-quotes');
-      this.$store.dispatch('application/busyButton', true);
-      if (
-        response.status == 200 &&
-        (this.expenses.client.name !== '' ||
-          this.expenses.client.email !== '' ||
-          this.expenses.client.phone_number !== '')
-      ) {
-        Toast.fire({
-          icon: 'success',
-          title: 'Datos Agregados'
-        });
-
-        setTimeout(() => {
-          window.location.href = '/freight-quotes';
-        }, 2000);
-      } else {
-        this.$store.dispatch('application/busyButton', false);
-        Swal.fire({
-          title: 'Si desea cotizar con nosotros, llene el siguente formulario',
-          // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-          icon: 'warning',
-          // showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          // cancelButtonColor: '#d33',
-          // cancelButtonText: 'Cancelar',
-          confirmButtonText: 'Aceptar'
-        });
-      }
-    },
+    ...mapMutations('application', ['BUSY_BUTTON']),
+    ...mapMutations('freightQuotes', [
+      'SHOW_ADDRESS',
+      'SHOW_FREIGHT_FORM',
+      'SHOW_HIDE_BUTTONS_QUOTE'
+    ]),
+    ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
     /**
      * Send api quote (button Cotizar fedex, dhl, ups)
      * @param {Number} appAmount selected service amount if fedex, dhl or ups
@@ -665,37 +428,30 @@ export default {
         this.expenses.dataLoad = this.$store.state.load.loads;
         this.expenses.app_amount = appAmount;
         this.expenses.trans_company_id = transCompanyId;
-        const quoteTable = await this.expenses.post('/freight-quotes/calculate');
+        const tableQuote = await this.$store.dispatch(
+          'freightQuotes/getTransportTableQuote',
+          this.expenses
+        );
 
-        if (quoteTable.status == 200) {
-          this.tableQuote = quoteTable.data;
-          this.showForm = true;
-          this.showTable = true;
+        if (tableQuote.status == 200) {
           this.showFedexQuote = false;
           this.showDHLQuote = false;
-          this.buttons = false;
+          this.SHOW_FREIGHT_FORM(true);
+          this.SHOW_HIDE_BUTTONS_QUOTE(false);
 
-          this.expenses.transport_amount = quoteTable.data.transport.transport_amount
-          this.expenses.local_transp_amt = quoteTable.data.transport.local_transp
-          this.expenses.oth_exp          = quoteTable.data.transport.oth_exp
-          this.expenses.insurance_amt    = quoteTable.data.transport.insurance
-          this.expenses.cif              = quoteTable.data.transport.cif
+          Swal.fire({
+            title: 'Si desea cotizar con nosotros, llene el siguente formulario',
+            // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
+            icon: 'warning',
+            // showCancelButton: true,
+            confirmButtonColor: '#142c44',
+            // cancelButtonColor: '#d33',
+            // cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar'
+          });
         }
-
-        Swal.fire({
-          title: 'Si desea cotizar con nosotros, llene el siguente formulario',
-          // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-          icon: 'warning',
-          // showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          // cancelButtonColor: '#d33',
-          // cancelButtonText: 'Cancelar',
-          confirmButtonText: 'Aceptar'
-        });
-
-        // this.$store.dispatch('load/setLoad', data);
-        // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
+        this.HideAddress();
         console.error(error);
       }
     },
@@ -713,11 +469,9 @@ export default {
         height: 100,
         width: 100
       });
-      this.$store.dispatch('application/busyButton', true);
 
-      /* Hide / Show loads and dimensions form */
-      this.$store.dispatch('load/showLoadCharge', false);
-      this.$store.dispatch('freightQuotes/showAddress', false);
+      this.SHOW_LOAD_CHARGE(false);
+      this.SHOW_ADDRESS(false);
 
       this.expenses.dataLoad = this.$store.state.load.loads;
 
@@ -739,7 +493,6 @@ export default {
 
       Promise.all([fedexApi, DhlApi])
         .then((data) => {
-          this.$store.dispatch('application/busyButton', false);
           /* It is validated if the request was successful to show the quote block (FEDEX) */
           if (data[0]) {
             // this.showApisQuote = true;
@@ -782,7 +535,6 @@ export default {
         .catch((error) => {
           this.HideAddress();
           loader.hide();
-          this.$store.dispatch('application/busyButton', false);
           console.error(error);
         });
     },
@@ -791,21 +543,14 @@ export default {
      * Show / Hide from address (button "Editar")
      */
     HideAddress() {
-      this.$store.dispatch('freightQuotes/showAddress', true);
-
+      this.SHOW_LOAD_CHARGE(true);
+      this.SHOW_ADDRESS(true);
+      this.SHOW_HIDE_BUTTONS_QUOTE(true);
       this.fedex = {};
-
       this.dhl = {};
 
-      this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
-
-      // this.showApisQuote = false;
       this.showFedexQuote = false;
       this.showDHLQuote = false;
-      this.showForm = false;
-
-      // /* Here the dataLoad is set to 0 to edit the view */
-      // this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
     },
 
     formatPrice(value, currency) {
@@ -825,7 +570,10 @@ export default {
       'formAddress',
       'postalCodeOrigin',
       'postalCodeDestination',
-      'showShipping'
+      'showShipping',
+      'showForm',
+      'showTable',
+      'buttons'
     ]),
     ...mapState('application', ['data', 'busy'])
   }

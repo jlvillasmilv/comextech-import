@@ -5,18 +5,33 @@
         {{ title }}
       </h1>
     </div>
-    <div class="md:flex mt-3 mb-8">
-      <ul class="md:flex md:space-x-2 mt-3">
+    <div class="flex justify-center mt-3 mb-8">
+      <ul class="sm:flex justify-center sm:space-x-2 mt-3">
         <li
-          v-for="name in types"
-          :key="name"
+          v-for="service in types"
+          :key="service.name"
           :class="[
-            'cursor-pointer px-5 text-gray-900 border-b-2',
-            name == expenses.type_transport ? ' border-blue-500' : ''
+            'flex flex-col items-center cursor-pointer px-5 text-gray-900 border-b-2',
+            service.name == expenses.type_transport ? ' border-blue-500' : ''
           ]"
-          @click="typeSelected(name)"
+          @click="typeSelected(service.name)"
         >
-          {{ name }}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-10 w-10"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              :d="service.path"
+              fill="bg-white"
+            />
+          </svg>
+          {{ service.name }}
         </li>
       </ul>
     </div>
@@ -460,7 +475,23 @@ export default {
   },
   data() {
     return {
-      types: ['COURIER', 'CONTAINER', 'CONSOLIDADO'],
+      types: [
+        {
+          name: 'COURIER',
+          path:
+            'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
+        },
+        {
+          name: 'CONTAINER',
+          path:
+            'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
+        },
+        {
+          name: 'CONSOLIDADO',
+          path:
+            'M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
+        }
+      ],
       showKg: true,
       showIn: true
     };
