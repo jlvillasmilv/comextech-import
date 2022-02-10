@@ -6,7 +6,7 @@
         <span class="text-sm font-semibold">Valor del cargamento</span>
         <input
           v-model.number="expenses.cargo_value"
-          type="number"
+          type="text"
           :min="0"
           :max="99999999"
           class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input pac-target-input"
