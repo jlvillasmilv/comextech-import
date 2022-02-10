@@ -18,7 +18,8 @@ class CreateFreightQuotesTable extends Migration
             $table->string('code', 10)->nullable()->unique()->index()->comment('codigo para consultas');
 
             $table->unsignedBigInteger('freight_users_id');
-
+            
+            $table->decimal('cargo_value', 12, 2)->default(0)->nullable();
             $table->decimal('transport_amount', 12, 2)->default(0)->nullable();
             $table->decimal('local_transp_amt', 12, 2)->default(0)->nullable();
             $table->decimal('oth_exp', 12, 2)->default(0)->nullable();

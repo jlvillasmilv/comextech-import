@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{Transport, Port, FreightQuote, FreightShipment, FreightUser, User};
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Web\FreightQuotesRequest;
-use App\Notifications\AdminApplicationNotification;
+use App\Notifications\Admin\FreightQuotesNotification;
 
 class FreightQuotesController extends Controller
 {
@@ -55,15 +55,15 @@ class FreightQuotesController extends Controller
                 ]
             );
 
-            $data = new FreightQuote;
-            $data->freight_users_id = $freight_user->id;
-            $data->fill($request->all());
-            $data->save();
+            $freight_quote = new FreightQuote;
+            $freight_quote->freight_users_id = $freight_user->id;
+            $freight_quote->fill($request->all());
+            $freight_quote->save();
 
             foreach ($request->input('dataLoad') as $key => $item) {
 
                 FreightShipment::create([
-                    'freight_quotes_id' => $data->id,
+                    'freight_quotes_id' => $freight_quote->id,
                     'type_container'    => $item['type_container'],
                     'cbm'               => $item['cbm'],
                     'stackable'         => $item['stackable'],
@@ -84,17 +84,10 @@ class FreightQuotesController extends Controller
             })->pluck('id');
 
 
-            $details = [
-                'title' => 'CLiente: '. $freight_user->name,
-                'body'  => " Telf: {$freight_user->phone_number}  Correo: {$freight_user->email} \n Solicita cotizacion de transporte "
-            ];
-
-
             User::all()
                 ->whereIn('id', $user_admin)
-                ->each(function (User $user) use ($details,$freight_user) {
-                   // $user->notify(new AdminApplicationNotification($application));
-                    \Mail::to($user->email)->send(new \App\Mail\Factoring\ApplicationReceived($details));
+                ->each(function (User $user) use ($freight_quote) {
+                   $user->notify(new FreightQuotesNotification($freight_quote));
             });
 
             $details = [

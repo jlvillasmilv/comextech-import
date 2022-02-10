@@ -674,6 +674,12 @@ export default {
           this.showFedexQuote = false;
           this.showDHLQuote = false;
           this.buttons = false;
+
+          this.expenses.transport_amount = quoteTable.data.transport.transport_amount
+          this.expenses.local_transp_amt = quoteTable.data.transport.local_transp
+          this.expenses.oth_exp          = quoteTable.data.transport.oth_exp
+          this.expenses.insurance_amt    = quoteTable.data.transport.insurance
+          this.expenses.cif              = quoteTable.data.transport.cif
         }
 
         Swal.fire({
