@@ -40,12 +40,10 @@ export default {
       type: Boolean,
       default: true,
       required: false
-    },
-    Transport: {
-      type: Boolean,
-      default: true,
-      required: false
     }
+  },
+  computed:{
+    ...mapState('freightQuotes', ['expenses'])
   },
   methods: {
     getAddressOrigin: function(addressData, placeResultData, id) {
@@ -107,9 +105,7 @@ export default {
 
       // this.postalCodeDestination = !this.expenses.dest_postal_code ? true : false;
     }
-  },
-  computed: {
-    ...mapState('freightQuotes', ['expenses', 'postalCodeOrigin', 'postalCodeDestination'])
   }
+  
 };
 </script>

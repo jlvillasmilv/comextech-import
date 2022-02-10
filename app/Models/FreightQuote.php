@@ -6,10 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class FreightQuote extends Model
 {
+    public static function boot()
+    {
+        parent::boot();
+
+        /**
+        * Write code on Method
+        *
+        * @return response()
+        */
+        static::creating(function($model){
+            $number =  \DB::table('freight_quotes')->max('id')+1;
+           
+            $model->code = 'TI-'.str_pad($number,6,0, STR_PAD_LEFT);
+        });
+    }
+
     protected $table = 'freight_quotes';
 
     protected$fillable = [
         'code',
+        'cargo_value',
         'freight_users_id',
         'transport_amount',
         'local_transp_amt',
@@ -36,4 +53,9 @@ class FreightQuote extends Model
         'shipping_date',
         'description'
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(FreightUser::class,'freight_users_id')->withDefault(['name' => '', 'email' => '']);
+    }
 }
