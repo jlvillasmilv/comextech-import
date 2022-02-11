@@ -216,7 +216,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::post('clients/excutive/', 'CompanyController@excutive')->name('clients.excutive');
     Route::post('clients/discount', 'CompanyController@clientDiscount')->name('clients.discount');
     Route::get('clients/legal/{id}', 'CompanyController@legal')->name('clients.legal');
-    Route::resource('settings', 'SettingController')->except(['destroy','create']);    
+    Route::resource('settings', 'SettingController')->except(['destroy','create']);
+    Route::resource('freight-quotes',  'FreightQuotesController')->except(['destroy','create']);    
 });
 
 //admin factoring
