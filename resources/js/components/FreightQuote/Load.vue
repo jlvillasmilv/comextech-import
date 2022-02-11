@@ -11,8 +11,10 @@
           v-for="service in types"
           :key="service.name"
           :class="[
-            'flex flex-col items-center cursor-pointer px-5 text-gray-900 border-b-2',
-            service.name == expenses.type_transport ? ' border-blue-500' : ''
+            'flex flex-col items-center cursor-pointer px-5 border-b-2 font-semibold',
+            service.name == expenses.type_transport
+              ? 'text-blue-1300 border-blue-1000 hover:border-blue-1300'
+              : 'text-gray-500 hover:text-blue-1300 hover:border-blue-1000'
           ]"
           @click="typeSelected(service.name)"
         >
