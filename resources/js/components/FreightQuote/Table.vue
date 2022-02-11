@@ -6,19 +6,6 @@
           <tr class="text-sm text-center font-semibold tracking-wide text-white">
             <th
               class="
-                w-1/12
-                px-4 
-                py-3
-                border-b
-                dark:border-gray-700
-                bg-blue-1300
-                dark:text-gray-400 dark:bg-gray-800
-                "
-            >
-              {{ this.$store.state.application.selectedCondition.name }}
-            </th>
-            <th
-              class="
                 w-4/12
                 px-4 
                 py-3
@@ -32,7 +19,7 @@
             </th>
             <th
               class="
-                w-2/12
+                w-4/12
                 px-4 
                 py-3
                 border-b
@@ -45,7 +32,7 @@
             </th>
             <th
               class="
-                w-1/12
+                w-2/12
                 px-4 
                 py-3
                 border-b
@@ -58,15 +45,13 @@
             </th>
           </tr>
         </thead>
-        <tbody class="text-center bg-white dark:bg-gray-800">
+        <tbody class="text-center bg-white divide-y dark:bg-gray-800">
           <tr class="text-sm text-gray-700 dark:text-gray-400">
-            <td class="px-4 py-3">&nbsp;</td>
             <td class="px-4 py-3">VALOR CIF</td>
             <td class="font-semibold px-4 py-3">{{ table.transport.cif }}</td>
             <td class="px-4 py-3">USD</td>
           </tr>
-          <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-            <td class="px-4 py-3">&nbsp;</td>
+          <tr class="text-sm text-gray-700 dark:text-gray-400">
             <td class="px-4 py-3">TRANSPORTE INTERNACIONAL</td>
             <td
               :class="[
@@ -83,8 +68,7 @@
             </td>
             <td class="px-4 py-3">USD</td>
           </tr>
-          <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-            <td class="px-4 py-3">&nbsp;</td>
+          <tr class="text-sm text-gray-700 dark:text-gray-400">
             <td class="px-4 py-3">SEGURO</td>
             <td
               :class="[
@@ -99,8 +83,7 @@
             </td>
             <td class="px-4 py-3">USD</td>
           </tr>
-          <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
-            <td class="px-4 py-3">&nbsp;</td>
+          <tr class="text-sm text-gray-700 dark:text-gray-400">
             <td class="px-4 py-3">GASTOS LOCALES</td>
             <td
               :class="[
@@ -113,7 +96,7 @@
             </td>
             <td class="px-4 py-3">CLP</td>
           </tr>
-          <!-- <tr class="text-sm text-gray-700 dark:text-gray-400 divide-y dark:divide-gray-700">
+          <!-- <tr class="text-sm text-gray-700 dark:text-gray-400 dark:divide-gray-700">
               <td class="px-4 py-3">&nbsp;</td>
               <td class="px-4 py-3">TRANSPORTE LOCAL</td>
               <td

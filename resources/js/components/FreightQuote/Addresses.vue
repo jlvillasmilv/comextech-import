@@ -1,23 +1,26 @@
 <template>
-  <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
-    <div
-      v-if="$store.state.load.showLoad"
-      class="md:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
-    >
-      <Load />
-    </div>
-    <div class="md:w-9/12 lg:w-9/12 mt-6 p-4 rounded-lg shadow-md" v-show="isActivateAddress">
-      <!-- Cotizacion courier -->
-      <div v-if="expenses.type_transport == 'COURIER'">
-        <Courier />
+  <div>
+    <Navbar />
+    <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
+      <div
+        v-if="$store.state.load.showLoad"
+        class="md:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
+      >
+        <Load />
       </div>
-      <!-- Cotizacion container -->
-      <div v-if="expenses.type_transport == 'CONTAINER'">
-        <FCL />
-      </div>
-      <!-- Cotizacion consolidado -->
-      <div v-if="expenses.type_transport == 'CONSOLIDADO'">
-        <LCL />
+      <div class="md:w-9/12 lg:w-9/12 mt-6 p-4 rounded-lg shadow-md" v-show="isActivateAddress">
+        <!-- Cotizacion courier -->
+        <div v-if="expenses.type_transport == 'COURIER'">
+          <Courier />
+        </div>
+        <!-- Cotizacion container -->
+        <div v-if="expenses.type_transport == 'CONTAINER'">
+          <FCL />
+        </div>
+        <!-- Cotizacion consolidado -->
+        <div v-if="expenses.type_transport == 'CONSOLIDADO'">
+          <LCL />
+        </div>
       </div>
     </div>
   </div>
@@ -25,6 +28,7 @@
 
 <script>
 import Load from './Load.vue';
+import Navbar from './layout/Navbar.vue';
 import Courier from './Courier.vue';
 import FCL from './Container.vue';
 import LCL from './Consolidado.vue';
@@ -36,7 +40,8 @@ export default {
     Load,
     Courier,
     FCL,
-    LCL
+    LCL,
+    Navbar
   },
   data() {
     return {
