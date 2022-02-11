@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center w-full mt-10">
+    <h1 class="text-xl font-semibold mb-4">Formulario de cotizacion</h1>
     <form action="" class="w-6/12 flex flex-col mb-6">
       <AlertError :form="expenses" message="Complete los campos solicitados" />
       <label class="flex flex-col mb-3"
