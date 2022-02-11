@@ -4,7 +4,7 @@ const state = {
   expenses: new Form({
     type_transport: 'COURIER',
     app_amount: 0,
-    cargo_value: 0,
+    cargo_value: '',
     trans_company_id: '',
     application_id: 1,
     origin_address: '',
@@ -65,14 +65,7 @@ const state = {
   buttons: true
 };
 
-const getters = {
-  formatPrice(state, { value, currency }) {
-    return Number(state.table.transport.cif).toLocaleString(navigator.language, {
-      minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-      maximumFractionDigits: currency == 'CLP' ? 0 : 2
-    });
-  }
-};
+const getters = {};
 
 const mutations = {
   ADD_LOAD(state, payload) {
@@ -163,7 +156,7 @@ const actions = {
     data = state.portsOriginTemp;
     commit('SET_PORT_ORIGIN', data);
   },
-  //Dest Port
+  // Dest Port
   async getFavDestPorts({ state, commit }, type) {
     let { data } = await axios.get(`/ports-user/${type}`);
     commit('SET_PORT_DEST', data);
@@ -177,9 +170,6 @@ const actions = {
       commit('SET_TRANSPORT', data);
     }
   },
-  showAddress({ commit }, value) {
-    commit('SHOW_ADDRESS', value);
-  },
   setModeSelected({ commit }, data) {
     commit('SET_MODE_SELECTED', data);
   },
@@ -188,9 +178,6 @@ const actions = {
   },
   getAddressDestination2({ commit }, { addressData, placeResultData }) {
     commit('GET_ADDRESS_DESTINATION', { addressData, placeResultData });
-  },
-  showLocalShipping({ commit }, value) {
-    commit('SHOW_LOCAL_SHIPPING', value);
   },
   async getTransportTableQuote({ commit }, payload) {
     try {
