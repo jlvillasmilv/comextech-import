@@ -11,7 +11,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "jackbayliss/laravel-dhl-api": "dev-master",
-        "jeremy-dunn/php-fedex-api-wrapper": "^5.0",
+        "jeremy-dunn/php-fedex-api-wrapper": "^6.0",
         "laravel/framework": "^8.0",
         "laravel/jetstream": "^1.2",
         "laravel/sanctum": "^2.6",

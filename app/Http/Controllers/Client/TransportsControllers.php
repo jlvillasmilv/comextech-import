@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Models\services\DHL;
+use App\Models\services\{DHL, DHLTracking };
 use App\Models\{Transport, Load, Service, FedexApi, ApplicationDetail, Currency, User};
 use App\Notifications\TransportRateNotification;
 use App\Http\Controllers\Controller;
@@ -462,102 +462,17 @@ class TransportsControllers extends Controller
     // TEST API RATE FEDEX DHL
     public function test()
     {
-        $data = [
-            "fav_origin_address" => false,
-            "origin_address" => "Miami Beach Boardwalk, Miami Beach, FL 33140, EE. UU.",
-            "origin_latitude" => 1.2670996,
-            "origin_longitude" => 103.8037803,
-            "origin_postal_code" => 33140,
-            "origin_locality" => "Miami Beach",
-            "origin_ctry_code" => "US",
-            "fav_dest_address" => true,
-            "dest_address" => "1",
-            "dest_latitude" => null,
-            "dest_longitude" => null,
-            "dest_postal_code" => null,
-            "dest_locality" => null,
-            "dest_ctry_code" => null,
-            "insurance" => false,
-            "estimated_date" => "2021-10-20",
-            "description" => "Carga",
-            "type_transport" => "CARGA AEREA",
-            "dataLoad" => [
-               [
-                "mode_calculate" => true,
-                "category_load_id" => 1,
-                "type_container" => 1,
-                "length" => 30,
-                "width"  => 30,
-                "height" => 30,
-                "length_unit" => "CM",
-                "id" => 0,
-                "cbm" => 0.1728,
-                "weight" => 16,
-                "weight_units" => "KG",
-                "stackable" => false
-               ],
-               
-            ]
-        ];
+    //   $result = FedexApi::tracking(775981074681);
 
-        $connect = new DHL;
-        $api = $connect->quoteApi($data);
+            ################
+        #
+        # Start Class
+        #
+        ################
 
-        $objJsonDocument = json_encode($api);
-        $arrOutput = json_decode($objJsonDocument, TRUE);
-
-      
-        
-        $quote = array();
-
-        if (empty($arrOutput['GetQuoteResponse']['BkgDetails']) && !empty($arrOutput['GetQuoteResponse']['Note'])) {
-
-            $notifications = array();
-            foreach ($arrOutput['GetQuoteResponse']['Note']['Condition'] as $notification) {
-                   
-                    if (isset($notification['ConditionCode'])){
-                        $notifications[] = $notification['ConditionCode'].'-'.$notification['ConditionData'];
-                    }
-                    else {
-                        $notifications[0] = $notification;
-                    }
-            }
-
-            return response()->json(['message' => "The given data was invalid.", 'errors' => ['dhl' => $notifications]], 422);
-        }
-
-       
-
-        if (!empty($arrOutput['GetQuoteResponse']['BkgDetails'])) {
-            $discount = auth()->user()->discountImport($data,'DHL');
-            $total__net_charge =  $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'] + 
-            $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
-
-            $quote['ProductShortName']  = ucwords(strtolower($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ProductShortName']));
-            $quote['DeliveryDate']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryDate'];
-            $quote['DeliveryTime']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['DeliveryTime'];
-            $quote['PickupCutoffTime']  = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['PickupCutoffTime'];
-            $quote['BookingTime']       = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['BookingTime'];
-            $quote['WeightCharge']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'];
-            $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
-            $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
-            $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge']; 
-            $quote['Discount']          = $discount;
-            
-            $total_discount = ($total__net_charge * $discount) / 100;
-
-            $total =  $total__net_charge - $total_discount;
-            
-            foreach ($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $key => $qtdShp_exchrg) {
-                $quote[$qtdShp_exchrg['GlobalServiceName']] = $qtdShp_exchrg['ChargeValue'];
-                $total = $total + $qtdShp_exchrg['ChargeValue'];
-            }
-
-            $quote['ComextechDiscount'] =  $total;
-        }
-
-        dd($quote);
-       
+        $track = new DHLTracking('live');
+        $track->setAuth(env("DHL_SITEID",'v62_DZy8vS4koW'), env("DHL_PASSWORD",'I00uFsipN2'));
+        $req_one = $track->single(5034825880);
 
     }
     

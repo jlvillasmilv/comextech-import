@@ -17,6 +17,9 @@ class CreateTransportsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('trans_company_id')->nullable();
+
+            $table->string('tracking_number', 25)->nullable()->comment('Tracking Number API');
+
             $table->string('mode_selected',20)->nullable();
             $table->boolean('fav_origin_address')->default(false);
             $table->string('origin_address')->nullable();

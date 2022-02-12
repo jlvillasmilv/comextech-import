@@ -19,8 +19,6 @@ class DHL extends Model
         $to_city         = $data['dest_locality'];
         $to_street_lines = $data['dest_address'];
         
-        
-  
          // if favorite address origin is true find en storage
         if($data['fav_origin_address']){
   
@@ -75,4 +73,6 @@ class DHL extends Model
         return $quote->getResponse();
 
     }
+
+
 }
