@@ -1,11 +1,11 @@
 <template>
   <section>
     <div>
-      <transition name="fade">
-        <div
-          v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
-          class="flex flex-col items-center my-2"
-        >
+      <transition
+        v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
+        name="fade"
+      >
+        <div class="flex flex-col items-center my-2">
           <!-- Direccion de origen -->
           <h3 class="mb-10 text-center">Direcciones y Puertos</h3>
           <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
@@ -178,15 +178,14 @@
       </transition>
 
       <!-- Date and description -->
-      <transition name="fade">
-        <FormDate v-if="addressDate" />
+      <transition v-if="addressDate" name="fade">
+        <FormDate />
       </transition>
     </div>
 
     <!-- botones cotizar/editar -->
-    <transition name="fade">
+    <transition v-if="buttons" name="fade">
       <div
-        v-if="buttons"
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
             ? 'flex justify-center'
@@ -222,13 +221,13 @@
     </transition>
 
     <!-- fcl table quote   -->
-    <transition name="fade">
-      <Table v-if="showTable" />
+    <transition v-if="showTable" name="fade">
+      <Table />
     </transition>
 
     <!-- form  -->
-    <transition name="fade">
-      <Form v-if="showForm" />
+    <transition v-if="showForm" name="fade">
+      <Form />
     </transition>
   </section>
 </template>
@@ -246,7 +245,6 @@ export default {
     return {};
   },
   methods: {
-    ...mapMutations('application', ['BUSY_BUTTON']),
     ...mapMutations('freightQuotes', [
       'SHOW_LOCAL_SHIPPING',
       'SHOW_ADDRESS',
@@ -317,23 +315,13 @@ export default {
       this.SHOW_LOAD_CHARGE(true);
       this.SHOW_ADDRESS(true);
       this.SHOW_HIDE_BUTTONS_QUOTE(true);
-    },
-
-    showShippingMethod() {
-      this.$store.state.freightQuotes.showLocalShipping = true;
-    },
-    HideShippingMethod() {
-      this.$store.state.freightQuotes.showLocalShipping = false;
     }
   },
   computed: {
     ...mapState('freightQuotes', [
       'expenses',
-      'addressDestination',
       'portsOrigin',
-      'portsOriginTemp',
       'portsDestination',
-      'portsDesTemp',
       'addressDate',
       'formAddress',
       'postalCodeOrigin',
@@ -342,11 +330,11 @@ export default {
       'showForm',
       'showTable',
       'buttons'
-    ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport', 'busy'])
+    ])
   }
 };
 </script>
+
 <style>
 .fade-enter-active,
 .fade-leave-active {

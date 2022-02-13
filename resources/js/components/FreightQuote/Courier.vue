@@ -1,10 +1,10 @@
 <template>
   <section>
-    <transition name="fade">
-      <div
-        v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
-        class="flex flex-col items-center my-2"
-      >
+    <transition
+      v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress"
+      name="fade"
+    >
+      <div class="flex flex-col items-center my-2">
         <!-- Direccion de origen -->
         <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
           <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
@@ -85,14 +85,13 @@
     </transition>
 
     <!-- Date and description -->
-    <transition name="fade">
-      <FormDate v-if="$store.state.freightQuotes.addressDate" />
+    <transition v-if="addressDate" name="fade">
+      <FormDate />
     </transition>
 
     <!-- Botones editar y cotizar -->
-    <transition name="fade">
+    <transition v-if="buttons" name="fade">
       <div
-        v-if="buttons"
         :class="[
           !expenses.dataLoad || expenses.dataLoad.length <= 0
             ? 'flex justify-center'
@@ -371,13 +370,13 @@
     <!-- Fin Bloque cotizacion de DHL -->
 
     <!-- fcl table quote   -->
-    <transition name="fade">
-      <Table v-if="showTable" />
+    <transition v-if="showTable" name="fade">
+      <Table />
     </transition>
 
     <!-- form  -->
-    <transition name="fade">
-      <Form v-if="showForm" />
+    <transition v-if="showForm" name="fade">
+      <Form />
     </transition>
   </section>
 </template>
@@ -392,9 +391,6 @@ import { mapMutations, mapState } from 'vuex';
 
 export default {
   components: { GoogleAutocomplete, FormDate, Form, Table },
-  props: {
-    address: String
-  },
   data() {
     return {
       fedex: {} /* response object api fedex */,
@@ -408,7 +404,6 @@ export default {
     };
   },
   methods: {
-    ...mapMutations('application', ['BUSY_BUTTON']),
     ...mapMutations('freightQuotes', [
       'SHOW_ADDRESS',
       'SHOW_FREIGHT_FORM',
@@ -462,7 +457,7 @@ export default {
       let loader = this.$loading.show({
         canCancel: true,
         transition: 'fade',
-        color: '#4db2dc',
+        color: '#142c44',
         loader: 'spinner',
         lockScroll: true,
         enforceFocus: true,
@@ -495,7 +490,6 @@ export default {
         .then((data) => {
           /* It is validated if the request was successful to show the quote block (FEDEX) */
           if (data[0]) {
-            // this.showApisQuote = true;
             this.showFedexQuote = true;
 
             /* The variable is equalized to later use it in the template */
@@ -510,9 +504,11 @@ export default {
 
             this.TotalEstimed = this.fedex.TotalEstimed.toFixed(2);
           }
-
+          /* It is validated if the request was successful to show the quote block (DHL) */
           if (data[1]) {
             this.showDHLQuote = true;
+
+            /* The variable is equalized to later use it in the template */
             this.dhl = data[1];
 
             this.transportDHL =
@@ -529,12 +525,14 @@ export default {
             this.transportDHL = this.transportDHL.toFixed(2);
           }
 
+          if (!data[0] && !data[1]) {
+            this.HideAddress();
+          }
+
           /* Vue-loader hidden */
           loader.hide();
         })
         .catch((error) => {
-          this.HideAddress();
-          loader.hide();
           console.error(error);
         });
     },
