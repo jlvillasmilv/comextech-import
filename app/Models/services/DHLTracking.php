@@ -93,8 +93,6 @@ Class File
 	//========================================================================================
 	function _sendCallPI(){
 
-       
-		
 		if(!$ch=curl_init())
 		{
             
@@ -136,11 +134,7 @@ Class File
 	}
 	
 	function single($airbill){
-		//
-
-        
-      
-
+		
 		$this->_xml = "";
 		$this->_xml .= "<?xml version = '1.0' encoding = 'UTF-8'?>" . $this->_xmlEnd;
 		$this->_xml .= "<req:KnownTrackingRequest xmlns:req='http://www.dhl.com' ";
@@ -180,7 +174,6 @@ Class File
 		$tmp_loc_desc = (string)$abi->ShipmentInfo->ShipmentEvent->ServiceArea->Description;
 		$tmp_loc_desc = preg_replace('/\s\s+/', ' ', $tmp_loc_desc);
 		$td['event']['location'] = $tmp_loc_desc;
-		
 		
 		return $td;
 	}

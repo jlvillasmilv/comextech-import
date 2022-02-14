@@ -274,7 +274,7 @@ class TransportsControllers extends Controller
     }
 
 
-     /**
+    /**
      * @author Jorge Villasmil.
      * 
      * Connect with Fedex, dhl apis
@@ -337,6 +337,21 @@ class TransportsControllers extends Controller
              return response()->json($e, 500);
          }
 
+    }
+
+     /**
+     * @author Jorge Villasmil.
+     * 
+     * Connect with Fedex, dhl apis
+     * get data from Fedex quote and rate api
+     *  
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
+    public function fedexTracking(Request $request)
+    {
+        $result = FedexApi::tracking($request->tracking_number);
     }
 
     /**
@@ -458,21 +473,19 @@ class TransportsControllers extends Controller
 
     }
 
+
+
     
     // TEST API RATE FEDEX DHL
     public function test()
     {
     //   $result = FedexApi::tracking(775981074681);
 
-            ################
-        #
-        # Start Class
-        #
-        ################
+        $track = DHL::tracking(5034825880);
+        $objJsonDocument = json_encode($track);
+        $arrOutput = json_decode($objJsonDocument, TRUE);
 
-        $track = new DHLTracking('live');
-        $track->setAuth(env("DHL_SITEID",'v62_DZy8vS4koW'), env("DHL_PASSWORD",'I00uFsipN2'));
-        $req_one = $track->single(5034825880);
+        dd($arrOutput);
 
     }
     

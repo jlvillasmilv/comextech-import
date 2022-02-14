@@ -74,5 +74,74 @@ class DHL extends Model
 
     }
 
+    public static function Tracking($tracking_number)
+    {
+      try {
+        $quote = new Calls\GetTracking();
+        $quote->reference("1234567890123456789012345678901");
+        $quote->setTrackingNumber($tracking_number);
+
+        $api_response = $quote->getResponse();
+
+        $objJsonDocument = json_encode($api_response);
+        $arrOutput = json_decode($objJsonDocument, TRUE);
+
+        dd($arrOutput['AWBInfo']);
+
+        $response = array();
+
+        if (!empty($arrOutput['ShipmentInfo'])) {
+
+           $response['TrackingNumber'] = $api_response['AWBInfo']['Status']['ActionStatus'];
+           $response['StatusDetail']   = $api_response['AWBInfo']['AWBNumber'];
+          // $response['ShipperAddress'] = $api_response-> ;
+          // $response['DatesOrTimes']   = $api_response-> 
+          // $response['DestinationAddress'] = $api_response-> ;
+  
+          return $response; 
+        }
+
+        // if (!empty($api_response->AWBInfo)) {
+
+        //   $response['TrackingNumber'] = $abi->AWBInfo;
+        //   $response['AWBInfo']   =  $api_response->AWBInfo;
+          
+        //   return $response; 
+        // }
+
+       
+
+      } catch (\Exception $e) {
+          return response()->json(['message' => "The given data was invalid.",
+           'errors' => ['dhl' => $e->getMessage()]], 422);
+         
+      }
+      //  // dd($quote->getResponse()->AWBInfo);
+        
+      //   $tmp_awb = (string)$quote->getResponse()->AWBNumber;
+      //   $td['awb'] = $tmp_awb;
+        
+      //   $td['res']['status'] = (string)$abi->Status->ActionStatus;
+        
+      //   $td['event']['time']['date'] = (string)$abi->ShipmentInfo->ShipmentEvent->Date;
+      //   $td['event']['time']['time'] = (string)$abi->ShipmentInfo->ShipmentEvent->Time;
+      //   $td['event']['time']['stamp'] = strtotime($td['event']['time']['date'] . " " . $td['event']['time']['time']);
+      //   //$td['event']['time']['check'] = date("c", $td['event']['time']['stamp']);
+      //   $td['event']['code'] = (string)$abi->ShipmentInfo->ShipmentEvent->ServiceEvent->EventCode;
+        
+      //   $tmp_event_desc = (string)$abi->ShipmentInfo->ShipmentEvent->ServiceEvent->Description;
+      //   $tmp_event_desc = preg_replace('/\s\s+/', ' ', $tmp_event_desc);
+      //   $td['event']['desc'] = $tmp_event_desc;
+        
+      //   $tmp_loc_desc = (string)$abi->ShipmentInfo->ShipmentEvent->ServiceArea->Description;
+      //   $tmp_loc_desc = preg_replace('/\s\s+/', ' ', $tmp_loc_desc);
+      //   $td['event']['location'] = $tmp_loc_desc;
+
+        return $td;
+
+      //return $quote->getResponse();
+
+    }
+
 
 }

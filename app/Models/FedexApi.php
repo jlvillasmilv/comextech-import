@@ -201,7 +201,6 @@ class FedexApi extends Model
     $trackRequest->SelectionDetails[0]->PackageIdentifier->Value = $trackingId1;
     $trackRequest->SelectionDetails[0]->PackageIdentifier->Type = tSimpleType\TrackIdentifierType::_TRACKING_NUMBER_OR_DOORTAG;
 
-
     $request = new tRequest();
     try {
         $request->getSoapClient()->__setLocation(Request::PRODUCTION_URL);
@@ -210,20 +209,19 @@ class FedexApi extends Model
 
         if (!empty($trackReply->CompletedTrackDetails)) {
 
+          $response['Notification']   = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->Notification;
           $response['TrackingNumber'] = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->TrackingNumber;
           $response['StatusDetail']   = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->StatusDetail;
           $response['ShipperAddress'] = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->ShipperAddress;
           $response['DatesOrTimes']   = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->DatesOrTimes;
           $response['DestinationAddress'] = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->DestinationAddress;
-  
+          
           return $response; 
         }
-
-
-       
+      
     } catch (\Exception $e) {
         echo $e->getMessage();
-        echo $request->getSoapClient()->__getLastResponse();
+        return $request->getSoapClient()->__getLastResponse();
     }
 
 
