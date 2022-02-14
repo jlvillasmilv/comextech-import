@@ -196,12 +196,15 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
 // end factoring route
 
 
+
+
 // Admin Panel
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {
 
     Route::resource('users', 'UserController');
     Route::resource('applications', 'ApplicationController')->except(['create']);
+    Route::get('applications/tracking/{id}', 'ApplicationController@tracking')->name('applications.tracking');
     Route::resources([
         'category_service' => CategoryServiceController::class,
         'currencies'       => CurrencyController::class,

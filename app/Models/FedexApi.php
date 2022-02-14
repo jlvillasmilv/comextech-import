@@ -205,18 +205,12 @@ class FedexApi extends Model
     try {
         $request->getSoapClient()->__setLocation(Request::PRODUCTION_URL);
         $trackReply = $request->getTrackReply($trackRequest);
-        $response = array();
+
 
         if (!empty($trackReply->CompletedTrackDetails)) {
 
-          $response['Notification']   = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->Notification;
-          $response['TrackingNumber'] = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->TrackingNumber;
-          $response['StatusDetail']   = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->StatusDetail;
-          $response['ShipperAddress'] = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->ShipperAddress;
-          $response['DatesOrTimes']   = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->DatesOrTimes;
-          $response['DestinationAddress'] = $trackReply->CompletedTrackDetails[0]->TrackDetails[0]->DestinationAddress;
-          
-          return $response; 
+          return $trackReply->CompletedTrackDetails[0]->TrackDetails[0];
+
         }
       
     } catch (\Exception $e) {

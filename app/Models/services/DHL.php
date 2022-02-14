@@ -86,7 +86,6 @@ class DHL extends Model
         $objJsonDocument = json_encode($api_response);
         $arrOutput = json_decode($objJsonDocument, TRUE);
 
-        dd($arrOutput['AWBInfo']);
 
         $response = array();
 
@@ -137,7 +136,7 @@ class DHL extends Model
       //   $tmp_loc_desc = preg_replace('/\s\s+/', ' ', $tmp_loc_desc);
       //   $td['event']['location'] = $tmp_loc_desc;
 
-        return $td;
+        // return $td;
 
       //return $quote->getResponse();
 

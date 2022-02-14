@@ -22,7 +22,7 @@
 
 
                 <div class="flex flex-wrap">
-                    <div class="sm:w-full md:w-2/4 px-2 ">
+                    <div class="sm:w-full md:w-2/6 px-2 ">
 
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Status</span>
@@ -48,7 +48,38 @@
                         </label>
 
                     </div>
-                    <div class="md:w-2/4 px-3 sm:w-full">
+
+                    @if (isset($application->transport->id))
+
+                    <div class="sm:w-full md:w-2/6 px-2 ">
+
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">Numero de Ratreo</span>
+        
+                            <input type="text" class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Numero de rastreo envio"
+                             id="tracking_number"
+                             name="tracking_number" 
+                             value="{{ old('amount', isset($application->transport->tracking_number) ? $application->transport->tracking_number : '') }}" 
+                             >
+
+                             @if($errors->has('tracking_number'))
+									<span class="text-xs text-red-600 dark:text-red-400">
+										{{ $errors->first('tracking_number') }}
+									</span>
+							@endif
+
+                           
+                        </label>
+
+                    </div>
+
+
+
+
+                    @endif
+
+
+                    <div class="md:w-2/6 px-3 sm:w-full">
                         <div class="flex justify-start mt-1">
                             <button class="flex px-4 py-2 mt-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

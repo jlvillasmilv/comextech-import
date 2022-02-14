@@ -352,6 +352,8 @@ class TransportsControllers extends Controller
     public function fedexTracking(Request $request)
     {
         $result = FedexApi::tracking($request->tracking_number);
+
+        return $result;
     }
 
     /**
@@ -479,13 +481,25 @@ class TransportsControllers extends Controller
     // TEST API RATE FEDEX DHL
     public function test()
     {
-    //   $result = FedexApi::tracking(775981074681);
+        $result = FedexApi::tracking(776036833123);
 
-        $track = DHL::tracking(5034825880);
-        $objJsonDocument = json_encode($track);
+        dd($result);
+
+        
+        $objJsonDocument = json_encode($result);
         $arrOutput = json_decode($objJsonDocument, TRUE);
 
-        dd($arrOutput);
+      
+
+        return response()->json( $arrOutput );
+
+       
+
+        // $track = DHL::tracking(5034825880);
+        // $objJsonDocument = json_encode($track);
+        // $arrOutput = json_decode($objJsonDocument, TRUE);
+
+        // dd($arrOutput);
 
     }
     
