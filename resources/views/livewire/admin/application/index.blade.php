@@ -82,7 +82,7 @@
                                        
                                    </svg>
                                </a>
-                               @if (isset($data->transport->id) || !is_null($data->transport->tracking_number))
+                               @if (isset($data->transport->id) && !is_null($data->transport->tracking_number))
                                <a  href="{{ route('admin.applications.tracking', $data->id) }}"
                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-red-500 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                        aria-label="Tracking"

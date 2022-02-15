@@ -194,17 +194,34 @@ class ApplicationController extends Controller
 
         switch ($application->transport->transCompany->name) {
             case 'DHL':
-                $track = DHL::tracking($application->transport->tracking_number);
+                $track = DHL::tracking(5034825880);
+
                 $objJsonDocument = json_encode($track);
-                $arrOutput = json_decode($objJsonDocument, TRUE);
+                $resp = json_decode($objJsonDocument, TRUE);
+        
+                if($resp['AWBInfo']['Status']['ActionStatus'] != "success"){
+
+                    $notification = array(
+                        'message'    => $resp['AWBInfo']['Status']['Condition']['ConditionData'],
+                        'alert_type' => 'error',);
+            
+                    \Session::flash('notification', $notification);
+
+                    return redirect()->route('admin.applications.index');
+
+                }
+                $data = $resp['AWBInfo'];
+                // dd($data);
+
                 
-                return view('admin.applications.traking.dhl', compact('arrOutput'));
+                return view('admin.applications.traking.dhl', compact('data'));
 
                 break;
 
             case 'FEDEX':
-                $result = FedexApi::tracking(776036833123);
-                return view('admin.applications.traking.fedex', compact('arrOutput'));
+                $data = FedexApi::tracking($application->transport->tracking_number);
+                //dd($data);
+                return view('admin.applications.traking.fedex', compact('data'));
                 break;
             
             default:
