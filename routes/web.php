@@ -196,12 +196,15 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
 // end factoring route
 
 
+
+
 // Admin Panel
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum']], function () {
 
     Route::resource('users', 'UserController');
     Route::resource('applications', 'ApplicationController')->except(['create']);
+    Route::get('applications/tracking/{id}', 'ApplicationController@tracking')->name('applications.tracking');
     Route::resources([
         'category_service' => CategoryServiceController::class,
         'currencies'       => CurrencyController::class,
@@ -216,7 +219,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::post('clients/excutive/', 'CompanyController@excutive')->name('clients.excutive');
     Route::post('clients/discount', 'CompanyController@clientDiscount')->name('clients.discount');
     Route::get('clients/legal/{id}', 'CompanyController@legal')->name('clients.legal');
-    Route::resource('settings', 'SettingController')->except(['destroy','create']);    
+    Route::resource('settings', 'SettingController')->except(['destroy','create']);
+    Route::resource('freight-quotes',  'FreightQuotesController')->except(['destroy','create']);    
 });
 
 //admin factoring

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Web;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class FreightQuotesRequest extends FormRequest
 {
@@ -24,11 +25,11 @@ class FreightQuotesRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'dest_address'               => 'required_if:mode_selected,==,COURIER',
-            'origin_address'             => 'required_if:mode_selected,==,COURIER',
+            'dest_address'               => 'required_if:type_transport,==,COURIER',
+            'origin_address'             => 'required_if:type_transport,==,COURIER',
             'description'                => 'nullable|max:250',
             'estimated_date'             => 'required|date',
-            'mode_selected'              => 'required|string|max:15',
+            'type_transport'              => 'required|string|max:15',
             'client.name'                => 'required|max:100',
             'client.email'               => 'required|email|max:100',
             'client.ip'                  => 'nullable|max:20',
@@ -36,11 +37,11 @@ class FreightQuotesRequest extends FormRequest
             'client.country'             => 'nullable|max:20',
             'dataLoad'                   => 'required|array',
             "dataLoad.*.weight"          => 'required|numeric|gt:0|between:0,99999',
-            "dataLoad.*.type_container"  => 'required_if:mode_selected,==,CONTAINER',
+            "dataLoad.*.type_container"  => 'required_if:type_transport,==,CONTAINER',
         ];
 
         
-        if($this->get('mode_selected') == 'COURIER' || $this->get('mode_selected') == 'TERRESTRE' || $this->get('mode_selected') == 'AEREO'  || $this->get('mode_selected') == 'CONSOLIDADO' )        
+        if($this->get('type_transport') != 'CONTAINER')        
             $rules = array_merge($rules, [
                 'dataLoad.*.length'  => 'required|numeric',
                 'dataLoad.*.width'   => 'required|numeric',
@@ -48,7 +49,7 @@ class FreightQuotesRequest extends FormRequest
                 'dataLoad.*.cbm'     => 'required|numeric|gt:0|between:0,99999',
         ]);
 
-        if($this->get('mode_selected') == 'CONTAINER' || $this->get('mode_selected') == 'AEREO' || $this->get('mode_selected') == 'CONSOLIDADO')        
+        if($this->get('type_transport') != 'COURIER')        
             $rules = array_merge($rules, [
                 'origin_port_id'  => 'required|numeric',
                 'dest_port_id'    => 'required|numeric',

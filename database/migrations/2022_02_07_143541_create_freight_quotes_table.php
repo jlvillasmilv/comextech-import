@@ -18,6 +18,8 @@ class CreateFreightQuotesTable extends Migration
             $table->string('code', 10)->nullable()->unique()->index()->comment('codigo para consultas');
 
             $table->unsignedBigInteger('freight_users_id');
+
+            $table->string('type_transport',15)->nullable();
             
             $table->decimal('cargo_value', 12, 2)->default(0)->nullable();
             $table->decimal('transport_amount', 12, 2)->default(0)->nullable();
@@ -47,6 +49,7 @@ class CreateFreightQuotesTable extends Migration
             $table->boolean('local_transp')->default(false);
             $table->date('shipping_date')->nullable();
             $table->string('description',150)->nullable();
+            $table->boolean('status')->default(false);
 
             $table->timestamps();
         });

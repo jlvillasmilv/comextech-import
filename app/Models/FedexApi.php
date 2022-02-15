@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 
 use FedEx\RateService\Request;
-
 use FedEx\RateService\ComplexType;
-
 use FedEx\RateService\SimpleType;
+
+use FedEx\TrackService\Request as tRequest;
+use FedEx\TrackService\ComplexType as tComplexType;
+use FedEx\TrackService\SimpleType as tSimpleType;
 
 class FedexApi extends Model
 {
@@ -69,10 +71,10 @@ class FedexApi extends Model
       $rateRequest->ClientDetail->MeterNumber = env('FEDEX_METER_NUMBER');
 
       $rateRequest->TransactionDetail->CustomerTransactionId = 'testing rate service request';
-      
+
       //version
       $rateRequest->Version->ServiceId = 'crs';
-      $rateRequest->Version->Major = 28;
+      $rateRequest->Version->Major = 31;
       $rateRequest->Version->Minor = 0;
       $rateRequest->Version->Intermediate = 0;
 
@@ -161,6 +163,61 @@ class FedexApi extends Model
       }
 
       return $rateReply;
+
+  }
+
+  public static function tracking($TrackingNumber)
+  {
+    
+    $trackingId1 = $TrackingNumber;           
+
+    $trackRequest = new tComplexType\TrackRequest();
+
+    // User Credential
+    $trackRequest->WebAuthenticationDetail->UserCredential->Key =  env('FEDEX_KEY');
+    $trackRequest->WebAuthenticationDetail->UserCredential->Password = env('FEDEX_PASSWORD');
+
+    //Client Detail
+    $trackRequest->ClientDetail->AccountNumber = env('FEDEX_ACCOUNT_NUMBER');
+    $trackRequest->ClientDetail->MeterNumber   = env('FEDEX_METER_NUMBER');
+
+    // Version
+    $trackRequest->Version->ServiceId = 'trck';
+    $trackRequest->Version->Major = 20;
+    $trackRequest->Version->Intermediate = 0;
+    $trackRequest->Version->Minor = 0;
+
+    $trackRequest->CustomerTransactionId = 'create pickup request example';
+    $trackRequest->TransactionDetail->Localization->LanguageCode = 'ES';
+    $trackRequest->TransactionDetail->Localization->LocaleCode = 'ES';
+    
+    // Track 2 shipments
+    $trackRequest->SelectionDetails = [new tComplexType\TrackSelectionDetail(), new tComplexType\TrackSelectionDetail()];
+
+    // For get all events
+    $trackRequest->ProcessingOptions = [tSimpleType\TrackRequestProcessingOptionType::_INCLUDE_DETAILED_SCANS];
+
+    // Track shipment 1
+    $trackRequest->SelectionDetails[0]->PackageIdentifier->Value = $trackingId1;
+    $trackRequest->SelectionDetails[0]->PackageIdentifier->Type = tSimpleType\TrackIdentifierType::_TRACKING_NUMBER_OR_DOORTAG;
+
+    $request = new tRequest();
+    try {
+        $request->getSoapClient()->__setLocation(Request::PRODUCTION_URL);
+        $trackReply = $request->getTrackReply($trackRequest);
+
+
+        if (!empty($trackReply->CompletedTrackDetails)) {
+
+          return $trackReply->CompletedTrackDetails[0]->TrackDetails[0];
+
+        }
+      
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+        return $request->getSoapClient()->__getLastResponse();
+    }
+
 
   }
 

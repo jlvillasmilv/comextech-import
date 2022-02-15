@@ -118,6 +118,7 @@ class FreightQuotesController extends Controller
 
             $amount = $request->cargo_value;
 
+
             $cif = $amount + $transport_amount;
             $oth_exp  = 0;
             $fee_date = $request->estimated_date;
@@ -126,6 +127,8 @@ class FreightQuotesController extends Controller
             $to_port_transport   = '';
 
             $insurance_amount = $cif * 0.015 > $rate_insurance_transp ? $cif * 0.015 : $rate_insurance_transp;
+
+            
 
             if($request->type_transport == "CONTAINER" || $request->type_transport == "CONSOLIDADO")
             {
@@ -141,8 +144,9 @@ class FreightQuotesController extends Controller
                     $cargo[$key]['container_name'] = $container_name;
 
                     $total_weight += $item['weight'];
+                    
                 }
-
+               
                 $data = [
                     'commodity'      => $amount,
                     'from'           => Port::where('id', $request->origin_port_id)->firstOrFail()->unlocs,
