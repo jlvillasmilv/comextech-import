@@ -131,7 +131,7 @@
             <a
               href="#"
               class="uppercase w-36 md:w-28 text-center block py-3 rounded text-gray-700 hover:bg-blue-1000 hover:text-white active:bg-blue-1300"
-              >Cotize Online</a
+              >Cotice Online</a
             >
           </li>
         </ul>

@@ -62,7 +62,12 @@ const state = {
   showForm: false,
   table: [],
   showTable: false,
-  buttons: true
+  buttons: true,
+  fedex: {},
+  dhl: {},
+  showFedexQuote: false,
+  showDhlQuote: false,
+  showFedexDhlQuote: false
 };
 
 const getters = {};
@@ -87,6 +92,11 @@ const mutations = {
   SHOW_ADDRESS(state, value) {
     state.addressDate = value;
     state.formAddress = value;
+  },
+  HIDE_COURIER_QUOTES(state) {
+    state.showFedexQuote = false;
+    state.showDhlQuote = false;
+    state.showFedexDhlQuote = false;
   },
   SET_PORT_DEST(state, payload) {
     if (state.portsDesTemp == '') {
@@ -127,6 +137,18 @@ const mutations = {
       state.expenses.cif = state.table.transport.cif;
     } else {
       state.showTable = false;
+    }
+  },
+  SET_FEDEX_DHL(state, response) {
+    if (response[0]) {
+      state.fedex = response[0].data;
+      state.showFedexDhlQuote = true;
+      state.showFedexQuote = true;
+    }
+    if (response[1]) {
+      state.dhl = response[1].data;
+      state.showFedexDhlQuote = true;
+      state.showDhlQuote = true;
     }
   }
 };
@@ -189,6 +211,37 @@ const actions = {
     } catch (error) {
       console.error(error);
     }
+  },
+  getFedexDhlQuote({ commit }, payload) {
+    const fedexApi = payload
+      .post('/api/get-fedex-rate')
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    const DhlApi = payload
+      .post('/api/get-dhl-quote')
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    const fedexDhlQuote = Promise.all([fedexApi, DhlApi])
+      .then((response) => {
+        if (response[0] || response[1]) {
+          commit('SET_FEDEX_DHL', response);
+          return response;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return fedexDhlQuote;
   }
 };
 
