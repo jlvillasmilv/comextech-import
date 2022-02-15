@@ -80,11 +80,11 @@ class FedexApi extends Model
 
       $rateRequest->ReturnTransitAndCommit = true;
 
-      $rateRequest->RequestedShipment->ServiceType = SimpleType\ServiceType::_INTERNATIONAL_PRIORITY;
+      // $rateRequest->RequestedShipment->ServiceType = SimpleType\ServiceType::_INTERNATIONAL_PRIORITY;
 
-      if(($data['dataLoad'][0]['weight'] > 68 && $data['dataLoad'][0]['weight_units'] == 'KG') || ($data['dataLoad'][0]['weight'] > 150 && $data['dataLoad'][0]['weight_units'] == 'LB')){ 
-        $rateRequest->RequestedShipment->ServiceType = SimpleType\ServiceType::_INTERNATIONAL_PRIORITY_FREIGHT;
-      }
+      // if(($data['dataLoad'][0]['weight'] > 68 && $data['dataLoad'][0]['weight_units'] == 'KG') || ($data['dataLoad'][0]['weight'] > 150 && $data['dataLoad'][0]['weight_units'] == 'LB')){ 
+      //   $rateRequest->RequestedShipment->ServiceType = SimpleType\ServiceType::_INTERNATIONAL_PRIORITY_FREIGHT;
+      // }
 
       $shipDate  = is_null($data['estimated_date']) ? new \DateTime() : new \DateTime($data['estimated_date']);
 

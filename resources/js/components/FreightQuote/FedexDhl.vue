@@ -66,12 +66,6 @@
                     {{ fedex.PEAK }}
                   </td>
                 </tr>
-                <!-- <tr>
-                  <td class="text-left text-sm">Descuento</td>
-                  <td class="text-right text-sm">
-                    {{ fedex.Discount }}
-                  </td>
-                </tr> -->
                 <tr>
                   <td class="text-left text-sm">Total Estimado</td>
                   <td class="text-right text-sm">
@@ -183,12 +177,6 @@
                     {{ dhl['EMERGENCY SITUATION'] }}
                   </td>
                 </tr>
-                <!-- <tr>
-                  <td class="text-left text-sm">Descuento</td>
-                  <td class="text-right text-sm">
-                    {{ dhl.ComextechDiscount }}
-                  </td>
-                </tr> -->
                 <tr>
                   <td class="text-left text-sm">Total Estimado</td>
                   <td class="text-right text-sm">
@@ -236,11 +224,11 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      transportDHL: '' /* transportation rate Fedex */,
+      transportDHL: '' /* transportation rate DHL */,
       BaseChargeTotal: '',
       TotalEstimed: '' /* estimated total Fedex */,
       transportQuote: 0
@@ -254,6 +242,7 @@ export default {
       'SHOW_HIDE_BUTTONS_QUOTE',
       'HIDE_COURIER_QUOTES'
     ]),
+    ...mapGetters('freightQuotes', ['showLoader']),
 
     ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
@@ -269,6 +258,7 @@ export default {
         height: 100,
         width: 100
       });
+      // this.showLoader(true);
 
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
@@ -299,6 +289,7 @@ export default {
         console.error(error);
       } finally {
         loader.hide();
+        // this.showLoader(false);
       }
     }
   },
