@@ -51,11 +51,17 @@ class FreightQuote extends Model
         'insurance',
         'local_transp',
         'shipping_date',
-        'description'
+        'description',
+        'type_transport'
     ];
 
     public function customer()
     {
         return $this->belongsTo(FreightUser::class,'freight_users_id')->withDefault(['name' => '', 'email' => '']);
+    }
+
+    public function shipment()
+    {
+        return $this->hasMany(FreightShipment::class,'freight_quotes_id');
     }
 }

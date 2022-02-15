@@ -161,7 +161,11 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'settings.create']);
         Permission::create(['name' => 'settings.destroy']);
 
-
+        Permission::create(['name' => 'admin.freight_quotes.index']);
+        Permission::create(['name' => 'admin.freight_quotes.edit']);
+        Permission::create(['name' => 'admin.freight_quotes.show']);
+        Permission::create(['name' => 'admin.freight_quotes.create']);
+        Permission::create(['name' => 'admin.freight_quotes.destroy']);
 
         //Admin
         $admin = Role::create(['name' => 'Admin']);
@@ -225,6 +229,9 @@ class PermissionsTableSeeder extends Seeder
             'admin.customs_exchange_rates.edit',
             'admin.customs_exchange_rates.show',
             'admin.customs_exchange_rates.create',
+            'admin.freight_quotes.index',
+            'admin.freight_quotes.edit',
+            'admin.freight_quotes.show',
         ]);
 
         $business_executive = Role::create(['name' => 'BusinessExecutive']);
@@ -242,6 +249,8 @@ class PermissionsTableSeeder extends Seeder
             'admin.factoring.disbursements.show',
             'admin.customs_exchange_rates.index',
             'admin.customs_exchange_rates.show',
+            'admin.freight_quotes.index',
+            'admin.freight_quotes.show',
         ]);
 
 

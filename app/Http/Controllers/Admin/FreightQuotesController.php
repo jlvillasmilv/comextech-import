@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\CustomsExchangeRate;
+use App\Models\FreightQuote;
 use Illuminate\Http\Request;
-use App\Http\Requests\Admin\CustomsExchangeRateRequest;
+use App\Http\Requests\Admin\FreightQuotesRequest;
 use Illuminate\Support\Facades\Gate;
 
-class CustomsExchangeRateController extends Controller
+class FreightQuotesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +17,11 @@ class CustomsExchangeRateController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('customs_exchange_rates.index')) {
+        if (! Gate::allows('admin.freight_quotes.index')) {
             return abort(401);
         }
         
-        return view('admin.customs_exchange_rates.index');
+        return view('admin.freight_quotes.index');
 
     }
 
@@ -32,11 +32,11 @@ class CustomsExchangeRateController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('customs_exchange_rates.create')) {
+        if (! Gate::allows('admin.freight_quotes.create')) {
             return abort(401);
         }
 
-        return view('admin.customs_exchange_rates.form');
+        return view('admin.freight_quotes.form');
     }
 
     /**
@@ -47,7 +47,7 @@ class CustomsExchangeRateController extends Controller
      */
     public function store(CustomsExchangeRateRequest $request)
     {
-        $data = new CustomsExchangeRate;
+        $data = new FreightQuote;
         $data->fill($request->all());
         $data->save();
 
@@ -57,19 +57,19 @@ class CustomsExchangeRateController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.customs-exchange-rates.edit', base64_encode($data->id));
+        return redirect()->route('admin.freight-quotes.edit', base64_encode($data->id));
     }
 
    
     public function show($id)
     {
-        if (! Gate::allows('customs_exchange_rates.show')) {
+        if (! Gate::allows('freight_quotes.show')) {
             return abort(401);
         }
 
-        $data  = CustomsExchangeRate::findOrFail(base64_decode($id));
+        $data  = FreightQuote::findOrFail(base64_decode($id));
 
-        return view('admin.customs_exchange_rates.show', compact('data'));
+        return view('admin.freight_quotes.show', compact('data'));
     }
 
     /**
@@ -80,25 +80,25 @@ class CustomsExchangeRateController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('customs_exchange_rates.edit')) {
+        if (! Gate::allows('admin.freight_quotes.edit')) {
             return abort(401);
         }
 
-        $data  = CustomsExchangeRate::findOrFail(base64_decode($id));
+        $data  = FreightQuote::findOrFail(base64_decode($id));
 
-        return view('admin.customs_exchange_rates.form', compact('data'));
+        return view('admin.freight_quotes.form', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CustomsExchangeRate  
+     * @param  \App\Models\FreightQuote  
      * @return \Illuminate\Http\Response
      */
-    public function update(CustomsExchangeRateRequest $request, $id)
+    public function update(FreightQuotesRequest $request, $id)
     {
-        $data = CustomsExchangeRate::findOrFail(base64_decode($id));
+        $data = FreightQuote::findOrFail(base64_decode($id));
         $data->fill($request->all())->save();
 
         $notification = array(
@@ -107,20 +107,19 @@ class CustomsExchangeRateController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.customs-exchange-rates.edit', base64_encode($data->id));
+        return redirect()->route('admin.freight-quotes.edit', base64_encode($data->id));
     }
     
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CustomsExchangeRate
+     * @param  \App\Models\FreightQuotes
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $data = CustomsExchangeRate::findOrFail(base64_decode($id));
-        $data->status = false;
+        $data = FreightQuote::findOrFail(base64_decode($id));
         $data->save();
 
     }
