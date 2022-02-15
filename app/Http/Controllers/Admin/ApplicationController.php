@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application,ApplicationDetail,ApplicationSummary, ApplicationStatus, Service};
+use App\Models\{Application,ApplicationDetail,ApplicationSummary, ApplicationStatus, Service, FedexApi};
+use App\Models\services\{DHL, DHLTracking };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\Admin\{ApplicationRequest,ApplicationServiceRequest};
@@ -102,7 +103,6 @@ class ApplicationController extends Controller
     public function update(ApplicationRequest $request, $id)
     {
 
-       //dd($request->all());
         $data = Application::findOrFail($id);
 
         $status = ApplicationStatus::where('id', $data->application_statuses_id)->firstOrFail();
@@ -144,6 +144,11 @@ class ApplicationController extends Controller
         $data->modified_user_id = auth()->user()->id;
         $data->save();
 
+        if ($data->transport->exists()) {
+
+            $data->transport->update(['tracking_number' => $request->input('tracking_number') ]);
+        }
+
 
        if(isset($request->detail_id)){
 
@@ -178,5 +183,52 @@ class ApplicationController extends Controller
     {
         ApplicationDetail::where('id', $id)->delete();
         return  response()->json(['aviso' => 'OK'],200);
+    }
+
+    public function tracking($id)
+    {
+        $application  = Application::findOrFail($id);
+
+        // dd($application->transport->transCompany->name);
+
+
+        switch ($application->transport->transCompany->name) {
+            case 'DHL':
+                $track = DHL::tracking(5034825880);
+
+                $objJsonDocument = json_encode($track);
+                $resp = json_decode($objJsonDocument, TRUE);
+        
+                if($resp['AWBInfo']['Status']['ActionStatus'] != "success"){
+
+                    $notification = array(
+                        'message'    => $resp['AWBInfo']['Status']['Condition']['ConditionData'],
+                        'alert_type' => 'error',);
+            
+                    \Session::flash('notification', $notification);
+
+                    return redirect()->route('admin.applications.index');
+
+                }
+                $data = $resp['AWBInfo'];
+                // dd($data);
+
+                
+                return view('admin.applications.traking.dhl', compact('data'));
+
+                break;
+
+            case 'FEDEX':
+                $data = FedexApi::tracking($application->transport->tracking_number);
+                //dd($data);
+                return view('admin.applications.traking.fedex', compact('data'));
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+     
+
     }
 }

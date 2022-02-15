@@ -8,7 +8,8 @@
      */
     abstract class DHLAbstractAPI
     {
-        protected $_stagingUrl = 'https://xmlpitest-ea.dhl.com/XMLShippingServlet?isUTF8Support=true';
+      //  protected $_stagingUrl = 'https://xmlpitest-ea.dhl.com/XMLShippingServlet?isUTF8Support=true';
+        protected $_stagingUrl    = 'https://xmlpi-ea.dhl.com/XMLShippingServlet?isUTF8Support=true';
         protected $_productionUrl = 'https://xmlpi-ea.dhl.com/XMLShippingServlet?isUTF8Support=true';
         protected $xmlRequest;
         protected $response;

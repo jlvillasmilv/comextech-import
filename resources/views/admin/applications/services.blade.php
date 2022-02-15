@@ -325,7 +325,7 @@
                                {{$item->cbm}}
                             </td>
                             <td class="px-4 py-3">
-                                {{$item->length}} x  {{$item->width}} x {{$item->high}} 
+                                {{$item->length}} x  {{$item->width}} x {{$item->height}} 
                             </td>
                             <td class="px-4 py-3">
                                 {{$item->weight}} {{$item->weight_units}}
