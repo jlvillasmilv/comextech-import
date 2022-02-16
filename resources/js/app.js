@@ -81,6 +81,10 @@ Vue.use(VueGoodTablePlugin);
 import VueNumeric from 'vue-numeric';
 Vue.use(VueNumeric);
 
+// filter to parser currency
+import setPrice from './components/common/filters/formatPrice';
+Vue.use(setPrice);
+
 const app = new Vue({
   el: '#app',
   store,
