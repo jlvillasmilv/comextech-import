@@ -1,16 +1,16 @@
 <template>
   <section>
     <transition name="fade">
-      <!-- fedex.DeliveryTimestamp &&
+      <div class="sm:flex sm:justify-center">
+        <div
+          v-if="
+            showFedexQuote &&
+              fedex.DeliveryTimestamp &&
               fedex.ServiceType &&
               fedex.FUEL &&
               fedex.PEAK &&
-              fedex.Discount &&
-              TotalEstimed &&
-              fedex.TotalNetCharge -->
-      <div class="sm:flex sm:justify-center">
-        <div
-          v-if="showFedexQuote"
+              TotalEstimed
+          "
           :class="[
             !expenses.dataLoad
               ? 'hidden'
@@ -224,8 +224,10 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex';
+import mixinFreight from './mixins/submitQuotes';
+import { mapState } from 'vuex';
 export default {
+  mixins: [mixinFreight],
   data() {
     return {
       transportDHL: '' /* transportation rate DHL */,
@@ -233,67 +235,6 @@ export default {
       TotalEstimed: '' /* estimated total Fedex */,
       transportQuote: 0
     };
-  },
-  methods: {
-    ...mapMutations('freightQuotes', [
-      'SHOW_LOCAL_SHIPPING',
-      'SHOW_ADDRESS',
-      'SHOW_FREIGHT_FORM',
-      'SHOW_HIDE_BUTTONS_QUOTE',
-      'HIDE_COURIER_QUOTES'
-    ]),
-    ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
-
-    async submitQuote(appAmount, transCompanyId) {
-      /* Vue-loader config */
-      let loader = this.$loading.show({
-        canCancel: true,
-        transition: 'fade',
-        color: '#142c44',
-        loader: 'spinner',
-        lockScroll: true,
-        enforceFocus: true,
-        height: 100,
-        width: 100
-      });
-
-      try {
-        this.expenses.dataLoad = this.$store.state.load.loads;
-        this.expenses.app_amount = appAmount;
-        this.expenses.trans_company_id = transCompanyId;
-        const tableQuote = await this.$store.dispatch(
-          'freightQuotes/getTransportTableQuote',
-          this.expenses
-        );
-
-        if (tableQuote.status == 200) {
-          this.SHOW_HIDE_BUTTONS_QUOTE(false);
-          this.HIDE_COURIER_QUOTES();
-          this.SHOW_FREIGHT_FORM(true);
-          Swal.fire({
-            title: 'Si desea cotizar con nosotros, llene el siguente formulario',
-            // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-            icon: 'warning',
-            // showCancelButton: true,
-            confirmButtonColor: '#142c44',
-            // cancelButtonColor: '#d33',
-            // cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Aceptar'
-          });
-        }
-      } catch (error) {
-        this.hideAddress();
-        console.error(error);
-      } finally {
-        loader.hide();
-      }
-    },
-    hideAddress() {
-      this.SHOW_LOAD_CHARGE(true);
-      this.SHOW_ADDRESS(true);
-      this.SHOW_HIDE_BUTTONS_QUOTE(true);
-      this.HIDE_COURIER_QUOTES();
-    }
   },
   computed: {
     ...mapState('freightQuotes', ['expenses', 'fedex', 'dhl', 'showFedexQuote', 'showDhlQuote'])
@@ -315,6 +256,7 @@ export default {
       // this.dhl.ComextechDiscount = this.dhl.ComextechDiscount.toFixed(2);
 
       this.transportDHL = parseFloat(this.transportDHL - this.dhl.ComextechDiscount);
+      this.transportDHL = parseFloat(this.transportDHL).toFixed(2);
     }
   }
 };
