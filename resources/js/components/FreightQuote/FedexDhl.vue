@@ -242,8 +242,6 @@ export default {
       'SHOW_HIDE_BUTTONS_QUOTE',
       'HIDE_COURIER_QUOTES'
     ]),
-    ...mapGetters('freightQuotes', ['showLoader']),
-
     ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
     async submitQuote(appAmount, transCompanyId) {
@@ -258,7 +256,6 @@ export default {
         height: 100,
         width: 100
       });
-      // this.showLoader(true);
 
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
@@ -285,12 +282,17 @@ export default {
           });
         }
       } catch (error) {
-        this.HideAddress();
+        this.hideAddress();
         console.error(error);
       } finally {
         loader.hide();
-        // this.showLoader(false);
       }
+    },
+    hideAddress() {
+      this.SHOW_LOAD_CHARGE(true);
+      this.SHOW_ADDRESS(true);
+      this.SHOW_HIDE_BUTTONS_QUOTE(true);
+      this.HIDE_COURIER_QUOTES();
     }
   },
   computed: {
