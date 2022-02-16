@@ -8,7 +8,7 @@
                 <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
                 <div class="flex items-center justify-between">
                     <span class="font-bold text-gray-800 dark:text-gray-400">Pago proveedor </span>
-                    <span class="ico-plus"></span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
                 </div>
             </a>
 
@@ -77,12 +77,17 @@
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
                 <span class="font-bold text-gray-800 dark:text-gray-400">Transporte </span>
-                <span class="ico-plus"></span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
             </div>
         </a>
 
         <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
-
+            @if (isset($application->transport->transCompany->id))
+            <div class="px-6 items-center justify-between">
+                <span class="font-bold text-gray-800 dark:text-gray-400">Compañía de Transporte: </span>
+                <label class="text-grey-darker text-sm dark:text-gray-300"> {{$application->transport->transCompany->name}}</label>
+            </div>
+            @endif
             <div class="p-6">
                 <div class="flex mb-2">
                     <div class="w-1/2 mr-1">
@@ -196,7 +201,7 @@
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
                 <span class="font-bold text-gray-800 dark:text-gray-400"> Internación </span>
-                <span class="ico-plus"></span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
             </div>
         </a>
 
@@ -244,7 +249,7 @@
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
                 <span class="font-bold text-gray-800 dark:text-gray-400">Bodegaje Local </span>
-                <span class="ico-plus"></span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
             </div>
         </a>
 
@@ -291,7 +296,7 @@
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
                 <span class="font-bold text-gray-800 dark:text-gray-400">Cargamento </span>
-                <span class="ico-plus"></span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
             </div>
         </a>
 

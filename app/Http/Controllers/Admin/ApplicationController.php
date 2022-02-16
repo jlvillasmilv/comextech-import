@@ -237,7 +237,12 @@ class ApplicationController extends Controller
                 break;
             
             default:
-                # code...
+                $notification = array(
+                    'message'    => 'Proveedor no encontrado',
+                    'alert_type' => 'error',);
+        
+                \Session::flash('notification', $notification);
+                return redirect()->route('admin.applications.index');
                 break;
         }
      
