@@ -14,12 +14,12 @@
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
 
-                <label class="block mt-4 text-sm">
+                <label class="block px-2 mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400 font-bold mb-2">Status:</span>
                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">{{$application->status->name}} </p>
                 </label>
 
-                <label class="block mt-4 text-sm">
+                <label class="block px-2 mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400 font-bold mb-2">Cliente:</span>
                     <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
                         {{$application->user->company->tax_id}} {{$application->user->company->name}} 

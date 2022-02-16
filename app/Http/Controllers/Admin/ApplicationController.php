@@ -194,7 +194,7 @@ class ApplicationController extends Controller
 
         switch ($application->transport->transCompany->name) {
             case 'DHL':
-                $track = DHL::tracking(5034825880);
+                $track = DHL::tracking($application->transport->tracking_number);
 
                 $objJsonDocument = json_encode($track);
                 $resp = json_decode($objJsonDocument, TRUE);
@@ -211,21 +211,38 @@ class ApplicationController extends Controller
 
                 }
                 $data = $resp['AWBInfo'];
-                // dd($data);
-
+                $status= end($resp['AWBInfo']['ShipmentInfo']['ShipmentEvent']);
                 
-                return view('admin.applications.traking.dhl', compact('data'));
+
+                return view('admin.applications.traking.dhl', compact('data','status'));
 
                 break;
 
             case 'FEDEX':
                 $data = FedexApi::tracking($application->transport->tracking_number);
-                //dd($data);
+                
+                if($data->Notification->Severity != "SUCCESS"){
+
+                    $notification = array(
+                        'message'    => $data->Notification->Message,
+                        'alert_type' => 'error',);
+            
+                    \Session::flash('notification', $notification);
+
+                    return redirect()->route('admin.applications.index');
+
+                }
+
                 return view('admin.applications.traking.fedex', compact('data'));
                 break;
             
             default:
-                # code...
+                $notification = array(
+                    'message'    => 'Proveedor no encontrado',
+                    'alert_type' => 'error',);
+        
+                \Session::flash('notification', $notification);
+                return redirect()->route('admin.applications.index');
                 break;
         }
      
