@@ -80,6 +80,7 @@
               {{
                 table.transport.insurance ? formatPrice(table.transport.insurance) : 'POR COTIZAR'
               }}
+              <!-- {{ table.transport.insurance | setPrice('USD') }} -->
             </td>
             <td class="px-4 py-3">USD</td>
           </tr>
@@ -92,7 +93,11 @@
                   : 'font-semibold px-4 py-3'
               ]"
             >
-              {{ table.transport.oth_exp ? formatPrice(table.transport.oth_exp) : 'POR COTIZAR' }}
+              {{
+                table.transport.oth_exp
+                  ? formatPrice(table.transport.oth_exp, 'CLP')
+                  : 'POR COTIZAR'
+              }}
             </td>
             <td class="px-4 py-3">CLP</td>
           </tr>
