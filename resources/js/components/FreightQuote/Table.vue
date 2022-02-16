@@ -80,6 +80,7 @@
               {{
                 table.transport.insurance ? formatPrice(table.transport.insurance) : 'POR COTIZAR'
               }}
+              <!-- {{ table.transport.insurance | setPrice('USD') }} -->
             </td>
             <td class="px-4 py-3">USD</td>
           </tr>
@@ -92,28 +93,14 @@
                   : 'font-semibold px-4 py-3'
               ]"
             >
-              {{ table.transport.oth_exp ? formatPrice(table.transport.oth_exp) : 'POR COTIZAR' }}
+              {{
+                table.transport.oth_exp
+                  ? formatPrice(table.transport.oth_exp, 'CLP')
+                  : 'POR COTIZAR'
+              }}
             </td>
             <td class="px-4 py-3">CLP</td>
           </tr>
-          <!-- <tr class="text-sm text-gray-700 dark:text-gray-400 dark:divide-gray-700">
-              <td class="px-4 py-3">&nbsp;</td>
-              <td class="px-4 py-3">TRANSPORTE LOCAL</td>
-              <td
-                :class="[
-                  !tableQuote.transport.local_transp
-                    ? 'text-red-600 font-semibold px-4 py-3'
-                    : 'font-semibold px-4 py-3'
-                ]"
-              >
-                {{
-                  tableQuote.transport.local_transp
-                    ? formatPrice(tableQuote.transport.local_transp)
-                    : 'POR COTIZAR'
-                }}
-              </td>
-              <td class="px-4 py-3">CLP</td>
-            </tr> -->
         </tbody>
       </table>
     </div>
@@ -121,7 +108,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   data() {
     return {};
