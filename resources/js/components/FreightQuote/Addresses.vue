@@ -234,7 +234,7 @@
     </transition>
 
     <!-- fcl table quote   -->
-    <transition v-if="showTable" name="fade">
+    <transition v-if="showTable && expenses.type_transport !== 'AEREO'" name="fade">
       <Table />
     </transition>
 
