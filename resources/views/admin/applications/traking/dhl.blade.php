@@ -19,7 +19,11 @@
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Status:</label>
                             <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                           
+                                {{
+                                    $status['ServiceEvent']['EventCode'] == 'RR' || $status['EventCode'] == 'OK' 
+                                    ? 'ENTREGADO'
+                                    : $status['ServiceEvent']['Description'] 
+                                }}
                             </p>    
                             
                            
