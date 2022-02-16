@@ -114,10 +114,6 @@ export default {
       } finally {
         this.BUSY_BUTTON(false);
       }
-    },
-    HideAddress() {
-      this.SHOW_ADDRESS(true);
-      this.SHOW_LOAD_CHARGE(true);
     }
   },
   computed: {
