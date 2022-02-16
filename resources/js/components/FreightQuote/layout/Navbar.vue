@@ -95,7 +95,7 @@
         </div>
       </a>
       <div :class="[{ hidden: showBurgerMenu }, 'md:block w-full md:w-auto']" id="mobile-menu">
-        <ul
+        <!-- <ul
           class="flex flex-col justify-end md:items-center mt-8 md:flex-row md:space-x-2 md:mt-0 md:text-sm md:font-medium"
         >
           <li>
@@ -134,7 +134,7 @@
               >Cotice Online</a
             >
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </nav>

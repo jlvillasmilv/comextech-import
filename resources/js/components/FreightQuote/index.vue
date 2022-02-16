@@ -101,17 +101,19 @@ export default {
   },
   async created() {
     const type = this.expenses.type_transport == 'AEREO' ? 'A' : 'P';
+    try {
+      await this.$store.dispatch('freightQuotes/getPorts', type);
+      const request = await fetch(`https://ipinfo.io/json?token=${this.ipInfo}`);
 
-    await this.$store.dispatch('freightQuotes/getPorts', type);
+      const json = await request.json();
 
-    const request = await fetch(`https://ipinfo.io/json?token=${this.ipInfo}`);
-
-    const json = await request.json();
-
-    if (json.country) {
-      this.expenses.client.ip = json.ip;
-      this.expenses.client.region = json.region;
-      this.expenses.client.country = json.country;
+      if (json.country) {
+        this.expenses.client.ip = json.ip;
+        this.expenses.client.region = json.region;
+        this.expenses.client.country = json.country;
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 };

@@ -70,23 +70,7 @@ const state = {
   showFedexDhlQuote: false
 };
 
-const getters = {
-  showLoader(status) {
-    let loader = this.$loading.show({
-      canCancel: true,
-      transition: 'fade',
-      color: '#142c44',
-      loader: 'spinner',
-      lockScroll: true,
-      enforceFocus: true,
-      height: 100,
-      width: 100
-    });
-    if (!status) {
-      loader.hide();
-    }
-  }
-};
+const getters = {};
 
 const mutations = {
   ADD_LOAD(state, payload) {
