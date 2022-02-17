@@ -97,7 +97,7 @@ export default {
           Swal.fire({
             title: 'Comextech le enviará un correo para contactarlo',
             // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
-            icon: 'warning',
+            icon: 'success',
             // showCancelButton: true,
             confirmButtonColor: '#142c44',
             // cancelButtonColor: '#d33',
