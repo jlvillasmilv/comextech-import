@@ -188,64 +188,75 @@ class ApplicationController extends Controller
     public function tracking($id)
     {
         $application  = Application::findOrFail($id);
-
-        // dd($application->transport->transCompany->name);
-
-
-        switch ($application->transport->transCompany->name) {
-            case 'DHL':
-                $track = DHL::tracking($application->transport->tracking_number);
-
-                $objJsonDocument = json_encode($track);
-                $resp = json_decode($objJsonDocument, TRUE);
-        
-                if($resp['AWBInfo']['Status']['ActionStatus'] != "success"){
-
+        try {
+            switch ($application->transport->transCompany->name) {
+                case 'DHL':
+                    $track = DHL::tracking($application->transport->tracking_number);
+    
+                    $objJsonDocument = json_encode($track);
+                    $resp = json_decode($objJsonDocument, TRUE);
+    
+                   
+            
+                    if($resp['AWBInfo']['Status']['ActionStatus'] != "success"){
+    
+                        //$resp['AWBInfo']['Status']['ActionStatus'] != "success"
+    
+                        $notification = array(
+                            'message'    => $resp['AWBInfo']['Status']['Condition']['ConditionData'],
+                            'alert_type' => 'error',);
+                
+                        \Session::flash('notification', $notification);
+    
+                        return redirect()->back();
+    
+                    }
+                    
+                    $data = $resp['AWBInfo'];
+                    $status= end($resp['AWBInfo']['ShipmentInfo']['ShipmentEvent']);
+                    
+    
+                    return view('admin.applications.traking.dhl', compact('data','status'));
+    
+                    break;
+    
+                case 'FEDEX':
+                    $data = FedexApi::tracking($application->transport->tracking_number);
+                    
+                    if($data->Notification->Severity != "SUCCESS"){
+    
+                        $notification = array(
+                            'message'    => $data->Notification->Message,
+                            'alert_type' => 'error',);
+                
+                        \Session::flash('notification', $notification);
+    
+                        return redirect()->route('admin.applications.index');
+    
+                    }
+    
+                    return view('admin.applications.traking.fedex', compact('data'));
+                    break;
+                
+                default:
                     $notification = array(
-                        'message'    => $resp['AWBInfo']['Status']['Condition']['ConditionData'],
+                        'message'    => 'Proveedor no encontrado',
                         'alert_type' => 'error',);
             
                     \Session::flash('notification', $notification);
+                    return redirect()->back();
+                    break;
+            }
+         
+        } catch (\Exception $e) {
 
-                    return redirect()->route('admin.applications.index');
-
-                }
-                $data = $resp['AWBInfo'];
-                $status= end($resp['AWBInfo']['ShipmentInfo']['ShipmentEvent']);
-                
-
-                return view('admin.applications.traking.dhl', compact('data','status'));
-
-                break;
-
-            case 'FEDEX':
-                $data = FedexApi::tracking($application->transport->tracking_number);
-                
-                if($data->Notification->Severity != "SUCCESS"){
-
-                    $notification = array(
-                        'message'    => $data->Notification->Message,
-                        'alert_type' => 'error',);
-            
-                    \Session::flash('notification', $notification);
-
-                    return redirect()->route('admin.applications.index');
-
-                }
-
-                return view('admin.applications.traking.fedex', compact('data'));
-                break;
-            
-            default:
-                $notification = array(
-                    'message'    => 'Proveedor no encontrado',
-                    'alert_type' => 'error',);
-        
-                \Session::flash('notification', $notification);
-                return redirect()->route('admin.applications.index');
-                break;
+            $notification = array(
+                'message'    => $e->getMessage(),
+                'alert_type' => 'error');
+    
+            \Session::flash('notification', $notification);
+            return redirect()->back();
         }
-     
-
+        
     }
 }

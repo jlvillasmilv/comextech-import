@@ -4,7 +4,7 @@
             {{-- <x-authentication-card-logo /> --}}
             
         </x-slot>
-
+        <img aria-hidden="true" class="object-scale-down w-full h-full dark:hidden" src="https://user-images.githubusercontent.com/53098149/133094650-88a78162-0bfd-4863-a2d4-b43ff7d7292a.jpg" alt="Office" />
         <x-validation-errors class="mb-4" />
 
         <form method="POST" action="{{ route('password.update') }}">
