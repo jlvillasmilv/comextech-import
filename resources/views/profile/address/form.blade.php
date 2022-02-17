@@ -95,6 +95,8 @@
                             max="50"
                             required="">
 
+                            <input type="hidden" placeholder="Provincia" id='country_code' name="country_code" value="{{ old('country_code') }}" />
+
                             @if($errors->has('province'))
                             <span class="text-xs text-red-600 dark:text-red-400">
                                  {{ $errors->first('province') }}

@@ -43,8 +43,8 @@ class JumpSellerUser extends Model
             ->post($url);
 
             $obj = json_decode($httpResponse->body(), true);
-      
-            return $obj["customer"];
+
+            return isset($obj["customer"]) ? $obj["customer"] : ["id" => 0];
 
         } catch (\Throwable $th) {
            return $th;

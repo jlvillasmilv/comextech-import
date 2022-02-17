@@ -284,8 +284,9 @@ function initialize() {
   let postalField;
   let placeId;
 
-  postalField = document.querySelector("#postal_code");
+  postalField  = document.querySelector("#postal_code");
   provinceField = document.querySelector("#province");
+  countryCode  = document.querySelector("#country_code");
 
   for (let i = 0; i < locationInputs.length; i++) {
 
@@ -330,8 +331,8 @@ function initialize() {
             break;
           }
 
-          case "postal_code_suffix": {
-            postcode = `${postcode}-${component.long_name}`;
+          case "country": {
+            country = `${component.short_name}`;
             break;
           }
 
@@ -343,7 +344,9 @@ function initialize() {
 
       postalField.value = postcode;
       provinceField.value = province;
+      countryCode.value  = country;
       placeId = placId;
+      
     });
   }
 

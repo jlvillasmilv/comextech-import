@@ -38,6 +38,7 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
+       
         $supplier = new Supplier;
         $supplier->fill($request->all());
         $supplier->user_id = auth()->user()->id;
@@ -52,7 +53,9 @@ class SupplierController extends Controller
                     'place'   => $request->place[$key],
                     'latitude'  => $request->latitude[$key],
                     'longitude' => $request->longitude[$key],
-                    'postal_code'       => $request->postal_code[$key],
+                    'postal_code'  => $request->postal_code[$key],
+                    'country_code' => $request->postal_code[$key],
+                    'locality'     => $request->postal_code[$key],
                     ]);
             }
         }
@@ -97,7 +100,6 @@ class SupplierController extends Controller
      */
     public function update(SupplierRequest $request, $id)
     {
-
         $supplier = Supplier::findOrFail($id);
 
         $supplier->fill($request->all())->save();
@@ -111,7 +113,9 @@ class SupplierController extends Controller
                     'place'   => $request->place[$key],
                     'latitude'  => $request->latitude[$key],
                     'longitude' => $request->longitude[$key],
-                    'postal_code'       => $request->postal_code[$key],
+                    'postal_code' => $request->postal_code[$key],
+                    'country_code' => $request->country_code[$key],
+                    'locality'     => $request->locality[$key],
                     ]);
             }
         }
