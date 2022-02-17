@@ -83,10 +83,8 @@ class DHL extends Model
 
         return $quote->getResponse();
 
-
       } catch (\Exception $e) {
-          return  $e->getMessage();
-         
+        return  $e->getMessage();
       }
       
     }

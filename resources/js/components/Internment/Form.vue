@@ -511,7 +511,10 @@
       </section>
 
       <!-- tabla gastos del puerto -->
-      <section class="container flex flex-col items-center justify-center px-6 mx-auto">
+      <section
+        v-if="data.type_transport !== 'COURIER'"
+        class="container flex flex-col items-center justify-center px-6 mx-auto"
+      >
         <details class="w-9/12">
           <summary class="mb-4 text-lg text-center text-black-600 dark:text-gray-300">
             Gastos de Puerto

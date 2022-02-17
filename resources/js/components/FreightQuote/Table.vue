@@ -62,7 +62,7 @@
             >
               {{
                 table.transport.transport_amount
-                  ? formatPrice(table.transport.transport_amount)
+                  ? $options.filters.setPrice(table.transport.transport_amount, 'USD')
                   : 'POR COTIZAR'
               }}
             </td>
@@ -78,9 +78,10 @@
               ]"
             >
               {{
-                table.transport.insurance ? formatPrice(table.transport.insurance) : 'POR COTIZAR'
+                table.transport.insurance
+                  ? $options.filters.setPrice(table.transport.insurance, 'USD')
+                  : 'POR COTIZAR'
               }}
-              <!-- {{ table.transport.insurance | setPrice('USD') }} -->
             </td>
             <td class="px-4 py-3">USD</td>
           </tr>
@@ -95,7 +96,7 @@
             >
               {{
                 table.transport.oth_exp
-                  ? formatPrice(table.transport.oth_exp, 'CLP')
+                  ? $options.filters.setPrice(table.transport.oth_exp, 'CLP')
                   : 'POR COTIZAR'
               }}
             </td>
