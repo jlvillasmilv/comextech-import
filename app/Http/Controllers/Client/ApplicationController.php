@@ -19,7 +19,7 @@ class ApplicationController extends Controller
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
         ->paginate(7);
-        return view('applications.index' , compact('data'));
+        return view('client.applications.index' , compact('data'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        return view('applications.form');
+        return view('client.applications.form');
     }
 
     /**
@@ -249,7 +249,7 @@ class ApplicationController extends Controller
         ])
         ->firstOrFail();
 
-        return view('applications.show', compact('application'));
+        return view('client.applications.show', compact('application'));
        
     }
 
@@ -345,7 +345,7 @@ class ApplicationController extends Controller
     public function edit($id)
     {   
         $id= Crypt::decryptString($id);
-        return view('services.edit', compact('id'));    
+        return view('client.applications.edit', compact('id'));    
     }
 
     public function getApplicationCategory($id)
