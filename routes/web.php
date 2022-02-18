@@ -98,10 +98,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::get('supplierlist', 'App\Http\Controllers\Client\SupplierController@list');
 
-    Route::resource('custom-agents',  'App\Http\Controllers\CustomAgentController');
+    Route::resource('custom-agents',  'App\Http\Controllers\Client\CustomAgentController');
 
-    Route::get('agentslist', 'App\Http\Controllers\CustomAgentController@list');
-    Route::get('customs_house', 'App\Http\Controllers\CustomAgentController@customsHouse');
+    Route::get('agentslist', 'App\Http\Controllers\Client\CustomAgentController@list');
+    Route::get('customs_house', 'App\Http\Controllers\Client\CustomAgentController@customsHouse');
   
     //services
     Route::get('/services', [ServicesController::class, 'show'])->name('services.show');

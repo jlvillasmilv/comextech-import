@@ -69,7 +69,7 @@
                         </form>
 
                         <p class="mt-4">
-                            <a class="text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline" href="{{ route('login') }}">
+                            <a class="text-sm font-medium text-blue-1100 dark:text-blue-400 hover:underline" href="{{ route('login') }}">
                                 ¿Ya tienes una cuenta? Login
                             </a>
                         </p>

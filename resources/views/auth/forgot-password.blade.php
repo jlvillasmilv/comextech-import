@@ -13,7 +13,7 @@
                         <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Olvidó  Contraseña</h1>
                         @if ($errors->any())
                         <div class="mb-4">
-                            <div class="font-medium text-red-600">Whoops! Something went wrong.</div>
+                            <div class="font-medium text-red-600">¡Vaya! Algo salió mal.</div>
 
                             <ul class="mt-3 text-sm text-red-600 list-disc list-inside">
                                 @foreach ($errors->all() as $error)
@@ -34,15 +34,16 @@
                             <label class="block text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Correo Electronico</span>
                                 <input
+                                    type="email"
                                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     placeholder="email@email.com" name="email" :value="old('email')" required autofocus />
                             </label>
 
                             <!-- You should use a button here, as the anchor is only used for the example  -->
                             <button
-                                class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-700 border border-transparent rounded-lg active:bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline-blue"
+                                class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1000 focus:outline-none focus:shadow-outline-blue"
                                 type="submit">
-                                {{ __('Email Password Reset Link') }}
+                                {{ __('Enlace de restablecimiento de contraseña') }}
                             </button>
                         </form>
                         <p class="mt-4">
