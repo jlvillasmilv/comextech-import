@@ -52,7 +52,7 @@
       </div>
 
       <!-- Codigo postal origen -->
-      <div
+      <!-- <div
         v-if="postalCodeOrigin && !expenses.fav_origin_address"
         class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0"
       >
@@ -73,11 +73,7 @@
             v-html="expenses.errors.get('origin_postal_code')"
           ></span>
         </div>
-        <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
-        <!-- <div class="flex justify-center w-1/12">
-            <h3 class="mt-2"></h3>
-          </div> -->
-      </div>
+      </div> -->
 
       <!-- Destino de envio -->
       <div class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
@@ -128,7 +124,7 @@
       </div>
 
       <!-- codigo postal de destino -->
-      <div
+      <!-- <div
         v-if="postalCodeDestination && !expenses.fav_dest_address"
         class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0"
       >
@@ -166,11 +162,7 @@
             v-html="expenses.errors.get('dest_postal_code')"
           ></span>
         </div>
-        <!-- <div class="mt-2 mr-8 flex justify-start w-1/12"></div> -->
-        <!-- <div class="flex justify-center w-1/12">
-            <h3 class="mt-2"></h3>
-          </div> -->
-      </div>
+      </div> -->
     </div>
 
     <!-- Date and description -->
