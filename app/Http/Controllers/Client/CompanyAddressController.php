@@ -153,7 +153,7 @@ class CompanyAddressController extends Controller
      */
     public function destroy($id)
     {
-        $address = CompanyAddress::findOrFail($id);
+        $address = CompanyAddress::findOrFail(base64_decode($id));
         $address->status = 0;
         $address->save();
 
