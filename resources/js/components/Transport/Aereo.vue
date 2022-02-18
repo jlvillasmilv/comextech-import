@@ -69,7 +69,7 @@
           </div>
 
           <!-- Codigo postal origen -->
-          <div
+          <!-- <div
             v-if="postalCodeOrigin && !expenses.fav_origin_address"
             class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
           >
@@ -90,7 +90,7 @@
               v-if="expenses.errors.has('origin_postal_code')"
               v-html="expenses.errors.get('origin_postal_code')"
             ></span>
-          </div>
+          </div> -->
 
           <!-- Aeropuerto / Puerto origen -->
           <div class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0">
@@ -287,7 +287,7 @@
           </div>
 
           <!-- codigo postal de destino -->
-          <div
+          <!-- <div
             v-if="postalCodeDestination && !expenses.fav_dest_address"
             class="w-72 md:w-8/12 flex justify-center px-3 mb-6 md:mb-0"
           >
@@ -325,7 +325,7 @@
                 v-html="expenses.errors.get('dest_postal_code')"
               ></span>
             </div>
-          </div>
+          </div> -->
         </div>
       </transition>
 
