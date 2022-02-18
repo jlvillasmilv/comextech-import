@@ -53,10 +53,11 @@
                     w-2/6
                     px-4
                     py-3
-                    text-xs text-center
+                    text-xs
                     font-semibold
                     tracking-wide
-                    text-left text-white
+                    text-center 
+                    text-white
                     uppercase
                     border-b
                     dark:border-gray-700
@@ -162,14 +163,14 @@
                   </div>
                 </td>
                 <td :class="key == 0 ? 'invisible' : ''" class="text-center px-4 py-3">
-                  {{ item.currency }}
+                  {{ item.currency | setPrice(item.currency) }}
                 </td>
                 <td :class="key == 0 ? 'invisible' : ''" class="text-center px-4 py-3">
-                  {{ formatPrice(item.amount, item.currency) }}
+                  {{ item.amount | setPrice(item.currency) }}
                 </td>
                 <td class="text-center px-4 py-3">&nbsp;</td>
                 <td :class="key == 0 ? 'invisible' : ''" class="px-4 py-3 text-center">
-                  {{ formatPrice(item.amo2, item.currency2) }}
+                  {{ item.amo2 | setPrice(item.currency2) }}
                 </td>
                 <td :class="key == 0 ? 'invisible' : ''" class="px-4 py-3 text-right">
                   {{ item.currency2 }}
@@ -180,7 +181,7 @@
               <tr>
                 <td colspan="6" class="text-right px-4 py-3">
                   <strong>
-                    {{ formatPrice(totalAmount, currency_ex) }}
+                    {{ total | setPrice(currency_ex) }}
                   </strong>
                 </td>
                 <td class="text-center px-4 py-3">
@@ -266,15 +267,15 @@ export default {
         maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
-    formatter(value, currency) {
-      return Number(value).toLocaleString(navigator.language, {
-        style: 'currency',
-        currency,
-        currencyDisplay: 'code',
-        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
-      });
-    },
+    // formatter(value, currency) {
+    //   return Number(value).toLocaleString(navigator.language, {
+    //     style: 'currency',
+    //     currency,
+    //     currencyDisplay: 'code',
+    //     minimumFractionDigits: currency == 'CLP' ? 0 : 2,
+    //     maximumFractionDigits: currency == 'CLP' ? 0 : 2
+    //   });
+    // },
     getHumanDate(date) {
       /* Regular expression to change the date format */
       let dateConvert = date.match(/\d+/g);
@@ -298,11 +299,11 @@ export default {
     async convert(currency) {
       this.currency_ex = currency;
 
-      await axios.post('/set-application-summary', {
+      const totalApi = await axios.post('/set-application-summary', {
         application_id: btoa(this.application_id),
         currency_code: currency
       });
-      
+
       this.$store.dispatch('exchange/getSummary', this.application_id);
 
       this.exchangeItem.forEach(async (e) => {
@@ -310,18 +311,13 @@ export default {
         let objIndex = this.exchangeItem.findIndex((obj) => obj.id == e.id);
         this.exchangeItem[objIndex].currency2 = currency;
       });
+
+      this.total = totalApi.data;
     }
   },
   computed: {
     ...mapState('exchange', ['exchangeItem']),
-    ...mapState('application', ['busy']),
-    totalAmount: function() {
-      var sum = 0;
-      this.exchangeItem.forEach((e) => {
-        sum += Number.parseFloat(e.amo2);
-      });
-      return sum;
-    }
+    ...mapState('application', ['busy'])
   },
   mounted: function() {
     this.$store.dispatch('exchange/getSummary', this.application_id);

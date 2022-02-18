@@ -147,12 +147,11 @@
                                   id="_address"
                                   onfocus="this.value=''" >
 
-                                  <input type="hidden" class="form-input" name="latitude" id="latitude" value="{{ old('latitude') }}" />
-                                  <input type="hidden" class="form-input" name="longitude" id="longitude" value="{{ old('longitude') }}" />
-                                  
-                                    <input type="hidden" placeholder="Provincia" id='province' name="province" value="{{ old('province') }}" />
-
-                                    <input type="hidden" placeholder="Pais" id='country_code' name="country_code" value="{{ old('country_code') }}" />
+                                  <input type="hidden"  name="latitude" id="latitude" value="{{ old('latitude') }}" />
+                                  <input type="hidden"  name="longitude" id="longitude" value="{{ old('longitude') }}" />
+                                  <input type="hidden" id='province' name="province" value="{{ old('province') }}" />
+                                  <input type="hidden" id='country_code' name="country_code" value="{{ old('country_code') }}" />
+                                  <input type="hidden" id='locality' name="locality" value="{{ old('locality') }}" >
                                 
                                 <span id="amountError" class="text-xs text-red-600 dark:text-red-400">
                                     <strong></strong>
@@ -275,7 +274,7 @@
         const logit    = document.getElementById("longitude").value; 
         const post_cod = document.getElementById("postal_code").value;  
         const country_code = document.getElementById("country_code").value; 
-        const locality  = document.getElementById("province").value; 
+        const locality  = document.getElementById("locality").value; 
 
         if (address.length <= 0 || post_cod.length <= 0 ) { return;  }
 
@@ -287,8 +286,8 @@
                     <input type="hidden" class="form-input" name="latitude[]" id="latitude" value="${latit}" />
                     <input type="hidden" class="form-input" name="longitude[]" id="longitude" value="${logit}" />
                     <input type="hidden" class="form-input" name="postal_code[]" id="longitude" value="${post_cod}" />
-                    <input type="hidden" class="form-input" name="country_code[]" id="country_code" value="${country_code}" />
-                    <input type="hidden" class="form-input" name="locality[]" id="locality" value="${locality}" />
+                    <input type="hidden" class="form-input" name="country_code[]" value="${country_code}" />
+                    <input type="hidden" class="form-input" name="locality[]" value="${locality}" />
                 </td>
                 <td>
                     <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red" onclick="onDeleteRow(${Date.now()})">

@@ -6,13 +6,23 @@
         <div class="flex justify-center px-6 m-auto my-2 ">
             <div class="w-full sm:w-2/3 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
                 <h3 class="my-4  font-semibold text-gray-700 dark:text-gray-200">
-                    Nueva direccion
+                    {{  isset($companyAddress) ? 'Editar' : 'Nueva'}} direccion
                 </h3>
                 <form class="form-horizontal" role="form" method="POST" action="{{ isset($companyAddress) ? route('address.update', base64_encode($companyAddress->id)) : route('address.store') }}" >
                     @csrf
                      @if(isset($companyAddress))
                        @method('PUT')
                     @endif
+
+                <label class="block text-sm my-3">
+                    <span class="text-gray-700 dark:text-gray-400"> Direccion </span>
+                    <input type="text" id="address-input" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input  map-input" placeholder="Direccion Postal" name="address" value="{{ old('address', isset($companyAddress) ? $companyAddress->address : '') }}" max="255" required="">
+                    @if($errors->has('address'))
+                        <span class="text-xs text-red-600 dark:text-red-400">
+                            {{ $errors->first('address') }}
+                        </span>
+                    @endif
+                </label>
 
                 <label class="block text-sm my-3">
                   <div class="px-2" id="add_to">
@@ -82,8 +92,14 @@
                                 </span>
                             @endif
                         </div>
+                    
+
                        
-                        <div class="w-1/4 ml-1 sm:w-full ">
+                        <input id='locality' name="locality" value="{{ old('locality', isset($companyAddress) ? $companyAddress->locality : '') }}"
+                        type="hidden"
+                        >
+                       
+                        <div class="w-1/4 ml-1 sm:w-full">
                            
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Provincia</span>
 
@@ -94,8 +110,6 @@
                             value="{{ old('province', isset($companyAddress) ? $companyAddress->province : '') }}"
                             max="50"
                             required="">
-
-                            <input type="hidden" placeholder="Provincia" id='country_code' name="country_code" value="{{ old('country_code') }}" />
 
                             @if($errors->has('province'))
                             <span class="text-xs text-red-600 dark:text-red-400">
@@ -110,24 +124,20 @@
               
             </label>
 
+            <input type="hidden" 
+            id='country_code'
+            name="country_code"
+            value="{{ old('country_code', isset($companyAddress) ? $companyAddress->country->code : '') }}" >
+            <input type="hidden" class="form-input"
+             name="latitude"
+              id="latitude"
+              value="{{ old('latitude', isset($companyAddress) ? $companyAddress->latitude : 0) }}" />
 
-              <label class="block text-sm my-3">
-                
-            </label>
-
-            <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> Direccion </span>
-                    <input type="text" id="address-input" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input  map-input" placeholder="Direccion Postal" name="address" value="{{ old('address', isset($companyAddress) ? $companyAddress->address : '') }}" max="255" required="">
-	                @if($errors->has('address'))
-		             	<span class="text-xs text-red-600 dark:text-red-400">
-		                    {{ $errors->first('address') }}
-		                </span>
-	                @endif
-            </label>
-
-           
-            <input type="hidden" class="form-input" name="latitude" id="address_latitude" value="{{ old('address_latitude', isset($companyAddress) ? $companyAddress->address_latitude : 0) }}" />
-            <input type="hidden" class="form-input" name="longitude" id="address_longitude" value="{{ old('address_longitude', isset($companyAddress) ? $companyAddress->address_longitude : 0) }}" />
+            <input type="hidden"
+             class="form-input"
+              name="longitude"
+               id="longitude"
+                value="{{ old('longitude', isset($companyAddress) ? $companyAddress->longitude : 0) }}" />
                
                 <div class="flex  justify-start">
                         <button type="submit" class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
@@ -143,8 +153,6 @@
 
 @section('scripts')
 @parent
-
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script type="text/javascript">
 
