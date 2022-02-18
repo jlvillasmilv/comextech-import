@@ -1,7 +1,5 @@
 <x-app-layout title="Notificaciones">
     <div class="container grid px-6 mx-auto">
-        
-
         <!-- Big section cards -->
         <h4 class="my-4  text-lg font-semibold text-gray-600 dark:text-gray-300">
             Notificaciones
@@ -32,18 +30,16 @@
 
 @section('scripts')
 @parent
-<script>
+<script type="text/javascript">
  
   $(function(){
     $('.mark-as-read').click(function(){
-
       let id = $(this).data('id');
 
-         axios.post("{{ route('markNotification') }}", {
+        axios.post("{{ route('markNotification') }}", {
 		    id
 		  })
 		  .then(function (response) {
-
 		  	//console.log(response);
 		  	$(this).parents('div.alert').remove();
 		    

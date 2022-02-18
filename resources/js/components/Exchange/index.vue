@@ -163,7 +163,7 @@
                   </div>
                 </td>
                 <td :class="key == 0 ? 'invisible' : ''" class="text-center px-4 py-3">
-                  {{ item.currency | setPrice(item.currency) }}
+                  {{ item.currency }}
                 </td>
                 <td :class="key == 0 ? 'invisible' : ''" class="text-center px-4 py-3">
                   {{ item.amount | setPrice(item.currency) }}
@@ -179,7 +179,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="6" class="text-right px-4 py-3">
+                <td v-if="total !== 0" colspan="6" class="text-right px-4 py-3">
                   <strong>
                     {{ total | setPrice(currency_ex) }}
                   </strong>

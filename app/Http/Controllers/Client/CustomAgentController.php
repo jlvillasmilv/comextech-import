@@ -1,16 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Controller;
 use App\Models\CustomAgent;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomAgentRequest;
 
 class CustomAgentController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        return view('custom_agents.index');
+       return view('client.custom_agents.index');
     }
 
     /**
@@ -20,7 +26,7 @@ class CustomAgentController extends Controller
      */
     public function create()
     {
-        return view('custom_agents.form');
+        return view('client.custom_agents.form');
     }
 
     /**
@@ -57,7 +63,7 @@ class CustomAgentController extends Controller
             $data = CustomAgent::findOrFail(base64_decode($id));
         }
 
-        return view('custom_agents.show', compact('data'));
+        return view('client.custom_agents.show', compact('data'));
     }
 
    
@@ -72,7 +78,7 @@ class CustomAgentController extends Controller
             $data = CustomAgent::findOrFail(base64_decode($id));
         }
 
-        return view('custom_agents.form', compact('data'));
+        return view('client.custom_agents.form', compact('data'));
     }
 
     
@@ -109,11 +115,10 @@ class CustomAgentController extends Controller
     }
 
     
-
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\CustomAgent  $CustomAgent
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

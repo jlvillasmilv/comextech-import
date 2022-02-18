@@ -17,7 +17,7 @@ class SupplierController extends Controller
     public function index()
     {
         $data = Supplier::where('user_id', auth()->user()->id)->paginate();
-        return view('supplier.index' , compact('data'));
+        return view('client.supplier.index' , compact('data'));
     }
 
     /**
@@ -27,7 +27,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('supplier.form');
+        return view('client.supplier.form');
     }
 
     /**
@@ -77,7 +77,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        return view('supplier.show', compact('supplier'));
+        return view('client.supplier.show', compact('supplier'));
     }
 
     /**
@@ -88,7 +88,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        return view('supplier.form', compact('supplier'));
+        return view('client.supplier.form', compact('supplier'));
     }
 
     /**
