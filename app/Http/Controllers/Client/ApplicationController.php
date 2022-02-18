@@ -326,12 +326,13 @@ class ApplicationController extends Controller
                 ->where("application_id", base64_decode($request->application_id))
                 ->sum('amount2');
 
+        $tco_clp = $total;
+
         if($to_currency_code != 'CLP'){
             $exchange = New Currency;
             $tco_clp = $exchange->convertCurrency($item->amount, $item->currency, 'CLP');
         }
 
-        $tco_clp = $total;
 
         $total_app = \DB::table('applications')
             ->where('id', base64_decode($request->application_id))

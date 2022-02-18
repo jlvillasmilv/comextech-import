@@ -13,7 +13,7 @@ class CompanyAddress extends Model
 
     protected $table   = 'company_addresses';
     
-    protected $guarded = [];
+    protected $guarded = ['country_code'];
 
     public function country()
     {
