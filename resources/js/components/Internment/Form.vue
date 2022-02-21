@@ -22,7 +22,7 @@
         <div class="px-4 pb-4 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <div class="lg:flex lg:flex-col lg:items-center my-1">
             <div class="px-2 md:flex lg:w-7/12 my-4">
-              <div v-if="expenses.courier_svc && AppAmount > 3000">
+              <div v-if="expenses.courier_svc && AppAmount >= 3000">
                 <input
                   v-bind:value="true"
                   v-model="expenses.customs_house"
@@ -31,7 +31,7 @@
                 />
                 <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
-              <div v-if="expenses.courier_svc && AppAmount > 3000">
+              <div v-if="expenses.courier_svc && AppAmount >= 3000">
                 <input
                   v-bind:value="false"
                   v-model="expenses.customs_house"
@@ -40,7 +40,7 @@
                 />
                 <span class="mx-2 text-xs text-gray-500"> Cliente </span>
               </div>
-              <div v-if="expenses.courier_svc && AppAmount <= 3000">
+              <div v-if="expenses.courier_svc && AppAmount <= 2999">
                 <input
                   v-bind:value="true"
                   v-model="expenses.courier_svc"
@@ -54,7 +54,7 @@
 
             <div class="my-5 lg:my-0 lg:flex lg:justify-end lg:w-7/12">
               <div class="lg:w-full px-1 mb-2 lg:mb-0">
-                <label class="block text-sm" v-if="expenses.courier_svc && AppAmount <= 3000">
+                <label class="block text-sm" v-if="expenses.courier_svc && AppAmount <= 2999">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
                     v-model="expenses.trans_company_id"
@@ -91,7 +91,7 @@
 
                 <label
                   class="block text-sm"
-                  v-if="!expenses.courier_svc || (expenses.courier_svc && AppAmount > 3000)"
+                  v-if="!expenses.courier_svc || (expenses.courier_svc && AppAmount >= 3000)"
                 >
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Seleccion </span>
                   <select
@@ -967,7 +967,7 @@ export default {
         this.AppAmount = app_usd.data;
       }
 
-      if (this.data.type_transport == 'COURIER' && this.AppAmount <= 3000) {
+      if (this.data.type_transport == 'COURIER' && this.AppAmount <= 2999) {
         this.expenses.agent_payment = 0;
       } else {
         this.expenses.agent_payment = 250;
