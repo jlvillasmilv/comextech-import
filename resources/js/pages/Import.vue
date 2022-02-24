@@ -616,7 +616,7 @@ export default {
         label: 'block  text-gray-700 text-xs dark:text-gray-400'
       },
       paymentPercentage1: [
-        { name: '10/90', valueInitial: 50 },
+        { name: '10/90', valueInitial: 10 },
         { name: '20/80', valueInitial: 20 },
         { name: '30/70', valueInitial: 30 },
         { name: '40/60', valueInitial: 40 }
