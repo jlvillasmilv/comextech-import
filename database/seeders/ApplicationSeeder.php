@@ -25,8 +25,9 @@ class ApplicationSeeder extends Seeder
             'condition'               => 'EXW',
             'type_transport'          => 'COURIER',
             'services_code'           => 'ICS03',
-            'tco'                     => '7899.02',
+            'tco'                     => 7899,
             'currency_tco'            => 8,
+            'tco_clp'                     => 6245597,
         ]);
 
 
