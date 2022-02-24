@@ -1,8 +1,8 @@
 <template>
-  <div class="lg:w-11/12 flex flex-col flex-wrap">
-    <div class="lg:justify-end lg:flex mb-2 mr-4">
+  <div class="lg:w-11/12 flex flex-col">
+    <div class="lg:justify-end lg:flex mb-2 lg:mr-16 flex-wrap">
       <!-- Fecha -->
-      <div class="lg:w-3/12 flex justify-center mb-6">
+      <div class="lg:w-5/12 flex justify-center mb-6">
         <div class="w-11/12 md:w-10/12">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Fecha de envío
@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- Descripcion -->
-      <div class="lg:w-4/12 flex justify-center mb-6">
+      <div class="lg:w-5/12 flex justify-end mb-6">
         <div class="w-11/12 md:w-10/12">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Descripcion
@@ -46,8 +46,8 @@
         </div>
       </div>
       <!-- Seguro -->
-      <div class="lg:w-3/12 flex justify-center mt-6">
-        <div class="w-11/12 md:w-10/12">
+      <div class="lg:w-11/12 flex justify-center mt-4">
+        <div class="w-11/12 md:w-10/12 ml-14 h-12">
           <label class="w-44 sm:flex text-gray-500 dark:text-gray-400">
             <input
               type="checkbox"
