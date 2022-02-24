@@ -35,6 +35,7 @@ const state = {
   Load: false,
   safe: false,
   addressDestination: [],
+  origin_transport: [],
   portsOrigin: [],
   portsOriginTemp: [],
   portsDestination: [],
@@ -44,7 +45,13 @@ const state = {
   minDate: new Date().toISOString().substr(0, 10),
   postalCodeOrigin: false,
   postalCodeDestination: false,
-  showShipping: false
+  fedex: {},
+  dhl: {},
+  showFedexQuote: false,
+  showDhlQuote: false,
+  showFedexDhlQuote: false,
+  showLclFclQuote: false,
+  tableFclLcl: {}
 };
 
 const getters = {};
@@ -55,6 +62,9 @@ const mutations = {
   },
   SET_ADDRESS(state, payload) {
     state.addressDestination = payload;
+  },
+  SET_ORIGIN_TRANSPORT(state, payload) {
+    state.origin_transport = payload.supplier_address;
   },
   SET_PORTS(state, payload) {
     state.portsDestination = payload;
@@ -88,77 +98,6 @@ const mutations = {
   SHOW_QUOTE_LCL(state, value) {
     state.lclTable = value;
   },
-  GET_ADDRESS_ORIGIN(state, { addressData, placeResultData }) {
-    state.expenses.origin_address = placeResultData.formatted_address;
-    state.expenses.origin_latitude = addressData.latitude;
-    state.expenses.origin_longitude = addressData.longitude;
-
-    for (const component of placeResultData.address_components) {
-      const componentType = component.types[0];
-
-      switch (componentType) {
-        case 'country':
-          state.expenses.origin_ctry_code = component.short_name;
-          break;
-
-        case 'locality':
-          state.expenses.origin_locality = component.long_name;
-          break;
-
-        case 'postal_code': {
-          state.expenses.origin_postal_code = component.long_name;
-          break;
-        }
-      }
-    }
-    if (!state.expenses.origin_postal_code) {
-      state.postalCodeOrigin = true;
-    } else {
-      state.postalCodeOrigin = false;
-    }
-  },
-  GET_ADDRESS_DESTINATION(state, { addressData, placeResultData }) {
-    state.expenses.dest_latitude = addressData.latitude;
-    state.expenses.dest_longitude = addressData.longitude;
-
-    for (const component of placeResultData.address_components) {
-      const componentType = component.types[0];
-
-      switch (componentType) {
-        case 'country':
-          state.expenses.dest_ctry_code = component.short_name;
-          break;
-
-        case 'locality':
-          state.expenses.dest_locality = component.long_name;
-          break;
-
-        case 'administrative_area_level_2': {
-          state.expenses.dest_province = component.long_name;
-          break;
-        }
-
-        case 'postal_code': {
-          state.expenses.dest_postal_code = component.long_name;
-          break;
-        }
-      }
-    }
-
-    state.expenses.dest_address = placeResultData.formatted_address;
-
-    if (!state.expenses.dest_postal_code) {
-      state.postalCodeDestination = true;
-    } else {
-      state.postalCodeDestination = false;
-    }
-  },
-  GET_FORMAT_PRICE(state, { value, currency }) {
-    return Number(value).toLocaleString(navigator.language, {
-      minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-      maximumFractionDigits: currency == 'CLP' ? 0 : 2
-    });
-  },
   SHOW_LOCAL_SHIPPING(state, value) {
     if (value) {
       state.showShipping = value;
@@ -168,6 +107,36 @@ const mutations = {
       state.expenses.dest_address = '';
       state.postalCodeDestination = false;
     }
+  },
+  SET_FEDEX_DHL(state, response) {
+    console.log(response);
+    state.showFedexDhlQuote = true;
+
+    if (response[0]) {
+      state.fedex = response[0].data;
+      state.showFedexQuote = true;
+    }
+    if (response[1]) {
+      state.dhl = response[1].data;
+      state.showDhlQuote = true;
+    } else if (!response[0] && !response[1]) {
+      state.fedex = {};
+      state.dhl = {};
+      state.showFedexDhlQuote = false;
+      state.showFedexQuote = false;
+      state.showDhlQuote = false;
+    }
+  },
+  HIDE_COURIER_QUOTES(state, value) {
+    state.fedex = {};
+    state.dhl = {};
+    state.showFedexDhlQuote = value;
+    state.showFedexQuote = value;
+    state.showDhlQuote = value;
+  },
+  SET_LCL_FCL(state, QuoteResponse) {
+    state.showLclFclQuote = true;
+    state.tableFclLcl = QuoteResponse;
   }
 };
 
@@ -180,6 +149,10 @@ const actions = {
       let { data } = await axios.get('/company/address/all');
       commit('SET_ADDRESS', data);
     }
+  },
+  async getOriginTransport({ commit }, id) {
+    const { data } = await axios.get('/api/provider/' + id);
+    commit('SET_ORIGIN_TRANSPORT', data);
   },
   async getPorts({ state, commit }, type) {
     if (state.portsDestination == '') {
@@ -225,17 +198,50 @@ const actions = {
   mapa({ state, commit }) {
     console.log('mapa google');
   },
-  getAddressOrigin({ commit }, { addressData, placeResultData }) {
-    commit('GET_ADDRESS_ORIGIN', { addressData, placeResultData });
-  },
-  getAddressDestination2({ commit }, { addressData, placeResultData }) {
-    commit('GET_ADDRESS_DESTINATION', { addressData, placeResultData });
-  },
-  getFormatPrice({ commit }, { value, currency }) {
-    commit('GET_FORMAT_PRICE', { value, currency });
-  },
   showLocalShipping({ commit }, value) {
     commit('SHOW_LOCAL_SHIPPING', value);
+  },
+  getFedexDhlQuote({ commit }, payload) {
+    const fedexApi = payload
+      .post('/api/get-fedex-rate')
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    const DhlApi = payload
+      .post('/api/get-dhl-quote')
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    const fedexDhlQuote = Promise.all([fedexApi, DhlApi])
+      .then((response) => {
+        if (response[0] || response[1]) {
+          commit('SET_FEDEX_DHL', response);
+          return response;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return fedexDhlQuote;
+  },
+  async getLclFclTable({ commit }, payload) {
+    try {
+      const QuoteResponse = await payload.post('/applications/transports');
+      if (QuoteResponse.status == 200) {
+        commit('SET_LCL_FCL', QuoteResponse.data);
+        return QuoteResponse;
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 
