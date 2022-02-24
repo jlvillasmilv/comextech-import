@@ -733,7 +733,8 @@ class ApplicationController extends Controller
         {
            $data = [
                "application_id"      => $application_order->id,
-               "qty"                 => $application_order->tco_clp
+               "application_code"    => $application_order->code,
+               "price"               => $application_order->tco_clp
             ];
            $url = JumpSellerAppPayment::createJumpSellerOrder($data);
 
