@@ -6,10 +6,10 @@
       <container :bg="false" v-if="$store.state.tabActive == 'ICS01'">
         <form-payment />
       </container>
-      <container v-if="$store.state.tabActive == 'ICS03'">
-        <addresses />
+      <container :bg="false" v-if="$store.state.tabActive == 'ICS03'">
+        <transport />
       </container>
-      <container v-if="$store.state.tabActive == 'ICS04'">
+      <container :bg="false" v-if="$store.state.tabActive == 'ICS04'">
         <form-internment :application_id="data.application_id" />
       </container>
 
@@ -584,7 +584,7 @@
 <script>
 import Modal from '../components/Modal.vue';
 import Container from '../components/Container.vue';
-import Addresses from '../components/Transport/Addresses.vue';
+import Transport from '../components/Transport/index.vue';
 import FormInternment from '../components/Internment/Form.vue';
 import FormPayment from '../components/PaymentProvider/Form.vue';
 import InternalStorage from '../components/InternalStorage.vue';
@@ -649,7 +649,7 @@ export default {
   components: {
     Modal,
     Container,
-    Addresses,
+    Transport,
     FormInternment,
     FormPayment,
     InternalStorage,
@@ -736,7 +736,7 @@ export default {
           this.$store.state.positionTabs = 0;
 
           if (data.supplier_id != null) {
-            this.$store.dispatch('application/getOriginTransport', data.supplier_id);
+            this.$store.dispatch('address/getOriginTransport', data.supplier_id);
           }
         }
       } catch (error) {
