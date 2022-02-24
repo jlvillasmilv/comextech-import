@@ -20,6 +20,8 @@ class Application extends Model
                            'application_statuses_id',
                            'type_transport',
                            'currency_id',
+                           'fee1',
+                           'fee2',
                            'ecommerce_id',
                            'ecommerce_url',
                            'condition',

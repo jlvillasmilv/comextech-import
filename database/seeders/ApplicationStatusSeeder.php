@@ -32,7 +32,7 @@ class ApplicationStatusSeeder extends Seeder
         ]);
 
         ApplicationStatus::create([
-            'name' => 'Firmado',
+            'name' => 'Validada',
             'status_icon' => 'fa fa-clipboard-check fa-2x',
             'status_color' => 'bg-green-100',
             'modify' => false,

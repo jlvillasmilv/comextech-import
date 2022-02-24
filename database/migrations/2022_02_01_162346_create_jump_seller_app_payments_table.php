@@ -17,6 +17,7 @@ class CreateJumpSellerAppPaymentsTable extends Migration
             $table->id();
             $table->foreignId('application_id')->references('id')->on('applications')->onDelete('cascade');
             $table->unsignedBigInteger('order_id')->nullable()->comment('JumpSeller order id');
+            $table->unsignedBigInteger('variant_id')->nullable()->comment('JumpSeller variant product id');
             $table->unsignedBigInteger('customer_id')->nullable()->comment('JumpSeller user id');
             $table->string('status', 20)->nullable()->comment('JumpSeller Status');
             $table->string('duplicate_url')->nullable();

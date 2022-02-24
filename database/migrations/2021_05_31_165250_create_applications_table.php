@@ -22,6 +22,8 @@ class CreateApplicationsTable extends Migration
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('application_statuses_id')->default(1);
             $table->foreignId('currency_id')->nullable()->references('id')->on('currencies')->onDelete('SET NULL');
+            $table->unsignedTinyInteger('fee1')->nullable()->comment('PAGO ADELANTO %');
+            $table->unsignedTinyInteger('fee2')->nullable()->comment('PAGO ADELANTO %');
             $table->unsignedBigInteger('ecommerce_id')->nullable();
             $table->text('ecommerce_url')->nullable();
             $table->string('condition', 10)->nullable();

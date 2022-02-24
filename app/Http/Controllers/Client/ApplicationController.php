@@ -49,9 +49,13 @@ class ApplicationController extends Controller
         /** Evalua la el estado de una solicitud **/
         if ($status <> 0) { return response()->json($status, 400); }
 
+        //dd($request->all());
+
         DB::beginTransaction();
     
-        // try {
+         try {
+
+            $value_initial = isset($request->valuePercentage['valueInitial']) ? $request->valuePercentage['valueInitial'] : 0;
 
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
@@ -61,6 +65,8 @@ class ApplicationController extends Controller
                     'supplier_id'     => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'type_transport'  => $request->type_transport,
                     'amount'          => $request->amount,
+                    'fee1'            => $request->statusSuppliers == 'with' ? $value_initial : 0,
+                    'fee2'            => $request->statusSuppliers == 'with' ? 100 - $value_initial : 0,
                     'application_statuses_id' => 1,
                     'currency_id'   => is_null($request->currency_id) ? 1 : $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
@@ -215,10 +221,10 @@ class ApplicationController extends Controller
             ->select('id', 'code', 'supplier_id', 'currency_id')
             ->first();  
 
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return response()->json($e, 400);
-        // }
+        } catch (Throwable $e)  {
+            DB::rollback();
+            return response()->json($e, 400);
+        }
 
         return response()->json($appli, 200);
     }
@@ -371,6 +377,8 @@ class ApplicationController extends Controller
             'supplier_id',
             'type_transport',
             'amount',
+            'fee1',
+            'fee2',
             'currency_id',
             'ecommerce_id',
             'ecommerce_url',
@@ -725,7 +733,8 @@ class ApplicationController extends Controller
         {
            $data = [
                "application_id"      => $application_order->id,
-               "qty"                 => $application_order->tco_clp
+               "application_code"    => $application_order->code,
+               "price"               => $application_order->tco_clp
             ];
            $url = JumpSellerAppPayment::createJumpSellerOrder($data);
 
