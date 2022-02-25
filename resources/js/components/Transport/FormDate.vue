@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- Descripcion -->
-      <div class="lg:w-5/12 flex justify-end mb-6">
+      <div class="lg:w-5/12 flex justify-center mb-6">
         <div class="w-11/12 md:w-10/12">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             Descripcion
@@ -47,7 +47,7 @@
       </div>
       <!-- Seguro -->
       <div class="lg:w-11/12 flex justify-center mt-4">
-        <div class="w-11/12 md:w-10/12 ml-14 h-12">
+        <div class="w-11/12 md:w-10/12 lg:ml-14 h-12">
           <label class="w-44 sm:flex text-gray-500 dark:text-gray-400">
             <input
               type="checkbox"
