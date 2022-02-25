@@ -148,9 +148,9 @@ class FedexApi extends Model
                     //var_dump('<pre>'.$ratedShipmentDetail->ShipmentRateDetail->RateType . ": " . $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount. ": " .$ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Currency.'</pre>');
                       $response[$ratedShipmentDetail->ShipmentRateDetail->RateType ] = 
                       [
-                        'TotalNetCharge'  => $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount,
-                        'TotalBaseCharge' => $ratedShipmentDetail->ShipmentRateDetail->TotalBaseCharge->Amount,
-                        'TotalFreightDiscounts' => $ratedShipmentDetail->ShipmentRateDetail->TotalFreightDiscounts->Amount,
+                        'TotalNetCharge'  => round($ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount, 2),
+                        'TotalBaseCharge' =>  round($ratedShipmentDetail->ShipmentRateDetail->TotalBaseCharge->Amount, 2),
+                        'TotalFreightDiscounts' => round($ratedShipmentDetail->ShipmentRateDetail->TotalFreightDiscounts->Amount, 2),
                         'Surcharges' => $ratedShipmentDetail->ShipmentRateDetail->Surcharges,
                       ]; 
                       

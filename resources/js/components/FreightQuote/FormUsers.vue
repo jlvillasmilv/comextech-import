@@ -91,7 +91,7 @@ export default {
     async saveForm() {
       this.BUSY_BUTTON(true);
       try {
-        const response = await this.expenses.post('/freight-quotes');
+        const response = await this.expenses.post('/cotizador');
 
         if (response.status == 200) {
           Swal.fire({
@@ -106,7 +106,7 @@ export default {
           });
 
           setTimeout(() => {
-            window.location.href = '/freight-quotes';
+            window.location.href = '/cotizador';
           }, 2000);
         }
       } catch (error) {

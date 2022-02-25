@@ -24,13 +24,11 @@
                     class="mt-2 mx-2 text-white bg-gray-600 border-gray-700 inline-block text-center align-middle px-4 py-2 text-sm rounded hover:bg-gray-800"
                     @click="showdropzone()"
                 >
-                    <i
-                        :class="[
-                            'fas',
-                            show ? 'fa-arrow-up md ' : 'fa-arrow-down md'
-                        ]"
-                    >
-                    </i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path  v-if="show" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" />
+
+                        <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+                    </svg>
                 </a>
             </div>
         </div>
