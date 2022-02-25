@@ -21,6 +21,7 @@ class CreateApplicationsTable extends Migration
             $table->string('type_transport',15)->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('application_statuses_id')->default(1);
+            $table->boolean('state_process')->nullable()->default(1)->comment('1= por procesar 2=finalizado');
             $table->foreignId('currency_id')->nullable()->references('id')->on('currencies')->onDelete('SET NULL');
             $table->unsignedTinyInteger('fee1')->nullable()->comment('PAGO ADELANTO %');
             $table->unsignedTinyInteger('fee2')->nullable()->comment('PAGO ADELANTO %');

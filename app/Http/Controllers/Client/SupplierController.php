@@ -38,7 +38,7 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-       
+      
         $supplier = new Supplier;
         $supplier->fill($request->all());
         $supplier->user_id = auth()->user()->id;
@@ -46,6 +46,7 @@ class SupplierController extends Controller
 
         $supplier->ports()->sync($request->input('port_id'));
 
+       
         if($request->has('origin_address')){
             foreach ($request->input('origin_address') as $key => $value) {
                 $supplier->supplierAddress()->create([
@@ -54,12 +55,13 @@ class SupplierController extends Controller
                     'latitude'  => $request->latitude[$key],
                     'longitude' => $request->longitude[$key],
                     'postal_code'  => $request->postal_code[$key],
-                    'country_code' => $request->postal_code[$key],
-                    'locality'     => $request->postal_code[$key],
+                    'country_code' => $request->country_code[$key],
+                    'locality'     => $request->locality[$key],
                     ]);
             }
         }
 
+    
         $notification = array(
             'message'    => 'Registro actualizado',
             'alert_type' => 'success',);

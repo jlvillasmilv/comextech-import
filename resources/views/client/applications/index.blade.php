@@ -65,6 +65,20 @@
                                 <span class="py-2 font-semibold leading-tight  rounded-full dark:text-white dark:bg-green-600">
                                 {{$application->payment->status}}
                                 </span>
+
+                                <!--   <div class="px-2 py-1 font-semibold leading-tight bg-gray-300 dark:text-white dark:bg-green-600">
+                                    Activación
+                                </div>
+                                <div class="px-2 py-1 font-semibold  leading-tight bg-yellow-100 text-red-300 dark:text-white dark:bg-green-600">
+                                   <p class="animate-pulse">Validando</p> 
+                                </div>
+                                <div class="px-2 py-1 font-semibold leading-tight bg-green-400 dark:text-white dark:bg-green-600">
+                                    Borrador
+                                </div>
+                                <span class="py-2 font-semibold leading-tight  dark:text-white dark:bg-green-600">
+                                {{$application->payment->status}}
+                                </span>
+                                 -->
                                 
                             </td>
                             <td class="px-4 py-3">

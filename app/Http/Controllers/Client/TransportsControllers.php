@@ -321,7 +321,7 @@ class TransportsControllers extends Controller
                     $quote['TotalEstimed'] =  $quote['TotalBaseCharge'] - $quote['Discount'];
                     
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
-                        $quote[$item->SurchargeType] = $item->Amount->Amount;
+                        $quote[$item->SurchargeType] = round($item->Amount->Amount, 2);
                         /* Applying the discount on the estimated total */
                         $quote['TotalEstimed'] = round($quote['TotalEstimed'] + $item->Amount->Amount, 2);
                     }
@@ -416,9 +416,9 @@ class TransportsControllers extends Controller
                     $quote['PickupCutoffTime']  = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['PickupCutoffTime'];
                     $quote['BookingTime']       = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['BookingTime'];
                     $quote['WeightCharge']      = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['WeightCharge'];
-                    $quote['TotalDiscount']     = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0];
+                    $quote['TotalDiscount']     =  round($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalDiscount'][0], 2);
                     $quote['TotalTaxAmount']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['TotalTaxAmount']; 
-                    $quote['ShippingCharge']    = $arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge']; 
+                    $quote['ShippingCharge']    =  round($arrOutput['GetQuoteResponse']['BkgDetails']['QtdShp']['ShippingCharge'], 2); 
                     $quote['Discount']          = $discount;
                     
                     $total_discount = ($total__net_charge * $discount) / 100;
