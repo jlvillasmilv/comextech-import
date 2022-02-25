@@ -123,7 +123,7 @@
             <button
               @click="showShippingMethod()"
               class="
-                md:w-2/12
+                lg:w-3/12
                 bg-transparent
                 focus:outline-none
                 uppercase
@@ -372,8 +372,8 @@ export default {
 
       this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
 
-      // /* Here the dataLoad is set to 0 to edit the view */
-      // this.expenses.dataLoad = this.expenses.dataLoad.length == 0;
+      this.$store.state.address.showLclFclQuote = false;
+      this.$store.state.address.tableFclLcl = {};
     },
 
     showShippingMethod() {
