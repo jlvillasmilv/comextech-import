@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- form if data.condition is EXW -->
-    <div v-if="!expenses.dataLoad || expenses.dataLoad.length == 0 || formAddress">
+    <div v-if="!expenses.dataLoad || formAddress">
       <transition name="fade">
         <div class="flex flex-col items-center my-2">
           <!-- Direccion de origen -->
@@ -155,50 +155,44 @@
       </transition>
 
       <!-- Date and description -->
-      <transition v-if="dateAddress" name="fade">
-        <form-date />
+      <transition name="fade">
+        <div v-if="dateAddress">
+          <form-date />
+        </div>
       </transition>
     </div>
 
     <!-- Courier quote component -->
-    <transition v-if="showFedexDhlQuote" name="fade">
-      <div>
+    <transition name="fade">
+      <div v-if="showFedexDhlQuote">
         <fedex-dhl />
       </div>
     </transition>
 
-    <transition v-if="showLclFclQuote" name="fade">
-      <lcl-quote />
+    <transition name="fade">
+      <div v-if="showLclFclQuote">
+        <table-fcl-lcl />
+      </div>
     </transition>
 
     <!-- botones cotizar/editar -->
-    <div
-      :class="[
-        !expenses.dataLoad || expenses.dataLoad.length <= 0
-          ? 'flex justify-center'
-          : 'flex justify-center my-5 innline w-1/7 mt-5'
-      ]"
-    >
+    <div class="flex justify-center my-5">
       <button
         @click="hideAddress()"
         :class="[
-          !expenses.dataLoad
-            ? 'hidden'
-            : expenses.dataLoad.length > 0
+          isEdit
             ? 'mr-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1000 rounded-lg focus:shadow-outline hover:bg-blue-1100 active:bg-blue-1000'
-            : ''
+            : 'hidden'
         ]"
       >
-        {{ expenses.dataLoad.length > 0 ? 'Editar' : '' }}
+        {{ isEdit ? 'Editar' : '' }}
       </button>
       <button
         @click="data.type_transport === 'COURIER' ? getCourierQuote() : submitQuote()"
         :class="[
-          !expenses.dataLoad
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : expenses.dataLoad.length <= 0
-            ? 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+          isEdit
+            ? 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+            : 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
         ]"
       >
         Cotizar
@@ -213,20 +207,18 @@ import OriginAddress from '../common/OriginAddress.vue';
 import DestAddress from '../common/DestAddress.vue';
 import FormDate from './FormDate.vue';
 import FedexDhl from './Quotes/FedexDhl.vue';
-import LclQuote from './Quotes/LclQuote.vue';
+import TableFclLcl from './Quotes/TableFclLcl.vue';
 
 export default {
-  components: { OriginAddress, DestAddress, FormDate, FedexDhl, LclQuote },
+  components: { OriginAddress, DestAddress, FormDate, FedexDhl, TableFclLcl },
   data() {
     return {
       showShipping: false,
       formAddress: true,
-      dateAddress: true
+      dateAddress: true,
+      isEdit: false
     };
   },
-  // mounted() {
-  //   console.log(this.expenses.dataLoad);
-  // },
   computed: {
     ...mapState('address', [
       'expenses',
@@ -244,10 +236,9 @@ export default {
   },
   methods: {
     ...mapMutations('address', ['HIDE_COURIER_QUOTES']),
-    ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
     async getCourierQuote() {
-      /* Vue-loader config */
+      /* Vue-loader config and active */
       let loader = this.$loading.show({
         canCancel: true,
         transition: 'fade',
@@ -259,9 +250,15 @@ export default {
         width: 100
       });
 
-      this.formAddress = false;
+      /* Show button (editar) */
+      this.isEdit = true;
+
+      /* Hide addresses form */
       this.dateAddress = false;
-      this.SHOW_LOAD_CHARGE(false);
+      this.formAddress = false;
+
+      /* Hide loads and dimensions form */
+      this.$store.state.load.showLoad = false;
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         const fedexDhlQuote = await this.$store.dispatch('address/getFedexDhlQuote', this.expenses);
@@ -282,7 +279,7 @@ export default {
       let loader = this.$loading.show({
         canCancel: true,
         transition: 'fade',
-        color: '#046c4e',
+        color: '#142c44',
         loader: 'spinner',
         lockScroll: true,
         enforceFocus: true,
@@ -290,9 +287,15 @@ export default {
         width: 100
       });
 
-      this.formAddress = false;
+      /* Show button (editar) */
+      this.isEdit = true;
+
+      /* Hide addresses form */
       this.dateAddress = false;
-      this.SHOW_LOAD_CHARGE(false);
+      this.formAddress = false;
+
+      /* Hide loads and dimensions form */
+      this.$store.state.load.showLoad = false;
 
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
@@ -300,7 +303,6 @@ export default {
         // this.expenses.app_amount = appAmount;
         // this.expenses.trans_company_id = transCompanyId;
         const fclLclQuote = await this.expenses.post('/applications/transports');
-        console.log(fclLclQuote);
 
         // Message to validate if transport_amount is 0
         if (fclLclQuote.data.transport.transport_amount === 0) {
@@ -362,20 +364,27 @@ export default {
       }
     },
     /**
-     * Show / Hide from address (button "Editar")
+    Show / Hide form address (button "Editar")
      */
     hideAddress() {
+      /* Show loads and dimensions form */
+      this.$store.state.load.showLoad = true;
+
+      /* Show addresses form */
       this.formAddress = true;
       this.dateAddress = true;
 
+      /* Hide if courier quotes */
       this.HIDE_COURIER_QUOTES(false);
 
-      this.$store.dispatch('load/showLoadCharge', true); /* Hide / Show loads and dimensions form */
-
+      /* Hide if table FCL and LCL */
       this.$store.state.address.showLclFclQuote = false;
-      this.$store.state.address.tableFclLcl = {};
+
+      /* Hide button "editar" */
+      this.isEdit = false;
     },
 
+    /* Show/Hide button transporte local */
     showShippingMethod() {
       this.showShipping = !this.showShipping;
     }

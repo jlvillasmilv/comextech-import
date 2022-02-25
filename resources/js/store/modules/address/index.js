@@ -109,9 +109,7 @@ const mutations = {
     }
   },
   SET_FEDEX_DHL(state, response) {
-    console.log(response);
     state.showFedexDhlQuote = true;
-
     if (response[0]) {
       state.fedex = response[0].data;
       state.showFedexQuote = true;
