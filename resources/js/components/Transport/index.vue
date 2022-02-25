@@ -6,7 +6,10 @@
     >
       <load />
     </div>
-    <div class="lg:w-9/12 mt-6 p-4 bg-white rounded-lg shadow-md" v-if="isActivateAddress">
+    <div
+      class="lg:w-9/12 md:w-full mt-6 p-4 bg-white rounded-lg shadow-md"
+      v-if="isActivateAddress"
+    >
       <addresses />
       <!-- <div v-if="data.type_transport == 'COURIER'">
         <Courier />
