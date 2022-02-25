@@ -25,7 +25,15 @@ class JumpSellerAppPayment extends Model
         return $this->belongsTo(User::class);
     }
 
-
+    /**
+     * @author Jorge Villasmil.
+     *
+     * Generate a new Order JumpSeller API.
+     * 
+     * @param  array  $data
+     * https://jumpseller.cl/support/api/#tag/Orders/paths/~1orders.json/post
+     * 
+    */
     public static function createJumpSellerOrder($data){
 
         $customer_id = JumpSellerUser::where('user_id', auth()->user()->id)->firstOrFail()->customer_id;
@@ -34,10 +42,12 @@ class JumpSellerAppPayment extends Model
             return response()->json('Id customer not found', 500);
         } 
 
+        //check available variant variant_id product
         $variant_id = JumpSellerAppPayment::variantProduct();
 
         if ($variant_id <= 0) { return response()->json('Product not found', 500); }
 
+        //update variant variant_id product
         $up_variant_id = JumpSellerAppPayment::UpdateVariantProduct($variant_id, $data);
 
         if (!empty($up_variant_id["message"])) { return response()->json($up_variant_id["message"], 404); }
@@ -97,6 +107,13 @@ class JumpSellerAppPayment extends Model
 
     }
 
+
+    /**
+     * @author Jorge Villasmil.
+     *
+     * Retrieve all Product Variants JumpSeller API.
+     * https://jumpseller.cl/support/api/#tag/Product-Variants/paths/~1products~1{id}~1variants~1{variant_id}.json/get
+    */
     public static function variantProduct()
     {
         try {
@@ -136,6 +153,13 @@ class JumpSellerAppPayment extends Model
     }
 
 
+    /**
+     * @author Jorge Villasmil.
+     *
+     * Create a new Product Variant JumpSeller API.
+     * https://jumpseller.cl/support/api/#tag/Product-Variants/paths/~1products~1{id}~1variants.json/post
+     * 
+    */
     public static function CreateVariantProduct()
     {
         try {
@@ -175,6 +199,15 @@ class JumpSellerAppPayment extends Model
 
     }
 
+
+    /**
+     * @author Jorge Villasmil.
+     *
+     * Modify an existing Product Variant JumpSeller API.
+     * https://jumpseller.cl/support/api/#tag/Product-Variants/paths/~1products~1{id}~1variants~1{variant_id}.json/put
+     * @param  int  $id 
+     * @param  array  $data
+    */
     public static function UpdateVariantProduct($id=null, $data)
     {
         try {
@@ -190,8 +223,6 @@ class JumpSellerAppPayment extends Model
 
            
             if (empty($obj["variant"]["id"])) { return $obj; }
-
-            // dd($obj["variant"]["options"][0]["product_option_id"]);
 
             $variant = [
                 "variant" => [
@@ -232,7 +263,15 @@ class JumpSellerAppPayment extends Model
 
     }
 
-
+     /**
+        * @author Jorge Villasmil.
+        *
+        * Modify an existing Product Option Value. JumpSeller API.
+        * https://jumpseller.cl/support/api/#tag/Product-Option-Values/paths/~1products~1{id}~1options~1{option_id}~1values~1{value_id}.json/put
+        * 
+        * @param  array  $data
+        * @param  string $name 
+    */
     public static function UpdateVariantOptionProduct($data, $name = null)
     {
         try {
