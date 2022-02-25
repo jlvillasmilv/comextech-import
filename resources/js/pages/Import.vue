@@ -593,7 +593,7 @@ import servicedefault from '../data/services.json';
 import Tabs from '../components/Tabs.vue';
 import VueNumeric from 'vue-numeric';
 import { Icon } from '@iconify/vue2';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -659,6 +659,9 @@ export default {
     Icon
   },
   methods: {
+    ...mapMutations('address', ['HIDE_COURIER_QUOTES']),
+    ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
+
     selectedService(service) {
       this.$store.dispatch('selectService', service);
       this.$store.dispatch('application/updateService', service);
@@ -784,6 +787,8 @@ export default {
     reset() {
       this.$store.state.load.loads = [];
       this.$store.dispatch('load/addLoad', this.$store.state.load.item);
+      this.SHOW_LOAD_CHARGE(true);
+      this.HIDE_COURIER_QUOTES(false);
     }
   },
   computed: {
