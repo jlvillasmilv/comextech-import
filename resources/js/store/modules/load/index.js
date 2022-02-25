@@ -37,8 +37,6 @@ const mutations = {
     // state.item.mode_selected = data[0].mode_selected;
   },
   CHANGE_LOAD_TYPE(state, unit) {
-    // const firstLoadType = state.loads[0].length_unit;
-
     const newLoads = state.loads.map((item) => {
       if (unit == 'CM') {
         const newItem = {
@@ -75,9 +73,6 @@ const actions = {
   },
   changeLoadType({ commit }, unit) {
     commit('CHANGE_LOAD_TYPE', unit);
-  },
-  showLoadCharge({ commit }, payload) {
-    commit('SHOW_LOAD_CHARGE', payload);
   }
 };
 

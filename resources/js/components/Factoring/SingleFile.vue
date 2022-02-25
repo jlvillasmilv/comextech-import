@@ -13,7 +13,9 @@
                 <label
                     class="-ml-1 px-2 py-1.5 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-900 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-blue-700"
                 >
-                    <i class="px-1 fas fa-cloud-upload-alt fa-2x"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
                 </label>
             </div>
         </div>
@@ -43,6 +45,8 @@
                 </span>
                 <span class="inline-block px-3 py-1.5"> Descargar </span>
             </a>
+
+          
             <h6 v-else class="text-base font-medium mt-1 mb-4">
                 No posee un archivo cargado.
             </h6>

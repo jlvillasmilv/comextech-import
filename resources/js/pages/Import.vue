@@ -368,13 +368,13 @@
                     :key="id"
                     @click="handlePercentage(item)"
                     :class="[
-                      !selectedCondition.services[0].checked
+                      !selectedCondition || !selectedCondition.services[0].checked
                         ? 'bg-gray-100 text-gray-600 w-2/6 font-semibold px-1 py-2 text-xs mx-0.5 border border-gray-300 rounded my-2 text-center'
                         : item.valueInitial == data.valuePercentage.valueInitial
                         ? 'bg-blue-1000 text-white hover:bg-blue-1100 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                         : 'bg-transparent text-blue-1000 hover:bg-blue-1000 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                     ]"
-                    :disabled="!selectedCondition.services[0].checked"
+                    :disabled="!selectedCondition || !selectedCondition.services[0].checked"
                   >
                     {{ item.name }}
                   </button>
@@ -408,13 +408,13 @@
                     :key="id"
                     @click="handlePercentage(item)"
                     :class="[
-                      !selectedCondition.services[0].checked
+                      !selectedCondition || !selectedCondition.services[0].checked
                         ? 'bg-gray-100 text-gray-600 ml-4 w-3/6 font-semibold py-2 text-xs mx-0.5 border border-gray-300 rounded my-2 text-center'
                         : item.valueInitial == data.valuePercentage.valueInitial
                         ? 'bg-blue-1000 text-white ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                         : 'bg-transparent text-blue-1000 ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
                     ]"
-                    :disabled="!selectedCondition.services[0].checked"
+                    :disabled="!selectedCondition || !selectedCondition.services[0].checked"
                   >
                     {{ item.name }}
                   </button>
@@ -593,7 +593,7 @@ import servicedefault from '../data/services.json';
 import Tabs from '../components/Tabs.vue';
 import VueNumeric from 'vue-numeric';
 import { Icon } from '@iconify/vue2';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -659,6 +659,9 @@ export default {
     Icon
   },
   methods: {
+    ...mapMutations('address', ['HIDE_COURIER_QUOTES']),
+    ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
+
     selectedService(service) {
       this.$store.dispatch('selectService', service);
       this.$store.dispatch('application/updateService', service);
@@ -784,6 +787,9 @@ export default {
     reset() {
       this.$store.state.load.loads = [];
       this.$store.dispatch('load/addLoad', this.$store.state.load.item);
+      this.$store.state.load.showLoad = true;
+      this.HIDE_COURIER_QUOTES(false);
+      this.$store.state.address.showLclFclQuote = false;
     }
   },
   computed: {

@@ -28,7 +28,7 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->name('dashboard');
 
-Route::resource('freight-quotes',  'App\Http\Controllers\Web\FreightQuotesController');
+Route::resource('cotizador',  'App\Http\Controllers\Web\FreightQuotesController');
 Route::post('freight-quotes/calculate',  'App\Http\Controllers\Web\FreightQuotesController@freightQuotes'); 
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
