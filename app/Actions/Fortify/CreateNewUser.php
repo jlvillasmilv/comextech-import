@@ -21,7 +21,6 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        
         Validator::make($input, [
             'name'         => ['required', 'string', 'max:150'],
             'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -30,11 +29,10 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
         
-
         return DB::transaction(function () use ($input) {
             return tap(User::create([
-                'name' => $input['name'],
-                'email' => $input['email'],
+                'name'     => $input['name'],
+                'email'    => $input['email'],
                 'password' => $input['password'],
             ]), function (User $user) use ($input) {
                 $this->createCompany($user, $input);
@@ -82,7 +80,7 @@ class CreateNewUser implements CreatesNewUsers
                 "surname"   => $input['name'],
                 "email"     => $input['email'],
                 "phone"     => "00000000",
-                "password"  => "MXYAV0.",
+                "password"  => $input['password'],
                 "status"    => "approved",
                 "billing_addresses" => [
                     [
@@ -100,7 +98,6 @@ class CreateNewUser implements CreatesNewUsers
                 ],
             ]
         ];
-
 
        $user_jumpseller = JumpSellerUser::createJumpSellerUser($data);
 
