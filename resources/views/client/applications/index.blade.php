@@ -35,51 +35,88 @@
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                         @forelse($data as $application)
                         <tr id="{{$application->id}}" class="text-gray-700 dark:text-gray-400 text-center">
-                            <td class="px-2 py-2 text-center ">
+                            <td class="px-2 py-2 text-center tex-sm">
                                 <div>
                                     <p class="font-semibold"> {{$application->code}} </p>
                                      
-                                    <p class="tex-sm  text-gray-600 dark:text-gray-400 ">
+                                    <p class="text-gray-600 dark:text-gray-400 ">
                                          {{ date('d-m-y', strtotime($application->created_at)) }}
                                     </p>
                                 </div>
                             </td>
                             <td class="px-2 py-2  text-sm">
-                                <ol>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currencyTco->code }} {{ $application->currencyTco->symbol }} {{number_format($application->tco,0,",",".") }}</strong>   </li>
-                                    {{-- <li class=" dark:text-gray-400 py-1">  <strong> Intereses : </strong>  MM $ 25.345 </li>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> Comision : </strong> MM $ 25.345 </li> --}}
-                                </ol>
+                                <strong> {{ $application->currencyTco->code }} {{ $application->currencyTco->symbol }} {{number_format($application->tco,0,",",".") }}
+                                </strong>
                             </td>
                             <td class="px-2 py-2  text-sm">
-                                <ol>
-                                    <li class=" dark:text-gray-400 py-1">  <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>
-                                   </li>
-                                </ol>
+                                <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>
                             </td>
-                            <td class="px-4 py-3 text-sm">
-                                <span class="px-2 py-1 font-semibold leading-tight {{$application->status->status_color}}  rounded-full dark:text-white dark:bg-green-600">
+                            <td class="px-2 text-sm w-32">
+                                <!-- <span class="px-2 py-1 font-semibold leading-tight {{$application->status->status_color}}  rounded-full dark:text-white dark:bg-green-600">
                                     {{$application->status->name}}
                                 </span>
                                 <br>
                                 <span class="py-2 font-semibold leading-tight  rounded-full dark:text-white dark:bg-green-600">
                                 {{$application->payment->status}}
-                                </span>
+                                </span> -->
+                              
+                                <div class="font-semibold leading-tight {{ $application->status->name == "Activada"
+                                     ? 'bg-green-500 text-white' :
+                                      ''}}  dark:text-white ">
 
-                                <!--   <div class="px-2 py-1 font-semibold leading-tight bg-gray-300 dark:text-white dark:bg-green-600">
-                                    Activación
-                                </div>
-                                <div class="px-2 py-1 font-semibold  leading-tight bg-yellow-100 text-red-300 dark:text-white dark:bg-green-600">
-                                   <p class="animate-pulse">Validando</p> 
-                                </div>
-                                <div class="px-2 py-1 font-semibold leading-tight bg-green-400 dark:text-white dark:bg-green-600">
-                                    Borrador
-                                </div>
-                                <span class="py-2 font-semibold leading-tight  dark:text-white dark:bg-green-600">
-                                {{$application->payment->status}}
-                                </span>
-                                 -->
+                                {!!  $application->status->name == "Activada"
+                                        ? !$application->state_process ? "<p class='animate-pulse text-red-300'>Activando</p>" :  'Activada' 
+                                        : "Activación" !!}
+
                                 
+                                        @if($application->status->name == "Validada" and $application->state_process)
+                                            <button type="button"
+                                                data-id="{{base64_encode($application->id)}}"
+                                                data-msg="Desea validar solicitud {{$application->code}}"
+                                                data-remote="{{route('application.status')}}"
+                                                class="animate-pulse ml-2 leading-5 text-gray-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app"
+                                                >
+                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                                                    </svg>
+                                            </button>
+                                        @endif
+                                        
+                                </div>
+                                <div class="flex items-center justify-center font-semibold  leading-tight dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-500 text-white' : ''}} ">
+                                    {!!  $application->status->name == "Validada" || $application->status->name == "Activada"
+                                        ? $application->status->name == "Validada" && !$application->state_process ? "<p class='animate-pulse text-red-300'>Validando</p>" :  'Validada' 
+                                        : "Validación" !!}
+
+                            
+                                    @if($application->status->name == "Borrador" and $application->state_process)
+                                        <button type="button"
+                                            data-id="{{base64_encode($application->id)}}"
+                                            data-msg="Desea validar solicitud {{$application->code}}"
+                                            data-remote="{{route('application.status')}}"
+                                            class="animate-pulse ml-2 leading-5 text-gray-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app"
+                                            >
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                                                </svg>
+                                        </button>
+                                    @endif
+                                                                   
+                                </div>
+                                <div class="flex items-center justify-center font-semibold leading-tight bg-green-500 text-white ">
+                                    Borrador
+                                    @if(!$application->state_process)
+                                        <button
+                                            title="Ver detalles de Observaciones"
+                                            data-id="{{base64_encode($application->id)}}"
+                                            data-remote="{{route('application.notifications')}}"
+                                            class="float-right animate-pulse ml-2 leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-notif-app">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </button>
+                                    @endif
+                                    
+                                </div>
+
                             </td>
                             <td class="px-4 py-3">
                                 <p class="font-semibold  text-md">
@@ -158,7 +195,7 @@
 
                                 @endif
 
-                                @if($application->tco > 0 && !$application->status->client_modify )
+                                @if($application->tco > 0 and !$application->status->client_modify )
                                     @if($application->payment->status != 'Paid')
                                         @if($application->payment->status != 'Canceled')
                                         <button
