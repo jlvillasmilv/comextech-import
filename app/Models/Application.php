@@ -184,36 +184,36 @@ class Application extends Model
         
         $application_date   = date('Y-m-d', strtotime($application->updated_at));
 
-        // if (($currentDate > $application_date) ){  
-        //    $notifications[] = "Debe actualizar El tipo de Cambio.";
-        // }
+        if (($currentDate > $application_date) ){  
+           $notifications[] = "Debe actualizar El tipo de Cambio.";
+        }
 
-        // if((isset($application->paymentProvider) && count($application->paymentProvider)))
-        // {
-        //     $payment_date = date('Y-m-d', strtotime($application->paymentProvider[0]->date_pay));
+        if((isset($application->paymentProvider) && count($application->paymentProvider)))
+        {
+            $payment_date = date('Y-m-d', strtotime($application->paymentProvider[0]->date_pay));
 
-        //     if (($currentDate > $payment_date) ){  
-        //       $notifications[] = "Las fechas de Pago Proveedor no deben ser hoy o anterior.";
-        //     }
-        // }
+            if (($currentDate > $payment_date) ){  
+              $notifications[] = "Las fechas de Pago Proveedor no deben ser hoy o anterior.";
+            }
+        }
 
-        // if(isset($application->transport->id))
-        // {
-        //     $transport_date = date('Y-m-d', strtotime($application->transport->estimated_date));
+        if(isset($application->transport->id))
+        {
+            $transport_date = date('Y-m-d', strtotime($application->transport->estimated_date));
            
-        //     if (($currentDate > $transport_date) ){  
-        //       $notifications[] = "Las fechas de Envío Proveedor no deben ser hoy o anterior.";
-        //     }
-        // }
+            if (($currentDate > $transport_date) ){  
+              $notifications[] = "Las fechas de Envío Proveedor no deben ser hoy o anterior.";
+            }
+        }
 
-        // if(isset($application->internmentProcess->id))
-        // {      
-        //     $result = $application->internmentProcess->fileStoreInternment->where('intl_treaty', 'Invoice')->first();
+        if(isset($application->internmentProcess->id))
+        {      
+            $result = $application->internmentProcess->fileStoreInternment->where('intl_treaty', 'Invoice')->first();
 
-        //     if (!isset($result->intl_treaty)){  
-        //       $notifications[] = "Se debe cargar documento invoice o Prooforma a la operación";
-        //     }
-        // }
+            if (!isset($result->intl_treaty)){  
+              $notifications[] = "Se debe cargar documento invoice o Prooforma a la operación";
+            }
+        }
 
         return $notifications;
     }
