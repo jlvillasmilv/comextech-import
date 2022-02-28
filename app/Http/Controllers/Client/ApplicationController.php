@@ -749,7 +749,6 @@ class ApplicationController extends Controller
 
     public function updateStaus(Request $request)
     {
-        
         $resp = Application::validateApplication(base64_decode($request->application_id));
 
         $data = Application::findOrFail(base64_decode($request->application_id));
@@ -759,7 +758,9 @@ class ApplicationController extends Controller
             $data->state_process =  false; 
             $data->save();  
 
-            return response()->json(['status' => 'error'], 500);
+            $string = implode("<br>", $resp);
+
+            return response()->json(['notifications' => $string], 200);
         }
 
         $data->application_statuses_id =  $data->application_statuses_id + 1; 
@@ -768,5 +769,20 @@ class ApplicationController extends Controller
         return response()->json(['status' => 'OK'], 200);
     }
 
+
+    public function notifications(Request $request)
+    {
+        $resp = Application::validateApplication(base64_decode($request->application_id));
+
+        if(count($resp) > 0){
+            $notification = '';
+            foreach ($resp as $key => $value) {
+                $notification = $notification.' <li>'.($key + 1).'.- '.$value.' </li>';
+            }
+            $notification =  '<ol> '.$notification.' </ol>';
+        }
+
+        return response()->json($notification, 200);
+    }
 
 }

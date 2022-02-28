@@ -46,8 +46,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('set-application-summary','App\Http\Controllers\Client\ApplicationController@setApplicationSummary')->name('application.importUpdateCost');
     Route::post('application-generate-order','App\Http\Controllers\Client\ApplicationController@generateOrder')->name('application.generate.order');
     Route::post('application-status','App\Http\Controllers\Client\ApplicationController@updateStaus')->name('application.status');
+    Route::post('application-notifications','App\Http\Controllers\Client\ApplicationController@notifications')->name('application.notifications');
     
-
     // Get condition sale
     Route::get('/suppl_cond_sales', function (Request $request) {
    

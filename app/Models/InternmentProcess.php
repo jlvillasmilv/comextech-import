@@ -27,4 +27,9 @@ class InternmentProcess extends Model
     {
         return $this->belongsTo(CustomAgent::class,'custom_agent_id')->withDefault(['name' => '' ]);
     }
+
+    public function fileStoreInternment()
+    {
+        return $this->hasMany(FileStoreInternment::class,'internment_id');
+    }
 }

@@ -51,7 +51,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
-      confirmButtonColor: '#1a56db',
+      confirmButtonColor: '#142c44',
       cancelButtonText: 'No',
       showLoaderOnConfirm: true,
       preConfirm: () => {
@@ -107,7 +107,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
-      confirmButtonColor: '#1a56db',
+      confirmButtonColor: '#142c44',
       cancelButtonText: 'No',
       showLoaderOnConfirm: true,
       preConfirm: () => {
@@ -143,7 +143,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
-      confirmButtonColor: '#1a56db',
+      confirmButtonColor: '#142c44',
       cancelButtonText: 'No',
       cancelButtonColor: '#d33',
       showLoaderOnConfirm: true,
@@ -164,7 +164,7 @@ $(document).ready(function () {
             }
           })
 
-          window.setTimeout(function () { location.reload() }, 3000)
+          window.setTimeout(function () { window.location.reload() }, 2000) ;
 
         }).catch(error => {
           Toast.fire({
@@ -194,7 +194,7 @@ $(document).ready(function () {
       showCancelButton: true,
       showDenyButton: true,
       confirmButtonText: 'Perfil &nbsp;',
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#142c44',
       denyButtonText: `Solicitar`,
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
@@ -217,7 +217,7 @@ $(document).ready(function () {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Si',
-      confirmButtonColor: '#1a56db',
+      confirmButtonColor: '#142c44',
       cancelButtonText: 'No',
       cancelButtonColor: '#d33',
       showLoaderOnConfirm: true,
@@ -284,10 +284,10 @@ function initialize() {
   let postalField;
   let placeId;
 
-  postalField  = document.querySelector("#postal_code");
+  postalField   = document.querySelector("#postal_code");
   provinceField = document.querySelector("#province");
-  countryCode  = document.querySelector("#country_code");
-  locality  = document.querySelector("#locality");
+  countryCode   = document.querySelector("#country_code");
+  locality      = document.querySelector("#locality");
 
   for (let i = 0; i < locationInputs.length; i++) {
 
@@ -464,7 +464,7 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
     icon: 'question',
     showCancelButton: true,
     confirmButtonText: 'Si',
-    confirmButtonColor: '#1a56db',
+    confirmButtonColor: '#142c44',
     cancelButtonText: 'No',
     cancelButtonColor: '#d33',
     showLoaderOnConfirm: true,
@@ -472,37 +472,83 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
       await axios.post(url, {
         application_id: application_id,
       }).then(response => {
-        console.log(response);
+        // console.log(response);
+
         if (response.data.order){
           window.open(response.data.order, '_blank');
         }
+
+        if (response.status == 200) {
         
-        // Toast.fire({
-        //   icon: 'success',
-        //   title: 'Registro agregado con exito'
-        // })
+          if(response.data.notifications){
+
+            Swal.fire({
+              title: '<strong>No fue posible Generar</strong>',
+              icon: 'warning',
+              html: `<div style="text-align: left; margin-left: 10px"> ${response.data.notifications}</ div>` ,
+              showCloseButton: true,
+              confirmButtonColor: '#142c44',
+              focusConfirm: false,
+            })
+
+          }
+          else{
+            Toast.fire({
+              icon: 'success',
+              title: 'Generado con exito',
+            })
+          }
+
+        }
 
       }).catch(error => {
+        console.log(error);
         Toast.fire({
             icon: 'error',
-            title: errors
+            title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
         })
        
-      });
+      })
+      .then(function () {
+        // always executed
+        window.setTimeout(function () { window.location.reload() }, 2000) ;
+      });  
       
-       
     },
     allowOutsideClick: () => !Swal.isLoading()
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Toast.fire({
-        icon: 'success',
-        title: 'Generado con exito',
-      })
-
-      window.location.reload();
-
-    }
   })
+
+});
+
+$('#table').on('click', '.btn-notif-app[data-remote]', function (e) {
+  e.preventDefault();
+
+  const url = $(this).data('remote');
+  const application_id  = $(this).data('id');
+
+  axios.post(url, {
+    application_id: application_id,
+  }).then(response => {
+      
+        Swal.fire({
+          title: '<strong>Observaciones</strong>',
+          icon: 'warning',
+          width: 600,
+          html: `<div style="text-align: left; margin-left: 10px"> ${response.data}</ div>`,
+          showCloseButton: true,
+          confirmButtonColor: '#142c44',
+          focusConfirm: false,
+        })
+
+  }).catch(error => {
+    console.log(error);
+    Toast.fire({
+        icon: 'error',
+        title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
+    })
+   
+  })
+
+
 
 });

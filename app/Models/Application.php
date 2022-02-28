@@ -206,6 +206,15 @@ class Application extends Model
             }
         }
 
+        if(isset($application->internmentProcess->id))
+        {      
+            $result = $application->internmentProcess->fileStoreInternment->where('intl_treaty', 'Invoice')->first();
+
+            if (!isset($result->intl_treaty)){  
+              $notifications[] = "Se debe cargar documento invoice o Prooforma a la operación";
+            }
+        }
+
         return $notifications;
     }
 
