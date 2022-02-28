@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Web\{ApplicationRequest, TransportRequest, InternmentProcessRequest, LocalWarehouseRequest};
 use App\Notifications\AdminApplicationNotification;
+use App\Notifications\Admin\ApplicationStatusNotification;
 use Illuminate\Support\Facades\Crypt;
 
 class ApplicationController extends Controller
@@ -751,20 +752,31 @@ class ApplicationController extends Controller
     {
         $resp = Application::validateApplication(base64_decode($request->application_id));
 
-        $data = Application::findOrFail(base64_decode($request->application_id));
+        $application = Application::findOrFail(base64_decode($request->application_id));
 
         if(count($resp) > 0){
 
-            $data->state_process =  false; 
-            $data->save();  
+            $application->state_process =  false; 
+            $application->save();  
 
             $string = implode("<br>", $resp);
 
             return response()->json(['notifications' => $string], 200);
         }
 
-        $data->application_statuses_id =  $data->application_statuses_id + 1; 
-        $data->save();
+        $application->application_statuses_id =  $application->application_statuses_id + 1; 
+        $application->save();
+
+        /****Send notification to admin about change status applications**/
+        $user_admin = User::whereHas('roles', function ($query) {
+            $query->where('name','=', 'Admin');
+        })->pluck('id');
+
+        User::all()
+            ->whereIn('id', $user_admin)
+            ->each(function (User $user) use ($application) {
+                $user->notify(new ApplicationStatusNotification($application));
+        });
 
         return response()->json(['status' => 'OK'], 200);
     }
@@ -773,9 +785,8 @@ class ApplicationController extends Controller
     public function notifications(Request $request)
     {
         $resp = Application::validateApplication(base64_decode($request->application_id));
-
+        $notification = '';
         if(count($resp) > 0){
-            $notification = '';
             foreach ($resp as $key => $value) {
                 $notification = $notification.' <li>'.($key + 1).'.- '.$value.' </li>';
             }
