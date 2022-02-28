@@ -173,4 +173,40 @@ class Application extends Model
         return $this->hasOne(LocalWarehouse::class,'application_id')->select('*',\DB::raw("'ICS05' as code_serv"));
     }
 
+
+    public static function validateApplication($id)
+    {
+        $notifications = array();
+        $application = Application::findOrFail($id);
+
+        $currentDate = date('Y-m-d');
+        $currentDate = date('Y-m-d', strtotime($currentDate));
+        
+        $application_date   = date('Y-m-d', strtotime($application->updated_at));
+
+        if (($currentDate > $application_date) ){  
+           $notifications[] = "Debe actualizar El tipo de Cambio.";
+        }
+
+        if((isset($application->paymentProvider) && count($application->paymentProvider)))
+        {
+            $payment_date = date('Y-m-d', strtotime($application->paymentProvider[0]->date_pay));
+
+            if (($currentDate > $payment_date) ){  
+              $notifications[] = "Las fechas de Pago Proveedor no deben ser hoy o anterior.";
+            }
+        }
+
+        if(isset($application->transport->id))
+        {
+            $transport_date = date('Y-m-d', strtotime($application->transport->estimated_date));
+           
+            if (($currentDate > $transport_date) ){  
+              $notifications[] = "Las fechas de Envío Proveedor no deben ser hoy o anterior.";
+            }
+        }
+
+        return $notifications;
+    }
+
 }

@@ -339,9 +339,7 @@ class ApplicationController extends Controller
             $tco_clp = $exchange->convertCurrency($item->amount, $item->currency, 'CLP');
         }
 
-
-        $total_app = \DB::table('applications')
-            ->where('id', base64_decode($request->application_id))
+        $total_app = Application::where('id', base64_decode($request->application_id))
             ->update(["tco" => $total, "currency_tco" => $currency2_id, 'tco_clp' => $tco_clp]);
 
         return response()->json($total, 200);
@@ -747,6 +745,27 @@ class ApplicationController extends Controller
        
         return response()->json(['order' => $url_order], 200);
 
+    }
+
+    public function updateStaus(Request $request)
+    {
+        
+        $resp = Application::validateApplication(base64_decode($request->application_id));
+
+        $data = Application::findOrFail(base64_decode($request->application_id));
+
+        if(count($resp) > 0){
+
+            $data->state_process =  false; 
+            $data->save();  
+
+            return response()->json(['status' => 'error'], 500);
+        }
+
+        $data->application_statuses_id =  $data->application_statuses_id + 1; 
+        $data->save();
+
+        return response()->json(['status' => 'OK'], 200);
     }
 
 

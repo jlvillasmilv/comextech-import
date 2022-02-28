@@ -1,4 +1,4 @@
-@if (isset($application->paymentProvider) && count($application->paymentProvider) > 0)
+@if (isset($application->paymentProvider) and count($application->paymentProvider) > 0)
 
 <div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
         <ul class="shadow-box">

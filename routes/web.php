@@ -42,10 +42,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('user-applications/dashboard-map',  'App\Http\Controllers\Client\ApplicationController@dashboardMap');
     
-    //Summry Applications
     Route::get('/application-summary/{id}','App\Http\Controllers\Client\ApplicationController@getApplicationSummary')->where('id', '[0-9]+');
     Route::post('set-application-summary','App\Http\Controllers\Client\ApplicationController@setApplicationSummary')->name('application.importUpdateCost');
     Route::post('application-generate-order','App\Http\Controllers\Client\ApplicationController@generateOrder')->name('application.generate.order');
+    Route::post('application-status','App\Http\Controllers\Client\ApplicationController@updateStaus')->name('application.status');
     
 
     // Get condition sale
