@@ -108,22 +108,22 @@
 						<div class="w-1/4 ml-1 sm:w-full">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Moneda:</label>
 
-							<select name="to" class="select2  @error('to') is-invalid @enderror">
+                            	<select name="currency" class="select2  @error('currency') is-invalid @enderror">
 
-								@foreach($currencies as $id => $name)
-			
-									@if(old('to', isset($data->to) && $data->to == $id) )
-										<option value="{{ $id }}" selected>{{ $name }}</option>
-									@else
-										<option value="{{ $id }}">{{ $name }}</option>
-									@endif
-			
+							    	@foreach($currencies as $id => $name)
+
+                                        @if(old('currency', isset($data->currency) && $data->currency == $id) )
+										    <option value="{{ $id }}" selected>{{ $name }}</option>
+									    @else
+										    <option value="{{ $id }}">{{ $name }}</option>
+									    @endif
+
 									@endforeach
 								</select>
-								
-								@if($errors->has('to'))
+
+								@if($errors->has('currency'))
 									<span class="text-xs text-red-600 dark:text-red-400">
-										{{ $errors->first('to') }}
+										{{ $errors->first('currency') }}
 									</span>
 								@endif
 						</div>
