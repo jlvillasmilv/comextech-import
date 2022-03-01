@@ -15,7 +15,11 @@
         <!-- tipo de carga -->
         <div
           v-if="data.type_transport != 'CONTAINER'"
-          class="my-2 flex justify-center md:inline lg:w-24 lg:h-40"
+          :class="[
+            validateWeight
+              ? 'my-2 flex justify-center md:inline lg:w-24 lg:h-40'
+              : 'my-2 flex justify-center md:inline lg:w-24'
+          ]"
         >
           <div class="w-full text-center">
             <label v-if="id == 0" class="text-sm font-semibold"> Tipo de Carga </label>
@@ -90,7 +94,13 @@
         </div>
 
         <!-- dimensiones unitarias -->
-        <div class="lg:h-40 my-2 flex flex-col justify-start md:inline text-center">
+        <div
+          :class="[
+            validateWeight
+              ? 'lg:h-40 my-2 flex flex-col justify-start md:inline text-center'
+              : 'my-2 flex flex-col justify-start md:inline text-center'
+          ]"
+        >
           <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
@@ -217,7 +227,11 @@
 
         <!-- CBM -->
         <div
-          class="my-2 flex lg:inline lg:w-20 lg:h-40 text-center"
+          :class="[
+            validateWeight
+              ? 'my-2 flex lg:inline lg:w-20 lg:h-40 text-center'
+              : 'my-2 flex lg:inline lg:w-20 text-center'
+          ]"
           v-if="data.type_transport != 'CONTAINER'"
         >
           <div class="w-full">
@@ -246,12 +260,18 @@
         </div>
 
         <!-- peso unitario -->
-        <div class="my-2 flex flex-col lg:w-32 lg:h-40 text-center">
+        <div
+          :class="[
+            validateWeight
+              ? 'my-2 flex flex-col lg:w-32 lg:h-40 text-center'
+              : 'my-2 flex flex-col lg:w-32 text-center'
+          ]"
+        >
           <div>
             <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
             <div
               :class="[
-                validateweight ? 'flex flex-col justify-center items-center' : 'flex justify-center'
+                validateWeight ? 'flex flex-col justify-center items-center' : 'flex justify-center'
               ]"
             >
               <input
@@ -263,10 +283,10 @@
                   data.type_transport != 'CONTAINER' ? '' : ''
                 ]"
               />
-              <span v-if="validateweight" class="text-center text-red-500 text-xs mt-2">{{
-                validateweight
+              <span v-if="validateWeight" class="text-center text-red-500 text-xs mt-2">{{
+                validateWeight
               }}</span>
-              <br v-if="validateweight" />
+              <br v-if="validateWeight" />
             </div>
             <label class="inline-flex text-sm items-center mx-2 mt-2">
               <input
@@ -478,7 +498,7 @@ export default {
     ...mapState('address', ['expenses']),
     ...mapState('application', ['data']),
 
-    validateweight() {
+    validateWeight() {
       const { loads } = this.$store.state.load;
 
       /* switch case para peso unitario en KG y LB en courier */

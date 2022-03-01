@@ -41,13 +41,17 @@ const state = {
   portsDestination: [],
   portsDesTemp: [],
   minDate: new Date().toISOString().substr(0, 10),
+  isFormAddress: true,
+  isDateAddress: true,
+  isEdit: false,
   fedex: {},
   dhl: {},
   showFedexQuote: false,
   showDhlQuote: false,
   showFedexDhlQuote: false,
   showLclFclQuote: false,
-  tableFclLcl: {}
+  tableFclLcl: {},
+  saveDataTransport: false
 };
 
 const getters = {};
@@ -58,6 +62,13 @@ const mutations = {
   },
   SET_ADDRESS(state, payload) {
     state.addressDestination = payload;
+  },
+  SHOW_ADDRESSES(state, value) {
+    state.isFormAddress = value;
+    state.isDateAddress = value;
+  },
+  SHOW_BUTTON_EDIT(state, value) {
+    state.isEdit = value;
   },
   SET_ORIGIN_TRANSPORT(state, payload) {
     state.origin_transport = payload.supplier_address;
@@ -118,12 +129,23 @@ const mutations = {
     state.showFedexQuote = value;
     state.showDhlQuote = value;
   },
+  SELECT_COURIER(state, type) {
+    if (type === 2) {
+      state.showDhlQuote = false;
+    }
+    if (type === 3) {
+      state.showFedexQuote = false;
+    }
+  },
   SET_LCL_FCL(state, QuoteResponse) {
     state.showLclFclQuote = true;
     state.tableFclLcl = QuoteResponse;
   },
   HIDE_TABLE_FCL_LCL(state, value) {
     state.showLclFclQuote = value;
+  },
+  ACTIVE_SAVE_DATA(state, value) {
+    state.saveDataTransport = value;
   }
 };
 
