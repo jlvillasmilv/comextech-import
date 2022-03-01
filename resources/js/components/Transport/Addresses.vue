@@ -187,14 +187,20 @@
         {{ isEdit ? 'Editar' : '' }}
       </button>
       <button
-        @click="data.type_transport === 'COURIER' ? getCourierQuote() : submitQuote()"
+        @click="
+          saveDataTransport
+            ? saveData()
+            : data.type_transport === 'COURIER'
+            ? getCourierQuote()
+            : submitQuote()
+        "
         :class="[
           isEdit
             ? 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
             : 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
         ]"
       >
-        Cotizar
+        {{ saveDataTransport ? 'Guardar' : 'Cotizar' }}
       </button>
     </div>
   </section>
@@ -212,26 +218,32 @@ export default {
   components: { OriginAddress, DestAddress, FormDate, FedexDhl, TableFclLcl },
   data() {
     return {
-      showShipping: false,
-      isFormAddress: true,
-      isDateAddress: true,
-      isEdit: false
+      showShipping: false
     };
   },
   computed: {
     ...mapState('address', [
       'expenses',
+      'isFormAddress',
+      'isDateAddress',
+      'isEdit',
       'portsOrigin',
       'portsOriginTemp',
       'portsDestination',
       'portsDesTemp',
       'showFedexDhlQuote',
-      'showLclFclQuote'
+      'showLclFclQuote',
+      'saveDataTransport'
     ]),
     ...mapState('application', ['data'])
   },
   methods: {
-    ...mapMutations('address', ['HIDE_COURIER_QUOTES', 'HIDE_TABLE_FCL_LCL']),
+    ...mapMutations('address', [
+      'SHOW_ADDRESSES',
+      'SHOW_BUTTON_EDIT',
+      'HIDE_COURIER_QUOTES',
+      'HIDE_TABLE_FCL_LCL'
+    ]),
     ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
     async getCourierQuote() {
@@ -248,11 +260,10 @@ export default {
       });
 
       /* Show button (editar) */
-      this.isEdit = true;
+      this.SHOW_BUTTON_EDIT(true);
 
       /* Hide addresses form */
-      this.isDateAddress = false;
-      this.isFormAddress = false;
+      this.SHOW_ADDRESSES(false);
 
       /* Hide loads and dimensions form */
       this.SHOW_LOAD_CHARGE(false);
@@ -264,6 +275,7 @@ export default {
           loader.hide();
           this.hideAddress();
         }
+        this.$store.commit('address/ACTIVE_SAVE_DATA', true);
       } catch (error) {
         console.error(error);
       } finally {
@@ -285,11 +297,10 @@ export default {
       });
 
       /* Show button (editar) */
-      this.isEdit = true;
+      this.SHOW_BUTTON_EDIT(true);
 
       /* Hide addresses form */
-      this.isDateAddress = false;
-      this.isFormAddress = false;
+      this.SHOW_ADDRESSES(false);
 
       /* Hide loads and dimensions form */
       this.SHOW_LOAD_CHARGE(false);
@@ -328,6 +339,7 @@ export default {
           });
         }
         this.$store.dispatch('load/setLoad', fclLclQuote.data);
+        this.$store.commit('address/ACTIVE_SAVE_DATA', true);
         // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         this.hideAddress();
@@ -335,6 +347,16 @@ export default {
       } finally {
         loader.hide();
       }
+    },
+
+    saveData() {
+      Toast.fire({
+        icon: 'success',
+        title: 'Datos Agregados'
+      });
+
+      this.$store.dispatch('callIncomingOrNextMenu', true);
+      this.$store.commit('address/ACTIVE_SAVE_DATA', false);
     },
 
     async getFavOriginPort() {
@@ -368,8 +390,7 @@ export default {
       this.SHOW_LOAD_CHARGE(true);
 
       /* Show addresses form */
-      this.isFormAddress = true;
-      this.isDateAddress = true;
+      this.SHOW_ADDRESSES(true);
 
       /* Hide if courier quotes */
       this.HIDE_COURIER_QUOTES(false);
@@ -378,7 +399,10 @@ export default {
       this.HIDE_TABLE_FCL_LCL(false);
 
       /* Hide button "editar" */
-      this.isEdit = false;
+      this.SHOW_BUTTON_EDIT(false);
+
+      /* Active button saveData */
+      this.$store.commit('address/ACTIVE_SAVE_DATA', false);
     },
 
     /* Show/Hide button transporte local */
