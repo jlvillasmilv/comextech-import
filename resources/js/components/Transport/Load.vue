@@ -15,7 +15,11 @@
         <!-- tipo de carga -->
         <div
           v-if="data.type_transport != 'CONTAINER'"
-          class="my-2 flex justify-center md:inline lg:w-24 lg:h-40"
+          :class="[
+            validateweight
+              ? 'my-2 flex justify-center md:inline lg:w-24 lg:h-40'
+              : 'my-2 flex justify-center md:inline lg:w-24'
+          ]"
         >
           <div class="w-full text-center">
             <label v-if="id == 0" class="text-sm font-semibold"> Tipo de Carga </label>
@@ -90,7 +94,13 @@
         </div>
 
         <!-- dimensiones unitarias -->
-        <div class="lg:h-40 my-2 flex flex-col justify-start md:inline text-center">
+        <div
+          :class="[
+            validateweight
+              ? 'lg:h-40 my-2 flex flex-col justify-start md:inline text-center'
+              : 'my-2 flex flex-col justify-start md:inline text-center'
+          ]"
+        >
           <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
@@ -217,7 +227,11 @@
 
         <!-- CBM -->
         <div
-          class="my-2 flex lg:inline lg:w-20 lg:h-40 text-center"
+          :class="[
+            validateweight
+              ? 'my-2 flex lg:inline lg:w-20 lg:h-40 text-center'
+              : 'my-2 flex lg:inline lg:w-20 text-center'
+          ]"
           v-if="data.type_transport != 'CONTAINER'"
         >
           <div class="w-full">
@@ -246,7 +260,13 @@
         </div>
 
         <!-- peso unitario -->
-        <div class="my-2 flex flex-col lg:w-32 lg:h-40 text-center">
+        <div
+          :class="[
+            validateweight
+              ? 'my-2 flex flex-col lg:w-32 lg:h-40 text-center'
+              : 'my-2 flex flex-col lg:w-32 text-center'
+          ]"
+        >
           <div>
             <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
             <div
