@@ -2,12 +2,11 @@
     <table  id="table" class="w-full whitespace-no-wrap">
         <thead>
             <tr
-                class="text-xs text-center font-semibold tracking-wide text-left text-white border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+                class="text-xs text-center font-semibold tracking-wide text-left text-white border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                 <th class="px-4 py-3">N°</th>
                 <th class="px-4 py-3">Fecha escritura</th>
                 <th class="px-4 py-3">Notaria </th>
                 <th class="px-4 py-3">N° repertorio </th>
-                <th class="px-4 py-3">Fecha Registro</th>
                 <th class="px-4 py-3">&nbsp; </th>
             </tr>
         </thead>

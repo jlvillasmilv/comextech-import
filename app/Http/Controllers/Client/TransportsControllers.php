@@ -184,7 +184,6 @@ class TransportsControllers extends Controller
                 
                 $transp = Transport::rateTransport($data);
 
-
                 if($request->dest_port_id > 0 && strlen($request->dest_address) > 0)
                 {
                     $local_transp = Transport::rateLocalTransport($request->only([
@@ -208,8 +207,6 @@ class TransportsControllers extends Controller
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
 
             }
-
-     
 
             // update application summary International transport
             \DB::table('application_summaries as as')

@@ -19,6 +19,7 @@ class CreatePaymentProvidersTable extends Migration
             // $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedTinyInteger('percentage')->nullable()->comment('PAGO_%');
             $table->decimal('amount', 12, 2)->default(0)->nullable();
+            $table->unsignedInteger('transfer_abroad')->default(0)->nullable();
             $table->string('type_pay')->nullable();
             $table->date('date_pay')->nullable();
             $table->string('payment_release',20)->default('Sin Restricción'); 

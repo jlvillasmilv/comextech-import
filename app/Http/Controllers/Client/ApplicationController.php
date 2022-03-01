@@ -235,12 +235,14 @@ class ApplicationController extends Controller
             }
 
             DB::commit();
+        
+            $appli = \DB::table('applications as app')
+            ->leftjoin('user_mark_ups as ums', 'app.user_id', '=', 'ums.user_id')
+            ->where('app.id', $application->id)
+            ->select('app.id', 'app.code', 'app.supplier_id', 'app.currency_id','ums.transfer_abroad')
+            ->first(); 
             
-            $appli = \DB::table('applications')
-            ->where('id', $application->id)
-            ->select('id', 'code', 'supplier_id', 'currency_id')
-            ->first();  
-
+            
         } catch (Throwable $e)  {
             DB::rollback();
             return response()->json($e, 400);
@@ -407,7 +409,7 @@ class ApplicationController extends Controller
                 $query->select('id', 'code', 'name');
             }, 
             'paymentProvider' => function($query) {
-                $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay');
+                $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay','transfer_abroad');
             }
             ,'transport','loads','internmentProcess','localWarehouse'
         ])
@@ -475,6 +477,8 @@ class ApplicationController extends Controller
             return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 422);
         }
 
+       
+
         $application = Application::findOrFail($request[0]['application_id']); 
 
         if ($values->sum('percentage') == 100){
@@ -493,6 +497,7 @@ class ApplicationController extends Controller
                             'type_pay'        => $data['type_pay'],
                             'date_pay'        => $data['date_pay'],
                             'payment_release' => $data['payment_release'],
+                            'transfer_abroad' => $data['transfer_abroad']
                         ]
                     );
 
@@ -508,7 +513,20 @@ class ApplicationController extends Controller
                     ->update(['as.fee_date' => $data['date_pay'],
                             'as.amount'    => $application->amount * ($data['percentage'] / 100)
                             ]);
+                   
                 }
+
+                \DB::table('application_summaries as as')
+                        ->join('services as s', 'as.service_id', '=', 's.id')
+                        ->where([
+                            ["as.application_id", $application->id],
+                            ["s.code",  'CS01-04']
+                        ])
+                    ->update([
+                            'as.fee_date'      => $data['date_pay'],
+                            'as.amount'        => $values->sum('transfer_abroad'),
+                            'as.currency_id'   => 8
+                            ]);
 
             
             } catch (\Exception $e) {

@@ -15,7 +15,7 @@ class CategoryServiceSeeder extends Seeder
     {
 
         \DB::table('category_services')->insert([
-            ['code' => 'ICS01','name' => 'Pago Proveedor', 'user_id' => 1, 'ind_service' => true, 'sort' => 1, 'status' => true, 'icon' => "vs:p-square" ], 
+            ['code' => 'ICS01','name' => 'Proveedor', 'user_id' => 1, 'ind_service' => true, 'sort' => 1, 'status' => true, 'icon' => "vs:p-square" ], 
             ['code' => 'ICS02','name' => 'Moneda', 'user_id' => 1, 'ind_service' => true, 'sort' => 4, 'status' => false, 'icon' => "vs:m-square", ], 
             ['code' => 'ICS03','name' => 'Transporte', 'user_id' => 1, 'ind_service' => true, 'sort' => 2,'status' => true, 'icon' => "vs:t-square" ], 
             ['code' => 'ICS04','name' => 'Aduana', 'user_id' => 1, 'ind_service' => true, 'sort' => 3,'status' => true,'icon' => "vs:a-square" ], 
@@ -27,7 +27,7 @@ class CategoryServiceSeeder extends Seeder
         \DB::table('services')->insert([
             ['category_service_id' => 1, 'code' => 'ICS01-01', 'name' => 'Pago Adelanto', 'created_at' => now(), 'summary' => false ],
             ['category_service_id' => 1, 'code' => 'ICS01-02', 'name' => 'Pago SALDO', 'created_at' => now(), 'summary' => false ],
-            ['category_service_id' => 1, 'code' => 'ICS01-03', 'name' => 'Otros', 'created_at' => now(), 'summary' => false ], 
+            ['category_service_id' => 1, 'code' => 'ICS01-03', 'name' => 'Otros', 'created_at' => now(), 'summary' => false ],  
             ['category_service_id' => 2, 'code' => 'ICS02-01', 'name' => 'Inspeccion Carga', 'created_at' => now(), 'summary' => false ],
             ['category_service_id' => 2, 'code' => 'ICS02-02', 'name' => 'Bodegaje/Consolidación', 'created_at' => now(), 'summary' => false ],
             ['category_service_id' => 2, 'code' => 'ICS02-03', 'name' => 'Otros', 'created_at' => now(), 'summary' => false ],
@@ -45,6 +45,7 @@ class CategoryServiceSeeder extends Seeder
             ['category_service_id' => 1, 'code' => 'CS01-01', 'name' => 'A.- Pago proveedor', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 1, 'code' => 'CS01-02', 'name' => 'A.1.- Adelanto', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 1, 'code' => 'CS01-03', 'name' => 'A.2.- Saldo', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 1, 'code' => 'CS01-04', 'name' => 'A.3.- Transferencia al Extranjero', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 3, 'code' => 'CS03-01', 'name' => 'B.- Transporte Internacional', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 3, 'code' => 'CS03-02', 'name' => 'C.- Seguro Transporte', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 3, 'code' => 'CS03-03', 'name' => 'D.- Gasto Local', 'created_at' => now(), 'summary' => true ],
