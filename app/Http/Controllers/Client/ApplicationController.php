@@ -50,13 +50,13 @@ class ApplicationController extends Controller
         /** Evalua la el estado de una solicitud **/
         if ($status <> 0) { return response()->json($status, 400); }
 
-        //dd($request->all());
-
         DB::beginTransaction();
     
          try {
 
             $value_initial = isset($request->valuePercentage['valueInitial']) ? $request->valuePercentage['valueInitial'] : 0;
+
+            //  dd($request->value_initial <= 0 ? 0 : 100 - $value_initial);
 
             $application =  Application::updateOrCreate(
                 ['id' => $request->application_id,
@@ -66,14 +66,15 @@ class ApplicationController extends Controller
                     'supplier_id'     => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
                     'type_transport'  => $request->type_transport,
                     'amount'          => $request->amount,
-                    'fee1'            => $request->statusSuppliers == 'with' ? $value_initial : 0,
-                    'fee2'            => $request->statusSuppliers == 'with' ? 100 - $value_initial : 0,
+                    'fee1'            => $value_initial,
+                    'fee2'            => $request->value_initial <= 0 ? 0 : 100 - $value_initial,
                     'application_statuses_id' => 1,
                     'currency_id'   => is_null($request->currency_id) ? 1 : $request->currency_id,
                     'ecommerce_url' => $request->ecommerce_url,
                     'ecommerce_id'  => $request->statusSuppliers == 'E-commerce' ? $request->supplier_id : null,
                     'condition'     => $request->condition,
-                    'services_code' => implode(',',$request->services)
+                    'services_code' => implode(',',$request->services),
+                    'state_process' => true
                 ]
             );
 
@@ -135,6 +136,24 @@ class ApplicationController extends Controller
 
             if(InternmentProcess::where('application_id', $application->id)->exists() && !in_array('ICS04', $request->services) ){
                 
+                foreach ($application->internmentProcess->fileStoreInternment as $key => $item) {
+              
+                    $exists = \Storage::disk('s3')
+                    ->exists('file/'.$item->fileStore->file_name);
+
+                    // if($exists){
+                    //     \Storage::disk('s3')
+                    //     ->delete('file/'.$item->fileStore->file_name);
+                    // }
+
+                    FileStoreInternment::where('id', $item->id)->delete();
+
+                    if (!is_null($item->fileStore->id)) {
+                        FileStore::where('id', $item->fileStore->id)->delete();
+                    }
+
+                }
+
                 InternmentProcess::where('application_id', $application->id)->delete();
 
                 \DB::table('application_summaries')
@@ -463,31 +482,6 @@ class ApplicationController extends Controller
             try {
                 PaymentProvider::where('application_id', $application->id)->delete();
 
-            // $add_serv = \DB::table('services as serv')
-            //      ->join('category_services as cs',  'serv.category_service_id', '=','cs.id')
-            //      ->where([
-            //          ["cs.code", 'ICS01'],
-            //          ["serv.summary", false ]
-            //      ])
-            //      ->select('serv.id')
-            //      ->pluck('serv.id');
-
-            // dd( $add_serv);
-            // foreach ($add_serv as $key => $id) {
-                
-            //    if (isset($request[$key]['application_id']))
-            //         ApplicationDetail::updateOrCreate([
-            //         'application_id' =>  $application->id,
-            //         'service_id' => $id
-            //         ],                    
-            //         [
-            //             'amount' =>  $application->amount * ($request[$key]['percentage'] / 100),
-            //             'estimated' =>  $request[$key]['date_pay']
-            //         ],
-            //     );
-
-            // }
-
                 foreach ($request->input() as $key => $data) {
 
                     PaymentProvider::updateOrCreate(
@@ -649,7 +643,7 @@ class ApplicationController extends Controller
         
             DB::commit();
 
-         } catch (\Exception $e) {
+        } catch (\Exception $e) {
              DB::rollback();
              return response()->json(['status' => $e], 500);
          }
