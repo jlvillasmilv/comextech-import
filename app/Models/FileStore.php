@@ -28,8 +28,8 @@ class FileStore extends Model
         //     Storage::disk('s3')
         //     ->delete('file/'.$file_name);
         // }
-       
-        Storage::disk('s3')->put('file/'.$file_name, \File::get($file));
+
+        Storage::disk('s3')->put('file/'.$file_name, \File::get($file), 'public');
         
         $fileStorage = FileStore::updateOrCreate([
             'file_name'     => $file_name,
@@ -51,6 +51,5 @@ class FileStore extends Model
     {
         return $this->hasOne(Factoring\FileDisbursement::class, 'disbursement_id');
     }
-
 
 }

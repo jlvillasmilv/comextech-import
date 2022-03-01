@@ -27,7 +27,7 @@ class ApplicationRequest extends FormRequest
             // 'supplier_id'              => 'required_if:statusSuppliers,with',
             'currency_id'              => 'required|exists:currencies,id',
             'type_transport'           => 'required',
-            // 'valuePercentage'          => 'required_if:statusSuppliers,with',
+            'valuePercentage'          => 'required_if:statusSuppliers,with',
             'condition'                => 'required|exists:application_cond_sales,name',
             'amount'                   => 'required|numeric|gt:0|between:1,999999999999',
             'statusSuppliers'          => 'required',

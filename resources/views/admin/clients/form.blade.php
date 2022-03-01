@@ -51,11 +51,96 @@
                     </div>
                     <div class="md:w-2/4 px-3 sm:w-full">
                         <div class="flex justify-start">
-                            <button class="flex  px-4 py-2 mt-9 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                            <button class="flex  px-4 py-2 mt-9 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1200 focus:outline-none focus:shadow-outline-blue">
                                
-                                <span> Asignar </span>
+                                <span> Guardar </span>
                             </button>
                           </div>
+
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-end">
+                    <h4 class="mb-2 ml-2 text-lg  text-gray-600 dark:text-gray-300">
+                        Recargos y comisiones
+                    </h4>
+                
+                </div>
+
+                <div class="flex flex-wrap">
+                    <div class="sm:w-full md:w-auto px-3 ">
+
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">Aereo</span>
+                            <input class="{{ $errors->has('air') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="number"
+                            name="air" 
+                            value="{{ old('air', isset($company->user->markUp) ? $company->user->markUp->air : '') }}"
+                             >
+                            @if($errors->has('air'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('air') }}
+                                </span>
+                            @endif
+                        
+                        </label>
+
+                    </div>
+
+                    <div class="sm:w-full md:w-auto px-3 ">
+
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">FCL</span>
+                            <input class="{{ $errors->has('fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                            type="number"
+                            name="fcl" 
+                            value="{{ old('fcl', isset($company->user->markUp) ? $company->user->markUp->fcl : '') }}"
+                             >
+                            @if($errors->has('fcl'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('fcl') }}
+                                </span>
+                            @endif
+                        
+                        </label>
+
+                    </div>
+
+                    <div class="sm:w-full md:w-auto px-3 ">
+
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">LCL</span>
+                            <input class="{{ $errors->has('lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                            type="number"
+                            name="lcl" 
+                            value="{{ old('lcl', isset($company->user->markUp) ? $company->user->markUp->lcl : '') }}"
+                             >
+                            @if($errors->has('lcl'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('lcl') }}
+                                </span>
+                            @endif
+                        
+                        </label>
+
+                    </div>
+
+                    <div class="sm:w-full md:w-auto px-3 ">
+
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">Transferencia al Extranjero </span>
+                            <input class="{{ $errors->has('transfer_abroad') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                            type="number"
+                            name="transfer_abroad" 
+                            value="{{ old('transfer_abroad', isset($company->user->markUp) ? $company->user->markUp->transfer_abroad : '') }}"
+                            >
+                            @if($errors->has('transfer_abroad'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('transfer_abroad') }}
+                                </span>
+                            @endif
+
+                        </label>
 
                     </div>
                 </div>
@@ -129,7 +214,7 @@
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button class="flex  px-4 py-2 my-1 mr-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                    <button class="flex  px-4 py-2 my-1 mr-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1200 focus:outline-none focus:shadow-outline-blue">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
                          </svg>

@@ -217,6 +217,11 @@
               v-if="data.errors.has('supplier_id')"
               v-html="data.errors.get('supplier_id')"
             ></span>
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="data.errors.has('ecommerce_url')"
+              v-html="data.errors.get('ecommerce_url')"
+            ></span>
 
             <!-- Pago -->
             <div class="w-full sm:my-4 flex flex-col sm:items-center sm:flex-row">
@@ -731,6 +736,7 @@ export default {
           ].code;
           // asignar id devuelta al form id
           this.data.application_id = data.id;
+          this.$store.state.application.transfer_abroad = data.transfer_abroad;
           this.$store.dispatch('exchange/getSummary', data.id);
 
           //  cerrar modal
@@ -804,7 +810,8 @@ export default {
       'currency',
       'selectedCondition',
       'typeTransport',
-      'busy'
+      'busy',
+      'transfer_abroad'
     ]),
     servicesCode() {
       return this.$store.state.selectedServices.map((item) => item.code);

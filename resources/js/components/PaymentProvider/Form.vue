@@ -17,16 +17,16 @@
               <input
                 :class="[]"
                 class="
-                block
-                w-full
-                mt-1
-                text-sm
-                dark:border-gray-600 dark:bg-gray-700
-                focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                dark:text-gray-300 dark:focus:shadow-outline-gray
-                form-input
-                text-center
-              "
+                  block
+                  w-full
+                  mt-1
+                  text-sm
+                  dark:border-gray-600 dark:bg-gray-700
+                  focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                  dark:text-gray-300 dark:focus:shadow-outline-gray
+                  form-input
+                  text-center
+                "
                 placeholder="%"
                 v-model.number="$store.state.payment.discount"
                 :disabled="$store.state.payment.percentageInitial == 0"
@@ -112,8 +112,7 @@
                   pr-8
                   rounded
                   leading-tight
-                  focus:outline-none focus:bg-white
-                  focus:border-gray-500
+                  focus:outline-none focus:bg-white focus:border-gray-500
                   dark:text-gray-300
                   dark:border-gray-600
                   dark:bg-gray-700
@@ -175,14 +174,12 @@
                   pr-8
                   rounded
                   leading-tight
-                  focus:outline-none
-                  focus:bg-white
-                  focus:border-gray-500
+                  focus:outline-none focus:bg-white focus:border-gray-500
                   dark:text-gray-300
                   dark:border-gray-600
                   dark:bg-gray-700
                   dark:focus:shadow-outline-gray
-                  "
+                "
                 id="grid-state"
                 :disabled="$store.state.payment.discount === 0"
               >
@@ -221,7 +218,13 @@
       <div class="lg:w-6/12 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div v-if="$store.state.application.statusSuppliers !== 'E-commerce'">
           <h3
-            class="my-2 font-semibold text-lg text-gray-700 bg-gray-200 dark:text-gray-200 dark:bg-gray-800"
+            class="
+              my-2
+              font-semibold
+              text-lg text-gray-700
+              bg-gray-200
+              dark:text-gray-200 dark:bg-gray-800
+            "
           >
             Pagos al Proveedor
           </h3>
@@ -261,10 +264,10 @@
           <button
             :disabled="
               $store.state.payment.discount < 0 ||
-                $store.state.payment.percentageInitial == 0 ||
-                !form.date_pay ||
-                form.type_pay == '' ||
-                form.payment_release == ''
+              $store.state.payment.percentageInitial == 0 ||
+              !form.date_pay ||
+              form.type_pay == '' ||
+              form.payment_release == ''
             "
             :class="[
               $store.state.payment.discount > 0 &&
@@ -274,7 +277,7 @@
               form.payment_release != ''
                 ? 'active:bg-blue-1300 hover:bg-blue-1100  bg-blue-1000'
                 : 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300',
-              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue'
+              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue',
             ]"
             @click="addPayment()"
           >
@@ -301,7 +304,7 @@
               $store.state.payment.percentageInitial !== 0
                 ? 'bg-gray-300 active:bg-gray-300 hover:bg-gray-300'
                 : 'bg-blue-1300 active:bg-blue-1300 hover:bg-blue-1200',
-              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue'
+              'flex px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue',
             ]"
             @click="submitPayment()"
           >
@@ -363,9 +366,7 @@
                   uppercase
                   border-b
                   bg-blue-1300
-                  dark:border-gray-700
-                  dark:text-gray-200
-                  dark:bg-blue-900
+                  dark:border-gray-700 dark:text-gray-200 dark:bg-blue-900
                 "
               >
                 <th class="px-4 py-3">Pago</th>
@@ -380,63 +381,66 @@
               v-if="payment.length"
               class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
             >
-              <tr
-                v-for="(item, key) in payment"
-                :key="key"
-                class="text-gray-700 dark:text-gray-400"
-              >
-                <td class="px-4 py-3">
-                  <div class="flex items-center text-sm">
-                    <div>
-                      <p class="font-semibold input">Pago Nro {{ key + 1 }}</p>
-                      <p class="text-xs text-gray-600 dark:text-gray-400">
-                        {{ getHumanDate(item.date_pay) }}
-                      </p>
+              <template v-for="(item, key) in payment">
+                <tr :key="key" class="text-gray-700 dark:text-gray-400">
+                  <td class="px-4 py-3">
+                    <div class="flex items-center text-sm">
+                      <div>
+                        <p class="font-semibold input">Pago Nro {{ key + 1 }}</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                          {{ getHumanDate(item.date_pay) }}
+                        </p>
+                        
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="px-2 py-2 text-sm">{{ item.percentage }} %</td>
+                  </td>
+                  <td class="px-2 py-2 text-sm">{{ item.percentage }} %</td>
 
-                <td class="px-4 py-3 text-sm">
-                  {{ formatPrice(data.amount * (item.percentage / 100)) }}
-                </td>
-                <td class="px-4 py-3 text-xs">
-                  <span
-                    class="
-                      px-2
-                      py-1
-                      font-semibold
-                      leading-tight
-                      text-blue-1300
-                      bg-blue-1000
-                      rounded-full
-                      dark:text-white dark:bg-green-600
-                    "
-                  >
-                    {{ item.type_pay }}
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-xs font-semibold">
-                  {{ item.payment_release }}
-                </td>
-                <td>
-                  <svg
-                    @click="removedPayment(item)"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                </td>
-              </tr>
+                  <td class="px-4 py-3 text-sm">
+                    {{ formatPrice(data.amount * (item.percentage / 100)) }}
+                  </td>
+                  <td class="px-4 py-3 text-xs">
+                    <span
+                      class="
+                        px-2
+                        py-1
+                        font-semibold
+                        leading-tight
+                        text-blue-1300
+                        bg-blue-1000
+                        rounded-full
+                        dark:text-white dark:bg-green-600
+                      "
+                    >
+                      {{ item.type_pay }}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3 text-xs font-semibold">
+                    {{ item.payment_release }}
+                  </td>
+                  <td>
+                    <svg
+                      @click="removedPayment(item)"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </td>
+                </tr>
+                <tr class="text-gray-700 dark:text-gray-400" :key="key">
+                  <td class="px-4 text-xs font-semibold" colspan="4">Comisión: {{ item.transfer_abroad }} USD</td>
+                  <td class="px-4 text-xs font-semibold" colspan="2">Transferencia al Extranjero </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
@@ -457,12 +461,12 @@ export default {
         type_pay: '',
         payment_release: '',
         manyPayment: '',
-        id: ''
+        id: '',
       },
       application_id: this.$store.state.application.application_id,
       code_serv: 'ICS01',
       minDate: new Date().toISOString().substr(0, 10),
-      percentajeDelete: {}
+      percentajeDelete: {},
     };
   },
   methods: {
@@ -505,7 +509,8 @@ export default {
           percentage: discount,
           id: this.payment.length,
           application_id: this.data.application_id,
-          code_serv: 'ICS01'
+          code_serv: 'ICS01',
+          transfer_abroad: this.transfer_abroad,
         });
         this.form = {
           percentage: '',
@@ -513,7 +518,7 @@ export default {
           type_pay: '',
           payment_release: '',
           manyPayment: '',
-          id: ''
+          id: '',
         };
       }
     },
@@ -526,16 +531,16 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: 'error',
-          title: 'Se ha producido un error al procesar los datos'
+          title: 'Se ha producido un error al procesar los datos',
         });
       } finally {
         this.$store.dispatch('application/busyButton', false);
       }
-    }
+    },
   },
   computed: {
     ...mapState('payment', ['payment']),
-    ...mapState('application', ['data', 'currency', 'editing', 'busy']),
+    ...mapState('application', ['data', 'currency', 'editing', 'busy', 'transfer_abroad']),
     amountRound() {
       const { discount } = this.$store.state.payment;
       return (
@@ -543,7 +548,7 @@ export default {
         ' ' +
         this.currency.code
       );
-    }
+    },
   },
   created() {
     const { name: typePayment, valueInitial } = this.data.valuePercentage;
@@ -556,7 +561,7 @@ export default {
     else if (this.$store.state.application.statusSuppliers == 'E-commerce')
       this.$store.state.payment.discount = 100;
     else if (typePayment !== 'Otros') this.$store.state.payment.discount = valueInitial;
-  }
+  },
 };
 </script>
 
