@@ -130,7 +130,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/convert-currency-date/{date}/{from_currency}/{to_currency}', [ServicesController::class, 'convertCurrencyDate']);
     Route::get('/custom-convert-currency/{amount}/{from_currency}', [ServicesController::class, 'customsConvertCurrency']);
 
-    
     Route::get('settings', function(){
        
         $sett = \DB::table('settings')
@@ -152,7 +151,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     });
 
 });
-
 
 // Factoring route
 
@@ -185,7 +183,7 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
     Route::get('show_notifications', 'HomeController@show_notifications')->name('show.notifications');
     Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
    
-     //fileStore
+    //fileStore
     Route::post('file', 'FileStoreController@addFileClient')->name('xml.add'); 
 
     Route::get('ventas/detalle', 'SiiController@ventas_detalle')->name('ventas.detalle');
@@ -194,9 +192,6 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
 });
 
 // end factoring route
-
-
-
 
 // Admin Panel
 
@@ -237,7 +232,6 @@ Route::group(['prefix' => 'admin/factoring', 'as' => 'admin.factoring.', 'namesp
 
     Route::get('/payers/export', 'PayerController@export')->name('payers.export');
     Route::post('/feehistory/import', 'FeesHistoryController@import')->name('feehistory.import.excel');
-
 
     Route::get('ventas/detalle', 'SiiController@ventas_detalle')->name('ventas.detalle');
     Route::get('compras/detalle', 'SiiController@compras_detalle')->name('compras.detalle');

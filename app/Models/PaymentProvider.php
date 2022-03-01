@@ -16,7 +16,8 @@ class PaymentProvider extends Model
                             'amount',
                             'type_pay',
                             'date_pay',
-                            'payment_release'
+                            'payment_release',
+                            'transfer_abroad'
                             ];
 
     protected $dates = [ 'created_at', 'updated_at', 'deleted_at'];

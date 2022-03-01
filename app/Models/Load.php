@@ -53,7 +53,7 @@ class Load extends Model
 
         foreach ($data as $key => $item) {
 
-            if($item['id'] > 0){
+            if(isset($item['id']) && $item['id'] > 0 ){
                 // update register
                 Load::where([
                     ['id', $item['id']],
@@ -75,14 +75,13 @@ class Load extends Model
 
 
             } else{
+                
                 //created
-                Load::updateOrInsert(
+                Load::create(
                     [
-                     'application_id' => $application_id,
-                     'type_container' => $item['type_container'],
-                     'weight'         => $item['weight'],
-                    ],
-                    [
+                        'application_id' => $application_id,
+                        'type_container' => $item['type_container'],
+                        'weight'         => $item['weight'],
                         'cbm'            => $item['cbm'],
                         'stackable'      => $item['stackable'],
                         'length_unit'    => $item['length_unit'],

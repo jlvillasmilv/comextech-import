@@ -210,6 +210,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function markUp()
     {
-        return $this->hasMany(UserMarkUp::class,'user_id');
+        return $this->hasOne(UserMarkUp::class,'user_id');
     }
+
 }
