@@ -1,8 +1,8 @@
 <template>
   <section>
     <!-- form if data.condition is EXW -->
-    <div v-if="!expenses.dataLoad || formAddress">
-      <transition name="fade">
+    <transition name="fade">
+      <div v-if="!expenses.dataLoad || isFormAddress">
         <div class="flex flex-col items-center my-2">
           <!-- Direccion de origen -->
           <h3 v-if="data.type_transport != 'COURIER'" class="mb-10 text-center">
@@ -152,15 +152,13 @@
             <dest-address />
           </div>
         </div>
-      </transition>
 
-      <!-- Date and description -->
-      <transition name="fade">
-        <div v-if="dateAddress">
+        <!-- Date and description -->
+        <div v-if="isDateAddress">
           <form-date />
         </div>
-      </transition>
-    </div>
+      </div>
+    </transition>
 
     <!-- Courier quote component -->
     <transition name="fade">
@@ -169,6 +167,7 @@
       </div>
     </transition>
 
+    <!-- Aereo, FCL and LCL quote -->
     <transition name="fade">
       <div v-if="showLclFclQuote">
         <table-fcl-lcl />
@@ -214,28 +213,26 @@ export default {
   data() {
     return {
       showShipping: false,
-      formAddress: true,
-      dateAddress: true,
+      isFormAddress: true,
+      isDateAddress: true,
       isEdit: false
     };
   },
   computed: {
     ...mapState('address', [
       'expenses',
-      'addressDestination',
       'portsOrigin',
       'portsOriginTemp',
       'portsDestination',
       'portsDesTemp',
-      'postalCodeOrigin',
-      'postalCodeDestination',
       'showFedexDhlQuote',
       'showLclFclQuote'
     ]),
-    ...mapState('application', ['data', 'currency', 'origin_transport', 'busy'])
+    ...mapState('application', ['data'])
   },
   methods: {
-    ...mapMutations('address', ['HIDE_COURIER_QUOTES']),
+    ...mapMutations('address', ['HIDE_COURIER_QUOTES', 'HIDE_TABLE_FCL_LCL']),
+    ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
     async getCourierQuote() {
       /* Vue-loader config and active */
@@ -254,11 +251,11 @@ export default {
       this.isEdit = true;
 
       /* Hide addresses form */
-      this.dateAddress = false;
-      this.formAddress = false;
+      this.isDateAddress = false;
+      this.isFormAddress = false;
 
       /* Hide loads and dimensions form */
-      this.$store.state.load.showLoad = false;
+      this.SHOW_LOAD_CHARGE(false);
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
         const fedexDhlQuote = await this.$store.dispatch('address/getFedexDhlQuote', this.expenses);
@@ -291,11 +288,11 @@ export default {
       this.isEdit = true;
 
       /* Hide addresses form */
-      this.dateAddress = false;
-      this.formAddress = false;
+      this.isDateAddress = false;
+      this.isFormAddress = false;
 
       /* Hide loads and dimensions form */
-      this.$store.state.load.showLoad = false;
+      this.SHOW_LOAD_CHARGE(false);
 
       try {
         this.expenses.dataLoad = this.$store.state.load.loads;
@@ -368,17 +365,17 @@ export default {
      */
     hideAddress() {
       /* Show loads and dimensions form */
-      this.$store.state.load.showLoad = true;
+      this.SHOW_LOAD_CHARGE(true);
 
       /* Show addresses form */
-      this.formAddress = true;
-      this.dateAddress = true;
+      this.isFormAddress = true;
+      this.isDateAddress = true;
 
       /* Hide if courier quotes */
       this.HIDE_COURIER_QUOTES(false);
 
       /* Hide if table FCL and LCL */
-      this.$store.state.address.showLclFclQuote = false;
+      this.HIDE_TABLE_FCL_LCL(false);
 
       /* Hide button "editar" */
       this.isEdit = false;
