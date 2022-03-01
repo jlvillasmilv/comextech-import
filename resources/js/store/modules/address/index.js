@@ -40,11 +40,7 @@ const state = {
   portsOriginTemp: [],
   portsDestination: [],
   portsDesTemp: [],
-  addressDate: true,
-  formAddress: false,
   minDate: new Date().toISOString().substr(0, 10),
-  postalCodeOrigin: false,
-  postalCodeDestination: false,
   fedex: {},
   dhl: {},
   showFedexQuote: false,
@@ -76,10 +72,6 @@ const mutations = {
   SET_MODE_SELECTED(state, payload) {
     state.expenses.mode_selected = payload;
   },
-  SHOW_ADDRESS(state, value) {
-    state.addressDate = value;
-    state.formAddress = value;
-  },
   SET_PORT_DEST(state, payload) {
     if (state.portsDesTemp == '') {
       state.portsDesTemp = state.portsDestination;
@@ -91,12 +83,6 @@ const mutations = {
       state.portsOriginTemp = state.portsDestination;
     }
     state.portsOrigin = payload;
-  },
-  SHOW_QUOTE_FCL(state, value) {
-    state.fclTable = value;
-  },
-  SHOW_QUOTE_LCL(state, value) {
-    state.lclTable = value;
   },
   SHOW_LOCAL_SHIPPING(state, value) {
     if (value) {
@@ -135,6 +121,9 @@ const mutations = {
   SET_LCL_FCL(state, QuoteResponse) {
     state.showLclFclQuote = true;
     state.tableFclLcl = QuoteResponse;
+  },
+  HIDE_TABLE_FCL_LCL(state, value) {
+    state.showLclFclQuote = value;
   }
 };
 
@@ -181,20 +170,8 @@ const actions = {
       commit('SET_TRANSPORT', data);
     }
   },
-  showAddress({ commit }, value) {
-    commit('SHOW_ADDRESS', value);
-  },
   setModeSelected({ commit }, data) {
     commit('SET_MODE_SELECTED', data);
-  },
-  showQuoteFCL({ commit }, value) {
-    commit('SHOW_QUOTE_FCL', value);
-  },
-  showQuoteLCL({ commit }, value) {
-    commit('SHOW_QUOTE_LCL', value);
-  },
-  mapa({ state, commit }) {
-    console.log('mapa google');
   },
   showLocalShipping({ commit }, value) {
     commit('SHOW_LOCAL_SHIPPING', value);
