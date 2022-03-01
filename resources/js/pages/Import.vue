@@ -659,7 +659,7 @@ export default {
     Icon
   },
   methods: {
-    ...mapMutations('address', ['HIDE_COURIER_QUOTES']),
+    ...mapMutations('address', ['HIDE_COURIER_QUOTES', 'HIDE_TABLE_FCL_LCL']),
     ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
     selectedService(service) {
@@ -789,7 +789,7 @@ export default {
       this.$store.dispatch('load/addLoad', this.$store.state.load.item);
       this.$store.state.load.showLoad = true;
       this.HIDE_COURIER_QUOTES(false);
-      this.$store.state.address.showLclFclQuote = false;
+      this.HIDE_TABLE_FCL_LCL(false);
     }
   },
   computed: {

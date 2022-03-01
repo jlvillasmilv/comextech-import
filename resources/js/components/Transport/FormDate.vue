@@ -55,14 +55,13 @@
               v-model="expenses.insurance"
               @click="convertInsurance(data.amount, currency.code)"
             />
-            <span v-if="data.type_transport == 'COURIER'" class="ml-2 text-gray-700">
-              Seguro (1,5%)
+            <span class="ml-2 text-gray-700">
+              {{ data.type_transport == 'COURIER' ? 'Seguro (1,5%)' : 'Seguro (0.35%)' }}
             </span>
-            <span v-else class="ml-2 text-gray-700">Seguro (0,35%)</span>
           </label>
           <div class="w-44 flex flex-col justify-center px-3 md:mb-0">
             <span class="ml-2 text-gray-700">
-              {{ expenses.insurance ? `${formatPrice(data.amount)} USD` : '' }}
+              {{ expenses.insurance ? $options.filters.setPrice(data.amount, 'USD') : '' }}
             </span>
           </div>
         </div>
@@ -78,13 +77,6 @@ export default {
     return {};
   },
   methods: {
-    formatPrice(value, currency) {
-      //   this.$store.dispatch('address/getFormatPrice', { value, currency });
-      return Number(value).toLocaleString(navigator.language, {
-        minimumFractionDigits: currency == 'CLP' ? 0 : 2,
-        maximumFractionDigits: currency == 'CLP' ? 0 : 2
-      });
-    },
     async convertInsurance(currencie, currency) {
       try {
         const insuranceConvert = await axios.get(
