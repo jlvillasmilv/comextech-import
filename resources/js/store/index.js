@@ -26,9 +26,24 @@ const mutations = {
   activeTabs(state, { code }) {
     state.tabActive = code;
     state.positionTabs = state.selectedServices.findIndex((service) => service.code === code);
-    this.state.address.addressDate = true;
-    this.state.address.formAddress = true;
-    this.state.load.showLoad = true;
+    if (code === 'ICS03') {
+      if (this.state.address.showFedexDhlQuote || this.state.address.showLclFclQuote) {
+        this.state.load.showLoad = false;
+        this.state.address.isFormAddress = false;
+        this.state.address.isDateAddress = false;
+        this.state.address.isEdit = true;
+        this.state.address.saveDataTransport = true;
+        if (this.state.address.trans_company_id === 2) {
+          this.state.address.showDhlQuote = false;
+        }
+        if (this.state.address.trans_company_id === 3) {
+          this.state.address.showFedexQuote = false;
+        }
+      }
+    } else {
+      this.state.load.showLoad = true;
+    }
+    console.log(code);
   },
   SELECT_SERVICE(state, payload) {
     state.selectedServices.push({ ...payload });
