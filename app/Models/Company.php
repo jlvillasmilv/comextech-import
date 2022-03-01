@@ -14,7 +14,18 @@ class Company extends Model
     use SoftDeletes;
 
     protected $table = 'companies';
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'executive_id',
+        'country_id',
+        'tax_id',
+        'name',
+        'email',
+        'phone',
+        'contact_name',
+        'contact_telf',
+        'status'
+    ];
 
     protected $dates = [
         'created_at',
@@ -40,7 +51,7 @@ class Company extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class,'user_id')->withDefault(['name' => '']);
     }
 
     public function country()

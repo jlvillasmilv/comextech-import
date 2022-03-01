@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
+use App\Models\{Company, UserMarkUp};
 use App\Models\Factoring\{ClientLegalInfo ,FileStoreClient};
 use Illuminate\Http\Request;
 use App\Http\Requests\CompanyRequest;
@@ -142,9 +142,19 @@ class CompanyController extends Controller
 
     public function excutive(Request $request)
     {
-        $data  = Company::findOrFail($request->input('id'));
-        $data->fill($request->all());
-        $data->save();
+        $company  = Company::findOrFail($request->input('id'));
+        $company->fill($request->all());
+        $company->save();
+
+        $internment = UserMarkUp::updateOrCreate(
+            [   'user_id' => $company->user->id, ],
+            [
+                'air'             => $request->air,
+                'fcl'             => $request->fcl,
+                'lcl'             => $request->lcl,
+                'transfer_abroad' => $request->transfer_abroad,
+            ]
+        );
 
         $notification = array(
             'message'    => 'Ejecutivo Asignado, exitosamente!',
@@ -152,14 +162,11 @@ class CompanyController extends Controller
         );
 
         \Session::flash('notification', $notification);
-        return redirect()->route('admin.clients.edit', $data->id);
+        return redirect()->route('admin.clients.edit', $company->id);
     }
 
     public function clientDiscount(Request $request)
     {
-
-        //dd($request->all());
-
         foreach ($request->input('discount_id') as $key => $item) {
 
            \DB::table('user_discounts')

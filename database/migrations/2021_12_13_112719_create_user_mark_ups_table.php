@@ -19,6 +19,7 @@ class CreateUserMarkUpsTable extends Migration
             $table->unsignedsmallinteger('air')->default(40)->comment('Value %');
             $table->unsignedsmallinteger('fcl')->default(40)->comment('Value %');
             $table->unsignedsmallinteger('lcl')->default(40)->comment('Value %');
+            $table->unsignedsmallinteger('transfer_abroad')->default(60)->comment('Transferencia al Extranjero USD');
         });
     }
 
