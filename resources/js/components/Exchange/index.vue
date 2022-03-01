@@ -152,7 +152,7 @@
               >
                 <td class="text-left px-4 py-3">
                   <div>
-                    <p class="font-semibold input" :class="key == 1 || key == 2 ? 'ml-5' : ''">
+                    <p class="font-semibold input" :class="key == 1 || key == 2  || key == 3 ? 'ml-5' : ''">
                       {{ item.description }}
                     </p>
                   </div>
