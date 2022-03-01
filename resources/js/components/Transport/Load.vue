@@ -15,7 +15,7 @@
         <!-- tipo de carga -->
         <div
           v-if="data.type_transport != 'CONTAINER'"
-          class="my-2 flex justify-center md:inline lg:w-24"
+          class="my-2 flex justify-center md:inline lg:w-24 lg:h-40"
         >
           <div class="w-full text-center">
             <label v-if="id == 0" class="text-sm font-semibold"> Tipo de Carga </label>
@@ -90,7 +90,7 @@
         </div>
 
         <!-- dimensiones unitarias -->
-        <div class="my-2 flex flex-col justify-center md:inline text-center">
+        <div class="lg:h-40 my-2 flex flex-col justify-start md:inline text-center">
           <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
               Dimension Unitaria
@@ -199,17 +199,17 @@
             </label>
           </div>
           <span
-            class="text-xs text-red-600 dark:text-red-400"
+            class="text-xs text-red-500 dark:text-red-500"
             v-if="expenses.errors.has('dataLoad.0.length')"
             v-html="expenses.errors.get('dataLoad.0.length')"
           ></span>
           <span
-            class="text-xs text-red-600 dark:text-red-400"
+            class="text-xs text-red-500 dark:text-red-500"
             v-if="expenses.errors.has('dataLoad.0.width')"
             v-html="expenses.errors.get('dataLoad.0.width')"
           ></span>
           <span
-            class="text-xs text-red-600 dark:text-red-400"
+            class="text-xs text-red-500 dark:text-red-500"
             v-if="expenses.errors.has('dataLoad.0.height')"
             v-html="expenses.errors.get('dataLoad.0.height')"
           ></span>
@@ -217,7 +217,7 @@
 
         <!-- CBM -->
         <div
-          class="my-2 flex lg:inline lg:w-20 text-center"
+          class="my-2 flex lg:inline lg:w-20 lg:h-40 text-center"
           v-if="data.type_transport != 'CONTAINER'"
         >
           <div class="w-full">
@@ -246,10 +246,14 @@
         </div>
 
         <!-- peso unitario -->
-        <div class="my-2 flex flex-col lg:w-32 text-center">
+        <div class="my-2 flex flex-col lg:w-32 lg:h-40 text-center">
           <div>
             <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
-            <div class="flex justify-center">
+            <div
+              :class="[
+                validateweight ? 'flex flex-col justify-center items-center' : 'flex justify-center'
+              ]"
+            >
               <input
                 v-model.number="item.weight"
                 :max="99999"
@@ -259,7 +263,7 @@
                   data.type_transport != 'CONTAINER' ? '' : ''
                 ]"
               />
-              <span v-if="validateweight" class="text-center text-red-600 text-xs">{{
+              <span v-if="validateweight" class="text-center text-red-500 text-xs mt-2">{{
                 validateweight
               }}</span>
               <br v-if="validateweight" />
@@ -309,7 +313,7 @@
         </div>
 
         <!-- No aplilable -->
-        <div class="my-2 flex justify-center">
+        <div class="my-2 flex sm:flex-col md:justify-center lg:justify-start lg:mt-10">
           <label
             class="inline-flex text-sm items-center sm:mb-1.5"
             v-if="data.type_transport === 'CONSOLIDADO'"
@@ -418,17 +422,17 @@
     <!-- Notification validation error -->
 
     <span
-      class="text-xs text-red-600 dark:text-red-400"
+      class="text-xs text-red-500 dark:text-red-500"
       v-if="expenses.errors.has('dataLoad.0.weight')"
       v-html="expenses.errors.get('dataLoad.0.weight')"
     ></span>
     <span
-      class="text-xs text-red-600 dark:text-red-400"
+      class="text-xs text-red-500 dark:text-red-500"
       v-if="expenses.errors.has('fedex')"
       v-html="expenses.errors.get('fedex')"
     ></span>
     <span
-      class="text-xs text-red-600 dark:text-red-400"
+      class="text-xs text-red-500 dark:text-red-500"
       v-if="expenses.errors.has('dhl')"
       v-html="expenses.errors.get('dhl')"
     ></span>
@@ -457,10 +461,6 @@ export default {
     },
     deleteForm(id) {
       this.$store.dispatch('load/removedLoad', id);
-    },
-    typeSelected(value) {
-      this.mode_selected = value;
-      this.reset();
     },
     reset() {
       this.$store.state.load.loads = [];

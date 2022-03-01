@@ -1,59 +1,34 @@
 <template>
   <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
-    <div
-      v-if="$store.state.load.showLoad"
-      class="lg:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
-    >
-      <load />
-    </div>
-    <div
-      class="lg:w-9/12 md:w-full mt-6 p-4 bg-white rounded-lg shadow-md"
-      v-if="isActivateAddress"
-    >
-      <addresses />
-      <!-- <div v-if="data.type_transport == 'COURIER'">
-        <Courier />
-      </div> -->
-      <!-- Cotizacion Aereo -->
-      <!-- <div v-if="data.type_transport == 'AEREO'">
-        <Aereo />
-      </div> -->
-      <!-- Cotizacion container -->
-      <!-- <div v-if="data.type_transport == 'CONTAINER'">
-        <FCL />
-      </div> -->
-      <!-- Cotizacion consolidado -->
-      <!-- <div v-if="data.type_transport == 'CONSOLIDADO'">
-        <LCL />
-      </div> -->
-    </div>
+    <transition name="fade">
+      <div
+        v-if="$store.state.load.showLoad"
+        class="lg:w-9/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
+      >
+        <load />
+      </div>
+    </transition>
+    <transition name="fade">
+      <div
+        class="lg:w-9/12 md:w-full mt-6 p-4 bg-white rounded-lg shadow-md"
+        v-if="isActivateAddress"
+      >
+        <addresses />
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import VueGoogleAutocomplete from 'vue-google-autocomplete';
 import Load from './Load.vue';
 import Addresses from './Addresses.vue';
-import Courier from './Courier.vue';
-import Aereo from './Aereo.vue';
-import FCL from './Container.vue';
-import LCL from './Consolidado.vue';
-import Terrestre from './Terrestre.vue';
 import { mapState } from 'vuex';
-import Button from '../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Jetstream/Button.vue';
 import Container from '../Container.vue';
 
 export default {
   components: {
     Load,
-    Addresses,
-    Courier,
-    Aereo,
-    FCL,
-    LCL,
-    Terrestre,
-    VueGoogleAutocomplete,
-    Button
+    Addresses
   },
   props: {
     Container
@@ -63,17 +38,9 @@ export default {
       address: ''
     };
   },
-  methods: {},
   computed: {
     ...mapState('address', ['expenses', 'addressDestination', 'portsDestination', 'portsOrigin']),
     ...mapState('application', ['data', 'currency', 'origin_transport']),
-    addreses() {
-      if (this.data.condiction == 'FOB') {
-        return this.addressDestination.filter((item) => item.place == 'PUERTO');
-      } else {
-        return this.addressDestination.filter((item) => item.place !== 'PUERTO');
-      }
-    },
     isActivateAddress() {
       const { loads } = this.$store.state.load;
 
@@ -98,12 +65,7 @@ export default {
         else false;
       }
 
-      if (
-        loads.length &&
-        (this.data.type_transport == 'AEREO' ||
-          this.data.type_transport == 'CONTAINER' ||
-          this.data.type_transport == 'CONSOLIDADO')
-      ) {
+      if (loads.length && this.data.type_transport !== 'COURIER') {
         if (loads[loads.length - 1].weight_units == 'KG' && loads[loads.length - 1].weight < 0.01)
           return false;
         if (
