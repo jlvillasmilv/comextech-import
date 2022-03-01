@@ -17,4 +17,9 @@ class FileStoreInternment extends Model
         'file_store_id', 'internment_id', 'intl_treaty'
     ];
 
+    public function fileStore()
+    {
+        return $this->hasOne(FileStore::class,'id','file_store_id');
+    }
+
 }

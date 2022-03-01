@@ -28,6 +28,7 @@ class Application extends Model
                            'amount',
                            'services_code',
                            'modified_user_id',
+                           'state_process'
                             ];
 
     protected $dates = [
