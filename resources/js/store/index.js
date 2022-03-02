@@ -43,7 +43,6 @@ const mutations = {
     } else {
       this.state.load.showLoad = true;
     }
-    console.log(code);
   },
   SELECT_SERVICE(state, payload) {
     state.selectedServices.push({ ...payload });
