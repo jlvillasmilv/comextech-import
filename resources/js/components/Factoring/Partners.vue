@@ -1,14 +1,15 @@
 <template>
-  <div v-if="mode" class="grid mb-8 relative lg:w-8/12 px-4">
+  <div v-if="mode" class="grid relative lg:w-8/12 pr-1">
     <div class="flex flex-wrap justify-center">
-      <div class="relative sm:px-4 flex flex-grow-0 flex-shrink-0 w-10/12">
-        <h1 class="text-blue-800 text-xl font-medium mb-4">
+      <div class="sm:px-2 flex w-10/12">
+        <h2 class="text-blue-1300 text-xl font-medium mb-3">
           Representantes
-        </h1>
+        </h2>
       </div>
-      <div class="relative flex w-2/12 sm:px-4">
+      <div class="w-2/12 sm:pl-4 justify-end">
         <a
-          class="text-white bg-blue-800 border-blue-800 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-blue-900"
+          title="Agregar representante"
+          class="text-white bg-blue-1300 rounded-lg h-9 w-9 inline-flex items-center justify-center hover:bg-blue-1200"
           @click="viewAddForm()"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,26 +21,25 @@
     <div class="block w-full overflow-x-auto">
       <table class="w-full border-collapse text-gray-800 mb-4">
         <thead class="border-solid border-b-2 border-t-2">
-          <tr class="text-center">
+          <tr class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <th class="p-3">RUT</th>
-            <th class="p-3">Nombre Completo</th>
+            <th class="p-3">Nombre</th>
             <th class="p-3">Direccion</th>
-            <th class="p-3">Correo Electronico</th>
-            <th></th>
+            <th class="p-3">Correo</th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody v-if="partners.length > 0">
-          <tr v-for="(item, index) in partners" :key="index" class="text-center">
-            <td>{{ item.rut }}</td>
-            <td>{{ item.first_name }} {{ item.last_name }}</td>
-            <td>{{ item.address }}</td>
-            <td>{{ item.email }}</td>
-            <td>
+          <tr v-for="(item, index) in partners" :key="index" class="text-center text-gray-700 dark:text-gray-400">  
+            <td class="px-2 py-1 text-sm">{{ item.rut }}</td>
+            <td class="px-2 py-1 text-sm">{{ item.first_name }} {{ item.last_name }}</td>
+            <td class="px-2 py-1 text-sm">{{ item.address }}</td>
+            <td class="px-2 py-1 text-sm">{{ item.email }}</td>
+            <td class="px-2 py-1 text-sm">
               <a
-                class="text-white bg-red-500 border-red-500 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-red-600 mr-2 ml-2 mt-2 mb-2"
+                class="text-white bg-red-500 border-red-500 rounded-lg h-9 w-9 inline-flex items-center justify-center hover:bg-red-600 mb-2"
                 @click="deletePartners(item)"
               >
-                <i>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -52,13 +52,11 @@
                       clip-rule="evenodd"
                     />
                   </svg>
-                </i>
               </a>
               <a
-                class="text-white bg-blue-500 border-blue-800 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-blue-700 mr-2 ml-2 mt-2 mb-2"
+                class="text-white bg-blue-500 border-blue-800 rounded-lg h-9 w-9 inline-flex items-center justify-center hover:bg-blue-700 "
                 @click="viewEditForm(item)"
               >
-                <i>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -74,7 +72,6 @@
                       clip-rule="evenodd"
                     />
                   </svg>
-                </i>
               </a>
             </td>
           </tr>
@@ -82,16 +79,17 @@
       </table>
     </div>
   </div>
-  <form v-else class="flex flex-col relative sm:w-full md:w-full lg:w-7/12 px-6">
+  <form v-else class="flex flex-col relative sm:w-full md:w-full lg:w-7/12 pr-3">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-blue-800 text-xl font-medium mb-4">
+        <h2 class="text-blue-1300 text-xl font-medium mb-3">
           {{ title }}
-        </h1>
+        </h2>
       </div>
       <div>
         <a
-          class="text-white bg-blue-500 border-blue-800 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-blue-700"
+          title="Guardar datos"
+          class="text-white bg-blue-1300 rounded-lg h-9 w-9 inline-flex items-center justify-center hover:bg-blue-1200"
           @click="AddOrUpdatePartners()"
         >
           <i>
@@ -110,10 +108,10 @@
           </i>
         </a>
         <a
-          class="text-white bg-red-500 border-red-500 rounded-full h-10 w-10 inline-flex items-center justify-center hover:bg-red-600"
+          title="Cancelar"
+          class="text-white bg-red-500 border-red-500 rounded-lg h-9 w-9 inline-flex items-center justify-center hover:bg-red-600"
           @click="viewAddForm()"
         >
-          <i>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -126,7 +124,6 @@
                 clip-rule="evenodd"
               />
             </svg>
-          </i>
         </a>
       </div>
     </div>
@@ -135,7 +132,7 @@
         <label class="text-gray-500 mb-2"> RUT </label>
         <input
           type="text"
-          class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
           v-model="partnersAdd.rut"
         />
       </div>
@@ -145,7 +142,7 @@
         <label class="text-gray-500 mb-2"> Nombre</label>
         <input
           type="text"
-          class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
           v-model="partnersAdd.first_name"
         />
       </div>
@@ -153,7 +150,7 @@
         <label class="text-gray-500 mb-2"> Apellido </label>
         <input
           type="text"
-          class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
           v-model="partnersAdd.last_name"
         />
       </div>
@@ -162,8 +159,8 @@
       <div class="flex flex-col relative sm:w-full md:w-full lg:w-6/12 px-3.5">
         <label class="text-gray-500 mb-2"> Email </label>
         <input
-          type="text"
-          class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
+          type="email"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
           v-model="partnersAdd.email"
         />
       </div>
@@ -171,7 +168,7 @@
         <label class="text-gray-500 mb-2"> Direccion </label>
         <input
           type="text"
-          class="block w-full h-auto text-gray-600 font-normal bg-white bg-clip-padding border border-solid border-gray-300 overflow-visible text-sm rounded-3xl p-4"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
           v-model="partnersAdd.address"
         />
       </div>

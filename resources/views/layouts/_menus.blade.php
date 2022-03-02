@@ -99,7 +99,7 @@
                   </svg>
                   {!! request()->is('factoring/*') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-1000 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
 
-                <span class="ml-4"> Pago Importaciones </span>
+                <span class="ml-4"> Cesiones SII </span>
               </span>
               <svg
                 class="w-4 h-4"

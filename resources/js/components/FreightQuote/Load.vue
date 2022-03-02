@@ -76,9 +76,9 @@
                   form-select
                 "
               >
-                <option value="1" selected>Caja / s</option>
-                <option value="2">Pallet / s</option>
-                <option value="3">Unidad/es</option>
+                <option value="1" selected>Caja</option>
+                <option value="2">Pallet</option>
+                <option value="3">Unidad</option>
               </select>
             </div>
           </div>
@@ -124,7 +124,7 @@
         <!-- dimensiones unitarias -->
         <div class="my-2 flex flex-col justify-center md:inline text-center">
           <div v-if="expenses.type_transport != 'CONTAINER'" class="w-full">
-            <span v-if="id == 0" class="text-sm font-semibold"> Dimension Unitaria </span>
+            <span v-if="id == 0" class="text-sm font-semibold"> Dimensiones </span>
             <div class="flex justify-center">
               <input
                 v-model.number="item.length"
@@ -278,7 +278,7 @@
         <!-- peso unitario -->
         <div class="my-2 flex flex-col lg:w-32 text-center">
           <div>
-            <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
+            <span v-if="id == 0" class="text-sm font-semibold"> Peso</span>
             <div class="flex justify-center">
               <input
                 v-model.number="item.weight"
