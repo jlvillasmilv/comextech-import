@@ -1,45 +1,43 @@
 <x-app-layout title="Datos de la empresa">
     <div class="container grid px-6 mx-auto">
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <h2 class="mt-6 mb-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Empresa
         </h2>
 
-        <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        <!-- <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
             Información de empresa
-        </h4>
+        </h4> -->
 
-        <x-section-border />
-
-        <div class=" px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class=" px-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <form class="form-horizontal" role="form" method="POST" action="{{ route('company.update', base64_encode($data->id)) }}" >
                 @csrf
                  @if(isset($data))
 		           @method('PUT')
 		        @endif
+                <div class="px-2">
+                    <label class="block text-sm my-3">
+                        <span class="text-gray-700 dark:text-gray-400">Pais</span>
 
-                <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400">Pais</span>
+                        <select name="country_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('country_id') is-invalid @enderror">
 
-                    <select name="country_id" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select select2  @error('country_id') is-invalid @enderror">
+                        @foreach($country as $id => $name)
 
-                    @foreach($country as $id => $name)
+                            @if(old('country_id', isset($data->country_id) && $data->country_id == $id) )
+                                <option value="{{ $id }}" selected>{{ $name }}</option>
+                            @else
+                                <option value="{{ $id }}">{{ $name }}</option>
+                            @endif
 
-                        @if(old('country_id', isset($data->country_id) && $data->country_id == $id) )
-                            <option value="{{ $id }}" selected>{{ $name }}</option>
-                        @else
-                            <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
+                        </select>
+                        
+                        @if($errors->has('country_id'))
+                            <span class="text-xs text-red-600 dark:text-red-400">
+                                {{ $errors->first('country_id') }}
+                            </span>
                         @endif
-
-                        @endforeach
-                    </select>
-                    
-                    @if($errors->has('country_id'))
-                        <span class="text-xs text-red-600 dark:text-red-400">
-                            {{ $errors->first('country_id') }}
-                        </span>
-                    @endif
-                </label>
-
+                    </label>
+                </div>
 
                 <div class="px-2">
                     <div class="flex mb-4">
@@ -88,7 +86,7 @@
                 </div>
 
 
-                <div class="px-2">
+                <!-- <div class="px-2">
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Representante</label>
@@ -109,11 +107,11 @@
                            @endif
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
-                <div class="flex justify-end">
-                    <button class="flex  px-4 py-2 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                <div class="flex justify-end px-2">
+                    <button class="flex px-4 py-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg hover:bg-blue-1200 focus:outline-none focus:shadow-outline-blue">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
                          </svg>
@@ -124,5 +122,9 @@
     
         </div>
 
+    </div>
+
+    <div class="container grid px-6 mx-auto">
+        <menu-profile>  </menu-profile>  
     </div>
 </x-app-layout>

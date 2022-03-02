@@ -16,7 +16,20 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-        return view('factoring.bank_account.index');
+        $bank_accounts = BankAccount::where('user_id', auth()->user()->id)
+        ->with('bank')
+        ->select('id',
+        'bank_id',
+        'number',
+        'status')
+        ->with([
+            'bank' => function($query) {
+                $query->select('id', 'name');
+            }
+        ])
+        ->get();
+    
+        return response()->json($bank_accounts, 200);
     }
 
     /**
@@ -26,7 +39,7 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        return view('factoring.bank_account.form');
+       
     }
 
     /**
@@ -37,18 +50,18 @@ class BankAccountController extends Controller
      */
     public function store(BankAccountRequest $request)
     {
-        $bankAccount = new BankAccount;
-        $bankAccount->user_id = auth()->user()->id;
-        $bankAccount->fill($request->all());
-        $bankAccount->save();
+        $bankAccount =  BankAccount::updateOrCreate(
+            [
+                'id'        => $request->id,
+                'user_id'   => auth()->user()->id,
+            ],
+            [
+                'bank_id'       => $request->bank_id,
+                'number'        => $request->number,
+            ]
+        );
 
-        $notification = array(
-            'message'    => 'Registro Agregado',
-            'alert_type' => 'success',);
-
-        \Session::flash('notification', $notification);
-
-        return redirect()->route('bank-accounts.edit', base64_encode($bankAccount->id));
+        return response()->json($bankAccount, 200);
     }
 
     /**
@@ -64,7 +77,7 @@ class BankAccountController extends Controller
             ['user_id', auth()->user()->id],
             ])->firstOrFail(); 
 
-        return view('factoring.bank_account.show', compact('bankAccount'));
+        return response()->json($bankAccount, 200);
     }
 
     /**
@@ -75,11 +88,7 @@ class BankAccountController extends Controller
      */
     public function edit($id)
     {
-        $bankAccount = BankAccount::where([
-            ['id', base64_decode($id)],
-            ['user_id', auth()->user()->id],
-            ])->firstOrFail(); 
-        return view('factoring.bank_account.form', compact('bankAccount','id'));
+        
     }
 
     /**
@@ -91,20 +100,7 @@ class BankAccountController extends Controller
      */
     public function update(BankAccountRequest $request, $id)
     {
-        $bankAccount = BankAccount::where([
-                ['id', base64_decode($id)],
-                ['user_id', auth()->user()->id],
-            ])->firstOrFail();
-            
-        $bankAccount->fill($request->all())->save();
-
-        $notification = array(
-            'message'    => 'Registro actualizado',
-            'alert_type' => 'success',);
-
-        \Session::flash('notification', $notification);
-
-        return redirect()->route('bank-accounts.edit', $id);
+    
     }
 
     /**
@@ -119,5 +115,7 @@ class BankAccountController extends Controller
             ['id', base64_decode($id)],
             ['user_id', auth()->user()->id],
         ])->delete();
+
+        return response()->json($bankAccount, 200);
     }
 }

@@ -2,35 +2,35 @@
   <div>
     <div class="flex flex-wrap justify-center md:-mx-5 p-1 w-full">
       <div
-        class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-6 mb-4"
+        class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-2"
       >
-        <span class="text-blue-800 text-lg font-medium mb-4">
+        <span class="text-center text-blue-1300 text-lg font-medium mb-2">
           Estados Financieros
         </span>
         <hr />
         <SingleFile :action="`Adjuntar`" :data="`estados_finacieros`"></SingleFile>
         <br />
-        <span class="text-blue-800 text-lg font-medium mb-4"> Presentacion de Empresa</span>
+        <span class="text-center text-blue-1300 text-lg font-medium mb-2"> Presentacion de Empresa</span>
         <hr />
         <SingleFile :action="`Adjuntar`" :data="`presentacion_empresa`"></SingleFile>
-        <br />
-        <span class="text-blue-800 text-lg font-medium mb-4">
+        <!-- <br />
+        <span class="text-center text-blue-1300 text-lg font-medium mb-2">
           Otros
         </span>
         <hr />
-        <SingleFile :action="`Adjuntar`" :data="`otros`"></SingleFile>
+        <SingleFile :action="`Adjuntar`" :data="`otros`"></SingleFile> -->
       </div>
       <div
-        class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-6 mb-4"
+        class="flex flex-col md:flex-shrink-0 md:flex-grow-0 relative sm:w-full md:w-full lg:w-6/12 px-2"
       >
-        <span class="text-blue-800 text-lg font-medium mb-4">
+        <span class="text-center text-blue-1300 text-lg font-medium mb-2">
           Carpetas Tributarias Actualizadas
         </span>
         <hr />
         <SingleFile :action="`Adjuntar`" :data="`carp_tributaria`"></SingleFile>
         <br />
-        <span class="text-blue-800 text-lg font-medium mb-4">
-          Última declaracion de Impuesto Renta (SII)
+        <span class="text-center text-blue-1300 text-lg font-medium mb-2">
+          Última declaracion de Impuesto (SII)
         </span>
         <hr />
         <SingleFile :action="`Adjuntar`" :data="`impuesto_sii`"></SingleFile>

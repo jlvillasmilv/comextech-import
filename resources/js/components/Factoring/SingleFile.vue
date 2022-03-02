@@ -11,7 +11,7 @@
                 </div>
 
                 <label
-                    class="-ml-1 px-2 py-1.5 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-900 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-blue-700"
+                    class="-ml-1 px-2 py-1.5 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-blue-1300 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-blue-1200"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -19,7 +19,7 @@
                 </label>
             </div>
         </div>
-        <div class="items-center relative inline-flex px-2 py-4">
+        <div class="items-center relative inline-flex px-2 py-2">
             <a
                 v-if="status"
                 class="-mt-2 font-normal text-base text-white text-center align-middle border border-solid border-transparent rounded bg-gray-500 border-gray-500 p-0 overflow-hidden inline-flex items-stretch justify-center hover:bg-gray-600"
@@ -28,7 +28,6 @@
                 <span
                     class="inline-block px-3 py-3 bg-gray-600 hover:bg-gray-700"
                 >
-                    <i>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-5 w-5"
@@ -41,13 +40,11 @@
                                 clip-rule="evenodd"
                             />
                         </svg>
-                    </i>
                 </span>
                 <span class="inline-block px-3 py-1.5"> Descargar </span>
             </a>
 
-          
-            <h6 v-else class="text-base font-medium mt-1 mb-4">
+            <h6 v-else class="text-base font-medium mt-1">
                 No posee un archivo cargado.
             </h6>
         </div>
@@ -133,7 +130,7 @@ export default {
     padding-left: 10px;
 }
 .file-select::before {
-    background-color: #1e429f;
+    background-color: #142c44;
     color: white;
     display: flex;
     justify-content: center;

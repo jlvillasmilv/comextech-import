@@ -93,3 +93,13 @@ Route::post('/ports/{type}','App\Http\Controllers\Client\TransportsControllers@p
 
 Route::post('/get-fedex-rate','App\Http\Controllers\Client\TransportsControllers@fedexRate');
 Route::post('/get-dhl-quote','App\Http\Controllers\Client\TransportsControllers@dhlQuote');
+
+ //banks chile
+
+ Route::get('/banks', function () {
+   
+    $banks = \DB::table('banks')
+    ->get(['id','name']);
+
+    return response()->json($banks, 200);
+});

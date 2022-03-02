@@ -18,13 +18,12 @@
                         Actualizar Contraseña
                     </label>
                     <div
-                        class="relative flex flex-wrap justify-around items-stretch w-full mb-2"
+                        class="relative flex flex-wrap justify-around items-stretch w-full mb-2 "
                     >
                         <div @click="passwordOldStatusIcon">
                             <div
-                                class="invisible md:visible flex whitespace-nowrap h-10 items-center px-3 py-1.5 text-base text-center font-normal text-gray-400 bg-gray-200 border-transparent"
+                                class="rounded-l-lg invisible md:visible flex whitespace-nowrap h-10 items-center px-3 py-1.5 text-base text-center font-normal text-gray-400 bg-gray-200 border-transparent"
                             >
-                                <i>
                                     <svg
                                         v-if="showPasswordOld"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -57,35 +56,19 @@
                                             d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
                                         />
                                     </svg>
-                                </i>
                             </div>
                         </div>
                         <input
                             v-bind:type="inputOld"
-                            class="relative flex flex-grow flex-shrink px-3 py-1.5 text-base text-gray-600 bg-white border-2 border-solid border-gray-300 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue"
+                            class="relative flex flex-grow flex-shrink rounded-r-lg px-3 py-1.5 text-base text-gray-600 bg-white border-2 border-solid border-gray-300 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue"
                             v-model="credentialSII.provider_password"
                         />
-                        <div class="flex">
+                        <div class="flex mt-1">
                             <button
-                                class="relative font-normal text-center whitespace-nowrap align-middle select-none border-0 border-transparent px-2 py-1 text-sm text-white bg-blue-800 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none hover:bg-blue-900"
+                                type="button"
+                                class="flex px-4 py-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg hover:bg-blue-1200 focus:outline-none focus:shadow-outline-blue"
                                 @click="updatePassword"
-                            >
-                                <i>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="inline-block h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                        />
-                                    </svg>
-                                </i>
+                            >   
                                 Guardar
                             </button>
                         </div>
