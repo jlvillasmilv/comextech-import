@@ -772,6 +772,7 @@ export default {
     handlePercentage(item) {
       this.handleCurrency();
       this.data.valuePercentage = item;
+      this.$store.state.payment.discount = item.valueInitial;
     },
     handleCurrency() {
       this.$store.state.payment.payment = [];
