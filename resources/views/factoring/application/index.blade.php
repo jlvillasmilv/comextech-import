@@ -7,7 +7,7 @@ $credential       = auth()->user()->credentialStores;
  
 <x-app-layout title="Solicitudes">
     <div class="container grid px-6 mx-auto">
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <h2 class="mt-4 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Listado de Solicitudes
         </h2>
 
@@ -33,8 +33,8 @@ $credential       = auth()->user()->credentialStores;
         <view-quote></view-quote> 
 
         <!-- Application list table -->
-        <div class="grid gap-6 mb-8 ">
-            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+        <div class="grid gap-6 mb-4 ">
+            <div class="min-w-0 px-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
                     Listado de Solicitudes
                 </h4>
@@ -141,16 +141,14 @@ $credential       = auth()->user()->credentialStores;
                                     </span>
                                 </td>   
                                 <td class="px-4 py-3">
-                                   
-
-                                    <span title="{{$application->status}}" style="font-size: 15px; color: {{ App\Models\Factoring\Application::STATUS_COLOR[$application->status] ?? 'none' }};">
+                                
+                                    <!-- <span title="{{$application->status}}" style="font-size: 15px; color: {{ App\Models\Factoring\Application::STATUS_COLOR[$application->status] ?? 'none' }};">
                                         <i class="{{ App\Models\Factoring\Application::STATUS_ICON[$application->status] ?? 'none' }}" aria-hidden="true"> </i>
-                                    </span><br>
+                                    </span><br> -->
                                     <span class="px-2 py-1 leading-tight rounded-full dark:text-white ">
                                         {{$application->status}}
                                     </span>
                                    
-
                                 </td>    
                                 <td class=" py-3" >
                                     <div class="flex flex-nowrap">
@@ -202,5 +200,7 @@ $credential       = auth()->user()->credentialStores;
                 </div>
             </div>
     </div>
+
+    
 
 </x-app-layout>
