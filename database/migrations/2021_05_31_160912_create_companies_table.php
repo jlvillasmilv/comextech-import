@@ -22,6 +22,7 @@ class CreateCompaniesTable extends Migration
             $table->string('name',100);
             $table->string('email')->nullable();
             $table->string('phone',100)->nullable();
+            $table->decimal('available_prepaid', 12, 2)->default(0)->nullable();
             $table->decimal('available_credit', 12, 2)->default(0)->nullable();
             $table->string('contact_name',100)->nullable();
             $table->string('contact_telf',100)->nullable();
