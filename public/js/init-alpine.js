@@ -68,15 +68,15 @@ function data() {
     },
 
     async openModalPayment() {
-      const input = document.getElementById('total');
-      const title = document.getElementById('title');
-      const typeTransport = document.getElementById('type_transport');
+      // const input = document.getElementById('total');
+      // const title = document.getElementById('title');
+      // const typeTransport = document.getElementById('type_transport');
 
-      const application = await axios.get('/get-application/' + 1);
+      // const application = await axios.get('/get-application/' + 1);
 
-      input.value = application.data.code
-      title.innerHTML = `Solicitud ${application.data.code}`
-      typeTransport.innerHTML = application.data.type_transport
+      // input.value = application.data.code
+      // title.innerHTML = `Solicitud ${application.data.code}`
+      // typeTransport.innerHTML = application.data.type_transport
       
       this.isModalOpen = true
       
