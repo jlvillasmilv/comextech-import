@@ -10,7 +10,7 @@ const state = {
     condition: 'EXW',
     statusSuppliers: 'with',
     services: [],
-    valuePercentage: { name: 'OTROS', valueInitial: 0 },
+    valuePercentage: { name: '100%', valueInitial: 100 },
     type_transport: ''
   }),
   agencyElectronic: [
