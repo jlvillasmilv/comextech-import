@@ -125,7 +125,7 @@
                 class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
                 aria-label="submenu"
               >
-                @can('factoring.quote.index')
+                <!-- @can('factoring.quote.index')
                   <li
                   class="px-2 py-1 transition-colors duration-150 hover:text-blue-1300 dark:hover:text-gray-200
                   {!! request()->is('factoring/quote')  ? 'italic font-black' : '' !!} "
@@ -134,7 +134,7 @@
                       Panel  
                     </a>
                   </li>
-                @endcan
+                @endcan -->
                 @can('factoring.applications.index')
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-blue-1300 dark:hover:text-gray-200

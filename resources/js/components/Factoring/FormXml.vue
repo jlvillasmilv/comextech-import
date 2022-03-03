@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="flex">
-            <div class="p-2 ">
+            <div class="">
                 <button
                     v-if="show"
                     type="submit"
-                    class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
+                    class="mt-2 mx-2 text-white bg-blue-1300 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-1200 focus:shadow-outline-blue focus:outline-none"
                     @click="onFormSubmit"
                 >
                     CARGAR
@@ -13,15 +13,15 @@
                 <button
                     type="submit"
                     v-show="sendMode"
-                    class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
+                    class="mt-2 mx-2 text-white bg-blue-1300 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-1200 focus:shadow-outline-blue focus:outline-none"
                     @click="onAnticipate"
                 >
                     SOLICITAR
                 </button>
             </div>
-            <div class="ml-auto p-2">
+            <div class="ml-auto pb-2">
                 <a
-                    class="mt-2 mx-2 text-white bg-gray-600 border-gray-700 inline-block text-center align-middle px-4 py-2 text-sm rounded hover:bg-gray-800"
+                    class="mt-2 mx-2 text-white bg-gray-600 border-gray-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-gray-800"
                     @click="showdropzone()"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -51,7 +51,6 @@
                 </div>
             </div>
         </vue-dropzone>
-        <br />
         <quote_table :source="source" :items="items" />
     </div>
 </template>
@@ -187,6 +186,7 @@ export default {
                             this.route +
                             '> Ver tus solicitudes? </a>'
                     });
+                    window.setTimeout(function () { window.location.reload() }, 2000) ;
                 } catch (error) {
                     Swal.fire(
                         'Ah ocurrido un error!',

@@ -10,7 +10,7 @@
             <button
                 @click="showModal()"
                 type="button"
-                class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
+                class="mt-2 mx-2 text-white bg-blue-1300 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-1200 focus:shadow-outline-blue focus:outline-none"
                 data-toggle="modal"
                 data-target=".bd-example-modal-md"
             >
@@ -19,7 +19,7 @@
             <button
                 v-if="items.length > 0"
                 type="button"
-                class="mt-2 mx-2 text-white bg-blue-800 border-blue-700 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-900 focus:border-blue-400 focus:shadow-outline-blue focus:outline-none"
+                class="mt-2 mx-2 text-white bg-blue-1300 inline-block text-center align-middle p-2 text-sm rounded hover:bg-blue-1200 focus:shadow-outline-blue focus:outline-none"
                 @click="onAncipate"
             >
                 SOLICITAR
@@ -48,7 +48,7 @@
                     class="relative flex flex-col pointer-events-auto bg-white bg-clip-padding rounded-sm border-solid outline-none p-2"
                 >
                     <div class="flex flex-wrap justify-between items-center">
-                        <h5 class="text-blue-800 font-bold text-lg">
+                        <h5 class="text-blue-1300 font-bold text-lg">
                             Registro de Ventas del SII
                         </h5>
 
@@ -83,8 +83,7 @@
                         </div>
                         <div class="flex flex-wrap justify-start">
                             <span class="inline-block">
-                                <i
-                                    ><svg
+                              <svg
                                         class="inline-block"
                                         xmlns="http://www.w3.org/2000/svg"
                                         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -105,11 +104,10 @@
                                             />
                                         </g>
                                     </svg>
-                                </i>
+                               
                                 Poca Informacion</span
                             >
                             <span>
-                                <i>
                                     <svg
                                         class="inline-block"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +128,7 @@
                                             />
                                         </g>
                                     </svg>
-                                </i>
+
                                 Evaluable</span
                             >
                             <span>
@@ -229,8 +227,7 @@
                                                 props.row
                                                     .settlement_status_id == 1
                                             "
-                                            ><i
-                                                ><svg
+                                            ><svg
                                                     class="inline-block"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -251,14 +248,13 @@
                                                         />
                                                     </g>
                                                 </svg>
-                                            </i>
                                         </span>
                                         <span
                                             v-if="
                                                 props.row
                                                     .settlement_status_id == 2
                                             "
-                                            ><i>
+                                            >
                                                 <svg
                                                     class="inline-block"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -278,14 +274,14 @@
                                                             fill="green"
                                                         />
                                                     </g>
-                                                </svg> </i
-                                        ></span>
+                                                </svg>
+                                            </span>
                                         <span
                                             v-if="
                                                 props.row
                                                     .settlement_status_id == 3
                                             "
-                                            ><i>
+                                            >
                                                 <svg
                                                     class="inline-block"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -305,8 +301,8 @@
                                                             fill="#bfbcbb"
                                                         />
                                                     </g>
-                                                </svg> </i
-                                        ></span>
+                                                </svg> 
+                                            </span>
                                     </span>
                                 </template>
                             </vue-good-table>
@@ -369,7 +365,8 @@ export default {
                 },
                 {
                     label: 'Pagador',
-                    field: 'name'
+                    field: 'name',
+                    width: '310px'
                 },
                 {
                     label: 'Monto',
@@ -378,7 +375,7 @@ export default {
                     thClass: 'vgt-left-align',
                     tdClass: 'vgt-left-align',
                     formatFn: this.formatFn,
-                    width: '110px'
+                    width: '120px'
                 },
                 {
                     label: 'Fecha',
@@ -503,6 +500,7 @@ export default {
                         'error'
                     );
                 }
+                window.setTimeout(function () { window.location.reload() }, 2000) ;
             }
         },
         showModal() {
@@ -532,8 +530,8 @@ export default {
     height: 64px;
     margin: 8px;
     border-radius: 100%;
-    border: 4px solid #046c4e;
-    border-color: #046c4e transparent #046c4e transparent;
+    border: 4px solid #296180;
+    border-color: #296180 transparent #296180 transparent;
     animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
