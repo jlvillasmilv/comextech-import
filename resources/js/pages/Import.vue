@@ -147,7 +147,7 @@
 
             <!-- Proveedor -->
             <div class="w-full mb-4 sm:my-4 flex flex-col sm:flex-row">
-              <section class="sm:w-6/12 flex flex-col justify-center mt-4 sm:mt-0 sm:mb-0">
+              <section class="sm:w-7/12 flex flex-col justify-center mt-4 sm:mt-0 sm:mb-0">
                 <h3 class="mt-1 mb-1 font-semibold text-blue-1300 text-lg dark:text-white">
                   Proveedor
                 </h3>
@@ -190,7 +190,7 @@
               </section>
               <section class="mt-4 w-6/12 sm:w-7/12 flex justify-center">
                 <div
-                  class="w-full sm:mx-1 flex sm:justify-center flex-wrap sm:content-end content-start"
+                  class="w-full sm:ml-10 flex sm:justify-center flex-wrap sm:content-end content-start"
                 >
                   <label
                     v-for="(item, index) in statusSuppliers"
@@ -225,9 +225,12 @@
 
             <!-- Pago -->
             <div class="w-full sm:my-4 flex flex-col sm:items-center sm:flex-row">
-              <section class="sm:w-6/12 flex flex-col justify-center">
-                <h3 class="font-semibold text-blue-1300 text-lg my-1">Pago</h3>
+              <section class="sm:w-7/12 flex flex-col justify-center">
+                <h3 class="font-semibold text-blue-1300 text-lg my-1">Mercadería</h3>
                 <div class="w-full sm:w-2/6 md:w-2/6">
+                  <h3 class="mx-1 my-2.5 text-gray-500 text-base">
+                    Moneda
+                  </h3>
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Moneda de Pago
                                 </h3> -->
@@ -322,17 +325,14 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    v-else
-                    :class="[data.statusSuppliers == 'with' ? 'w-7/12' : 'w-7/12', 'md:mb-0']"
-                  >
-                    <h3 class="my-2.5 text-gray-500 text-base p-4">Puerta a Puerta</h3>
+                  <div v-else class="w-full">
+                    <h3 class="text-gray-500 text-base p-2">Puerta a Puerta</h3>
                     <div class="relative"></div>
                   </div>
 
                   <!-- monto operacion -->
-                  <div class="px-1 flex flex-col w-6/12 sm:w-full md:mb-0">
-                    <h3 class="my-2.5 text-gray-500 text-base">Monto Operación</h3>
+                  <div class="px-1 flex flex-col w-6/12 sm:w-9/12 md:mb-0">
+                    <h3 class="text-center my-2.5 text-gray-500 text-base">Monto</h3>
                     <vue-numeric
                       thousand-separator="."
                       v-bind:minus="false"
@@ -350,48 +350,8 @@
               </section>
 
               <!-- Porcentajes -->
-              <section class="my-8 sm:my-0 h-26 flex sm:w-6/12 md:w-7/12 justify-center">
-                <div class="w-6/12 flex flex-wrap justify-end sm:w-full md:w-full">
-                  <!-- <h3 class="my-3 text-gray-500 text-sm">
-                                    Porcentaje de Pago
-                                </h3> -->
-
-                  <!-- <div
-                :class="[
-                    paymentPercentage.valueInitial == data.valuePercentage.valueInitial
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-transparent text-blue-700 ',
-                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
-                  ]"
-                  @click="handlePercentage()"
-                >
-
-                </div> -->
-                  <button
-                    type="button"
-                    v-for="(item, id) in paymentPercentage1"
-                    :key="id"
-                    @click="handlePercentage(item)"
-                    :class="[
-                      !selectedCondition || !selectedCondition.services[0].checked
-                        ? 'bg-gray-100 text-gray-600 w-2/6 font-semibold px-1 py-2 text-xs mx-0.5 border border-gray-300 rounded my-2 text-center'
-                        : item.valueInitial == data.valuePercentage.valueInitial
-                        ? 'bg-blue-1000 text-white hover:bg-blue-1100 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
-                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000 w-2/6 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
-                    ]"
-                    :disabled="!selectedCondition || !selectedCondition.services[0].checked"
-                  >
-                    {{ item.name }}
-                  </button>
-                  <span
-                    class="text-xs text-red-600 dark:text-red-400"
-                    v-if="data.errors.has('valuePercentage')"
-                    v-html="data.errors.get('valuePercentage')"
-                  ></span>
-                </div>
-                <div
-                  class="ml-5 border-l-4 flex flex-col flex-wrap justify-center items-start w-4/12 sm:w-4/6 md:w-4/6"
-                >
+              <section class="h-40 flex flex-col items-center md:mt-8 sm:my-0 sm:w-6/12 md:w-7/12">
+                <div class="w-6/12 flex flex-wrap justify-center sm:w-full md:w-7/12">
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
                                 </h3> -->
@@ -414,15 +374,62 @@
                     @click="handlePercentage(item)"
                     :class="[
                       !selectedCondition || !selectedCondition.services[0].checked
-                        ? 'bg-gray-100 text-gray-600 ml-4 w-3/6 font-semibold py-2 text-xs mx-0.5 border border-gray-300 rounded my-2 text-center'
+                        ? 'hidden'
                         : item.valueInitial == data.valuePercentage.valueInitial
-                        ? 'bg-blue-1000 text-white ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
-                        : 'bg-transparent text-blue-1000 ml-4 w-3/6 hover:bg-blue-1000 font-semibold hover:text-white py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center'
+                        ? 'bg-blue-1000 text-white hover:bg-blue-1100 w-4/12 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
+                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000 w-4/12 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                     ]"
                     :disabled="!selectedCondition || !selectedCondition.services[0].checked"
                   >
                     {{ item.name }}
                   </button>
+                </div>
+                <div
+                  :class="[
+                    !selectedCondition || !selectedCondition.services[0].checked
+                      ? 'hidden'
+                      : 'flex justify-center w-full'
+                  ]"
+                >
+                  <hr class="border-2 w-32" />
+                </div>
+                <div class="w-6/12 flex flex-wrap justify-center sm:w-full md:w-7/12">
+                  <!-- <h3 class="my-3 text-gray-500 text-sm">
+                                    Porcentaje de Pago
+                                </h3> -->
+
+                  <!-- <div
+                :class="[
+                    paymentPercentage.valueInitial == data.valuePercentage.valueInitial
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-transparent text-blue-700 ',
+                    'w-3/12 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center'
+                  ]"
+                  @click="handlePercentage()"
+                >
+
+                </div> -->
+                  <button
+                    type="button"
+                    v-for="(item, id) in paymentPercentage1"
+                    :key="id"
+                    @click="handlePercentage(item)"
+                    :class="[
+                      !selectedCondition || !selectedCondition.services[0].checked
+                        ? 'hidden'
+                        : item.valueInitial == data.valuePercentage.valueInitial
+                        ? 'bg-blue-1000 text-white hover:bg-blue-1100 w-4/12 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
+                        : 'bg-transparent text-blue-1000 hover:bg-blue-1000 w-4/12 font-semibold hover:text-white px-1 py-2 text-xs mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
+                    ]"
+                    :disabled="!selectedCondition || !selectedCondition.services[0].checked"
+                  >
+                    {{ item.name }}
+                  </button>
+                  <span
+                    class="text-xs text-red-600 dark:text-red-400"
+                    v-if="data.errors.has('valuePercentage')"
+                    v-html="data.errors.get('valuePercentage')"
+                  ></span>
                 </div>
               </section>
             </div>
