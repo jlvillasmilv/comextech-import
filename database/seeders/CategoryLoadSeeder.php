@@ -14,9 +14,9 @@ class CategoryLoadSeeder extends Seeder
     public function run()
     {
         \DB::table('category_loads')->insert([
-            ['name' => 'Caja / s', 'description' => 'Caja / s', 'created_at' => now() ],
-            ['name' => 'Pallet / s', 'description' => 'Pallet / s', 'created_at' => now() ], 
-            ['name' => 'Unidad/es', 'description' => 'Unidad/es', 'created_at' => now() ],
+            ['name' => 'Caja', 'description' => 'Caja', 'created_at' => now() ],
+            ['name' => 'Pallet', 'description' => 'Pallet', 'created_at' => now() ], 
+            ['name' => 'Unidad', 'description' => 'Unidad', 'created_at' => now() ],
         ]);
     }
 }

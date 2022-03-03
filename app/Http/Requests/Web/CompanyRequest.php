@@ -30,7 +30,7 @@ class CompanyRequest extends FormRequest
             'tax_id'        => 'required|max:50|unique:companies,tax_id,' . $id,
             'name'          => 'required|max:100',
             'email'         => 'required|max:250',
-            'contact_name'  => 'required|max:254',
+            'contact_name'  => 'nullable|max:254',
             'phone'         => 'nullable|max:100',
             'contact_telf'  => 'nullable|max:100',
         ];

@@ -23,7 +23,9 @@
                     : 'text-black text-center text-xl font-bold'
                 ]"
                 >{{
-                  this.$store.state.address.showFedexQuote ? fedex.DeliveryTimestamp : '- - -'
+                  this.$store.state.address.showFedexQuote
+                    ? $luxon(fedex.DeliveryTimestamp)
+                    : '- - -'
                 }}</span
               >
             </div>
@@ -205,16 +207,10 @@
                     ? ''
                     : 'text-black text-center text-xl font-bold'
                 ]"
-                >{{ this.$store.state.address.showDhlQuote ? dhl.DeliveryDate : '- - -' }}</span
+                >{{
+                  this.$store.state.address.showDhlQuote ? $luxon(dhl.DeliveryDate) : '- - -'
+                }}</span
               >
-              <!-- <span
-                :class="[
-                  this.$store.state.address.showDhlQuote
-                    ? ''
-                    : 'text-black text-center text-xl font-bold'
-                ]"
-                >{{ this.$store.state.address.showDhlQuote ? dhl.DeliveryTime : '- - -' }}</span
-              > -->
             </div>
             <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
               <div class="mb-8 text-sm font-semibold">
@@ -419,7 +415,6 @@ export default {
       this.transportQuote = this.transportQuote.toFixed(2);
 
       this.totalEstimed = this.fedex.TotalEstimed.toFixed(2);
-      // this.fedex.DeliveryTimestamp = this.$luxon(this.fedex.DeliveryTimestamp);
     }
     if (this.showDhlQuote) {
       this.transportDhl = parseFloat(this.dhl.WeightCharge) + parseFloat(this.dhl.TotalDiscount);
@@ -428,7 +423,6 @@ export default {
 
       this.transportDhl = parseFloat(this.transportDhl - this.dhl.ComextechDiscount);
       this.transportDhl = parseFloat(this.transportDhl).toFixed(2);
-      // this.dhl.DeliveryDate = this.$luxon(this.dhl.DeliveryDate);
     }
   }
 };

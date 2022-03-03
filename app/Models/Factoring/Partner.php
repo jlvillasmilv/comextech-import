@@ -27,10 +27,10 @@ class Partner extends Model
 
     public function getFormatRutAttribute()
     {
-        if(strlen($this->rut) > 8){
-            $rut = explode("-", $this->rut);
-            return number_format(substr($rut[0], 0, 8),0,",",".").'-'.$rut[1];
-        }
+        // if(strlen($this->rut) > 8){
+        //     $rut = explode("-", $this->rut);
+        //     return number_format(substr($rut[0], 0, 8),0,",",".").'-'.$rut[1];
+        // }
         return $this->rut;
        
     }
