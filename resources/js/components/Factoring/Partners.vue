@@ -92,7 +92,7 @@
           class="text-white bg-blue-1300 rounded-lg h-9 w-9 inline-flex items-center justify-center hover:bg-blue-1200"
           @click="AddOrUpdatePartners()"
         >
-          <i>
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -105,7 +105,6 @@
                 clip-rule="evenodd"
               />
             </svg>
-          </i>
         </a>
         <a
           title="Cancelar"

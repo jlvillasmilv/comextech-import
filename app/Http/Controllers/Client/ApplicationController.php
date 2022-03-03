@@ -394,6 +394,7 @@ class ApplicationController extends Controller
             ['user_id', auth()->user()->id],
         ])
         ->select('id',
+            'code',
             'supplier_id',
             'type_transport',
             'amount',

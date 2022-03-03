@@ -63,11 +63,28 @@ function data() {
     trapCleanup: null,
     openModal() {
       this.isModalOpen = true
-      this.trapCleanup = focusTrap(document.querySelector('#modal'))
+      
+     // this.trapCleanup = focusTrap(document.querySelector('#modal'))
+    },
+
+    async openModalPayment() {
+      const input = document.getElementById('total');
+      const title = document.getElementById('title');
+      const typeTransport = document.getElementById('type_transport');
+
+      const application = await axios.get('/get-application/' + 1);
+
+      input.value = application.data.code
+      title.innerHTML = `Solicitud ${application.data.code}`
+      typeTransport.innerHTML = application.data.type_transport
+      
+      this.isModalOpen = true
+      
+     
     },
     closeModal() {
       this.isModalOpen = false
-      this.trapCleanup()
+      this.trapCleanup = null
     },
   }
 }

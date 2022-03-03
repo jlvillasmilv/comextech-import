@@ -21,16 +21,13 @@
   
     <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-
+    <!-- <script src="{{asset('js/focus-trap.js')}}" defer></script>   -->
     <script src="{{asset('js/init-alpine.js')}}" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons.png') }}">
     
     @livewireStyles
-    {{-- <script>
-        import Turbolinks from 'turbolinks';
-        Turbolinks.start()
-    </script> --}}
+   
 
 </head>
 
@@ -39,14 +36,22 @@ data-notification-type="{{  Session::has('notification') ? Session::get('notific
 data-notification-message="{{ Session::has('notification') ? json_encode(Session::get('notification')['message']) : '' }}" >
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div  class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+    <div
+        x-transition:enter="transition ease-out duration-150"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="flex h-screen bg-gray-50 dark:bg-gray-900"
+        :class="{ 'overflow-hidden': isSideMenuOpen }">
         
         @include('layouts.menu')
         @include('layouts.mobile-menu')
 
         <div class="flex flex-col flex-1 w-full">
             @include('layouts.navigation-dropdown')
-            <main id="app" class="h-full overflow-y-auto">
+            <main id="app" class="h-full overflow-y-auto" >
                 {{ $slot }}
             </main>
         </div>
