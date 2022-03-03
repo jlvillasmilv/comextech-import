@@ -48,9 +48,9 @@
                 form-select
               "
               >
-                <option value="1" selected>Caja / s</option>
-                <option value="2">Pallet / s</option>
-                <option value="3">Unidad/es</option>
+                <option value="1" selected>Caja</option>
+                <option value="2">Pallet</option>
+                <option value="3">Unidad</option>
               </select>
             </div>
           </div>
@@ -93,7 +93,7 @@
           </div>
         </div>
 
-        <!-- dimensiones unitarias -->
+        <!-- DIMENSIONES POR PAQUETE -->
         <div
           :class="[
             validateWeight
@@ -103,7 +103,7 @@
         >
           <div v-if="data.type_transport != 'CONTAINER'" class="w-full">
             <span v-if="id == 0" class="text-sm font-semibold">
-              Dimension Unitaria
+              Dimensiones
             </span>
             <div class="flex justify-center">
               <input
@@ -126,7 +126,7 @@
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                 "
-                placeholder="L"
+                placeholder="Largo"
               />
               <input
                 v-model.number="item.width"
@@ -148,7 +148,7 @@
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                 "
-                placeholder="W"
+                placeholder="Ancho"
               />
               <input
                 v-model.number="item.height"
@@ -170,7 +170,7 @@
                   dark:text-gray-300
                   dark:focus:shadow-outline-gray
                 "
-                placeholder="H"
+                placeholder="Alto"
                 :disabled="item.stackable"
               />
             </div>
@@ -268,7 +268,7 @@
           ]"
         >
           <div>
-            <span v-if="id == 0" class="text-sm font-semibold"> Peso Unitario </span>
+            <span v-if="id == 0" class="text-sm font-semibold"> Peso </span>
             <div
               :class="[
                 validateWeight ? 'flex flex-col justify-center items-center' : 'flex justify-center'

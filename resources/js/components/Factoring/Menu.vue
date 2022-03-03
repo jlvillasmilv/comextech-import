@@ -1,5 +1,10 @@
 <template>
     <tabs>
+        <tab name="Cuentas bancarias">
+            <div>
+                <Bank />
+            </div>
+        </tab>
         <tab name="Informacion Legal">
             <div>
                 <LegalInfo />
@@ -20,6 +25,7 @@
 
 <script>
 
+import Bank from "../../views/Bank";
 import LegalInfo from "../../views/LegalInfo";
 import FinancialInfo from "../../views/FinancialInfo";
 import Provider from "../../views/Provider"
@@ -34,7 +40,8 @@ export default {
     components: {
        LegalInfo,
        FinancialInfo,
-       Provider
+       Provider,
+       Bank
     },
     computed: {},
     methods: {},

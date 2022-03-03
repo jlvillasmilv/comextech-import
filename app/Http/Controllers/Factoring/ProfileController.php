@@ -11,6 +11,7 @@ class ProfileController extends Controller
     {
         return view('factoring.profile.index');
     }
+    
     public function show($id)
     {
         $client  = auth()->user()->client;
