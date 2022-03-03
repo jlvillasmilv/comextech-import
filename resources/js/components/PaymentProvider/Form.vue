@@ -383,29 +383,29 @@
               </tr>
             </thead>
             <tbody
+              v-if="payment.length"
               class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
-              v-for="(item, id) in payment"
-              :key="id"
             >
-              <tr v-if="payment.length" class="text-gray-700 dark:text-gray-400">
-                <td class="px-4 py-3">
-                  <div class="flex items-center text-sm">
-                    <div>
-                      <p class="font-semibold input">Pago Nro {{ id + 1 }}</p>
-                      <p class="text-xs text-gray-600 dark:text-gray-400">
-                        {{ getHumanDate(item.date_pay) }}
-                      </p>
+              <template v-for="(item, key) in payment">
+                <tr :key="key" class="text-gray-700 dark:text-gray-400">
+                  <td class="px-4 py-3">
+                    <div class="flex items-center text-sm">
+                      <div>
+                        <p class="font-semibold input">Pago Nro {{ key + 1 }}</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                          {{ getHumanDate(item.date_pay) }}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="px-2 py-2 text-sm">{{ item.percentage }} %</td>
+                  </td>
+                  <td class="px-2 py-2 text-sm">{{ item.percentage }} %</td>
 
-                <td class="px-4 py-3 text-sm">
-                  {{ formatPrice(data.amount * (item.percentage / 100)) }}
-                </td>
-                <td class="px-4 py-3 text-xs">
-                  <span
-                    class="
+                  <td class="px-4 py-3 text-sm">
+                    {{ formatPrice(data.amount * (item.percentage / 100)) }} USD
+                  </td>
+                  <td class="px-4 py-3 text-xs text-center">
+                    <span
+                      class="
                         px-2
                         py-1
                         font-semibold
@@ -415,39 +415,43 @@
                         rounded-full
                         dark:text-white dark:bg-green-600
                       "
-                  >
-                    {{ item.type_pay }}
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-xs font-semibold">
-                  {{ item.payment_release }}
-                </td>
-                <td>
-                  <svg
-                    @click="removedPayment(item)"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                </td>
-              </tr>
-              <tr v-if="payment.length" class="text-gray-700 dark:text-gray-400" :key="id">
-                <td class="px-4 text-xs font-semibold" colspan="4">
-                  Comisión: {{ item.transfer_abroad }} USD
-                </td>
-                <td class="px-4 text-xs font-semibold" colspan="2">
-                  Transferencia al Extranjero
-                </td>
-              </tr>
+                    >
+                      {{ item.type_pay }}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3 text-xs font-semibold">
+                    {{ item.payment_release }}
+                  </td>
+                  <td>
+                    <svg
+                      @click="removedPayment(item)"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </td>
+                </tr>
+                <tr class="text-gray-700 dark:text-gray-400" :key="item.percentage">
+                  <td class="px-4 text-xs font-semibold" colspan="2">
+                    Comisión:
+                  </td>
+                  <td class="px-4 text-xs font-semibold" colspan="2">
+                    {{ item.transfer_abroad }} USD
+                  </td>
+                  <td class="px-4 text-xs font-semibold" colspan="2">
+                    Transferencia al Extranjero
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
