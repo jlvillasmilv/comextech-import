@@ -18,7 +18,7 @@
             </a>
         </div>
       
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs" x-cloak>
             <div class="w-full overflow-x-auto">
                 <table id="table" class="table-auto md:w-full whitespace-no-wrap">
                     <thead class="">
@@ -60,60 +60,68 @@
                                 {{$application->payment->status}}
                                 </span> -->
                               
-                                <div class="font-semibold leading-tight {{ $application->status->name == "Activada"
-                                     ? 'bg-green-500 text-white' :
+                                <div class="flex items-center justify-center font-semibold leading-tight rounded-lg rounded-lg p-1 {{ $application->status->name == "Activada"
+                                     ? 'bg-green-400 text-white' :
                                       ''}}  dark:text-white ">
 
-                                {!!  $application->status->name == "Activada"
+                                    {!!  $application->status->name == "Activada"
                                         ? !$application->state_process ? "<p class='animate-pulse text-red-300'>Activando</p>" :  'Activada' 
                                         : "Activación" !!}
-
+                                    @if($application->status->name == "Activada")
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    @endif
                                 
-                                        @if($application->status->name == "Validada" and $application->state_process)
-                                            <button type="button"
-                                                data-id="{{base64_encode($application->id)}}"
-                                                data-msg="Desea validar solicitud {{$application->code}}"
-                                                data-remote="{{route('application.status')}}"
-                                                class="animate-pulse ml-2 leading-5 text-gray-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app"
-                                                >
-                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
-                                                    </svg>
-                                            </button>
-                                        @endif
+                                       
                                         
                                 </div>
-                                <div class="flex items-center justify-center font-semibold  leading-tight dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-500 text-white' : ''}} ">
+                                <div class="flex items-center justify-center rounded-lg mt-1 p-1 font-semibold leading-tight border border-gray-400 dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-400 text-white' : 'bg-gray-200'}} ">
                                     {!!  $application->status->name == "Validada" || $application->status->name == "Activada"
                                         ? $application->status->name == "Validada" && !$application->state_process ? "<p class='animate-pulse text-red-300'>Validando</p>" :  'Validada' 
                                         : "Validación" !!}
 
                             
-                                    @if($application->status->name == "Borrador" and $application->state_process)
-                                        <button type="button"
-                                            data-id="{{base64_encode($application->id)}}"
-                                            data-msg="Desea validar solicitud {{$application->code}}"
-                                            data-remote="{{route('application.status')}}"
-                                            class="animate-pulse ml-2 leading-5 text-gray-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app"
-                                            >
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                                        @if($application->status->name == "Validada" and $application->state_process)
+                                            <button type="button"
+                                                data-id="{{base64_encode($application->id)}}"
+                                                data-msg="Desea validar solicitud {{$application->code}}"
+                                                data-remote="{{route('application.status')}}"
+                                                class="animate-pulse ml-2 leading-5 text-gray-800 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app"
+                                                >
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
                                                 </svg>
-                                        </button>
-                                    @endif
+                                            </button>
+                                        @endif
                                                                    
                                 </div>
-                                <div class="flex items-center justify-center font-semibold leading-tight bg-green-500 text-white ">
+                                <div class="flex items-center border border-gray-400 justify-center rounded-lg mt-1 p-1 font-semibold leading-tight bg-green-400 text-white ">
                                     Borrador
                                     @if(!$application->state_process)
                                         <button
                                             title="Ver detalles de Observaciones"
                                             data-id="{{base64_encode($application->id)}}"
                                             data-remote="{{route('application.notifications')}}"
-                                            class="float-right animate-pulse ml-2 leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-notif-app">
+                                            class="float-right animate-pulse ml-2 leading-5 text-red-600 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-notif-app">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         </button>
                                     @endif
+
+                                    @if($application->status->name == "Borrador" and $application->state_process)
+                                        <button type="button"
+                                            data-id="{{base64_encode($application->id)}}"
+                                            data-msg="Desea validar solicitud {{$application->code}}"
+                                            data-remote="{{route('application.status')}}"
+                                            class="animate-pulse ml-2 leading-5 text-gray-800 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app"
+                                            >
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+                                            </svg>
+                                        </button>
+                                    @endif
+
+                                    
                                     
                                 </div>
 
@@ -196,11 +204,7 @@
                                 @endif
 
                                 <button
-                                            title="Pagar Solicitud {{$application->code}}"
-                                            data-id="{{base64_encode($application->id)}}"
-                                            data-msg="¿Desea Pagar solicitud {{$application->code}}?"
-                                            data-remote="{{route('application.generate.order')}}"
-                                            x-on:click.stop ="openModalPayment"
+                                            x-on:click.stop ="openModalPayment({{$application->id}})"
                                             class="px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
