@@ -25,10 +25,15 @@
     <script src="{{asset('js/init-alpine.js')}}" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons.png') }}">
+
+    <style>
+		[x-cloak] {
+			display: none;
+		}
+	</style>
     
     @livewireStyles
    
-
 </head>
 
 <body {{ Session::has('notification') ? 'data-notification' : '' }} 

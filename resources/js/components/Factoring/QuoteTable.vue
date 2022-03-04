@@ -275,7 +275,6 @@
                     data-dismiss="modal"
                     class="rounded px-2 py-2 bg-blue-800 hover:bg-blue-900"
                   >
-                    <i>
                       <svg
                         class="h-7 w-7"
                         xmlns="http://www.w3.org/2000/svg"
@@ -293,7 +292,6 @@
                           />
                         </g>
                       </svg>
-                    </i>
                   </button>
                 </div>
               </div>

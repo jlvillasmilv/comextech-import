@@ -12,7 +12,7 @@
         <p class="font-semibold  dark:text-white ">Estado: 
           
             <span title="{{$applications->status}}" style="font-size: 20px; color: {{ App\Models\Factoring\Application::STATUS_COLOR[$applications->status] ?? 'none' }};">
-                <i class="{{ App\Models\Factoring\Application::STATUS_ICON[$applications->status] ?? 'none' }}" aria-hidden="true"></i>
+                {{$applications->status}}
             </span>
             
           </p>
