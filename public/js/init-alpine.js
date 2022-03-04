@@ -67,16 +67,12 @@ function data() {
      // this.trapCleanup = focusTrap(document.querySelector('#modal'))
     },
 
-    async openModalPayment() {
-      // const input = document.getElementById('total');
-      // const title = document.getElementById('title');
-      // const typeTransport = document.getElementById('type_transport');
-
-      // const application = await axios.get('/get-application/' + 1);
-
-      // input.value = application.data.code
-      // title.innerHTML = `Solicitud ${application.data.code}`
-      // typeTransport.innerHTML = application.data.type_transport
+    openModalPayment(id) {
+      console.log(id);
+      // document.getElementById("component").setAttribute("application_id", id);
+      // let application = document.getElementById('applications');
+      // application.value = id
+      
       
       this.isModalOpen = true
       

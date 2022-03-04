@@ -337,7 +337,6 @@ class ApplicationController extends Controller
                 $to_currency_code = is_null($currency) ? $item->currency2 : $currency->code;
                 $currency2_id     = is_null($currency) ? $item->currency2_id : $currency->id;
 
-                // dd($item->currency.'  '.$to_currency_code);
                 $exchange = New Currency;
                 $amount = $exchange->convertCurrency($item->amount, $item->currency, $to_currency_code);
 
@@ -356,9 +355,11 @@ class ApplicationController extends Controller
 
         $tco_clp = $total;
 
+       // dd($item->currency.'  '.$to_currency_code.'  '.$tco_clp);
+
         if($to_currency_code != 'CLP'){
             $exchange = New Currency;
-            $tco_clp = $exchange->convertCurrency($item->amount, $item->currency, 'CLP');
+            $tco_clp = $exchange->convertCurrency($total, $item->currency, 'CLP');
         }
 
         $total_app = Application::where('id', base64_decode($request->application_id))
@@ -465,8 +466,6 @@ class ApplicationController extends Controller
         if ($values->sum('percentage') > 100 || $values->sum('percentage') < 100) {
             return response()->json(['error' => ['PORCENTAJE No debe ser mayor a 100 %']], 422);
         }
-
-       
 
         $application = Application::findOrFail($request[0]['application_id']); 
 
@@ -808,6 +807,7 @@ class ApplicationController extends Controller
             'user_id',
             'supplier_id',
             'type_transport',
+            'services_code',
             'tco',
             'currency_tco',
             'tco_clp',
@@ -822,18 +822,32 @@ class ApplicationController extends Controller
                         $query->select('id','user_id','available_prepaid','available_credit');
                     } 
                 ]);
-            }
+            },
+            'currencyTco'
         ])
         ->firstOrFail()->toArray();
 
-        $caterory = \DB::table('application_summaries as appsu')
+        $category = \DB::table('application_summaries as appsu')
         ->where('appsu.application_id',$data['id'])
         ->join('category_services as cs', 'appsu.category_service_id', 'cs.id')
         ->groupBy('cs.name')
-        ->select('cs.name', DB::raw('SUM(appsu.amount2) as total'),)
+        ->select('cs.name', DB::raw('SUM(appsu.amount2) as total'))
         ->get()->toArray();
 
-        $data['summary'] = $caterory;  
+        if($data['currency_tco']['code'] != 'CLP'){
+
+            foreach ($category as $key => $item) {
+
+                $exchange = New Currency;
+                $amount = $exchange->convertCurrency($item->total, $data['currency_tco']['code'], 'CLP');
+
+                $category[$key]->total = $amount;
+      
+            }
+
+        }
+
+        $data['summary'] = $category;  
         
         return response()->json($data, 200);
 
