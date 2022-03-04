@@ -215,8 +215,7 @@ class ApplicationController extends Controller
                     $data = $resp['AWBInfo'];
                     $status= end($resp['AWBInfo']['ShipmentInfo']['ShipmentEvent']);
                     
-    
-                    return view('admin.applications.traking.dhl', compact('data','status'));
+                    return view('admin.applications.traking.dhl', compact('data','status','application'));
     
                     break;
     
@@ -235,7 +234,7 @@ class ApplicationController extends Controller
     
                     }
     
-                    return view('admin.applications.traking.fedex', compact('data'));
+                    return view('admin.applications.traking.fedex', compact('data','application'));
                     break;
                 
                 default:

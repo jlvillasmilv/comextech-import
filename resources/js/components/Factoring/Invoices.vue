@@ -132,7 +132,7 @@
                                 Evaluable</span
                             >
                             <span>
-                                <i>
+
                                     <svg
                                         class="inline-block"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -152,8 +152,7 @@
                                                 fill="green"
                                             />
                                         </g>
-                                    </svg> </i
-                                >Confiable</span
+                                    </svg>Confiable</span
                             >
                         </div>
                     </div>

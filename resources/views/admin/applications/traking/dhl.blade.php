@@ -1,13 +1,25 @@
 <x-app-layout title="Detalle rastreo">
 	<div class="container grid px-6 mx-auto">
         <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            <a href="{{url()->previous()}}">Seguimiento de DHL</a>  
+            <a href="{{url()->previous()}}">Seguimiento Courier</a>  
         </h2>
 
         <div class="flex justify-between items-end">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
                 ID de rastreo #   {{ $data['AWBNumber'] }}
             </h4>
+
+            <h4 class="mb-4 text-sm  text-gray-600 dark:text-gray-300">
+               Operacíon #   {{ $application->code }}
+            </h4>
+
+            <div class="">
+                  <img
+                    src=" {{ asset('img/dhl-express.jpg') }}"
+                    alt="dhl-logo"
+                    class="mx-auto h-12 w-24 pb-2"
+                  />
+            </div>
            
         </div>
        
