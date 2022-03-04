@@ -60,8 +60,8 @@
                                 {{$application->payment->status}}
                                 </span> -->
                               
-                                <div class="font-semibold leading-tight {{ $application->status->name == "Activada"
-                                     ? 'bg-green-500 text-white' :
+                                <div class="font-semibold leading-tight rounded-lg rounded-lg p-1 {{ $application->status->name == "Activada"
+                                     ? 'bg-green-400 text-white' :
                                       ''}}  dark:text-white ">
 
                                 {!!  $application->status->name == "Activada"
@@ -83,7 +83,7 @@
                                         @endif
                                         
                                 </div>
-                                <div class="flex items-center justify-center font-semibold  leading-tight dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-500 text-white' : ''}} ">
+                                <div class="flex items-center justify-center rounded-lg mt-1 p-1 font-semibold leading-tight border border-gray-400 dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-400 text-white' : 'bg-gray-200'}} ">
                                     {!!  $application->status->name == "Validada" || $application->status->name == "Activada"
                                         ? $application->status->name == "Validada" && !$application->state_process ? "<p class='animate-pulse text-red-300'>Validando</p>" :  'Validada' 
                                         : "Validación" !!}
@@ -103,7 +103,7 @@
                                     @endif
                                                                    
                                 </div>
-                                <div class="flex items-center justify-center font-semibold leading-tight bg-green-500 text-white ">
+                                <div class="flex items-center border border-gray-400 justify-center rounded-lg rounded-lg mt-1 p-1 font-semibold leading-tight bg-green-400 text-white ">
                                     Borrador
                                     @if(!$application->state_process)
                                         <button
