@@ -11,18 +11,18 @@
                 </button>
             </header>
             <!-- Modal body -->
-            <div class="flex flex-col justify-evenly h-10/12" >
-              <form action="/application-generate-order" method="POST" x-on:submit.prevent="submitModalPayment">
+            <div class="h-9/12" >
+              <form action="/application-generate-order" method="POST" class="flex flex-col justify-evenly h-10/12" x-on:submit.prevent="submitModalPayment">
                 <input type="hidden" name="application_id" id="application_id" x-model="application.id" />
 
                     <h2 class="text-xl font-bold" id="solicitud">Solicitud: <span x-html="application.code"></span></h2>
-                    <div class="mt-4 h-2/12 flex justify-between border-b-4">
+                    <div class="mt-4 h-4/12 flex justify-between border-b-4">
                       <div class="w-6/12">
                         <h3 class="text-lg uppercase font-semibold">Tipo de operación</h3>
                         <div class="flex justify-start w-full">
                           <div
                             
-                            class="w-7/12 sm:w-7/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
+                            class="w-7/12 sm:w-7/12 flex flex-col justify-center items-center mt-2 mb-3 lg:mb-8"
                           >
 
                           <svg
@@ -67,12 +67,12 @@
                           </details>
                           <div class="mt-2 flex justify-between">
                             <label class="text-lg font-semibold">Total</label>
-                            <span id="total-costos" class="rounded bg-blue-1000 text-center font-semibold w-6/12" x-html="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(application.tco_clp)"></span>
+                            <span id="total-costos" class="rounded bg-blue-1000 text-center font-semibold w-7/12" x-html="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(application.tco_clp)"></span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="mt-2 flex justify-between">
                         <h3 class="text-left font-hairline">Fuentes de pago</h3>
                         <h3 class="text-lg text-left font-semibold">Resumen de pagos</h3>
                     </div>
