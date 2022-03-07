@@ -25,6 +25,23 @@
                             
                             class="w-7/12 sm:w-7/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
                           >
+
+                          <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-10 w-10"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                            
+                              <path 
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                x-bind:d="icon"
+                                fill="bg-white"
+                              />
+                            </svg>
                            
                             <p id="servicio" class="text-center" x-html="application.type_transport"></p>
                           </div>
