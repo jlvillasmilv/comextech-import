@@ -63,24 +63,94 @@ function data() {
     trapCleanup: null,
     openModal() {
       this.isModalOpen = true
-      
-     // this.trapCleanup = focusTrap(document.querySelector('#modal'))
+
     },
 
-    openModalPayment(id) {
-      console.log(id);
-      // document.getElementById("component").setAttribute("application_id", id);
-      // let application = document.getElementById('applications');
-      // application.value = id
+    application: {},
+    formPaymentApp: {
+      application_id: 0,
+      availablePrepaid: 0,
+      availableCredit: 0,
+      available_prepaid: 0,
+      available_credit: 0,
+    },
+    status: false,
+    loading: false,
+    isError: false,
+    icon: '',
+    async openModalPayment(id) {
+
+      this.formPaymentApp.application_id = id
+      //x-show="application.type_transport=='COURIER'"
+      let { data } = await axios.get('/get-appayment/' + id);
+
+      switch (this.application.type_transport) {
+        case 'AEREO': 
+          this.icon = 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8'
+          break;
+
+        case 'CONSOLIDADO': 
+          this.icon = 'M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
+          break;
       
-      
+        default: 
+          this.icon = 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
+          break;
+      }
+
+      console.log(data);
+
+      this.application = data
+
+      this.formPaymentApp.availablePrepaid = Number(this.application.user.company.available_prepaid)
+      this.formPaymentApp.availableCredit = Number(this.application.user.company.available_credit)
+
       this.isModalOpen = true
-      
-     
+    },
+
+    async submitModalPayment() {
+
+      axios.post('/application-generate-order', this.formPaymentApp)
+        .then(response => {
+          console.log(response);
+
+          if (response.data.order) {
+            window.open(response.data.order, '_blank');
+          }
+
+          if (response.status == 200) {
+            Toast.fire({
+              icon: 'success',
+              title: 'Generado con exito',
+            })
+          }
+
+          this.closeModal()
+          window.setTimeout(function () { window.location.reload() }, 2000)
+
+        }).catch(error => {
+          console.log(error);
+          Toast.fire({
+            icon: 'error',
+            title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
+          })
+        })
+
     },
     closeModal() {
+      this.initData()
+
       this.isModalOpen = false
       this.trapCleanup = null
     },
+    initData() {
+
+      this.formPaymentApp.availablePrepaid = 0
+      this.formPaymentApp.availableCredit = 0
+      this.formPaymentApp.application_id = 0
+      this.formPaymentApp.available_prepaid = 0
+      this.formPaymentApp.available_credit = 0
+
+    }
   }
 }
