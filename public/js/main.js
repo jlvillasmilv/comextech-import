@@ -164,7 +164,7 @@ $(document).ready(function () {
             }
           })
 
-          window.setTimeout(function () { window.location.reload() }, 2000) ;
+          window.setTimeout(function () { window.location.reload() }, 2000);
 
         }).catch(error => {
           Toast.fire({
@@ -284,10 +284,10 @@ function initialize() {
   let postalField;
   let placeId;
 
-  postalField   = document.querySelector("#postal_code");
+  postalField = document.querySelector("#postal_code");
   provinceField = document.querySelector("#province");
-  countryCode   = document.querySelector("#country_code");
-  locality      = document.querySelector("#locality");
+  countryCode = document.querySelector("#country_code");
+  locality = document.querySelector("#locality");
 
   for (let i = 0; i < locationInputs.length; i++) {
 
@@ -352,10 +352,10 @@ function initialize() {
 
       postalField.value = postcode;
       provinceField.value = province;
-      countryCode.value  = country;
+      countryCode.value = country;
       placeId = placId;
       locality.value = glocality;
-      
+
     });
   }
 
@@ -403,7 +403,7 @@ function initial_map() {
           new google.maps.Marker({
             map: map,
             position: { lat: originLat, lng: originlng },
-            title:  `Solicitud  ${e.code} Origen ${e.origin_address}`,
+            title: `Solicitud  ${e.code} Origen ${e.origin_address}`,
           });
 
           new google.maps.Marker({
@@ -457,8 +457,8 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
 
   const url = $(this).data('remote');
   const msg = $(this).data('msg');
-  const application_id  = $(this).data('id');
-   
+  const application_id = $(this).data('id');
+
   Swal.fire({
     title: msg,
     icon: 'question',
@@ -474,25 +474,25 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
       }).then(response => {
         // console.log(response);
 
-        if (response.data.order){
+        if (response.data.order) {
           window.open(response.data.order, '_blank');
         }
 
         if (response.status == 200) {
-        
-          if(response.data.notifications){
+
+          if (response.data.notifications) {
 
             Swal.fire({
               title: '<strong>No fue posible Generar</strong>',
               icon: 'warning',
-              html: `<div style="text-align: left; margin-left: 10px"> ${response.data.notifications}</ div>` ,
+              html: `<div style="text-align: left; margin-left: 10px"> ${response.data.notifications}</ div>`,
               showCloseButton: true,
               confirmButtonColor: '#142c44',
               focusConfirm: false,
             })
 
           }
-          else{
+          else {
             Toast.fire({
               icon: 'success',
               title: 'Generado con exito',
@@ -504,16 +504,16 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
       }).catch(error => {
         console.log(error);
         Toast.fire({
-            icon: 'error',
-            title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
+          icon: 'error',
+          title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
         })
-       
+
       })
-      .then(function () {
-        // always executed
-        window.setTimeout(function () { window.location.reload() }, 2000) ;
-      });  
-      
+        .then(function () {
+          // always executed
+          window.setTimeout(function () { window.location.reload() }, 2000);
+        });
+
     },
     allowOutsideClick: () => !Swal.isLoading()
   })
@@ -524,29 +524,29 @@ $('#table').on('click', '.btn-notif-app[data-remote]', function (e) {
   e.preventDefault();
 
   const url = $(this).data('remote');
-  const application_id  = $(this).data('id');
+  const application_id = $(this).data('id');
 
   axios.post(url, {
     application_id: application_id,
   }).then(response => {
-      
-        Swal.fire({
-          title: '<strong>Observaciones</strong>',
-          icon: 'warning',
-          width: 600,
-          html: `<div style="text-align: left; margin-left: 10px"> ${response.data}</ div>`,
-          showCloseButton: true,
-          confirmButtonColor: '#142c44',
-          focusConfirm: false,
-        })
+
+    Swal.fire({
+      title: '<strong>Observaciones</strong>',
+      icon: 'warning',
+      width: 600,
+      html: `<div style="text-align: left; margin-left: 10px"> ${response.data}</ div>`,
+      showCloseButton: true,
+      confirmButtonColor: '#142c44',
+      focusConfirm: false,
+    })
 
   }).catch(error => {
     console.log(error);
     Toast.fire({
-        icon: 'error',
-        title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
+      icon: 'error',
+      title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
     })
-   
+
   })
 
 
