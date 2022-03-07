@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Solicitud XXXXXXXXXX</h2>
+    <h2 id="solicitud">Solicitud XXXXXXXXXX</h2>
     <div class="flex justify-between border-b-4">
       <div class="w-6/12">
         <h3>Tipo de operación</h3>
@@ -11,6 +11,7 @@
             class="w-7/12 sm:w-7/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
           >
             <div
+              id="icon"
               :class="[
                 'mx-1 flex flex-col items-center border border-blue-1300 rounded hover:bg-blue-1300 px-3 py-2 text-gray-900 hover:text-white border-b-2',
                 service.name == $store.state.application.data.type_transport
@@ -35,7 +36,7 @@
                 />
               </svg>
             </div>
-            <p class="text-center">
+            <p id="servicio" class="text-center">
               {{ service.name }}
             </p>
           </div>
@@ -48,21 +49,21 @@
             <div class="flex flex-col">
               <div class="flex justify-between">
                 <label>Proveedor</label>
-                <span>1.600.000</span>
+                <span id="proveedor">1.600.000</span>
               </div>
               <div class="flex justify-between">
                 <label>Transporte</label>
-                <span>500.000</span>
+                <span id="transporte">500.000</span>
               </div>
               <div class="flex justify-between">
                 <label>Internacion</label>
-                <span>399.000</span>
+                <span id="internacion">399.000</span>
               </div>
             </div>
           </details>
           <div class="flex justify-between">
             <label>Total</label>
-            <span>2.499.500</span>
+            <span id="total-costos">2.499.500</span>
           </div>
         </div>
       </div>
@@ -74,7 +75,7 @@
           <thead></thead>
           <tbody>
             <tr>
-              <td>0</td>
+              <td id="prepagoSII">0</td>
               <td>
                 <div>
                   <svg
@@ -112,10 +113,10 @@
                   </svg>
                 </div>
               </td>
-              <td>900.000</td>
+              <td id="total-prepagoSII">900.000</td>
             </tr>
             <tr>
-              <td>0</td>
+              <td id="credito-disponible">0</td>
               <td>
                 <div>
                   <svg
@@ -153,7 +154,7 @@
                   </svg>
                 </div>
               </td>
-              <td>1.000.000</td>
+              <td id="total-credito">1.000.000</td>
             </tr>
             <tr>
               <td>2% mensual</td>
@@ -164,7 +165,7 @@
                   <button>Pagar</button>
                 </div>
               </td>
-              <td>599.000</td>
+              <td id="btn-total-pagar">599.000</td>
             </tr>
             <tr>
               <td>Firma</td>
@@ -175,12 +176,12 @@
                   <input type="text" class="form-input w-2/6" />
                 </span>
               </td>
-              <td>2.499.500</td>
+              <td id="total-pagos">2.499.500</td>
             </tr>
             <tr>
               <td>
                 <div>
-                  <button>Solicitar</button>
+                  <button id="btn-solicitar">Solicitar</button>
                 </div>
               </td>
             </tr>
@@ -203,10 +204,16 @@ export default {
         }
       ]
     };
-  }
+  },
   // computed: {
   //   ...mapState('application', ['typeTransport'])
   // }
+  beforeUpdate() {
+    console.log('estoy aqui');
+  },
+  updated() {
+    console.log('updated');
+  }
 };
 </script>
 <style></style>
