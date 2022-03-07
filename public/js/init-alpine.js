@@ -67,17 +67,32 @@ function data() {
      // this.trapCleanup = focusTrap(document.querySelector('#modal'))
     },
 
-    openModalPayment(id) {
-      console.log(id);
-      // document.getElementById("component").setAttribute("application_id", id);
-      // let application = document.getElementById('applications');
-      // application.value = id
-      
-      
+
+
+    application: {},
+    formPaymentApp: {
+      application_id: 0,
+      availablePrepaid: 0,
+      availableCredit: 0,
+      available_prepaid: 0,
+      available_credit: 0,
+    }, 
+    async openModalPayment(id) {
+
+      this.formPaymentApp.application_id = id
+
+      let {data} = await axios.get('/get-appayment/'+id);
+
+      console.log(data);
+
+      this.application = data
+
+      this.formPaymentApp.availablePrepaid = Number(this.application.user.company.available_prepaid)
+      this.formPaymentApp.availableCredit  = Number(this.application.user.company.available_credit)
+
       this.isModalOpen = true
-      
-     
     },
+   
     closeModal() {
       this.isModalOpen = false
       this.trapCleanup = null
