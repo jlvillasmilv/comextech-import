@@ -60,12 +60,6 @@ function data() {
     },
     // Modal
     isModalOpen: false,
-    application: {},
-    formPaymentApp: {
-      application_id: 0,
-      available_prepaid: 0,
-      available_credit: 0
-    }, 
     trapCleanup: null,
     openModal() {
       this.isModalOpen = true
@@ -73,6 +67,16 @@ function data() {
      // this.trapCleanup = focusTrap(document.querySelector('#modal'))
     },
 
+
+
+    application: {},
+    formPaymentApp: {
+      application_id: 0,
+      availablePrepaid: 0,
+      availableCredit: 0,
+      available_prepaid: 0,
+      available_credit: 0,
+    }, 
     async openModalPayment(id) {
 
       this.formPaymentApp.application_id = id
@@ -82,8 +86,13 @@ function data() {
       console.log(data);
 
       this.application = data
+
+      this.formPaymentApp.availablePrepaid = Number(this.application.user.company.available_prepaid)
+      this.formPaymentApp.availableCredit  = Number(this.application.user.company.available_credit)
+
       this.isModalOpen = true
     },
+   
     closeModal() {
       this.isModalOpen = false
       this.trapCleanup = null

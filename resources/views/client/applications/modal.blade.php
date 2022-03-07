@@ -63,7 +63,7 @@
                           <thead></thead>
                           <tbody>
                             <tr>
-                              <td id="prepagoSII"><span x-html="application.user.company.available_prepaid"></span></td>
+                              <td id="prepagoSII"><span x-html="formPaymentApp.availablePrepaid"></span></td>
                               <td>
                                 <div>
                                   <svg
@@ -103,12 +103,13 @@
                               </td>
                               <td id="total-prepagoSII">
                                 <input type="number"
+                                    class="amount"
                                     x-model.number="formPaymentApp.available_prepaid"
                                 />
                                </td>
                             </tr>
                             <tr>
-                              <td id="credito-disponible"><span x-html="application.user.company.available_credit"></span></td>
+                              <td id="credito-disponible"><span x-html="formPaymentApp.availableCredit"></span></td>
                               <td>
                                 <div>
                                   <svg
@@ -148,6 +149,8 @@
                               </td>
                               <td id="total-credito">
                                 <input type="number"
+                                 class="amount"
+                                
                                  x-model.number="formPaymentApp.available_credit"
                                 />
 
@@ -162,8 +165,8 @@
                                   <button>Pagar</button>
                                 </div>
                               </td>
-                              <td id="btn-total-pagar">
-                                <span id="total-costos" x-html="application.tco_clp"></span>
+                              <td id="btn-total-pagar" >
+                                <span id="total-costos" x-text="parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid).toFixed(2)"></span>
                               </td>
                             </tr>
                             <tr>
@@ -175,8 +178,9 @@
                                   <input type="text" class="form-input w-2/6" />
                                 </span>
                               </td>
-                              <td id="total-pagos">
-                                <span id="total-costos" x-html="application.tco_clp"></span>
+                              <td id="total-pagos"
+                              >
+                                <span id="total-costos" x-text="parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid).toFixed(2)"></span>
                               </td>
                             </tr>
                             <tr>
@@ -202,4 +206,3 @@
             </footer> -->
         </div>
     </div>
-
