@@ -63,11 +63,8 @@ function data() {
     trapCleanup: null,
     openModal() {
       this.isModalOpen = true
-      
-     // this.trapCleanup = focusTrap(document.querySelector('#modal'))
+
     },
-
-
 
     application: {},
     formPaymentApp: {
@@ -76,26 +73,69 @@ function data() {
       availableCredit: 0,
       available_prepaid: 0,
       available_credit: 0,
-    }, 
+    },
+    status: false,
+    loading: false,
+    isError: false,
     async openModalPayment(id) {
 
       this.formPaymentApp.application_id = id
 
-      let {data} = await axios.get('/get-appayment/'+id);
+      let { data } = await axios.get('/get-appayment/' + id);
 
       console.log(data);
 
       this.application = data
 
       this.formPaymentApp.availablePrepaid = Number(this.application.user.company.available_prepaid)
-      this.formPaymentApp.availableCredit  = Number(this.application.user.company.available_credit)
+      this.formPaymentApp.availableCredit = Number(this.application.user.company.available_credit)
 
       this.isModalOpen = true
     },
-   
+
+    async submitModalPayment() {
+
+      axios.post('/application-generate-order', this.formPaymentApp)
+        .then(response => {
+          console.log(response);
+
+          if (response.data.order) {
+            window.open(response.data.order, '_blank');
+          }
+
+          if (response.status == 200) {
+            Toast.fire({
+              icon: 'success',
+              title: 'Generado con exito',
+            })
+          }
+
+          this.closeModal()
+          window.setTimeout(function () { window.location.reload() }, 2000)
+
+        }).catch(error => {
+          console.log(error);
+          Toast.fire({
+            icon: 'error',
+            title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
+          })
+        })
+
+    },
     closeModal() {
+      this.initData()
+
       this.isModalOpen = false
       this.trapCleanup = null
     },
+    initData() {
+
+      this.formPaymentApp.availablePrepaid = 0
+      this.formPaymentApp.availableCredit = 0
+      this.formPaymentApp.application_id = 0
+      this.formPaymentApp.available_prepaid = 0
+      this.formPaymentApp.available_credit = 0
+
+    }
   }
 }

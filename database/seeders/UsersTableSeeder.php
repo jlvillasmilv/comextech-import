@@ -39,8 +39,8 @@ class UsersTableSeeder extends Seeder
 
         $client->company()->create([
             'country_id' => \DB::table('countries')->where('code','CL')->first()->id,
-            'tax_id'  => '76722268-8',
-            'name'    => 'Comextech',
+            'tax_id'  => '77277994-1',
+            'name'    => 'FORZA INTERNATIONAL BUSINESS GROUP SPA',
             'email'   => 'info@Comex.Tech',
             'phone'   => '+56228977070',
             'contact_name'   => 'Andres Fabregat',
@@ -88,7 +88,7 @@ class UsersTableSeeder extends Seeder
 
        $client->credential()->create([
             'provider_name' => 'SII',
-            'provider_password' => base64_encode('100210'),
+            'provider_password' => base64_encode('FO2022RZA'),
             'created_at' => now(),
             'updated_at' => now(),
         ]);

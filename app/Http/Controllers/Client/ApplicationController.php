@@ -709,11 +709,11 @@ class ApplicationController extends Controller
 
     public function generateOrder(Request $request)
     {
-
+       
         $application_order = \DB::table('applications as app')
         ->leftjoin('jump_seller_app_payments as jsap', 'jsap.application_id', '=', 'app.id')
         ->where([
-            ["app.id", base64_decode($request->application_id)],
+            ["app.id", $request->application_id],
             ["app.user_id", auth()->user()->id]
         ])
         ->select('app.*','jsap.application_id','jsap.order_id','jsap.duplicate_url','jsap.recovery_url','jsap.checkout_url')
