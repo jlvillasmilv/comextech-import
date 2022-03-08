@@ -207,7 +207,7 @@
                             <tr>
                               <td>
                                 <div>
-                                  <button id="btn-solicitar">Solicitar</button>
+                                  <button type="button">Solicitar</button>
                                 </div>
                               </td>
                             </tr>

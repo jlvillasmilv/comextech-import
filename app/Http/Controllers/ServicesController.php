@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\{Currency, JumpSellerAppPayment};
+use App\Models\{Currency, JumpSellerAppPayment, ApplicationPayment};
 
 class ServicesController extends Controller
 {
@@ -62,19 +62,28 @@ class ServicesController extends Controller
 
     public function jumpSellerWebHookOrder(Request $request)
     {
-
         try {   
             if(isset($request->order)){
-                JumpSellerAppPayment::where('order_id', $request->order['id'])
-                ->update([
-                    'status'       => $request->order['status'],
-                    'recovery_url' => $request->order['recovery_url']
-                ]);
+
+               $jsap = JumpSellerAppPayment::where('order_id', $request->order['id'])->firstOrFail();
+               $jsap->status = $request->order['status'];
+               $jsap->recovery_url = $request->order['recovery_url'];
+               $jsap->save();
+
+                if ($jsap->status == 'Paid') {
+                    ApplicationPayment::updateOrCreate(
+                        [
+                            'application_id' => $jsap->application_id,
+                            'payment_method_type' => 'JumpSeller',
+                        ],
+                        [ 'total' => $request->order['total'] ] 
+                    );
+                }
 
                 return response()->json(['ok' => 'OK'], 200);
             }
-        } catch (\Throwable $th) {
-            return response()->json(['ok' => $th], 500);
+        } catch (Throwable $e) {
+            return response()->json($e, 500);
         }
        
     }

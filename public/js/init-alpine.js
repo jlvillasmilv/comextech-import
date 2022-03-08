@@ -129,7 +129,6 @@ function data() {
           window.setTimeout(function () { window.location.reload() }, 2000)
 
         }).catch(error => {
-          console.log(error);
           Toast.fire({
             icon: 'error',
             title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
