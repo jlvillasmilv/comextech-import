@@ -50,6 +50,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::post('application-generate-order','App\Http\Controllers\Client\PaymentApplicationController@generateOrder')->name('application.generate.order');
     Route::get('/get-appayment/{id}','App\Http\Controllers\Client\PaymentApplicationController@paymentProcces')->where('id', '[0-9]+');
+    Route::get('/generate-code/{id}','App\Http\Controllers\Client\PaymentApplicationController@generateCode')->where('id', '[0-9]+');
+
     // Get condition sale
     Route::get('/suppl_cond_sales', function (Request $request) {
    

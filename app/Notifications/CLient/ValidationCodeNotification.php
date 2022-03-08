@@ -2,6 +2,8 @@
 
 namespace App\Notifications\CLient;
 
+use App\Models\Application;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -16,9 +18,9 @@ class ValidationCodeNotification extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Application $application)
     {
-        //
+        $this->application =$application;
     }
 
     /**
@@ -41,9 +43,8 @@ class ValidationCodeNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                 ->line("Codigo de Validacion Para solicitud #: {$this->application->code}")
+                 ->line("Codigo: {$this->application->authorization_code}");
     }
 
     /**

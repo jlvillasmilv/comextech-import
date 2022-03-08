@@ -26,9 +26,10 @@ class ApplicationPaymentRequest extends FormRequest
         $rules = [
             "application_id"    => 'required|exists:applications,id',
             "availablePrepaid"  => 'numeric|gte:0',
-            "available_prepaid" => 'numeric|lte:availablePrepaid',
+            "available_prepaid" => 'numeric',       //lte:availablePrepaid
             "availableCredit"   => 'numeric|gte:0',
-            "available_credit"  => 'numeric|gte:0|lte:availableCredit',
+            "available_credit"  => 'numeric|gte:0', //lte:availableCredit
+            "authorization_code" => 'required'
         ];
 
         return $rules;
@@ -37,6 +38,7 @@ class ApplicationPaymentRequest extends FormRequest
     public function attributes()
     {
         return [
+            "authorization_code" => 'Codigo de validacion firma',
             "availablePrepaid"  => 'PREPAGO (Cesion SII)',
             "available_prepaid" => 'PREPAGO (Cesion SII)',
             "availableCredit"   => 'CREDITO DISPONIBLE',

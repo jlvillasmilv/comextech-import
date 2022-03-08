@@ -15,11 +15,10 @@ class CreateApplicationPaymentsTable extends Migration
     {
         Schema::create('application_payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('application_id');
+            $table->foreignId('application_id')->references('id')->on('applications')->onDelete('cascade');
             $table->string('payment_method_type',20)->nullable()->comment('FACTORING SII, CREDIT, JUMPSELLERAPI');
             $table->decimal('total', 12, 2)->default(0);
             $table->timestamps();
-            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
         });
     }
 

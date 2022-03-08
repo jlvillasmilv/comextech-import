@@ -30,6 +30,7 @@ class ApplicationPayment extends Model
                 ],
                 [ 'total' => $item['total'] ] 
             );
+
         }
 
         return true;
