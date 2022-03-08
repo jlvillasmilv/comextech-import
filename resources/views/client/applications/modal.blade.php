@@ -155,7 +155,8 @@
                                         <div class="px-4">
                                             <button
                                                 class="flex items-center justify-evenly bg-blue-1400 text-white font-semibold uppercase w-32 h-11 border rounded"
-                                                x-bind:disabled="loading">Pagar<svg
+                                                x-bind:disabled="loading">Pagar
+                                                <svg x-show="loading"
                                                     class="animate-spin  h-5 w-5 text-white"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                     <circle class="opacity-25" cx="12" cy="12" r="10"
@@ -180,7 +181,8 @@
                                     <td colspan="4">
                                         <span class="flex flex-col">
                                             <input type="text"
-                                                class="bg-gray-100 text-center px-2 h-11 border rounded w-2/6" />
+                                                class="bg-gray-100 text-center px-2 h-11 border rounded w-2/6"
+                                                x-model="formPaymentApp.authorization_code" />
                                         </span>
                                     </td>
                                     <td id="total-pagos">
@@ -195,7 +197,7 @@
                                         <div>
                                             <button
                                                 class="bg-gray-100 text-sm text-center font-semibold px-2 h-8 border border-blue-1400 rounded-lg"
-                                                type="button" id="btn-solicitar">
+                                                type="button" id="btn-solicitar" x-on:click="sendAuthorizationCode(application.id)">
                                                 Solicitar
                                             </button>
                                         </div>

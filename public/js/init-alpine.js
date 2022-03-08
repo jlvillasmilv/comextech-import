@@ -68,7 +68,8 @@ function data() {
       availablePrepaid: 0,
       availableCredit: 0,
       available_prepaid: 0,
-      available_credit: 0
+      available_credit: 0,
+      authorization_code: ''
     },
     status: false,
     loading: false,
@@ -108,6 +109,7 @@ function data() {
     },
 
     async submitModalPayment() {
+      this.loading = true
       axios
         .post('/application-generate-order', this.formPaymentApp)
         .then((response) => {
@@ -122,18 +124,20 @@ function data() {
               icon: 'success',
               title: 'Generado con exito'
             });
+            
           }
-
+          
           this.closeModal();
           window.setTimeout(function() {
             window.location.reload();
           }, 2000);
         })
         .catch((error) => {
-          console.log(error);
+          this.loading = false
+          //console.log(error.response.data.errors);
           Toast.fire({
             icon: 'error',
-            title: 'No es posible continuar verifique y vuelve a intentarlo más tarde'
+            title: error.response.data.error ? error.response.data.error : 'No es posible continuar, revise los datos'
           });
         });
     },
@@ -143,12 +147,26 @@ function data() {
       this.isModalOpen = false;
       this.trapCleanup = null;
     },
+    async sendAuthorizationCode(id) {
+
+      let response = await axios.get('/generate-code/' + id);
+
+      if (response.status == 200) {
+        Toast.fire({
+          icon: 'success',
+          title: 'Codigo Generado con exito verifque'
+        });
+      }
+      
+    },
     initData() {
       this.formPaymentApp.availablePrepaid = 0;
       this.formPaymentApp.availableCredit = 0;
       this.formPaymentApp.application_id = 0;
       this.formPaymentApp.available_prepaid = 0;
       this.formPaymentApp.available_credit = 0;
+      this.formPaymentApp.authorization_code = '';
+      this.loading = false; 
     }
   };
 }

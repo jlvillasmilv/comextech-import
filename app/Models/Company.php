@@ -24,7 +24,10 @@ class Company extends Model
         'phone',
         'contact_name',
         'contact_telf',
-        'status'
+        'status',
+        'available_prepaid',
+        'available_credit'
+
     ];
 
     protected $dates = [
