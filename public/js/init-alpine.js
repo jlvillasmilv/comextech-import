@@ -134,10 +134,10 @@ function data() {
         })
         .catch((error) => {
           this.loading = false
-          console.log(error.response.data);
+          //console.log(error.response.data.errors);
           Toast.fire({
             icon: 'error',
-            title: error.response.data.error ? error.response.data.error :'No es posible continuar, revise los datos'
+            title: error.response.data.error ? error.response.data.error : 'No es posible continuar, revise los datos'
           });
         });
     },
@@ -149,12 +149,12 @@ function data() {
     },
     async sendAuthorizationCode(id) {
 
-      let resp = await axios.get('/generate-code/' + id);
+      let response = await axios.get('/generate-code/' + id);
 
       if (response.status == 200) {
         Toast.fire({
           icon: 'success',
-          title: 'Generado con exito'
+          title: 'Codigo Generado con exito verifque'
         });
       }
       
