@@ -44,10 +44,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::get('/application-summary/{id}','App\Http\Controllers\Client\ApplicationController@getApplicationSummary')->where('id', '[0-9]+');
     Route::post('set-application-summary','App\Http\Controllers\Client\ApplicationController@setApplicationSummary')->name('application.importUpdateCost');
-    Route::post('application-generate-order','App\Http\Controllers\Client\ApplicationController@generateOrder')->name('application.generate.order');
+    
     Route::post('application-status','App\Http\Controllers\Client\ApplicationController@updateStaus')->name('application.status');
     Route::post('application-notifications','App\Http\Controllers\Client\ApplicationController@notifications')->name('application.notifications');
     
+    Route::post('application-generate-order','App\Http\Controllers\Client\PaymentApplicationController@generateOrder')->name('application.generate.order');
+    Route::get('/get-appayment/{id}','App\Http\Controllers\Client\PaymentApplicationController@paymentProcces')->where('id', '[0-9]+');
+    Route::get('/generate-code/{id}','App\Http\Controllers\Client\PaymentApplicationController@generateCode')->where('id', '[0-9]+');
+
     // Get condition sale
     Route::get('/suppl_cond_sales', function (Request $request) {
    
@@ -76,8 +80,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/test-courier','App\Http\Controllers\Client\TransportsControllers@test');
 
     Route::get('/get-application/{id}','App\Http\Controllers\Client\ApplicationController@getApplication')->where('id', '[0-9]+');
-    Route::get('/get-appayment/{id}','App\Http\Controllers\Client\ApplicationController@paymentProcces')->where('id', '[0-9]+');
-
+    
     Route::post('applications/payment_provider', 'App\Http\Controllers\Client\ApplicationController@paymentProvider')
     ->name('applications.payment.provider'); 
 

@@ -130,7 +130,9 @@ module.exports = {
         '1000': '#4db2dc', // secondary-button
         '1100': '#3c94b8', // hove secondary-button
         '1200': '#296180', // hover primary-button
-        '1300': '#142c44' // primary-button
+        '1300': '#142c44', // primary-button
+        '1400': '#2e75b6', // button payment in modal-payment
+        '1500': '#88c0f382' // blue to payment-modal
       },
       indigo: {
         '50': '#f0f5ff',

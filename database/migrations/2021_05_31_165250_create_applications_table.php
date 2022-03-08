@@ -33,6 +33,7 @@ class CreateApplicationsTable extends Migration
             $table->foreignId('currency_tco')->nullable()->references('id')->on('currencies')->onDelete('SET NULL');
             $table->decimal('tco_clp', 12, 2)->default(0)->nullable()->comment('Total Cost of Operation CLP currencie');
             $table->string('services_code', 50)->nullable();
+            $table->string('authorization_code', 6)->nullable();
             $table->unsignedBigInteger('modified_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

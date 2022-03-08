@@ -60,6 +60,44 @@
                     </div>
                 </div>
 
+                <div class="flex flex-wrap">
+                    <div class="sm:w-full md:w-auto px-3 ">
+
+                    <label class="block text-sm my-3">
+                        <span class="text-gray-700 dark:text-gray-400">PREPAGO (Cesión SII)</span>
+                        <input class=" block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="number"
+                        disabled
+                        value="{{ old('available_prepaid', isset($company->available_prepaid) ? $company->available_prepaid : '') }}"
+                        >
+                    
+                    </label>
+
+                    </div>
+
+                    <div class="sm:w-full md:w-auto px-3 ">
+
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">CREDITO DISPONIBLE</span>
+                            <input class="{{ $errors->has('available_credit') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="number"
+                            name="available_credit" 
+                            value="{{ old('available_credit', isset($company->available_credit) ? $company->available_credit : '') }}"
+                             >
+                            @if($errors->has('available_credit'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('available_credit') }}
+                                </span>
+                            @endif
+                        
+                        </label>
+
+                    </div>
+
+                   
+                </div>
+                
+
                 <div class="flex justify-between items-end">
                     <h4 class="mb-2 ml-2 text-lg  text-gray-600 dark:text-gray-300">
                         Recargos y comisiones

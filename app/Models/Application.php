@@ -28,7 +28,8 @@ class Application extends Model
                            'amount',
                            'services_code',
                            'modified_user_id',
-                           'state_process'
+                           'state_process',
+                           'authorization_code'
                             ];
 
     protected $dates = [
@@ -89,14 +90,14 @@ class Application extends Model
     //  *
     //  * @return response()
     // */
-    // public static function generateUniqueCode($id)
-    // {
-    //     do {
-    //         $code = 'AI-'.str_pad($id,6,0, STR_PAD_LEFT); // Str::upper(Str::random(6));
-    //     } while (Application::where("code", "=", $code)->first());
+    public static function generateUniqueCode($id)
+    {
+        do {
+            $code = Str::upper(Str::random(6));
+        } while (Application::where("authorization_code", "=", $code)->first());
   
-    //     return $code;
-    // }
+        return $code;
+    }
 
     public function user()
     {
