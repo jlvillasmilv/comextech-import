@@ -1,6 +1,6 @@
 <x-app-layout title="Solicitudes">
 
-    <div class="container grid px-6 mx-auto">
+    <div class="container grid px-4 mx-auto">
         <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Servicios Solicitado
         </h2>
@@ -17,14 +17,14 @@
                 <span> Solicitud </span>
             </a>
         </div>
-      
+
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs" x-cloak>
             <div class="w-full overflow-x-auto">
-                <table id="table" class="table-auto md:w-full whitespace-no-wrap">
+                <table id="table" class="datatable w-full whitespace-no-wrap rounded-lg " style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                     <thead class="">
                         <tr
-                            class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3"> Nro/Fecha </th>
+                            class=" text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
+                            <th class="px-4 py-3 "> Nro/Fecha </th>
                             <th class="px-4 py-3"> Total Operacion </th>
                             <th class="px-4 py-3"> Pago Proveedor </th>
                             <th class="px-4 py-3"> Estatus </th>
@@ -236,8 +236,31 @@
                 </table>
                 {{ $data->links() }}
             </div>
+           
         </div>
         @include('client.applications.modal')
+        
     </div>
+
+    @section('scripts')
+    <script type="text/javascript">
+
+    $.extend(true, $.fn.dataTable.defaults, {
+        language: { url: '{{asset("js/lang.json")}}' },
+        processing: true,
+        orderCellsTop: true,
+        responsive: true,
+        order: [[ 0, 'desc' ]],
+        columnDefs: [
+        { orderable: false, targets: 5 },
+        { orderable: false, targets: 3 }
+    ],
+    });
+    let table = $('.datatable:not(.ajaxTable)').DataTable().columns.adjust();
+    table.columns.adjust().draw();
+</script>
+
+@endsection
+
 
 </x-app-layout>
