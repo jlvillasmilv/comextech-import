@@ -7,7 +7,7 @@
         x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0  transform translate-y-1/2" x-on:keydown.escape="closeModal"
-        class="w-full h-10/12 px-6 py-4 bg-white dark:bg-gray-800 sm:rounded-3xl border-2 border-blue-1200 sm:m-4 sm:max-w-xl"
+        class="w-full h-auto px-6 py-4 bg-white dark:bg-gray-800 sm:rounded-3xl border-2 border-blue-1200 sm:m-4 sm:max-w-xl"
         role="dialog" id="modal">
         <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
         <header class="flex justify-end">
@@ -47,10 +47,11 @@
                         </div>
                     </div>
                     <div class="w-6/12 flex justify-center">
-                        <div class="flex flex-col">
-                            <details>
+                        <div class="w-10/12 flex flex-col">
+                            <h3 class="font-bold text-center text-blue-1400">Resumen</h3>
+                            {{-- <details>
                                 <summary class="text-lg uppercase font-semibold">Resumen de costos</summary>
-                                {{-- <div class="flex flex-col">
+                                <div class="flex flex-col">
                               <div class="mt-2 flex justify-between">
                                 <label class="text-lg">Proveedor</label>
                                 <span class="text-center w-6/12 text-lg border-b-2" id="proveedor">1.600.000</span>
@@ -63,12 +64,12 @@
                                 <label class="text-lg">Internacion</label>
                                 <span class="text-center w-6/12 text-lg border-b-2" id="internacion">399.000</span>
                               </div>
-                            </div> --}}
-                            </details>
-                            <div class="mt-2 flex justify-between">
-                                <label class="flex flex-col justify-center text-lg font-semibold">Total</label>
+                            </div>
+                            </details> --}}
+                            <div class="mt-2 flex justify-center">
+                                <label class="mr-2 flex flex-col justify-center text-xl font-semibold">Total</label>
                                 <span id="total-costos"
-                                    class="flex flex-col justify-center w-7/12 h-11 bg-gray-200 text-center font-semibold rounded"
+                                    class="flex flex-col flex-wrap justify-center w-11/12 sm:w-8/12 h-11 bg-gray-200 text-center text-lg font-semibold rounded"
                                     x-html="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(application.tco_clp)"></span>
                             </div>
                         </div>
@@ -76,7 +77,7 @@
                 </div>
                 <div class="my-4 flex justify-between">
                     <h3 class="text-left font-hairline">Fuentes de pago</h3>
-                    <h3 class="text-lg text-left font-semibold">Resumen de pagos</h3>
+                    <h3 class="uppercase text-lg text-left font-semibold">Resumen de pagos</h3>
                 </div>
                 <div class="flex flex-col">
                     <div class="w-full overflow-x-auto">
@@ -148,16 +149,52 @@
 
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="text-xs font-bold text-blue-1400 align-text-top" colspan="2">2% mensual
+                                <tr class="border-b-4">
+                                    <td class="w-4/12 text-xs font-bold text-blue-1400 align-text-top">2%
+                                        mensual
                                     </td>
-                                    <td colspan="2" class="text-center">
-                                        <div class="px-4">
+                                    <td class="w-1/12">
+
+                                    </td>
+                                    <td class="uppercase font-semibold text-center w-3/12">
+                                        <p>A pagar</p>
+                                    </td>
+                                    <td class="1/12">
+                                        <div>
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </div>
+                                    </td>
+                                    <td class="w-4/12" id="btn-total-pagar">
+                                        <p id="total-costos"
+                                            x-text="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid).toFixed(2))"
+                                            class="flex flex-col justify-center h-11 my-2 bg-blue-1500 text-center rounded">
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="py-2 text-left">Validar Codigo</td>
+                                    <td colspan="1" class="py-2 text-left">Total a Pagar</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">
+                                        <span class="flex flex-col">
+                                            <input type="text" placeholder="Codigo"
+                                                class="bg-gray-100 text-center px-2 h-11 border rounded w-11/12"
+                                                x-model="formPaymentApp.authorization_code" />
+                                        </span>
+                                    </td>
+                                    <td colspan="3">
+                                        <div class="flex justify-center px-4">
                                             <button
-                                                class="flex items-center justify-evenly bg-blue-1400 text-white font-semibold uppercase w-32 h-11 border rounded"
-                                                x-bind:disabled="loading">Pagar
-                                                <svg x-show="loading"
-                                                    class="animate-spin  h-5 w-5 text-white"
+                                                class="flex flex-col items-center justify-center w-40 h-20 bg-blue-1400 text-white text-sm border rounded-lg hover:bg-blue-1000"
+                                                x-bind:disabled="isLoadingPay">
+                                                <span class="font-semibold uppercase">Activar</span>
+                                                <span>(Firmar y/o Pagar)</span>
+                                                <svg x-show="isLoadingPay" class="animate-spin  h-5 w-5 text-white"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                     <circle class="opacity-25" cx="12" cy="12" r="10"
                                                         stroke="currentColor" stroke-width="4"></circle>
@@ -167,25 +204,7 @@
                                                 </svg></button>
                                         </div>
                                     </td>
-                                    <td colspan="1" id="btn-total-pagar">
-                                        <p id="total-costos"
-                                            x-text="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid).toFixed(2))"
-                                            class="flex flex-col justify-center h-11 my-2 bg-blue-1500 text-center rounded">
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left">Firma</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">
-                                        <span class="flex flex-col">
-                                            <input type="text"
-                                                class="bg-gray-100 text-center px-2 h-11 border rounded w-2/6"
-                                                x-model="formPaymentApp.authorization_code" />
-                                        </span>
-                                    </td>
-                                    <td id="total-pagos">
+                                    <td colspan="1" id="total-pagos">
                                         <p id="total-costos"
                                             x-text="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid).toFixed(2))"
                                             class="font-semibold flex flex-col justify-center h-11 my-2 bg-gray-200 text-center rounded">
@@ -196,9 +215,19 @@
                                     <td>
                                         <div>
                                             <button
-                                                class="bg-gray-100 text-sm text-center font-semibold px-2 h-8 border border-blue-1400 rounded-lg"
-                                                type="button" id="btn-solicitar" x-on:click="sendAuthorizationCode(application.id)">
-                                                Solicitar
+                                                class="flex items-center justify-evenly bg-gray-100 text-sm text-center font-semibold px-4 w-28 h-8 border border-blue-1400 rounded-lg hover:bg-gray-300"
+                                                type="button" id="btn-solicitar"
+                                                x-on:click="sendAuthorizationCode(application.id)"
+                                                x-bind:disabled="isDisabled && isLoadingValidation">
+                                                Solicitar<svg x-show="isLoadingValidation"
+                                                    class="animate-spin ml-1 h-4 w-4 text-black"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                        stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="text-black opacity-75" fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                                    </path>
+                                                </svg>
                                             </button>
                                         </div>
                                     </td>
