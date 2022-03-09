@@ -34,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','phone'
     ];
 
     public $orderable = [
@@ -78,6 +78,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function routeNotificationForWhatsApp()
+    {
+        return $this->phone;
+    }
 
     public function setPasswordAttribute($input)
     {

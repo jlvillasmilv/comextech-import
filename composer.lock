@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38afa73e727807773a420b7c27ab33f8",
+    "content-hash": "ccb5bc278a8159557813922e1e8d80d1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2901,16 +2901,16 @@
         },
         {
             "name": "mediconesystems/livewire-datatables",
-            "version": "dev-master",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MedicOneSystems/livewire-datatables.git",
-                "reference": "bc3accd6b9757c9abf130c0929bf0189b0137356"
+                "reference": "cb527079f2c184d279c194b1a12b53a380e396d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MedicOneSystems/livewire-datatables/zipball/bc3accd6b9757c9abf130c0929bf0189b0137356",
-                "reference": "bc3accd6b9757c9abf130c0929bf0189b0137356",
+                "url": "https://api.github.com/repos/MedicOneSystems/livewire-datatables/zipball/cb527079f2c184d279c194b1a12b53a380e396d1",
+                "reference": "cb527079f2c184d279c194b1a12b53a380e396d1",
                 "shasum": ""
             },
             "require": {
@@ -2924,7 +2924,6 @@
                 "orchestra/testbench": "^4.0|5.0|6.0|^7.0",
                 "phpunit/phpunit": "^8.0|9.0|^9.5.10"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -2959,9 +2958,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MedicOneSystems/livewire-datatables/issues",
-                "source": "https://github.com/MedicOneSystems/livewire-datatables/tree/master"
+                "source": "https://github.com/MedicOneSystems/livewire-datatables/tree/v0.7.0"
             },
-            "time": "2022-02-28T14:31:54+00:00"
+            "time": "2022-02-22T11:02:59+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -7099,6 +7098,59 @@
             "time": "2021-12-08T09:12:39+00:00"
         },
         {
+            "name": "twilio/sdk",
+            "version": "6.35.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "9cfb888bdb2555365ef0b48a81c140394e53ab83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/9cfb888bdb2555365ef0b48a81c140394e53ab83",
+                "reference": "9cfb888bdb2555365ef0b48a81c140394e53ab83",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3 || ^7.0",
+                "phpunit/phpunit": ">=7.0"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "An HTTP client to execute the API requests"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Twilio\\": "src/Twilio/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "https://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "support": {
+                "issues": "https://github.com/twilio/twilio-php/issues",
+                "source": "https://github.com/twilio/twilio-php/tree/6.35.0"
+            },
+            "time": "2022-02-23T21:11:20+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.4.1",
             "source": {
@@ -9762,8 +9814,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "jackbayliss/laravel-dhl-api": 20,
-        "mediconesystems/livewire-datatables": 20
+        "jackbayliss/laravel-dhl-api": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

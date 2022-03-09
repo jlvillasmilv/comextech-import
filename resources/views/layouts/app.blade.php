@@ -16,14 +16,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   
     <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <!-- <script src="{{asset('js/focus-trap.js')}}" defer></script>   -->
     <script src="{{asset('js/init-alpine.js')}}" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons.png') }}">
+   
+ 
 
     <style>
 		[x-cloak] {
@@ -64,6 +68,7 @@ data-notification-message="{{ Session::has('notification') ? json_encode(Session
         <script src="{{ mix('js/app.js') }}" ></script>
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&language=es&libraries=places"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
         <script src="{{ asset('js/main.js') }}"></script> 
         @livewireScripts
         @yield('scripts')

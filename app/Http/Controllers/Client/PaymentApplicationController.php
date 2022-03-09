@@ -11,6 +11,8 @@ use App\Notifications\CLient\ValidationCodeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
+
 class PaymentApplicationController extends Controller
 {
     public function generateOrder(ApplicationPaymentRequest $request)
