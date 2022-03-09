@@ -60,8 +60,8 @@
                                 {{$application->payment->status}}
                                 </span> -->
                               
-                                <div class="flex items-center justify-center font-semibold leading-tight rounded-lg rounded-lg p-1 {{ $application->status->name == "Activada"
-                                     ? 'bg-green-400 text-white' :
+                                <div class="flex items-center justify-center leading-tight rounded-lg rounded-lg p-1 {{ $application->status->name == "Activada"
+                                     ? 'bg-green-200 ' :
                                       ''}}  dark:text-white ">
 
                                     {!!  $application->status->name == "Activada"
@@ -76,7 +76,7 @@
                                        
                                         
                                 </div>
-                                <div class="flex items-center justify-center rounded-lg mt-1 p-1 font-semibold leading-tight border border-gray-400 dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-400 text-white' : 'bg-gray-200'}} ">
+                                <div class="flex items-center justify-center rounded-lg mt-1 p-1  leading-tight border border-gray-400 dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-200' : 'bg-gray-200'}} ">
                                     {!!  $application->status->name == "Validada" || $application->status->name == "Activada"
                                         ? $application->status->name == "Validada" && !$application->state_process ? "<p class='animate-pulse text-red-300'>Validando</p>" :  'Validada' 
                                         : "Validación" !!}
@@ -96,14 +96,14 @@
                                         @endif
                                                                    
                                 </div>
-                                <div class="flex items-center border border-gray-400 justify-center rounded-lg mt-1 p-1 font-semibold leading-tight bg-green-400 text-white ">
+                                <div class="flex items-center border border-gray-400 justify-center rounded-lg mt-1 p-1 leading-tight bg-green-200 ">
                                     Borrador
                                     @if(!$application->state_process)
                                         <button
                                             title="Ver detalles de Observaciones"
                                             data-id="{{base64_encode($application->id)}}"
                                             data-remote="{{route('application.notifications')}}"
-                                            class="float-right animate-pulse ml-2 leading-5 text-red-600 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-notif-app">
+                                            class="float-right animate-pulse ml-2 leading-5 text-red-500 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-notif-app">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         </button>
                                     @endif
