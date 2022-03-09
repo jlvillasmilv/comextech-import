@@ -72,9 +72,11 @@ function data() {
       authorization_code: ''
     },
     status: false,
-    loading: false,
+    isLoadingPay: false,
+    isLoadingValidation: false,
     isError: false,
     icon: '',
+    isDisabled: false,
     async openModalPayment(id) {
       this.formPaymentApp.application_id = id;
       //x-show="application.type_transport=='COURIER'"
@@ -109,7 +111,7 @@ function data() {
     },
 
     async submitModalPayment() {
-      this.loading = true
+      this.isLoadingPay = true;
       axios
         .post('/application-generate-order', this.formPaymentApp)
         .then((response) => {
@@ -124,20 +126,21 @@ function data() {
               icon: 'success',
               title: 'Generado con exito'
             });
-            
           }
-          
+
           this.closeModal();
           window.setTimeout(function() {
             window.location.reload();
           }, 2000);
         })
         .catch((error) => {
-          this.loading = false
+          this.isLoadingPay = false;
           //console.log(error.response.data.errors);
           Toast.fire({
             icon: 'error',
-            title: error.response.data.error ? error.response.data.error : 'No es posible continuar, revise los datos'
+            title: error.response.data.error
+              ? error.response.data.error
+              : 'No es posible continuar, revise los datos'
           });
         });
     },
@@ -148,16 +151,20 @@ function data() {
       this.trapCleanup = null;
     },
     async sendAuthorizationCode(id) {
-
+      this.isDisabled = true;
+      this.isLoadingValidation = true;
       let response = await axios.get('/generate-code/' + id);
 
       if (response.status == 200) {
-        Toast.fire({
-          icon: 'success',
-          title: 'Codigo Generado con exito verifque'
-        });
+        setTimeout(() => {
+          Toast.fire({
+            icon: 'success',
+            title: 'Codigo Generado con exito verifque'
+          });
+          this.isDisabled = false;
+          this.isLoadingValidation = false;
+        }, 5000);
       }
-      
     },
     initData() {
       this.formPaymentApp.availablePrepaid = 0;
@@ -166,7 +173,9 @@ function data() {
       this.formPaymentApp.available_prepaid = 0;
       this.formPaymentApp.available_credit = 0;
       this.formPaymentApp.authorization_code = '';
-      this.loading = false; 
+      this.isLoadingPay = false;
+      this.isLoadingValidation = false;
+      this.isDisabled = false;
     }
   };
 }
