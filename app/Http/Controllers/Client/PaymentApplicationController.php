@@ -35,6 +35,11 @@ class PaymentApplicationController extends Controller
             return response()->json(['error' => 'Monto no puede ser mayor a credito o operacion'], 422);
         }
 
+        if($request->available_prepaid > auth()->user()->company->available_prepaid || $request->available_prepaid > $application_order->tco_clp)
+        {
+            return response()->json(['error' => 'Monto Prepago no puede ser mayor a credito o operacion'], 422);
+        }
+
         if (is_null($application_order) || $application_order->tco_clp <= 0) {
             return response()->json(['error' => 'Solicitud no encontrada'], 500);
         }
@@ -45,15 +50,15 @@ class PaymentApplicationController extends Controller
         }
 
         $data_payment = [
-                ['payment_method_type' => 'PREPAGO SII', 'total' => $request->available_prepaid ],
-                ['payment_method_type' => 'CREDITO', 'total' => $request->available_credit ],
+            ['payment_method_type' => 'PREPAGO SII', 'total' => $request->available_prepaid ],
+            ['payment_method_type' => 'CREDITO', 'total' => $request->available_credit ],
         ];
 
         ApplicationPayment::addPayment($application_order->id ,$data_payment);
 
-        if($request->available_credit > 0) { auth()->user()->company->decrement('available_credit', $request->available_credit); }
+        if($request->available_credit > 0 && auth()->user()->company->available_credit > 0) { auth()->user()->company->decrement('available_credit', $request->available_credit); }
 
-        if($request->available_prepaid > 0) { auth()->user()->company->decrement('available_prepaid', $request->available_prepaid); }
+        if($request->available_prepaid > 0 && auth()->user()->company->available_prepaid > 0) { auth()->user()->company->decrement('available_prepaid', $request->available_prepaid); }
 
         $total = round($application_order->tco_clp - $request->available_credit - $request->available_prepaid, 0);
 

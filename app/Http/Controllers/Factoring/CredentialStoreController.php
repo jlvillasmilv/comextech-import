@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Factoring;
 
+use App\Models\UserCredential;
 use Illuminate\Http\Request;
 use App\Http\Requests\Web\Factoring\UpdateCredentialRequest;
 use App\Http\Controllers\Controller;
 
 class CredentialStoreController extends Controller
 {
-    public function index($name_provider)
+    public function index()
     {
         $client     = auth()->user();
         $credential = $client->credentialStores()
-        ->where('provider_name', $name_provider)
         ->select('id', 'provider_password','provider_name')
         ->first();
 
@@ -23,11 +23,19 @@ class CredentialStoreController extends Controller
         return  response()->json(['client' => $client,'credential' => $credential] , 200);
     }
 
-    public function store(UpdateCredentialRequest $request, $id)
+    public function store(UpdateCredentialRequest $request)
     { 
-        $reponse = $request->updateOrCreate($id);
+        $credential = UserCredential::updateOrCreate(
+            [
+               'user_id'           => auth()->user()->id,
+               'provider_name'     => $request->input('providerName'),
+            ],
+            [   
+                'provider_password' => base64_encode($request->input('password')),
+            ],
+        );
 
-        return response()->json($reponse, 200);
+        return response()->json($credential, 200);
         
     }
 }

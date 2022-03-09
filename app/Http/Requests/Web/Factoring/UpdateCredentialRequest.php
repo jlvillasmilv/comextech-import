@@ -25,24 +25,8 @@ class UpdateCredentialRequest extends FormRequest
     public function rules()
     {
         return [
-             'id'       => 'required',
-             'password' => 'required',
+             'password' => 'required|max:200',
         ];
     }
 
-    public function updateOrCreate($client_id)
-    {
-        $credential = UserCredential::updateOrCreate(
-            [
-               'user_id'   => $client_id,
-            ],
-            [   
-                'provider_name'     => $this->providerName,
-                'provider_password' => base64_encode($this->password),
-                'contract_status'=> 0
-            ],
-        );
-
-        return $credential;
-    }
 }
