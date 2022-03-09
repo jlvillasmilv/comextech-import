@@ -19,7 +19,7 @@ class ApplicationController extends Controller
     {
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
-        ->paginate(7);
+        ->get();
         return view('client.applications.index' , compact('data'));
     }
 
