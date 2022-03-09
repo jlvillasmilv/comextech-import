@@ -166,7 +166,7 @@ export default {
     },
     methods: {
         async fetchBanks() {
-            let response = await axios.get("/api/banks/");
+            let response = await axios.get("/api/banks");
             this.banks = response.data;
         },
         async AddBankAccount() {
@@ -232,7 +232,7 @@ export default {
         },
         async getProfileClient() {
            
-            let response = await axios.get("/bank-accounts/");
+            let response = await axios.get("/bank-accounts");
             this.bank_accounts = response.data;
             // this.client = response.data;
         }

@@ -116,9 +116,8 @@ export default {
         async updatePassword() {
             if (this.credentialSII.provider_password.length > 2) {
                 let response = await axios.post(
-                    '/factoring/clients/' + this.client.id + '/credential',
+                    '/factoring/clients/credential',
                     {
-                        id: this.credentialSII.id,
                         providerName: 'SII',
                         password: this.credentialSII.provider_password
                     }
@@ -134,9 +133,7 @@ export default {
         },
         async getCredential() {
             var provider_name = 'SII';
-            let response = await axios.get(
-                '/factoring/credentials/' + provider_name
-            );
+            let response = await axios.get('/factoring/clients/credential');
             this.client = response.data.client;
             this.credentialSII = response.data.credential;
         }

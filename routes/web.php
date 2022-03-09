@@ -161,7 +161,7 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
     Route::get('/payers/export', 'PayerController@export')->name('payers.export');
     
     Route::resource('profile', 'ProfileController');
-    Route::resource('clients.credential', 'CredentialStoreController')->only('update', 'store');
+    Route::resource('clients/credential', 'CredentialStoreController')->only('index','update', 'store');
 
     Route::get('/quote', 'QuoteController@index')->name('quote');
     Route::get('/quotation', 'QuoteController@quotation')->name('quotation');
@@ -172,7 +172,6 @@ Route::group(['prefix' => 'factoring', 'as' => 'factoring.', 'namespace' => 'App
     
     Route::resource('applications', 'ApplicationController')->except(['destroy']);   
     
-    Route::get('/credentials/{name}', 'CredentialStoreController@index');
     Route::resource('partners', 'PartnerController');
 
     Route::post('single-file', 'FileStoreClientController@store')->name('single-file');
