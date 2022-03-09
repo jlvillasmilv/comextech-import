@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\CLient;
+namespace App\Notifications\Client;
 
 use App\Models\Application;
 use Carbon\Carbon;
@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notification;
 use App\Channels\Messages\WhatsAppMessage;
 use App\Channels\WhatsAppChannel;
 
-class ValidationCodeNotification extends Notification
+class ValidationCodeProcessed extends Notification
 {
     use Queueable;
 
@@ -34,7 +34,7 @@ class ValidationCodeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail',WhatsAppChannel::class];
+        return [WhatsAppChannel::class];
     }
 
     /**
@@ -52,7 +52,6 @@ class ValidationCodeNotification extends Notification
 
     public function toWhatsApp($notifiable)
     {
-       
         return (new WhatsAppMessage)
             ->content("Codigo de Validacion Para solicitud #: {$this->application->code}. Codigo: {$this->application->authorization_code}");
     }
