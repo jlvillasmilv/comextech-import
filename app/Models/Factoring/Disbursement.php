@@ -56,6 +56,7 @@ class Disbursement extends Model
             ->where('factoring_applications.status', '=', 'Aprobada')
             ->whereNotIn('factoring_disbursements.status', ['RECHAZADO', 'PENDIENTE']);
         }
+        
         return 0;
     }
     public function created_user()
