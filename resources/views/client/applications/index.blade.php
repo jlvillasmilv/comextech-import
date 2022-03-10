@@ -18,13 +18,12 @@
             </a>
         </div>
 
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs" x-cloak>
-            <div class="w-full overflow-x-auto">
-                <table id="table" class="datatable w-full whitespace-no-wrap rounded-lg " style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-                    <thead class="">
-                        <tr
-                            class=" text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3 "> Nro/Fecha </th>
+        <div class="mb-8 overflow-hidden rounded-lg shadow-xs" x-cloak>
+            <div class=" overflow-x-auto">
+                <table class=" whitespace-no-wrap" id="table" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                    <thead class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
+                        <tr class=>
+                            <th class="px-4 py-3">Nro/Fecha </th>
                             <th class="px-4 py-3"> Total Operacion </th>
                             <th class="px-4 py-3"> Pago Proveedor </th>
                             <th class="px-4 py-3"> Estatus </th>
@@ -32,26 +31,25 @@
                             <th class="px-4 py-3"> &nbsp; </th> 
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                    <tbody class="bg-white divide-y divide-gray-400 dark:divide-gray-700 dark:bg-gray-800">
                         @forelse($data as $application)
-                        <tr id="{{$application->id}}" class="text-gray-700 dark:text-gray-400 text-center">
-                            <td class="px-2 py-2 text-center tex-sm">
-                                <div>
+                        <tr class="text-gray-700 dark:text-gray-400 text-center">
+                            <td class="px-2 pb-2 text-center tex-sm border-b-2 border-gray-400">
+                                
                                     <p class="font-semibold"> {{$application->code}} </p>
                                      
                                     <p class="text-gray-600 dark:text-gray-400 ">
                                          {{ date('d-m-y', strtotime($application->created_at)) }}
                                     </p>
-                                </div>
                             </td>
-                            <td class="px-2 py-2  text-sm">
+                            <td class="px-2 py-2  text-sm border-b-2 border-gray-400">
                                 <strong> {{ $application->currencyTco->code }} {{ $application->currencyTco->symbol }} {{number_format($application->tco,0,",",".") }}
                                 </strong>
                             </td>
-                            <td class="px-2 py-2  text-sm">
+                            <td class="px-2 py-2  text-sm border-b-2 border-gray-400">
                                 <strong> {{ $application->currency->code }} {{ $application->currency->symbol }} {{number_format($application->amount,0,",",".") }}</strong>
                             </td>
-                            <td class="px-2 text-sm w-32">
+                            <td class="px-2 text-sm w-32 border-b-2 border-gray-400 border-gray-400">
                                 <!-- <span class="px-2 py-1 font-semibold leading-tight {{$application->status->status_color}}  rounded-full dark:text-white dark:bg-green-600">
                                     {{$application->status->name}}
                                 </span>
@@ -72,9 +70,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     @endif
-                                
-                                       
-                                        
+                                 
                                 </div>
                                 <div class="flex items-center justify-center rounded-lg mt-1 p-1  leading-tight border border-gray-400 dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-200' : 'bg-gray-200'}} ">
                                     {!!  $application->status->name == "Validada" || $application->status->name == "Activada"
@@ -120,18 +116,15 @@
                                             </svg>
                                         </button>
                                     @endif
-
-                                    
-                                    
                                 </div>
 
                             </td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 border-b-2 border-gray-400">
                                 <p class="font-semibold  text-md">
                                     {{$application->supplier->name}}
                                 </p>
                             </td>  
-                            <td class=" py-3" >
+                            <td class=" py-3 border-b-2 border-gray-400">
                                 <div class="flex flex-nowrap">
                                  <a  
                                 href="{{ route('applications.show', \Crypt::encryptString($application->id)) }}" 
@@ -203,24 +196,19 @@
 
                                 @endif
 
-                                <button
-                                    x-on:click.stop ="openModalPayment({{$application->id}})"
-                                    class="px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                </button>
-
-                                @if($application->tco > 0 and !$application->status->client_modify )
-                                    @if($application->payment->status != 'Paid')
-                                        @if($application->payment->status != 'Canceled')
-                                        
-                                        <!-- boton modal here -->
-
-
-                                        @endif 
-                                    @endif  
-
+                                @if($application->tco_clp > 0 )
+                                    @if(!$application->status->client_modify)
+                                        @if(round(($application->tco_clp - $application->applicationPayment->sum('total')),0) > 0)
+                                                <!-- boton modal here -->
+                                            <button
+                                                x-on:click.stop ="openModalPayment({{$application->id}})"
+                                                class="px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </button>
+                                        @endif    
+                                    @endif
                                 @endif
 
                                 </div>
@@ -234,7 +222,6 @@
                         
                     </tbody>
                 </table>
-                {{-- {{ $data->links() }} --}}
             </div>
            
         </div>
@@ -244,23 +231,22 @@
 
     @section('scripts')
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table').DataTable({   
+                language: { url: '{{asset("js/lang.json")}}' },
+                processing: true,
+                orderCellsTop: true,
+                responsive: true,
+                lengthChange: false,
+                order: [[ 0, 'desc' ]],
+                columnDefs: [
+                    { orderable: false, targets: 5 },
+                    { orderable: false, targets: 3 }
+                ]
+            }).columns.adjust();
+        });   
+    </script>
 
-    $.extend(true, $.fn.dataTable.defaults, {
-        language: { url: '{{asset("js/lang.json")}}' },
-        processing: true,
-        orderCellsTop: true,
-        responsive: true,
-        order: [[ 0, 'desc' ]],
-        columnDefs: [
-        { orderable: false, targets: 5 },
-        { orderable: false, targets: 3 }
-    ],
-    });
-    let table = $('.datatable:not(.ajaxTable)').DataTable().columns.adjust();
-    table.columns.adjust().draw();
-</script>
-
-@endsection
-
+    @endsection
 
 </x-app-layout>

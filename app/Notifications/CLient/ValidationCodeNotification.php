@@ -34,7 +34,7 @@ class ValidationCodeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail',WhatsAppChannel::class];
+        return ['mail'];
     }
 
     /**

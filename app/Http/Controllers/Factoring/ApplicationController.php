@@ -134,9 +134,11 @@ class ApplicationController extends Controller
     public function libredte(Request $request)
     {
       
-        $invoices = auth()->user()->InvoicesHistory()->whereDate('factoring_invoice_histories.created_at', Carbon::today())->get();
-        // $client   = auth()->user()->client;
-        // $invoices = $client->InvoicesHistory()->whereDate('invoice_histories.created_at', Carbon::today())->get();
+        $invoices = auth()->user()->InvoicesHistory()
+        ->whereDate('factoring_invoice_histories.created_at', Carbon::today())
+        ->whereTime('factoring_invoice_histories.created_at' , '<',Carbon::now()->subHours(1))
+        ->get();
+        
         $response = ['status' => 200 ];
 
         if ($invoices->isEmpty()) {

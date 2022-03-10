@@ -20,6 +20,7 @@ class ApplicationController extends Controller
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
         ->get();
+
         return view('client.applications.index' , compact('data'));
     }
 
@@ -363,7 +364,7 @@ class ApplicationController extends Controller
         }
 
         $total_app = Application::where('id', base64_decode($request->application_id))
-            ->update(["tco" => $total, "currency_tco" => $currency2_id, 'tco_clp' => $tco_clp]);
+            ->update(["tco" => $total, "currency_tco" => $currency2_id, 'tco_clp' => round($tco_clp,0)]);
 
         return response()->json($total, 200);
        
