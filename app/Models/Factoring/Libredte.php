@@ -102,7 +102,6 @@ class Libredte extends Model
         $month  = $data['month'];
         $responseMerged = array();
 
-
         for ($i = 1; $i <= $month; $i++) {
 
             $log = $this::whereDate('created_at', '=', date('Y-m-d'))->first();
@@ -151,6 +150,7 @@ class Libredte extends Model
 
                 if( $data['type'] == 'VENTAS'){
 
+                    
                     $clientPayer = ClientPayer::firstOrCreate(
                         ['payer_id'=>  $payer->id, 'user_id' => $client->id]
                     );
@@ -195,7 +195,7 @@ class Libredte extends Model
                             'pasaje_nacional'       =>  $item->pasaje_nacional,
                             'pasaje_internacional'  =>  $item->pasaje_internacional,
                             'numero_interno'        =>  $item->numero_interno,
-                            'sucursal_sii'          =>  $item->sucursal_sii,
+                            //'sucursal_sii'          =>  $item->sucursal_sii,
                             // 'emisor_nc_nd_fc'  =>  $item->emisor_nc_nd_fc,
                         ]
                     );
