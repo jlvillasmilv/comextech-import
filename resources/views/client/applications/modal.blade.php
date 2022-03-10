@@ -30,7 +30,7 @@
                 <h2 class="text-xl font-bold" id="solicitud">Solicitud: <span x-html="application.code"></span></h2>
                 <div class="mt-4 h-4/12 flex justify-between border-b-4">
                     <div class="w-6/12">
-                        <h3 class="text-lg uppercase font-semibold">Tipo de operación</h3>
+                        <h3 class="font-semibold">Tipo de operación</h3>
                         <div class="flex justify-start w-full">
                             <div class="w-7/12 sm:w-7/12 flex flex-col justify-center items-center mt-2 mb-3 lg:mb-8">
 
@@ -76,8 +76,8 @@
                     </div>
                 </div>
                 <div class="my-4 flex justify-between">
-                    <h3 class="text-left font-hairline">Fuentes de pago</h3>
-                    <h3 class="uppercase text-lg text-left font-semibold">Resumen de pagos</h3>
+                    <h3 class="text-left font-bold">Fuentes de pago</h3>
+                    <h3 class="text-left font-bold">Resumen de pagos</h3>
                 </div>
                 <div class="flex flex-col">
                     <div class="w-full overflow-x-auto">
@@ -88,7 +88,11 @@
                                 <tr>
                                     <td class="w-4/12" id="prepagoSII">
                                         <p class="flex flex-col justify-center h-12 my-2 bg-green-100 text-center rounded"
-                                            x-html="formPaymentApp.availablePrepaid"></p>
+                                            x-html="new Intl.NumberFormat('es-es', {
+                                                style: 'currency',
+                                                currency: 'CLP',
+                                            })
+                                            .format(formPaymentApp.availablePrepaid)"></p>
                                     </td>
                                     <td class="w-1/12">
                                         <div>
@@ -110,7 +114,7 @@
                                         </div>
                                     </td>
                                     <td class="w-4/12" id="total-prepagoSII">
-                                        <input type="number"
+                                        <input id="input-available" type="text"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
                                             x-model.number="formPaymentApp.available_prepaid" />
                                     </td>
@@ -119,8 +123,11 @@
                                     <td class="w-4/12" id="credito-disponible">
                                         <p class="flex flex-col justify-center h-12 my-2 bg-green-100 text-center rounded"
                                             x-html="
-                                            new Intl.NumberFormat('es-es', { style: 'currency' , currency: 'CLP'
-                                            }).format(formPaymentApp.availableCredit)">
+                                            new Intl.NumberFormat('es-es', {
+                                                style: 'currency',
+                                                currency: 'CLP'
+                                            })
+                                            .format(formPaymentApp.availableCredit)">
                                         </p>
                                     </td>
                                     <td class="w-1/12">

@@ -105,7 +105,14 @@ function data() {
       this.formPaymentApp.availablePrepaid = Number(
         this.application.user.company.available_prepaid
       );
+
+      this.formPaymentApp.available_prepaid = Number(
+        this.application.user.company.available_prepaid
+      );
+
       this.formPaymentApp.availableCredit = Number(this.application.user.company.available_credit);
+
+      this.formPaymentApp.available_credit = Number(this.application.user.company.available_credit);
 
       this.isModalOpen = true;
     },
@@ -163,7 +170,7 @@ function data() {
           });
           this.isDisabled = false;
           this.isLoadingValidation = false;
-        }, 5000);
+        }, 3000);
       }
     },
     initData() {
