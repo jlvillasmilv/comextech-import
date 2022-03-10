@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\ApplicationPaymentRequest;
 use App\Models\{Application, ApplicationPayment, User};
+use App\Models\Factoring\Disbursement;
 use App\Models\Currency;
 use App\Models\JumpSellerAppPayment;
 use App\Notifications\CLient\{ValidationCodeNotification, ValidationCodeProcessed};
@@ -52,8 +53,7 @@ class PaymentApplicationController extends Controller
         }
 
         if (!is_null($application_order->duplicate_url)) {
-            // $url_order =  is_null($application_order->recovery_url) ? $application_order->checkout_url : $application_order->recovery_url;
-            $url_order = $application_order->checkout_url;
+            $url_order =  is_null($application_order->recovery_url) ? $application_order->duplicate_url : $application_order->recovery_url;
         }
 
         $data_payment = [
@@ -94,6 +94,20 @@ class PaymentApplicationController extends Controller
 
     public function paymentProcces($id)
     {
+        //sum of total amount of disbursements status aproved
+        $total_amount   = Disbursement::Approved()->select('disbursements.total_amount')->sum('total_amount');
+
+        $total_payment_sii = 0;
+
+        foreach (auth()->user()->application as $key => $app) {
+            $total_payment_sii += $app->applicationPayment->where('payment_method_type','PREPAGO SII')->sum('total');
+        }
+
+        if(($total_amount - $total_payment_sii ) > 0)
+        {
+            auth()->user()->company->update(['available_credit' => $total_amount - $total_payment_sii]);
+        }
+
         $data  = Application::where([
             ['id', $id],
             ['user_id', auth()->user()->id],
@@ -120,7 +134,7 @@ class PaymentApplicationController extends Controller
                 ]);
             },
             'jumpSellerAppPayment' => function ($query) {
-                $query->select('id','application_id','order_id','duplicate_url','recovery_url', 'checkout_url');
+                $query->select('id','application_id','order_id','duplicate_url','recovery_url');
             },
             
             'currencyTco'
@@ -162,7 +176,6 @@ class PaymentApplicationController extends Controller
        // notification via whatsapp
        // $user->notify(new ValidationCodeProcessed($application));
        
-
        return response()->json(['status' => 'OK'], 200);
     }
 
