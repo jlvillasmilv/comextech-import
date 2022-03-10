@@ -114,9 +114,11 @@
                                         </div>
                                     </td>
                                     <td class="w-4/12" id="total-prepagoSII">
-                                        <input id="input-available" type="text"
+                                        <input max="999999999" min="0" id="input-available" type="number"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
                                             x-model.number="formPaymentApp.available_prepaid" />
+                                        <span x-text="formPaymentApp.available_prepaid < formPaymentApp.availablePrepaid
+                                            ? 'El valor no puede ser menor' : ''"></span>
                                     </td>
                                 </tr>
                                 <tr>
