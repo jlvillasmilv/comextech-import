@@ -20,6 +20,7 @@ class ApplicationController extends Controller
         $data  = Application::where('user_id', auth()->user()->id)
         ->orderBy('id','desc')
         ->get();
+
         return view('client.applications.index' , compact('data'));
     }
 
