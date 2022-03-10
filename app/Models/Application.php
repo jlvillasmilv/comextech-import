@@ -180,6 +180,11 @@ class Application extends Model
         return $this->hasOne(JumpSellerAppPayment::class,'application_id');
     }
 
+    public function applicationPayment()
+    {
+        return $this->hasMany(ApplicationPayment::class,'application_id');
+    }
+
 
     public static function validateApplication($id)
     {
