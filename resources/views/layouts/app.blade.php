@@ -68,8 +68,9 @@ data-notification-message="{{ Session::has('notification') ? json_encode(Session
         <script src="{{ mix('js/app.js') }}" ></script>
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&language=es&libraries=places"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
         <script src="{{ asset('js/main.js') }}"></script> 
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+       
         @livewireScripts
         @yield('scripts')
         @stack('scripts')
