@@ -7,7 +7,7 @@ use App\Http\Requests\Client\ApplicationPaymentRequest;
 use App\Models\{Application, ApplicationPayment, User};
 use App\Models\Currency;
 use App\Models\JumpSellerAppPayment;
-use App\Notifications\CLient\ValidationCodeNotification;
+use App\Notifications\CLient\{ValidationCodeNotification, ValidationCodeProcessed};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +40,11 @@ class PaymentApplicationController extends Controller
         if($request->available_prepaid > auth()->user()->company->available_prepaid || $request->available_prepaid > $application_order->tco_clp)
         {
             return response()->json(['error' => 'Monto Prepago no puede ser mayor a credito o operacion'], 422);
+        }
+
+        if(($request->available_credit + $request->available_prepaid) > $application_order->tco_clp)
+        {
+            return response()->json(['error' => 'Monto credito no puede ser mayor a total operacion'], 422);
         }
 
         if (is_null($application_order) || $application_order->tco_clp <= 0) {
@@ -101,8 +106,6 @@ class PaymentApplicationController extends Controller
             'tco',
             'currency_tco',
             'tco_clp',
-            'ecommerce_id',
-            'ecommerce_url',
             'condition',
             'services_code'
         )
@@ -114,6 +117,10 @@ class PaymentApplicationController extends Controller
                     }
                 ]);
             },
+            'jumpSellerAppPayment' => function ($query) {
+                $query->select('id','application_id','order_id','duplicate_url','recovery_url', 'checkout_url');
+            },
+            
             'currencyTco'
         ])
         ->firstOrFail()->toArray();
@@ -149,6 +156,10 @@ class PaymentApplicationController extends Controller
        $user = User::findOrFail(auth()->user()->id);
 
        $user->notify(new ValidationCodeNotification($application));
+       
+       // notification via whatsapp
+       // $user->notify(new ValidationCodeProcessed($application));
+       
 
        return response()->json(['status' => 'OK'], 200);
     }

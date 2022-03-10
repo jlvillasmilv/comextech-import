@@ -175,6 +175,11 @@ class Application extends Model
         return $this->hasOne(LocalWarehouse::class,'application_id')->select('*',\DB::raw("'ICS05' as code_serv"));
     }
 
+    public function jumpSellerAppPayment()
+    {
+        return $this->hasOne(JumpSellerAppPayment::class,'application_id');
+    }
+
 
     public static function validateApplication($id)
     {
