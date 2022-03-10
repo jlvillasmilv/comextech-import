@@ -88,6 +88,8 @@ class PaymentApplicationController extends Controller
         
             return response()->json(['order' => $url_order], 200);
         }
+
+        return response()->json(['credit' => 'Pagado con credito'], 200);
     }
 
     public function paymentProcces($id)
