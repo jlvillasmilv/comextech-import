@@ -20,7 +20,7 @@
 
         <div class="mb-8 overflow-hidden rounded-lg shadow-xs" x-cloak>
             <div class=" overflow-x-auto">
-                <table class=" whitespace-no-wrap" id="dataTable" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                <table class=" whitespace-no-wrap" id="table" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                     <thead class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                         <tr class=>
                             <th class="px-4 py-3">Nro/Fecha </th>
@@ -116,9 +116,6 @@
                                             </svg>
                                         </button>
                                     @endif
-
-                                    
-                                    
                                 </div>
 
                             </td>
@@ -237,7 +234,7 @@
     @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#dataTable').DataTable({   
+            $('#table').DataTable({   
                 language: { url: '{{asset("js/lang.json")}}' },
                 processing: true,
                 orderCellsTop: true,
