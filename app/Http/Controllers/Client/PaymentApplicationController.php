@@ -134,7 +134,7 @@ class PaymentApplicationController extends Controller
                 ]);
             },
             'jumpSellerAppPayment' => function ($query) {
-                $query->select('id','application_id','order_id','duplicate_url','recovery_url');
+                $query->select('id','application_id','order_id','duplicate_url','recovery_url', 'checkout_url');
             },
             
             'currencyTco'
