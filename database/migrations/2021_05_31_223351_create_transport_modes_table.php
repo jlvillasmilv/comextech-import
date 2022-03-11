@@ -17,6 +17,8 @@ class CreateTransportModesTable extends Migration
             $table->id();
             $table->string('name',50);
             $table->string('description')->nullable();
+            $table->string('icon')->nullable();
+            $table->boolean('disabled')->default(false);
             $table->boolean('status')->default(true);
         });
     }

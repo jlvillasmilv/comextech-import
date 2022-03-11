@@ -129,7 +129,7 @@
                                     </button>  
 
                                 @endif
-                                    
+
                                 @if($application->tco_clp > 0 )
                                     @if(!$application->status->client_modify)
                                         @if(round(($application->tco_clp - $application->applicationPayment->sum('total')),0) > 0)
