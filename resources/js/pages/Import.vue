@@ -264,7 +264,7 @@
                 <!-- Condicion y monto -->
                 <div class="flex sm:items-center sm:w-full">
                   <div
-                    v-if="$store.state.address.expenses.mode_selected != 'COURIER'"
+                    v-if="$store.state.application.data.type_transport != 'COURIER'"
                     :class="[
                       data.statusSuppliers == 'with'
                         ? 'flex flex-col w-6/12 sm:w-full'
@@ -442,12 +442,16 @@
                 :key="service.name"
                 class="w-4/12 sm:w-3/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
               >
-                <div
+                <button
+                  :disabled="!service.isEnable"
+                  type="button"
                   :class="[
-                    'mx-1 flex flex-col items-center border border-blue-1300 rounded hover:bg-blue-1300 px-3 py-2 text-gray-900 hover:text-white border-b-2',
+                    'mx-1 flex flex-col items-center border rounded px-3 py-2 border-b-2',
                     service.name == $store.state.application.data.type_transport
-                      ? 'bg-blue-1300 hover:bg-blue-1200 text-white'
-                      : ''
+                      ? 'bg-blue-1300 border-blue-1300 hover:bg-blue-1200 text-white'
+                      : !service.isEnable
+                      ? 'bg-gray-300 border-gray-300 text-gray-500 hover:bg-gray-300'
+                      : 'border-blue-1300 hover:bg-blue-1300 hover:text-white'
                   ]"
                   @click="typeSelected(service.name)"
                 >
@@ -466,8 +470,8 @@
                       fill="bg-white"
                     />
                   </svg>
-                </div>
-                <p class="text-center">
+                </button>
+                <p :class="[service.isEnable ? '' : 'text-gray-400', 'text-center']">
                   {{ service.name }}
                 </p>
                 <!-- <ul class="flex space-x-2 mt-3">
