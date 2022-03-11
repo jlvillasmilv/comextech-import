@@ -462,7 +462,7 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      :d="service.path"
+                      :d="service.icon"
                       fill="bg-white"
                     />
                   </svg>
@@ -830,7 +830,8 @@ export default {
       Promise.all([
         this.$store.dispatch('application/getSuppliers'),
         this.$store.dispatch('application/getServices'),
-        this.$store.dispatch('application/getCurrencies')
+        this.$store.dispatch('application/getCurrencies'),
+        this.$store.dispatch('application/getTypeTransport')
       ]);
 
       let application = document.getElementById('applications');
