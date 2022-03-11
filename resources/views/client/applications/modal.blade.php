@@ -7,7 +7,7 @@
         x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0  transform translate-y-1/2" x-on:keydown.escape="closeModal"
-        class="w-full h-auto px-6 py-4 bg-white dark:bg-gray-800 sm:rounded-3xl border-2 border-blue-1200 sm:m-4 sm:max-w-xl"
+        class="w-full h-auto px-6 py-4 bg-white dark:bg-gray-800 sm:rounded-3xl border-2 border-blue-1200 sm:m-4 sm:max-w-2xl"
         role="dialog" id="modal">
         <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
         <header class="flex justify-end">
@@ -30,7 +30,7 @@
                 <h2 class="text-xl font-bold" id="solicitud">Solicitud: <span x-html="application.code"></span></h2>
                 <div class="mt-4 h-4/12 flex justify-between border-b-4">
                     <div class="w-6/12">
-                        <h3 class="font-semibold">Tipo de operación</h3>
+                        <h3 class="font-bold">Tipo de operación</h3>
                         <div class="flex justify-start w-full">
                             <div class="w-7/12 sm:w-7/12 flex flex-col justify-center items-center mt-2 mb-3 lg:mb-8">
 
@@ -76,8 +76,16 @@
                     </div>
                 </div>
                 <div class="my-4 flex justify-between">
-                    <h3 class="text-left font-bold">Fuentes de pago</h3>
-                    <h3 class="text-left font-bold">Resumen de pagos</h3>
+                    <h3 class="w-3/12 text-left font-bold">Fuentes de pago</h3>
+                    <span class="font-semibold align-bottom w-6/12 text-center text-xs text-red-500"
+                        x-show="formPaymentApp.available_prepaid !== formPaymentApp.availablePrepaid" x-text="formPaymentApp.available_prepaid === formPaymentApp.availablePrepaid
+                            ? ''
+                            : 'El monto no puede ser mayor ni menor'"></span>
+                    <span class="font-semibold align-bottom w-6/12 text-center text-xs text-red-500"
+                        x-show="formPaymentApp.available_credit > formPaymentApp.availableCredit" x-text="formPaymentApp.available_credit > formPaymentApp.availableCredit
+                            ? 'El valor no puede ser mayor'
+                            : ''"></span>
+                    <h3 class="w-3/12 text-right font-bold">Resumen de pagos</h3>
                 </div>
                 <div class="flex flex-col">
                     <div class="w-full overflow-x-auto">
@@ -103,7 +111,12 @@
                                             </svg>
                                         </div>
                                     </td>
-                                    <td class="font-semibold text-center w-3/12">PREPAGO (Cesión SII)</td>
+                                    <td class="font-semibold text-center w-3/12">
+                                        <div class="flex flex-col">
+                                            <span>PREPAGO</span>
+                                            <span>(Cesión SII)</span>
+                                        </div>
+                                    </td>
                                     <td class="w-1/12">
                                         <div>
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor"
@@ -114,11 +127,9 @@
                                         </div>
                                     </td>
                                     <td class="w-4/12" id="total-prepagoSII">
-                                        <input max="999999999" min="0" id="input-available" type="number"
+                                        <input id="input-available" type="number"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
                                             x-model.number="formPaymentApp.available_prepaid" />
-                                        <span x-text="formPaymentApp.available_prepaid < formPaymentApp.availablePrepaid
-                                            ? 'El valor no puede ser menor' : ''"></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -155,7 +166,6 @@
                                         <input type="number"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
                                             x-model.number="formPaymentApp.available_credit" />
-
                                     </td>
                                 </tr>
                                 <tr class="border-b-4">
@@ -178,8 +188,17 @@
                                         </div>
                                     </td>
                                     <td class="w-4/12" id="btn-total-pagar">
-                                        <p id="total-costos"
-                                            x-text="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid).toFixed(2))"
+                                        <p id="total-costos" x-text="new Intl.NumberFormat('es-es', {
+                                                style: 'currency',
+                                                currency: 'CLP'
+                                            }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid)
+                                            .toFixed(2)) < '0'
+                                            ? 0
+                                            : new Intl.NumberFormat('es-es', {
+                                                style: 'currency',
+                                                currency: 'CLP'
+                                            }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid)
+                                            .toFixed(2))"
                                             class="flex flex-col justify-center h-11 my-2 bg-blue-1500 text-center rounded">
                                         </p>
                                     </td>
