@@ -22,7 +22,6 @@
   
     <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <!-- <script src="{{asset('js/focus-trap.js')}}" defer></script>   -->
     <script src="{{asset('js/init-alpine.js')}}" defer></script>
     
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons.png') }}">

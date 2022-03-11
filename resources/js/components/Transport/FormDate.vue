@@ -61,7 +61,7 @@
           </label>
           <div class="w-44 flex flex-col justify-center px-3 md:mb-0">
             <span class="ml-2 text-gray-700">
-              {{ expenses.insurance ? $options.filters.setPrice(data.amount, 'USD') : '' }}
+              <!-- {{ expenses.insurance ? $options.filters.setPrice(data.amount, 'USD') : '' }} -->
             </span>
           </div>
         </div>
