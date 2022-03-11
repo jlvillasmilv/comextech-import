@@ -88,8 +88,9 @@ class JumpSellerAppPayment extends Model
 
             if (empty($obj["order"])) { return $obj; }
 
-            JumpSellerAppPayment::create([
-                'application_id' => $data['application_id'],
+            JumpSellerAppPayment::updateOrCreate(
+                [  'application_id' => $data['application_id'] ],
+            [
                 'order_id'       => $obj["order"]["id"],
                 'variant_id'     => $variant_id,
                 'customer_id'    => $customer_id,
@@ -107,6 +108,62 @@ class JumpSellerAppPayment extends Model
 
     }
 
+    public static function getSingleOrder($id)
+    {
+        try {
+            $login = env('JUMPSELLER_LOGIN');
+            $auth_token = env('JUMPSELLER_AUTH_TOKEN');
+            $url = "https://api.jumpseller.com/v1/orders/{$id}.json?login={$login}&authtoken={$auth_token}";
+
+            $httpResponse = Http::withHeaders(['Content-Type' => 'application/json'])
+            ->get($url);
+
+            $obj = json_decode($httpResponse->body(), true);
+
+            if (empty($obj["order"])) { return $obj; }
+
+            return $obj["order"];
+      
+        } catch (\Throwable $th) {
+            return response()->json('Id customer not found', 500);
+        }
+
+    }
+
+    public static function modifySingleOrder($id, $status)
+    { 
+        $order =  [
+            "order" => [
+                "status"           => $status,
+                "shipment_status"  => null,
+                "tracking_number"  => null,
+                "tracking_company" => null,
+                "tracking_url"     => null,
+                "additional_information" => null,
+                "additional_fields" => []
+            ]
+        ];
+
+        try {
+            $login = env('JUMPSELLER_LOGIN');
+            $auth_token = env('JUMPSELLER_AUTH_TOKEN');
+            $url = "https://api.jumpseller.com/v1/orders/{$id}.json?login={$login}&authtoken={$auth_token}";
+
+            $httpResponse = Http::withHeaders(['Content-Type' => 'application/json'])
+            ->withBody(json_encode($order), 'application/json')
+            ->put($url);
+
+            $obj = json_decode($httpResponse->body(), true);
+
+            if (empty($obj["order"])) { return $obj; }
+
+            return $obj["order"];
+      
+        } catch (\Throwable $th) {
+            return response()->json('Id customer not found', 500);
+        }
+    
+    }
 
     /**
      * @author Jorge Villasmil.

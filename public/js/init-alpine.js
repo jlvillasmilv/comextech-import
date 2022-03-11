@@ -79,17 +79,9 @@ function data() {
     isDisabled: false,
     async openModalPayment(id) {
       this.formPaymentApp.application_id = id;
-      //x-show="application.type_transport=='COURIER'"
       let { data } = await axios.get('/get-appayment/' + id);
       this.application = data;
-      console.log(data);
-      // if (this.application.jump_seller_app_payment) {
-      //   let url =
-      //     this.application.jump_seller_app_payment.recovery_url == null
-      //       ? this.application.jump_seller_app_payment.duplicate_url
-      //       : this.application.jump_seller_app_payment.recovery_url;
-      //   window.open(url, '_blank');
-      // } else {
+    
       switch (this.application.type_transport) {
         case 'AEREO':
           this.icon = 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8';
@@ -130,7 +122,7 @@ function data() {
           console.log(response);
 
           if (response.data.order) {
-            window.open(response.data.order, '_blank');
+            window.open(response.data.order+ '?n=' + new Date().getTime(), '_blank');
           }
 
           if (response.status == 200) {

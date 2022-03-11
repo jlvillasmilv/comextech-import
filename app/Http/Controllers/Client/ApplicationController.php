@@ -738,7 +738,7 @@ class ApplicationController extends Controller
                 $user->notify(new ApplicationStatusNotification($application));
         });
 
-        return response()->json(['status' => 'OK'], 200);
+        return response()->json(['application' => $application], 200);
     }
 
 
