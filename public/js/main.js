@@ -224,6 +224,7 @@ $(document).ready(function () {
       preConfirm: () => {
         return fetch(url)
           .then(response => {
+           
             if (!response.ok) {
 
               throw new Error(response.statusText)
@@ -472,11 +473,6 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
       await axios.post(url, {
         application_id: application_id,
       }).then(response => {
-        // console.log(response);
-
-        if (response.data.order) {
-          window.open(response.data.order, '_blank');
-        }
 
         if (response.status == 200) {
 
