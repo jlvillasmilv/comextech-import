@@ -52,25 +52,26 @@ class PaymentApplicationController extends Controller
             return response()->json(['error' => 'Solicitud no encontrada'], 500);
         }
 
-        if (!is_null($application_order->duplicate_url)) {
-            $url_order =  is_null($application_order->recovery_url) ? $application_order->duplicate_url : $application_order->recovery_url;
-        }
-
-        $data_payment = [
-            ['payment_method_type' => 'PREPAGO SII', 'total' => $request->available_prepaid ],
-            ['payment_method_type' => 'CREDITO', 'total' => $request->available_credit ],
-        ];
-
-        ApplicationPayment::addPayment($application_order->id ,$data_payment);
-
-        if($request->available_credit > 0 && auth()->user()->company->available_credit > 0) { auth()->user()->company->decrement('available_credit', $request->available_credit); }
-
-        if($request->available_prepaid > 0 && auth()->user()->company->available_prepaid > 0) { auth()->user()->company->decrement('available_prepaid', $request->available_prepaid); }
+        ApplicationPayment::addPayment($application_order->id ,$request->all());
 
         $total = round($application_order->tco_clp - $request->available_credit - $request->available_prepaid, 0);
 
-        if ($total > 0 && $application_order->status != 'Paid') {
-            if (is_null($application_order->recovery_url) && is_null($application_order->duplicate_url)) {
+        if ($total > 0 ) {
+            $url_order = "";
+            if (!is_null($application_order->duplicate_url)) {
+
+                $jump_seller_order = JumpSellerAppPayment::getSingleOrder($application_order->order_id);
+                $url_order =  empty($jump_seller_order["recovery_url"]) ? $jump_seller_order["duplicate_url"] : $jump_seller_order["recovery_url"];
+
+                if ($total != $jump_seller_order["total"] && $jump_seller_order["status"] != 'Paid' )
+                { 
+                    $jump_seller_modify = JumpSellerAppPayment::modifySingleOrder($application_order->order_id, 'Canceled');
+                    $url_order = "";
+                }
+                
+            }
+
+            if (empty($url_order)) {
                 $data = [
                     "application_id"      => $application_order->id,
                     "application_code"    => $application_order->code,
@@ -107,6 +108,8 @@ class PaymentApplicationController extends Controller
         {
             auth()->user()->company->update(['available_credit' => $total_amount - $total_payment_sii]);
         }
+
+        ApplicationPayment::checkPayment($id);
 
         $data  = Application::where([
             ['id', $id],
