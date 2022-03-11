@@ -28,29 +28,29 @@ const state = {
     }
   ],
   typeTransport: [
-    {
-      name: 'COURIER',
-      path:
-        'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
-      isEnable: true
-    },
-    {
-      name: 'AEREO',
-      path: 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8',
-      isEnable: true
-    },
-    {
-      name: 'CONTAINER',
-      path:
-        'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
-      isEnable: true
-    },
-    {
-      name: 'CONSOLIDADO',
-      path:
-        'M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
-      isEnable: true
-    }
+    // {
+    //   name: 'COURIER',
+    //   path:
+    //     'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    //   isEnable: true
+    // },
+    // {
+    //   name: 'AEREO',
+    //   path: 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8',
+    //   isEnable: true
+    // },
+    // {
+    //   name: 'CONTAINER',
+    //   path:
+    //     'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    //   isEnable: true
+    // },
+    // {
+    //   name: 'CONSOLIDADO',
+    //   path:
+    //     'M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
+    //   isEnable: true
+    // }
     // {
     //   name: 'TERRESTRE',
     //   path:
@@ -84,6 +84,9 @@ const mutations = {
   },
   SET_CURRENCIES(state, payload) {
     state.currencies = payload;
+  },
+  SET_TYPE_TRANSPORT(state, payload) {
+    state.typeTransport = payload;
   },
   SET_CURRENCY(state, { currency }) {
     state.currency = currency;
@@ -171,6 +174,12 @@ const actions = {
     if (!state.currencies.length) {
       const { data } = await axios.get('/api/currencies');
       commit('SET_CURRENCIES', data);
+    }
+  },
+  async getTypeTransport({ commit, state }) {
+    if (!state.currencies.length) {
+      const { data } = await axios.get('/api/transport-modes');
+      commit('SET_TYPE_TRANSPORT', data);
     }
   },
   async getOriginTransport({ commit }, id) {

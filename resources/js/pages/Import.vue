@@ -443,13 +443,13 @@
                 class="w-4/12 sm:w-3/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
               >
                 <button
-                  :disabled="!service.isEnable"
+                  :disabled="service.disabled"
                   type="button"
                   :class="[
                     'mx-1 flex flex-col items-center border rounded px-3 py-2 border-b-2',
                     service.name == $store.state.application.data.type_transport
                       ? 'bg-blue-1300 border-blue-1300 hover:bg-blue-1200 text-white'
-                      : !service.isEnable
+                      : service.disabled
                       ? 'bg-gray-300 border-gray-300 text-gray-500 hover:bg-gray-300'
                       : 'border-blue-1300 hover:bg-blue-1300 hover:text-white'
                   ]"
@@ -466,12 +466,12 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      :d="service.path"
+                      :d="service.icon"
                       fill="bg-white"
                     />
                   </svg>
                 </button>
-                <p :class="[service.isEnable ? '' : 'text-gray-400', 'text-center']">
+                <p :class="[service.disabled ? 'text-gray-400' : '', 'text-center']">
                   {{ service.name }}
                 </p>
                 <!-- <ul class="flex space-x-2 mt-3">
@@ -834,7 +834,8 @@ export default {
       Promise.all([
         this.$store.dispatch('application/getSuppliers'),
         this.$store.dispatch('application/getServices'),
-        this.$store.dispatch('application/getCurrencies')
+        this.$store.dispatch('application/getCurrencies'),
+        this.$store.dispatch('application/getTypeTransport')
       ]);
 
       let application = document.getElementById('applications');
