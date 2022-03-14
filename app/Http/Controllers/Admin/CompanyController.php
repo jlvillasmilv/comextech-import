@@ -157,7 +157,7 @@ class CompanyController extends Controller
         );
 
         $notification = array(
-            'message'    => 'Ejecutivo Asignado, exitosamente!',
+            'message'    => 'Datos modificados, exitosamente!',
             'alert_type' => 'success'
         );
 
