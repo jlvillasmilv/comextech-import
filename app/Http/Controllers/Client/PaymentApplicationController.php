@@ -12,10 +12,10 @@ use App\Notifications\CLient\{ValidationCodeNotification, ValidationCodeProcesse
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
-
 class PaymentApplicationController extends Controller
 {
+
+    
     public function generateOrder(ApplicationPaymentRequest $request)
     {
         //dd($request->all());

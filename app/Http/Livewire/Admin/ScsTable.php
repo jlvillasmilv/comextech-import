@@ -24,7 +24,7 @@ class ScsTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => $id, 'route' => 'admin.suppl_cond_sales.']);
-            })
+            })->excludeFromExport()
         ];
     }
 }
