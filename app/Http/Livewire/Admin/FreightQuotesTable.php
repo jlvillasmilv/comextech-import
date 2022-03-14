@@ -37,7 +37,7 @@ class FreightQuotesTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.freight-quotes.', 'permission' => 'admin.freight-quotes']);
-            })
+            })->excludeFromExport()
         ];
 
         return $table;

@@ -282,6 +282,12 @@ class ApplicationController extends Controller
        
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param  Int  $id
+     * @param  Tring  $currency
+     */
     public function getApplicationSummary($id, $currency=null)
     {
         $summary = \DB::table('application_summaries as aps')
