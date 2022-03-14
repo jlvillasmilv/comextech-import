@@ -42,7 +42,10 @@
                 ></path>
               </svg>
             </button>
-            <template x-if="isPagesMenuOpen">
+            <template x-if="isPagesMenuOpen" 
+             {!! (request()->is('applications') || request()->is('applications/*')) ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}
+             {!! (request()->is('supplier') || request()->is('supplier/*')) ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}
+             {!! (request()->is('custom-agents') || request()->is('custom-agents/*')) ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}>
               <ul
                 x-transition:enter="transition-all ease-in-out duration-300"
                 x-transition:enter-start="opacity-25 max-h-0"
@@ -75,7 +78,8 @@
                   </a>
                 </li>
                 <li
-                class="px-2 py-1 transition-colors duration-150 hover:text-blue-1300 dark:hover:text-gray-200"
+                class="px-2 py-1 transition-colors duration-150 hover:text-blue-1300 dark:hover:text-gray-200
+                {!! request()->is('custom-agents') || request()->is('custom-agents/*')  ? 'italic font-black' : '' !!}"
               >
                 <a class="w-full" href="{{ route('custom-agents.index')}}">
                   Agente de Aduanas
@@ -114,7 +118,7 @@
                 ></path>
               </svg>
             </button>
-            <template x-if="isFinancingMenuOpen">
+            <template x-if="isFinancingMenuOpen" {!! request()->is('factoring/*') ? ' x-data="{ isFinancingMenuOpen: true }"' : '' !!}>
               <ul
                 x-transition:enter="transition-all ease-in-out duration-300"
                 x-transition:enter-start="opacity-25 max-h-0"
