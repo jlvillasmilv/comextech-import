@@ -77,11 +77,13 @@ function data() {
     isError: false,
     icon: '',
     isDisabled: false,
+    formatterPrepaid: 0,
+    formatterCredit: 0,
     async openModalPayment(id) {
       this.formPaymentApp.application_id = id;
       let { data } = await axios.get('/get-appayment/' + id);
       this.application = data;
-    
+
       switch (this.application.type_transport) {
         case 'AEREO':
           this.icon = 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8';
@@ -102,16 +104,47 @@ function data() {
         this.application.user.company.available_prepaid
       );
 
-      this.formPaymentApp.available_prepaid = Number(
-        this.application.user.company.available_prepaid
-      );
+      // this.formPaymentApp.available_prepaid = Number(
+      //   this.application.user.company.available_prepaid
+      // );
 
       this.formPaymentApp.availableCredit = Number(this.application.user.company.available_credit);
 
-      this.formPaymentApp.available_credit = Number(this.application.user.company.available_credit);
+      // this.formPaymentApp.available_credit = Number(this.application.user.company.available_credit);
 
       this.isModalOpen = true;
       // }
+    },
+
+    formatterPrepaid() {
+      let valueCurrency = document.getElementById('input-available');
+
+      if (valueCurrency.value === '' || typeof Number(valueCurrency.value) !== 'number') {
+        valueCurrency.value = 0;
+      }
+
+      let removePoints = Number(valueCurrency.value.replaceAll('.', ''));
+
+      this.formPaymentApp.available_prepaid = isNaN(valueCurrency.value) ? 0 : removePoints;
+      valueCurrency.value = isNaN(valueCurrency.value)
+        ? 0
+        : new Intl.NumberFormat('es-es').format(valueCurrency.value);
+    },
+
+    formatterCredit() {
+      let valueCurrency = document.getElementById('input-credit');
+
+      if (valueCurrency.value === '' || typeof Number(valueCurrency.value) !== 'number') {
+        valueCurrency.value = 0;
+      }
+
+      let removePoints = Number(valueCurrency.value.replaceAll('.', ''));
+
+      this.formPaymentApp.available_credit = isNaN(valueCurrency.value) ? 0 : removePoints;
+
+      valueCurrency.value = isNaN(valueCurrency.value)
+        ? 0
+        : new Intl.NumberFormat('es-es').format(valueCurrency.value);
     },
 
     async submitModalPayment() {
@@ -122,7 +155,7 @@ function data() {
           console.log(response);
 
           if (response.data.order) {
-            window.open(response.data.order+ '?n=' + new Date().getTime(), '_blank');
+            window.open(response.data.order + '?n=' + new Date().getTime(), '_blank');
           }
 
           if (response.status == 200) {
@@ -183,3 +216,21 @@ function data() {
     }
   };
 }
+// let selector = document.getElementById('input-available');
+// $(document).ready(function() {
+//   $(selector).inputmask('99-9999999');
+// });
+// $("input[name='masknumber']").on('keyup change', function() {
+//   $("input[name='number']").val(destroyMask(this.value));
+//   // this.formPaymentApp.available_prepaid = this.value;
+//   console.log(this.formPaymentApp.available_prepaid);
+//   this.value = createMask($("input[name='number']").val());
+// });
+
+// function createMask(string) {
+//   return string.replace(/(\d{1})(\d{3})(\d{3})/, '$1.$2.$3');
+// }
+
+// function destroyMask(string) {
+//   return string.replace(/\D/g, '').substring(0, 7);
+// }
