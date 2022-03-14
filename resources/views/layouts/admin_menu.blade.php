@@ -296,6 +296,13 @@
                   <a class="w-full" href="{{route('admin.services.index')}}">Servicios</a>
                 </li>
               @endcan
+
+              <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" {!! (request()->is('admin/services') || request()->is('admin/services/*')) ? 'italic font-black' : '' !!}">
+                {!!  (request()->is('/admin/transport-modes') || request()->is('/admin/transport-modes/*'))  ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+                <a class="w-full" href="{{route('admin.transport-modes.index')}}">Tipo de transporte</a>
+              </li>
+
+              
                 
               </ul>
             </template>

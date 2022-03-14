@@ -12,5 +12,11 @@ class TransportMode extends Model
     public $timestamps = false;
 
     protected $table = 'transport_modes';
-    protected $guarded = [];
+    
+    protected $fillable = [
+        'name', 'description',
+        'icon',
+        'disabled',
+        'status'
+    ];
 }

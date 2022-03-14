@@ -30,7 +30,7 @@ class ActionsCustomsExchangeRateTable extends LivewireDatatable
                     'route' => 'admin.customs-exchange-rates.',
                     'permission' => 'admin.customs-exchange-rates'
                 ]);
-            })
+            })->excludeFromExport()
         ];
     }
 

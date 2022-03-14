@@ -26,7 +26,7 @@ class TransCompaniesTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => $id, 'route' => 'admin.trans_companies.']);
-            })
+            })->excludeFromExport()
         ];
     }
 }
