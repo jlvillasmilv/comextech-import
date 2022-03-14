@@ -12,13 +12,17 @@ use App\Notifications\CLient\{ValidationCodeNotification, ValidationCodeProcesse
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
-
 class PaymentApplicationController extends Controller
 {
+
+    /**
+     * Store a newly created Order resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function generateOrder(ApplicationPaymentRequest $request)
     {
-        //dd($request->all());
         $application_order = \DB::table('applications as app')
         ->leftjoin('jump_seller_app_payments as jsap', 'jsap.application_id', '=', 'app.id')
         ->where([
@@ -93,6 +97,12 @@ class PaymentApplicationController extends Controller
         return response()->json(['credit' => 'Pagado con credito'], 200);
     }
 
+
+    /**
+     * Show the application data for generate a new payment order.
+     * Validate exists application paymentProcces 
+     * @param  Integer  $id
+     */
     public function paymentProcces($id)
     {
         //sum of total amount of disbursements status aproved

@@ -24,7 +24,7 @@ class ActionsServiceTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => $id, 'route' => 'admin.services.']);
-            })
+            })->excludeFromExport()
         ];
     }
 
