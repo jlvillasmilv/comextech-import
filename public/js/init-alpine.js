@@ -79,6 +79,7 @@ function data() {
     isDisabled: false,
     formatterPrepaid: 0,
     formatterCredit: 0,
+    // showValidations: false,
     async openModalPayment(id) {
       this.formPaymentApp.application_id = id;
       let { data } = await axios.get('/get-appayment/' + id);
@@ -114,6 +115,29 @@ function data() {
 
       this.isModalOpen = true;
       // }
+    },
+
+    prepaidValidate(value) {
+      let valueCurrency = document.getElementById('input-available');
+
+      value = valueCurrency.value;
+
+      let formatterCurrency = Number(value.replaceAll('.', ''));
+
+      if (Math.sign(formatterCurrency) === -1) {
+        return true;
+      } else if (Math.sign(formatterCurrency) === 0) {
+        return false;
+      } else if (
+        formatterCurrency > 0 &&
+        formatterCurrency < this.formPaymentApp.availablePrepaid
+      ) {
+        return true;
+      } else if (formatterCurrency > this.formPaymentApp.availablePrepaid) {
+        return true;
+      } else if (isNaN(formatterCurrency)) {
+        return true;
+      }
     },
 
     formatterPrepaid() {

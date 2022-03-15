@@ -77,10 +77,10 @@
                 </div>
                 <div class="my-4 flex justify-between">
                     <h3 class="w-3/12 text-left font-bold">Fuentes de pago</h3>
-                    {{-- <span class="font-semibold align-bottom w-6/12 text-center text-xs text-red-500"
-                        x-show="formPaymentApp.available_prepaid !== formPaymentApp.availablePrepaid" x-text="formPaymentApp.available_prepaid === formPaymentApp.availablePrepaid
-                            ? ''
-                            : 'El monto no puede ser mayor ni menor'"></span> --}}
+                    <span class="font-semibold align-bottom w-6/12 text-center text-xs text-red-500"
+                        x-show="prepaidValidate(formPaymentApp.available_prepaid)" x-text="prepaidValidate(formPaymentApp.available_prepaid)
+                            ? 'El monto puede ser 0 igual a la fuente de pago'
+                            : ''"></span>
                     <span class="font-semibold align-bottom w-6/12 text-center text-xs text-red-500"
                         x-show="formPaymentApp.available_credit > formPaymentApp.availableCredit" x-text="formPaymentApp.available_credit > formPaymentApp.availableCredit
                             ? 'El valor no puede ser mayor'
