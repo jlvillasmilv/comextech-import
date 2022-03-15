@@ -154,7 +154,8 @@
                 class="text-left px-4 py-3 text-sm">
                   <div>
                     <p class="font-semibold" :class="key == 1 || key == 2  || key == 3 ||
-                    item.code == 'CS03-02' || item.code == 'CS03-03' || item.code == 'CS03-04'
+                    item.code == 'CS03-02' || item.code == 'CS03-03' || item.code == 'CS03-04' ||
+                    item.code == 'CS04-02' || item.code == 'CS04-03' || item.code == 'CS04-04' || item.code == 'CS04-05'
                      ? 'ml-5' : ''">
                       {{ item.description }}
                     </p>
