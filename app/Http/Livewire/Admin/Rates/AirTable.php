@@ -29,7 +29,7 @@ class AirTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.rates.air.', 'permission' => 'admin.rates.air']);
-            })
+            })->excludeFromExport()
         ];
 
         return $table;

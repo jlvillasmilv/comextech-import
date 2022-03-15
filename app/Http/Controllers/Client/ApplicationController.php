@@ -187,17 +187,18 @@ class ApplicationController extends Controller
                 ->get();
 
                 foreach ($add_summary as $key => $item) {
+                    
+                        \DB::table('application_summaries')->insert([
+                            [   
+                                "application_id"      => $application->id,
+                                "category_service_id" => $item->category_service_id,
+                                "service_id"          => $item->id, 
+                                "currency_id"         => $application->currency_id,
+                                "fee_date"            => date('Y-m-d'),
+                                "currency2_id"        => 1
+                            ]
+                        ]);
 
-                    \DB::table('application_summaries')->insert([
-                        [   
-                            "application_id"      => $application->id,
-                            "category_service_id" => $item->category_service_id,
-                            "service_id"          => $item->id, 
-                            "currency_id"         => $application->currency_id,
-                            "fee_date"            => date('Y-m-d'),
-                            "currency2_id"        => 1
-                        ]
-                    ]);
                 }
 
                 /****Send notification to admin about new applications**/
@@ -220,7 +221,7 @@ class ApplicationController extends Controller
                         ["as.application_id", $application->id],
                         ["as.status", true]
                     ])
-                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02','CS03-02'])
                     ->update(["as.status" => false, "as.amount" => 0]);
 
             }
@@ -231,7 +232,7 @@ class ApplicationController extends Controller
                         ["as.application_id", $application->id],
                         ["as.status", false]
                     ])
-                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02','CS03-02'])
                     ->update(["as.status" => true]);
             }
 
@@ -445,7 +446,6 @@ class ApplicationController extends Controller
      */
     public function destroy($id)
     {
-       
         PaymentProvider::where('application_id',  Crypt::decryptString($id))->delete();
         Transport::where('application_id',  Crypt::decryptString($id))->delete();
 
@@ -581,18 +581,18 @@ class ApplicationController extends Controller
                 $mount = ($key == 1 && $request->iva ) ? round($request->iva_amt, 0) : $mount ;
                 $mount = ($key > 1 && $request->adv ) ? round($request->adv_amt, 0) : $mount ;
                 
-                     ApplicationDetail::updateOrCreate([
-                     'application_id' =>  $request->application_id,
-                     'service_id' => $id
-                     ],                    
-                     [
-                        'amount' =>  $mount,
-                        'currency_id' =>  1
-                     ],
-                 );
+                // ApplicationDetail::updateOrCreate([
+                //      'application_id' =>  $request->application_id,
+                //      'service_id' => $id
+                //      ],                    
+                //      [
+                //         'amount' =>  $mount,
+                //         'currency_id' =>  1
+                //      ],
+                //  );
 
              // update application summary
-              $service_id = $key == 0 ? 'CS04-01' :($key == 1 ? 'CS04-02' : 'CS04-03');
+              $service_id = $key == 0 ? 'CS04-02' :($key == 1 ? 'CS04-03' : 'CS04-04');
 
               \DB::table('application_summaries as as')
                     ->join('services as s', 'as.service_id', '=', 's.id')
@@ -609,7 +609,7 @@ class ApplicationController extends Controller
                     ->join('services as s', 'as.service_id', '=', 's.id')
                     ->where([
                         ["as.application_id", $request->application_id],
-                        ["s.code",  'CS04-04']
+                        ["s.code",  'CS04-05']
                     ])
                 ->update(['as.amount' =>  $request->port_charges,  'as.currency_id' =>  8]);
 
