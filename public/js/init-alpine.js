@@ -140,6 +140,20 @@ function data() {
       }
     },
 
+    creditValidate(value) {
+      let valueCurrency = document.getElementById('input-credit');
+
+      value = valueCurrency.value;
+
+      let formatterCurrency = Number(value.replaceAll('.', ''));
+
+      if (Math.sign(formatterCurrency) === -1) {
+        return true;
+      } else if (formatterCurrency > this.formPaymentApp.availableCredit) {
+        return true;
+      }
+    },
+
     formatterPrepaid() {
       let valueCurrency = document.getElementById('input-available');
 
