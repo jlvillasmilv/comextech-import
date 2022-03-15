@@ -187,17 +187,18 @@ class ApplicationController extends Controller
                 ->get();
 
                 foreach ($add_summary as $key => $item) {
+                    
+                        \DB::table('application_summaries')->insert([
+                            [   
+                                "application_id"      => $application->id,
+                                "category_service_id" => $item->category_service_id,
+                                "service_id"          => $item->id, 
+                                "currency_id"         => $application->currency_id,
+                                "fee_date"            => date('Y-m-d'),
+                                "currency2_id"        => 1
+                            ]
+                        ]);
 
-                    \DB::table('application_summaries')->insert([
-                        [   
-                            "application_id"      => $application->id,
-                            "category_service_id" => $item->category_service_id,
-                            "service_id"          => $item->id, 
-                            "currency_id"         => $application->currency_id,
-                            "fee_date"            => date('Y-m-d'),
-                            "currency2_id"        => 1
-                        ]
-                    ]);
                 }
 
                 /****Send notification to admin about new applications**/
@@ -220,7 +221,7 @@ class ApplicationController extends Controller
                         ["as.application_id", $application->id],
                         ["as.status", true]
                     ])
-                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02','CS03-02'])
                     ->update(["as.status" => false, "as.amount" => 0]);
 
             }
@@ -231,7 +232,7 @@ class ApplicationController extends Controller
                         ["as.application_id", $application->id],
                         ["as.status", false]
                     ])
-                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02'])
+                    ->whereIn("s.code", ['CS04-04','CS06-01','CS06-02','CS03-02'])
                     ->update(["as.status" => true]);
             }
 
