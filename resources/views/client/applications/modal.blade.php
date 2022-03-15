@@ -77,14 +77,16 @@
                 </div>
                 <div class="my-4 flex justify-between">
                     <h3 class="w-3/12 text-left font-bold">Fuentes de pago</h3>
-                    <span class="font-semibold align-bottom w-6/12 text-center text-xs text-red-500"
-                        x-show="prepaidValidate(formPaymentApp.available_prepaid)" x-text="prepaidValidate(formPaymentApp.available_prepaid)
-                            ? 'El monto puede ser 0 igual a la fuente de pago'
-                            : ''"></span>
-                    <span class="font-semibold align-bottom w-6/12 text-center text-xs text-red-500"
-                        x-show="formPaymentApp.available_credit > formPaymentApp.availableCredit" x-text="formPaymentApp.available_credit > formPaymentApp.availableCredit
-                            ? 'El valor no puede ser mayor'
-                            : ''"></span>
+                    <div class="w-6/12 flex flex-col items-center">
+                        <span class="font-semibold align-bottom w-full text-center text-xs text-red-500"
+                            x-show="prepaidValidate(formPaymentApp.available_prepaid)" x-text="prepaidValidate(formPaymentApp.available_prepaid)
+                                ? `El monto de PREPAGO utilizado puede ser 0 ó el mismo monto autorizado`
+                                : ''"></span>
+                        <span class="font-semibold align-bottom w-full text-center text-xs text-red-500"
+                            x-show="creditValidate(formPaymentApp.available_credit)" x-text="creditValidate(formPaymentApp.available_credit)
+                                ? 'Monto de CREDITO no permitido'
+                                : ''"></span>
+                    </div>
                     <h3 class="w-3/12 text-right font-bold">Resumen de pagos</h3>
                 </div>
                 <div class="flex flex-col">
