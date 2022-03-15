@@ -132,46 +132,21 @@
                   />
                 </div>
                 <div class="">
-                  <button
-                    @click="selectQuote(totalEstimed, 2)"
-                    :class="[
-                      isBusyFedex
-                        ? 'flex flex-col items-center justify-center w-24 px-2 h-15 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-                        : this.$store.state.address.showFedexQuote
-                        ? 'w-24 px-2 h-14 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-                        : 'w-24 px-2 h-14 text-white transition-colors text-sm bg-gray-400 rounded-lg'
-                    ]"
-                    :disabled="
-                      isBusyFedex
-                        ? isBusyFedex
-                        : !this.$store.state.address.showFedexQuote
-                        ? true
-                        : false
-                    "
-                  >
-                    Seleccionar
-                    <svg
-                      v-if="isBusyFedex"
-                      class="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
+                  <transition name="fade">
+                    <button
+                      v-if="isButtonFedex"
+                      @click="selectQuote(totalEstimed, 2)"
+                      :class="[
+                        isBusyFedex
+                          ? 'flex flex-col items-center justify-center w-24 px-2 h-15 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+                          : this.$store.state.address.showFedexQuote
+                          ? 'w-24 px-2 h-14 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+                          : 'w-24 px-2 h-14 text-white transition-colors text-sm bg-gray-400 rounded-lg'
+                      ]"
                     >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  </button>
+                      Seleccionar
+                    </button>
+                  </transition>
                 </div>
               </div>
             </div>
@@ -307,42 +282,21 @@
                   />
                 </div>
                 <div class="">
-                  <button
-                    @click="selectQuote(dhl.ComextechTotal, 3)"
-                    :class="[
-                      isBusyDhl
-                        ? 'flex flex-col items-center justify-center w-24 px-2 h-15 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-                        : this.$store.state.address.showDhlQuote
-                        ? 'w-24 px-2 h-14 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-                        : 'w-24 px-2 h-14 text-white transition-colors text-sm bg-gray-400 rounded-lg'
-                    ]"
-                    :disabled="
-                      isBusyDhl ? isBusyDhl : !this.$store.state.address.showDhlQuote ? true : false
-                    "
-                  >
-                    Seleccionar
-                    <svg
-                      v-if="isBusyDhl"
-                      class="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
+                  <transition name="fade">
+                    <button
+                      v-if="isButtonDhl"
+                      @click="selectQuote(dhl.ComextechTotal, 3)"
+                      :class="[
+                        isBusyDhl
+                          ? 'flex flex-col items-center justify-center w-24 px-2 h-15 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+                          : this.$store.state.address.showDhlQuote
+                          ? 'w-24 px-2 h-14 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
+                          : 'w-24 px-2 h-14 text-white transition-colors text-sm bg-gray-400 rounded-lg'
+                      ]"
                     >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  </button>
+                      Seleccionar
+                    </button>
+                  </transition>
                 </div>
               </div>
             </div>
@@ -365,6 +319,8 @@ export default {
       transportDhl: 0 /* transportation rate DHL */,
       totalEstimed: 0 /* estimated total Fedex */,
       transportQuote: 0,
+      isButtonFedex: true,
+      isButtonDhl: true,
       isBusyFedex: false,
       isBusyDhl: false
     };
@@ -379,12 +335,12 @@ export default {
      */
     async selectQuote(appAmount, transCompanyId) {
       if (transCompanyId === 2) {
-        this.isBusyFedex = true;
         this.$store.commit('address/SELECT_COURIER', transCompanyId);
+        this.isButtonFedex = false;
       }
       if (transCompanyId === 3) {
-        this.isBusyDhl = true;
         this.$store.commit('address/SELECT_COURIER', transCompanyId);
+        this.isButtonDhl = false;
       }
       this.expenses.dataLoad = this.$store.state.load.loads;
       this.expenses.app_amount = appAmount;
