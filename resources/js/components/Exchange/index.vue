@@ -151,9 +151,7 @@
                 class="text-gray-700 dark:text-gray-400"
               >
                 <td 
-                :class="item.code == 'CS01-01' || item.code == 'CS03-01' ? 'text-sm' : ''"
-               
-                class="text-left px-4 py-3">
+                class="text-left px-4 py-3 text-sm">
                   <div>
                     <p class="font-semibold" :class="key == 1 || key == 2  || key == 3 ||
                     item.code == 'CS03-02' || item.code == 'CS03-03' || item.code == 'CS03-04'
@@ -162,20 +160,20 @@
                     </p>
                   </div>
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' ? 'invisible' : ''" class="text-center">
+                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="text-center">
                     {{ getHumanDate(item.fee_date) }}
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' ? 'invisible' : ''" class="text-center px-4 py-3">
+                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="text-center px-4 py-3">
                   {{ item.currency }}
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' ? 'invisible' : ''" class="text-center px-4 py-3">
+                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="text-center px-4 py-3">
                   {{ item.amount | setPrice(item.currency) }}
                 </td>
                 <td class="text-center px-4 py-3">&nbsp;</td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' ? 'invisible' : ''" class="px-4 py-3 text-center">
+                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="px-4 py-3 text-center">
                   {{ item.amo2 | setPrice(item.currency2) }}
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' ? 'invisible' : ''" class="px-4 py-3 text-right">
+                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="px-4 py-3 text-right">
                   {{ item.currency2 }}
                 </td>
               </tr>

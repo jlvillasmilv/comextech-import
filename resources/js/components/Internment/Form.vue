@@ -916,7 +916,9 @@ export default {
     try {
       this.$store.dispatch('exchange/getSummary', this.application_id);
 
-      const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
+      const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
+
+      console.log(transpCostp.amount);
 
       if (transpCostp.amount <= 0) {
         await axios.post('/set-application-summary', {
@@ -947,8 +949,8 @@ export default {
       this.expenses.application_id = this.application_id;
       this.expenses.transport = !this.$store.getters.findService('ICS03');
       // /custom-convert-currency
-      const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
-      const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-02');
+      const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
+      const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-04');
 
       this.insureAmount =
         Number(insure_cost.amount) == 0 ? this.expenses.insurance : Number(insure_cost.amount);
