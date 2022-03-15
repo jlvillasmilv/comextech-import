@@ -107,6 +107,8 @@ Route::post('/get-dhl-quote','App\Http\Controllers\Client\TransportsControllers@
 Route::get('/transport-modes', function () {
    
     $transport_modes = \DB::table('transport_modes')
+    ->where('status', '=', true)
+    ->orderBy('id')
     ->get(['id','name','icon', 'disabled', 'status']);
 
     return response()->json($transport_modes, 200);

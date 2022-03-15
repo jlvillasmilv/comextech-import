@@ -33,7 +33,7 @@ class LocalTransportTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.rates.local-transport.', 'permission' => 'admin.rates.local-transport']);
-            })
+            })->excludeFromExport()
         ];
 
         return $table;

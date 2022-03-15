@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\{Currency, JumpSellerAppPayment, ApplicationPayment};
+use App\Models\{Currency, JumpSellerAppPayment, ApplicationPayment, FileStoreInternment};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ServicesController extends Controller
 {
@@ -86,6 +87,15 @@ class ServicesController extends Controller
             return response()->json($e, 500);
         }
        
+    }
+
+    public function downloadAsset($id, $type = null)
+    {
+        $file_store_internment = FileStoreInternment::where('internment_id', $id)
+        ->where('intl_treaty', $type)->first();
+         
+         return Storage::disk('s3')->response('file/'.$file_store_internment->fileStore->file_name);
+
     }
 
 }

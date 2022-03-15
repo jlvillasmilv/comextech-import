@@ -29,7 +29,7 @@ class LocalSpendingTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.rates.local-spending.', 'permission' => 'admin.rates.local_spending']);
-            })
+            })->excludeFromExport()
         ];
 
         return $table;

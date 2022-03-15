@@ -80,7 +80,7 @@ class CreateNewUser implements CreatesNewUsers
                 "surname"   => $input['name'],
                 "email"     => $input['email'],
                 "phone"     => "00000000",
-                "password"  => $input['password'],
+                "password"  => 'COMEXTECH.'.date('Ymd'),
                 "status"    => "approved",
                 "billing_addresses" => [
                     [

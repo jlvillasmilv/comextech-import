@@ -160,7 +160,7 @@ class TransportsControllers extends Controller
                 ->join('services as s', 'as.service_id', '=', 's.id')
                 ->where([
                 ["as.application_id", $request->application_id ],
-                ["s.code", 'CS03-03']
+                ["s.code", 'CS03-05']
                 ])
                 ->update([
                         'amount'      =>  0,
@@ -213,7 +213,7 @@ class TransportsControllers extends Controller
             ->join('services as s', 'as.service_id', '=', 's.id')
             ->where([
                ["as.application_id", $request->application_id],
-               ["s.code", 'CS03-01']
+               ["s.code", 'CS03-03']
                ])
             ->update([
                     'amount'      =>  $transport_amount,
@@ -227,7 +227,7 @@ class TransportsControllers extends Controller
                 ->join('services as s', 'as.service_id', '=', 's.id')
                 ->where([
                 ["as.application_id", $request->application_id],
-                ["s.code", 'CS03-02']
+                ["s.code", 'CS03-04']
                 ])
                 ->update([
                     'amount'      => $request->insurance ? $insurance_amount : 0,

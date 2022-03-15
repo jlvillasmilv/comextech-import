@@ -88,6 +88,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('internment', 'App\Http\Controllers\Client\ApplicationController@internmentProcesses')
     ->name('applications.internment'); 
 
+    Route::get('download/{id}/{type}', 'DisbursementController@downloadAsset')->name('download');
+
      // Bodegaje local "Entrega"
     Route::post('local-warehouse', 'App\Http\Controllers\Client\ApplicationController@localWarehouse');
 
@@ -110,6 +112,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');
     Route::get('/services/summary/{id}', [ServicesController::class, 'summary'])->name('services.summary');
     Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('services.edit');
+    Route::get('download/{id}/{type}', [ServicesController::class, 'downloadAsset'])->name('download.file.internment');
 
     
     //company address
@@ -151,6 +154,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return response()->json($sett, 200);
 
     });
+    
 
 });
 
