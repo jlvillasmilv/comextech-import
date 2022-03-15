@@ -27,13 +27,17 @@ class FclTable extends LivewireDatatable
             ->searchable()
             ->label('Transit time'),
 
+            Column::name('currency')
+            ->searchable()
+            ->label('Moneda'),
+
             Column::callback(['id'], function ($id) {
                 return view('table-actions', [
                     'id'         => base64_encode($id),
                     'route'      => 'admin.rates.fcl.',
                     'permission' => 'admin.rates.fcl'
                 ]);
-            })
+            })->excludeFromExport()
         ];
 
         return $table;

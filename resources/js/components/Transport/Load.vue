@@ -114,7 +114,7 @@
                   w-24
                   sm:w-44 
                   md:w-20 
-                  lg:w-14
+                  lg:w-16
                   focus:outline-none
                   border
                   rounded-l-lg
@@ -136,7 +136,7 @@
                   w-24
                   sm:w-44 
                   md:w-20 
-                  lg:w-14
+                  lg:w-16
                   focus:outline-none
                   border
                   rounded-none
@@ -158,7 +158,7 @@
                   w-24
                   sm:w-44 
                   md:w-20 
-                  lg:w-14
+                  lg:w-16
                   focus:outline-none
                   border
                   rounded-r-lg

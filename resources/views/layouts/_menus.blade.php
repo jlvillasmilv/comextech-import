@@ -155,7 +155,7 @@
                   {!! request()->is('factoring/disbursements') || request()->is('factoring/disbursements/*') ? 'italic font-black' : '' !!} "
                   >
                     <a class="w-full" href="{{ route('factoring.disbursements.index')}}">
-                      Abonos
+                      Pre pagos
                     </a>
                   </li>
                 @endcan

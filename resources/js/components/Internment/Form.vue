@@ -1,7 +1,7 @@
 <template>
-  <section class="lg:flex justify-center w-full p-4">
+  <section class="lg:flex lg:flex-col items-center justify-center w-full p-4">
     <div
-      class="mb-5"
+      class="lg:w-8/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 mb-5"
       v-show="$store.getters.findService('ICS04') && !$store.getters.findService('ICS03')"
     >
       <Load />
@@ -12,16 +12,16 @@
       :class="[!$store.getters.findService('ICS04') ? 'justify-center' : 'justify-center']"
     >
       <!-- asignacion de aduana -->
-      <section class="container grid px-6 mx-auto">
+      <section class="container grid mx-auto">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-600">
             Asignación de Agente de Aduana
           </h4>
         </div>
 
-        <div class="px-4 pb-4 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="py-8 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <div class="lg:flex lg:flex-col lg:items-center my-1">
-            <div class="px-2 md:flex lg:w-7/12 my-4">
+            <div class="px-2 md:flex lg:w-7/12">
               <div v-if="expenses.courier_svc && AppAmount >= 3000">
                 <input
                   v-bind:value="true"
@@ -165,7 +165,7 @@
       </section>
 
       <!-- importar archivos -->
-      <section class="container grid px-6 mx-auto">
+      <section class="container grid mx-auto">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
             Documentos necesarios
@@ -916,7 +916,9 @@ export default {
     try {
       this.$store.dispatch('exchange/getSummary', this.application_id);
 
-      const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
+      const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
+
+      console.log(transpCostp.amount);
 
       if (transpCostp.amount <= 0) {
         await axios.post('/set-application-summary', {
@@ -947,8 +949,8 @@ export default {
       this.expenses.application_id = this.application_id;
       this.expenses.transport = !this.$store.getters.findService('ICS03');
       // /custom-convert-currency
-      const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-01');
-      const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-02');
+      const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
+      const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-04');
 
       this.insureAmount =
         Number(insure_cost.amount) == 0 ? this.expenses.insurance : Number(insure_cost.amount);

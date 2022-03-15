@@ -29,7 +29,7 @@ class LclTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.rates.lcl.', 'permission' => 'admin.rates.lcl']);
-            })
+            })->excludeFromExport()
         ];
 
         return $table;
