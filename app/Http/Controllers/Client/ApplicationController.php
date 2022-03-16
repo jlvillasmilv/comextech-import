@@ -291,7 +291,7 @@ class ApplicationController extends Controller
      */
     public function getApplicationSummary($id, $currency=null)
     {
-        $summary = \DB::table('application_summaries as aps')
+        $application_summaries = \DB::table('application_summaries as aps')
         ->join('currencies', 'aps.currency_id', '=', 'currencies.id')
         ->join('currencies as c2', 'aps.currency2_id', '=', 'c2.id')
         ->join('services as s', 'aps.service_id', 's.id')
@@ -302,11 +302,31 @@ class ApplicationController extends Controller
             ["applications.user_id", auth()->user()->id]
         ])
         ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date',
-        'aps.amount', 'aps.amount2 as amo2', 'c2.code as currency2' )
+        'aps.amount', 'aps.amount2 as amo2', 'c2.code as currency2', 's.category_service_id')
         ->orderBy('s.id')
-        ->get();
+        ->get()
+        ->toArray();
 
-        return response()->json($summary, 200);
+        foreach ($application_summaries as $key => $item) {
+           
+            if($item->code == "CS01-01" || $item->code == "CS03-01" || $item->code == "CS04-01")
+            {
+                $totals = \DB::table('application_summaries  as aps')
+                ->join('category_services as s', 'aps.category_service_id', 's.id')
+                ->where([
+                    ["aps.application_id", $id],
+                    ["aps.status", true],
+                    ["aps.category_service_id", $item->category_service_id],
+                ])
+                ->select("s.name", \DB::raw("SUM(aps.amount) as total_amount") , \DB::raw("SUM(aps.amount2) as total_amount2"))
+                ->groupBy('aps.category_service_id', 's.name')->first();
+                    
+                $application_summaries[$key]->amount = $totals->total_amount;
+                $application_summaries[$key]->amo2 = $totals->total_amount2;
+            }
+        }
+
+        return response()->json($application_summaries, 200);
     }
 
     public function setApplicationSummary(Request $request)
