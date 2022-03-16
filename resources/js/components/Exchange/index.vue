@@ -1,9 +1,9 @@
 <template>
   <div class="flex justify-center container px-6 my-1">
-    <div class="overflow-hidden rounded-lg shadow-xs">
+    <div class="md:w-9/12 overflow-hidden rounded-lg shadow-xs">
       <div class="w-full md:w-3/4 overflow-x-auto">
         <div class="flex space-x-4">
-          <table class="table-auto">
+          <table class="table-auto w-full">
             <thead>
               <tr>
                 <td colspan="7">
@@ -126,16 +126,16 @@
                 <th class="">&nbsp;</th>
                 <th
                   class="
-                    w-1/6
-                    px-16
+                    w-2/6
+                    px-13
                     py-3
                     tracking-wide
                     text-xs text-center text-white
                     uppercase
                     border-b
-                    dark:border-gray-700
-                    bg-blue-1300
-                    dark:text-gray-400 dark:bg-gray-800
+                  dark:border-gray-700
+                  bg-blue-1300
+                  dark:text-gray-400 dark:bg-gray-800
                   "
                   colspan="2"
                 >
@@ -150,31 +150,78 @@
                 :key="key"
                 class="text-gray-700 dark:text-gray-400"
               >
-                <td 
-                class="text-left px-4 py-3 text-sm">
+                <td class="text-left px-4 py-3 text-sm">
                   <div>
-                    <p class="font-semibold" :class="key == 1 || key == 2  || key == 3 ||
-                    item.code == 'CS03-02' || item.code == 'CS03-03' || item.code == 'CS03-04' ||
-                    item.code == 'CS04-02' || item.code == 'CS04-03' || item.code == 'CS04-04' || item.code == 'CS04-05'
-                     ? 'ml-5' : ''">
+                    <p
+                      :class="[
+                        'font-semibold',
+                        key == 1 ||
+                        key == 2 ||
+                        key == 3 ||
+                        item.code == 'CS03-02' ||
+                        item.code == 'CS03-03' ||
+                        item.code == 'CS03-04' ||
+                        item.code == 'CS04-02' ||
+                        item.code == 'CS04-03' ||
+                        item.code == 'CS04-04' ||
+                        item.code == 'CS04-05'
+                          ? 'ml-5'
+                          : ''
+                      ]"
+                    >
                       {{ item.description }}
                     </p>
                   </div>
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="text-center">
-                    {{ getHumanDate(item.fee_date) }}
+                <td
+                  :class="
+                    item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'
+                      ? 'invisible'
+                      : ''
+                  "
+                  class="text-center text-sm"
+                >
+                  {{ getHumanDate(item.fee_date) }}
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="text-center px-4 py-3">
+                <td
+                  :class="
+                    item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'
+                      ? 'invisible'
+                      : ''
+                  "
+                  class="text-center px-4 py-3 text-sm"
+                >
                   {{ item.currency }}
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="text-center px-4 py-3">
+                <td
+                  :class="
+                    item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'
+                      ? 'invisible'
+                      : ''
+                  "
+                  class="text-center px-4 py-3 text-sm"
+                >
                   {{ item.amount | setPrice(item.currency) }}
                 </td>
-                <td class="text-center px-4 py-3">&nbsp;</td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="px-4 py-3 text-center">
+                <td class="text-center px-4 py-3 text-sm">&nbsp;</td>
+                <td
+                  :class="
+                    item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'
+                      ? 'invisible'
+                      : ''
+                  "
+                  class="px-4 py-3 text-center text-sm"
+                >
                   {{ item.amo2 | setPrice(item.currency2) }}
                 </td>
-                <td :class="item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'  ? 'invisible' : ''" class="px-4 py-3 text-right">
+                <td
+                  :class="
+                    item.code == 'CS01-01' || item.code == 'CS03-01' || item.code == 'CS04-01'
+                      ? 'invisible'
+                      : ''
+                  "
+                  class="px-4 py-3 text-right text-sm"
+                >
                   {{ item.currency2 }}
                 </td>
               </tr>
@@ -186,7 +233,7 @@
                     {{ total | setPrice(currency_ex) }}
                   </strong>
                 </td>
-                <td class="text-center px-4 py-3">
+                <td class="text-center px-4 py-3 text-sm">
                   <strong>
                     {{ currency_ex }}
                   </strong>
