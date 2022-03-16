@@ -218,6 +218,23 @@ class Application extends Model
             }
         }
 
+        $application_summaries = \DB::table('application_summaries  as aps')
+                ->join('services as s', 'aps.service_id', 's.id')
+                ->where([
+                    ["aps.application_id", $application->id],
+                    ["aps.status", true],
+                    ['s.code', 'CS03-02']
+                ])
+                ->select('s.code', 'aps.amount', 'aps.amount2')
+                ->first();
+        
+        if(!is_null($application_summaries))
+        {
+            if ($application_summaries->amount <= 0 || $application_summaries->amount2 <= 0){  
+                $notifications[] = "Debe tener monto Transporte EXW (Origen) asignado";
+            } 
+        }
+
         if(isset($application->internmentProcess->id))
         {      
             $result = $application->internmentProcess->fileStoreInternment->where('intl_treaty', 'Invoice')->first();
@@ -225,6 +242,12 @@ class Application extends Model
             if (!isset($result->intl_treaty)){  
               $notifications[] = "Se debe cargar documento invoice o Prooforma a la operación";
             }
+        }
+
+        if(count($notifications) <= 0)
+        { 
+            $application->state_process = true;
+            $application->save();
         }
 
         return $notifications;
