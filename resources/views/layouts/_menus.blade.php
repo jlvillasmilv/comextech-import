@@ -11,13 +11,13 @@
                     </path>
                 </svg>
              
-                <span class="ml-4"> Panel </span>
+                <span class="ml-4 {!! request()->routeIs('dashboard') ? 'italic font-black' : '' !!}"> Panel </span>
             </a>
         </li>
         
 
         <li class="relative px-6 py-3">
-            {!! request()->is('applications') ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-1000 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
+            {!! (request()->is('applications') || request()->routeIs('supplier.*')) ? '<span class="absolute inset-y-0 left-0 w-1 bg-blue-1000 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>' : '' !!}
             <button
               class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-blue-1300 focus:outline-none dark:hover:text-gray-200"
               @click="togglePagesMenu"
@@ -43,9 +43,9 @@
               </svg>
             </button>
             <template x-if="isPagesMenuOpen" 
-             {!! (request()->is('applications') || request()->is('applications/*')) ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}
-             {!! (request()->is('supplier') || request()->is('supplier/*')) ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}
-             {!! (request()->is('custom-agents') || request()->is('custom-agents/*')) ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}>
+             {!! request()->routeIs('applications.*')  ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}
+             {!! request()->routeIs('supplier.*') ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}
+             {!! request()->routeIs('custom-agents.*') ? ' x-data="{ isPagesMenuOpen: true }"' : '' !!}>
               <ul
                 x-transition:enter="transition-all ease-in-out duration-300"
                 x-transition:enter-start="opacity-25 max-h-0"
