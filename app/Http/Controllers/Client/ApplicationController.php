@@ -741,22 +741,22 @@ class ApplicationController extends Controller
         try
         {
             DB::beginTransaction();
-            // $resp = Application::validateApplication(base64_decode($request->application_id));
+            $resp = Application::validateApplication(base64_decode($request->application_id));
 
             $application = Application::findOrFail(base64_decode($request->application_id));
 
-            // if(count($resp) > 0){
+            if(count($resp) > 0){
 
-            //     $application->state_process =  false; 
-            //     $application->save();  
+                $application->state_process =  false; 
+                $application->save();  
 
-            //     $string = implode("<br>", $resp);
+                $string = implode("<br>", $resp);
 
-            //     return response()->json(['notifications' => $string], 200);
-            // }
+                return response()->json(['notifications' => $string], 200);
+            }
 
-            // $application->application_statuses_id =  $application->application_statuses_id + 1; 
-            // $application->save();
+            $application->application_statuses_id =  $application->application_statuses_id + 1; 
+            $application->save();
 
             /****Send notification to admin about change status applications**/
             $user_admin = User::whereHas('roles', function ($query) {
