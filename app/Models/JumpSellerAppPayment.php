@@ -41,6 +41,17 @@ class JumpSellerAppPayment extends Model
         if (is_null($customer_id)) {
             return response()->json('Id customer not found', 500);
         }
+        
+        //check available Pending Payment and change status to Canceled
+        $pending_payment = JumpSellerAppPayment::where([
+            ['customer_id', $customer_id],
+            ['status', 'Pending Payment']
+            ])
+            ->get();
+            
+        foreach ($pending_payment as $key => $pending_order) {
+            $jump_seller_modify = JumpSellerAppPayment::modifySingleOrder($pending_order->order_id, 'Canceled');
+        }
 
         //check available variant variant_id product
         $variant_id = JumpSellerAppPayment::variantProduct();
@@ -180,6 +191,8 @@ class JumpSellerAppPayment extends Model
             if (empty($obj["order"])) {
                 return $obj;
             }
+
+            JumpSellerAppPayment::where('order_id', $id)->update(['status' => $status]);
 
             return $obj["order"];
         } catch (\Throwable $th) {

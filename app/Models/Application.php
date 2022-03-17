@@ -196,6 +196,7 @@ class Application extends Model
         
         $application_date   = date('Y-m-d', strtotime($application->updated_at));
 
+        
         if (($currentDate > $application_date) ){  
            $notifications[] = "Debe actualizar El tipo de Cambio.";
         }
