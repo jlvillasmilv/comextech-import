@@ -4,15 +4,15 @@
       class="lg:w-8/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 mb-5"
       v-show="$store.getters.findService('ICS04') && !$store.getters.findService('ICS03')"
     >
-      <Load />
+      <load />
     </div>
 
-    <section
+    <div
       class="lg:w-8/12 flex flex-wrap -mx-3"
       :class="[!$store.getters.findService('ICS04') ? 'justify-center' : 'justify-center']"
     >
       <!-- asignacion de aduana -->
-      <section class="container grid mx-auto">
+      <div class="container grid mx-auto">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-600">
             Asignación de Agente de Aduana
@@ -20,39 +20,67 @@
         </div>
 
         <div class="py-8 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
-          <div class="lg:flex lg:flex-col lg:items-center my-1">
-            <div class="px-2 md:flex lg:w-7/12">
-              <div v-if="expenses.courier_svc && AppAmount >= 3000">
+          <div class="lg:flex lg:items-center my-1 px-8">
+            <div class="md:flex md:flex-col lg:w-3/12">
+              <div>
                 <input
-                  v-bind:value="true"
+                  v-if="expenses.courier_svc && AppAmount >= 3000"
+                  :value="false"
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
+                  checked
+                />
+                <input
+                  v-else
+                  :value="false"
+                  v-model="expenses.customs_house"
+                  type="radio"
+                  class="form-checkbox h-5 w-5 text-blue-600"
+                  disabled
                 />
                 <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
-              <div v-if="expenses.courier_svc && AppAmount >= 3000">
+              <div>
                 <input
-                  v-bind:value="false"
+                  v-if="expenses.courier_svc && AppAmount >= 3000"
+                  :value="true"
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
                 />
-                <span class="mx-2 text-xs text-gray-500"> Cliente </span>
-              </div>
-              <div v-if="expenses.courier_svc && AppAmount <= 2999">
                 <input
-                  v-bind:value="true"
+                  v-else
+                  :value="false"
+                  v-model="expenses.customs_house"
+                  type="radio"
+                  class="form-checkbox h-5 w-5 text-blue-600"
+                  disabled
+                />
+                <span class="mx-2 text-xs text-gray-500">Cliente</span>
+              </div>
+              <div>
+                <input
+                  v-if="expenses.courier_svc && AppAmount <= 2999"
+                  :value="true"
                   v-model="expenses.courier_svc"
                   type="radio"
-                  class="md:ml-2 form-checkbox h-5 w-5 text-blue-600"
+                  class="form-checkbox h-5 w-5 text-blue-600"
                   checked
+                />
+                <input
+                  v-else
+                  :value="false"
+                  v-model="expenses.courier_svc"
+                  type="radio"
+                  class="form-checkbox h-5 w-5 text-blue-600"
+                  disabled
                 />
                 <span class="mx-2 text-xs text-gray-500"> Servicio incluido </span>
               </div>
             </div>
 
-            <div class="my-5 lg:my-0 lg:flex lg:justify-end lg:w-7/12">
+            <div class="my-5 lg:my-0 lg:flex lg:justify-end lg:w-9/12">
               <div class="lg:w-full px-1 mb-2 lg:mb-0">
                 <label class="block text-sm" v-if="expenses.courier_svc && AppAmount <= 2999">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
@@ -162,10 +190,10 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- importar archivos -->
-      <section class="container grid mx-auto">
+      <div class="container grid mx-auto">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
             Documentos necesarios
@@ -175,7 +203,8 @@
           class="
             flex flex-wrap
             justify-center
-            py-10
+            pt-4
+            pb-8
             mb-8
             bg-white
             rounded-lg
@@ -192,7 +221,7 @@
               type="file"
               hidden
             />
-            <div class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
+            <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
               <label v-for="(item, key) in certif" :key="key" class="inline-flex items-center mt-3">
                 <a
                   @click="openWindowFileCert(item)"
@@ -240,6 +269,7 @@
                   <span> {{ item.name }} </span>
                 </a>
               </label>
+              <span class="text-center">{{ fileName }}</span>
             </div>
             <span
               class="text-xs text-red-600 dark:text-red-400"
@@ -316,11 +346,80 @@
               v-html="expenses.errors.get('file_descrip')"
             ></span>
           </div>
+          <div class="w-auto px-1 px-3">
+            <input
+              id="fileid"
+              v-show="showInputFile"
+              @change="handleFile()"
+              ref="file"
+              type="file"
+              hidden
+            />
+            <div class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
+              <label
+                v-for="(item, key) in treaties"
+                :key="key"
+                class="inline-flex items-center mt-3"
+              >
+                <a
+                  @click="openWindowFile(item)"
+                  class="
+                    w-42
+                    flex
+                    items-center
+                    px-2
+                    py-2
+                    m-2
+                    text-sm
+                    font-medium
+                    leading-5
+                    text-white
+                    transition-colors
+                    duration-150
+                    border border-transparent
+                    rounded-lg
+                    focus:outline-none focus:shadow-outline-blue
+                    bg-blue-1000 
+                    hover:bg-blue-1100 
+                    active:bg-blue-1000
+                  "
+                  :class="[
+                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-1000 hover:bg-blue-1100'
+                  ]"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="h-6 w-6 mx-1"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      :d="[
+                        item.submit
+                          ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
+                          : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
+                      ]"
+                    ></path>
+                  </svg>
+                  <span> {{ item.name }} </span></a
+                >
+              </label>
+            </div>
+
+            <span
+              class="text-xs text-red-600 dark:text-red-400"
+              v-if="expenses.errors.has('file_descrip')"
+              v-html="expenses.errors.get('file_descrip')"
+            ></span>
+          </div>
         </div>
-      </section>
+      </div>
 
       <!-- tabla  acordeon -->
-      <section class="container flex flex-col items-center justify-center px-6 mx-auto">
+      <div class="container flex flex-col items-center justify-center px-6 mx-auto">
         <details class="w-9/12">
           <summary class="mb-4 text-lg text-center text-black-600 dark:text-gray-300">
             Cálculo de Impuestos
@@ -463,10 +562,10 @@
             </tr>
           </tbody>
         </table>
-      </section>
+      </div>
 
       <!-- checkbox incluir -->
-      <section
+      <div
         class="container flex px-6 mx-auto mt-4 justify-center"
         :class="[!$store.getters.findService('ICS04') ? ' ' : '']"
       >
@@ -508,10 +607,10 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- tabla gastos del puerto -->
-      <section
+      <div
         v-if="data.type_transport !== 'COURIER'"
         class="container flex flex-col items-center justify-center px-6 mx-auto"
       >
@@ -520,7 +619,7 @@
             Gastos de Puerto
           </summary>
           <div>
-            <section class="container grid px-3">
+            <div class="container grid px-3">
               <div class="w-full md:w-3/4 md:mx-4 overflow-hidden rounded-lg ">
                 <div class="w-full overflow-x-auto">
                   <table class="table-auto whitespace-no-wrap">
@@ -615,7 +714,7 @@
                   </table>
                 </div>
               </div>
-            </section>
+            </div>
           </div>
         </details>
         <table>
@@ -630,7 +729,7 @@
             </tr>
           </tfoot>
         </table>
-      </section>
+      </div>
 
       <div class="flex justify-center">
         <button
@@ -696,7 +795,7 @@
           <span> Guardar </span>
         </button>
       </div>
-    </section>
+    </div>
   </section>
 </template>
 
@@ -747,7 +846,8 @@ export default {
       docVisaLcl: 30,
       dispatchLcl: 30,
       insure: false,
-      transport: false
+      transport: false,
+      fileName: ''
     };
   },
   methods: {
@@ -782,6 +882,7 @@ export default {
     },
     certificateFile() {
       const file = this.$refs.file_cert.files[0];
+      this.fileName = file.name;
       if (file) {
         this.handleStatusSubmitFile('certif');
         this.expenses.file_certificate = file;
