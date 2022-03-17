@@ -738,33 +738,45 @@ class ApplicationController extends Controller
 
     public function updateStaus(Request $request)
     {
-        $resp = Application::validateApplication(base64_decode($request->application_id));
+        try
+        {
+            DB::beginTransaction();
+            // $resp = Application::validateApplication(base64_decode($request->application_id));
 
-        $application = Application::findOrFail(base64_decode($request->application_id));
+            $application = Application::findOrFail(base64_decode($request->application_id));
 
-        if(count($resp) > 0){
+            // if(count($resp) > 0){
 
-            $application->state_process =  false; 
-            $application->save();  
+            //     $application->state_process =  false; 
+            //     $application->save();  
 
-            $string = implode("<br>", $resp);
+            //     $string = implode("<br>", $resp);
 
-            return response()->json(['notifications' => $string], 200);
+            //     return response()->json(['notifications' => $string], 200);
+            // }
+
+            // $application->application_statuses_id =  $application->application_statuses_id + 1; 
+            // $application->save();
+
+            /****Send notification to admin about change status applications**/
+            $user_admin = User::whereHas('roles', function ($query) {
+                $query->where('name','=', 'Admin');
+            })->pluck('id');
+
+            User::all()
+                ->whereIn('id', $user_admin)
+                ->each(function (User $user) use ($application) {
+                    $user->notify(new ApplicationStatusNotification($application));
+            });
+
+            DB::commit();
+
+        } catch (Throwable $e) {
+            DB::rollback();
+            echo $e->getMessage();
+            //return $request->getSoapClient()->__getLastResponse();
+            return response()->json($e, 500);
         }
-
-        $application->application_statuses_id =  $application->application_statuses_id + 1; 
-        $application->save();
-
-        /****Send notification to admin about change status applications**/
-        $user_admin = User::whereHas('roles', function ($query) {
-            $query->where('name','=', 'Admin');
-        })->pluck('id');
-
-        User::all()
-            ->whereIn('id', $user_admin)
-            ->each(function (User $user) use ($application) {
-                $user->notify(new ApplicationStatusNotification($application));
-        });
 
         return response()->json(['application' => $application], 200);
     }
