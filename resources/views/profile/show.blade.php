@@ -14,7 +14,7 @@
 
         <div class="mt-10 sm:mt-0">
             <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                {{ __('Update Password') }}
+                {{ __('Actualiza contraseña') }}
             </h4>
 
             @livewire('profile.update-password-form')
@@ -25,7 +25,7 @@
 
         <div class="mt-10 sm:mt-0">
             <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                {{ __('Two Factor Authentication') }}
+                {{ __('Autenticación de dos factores') }}
             </h4>
 
             @livewire('profile.two-factor-authentication-form')
