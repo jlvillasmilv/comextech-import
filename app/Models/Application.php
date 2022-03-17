@@ -196,6 +196,7 @@ class Application extends Model
         
         $application_date   = date('Y-m-d', strtotime($application->updated_at));
 
+        
         if (($currentDate > $application_date) ){  
            $notifications[] = "Debe actualizar El tipo de Cambio.";
         }
@@ -210,6 +211,15 @@ class Application extends Model
         }
 
         if(isset($application->transport->id))
+        {
+            $transport_date = date('Y-m-d', strtotime($application->transport->estimated_date));
+           
+            if (($currentDate > $transport_date) ){  
+              $notifications[] = "Las fechas de Envío Proveedor no deben ser hoy o anterior.";
+            }
+        }
+
+        if($application->type_transport != "COURIER")
         {
             $transport_date = date('Y-m-d', strtotime($application->transport->estimated_date));
            

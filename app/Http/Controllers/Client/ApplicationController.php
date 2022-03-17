@@ -350,8 +350,6 @@ class ApplicationController extends Controller
         )
         ->get();
 
-      //  dd($request->all());
-
         $total = 0;
         $currency = null;
         if(isset($request->currency_code) || !is_null($request->currency_code)){
@@ -382,8 +380,6 @@ class ApplicationController extends Controller
                 ->sum('amount2');
 
         $tco_clp = $total;
-
-       // dd($item->currency.'  '.$to_currency_code.'  '.$tco_clp);
 
         if($to_currency_code != 'CLP'){
             $exchange = New Currency;
@@ -698,6 +694,14 @@ class ApplicationController extends Controller
         return response()->json($localw->id, 200);
     }
 
+     /**
+     *
+     * Show data for google map client dashboard.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 
+    */
     public function dashboardMap()
     {
         $data  =  \DB::table('transports as trans')
@@ -731,8 +735,6 @@ class ApplicationController extends Controller
         return response()->json($data, 200);
 
     }
-
-    
 
     public function updateStaus(Request $request)
     {
