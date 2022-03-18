@@ -8,11 +8,13 @@
     </div>
 
     <div
-      class="lg:w-8/12 flex flex-wrap -mx-3"
-      :class="[!$store.getters.findService('ICS04') ? 'justify-center' : 'justify-center']"
+      :class="[
+        'lg:w-10/12 flex flex-wrap -mx-3',
+        !$store.getters.findService('ICS04') ? 'justify-center' : 'justify-center'
+      ]"
     >
       <!-- asignacion de aduana -->
-      <div class="container grid mx-auto">
+      <div class="flex flex-col w-10/12">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-600">
             Asignación de Agente de Aduana
@@ -193,7 +195,7 @@
       </div>
 
       <!-- importar archivos -->
-      <div class="container grid mx-auto">
+      <div class="flex flex-col w-10/12">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
             Documentos necesarios
@@ -201,7 +203,7 @@
         </div>
         <div
           class="
-            flex flex-wrap
+            flex
             justify-center
             pt-4
             pb-8
@@ -222,7 +224,11 @@
               hidden
             />
             <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
-              <label v-for="(item, key) in certif" :key="key" class="inline-flex items-center mt-3">
+              <label
+                v-for="(item, key) in certif"
+                :key="key"
+                class="inline-flex justify-center items-center mt-3"
+              >
                 <a
                   @click="openWindowFileCert(item)"
                   class="
@@ -269,7 +275,7 @@
                   <span> {{ item.name }} </span>
                 </a>
               </label>
-              <span class="text-center">{{ fileName }}</span>
+              <span class="text-center">{{ certFileName }}</span>
             </div>
             <span
               class="text-xs text-red-600 dark:text-red-400"
@@ -286,11 +292,11 @@
               type="file"
               hidden
             />
-            <div class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
+            <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
               <label
                 v-for="(item, key) in treaties"
                 :key="key"
-                class="inline-flex items-center mt-3"
+                class="inline-flex justify-center items-center mt-3"
               >
                 <a
                   @click="openWindowFile(item)"
@@ -338,6 +344,7 @@
                   <span> {{ item.name }} </span></a
                 >
               </label>
+              <span class="text-center">{{ file1Name }}</span>
             </div>
 
             <span
@@ -348,21 +355,21 @@
           </div>
           <div class="w-auto px-1 px-3">
             <input
-              id="fileid"
+              id="fileid_2"
               v-show="showInputFile"
-              @change="handleFile()"
-              ref="file"
+              @change="otherHandleFile()"
+              ref="file_2"
               type="file"
               hidden
             />
-            <div class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
+            <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
               <label
-                v-for="(item, key) in treaties"
+                v-for="(item, key) in otherFile"
                 :key="key"
-                class="inline-flex items-center mt-3"
+                class="inline-flex justify-center items-center mt-3"
               >
                 <a
-                  @click="openWindowFile(item)"
+                  @click="openWindowFile2(item)"
                   class="
                     w-42
                     flex
@@ -407,6 +414,7 @@
                   <span> {{ item.name }} </span></a
                 >
               </label>
+              <span class="text-center">{{ file2Name }}</span>
             </div>
 
             <span
@@ -419,19 +427,171 @@
       </div>
 
       <!-- tabla  acordeon -->
-      <div class="container flex flex-col items-center justify-center px-6 mx-auto">
-        <details class="w-9/12">
-          <summary class="mb-4 text-lg text-center text-black-600 dark:text-gray-300">
-            Cálculo de Impuestos
-          </summary>
+      <h3 class="mb-1 text-lg bg-gray-200 text-black-600">
+        Cálculo de impuestos según costos y paridades de Aduana Chile
+      </h3>
+      <div
+        class="container flex flex-col items-center justify-center py-4 px-6 mx-auto bg-white rounded-lg shadow-md"
+      >
+        <div class="w-full">
           <div>
-            <section class="container grid px-3">
+            <div class="container grid px-3">
               <div
-                class="w-full md:w-3/4 md:mx-4 overflow-hidden rounded-lg "
-                :class="[!$store.getters.findService('ICS04') ? '' : 'justify-start']"
+                class="w-full md:w-3/4 overflow-hidden rounded-lg flex"
+                :class="[!$store.getters.findService('ICS04') ? '' : 'justify-between']"
               >
-                <div class="w-full overflow-x-auto">
-                  <table class="table-auto whitespace-no-wrap">
+                <div class="flex justify-center w-3/12 overflow-x-auto">
+                  <table>
+                    <thead>
+                      <tr
+                        class="
+                          text-center
+                          font-semibold
+                          tracking-wide
+                        "
+                      >
+                        <th colspan="2">Moneda CLP</th>
+                      </tr>
+                      <tr>
+                        <th class="px-4 py-2 font-normal">Monto</th>
+                        <th class="px-4 py-2 font-normal">Moneda</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <td class="py-2">500.00</td>
+                        <td class="py-2">CLP</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2">500.00</td>
+                        <td class="py-2">CLP</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2">500.00</td>
+                        <td class="py-2">CLP</td>
+                      </tr>
+                      <tr class="bg-gray-200 font-semibold">
+                        <td class="py-2">453.911</td>
+                        <td class="py-2">CIF Pesos</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    role="img"
+                    width="2.5em"
+                    height="2.5em"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 20 20"
+                  >
+                    <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
+                  </svg>
+                </div>
+                <div class="flex justify-center w-4/12 overflow-x-auto">
+                  <table>
+                    <thead>
+                      <tr
+                        class="
+                          text-center
+                          font-semibold
+                          tracking-wide
+                        "
+                      >
+                        <th colspan="3">
+                          Moneda Dolár
+                        </th>
+                      </tr>
+                      <tr>
+                        <th class="px-4 py-2 font-normal">Monto</th>
+                        <th class="px-4 py-2 font-normal">Paridad</th>
+                        <th class="px-4 py-2 font-normal">Moneda</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <td class="py-2">350</td>
+                        <td class="py-2">820</td>
+                        <td class="py-2">USD</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2">143,55</td>
+                        <td class="py-2">820</td>
+                        <td class="py-2">USD</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2">143,55</td>
+                        <td class="py-2">820</td>
+                        <td class="py-2">USD</td>
+                      </tr>
+                      <tr class="bg-gray-200 font-semibold">
+                        <td class="py-2">553.55</td>
+                        <td class="py-2">CIF Dólar</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    role="img"
+                    width="2.5em"
+                    height="2.5em"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 20 20"
+                  >
+                    <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
+                  </svg>
+                </div>
+                <div class="flex justify-center w-4/12 overflow-x-auto">
+                  <table>
+                    <thead>
+                      <tr
+                        class="
+                          text-center
+                          font-semibold
+                          tracking-wide
+                        "
+                      >
+                        <th colspan="3">
+                          Moneda original
+                        </th>
+                      </tr>
+                      <tr>
+                        <th class="px-4 py-2 font-normal">Monto</th>
+                        <th class="px-4 py-2 font-normal">Paridad</th>
+                        <th class="px-4 py-2 font-normal">Moneda</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <td class="py-2">500</td>
+                        <td class="py-2">0.7</td>
+                        <td class="py-2">EUR</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2">143,55</td>
+                        <td class="py-2">1</td>
+                        <td class="py-2">USD</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2">60</td>
+                        <td class="py-2">1</td>
+                        <td class="py-2">USD</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2">&nbsp;</td>
+                        <td class="py-2">&nbsp;</td>
+                        <td class="py-2">&nbsp;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- <table class="table-auto whitespace-no-wrap">
                     <thead>
                       <tr
                         class="
@@ -534,21 +694,26 @@
                         </td>
                         <td class="px-2 py-3">USD</td>
                       </tr>
-                      <!-- <tr class="bg-gray-100">
-                        <td class="text-blue-1000 font-semibold px-2 py-3">
-                          {{ expenses.cif_amt }} aqui
-                        </td>
-                        <td class="text-blue-1000 font-semibold px-2 py-3">USD</td>
-                        <td class="text-blue-1000 font-semibold px-2 py-3">Valor CIF</td>
-                      </tr> -->
                     </tbody>
-                  </table>
-                </div>
+                  </table> -->
               </div>
-            </section>
+              <div class="flex justify-center w-3/12 my-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  role="img"
+                  width="2.5em"
+                  height="2.5em"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 20 20"
+                >
+                  <path fill="#142c44" d="M10 17.5L3.5 11H7V3h6v8h3.5L10 17.5z" />
+                </svg>
+              </div>
+            </div>
           </div>
-        </details>
-        <table>
+        </div>
+        <!-- <table>
           <thead>
             <tr>
               <th></th>
@@ -561,7 +726,7 @@
               <td class="text-blue-1300 font-semibold px-2 py-3">Valor CIF</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
       <!-- checkbox incluir -->
@@ -831,6 +996,12 @@ export default {
           submit: false
         }
       ],
+      otherFile: [
+        {
+          name: 'Otro Documento',
+          submit: false
+        }
+      ],
       certificate: {},
       custom_agents: [],
       trans_companies: [],
@@ -847,7 +1018,9 @@ export default {
       dispatchLcl: 30,
       insure: false,
       transport: false,
-      fileName: ''
+      certFileName: '',
+      file1Name: '',
+      file2Name: ''
     };
   },
   methods: {
@@ -857,13 +1030,23 @@ export default {
         maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
-    changeCustomHouse() {},
     openWindowFile({ e, name: entry }) {
       this.nameFileUpload = entry;
       let value = this.treaties.find((a) => a.name == entry);
       if (!value.submit) {
         this.showInputFile = !this.showInputFile;
         let fileInputElement = this.$refs.file;
+        fileInputElement.click();
+      } else {
+        this.handleStatusSubmitFile();
+      }
+    },
+    openWindowFile2({ e, name: entry }) {
+      this.nameFileUpload = entry;
+      let value = this.otherFile.find((a) => a.name == entry);
+      if (!value.submit) {
+        this.showInputFile = !this.showInputFile;
+        let fileInputElement = this.$refs.file_2;
         fileInputElement.click();
       } else {
         this.handleStatusSubmitFile();
@@ -882,7 +1065,7 @@ export default {
     },
     certificateFile() {
       const file = this.$refs.file_cert.files[0];
-      this.fileName = file.name;
+      this.certFileName = file.name;
       if (file) {
         this.handleStatusSubmitFile('certif');
         this.expenses.file_certificate = file;
@@ -891,6 +1074,16 @@ export default {
     },
     handleFile() {
       const file = this.$refs.file.files[0];
+      this.file1Name = file.name;
+      if (file) {
+        this.handleStatusSubmitFile();
+        this.expenses.files.push(file);
+        this.expenses.file_descrip.push(this.nameFileUpload);
+      }
+    },
+    otherHandleFile() {
+      const file = this.$refs.file_2.files[0];
+      this.file2Name = file.name;
       if (file) {
         this.handleStatusSubmitFile();
         this.expenses.files.push(file);

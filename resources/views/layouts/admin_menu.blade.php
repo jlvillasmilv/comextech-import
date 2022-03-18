@@ -12,7 +12,7 @@
                     </path>
                 </svg>
              
-                <span class="ml-4 {!! request()->routeIs('dashboard') ? 'italic font-black' : '' !!}">  Dashboard </span>
+                <span class="ml-4 {!! request()->routeIs('dashboard') ? 'italic font-black' : '' !!}">  Panel </span>
             </a>
         </li>
         
