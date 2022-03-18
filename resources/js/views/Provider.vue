@@ -104,11 +104,11 @@
             </div>
           </div>
         </div>
-        <h1 class="flex justify-center font-medium text-gray-600 mb-4">
+        <!-- <h1 class="flex justify-center font-medium text-gray-600 mb-4">
           Certificado Digital (Opcional)
         </h1>
 
-        <SingleFile :action="`Adjuntar`" :data="`certificado_sii`"></SingleFile>
+       <SingleFile :action="`Adjuntar`" :data="`certificado_sii`"></SingleFile> -->
       </form>
     </div>
   </div>
