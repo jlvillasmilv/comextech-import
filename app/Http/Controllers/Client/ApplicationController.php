@@ -738,15 +738,13 @@ class ApplicationController extends Controller
 
     public function updateStaus(Request $request)
     {
-        try
-        {
-            DB::beginTransaction();
+       
             $resp = Application::validateApplication(base64_decode($request->application_id));
-
+       
             $application = Application::findOrFail(base64_decode($request->application_id));
-
+           
             if(count($resp) > 0){
-
+               
                 $application->state_process =  false; 
                 $application->save();  
 
@@ -768,15 +766,6 @@ class ApplicationController extends Controller
                 ->each(function (User $user) use ($application) {
                     $user->notify(new ApplicationStatusNotification($application));
             });
-
-            DB::commit();
-
-        } catch (Throwable $e) {
-            DB::rollback();
-            echo $e->getMessage();
-            //return $request->getSoapClient()->__getLastResponse();
-            return response()->json($e, 500);
-        }
 
         return response()->json(['application' => $application], 200);
     }
