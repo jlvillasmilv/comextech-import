@@ -43,10 +43,10 @@
             </div>
             <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    New sales
+                    Import. Pendientes
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    376
+                    {{ App\Models\Application::where('application_statuses_id', 1)->count() }} 
                 </p>
             </div>
         </div>
@@ -59,10 +59,10 @@
             </div>
             <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Pending contacts
+                    Import. Validadas
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    35
+                    {{ App\Models\Application::where('application_statuses_id', 2)->count() }} 
                 </p>
             </div>
         </div>
