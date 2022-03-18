@@ -16,7 +16,9 @@ class ComposerServiceProvider extends ServiceProvider
             'admin.customs_exchange_rates.form', 
         ],
          'App\Http\ViewComposers\PortsComposer');
-
+        
+        
+         View::composer('dashboard.admin', 'App\Http\ViewComposers\AdminDashboard');
 
         View::composer('admin.rates.local_transport.form', 'App\Http\ViewComposers\LocalTranspComposer');
         View::composer('admin.rates.local_spending.form', 'App\Http\ViewComposers\TransCompaniesComposer');
