@@ -18,7 +18,7 @@
         </svg>
     @endif                          
 </div>
-<div class="flex items-center justify-center rounded-lg mt-1 p-1  leading-tight border border-gray-400 dark:text-white {{ $application->status->name == "Activada" || $application->status->name == "Validada" ? 'bg-green-200' : 'bg-gray-200'}} ">
+<div class="flex items-center justify-center rounded-lg mt-1 p-1 leading-tight border border-gray-400 dark:text-white {{ $application->status->name == "Activada" ? "bg-gray-200" : ($application->status->name == "Validada" ? 'bg-green-200' : '') }} ">
     {!!  $application->status->name == "Validada" || $application->status->name == "Activada"
         ? $application->status->name == "Validada" && !$application->state_process ? "<p class='animate-pulse text-red-300'>Validando</p>" :  'Validada' 
         : "Validación" !!}
@@ -36,7 +36,8 @@
         </button>
     @endif                                                        
 </div>
-<div class="flex items-center border border-gray-400 justify-center rounded-lg mt-1 p-1 leading-tight bg-green-200 ">
+<div class="flex items-center justify-center rounded-lg mt-1 p-1 leading-tight border border-gray-400 
+{{ $application->status->name == "Borrador" ? ' bg-green-200' : ' bg-gray-200'}}">
     Borrador
     @if(!$application->state_process)
         <button
