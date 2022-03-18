@@ -201,7 +201,7 @@
         </div>
         <div
           class="
-            flex flex-wrap
+            flex
             justify-center
             pt-4
             pb-8
@@ -222,7 +222,11 @@
               hidden
             />
             <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
-              <label v-for="(item, key) in certif" :key="key" class="inline-flex items-center mt-3">
+              <label
+                v-for="(item, key) in certif"
+                :key="key"
+                class="inline-flex justify-center items-center mt-3"
+              >
                 <a
                   @click="openWindowFileCert(item)"
                   class="
@@ -269,7 +273,7 @@
                   <span> {{ item.name }} </span>
                 </a>
               </label>
-              <span class="text-center">{{ fileName }}</span>
+              <span class="text-center">{{ certFileName }}</span>
             </div>
             <span
               class="text-xs text-red-600 dark:text-red-400"
@@ -286,11 +290,11 @@
               type="file"
               hidden
             />
-            <div class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
+            <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
               <label
                 v-for="(item, key) in treaties"
                 :key="key"
-                class="inline-flex items-center mt-3"
+                class="inline-flex justify-center items-center mt-3"
               >
                 <a
                   @click="openWindowFile(item)"
@@ -338,6 +342,7 @@
                   <span> {{ item.name }} </span></a
                 >
               </label>
+              <span class="text-center">{{ file1Name }}</span>
             </div>
 
             <span
@@ -348,21 +353,21 @@
           </div>
           <div class="w-auto px-1 px-3">
             <input
-              id="fileid"
+              id="fileid_2"
               v-show="showInputFile"
-              @change="handleFile()"
-              ref="file"
+              @change="otherHandleFile()"
+              ref="file_2"
               type="file"
               hidden
             />
-            <div class="text-gray-600 dark:text-gray-400 flex space-x-5 justify-start">
+            <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
               <label
-                v-for="(item, key) in treaties"
+                v-for="(item, key) in otherFile"
                 :key="key"
-                class="inline-flex items-center mt-3"
+                class="inline-flex justify-center items-center mt-3"
               >
                 <a
-                  @click="openWindowFile(item)"
+                  @click="openWindowFile2(item)"
                   class="
                     w-42
                     flex
@@ -407,6 +412,7 @@
                   <span> {{ item.name }} </span></a
                 >
               </label>
+              <span class="text-center">{{ file2Name }}</span>
             </div>
 
             <span
@@ -831,6 +837,12 @@ export default {
           submit: false
         }
       ],
+      otherFile: [
+        {
+          name: 'Otro Documento',
+          submit: false
+        }
+      ],
       certificate: {},
       custom_agents: [],
       trans_companies: [],
@@ -847,7 +859,9 @@ export default {
       dispatchLcl: 30,
       insure: false,
       transport: false,
-      fileName: ''
+      certFileName: '',
+      file1Name: '',
+      file2Name: ''
     };
   },
   methods: {
@@ -857,13 +871,23 @@ export default {
         maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
-    changeCustomHouse() {},
     openWindowFile({ e, name: entry }) {
       this.nameFileUpload = entry;
       let value = this.treaties.find((a) => a.name == entry);
       if (!value.submit) {
         this.showInputFile = !this.showInputFile;
         let fileInputElement = this.$refs.file;
+        fileInputElement.click();
+      } else {
+        this.handleStatusSubmitFile();
+      }
+    },
+    openWindowFile2({ e, name: entry }) {
+      this.nameFileUpload = entry;
+      let value = this.otherFile.find((a) => a.name == entry);
+      if (!value.submit) {
+        this.showInputFile = !this.showInputFile;
+        let fileInputElement = this.$refs.file_2;
         fileInputElement.click();
       } else {
         this.handleStatusSubmitFile();
@@ -882,7 +906,7 @@ export default {
     },
     certificateFile() {
       const file = this.$refs.file_cert.files[0];
-      this.fileName = file.name;
+      this.certFileName = file.name;
       if (file) {
         this.handleStatusSubmitFile('certif');
         this.expenses.file_certificate = file;
@@ -891,6 +915,16 @@ export default {
     },
     handleFile() {
       const file = this.$refs.file.files[0];
+      this.file1Name = file.name;
+      if (file) {
+        this.handleStatusSubmitFile();
+        this.expenses.files.push(file);
+        this.expenses.file_descrip.push(this.nameFileUpload);
+      }
+    },
+    otherHandleFile() {
+      const file = this.$refs.file_2.files[0];
+      this.file2Name = file.name;
       if (file) {
         this.handleStatusSubmitFile();
         this.expenses.files.push(file);
