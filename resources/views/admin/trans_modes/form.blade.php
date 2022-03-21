@@ -50,14 +50,14 @@
 					</span>
 					<div class="mt-2">
 						<label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=true
-							{{isset($transportMode) ? ($transportMode->status==true)? "checked" : ""  : ""}}
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=1
+							{{isset($transportMode) ? ($transportMode->status==1)? "checked" : ""  : ""}}
 							/>
 							<span class="ml-2">Activo</span>
 						</label>
 						<label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=false
-							{{isset($transportMode) ? ($transportMode->status==false)? "checked" : ""  : ""}}
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="status" value=0
+							{{isset($transportMode) ? ($transportMode->status==0)? "checked" : ""  : ""}}
 							/>
 							<span class="ml-2">Inactivo</span>
 						</label>
@@ -74,14 +74,14 @@
 					</span>
 					<div class="mt-2">
 						<label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="disabled" value=false
-							{{isset($transportMode) ? ($transportMode->disabled==false)? "checked" : ""  : ""}}
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="disabled" value=0
+							{{isset($transportMode) ? ($transportMode->disabled==0)? "checked" : ""  : ""}}
 							/>
 							<span class="ml-2">Habilitar</span>
 						</label>
 						<label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="disabled" value=true
-							{{isset($transportMode) ? ($transportMode->disabled==true)? "checked" : ""  : ""}}
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="disabled" value=1
+							{{isset($transportMode) ? ($transportMode->disabled==1)? "checked" : ""  : ""}}
 							/>
 							<span class="ml-2">Deshabilitar</span>
 						</label>
