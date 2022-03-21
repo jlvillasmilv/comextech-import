@@ -512,22 +512,22 @@
                     </thead>
                     <tbody class="text-center">
                       <tr>
-                        <td class="py-2">350</td>
+                        <td class="py-2">{{ formatPrice(AppAmount, 'USD') }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr>
-                        <td class="py-2">143,55</td>
+                        <td class="py-2">{{ formatPrice(transpAmount, 'USD') }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr>
-                        <td class="py-2">143,55</td>
+                        <td class="py-2"> {{ formatPrice(this.insureAmount) }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr class="bg-gray-200 font-semibold">
-                        <td class="py-2">553.55</td>
+                        <td class="py-2">{{ expenses.cif_amt }}</td>
                         <td class="py-2">CIF Dólar</td>
                       </tr>
                     </tbody>
@@ -758,6 +758,7 @@
                 type="checkbox"
                 v-model="expenses.adv"
                 class="form-checkbox h-5 w-5 text-blue-600"
+                @click="advalorem()"
               />
               <span :class="[expenses.adv ? 'text-center mx-2' : 'text-center text-gray-400 mx-2']">
                 {{ formatPrice(expenses.adv_amt, 'CLP') }} CLP
@@ -981,7 +982,6 @@ export default {
     ...mapState('application', ['data', 'currency', 'busy']),
     ...mapState('exchange', ['exchangeItem'])
   },
-
   data() {
     return {
       certif: [
@@ -998,7 +998,7 @@ export default {
       ],
       otherFile: [
         {
-          name: 'Otro Documento',
+          name: 'Otro Documento 2',
           submit: false
         }
       ],
@@ -1130,6 +1130,27 @@ export default {
       } finally {
         this.$store.dispatch('application/busyButton', false);
       }
+    },
+
+    async advalorem() {
+      // change iva value if Advalorem is checked
+      if(!this.expenses.adv){
+       
+        let CIF = parseFloat(Number(this.expenses.cif_amt) + Number(this.expenses.cif_amt * 0.06)).toFixed(2);
+
+        let cif_clp = await axios.get(`/custom-convert-currency/${CIF}/USD`);
+
+        if (cif_clp.data <= 0) {
+          cif_clp = await axios.get(`/api/convert-currency/${CIF}/USD/CLP`);
+        }
+
+        this.expenses.iva_amt = cif_clp.data * (19 / 100);
+      }
+      else
+      {
+        this.taxCheck();
+      }     
+      
     },
 
     async taxCheck() {
