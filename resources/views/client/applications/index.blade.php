@@ -5,7 +5,7 @@
             Servicios Solicitado
         </h2>
 
-        <div class="flex justify-between items-end">
+        <div class="flex justify-between items-end mb-1">
             <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
                 Lista de Solicitudes
             </h4>
@@ -18,9 +18,9 @@
             </a>
         </div>
 
-        <div class="mb-8 overflow-hidden rounded-lg shadow-xs" x-cloak>
-            <div class=" overflow-x-auto">
-                <table class=" whitespace-no-wrap" id="table" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+        <div class="mb-2 overflow-hidden rounded-lg shadow-xs" x-cloak>
+            <div class="overflow-x-auto">
+                <table class="whitespace-no-wrap" id="table" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                     <thead class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                         <tr class=>
                             <th class="px-4 py-3">Nro/Fecha </th>

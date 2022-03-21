@@ -6,7 +6,7 @@
                                 {{$application->payment->status}}
                                 </span> -->
                               
-<div class="flex items-center justify-center leading-tight rounded-lg rounded-lg p-1
+<div class="flex items-center justify-center leading-tight rounded-lg rounded-lg p-1 border border-gray-400
  {{ $application->status->name == "Activada" ? 'bg-green-200 ' : ''}}  dark:text-white ">
 
      {!!  $application->status->name == "Activada"
