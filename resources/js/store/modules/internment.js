@@ -25,7 +25,8 @@ export default {
       port_charges: 0,
       insurance: 0,
       transport_amt: 0,
-      code_serv: 'ICS04'
+      code_serv: 'ICS04',
+      taxComex: false
     })
   },
   getters: {},
