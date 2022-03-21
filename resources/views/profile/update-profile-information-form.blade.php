@@ -15,7 +15,7 @@
                                             reader.readAsDataURL($refs.photo.files[0]);
                                     " />
     
-                    <x-label for="photo" value="Photo" />
+                    <x-label for="photo" value="Imagen de Perfil" />
     
                     <!-- Current Profile Photo -->
                     <div class="mt-2" x-show="! photoPreview">
@@ -39,14 +39,14 @@
             <div class="w-1/2">
                 <!-- Name -->
                 <div class="col-span-6 sm:col-span-4 mb-2">
-                    <x-label for="name" value="Name" />
+                    <x-label for="name" value="Nombre" />
                     <x-input id="name" type="text" class="block w-full mt-1" wire:model.defer="state.name" autocomplete="name" />
                     <x-input-error for="name" class="mt-2" />
                 </div>
     
                 <!-- Email -->
                 <div class="col-span-6 sm:col-span-4">
-                    <x-label for="email" value="Email" />
+                    <x-label for="email" value="Correo Electrónico" />
                     <x-input id="email" type="email" class="block w-full mt-1" wire:model.defer="state.email" />
                     <x-input-error for="email" class="mt-2" />
                 </div>

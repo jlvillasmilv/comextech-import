@@ -14,7 +14,7 @@
       ]"
     >
       <!-- asignacion de aduana -->
-      <div class="flex flex-col w-10/12">
+      <div class="flex flex-col w-full">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-600">
             Asignación de Agente de Aduana
@@ -39,7 +39,7 @@
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  disabled
+                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? disabled : ''"
                 />
                 <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
@@ -57,7 +57,7 @@
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  disabled
+                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? disabled : ''"
                 />
                 <span class="mx-2 text-xs text-gray-500">Cliente</span>
               </div>
@@ -76,7 +76,7 @@
                   v-model="expenses.courier_svc"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  disabled
+                  :disabled="!expenses.courier_svc && AppAmount <= 2999 ? disabled : ''"
                 />
                 <span class="mx-2 text-xs text-gray-500"> Servicio incluido </span>
               </div>
@@ -179,7 +179,7 @@
                       dark:text-gray-300 dark:focus:shadow-outline-gray
                       form-input
                     "
-                    :disabled="expenses.customs_house ? true : false"
+                    :disabled="expenses.customs_house ? disabled : ''"
                     placeholder="Monto"
                   />
                   <span
@@ -195,7 +195,7 @@
       </div>
 
       <!-- importar archivos -->
-      <div class="flex flex-col w-10/12">
+      <div class="flex flex-col w-full">
         <div class="flex justify-between items-end">
           <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
             Documentos necesarios
@@ -512,22 +512,24 @@
                     </thead>
                     <tbody class="text-center">
                       <tr>
-                        <td class="py-2">350</td>
+                        <td class="py-2">{{ $options.filters.setPrice(AppAmount, 'USD') }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr>
-                        <td class="py-2">143,55</td>
+                        <td class="py-2">{{ $options.filters.setPrice(transpAmount, 'USD') }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr>
-                        <td class="py-2">143,55</td>
+                        <td class="py-2">{{ $options.filters.setPrice(this.insureAmount) }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr class="bg-gray-200 font-semibold">
-                        <td class="py-2">553.55</td>
+                        <td class="py-2">
+                          {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
+                        </td>
                         <td class="py-2">CIF Dólar</td>
                       </tr>
                     </tbody>
@@ -730,11 +732,78 @@
       </div>
 
       <!-- checkbox incluir -->
-      <div
-        class="container flex px-6 mx-auto mt-4 justify-center"
-        :class="[!$store.getters.findService('ICS04') ? ' ' : '']"
-      >
-        <div class="w-10/12 flex flex-col lg:items-start mb-8">
+      <div class="w-full flex justify-between p-4 mt-4 bg-gray-200 rounded-lg shadow-md">
+        <div class="flex flex-col justify-around w-3/12 px-4">
+          <div class="flex justify-between bg-gray-300 p-2 rounded">
+            <p>6%</p>
+            <p>
+              {{ expenses.adv ? 0 : `${$options.filters.setPrice(expenses.adv_amt, 'CLP')} CLP` }}
+            </p>
+          </div>
+          <div class="flex justify-between bg-gray-300 p-2 rounded">
+            <p>19%</p>
+            <p>{{ `${$options.filters.setPrice(expenses.iva_amt, 'CLP')} CLP` }}</p>
+          </div>
+        </div>
+        <div class="flex flex-col justify-between items-start w-5/12 h-48 px-4">
+          <div class="flex justify-center">
+            <button type="button" class="mr-4 focus:outline-none" @click="advalorem()">
+              <img
+                src="../../../../public/img/tgr.png"
+                class="w-24 bg-white px-2 border-2 shadow-md"
+                alt="tgr"
+              />
+            </button>
+            <div>
+              <p class="text-gray-400"><strong class="text-black">T</strong>esoreria</p>
+              <p class="text-gray-400"><strong class="text-black">G</strong>eneral de la</p>
+              <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
+            </div>
+          </div>
+          <figure class="flex justify-center">
+            <img
+              src="../../../../public/img/SII-white.png"
+              class="w-24 bg-white px-2 mr-4 border-2 shadow-md"
+              alt="sii"
+            />
+            <div>
+              <p class="text-gray-400"><strong class="text-black">S</strong>ervicio de</p>
+              <p class="text-gray-400"><strong class="text-black">I</strong>mpuestos</p>
+              <p class="text-gray-400"><strong class="text-black">I</strong>nternos</p>
+            </div>
+          </figure>
+        </div>
+        <div class="flex flex-col justify-around w-4/12 px-4">
+          <div class="flex justify-around">
+            <button
+              @click="taxComex(false)"
+              :class="[
+                'w-28 h-10 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
+                !expenses.taxComex ? 'bg-blue-200 ' : 'bg-transparent'
+              ]"
+              type="button"
+            >
+              Cliente
+            </button>
+            <button
+              @click="taxComex(true)"
+              :class="[
+                'w-28 h-10 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
+                expenses.taxComex ? 'bg-blue-200' : 'bg-transparent'
+              ]"
+              type="button"
+            >
+              Comextech
+            </button>
+          </div>
+          <div>
+            <p class="text-center text-sm">
+              Los impuestos serán gestionados y pagados por el cliente, no por ComexTech y podrán
+              sufrir variación según Tipo de cambio
+            </p>
+          </div>
+        </div>
+        <!-- <div class="w-10/12 flex flex-col lg:items-start mb-8">
           <span class="font-semibold mt-3 mb-2">Incluir</span>
           <div class="flex justify-start items-center my-1 ml-2">
             <div class="w-full sm:w-3/5 flex flex-col md:flex-row items-center">
@@ -749,7 +818,6 @@
               <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
                 IVA ( 19% )
               </h1>
-              <!-- <img class="w-24 my-4" src="https://homer.sii.cl/responsive/images/logo.jpg" /> -->
             </div>
           </div>
           <div class="flex justify-start items-center my-1 ml-2">
@@ -758,6 +826,7 @@
                 type="checkbox"
                 v-model="expenses.adv"
                 class="form-checkbox h-5 w-5 text-blue-600"
+                @click="advalorem()"
               />
               <span :class="[expenses.adv ? 'text-center mx-2' : 'text-center text-gray-400 mx-2']">
                 {{ formatPrice(expenses.adv_amt, 'CLP') }} CLP
@@ -765,13 +834,9 @@
               <h1 :class="[expenses.adv ? 'text-center mx-4' : 'text-center text-gray-400 mx-4']">
                 Ad Valorem ( 6% )
               </h1>
-              <!-- <img
-                class="w-24 my-4"
-                src="https://user-images.githubusercontent.com/53098149/132052671-8d382ada-a5c1-4d73-8c04-1b3112a793f7.jpeg"
-              /> -->
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- tabla gastos del puerto -->
@@ -981,7 +1046,6 @@ export default {
     ...mapState('application', ['data', 'currency', 'busy']),
     ...mapState('exchange', ['exchangeItem'])
   },
-
   data() {
     return {
       certif: [
@@ -998,7 +1062,7 @@ export default {
       ],
       otherFile: [
         {
-          name: 'Otro Documento',
+          name: 'Otro Documento 2',
           submit: false
         }
       ],
@@ -1132,6 +1196,30 @@ export default {
       }
     },
 
+    async advalorem() {
+      this.expenses.adv = !this.expenses.adv;
+      // change iva value if Advalorem is checked
+      if (!this.expenses.adv) {
+        let CIF = parseFloat(
+          Number(this.expenses.cif_amt) + Number(this.expenses.cif_amt * 0.06)
+        ).toFixed(2);
+
+        let cif_clp = await axios.get(`/custom-convert-currency/${CIF}/USD`);
+
+        if (cif_clp.data <= 0) {
+          cif_clp = await axios.get(`/api/convert-currency/${CIF}/USD/CLP`);
+        }
+
+        this.expenses.iva_amt = cif_clp.data * (19 / 100);
+      } else {
+        this.taxCheck();
+      }
+    },
+
+    taxComex(value) {
+      this.expenses.taxComex = value;
+    },
+
     async taxCheck() {
       this.expenses.cif_amt = parseFloat(
         Number(this.AppAmount) + Number(this.transpAmount) + Number(this.insureAmount)
@@ -1208,11 +1296,9 @@ export default {
   },
   async mounted() {
     try {
-      this.$store.dispatch('exchange/getSummary', this.application_id);
+      await this.$store.dispatch('exchange/getSummary', this.application_id);
 
       const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
-
-      console.log(transpCostp.amount);
 
       if (transpCostp.amount <= 0) {
         await axios.post('/set-application-summary', {
@@ -1220,7 +1306,7 @@ export default {
           currency_code: 'USD'
         });
 
-        this.$store.dispatch('exchange/getSummary', this.application_id);
+        await this.$store.dispatch('exchange/getSummary', this.application_id);
       }
 
       // agente de Aduana del cliente
@@ -1270,6 +1356,7 @@ export default {
       }
 
       this.taxCheck();
+      this.advalorem();
 
       if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
         this.portCharge();
