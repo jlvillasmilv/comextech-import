@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
    
         $suppl = App\Models\ApplicationCondSale::where('status', '=', true)
             ->with('services')
-            ->get(['id','name','sort']);
+            ->get(['id','name','description','sort']);
     
         return response()->json($suppl, 200);
     });
