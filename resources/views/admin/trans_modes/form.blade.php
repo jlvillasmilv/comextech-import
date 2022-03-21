@@ -73,18 +73,19 @@
 						Deshabilitado
 					</span>
 					<div class="mt-2">
-						<label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="disabled" value=true
-							{{isset($transportMode) ? ($transportMode->disabled==true)? "checked" : ""  : ""}}
-							/>
-							<span class="ml-2">Activo</span>
-						</label>
 						<label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
 							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="disabled" value=false
 							{{isset($transportMode) ? ($transportMode->disabled==false)? "checked" : ""  : ""}}
 							/>
-							<span class="ml-2">Inactivo</span>
+							<span class="ml-2">Habilitar</span>
 						</label>
+						<label class="inline-flex items-center text-gray-600 dark:text-gray-400">
+							<input type="radio" class="text-blue-600 form-radio focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray" name="disabled" value=true
+							{{isset($transportMode) ? ($transportMode->disabled==true)? "checked" : ""  : ""}}
+							/>
+							<span class="ml-2">Deshabilitar</span>
+						</label>
+						
 						@if($errors->has('disabled'))
 								<span class="text-xs text-red-600 dark:text-red-400">
 									{{ $errors->first('disabled') }}

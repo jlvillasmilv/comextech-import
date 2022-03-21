@@ -79,6 +79,7 @@ class TransportModesController extends Controller
      */
     public function update(Request $request, TransportMode $transportMode)
     {
+        // dd($request->all());
         $transportMode->fill($request->all())->save();
 
         $notification = array(

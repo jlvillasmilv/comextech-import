@@ -292,7 +292,7 @@
                       "
                       >
                         <!-- :class="[$store.state.address.expenses.mode_selected == 'COURIER' ? 'bg-gray-600' : 'bg-blue-400']" -->
-                        <option v-for="item in arrayServices" :value="item" :key="item.name">
+                        <option v-for="item in arrayServices" :value="item" :key="item.name" :title="item.description">
                           {{ item.name }}
                         </option>
                       </select>
