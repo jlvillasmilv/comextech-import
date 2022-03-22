@@ -39,7 +39,7 @@
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? disabled : ''"
+                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? 'disabled' : ''"
                 />
                 <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
@@ -57,11 +57,11 @@
                   v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? disabled : ''"
+                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? 'disabled' : ''"
                 />
                 <span class="mx-2 text-xs text-gray-500">Cliente</span>
               </div>
-              <div>
+              <div v-if="data.type_transport !== 'CONSOLIDADO'">
                 <input
                   v-if="expenses.courier_svc && AppAmount <= 2999"
                   :value="true"
@@ -76,7 +76,7 @@
                   v-model="expenses.courier_svc"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount <= 2999 ? disabled : ''"
+                  :disabled="!expenses.courier_svc && AppAmount <= 2999 ? 'disabled' : ''"
                 />
                 <span class="mx-2 text-xs text-gray-500"> Servicio incluido </span>
               </div>
@@ -100,7 +100,9 @@
                       leading-tight
                       focus:outline-none focus:bg-white focus:border-gray-500
                     "
-                    :disabled="$store.state.address.expenses.trans_company_id == '' ? disabled : ''"
+                    :disabled="
+                      $store.state.address.expenses.trans_company_id == '' ? 'disabled' : ''
+                    "
                   >
                     <!--  -->
                     <option
@@ -179,7 +181,7 @@
                       dark:text-gray-300 dark:focus:shadow-outline-gray
                       form-input
                     "
-                    :disabled="expenses.customs_house ? disabled : ''"
+                    :disabled="expenses.customs_house ? 'disabled' : ''"
                     placeholder="Monto"
                   />
                   <span
@@ -465,24 +467,19 @@
                     <tbody class="text-center">
                       <tr class="text-sm">
                         <td class="py-2 px-4 text-base">Mercaderia</td>
-                        <td class="py-2">500.00</td>
+                        <td class="py-2">{{ $options.filters.setPrice(clpAmount, 'CLP') }}</td>
                         <td class="py-2">CLP</td>
                       </tr>
                       <tr class="text-sm">
                         <td class="py-2 px-4 text-base">Transporte</td>
-                        <td class="py-2">500.00</td>
+                        <td class="py-2">{{ $options.filters.setPrice(clpTransport, 'CLP') }}</td>
                         <td class="py-2">CLP</td>
                       </tr>
                       <tr class="text-sm">
                         <td class="py-2 px-4 text-base">Seguro</td>
-                        <td class="py-2">500.00</td>
+                        <td class="py-2">{{ $options.filters.setPrice(clpInsurance, 'CLP') }}</td>
                         <td class="py-2">CLP</td>
                       </tr>
-                      <!-- <tr class="font-semibold">
-                        <th class="py-2 px-4">&nbsp;</th>
-                        <td class="bg-gray-200 py-2">453.911</td>
-                        <td class="bg-gray-200 py-2">CIF Pesos</td>
-                      </tr> -->
                     </tbody>
                   </table>
                 </div>
@@ -522,25 +519,19 @@
                     <tbody class="text-center">
                       <tr class="text-sm">
                         <td class="py-2">{{ $options.filters.setPrice(AppAmount, 'USD') }}</td>
-                        <td class="py-2">820</td>
+                        <td class="py-2">{{ parityAmountDollar }}</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr class="text-sm">
                         <td class="py-2">{{ $options.filters.setPrice(transpAmount, 'USD') }}</td>
-                        <td class="py-2">820</td>
+                        <td class="py-2">{{ parityAmountDollar }}</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr class="text-sm">
-                        <td class="py-2">{{ $options.filters.setPrice(this.insureAmount) }}</td>
-                        <td class="py-2">820</td>
+                        <td class="py-2">{{ $options.filters.setPrice(insureAmount, 'USD') }}</td>
+                        <td class="py-2">{{ parityAmountDollar }}</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <!-- <tr class="bg-gray-200 font-semibold">
-                        <td class="py-2">
-                          {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
-                        </td>
-                        <td class="py-2">CIF Dólar</td>
-                      </tr> -->
                     </tbody>
                   </table>
                 </div>
@@ -579,25 +570,64 @@
                     </thead>
                     <tbody class="text-center">
                       <tr class="text-sm">
-                        <td class="py-2">500</td>
-                        <td class="py-2">0.7</td>
-                        <td class="py-2">EUR</td>
+                        <td class="py-2">
+                          {{ $options.filters.setPrice(data.amount, currency.code) }}
+                        </td>
+                        <td class="py-2">{{ parityAmountOrigin }}</td>
+                        <td class="py-2">{{ currency.code }}</td>
                       </tr>
                       <tr class="text-sm">
-                        <td class="py-2">143,55</td>
+                        <td class="py-2">
+                          <span v-if="transport">
+                            <input
+                              v-model.number="transpAmount"
+                              type="number"
+                              class="
+                        block
+                        w-full
+                        mt-1
+                        text-sm
+                        dark:border-gray-600 dark:bg-gray-700
+                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                        dark:text-gray-300 dark:focus:shadow-outline-gray
+                        form-input
+                      "
+                              placeholder="Monto Transporte"
+                            />
+                          </span>
+                          <span v-else>
+                            {{ $options.filters.setPrice(transpAmount, 'USD') }}
+                          </span>
+                        </td>
                         <td class="py-2">1</td>
                         <td class="py-2">USD</td>
                       </tr>
                       <tr class="text-sm">
-                        <td class="py-2">60</td>
+                        <td class="py-2">
+                          <span v-if="insure">
+                            <input
+                              v-model.number="insureAmount"
+                              type="number"
+                              class="
+                        block
+                        w-full
+                        mt-1
+                        text-sm
+                        dark:border-gray-600 dark:bg-gray-700
+                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
+                        dark:text-gray-300 dark:focus:shadow-outline-gray
+                        form-input
+                      "
+                              placeholder="Monto Seguro"
+                            />
+                          </span>
+                          <span v-else>
+                            {{ $options.filters.setPrice(insureAmount, 'USD') }}
+                          </span>
+                        </td>
                         <td class="py-2">1</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <!-- <tr class="text-sm">
-                        <td class="py-2">&nbsp;</td>
-                        <td class="py-2">&nbsp;</td>
-                        <td class="py-2">&nbsp;</td>
-                      </tr> -->
                     </tbody>
                   </table>
                 </div>
@@ -719,7 +749,9 @@
               </thead>
               <tbody>
                 <tr class="font-semibold">
-                  <td class="bg-gray-200 py-2 px-1">453.911</td>
+                  <td class="bg-gray-200 py-2 px-1">
+                    {{ $options.filters.setPrice(clpCif, 'CLP') }}
+                  </td>
                   <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
                 </tr>
               </tbody>
@@ -1116,6 +1148,12 @@ export default {
       transpAmount: 0,
       insureAmount: 0,
       AppAmount: 0,
+      clpAmount: 0,
+      clpTransport: 0,
+      clpInsurance: 0,
+      clpCif: 0,
+      parityAmountOrigin: 0,
+      parityAmountDollar: 0,
       docMgmtFcl: 25,
       loanFcl: 120,
       gateInFcl: 120,
@@ -1314,7 +1352,31 @@ export default {
       if (this.data.type_transport == 'CONTAINER') {
         this.expenses.port_charges = this.docMgmtFcl + this.loanFcl + this.gateInFcl;
       }
-      // console.log(this.expenses.port_charges)
+    },
+
+    async convertAmountToClp() {
+      const amountClp = await axios.get(`/api/convert-currency/${this.AppAmount}/USD/CLP`);
+      this.clpAmount = amountClp.data;
+
+      const transportClp = await axios.get(`/api/convert-currency/${this.transpAmount}/USD/CLP`);
+      this.clpTransport = transportClp.data;
+
+      const insuranceClp = await axios.get(`/api/convert-currency/${this.insureAmount}/USD/CLP`);
+      this.clpInsurance = insuranceClp.data;
+
+      const cifClp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
+      this.clpCif = cifClp.data;
+    },
+
+    async calculateParity() {
+      const parityOrigin = parseFloat(this.AppAmount);
+      const dataAmount = parseFloat(this.data.amount);
+      this.parityAmountOrigin = (Math.trunc(parityOrigin) / dataAmount).toFixed(2);
+
+      const parityDollar = await axios.get(`/api/convert-currency/${this.AppAmount}/USD/CLP`);
+      this.parityAmountDollar = (
+        Math.trunc(parseFloat(parityDollar.data)) / this.AppAmount
+      ).toFixed(0);
     }
   },
   watch: {
@@ -1397,7 +1459,9 @@ export default {
         this.expenses.agent_payment = 250;
       }
 
+      this.convertAmountToClp();
       this.taxCheck();
+      this.calculateParity();
       this.advalorem();
 
       if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
