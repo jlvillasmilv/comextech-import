@@ -82,8 +82,8 @@
               </div>
             </div>
 
-            <div class="my-5 lg:my-0 lg:flex lg:justify-end lg:w-9/12">
-              <div class="lg:w-full px-1 mb-2 lg:mb-0">
+            <div class="my-5 lg:my-0 lg:flex lg:justify-center lg:w-9/12">
+              <div class="lg:w-5/12 px-1 mb-2 lg:mb-0">
                 <label class="block text-sm" v-if="expenses.courier_svc && AppAmount <= 2999">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
@@ -160,7 +160,7 @@
                 </label>
               </div>
 
-              <div class="lg:w-full px-1 mb-2 lg:mb-0">
+              <div class="lg:w-4/12 px-1 mb-2 lg:mb-0">
                 <label class="block text-sm">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold">
                     Costo Servicio
@@ -440,39 +440,44 @@
                 class="w-full md:w-3/4 overflow-hidden rounded-lg flex"
                 :class="[!$store.getters.findService('ICS04') ? '' : 'justify-between']"
               >
-                <div class="flex justify-center w-3/12 overflow-x-auto">
+                <div class="flex justify-center w-5/12 overflow-x-auto">
                   <table>
                     <thead>
                       <tr
                         class="
-                          text-center
+                          text-right
                           font-semibold
                           tracking-wide
                         "
                       >
-                        <th colspan="2">Moneda CLP</th>
+                        <th colspan="3">Moneda CLP</th>
                       </tr>
                       <tr>
-                        <th class="px-4 py-2 font-normal">Monto</th>
-                        <th class="px-4 py-2 font-normal">Moneda</th>
+                        <th class="py-2">&nbsp;</th>
+                        <th class="py-2 font-normal">Monto</th>
+                        <th class="py-2 font-normal">Moneda</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
-                      <tr>
+                      <tr class="text-sm">
+                        <td class="py-2 px-4 text-base">Mercaderia</td>
                         <td class="py-2">500.00</td>
                         <td class="py-2">CLP</td>
                       </tr>
-                      <tr>
+                      <tr class="text-sm">
+                        <td class="py-2 px-4 text-base">Transporte</td>
                         <td class="py-2">500.00</td>
                         <td class="py-2">CLP</td>
                       </tr>
-                      <tr>
+                      <tr class="text-sm">
+                        <td class="py-2 px-4 text-base">Seguro</td>
                         <td class="py-2">500.00</td>
                         <td class="py-2">CLP</td>
                       </tr>
-                      <tr class="bg-gray-200 font-semibold">
-                        <td class="py-2">453.911</td>
-                        <td class="py-2">CIF Pesos</td>
+                      <tr class="font-semibold">
+                        <th class="py-2 px-4">&nbsp;</th>
+                        <td class="bg-gray-200 py-2">453.911</td>
+                        <td class="bg-gray-200 py-2">CIF Pesos</td>
                       </tr>
                     </tbody>
                   </table>
@@ -505,23 +510,23 @@
                         </th>
                       </tr>
                       <tr>
-                        <th class="px-4 py-2 font-normal">Monto</th>
-                        <th class="px-4 py-2 font-normal">Paridad</th>
-                        <th class="px-4 py-2 font-normal">Moneda</th>
+                        <th class="py-2 font-normal">Monto</th>
+                        <th class="py-2 font-normal">Paridad</th>
+                        <th class="py-2 font-normal">Moneda</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
-                      <tr>
+                      <tr class="text-sm">
                         <td class="py-2">{{ $options.filters.setPrice(AppAmount, 'USD') }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <tr>
+                      <tr class="text-sm">
                         <td class="py-2">{{ $options.filters.setPrice(transpAmount, 'USD') }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <tr>
+                      <tr class="text-sm">
                         <td class="py-2">{{ $options.filters.setPrice(this.insureAmount) }}</td>
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
@@ -563,28 +568,28 @@
                         </th>
                       </tr>
                       <tr>
-                        <th class="px-4 py-2 font-normal">Monto</th>
-                        <th class="px-4 py-2 font-normal">Paridad</th>
-                        <th class="px-4 py-2 font-normal">Moneda</th>
+                        <th class="py-2 px-2 font-normal">Monto</th>
+                        <th class="py-2 px-2 font-normal">Paridad</th>
+                        <th class="py-2 font-normal">Moneda</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
-                      <tr>
+                      <tr class="text-sm">
                         <td class="py-2">500</td>
                         <td class="py-2">0.7</td>
                         <td class="py-2">EUR</td>
                       </tr>
-                      <tr>
+                      <tr class="text-sm">
                         <td class="py-2">143,55</td>
                         <td class="py-2">1</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <tr>
+                      <tr class="text-sm">
                         <td class="py-2">60</td>
                         <td class="py-2">1</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <tr>
+                      <tr class="text-sm">
                         <td class="py-2">&nbsp;</td>
                         <td class="py-2">&nbsp;</td>
                         <td class="py-2">&nbsp;</td>
@@ -699,7 +704,7 @@
                     </tbody>
                   </table> -->
               </div>
-              <div class="flex justify-center w-3/12 my-2">
+              <div class="flex justify-end w-3/12 my-2 pr-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
