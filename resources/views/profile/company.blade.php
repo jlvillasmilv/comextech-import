@@ -43,7 +43,9 @@
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Numero identificación tributaria</label>
-                           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="tax_id" value="{{ old('tax_id', isset($data) ? $data->tax_id : '') }}" max="100" required="">
+                           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="tax_id" value="{{ old('tax_id', isset($data) ? $data->tax_id : '') }}"
+                            max="12"
+                             required="">
                              @if($errors->has('tax_id'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('tax_id') }}
@@ -66,7 +68,9 @@
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Correo electrónico</label>
-                           <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@correo.com" name="email" value="{{ old('email', isset($data) ? $data->email : '') }}" max="100" required="">
+                           <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@correo.com" name="email" value="{{ old('email', isset($data) ? $data->user->email : '') }}"
+                            max="100"
+                             disabled>
                              @if($errors->has('email'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('email') }}

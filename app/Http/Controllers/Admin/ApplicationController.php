@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application,ApplicationDetail,ApplicationSummary, ApplicationStatus, Service, FedexApi};
+use App\Models\{Application,ApplicationDetail,ApplicationSummary, ApplicationStatus, Currency, Service, FedexApi};
 use App\Models\services\{DHL, DHLTracking };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -102,10 +102,13 @@ class ApplicationController extends Controller
      */
     public function update(ApplicationRequest $request, $id)
     {
+        if (! Gate::allows('admin.applications.index')) {
+            return abort(401);
+        }
 
-        $data = Application::findOrFail($id);
+        $application = Application::findOrFail($id);
 
-        $status = ApplicationStatus::where('id', $data->application_statuses_id)->firstOrFail();
+        $status = ApplicationStatus::where('id', $application->application_statuses_id)->firstOrFail();
 
         if(!$status->modify){
 
@@ -115,11 +118,11 @@ class ApplicationController extends Controller
     
             \Session::flash('notification', $notification);
     
-            return redirect()->route('admin.applications.edit', $data->id);
+            return redirect()->route('admin.applications.edit', $application->id);
 
         }
 
-        if($data->status != $request->get('application_statuses_id')){
+        if($application->status != $request->get('application_statuses_id')){
 
             $status2= ApplicationStatus::where('id',  $request->get('application_statuses_id'))->firstOrFail();
 
@@ -131,22 +134,19 @@ class ApplicationController extends Controller
         
                 \Session::flash('notification', $notification);
         
-                return redirect()->route('admin.applications.edit', $data->id);
+                return redirect()->route('admin.applications.edit', $application->id);
     
             }
         }
 
-        // if(!isset($request->detail_id)){
-        //     return back()->with('error', 'Debe tener al menos un servicio asociado');
-        // }
+       
+        $application->application_statuses_id = $request->application_statuses_id;
+        $application->modified_user_id = auth()->user()->id;
+        $application->save();
 
-        $data->application_statuses_id = $request->application_statuses_id;
-        $data->modified_user_id = auth()->user()->id;
-        $data->save();
+        if ($application->transport->exists()) {
 
-        if ($data->transport->exists()) {
-
-            $data->transport->update(['tracking_number' => $request->input('tracking_number') ]);
+            $application->transport->update(['tracking_number' => $request->input('tracking_number') ]);
         }
 
 
@@ -161,6 +161,9 @@ class ApplicationController extends Controller
                         'amount'       => $request->amount[$key],
                     ]);
             }
+
+            $data = ['application_id' => base64_encode($application->id), 'currency_code' => null];
+            $total = ApplicationSummary::setSummary($data);
         }
     
 
@@ -170,7 +173,7 @@ class ApplicationController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('admin.applications.edit', $data->id);
+        return redirect()->route('admin.applications.edit', $application->id);
     }
 
     /**
