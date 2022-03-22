@@ -21,9 +21,10 @@ $credential       = auth()->user()->credentialStores;
 
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Estamos a la espera de tu <a  class="alert-link">  Carpetas Tributarias Actualizadas y la Última declaracion de Impuesto Renta (SII) </a> para aprobar tu Solicitud <a href="client#/finacial-information" class="text-sm text-gray-700 underline"> Inserta tus documentos aqui! </a>
-                    <hr>
-                </a>  Ingresa <a href="/client#/providers" class="text-sm text-gray-700 underline">  tu contraseña del SII  a nuestro sistema </a>y  agiliza tu proceso! 
+                    No se ah ingresado información de su empresa. Recomendamos actualizar la información de su empresa
+
+                    <a  href="{{route('company.index')}}" class="text-sm text-blue-700 underline">(ingresa aqui)</a>
+                    para completar la información para cargar su información del SII
                 </p>
             </div>
 
