@@ -470,7 +470,7 @@ export default {
         percentage: '',
         date_pay: new Date().toISOString().slice(0, 10),
         type_pay: '',
-        payment_release: '',
+        payment_release: 'Sin Restricción',
         manyPayment: '',
         id: ''
       },

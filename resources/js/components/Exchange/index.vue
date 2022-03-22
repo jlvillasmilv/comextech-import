@@ -34,6 +34,7 @@
                         rounded
                         mr-1
                       "
+                      :disabled="busy"
                       @click="convert('CLP')"
                     >
                       CLP
@@ -41,6 +42,7 @@
                     <button
                       class="bg-blue-1300 hover:bg-blue-1200 active:bg-blue-1300 text-white font-bold py-2 px-3 rounded"
                       @click="convert('USD')"
+                      :disabled="busy"
                     >
                       USD
                     </button>
@@ -346,6 +348,7 @@ export default {
       this.currency_ex = '';
     },
     async convert(currency) {
+      this.$store.dispatch('application/busyButton', true);
       this.currency_ex = currency;
 
       const totalApi = await axios.post('/set-application-summary', {
@@ -353,7 +356,7 @@ export default {
         currency_code: currency
       });
 
-      this.$store.dispatch('exchange/getSummary', this.application_id);
+      await this.$store.dispatch('exchange/getSummary', this.application_id);
 
       this.exchangeItem.forEach(async (e) => {
         //Find index of specific object using findIndex method.
@@ -362,14 +365,15 @@ export default {
       });
 
       this.total = totalApi.data;
+      this.$store.dispatch('application/busyButton', false);
     }
   },
   computed: {
     ...mapState('exchange', ['exchangeItem']),
     ...mapState('application', ['busy'])
   },
-  mounted: function() {
-    this.$store.dispatch('exchange/getSummary', this.application_id);
+  mounted: async function() {
+   await this.$store.dispatch('exchange/getSummary', this.application_id);
     this.convert('CLP');
   }
 };
