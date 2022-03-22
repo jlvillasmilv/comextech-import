@@ -213,28 +213,30 @@ class ApplicationController extends Controller
                 });
             }
 
-            if($request->type_transport == 'COURIER')
-            {
-                \DB::table('application_summaries as as')
-                    ->join('services as s', 'as.service_id', '=', 's.id')
-                    ->where([
-                        ["as.application_id", $application->id],
-                        ["as.status", true]
-                    ])
-                    ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02','CS03-02'])
-                    ->update(["as.status" => false, "as.amount" => 0]);
+            // activate services application summary
+            $summary_update = $request->type_transport == 'COURIER' 
+                ? ["as.status" => 0, "as.amount" => 0]
+                : ["as.status" => 1];
+           
+          
+            \DB::table('application_summaries as as')
+            ->join('services as s', 'as.service_id', '=', 's.id')
+            ->where("as.application_id", $application->id)
+            ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02'])
+            ->update($summary_update);
 
-            }
-            else {
-                \DB::table('application_summaries as as')
-                    ->join('services as s', 'as.service_id', '=', 's.id')
-                    ->where([
-                        ["as.application_id", $application->id],
-                        ["as.status", false]
-                    ])
-                    ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02','CS03-02'])
-                    ->update(["as.status" => true]);
-            }
+           
+            $summary_update = $request->condition == 'EXW' && $request->type_transport != 'COURIER'
+             ? $summary_update = ["as.status" => 1]
+             : ["as.status" => 0, "as.amount" => 0, "as.amount2" => 0] ;
+             
+
+            \DB::table('application_summaries as as')
+            ->join('services as s', 'as.service_id', '=', 's.id')
+            ->where("as.application_id", $application->id)
+            ->where("s.code", 'CS03-02')
+            ->update($summary_update);
+           
 
             DB::commit();
         
