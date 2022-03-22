@@ -1,10 +1,10 @@
 <template>
-    <div v-if="isLoanding" class="relative w-auto text-center">
+    <div v-if="isLoanding" class="relative w-full text-center">
         <div v-if="!StatusSii" class="flex flex-col justify-around w-full">
             <h6 class="font-bold">
-                Registra tus credenciales del SII y has tu proceso mas facil!
+                Registra tus credenciales del SII y has tu proceso mas fácil!
             </h6>
-            <formProvider @updatePassword="getAPI"></formProvider>
+            <formProvider @updatePassword="getAPI" />
         </div>
         <div v-else class="flex justify-center">
             <button
