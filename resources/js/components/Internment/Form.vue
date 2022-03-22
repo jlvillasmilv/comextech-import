@@ -16,9 +16,9 @@
       <!-- asignacion de aduana -->
       <div class="flex flex-col w-full">
         <div class="flex justify-between items-end">
-          <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-600">
+          <h2 class="mb-1 text-xl text-blue-1300 font-semibold">
             Asignación de Agente de Aduana
-          </h4>
+          </h2>
         </div>
 
         <div class="py-8 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -197,9 +197,9 @@
       <!-- importar archivos -->
       <div class="flex flex-col w-full">
         <div class="flex justify-between items-end">
-          <h4 class="mb-1 text-lg bg-gray-200 text-black-600 dark:text-gray-300">
+          <h2 class="mb-1 text-xl text-blue-1300 font-semibold">
             Documentos necesarios
-          </h4>
+          </h2>
         </div>
         <div
           class="
@@ -427,14 +427,18 @@
       </div>
 
       <!-- tabla  acordeon -->
-      <h3 class="mb-1 text-lg bg-gray-200 text-black-600">
-        Cálculo de impuestos según costos y paridades de Aduana Chile
-      </h3>
+      <div class="w-full">
+        <h2 class="mb-1 text-xl text-blue-1300 font-semibold">Impuestos y Aranceles</h2>
+      </div>
       <div
         class="container flex flex-col items-center justify-center py-4 px-6 mx-auto bg-white rounded-lg shadow-md"
       >
-        <div class="w-full">
-          <div>
+        <details class="w-full">
+          <!-- mb-1 text-lg bg-gray-200 text-black-600 -->
+          <summary class="mb-4">
+            Cálculo de impuestos según costos y paridades de Aduana Chile
+          </summary>
+          <div class="mt-8">
             <div class="container grid px-3">
               <div
                 class="w-full md:w-3/4 overflow-hidden rounded-lg flex"
@@ -454,8 +458,8 @@
                       </tr>
                       <tr>
                         <th class="py-2">&nbsp;</th>
-                        <th class="py-2 font-normal">Monto</th>
-                        <th class="py-2 font-normal">Moneda</th>
+                        <th class="py-2 px-3 font-normal">Monto</th>
+                        <th class="py-2 pr-1 font-normal">Moneda</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
@@ -474,11 +478,11 @@
                         <td class="py-2">500.00</td>
                         <td class="py-2">CLP</td>
                       </tr>
-                      <tr class="font-semibold">
+                      <!-- <tr class="font-semibold">
                         <th class="py-2 px-4">&nbsp;</th>
                         <td class="bg-gray-200 py-2">453.911</td>
                         <td class="bg-gray-200 py-2">CIF Pesos</td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
                 </div>
@@ -510,8 +514,8 @@
                         </th>
                       </tr>
                       <tr>
-                        <th class="py-2 font-normal">Monto</th>
-                        <th class="py-2 font-normal">Paridad</th>
+                        <th class="py-2 px-3 font-normal">Monto</th>
+                        <th class="py-2 pr-1 font-normal">Paridad</th>
                         <th class="py-2 font-normal">Moneda</th>
                       </tr>
                     </thead>
@@ -531,12 +535,12 @@
                         <td class="py-2">820</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <tr class="bg-gray-200 font-semibold">
+                      <!-- <tr class="bg-gray-200 font-semibold">
                         <td class="py-2">
                           {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
                         </td>
                         <td class="py-2">CIF Dólar</td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
                 </div>
@@ -568,8 +572,8 @@
                         </th>
                       </tr>
                       <tr>
-                        <th class="py-2 px-2 font-normal">Monto</th>
-                        <th class="py-2 px-2 font-normal">Paridad</th>
+                        <th class="py-2 px-3 font-normal">Monto</th>
+                        <th class="py-2 pr-1 font-normal">Paridad</th>
                         <th class="py-2 font-normal">Moneda</th>
                       </tr>
                     </thead>
@@ -589,11 +593,11 @@
                         <td class="py-2">1</td>
                         <td class="py-2">USD</td>
                       </tr>
-                      <tr class="text-sm">
+                      <!-- <tr class="text-sm">
                         <td class="py-2">&nbsp;</td>
                         <td class="py-2">&nbsp;</td>
                         <td class="py-2">&nbsp;</td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
                 </div>
@@ -704,20 +708,50 @@
                     </tbody>
                   </table> -->
               </div>
-              <div class="flex justify-end w-3/12 my-2 pr-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  role="img"
-                  width="2.5em"
-                  height="2.5em"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 20 20"
-                >
-                  <path fill="#142c44" d="M10 17.5L3.5 11H7V3h6v8h3.5L10 17.5z" />
-                </svg>
-              </div>
             </div>
+          </div>
+        </details>
+        <div class="w-full">
+          <div class="flex ml-36 pl-1">
+            <table>
+              <thead>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr class="font-semibold">
+                  <td class="bg-gray-200 py-2 px-1">453.911</td>
+                  <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="ml-16 pl-2">
+              <table>
+                <thead>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr class="font-semibold">
+                    <td class="bg-gray-200 py-2 px-1">
+                      {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
+                    </td>
+                    <td class="bg-gray-200 py-2 px-1">CIF Dólar</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="flex justify-end w-3/12 my-2 pr-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              role="img"
+              width="2.5em"
+              height="2.5em"
+              preserveAspectRatio="xMidYMid meet"
+              viewBox="0 0 20 20"
+            >
+              <path fill="#142c44" d="M10 17.5L3.5 11H7V3h6v8h3.5L10 17.5z" />
+            </svg>
           </div>
         </div>
         <!-- <table>
@@ -779,6 +813,9 @@
           </figure>
         </div>
         <div class="flex flex-col justify-around w-4/12 px-4">
+          <div>
+            <p class="font-semibold text-black text-center">Gestion de impuestos</p>
+          </div>
           <div class="flex justify-around">
             <button
               @click="taxComex(false)"
