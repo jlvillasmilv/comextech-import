@@ -27,9 +27,9 @@ class CompanyRequest extends FormRequest
 
         $rules = [
             'country_id'    => 'required|exists:countries,id',
-            'tax_id'        => 'required|max:50|unique:companies,tax_id,' . $id,
+            'tax_id'        => 'required|max:50|regex:/^[-0-9\+]+$/|unique:companies,tax_id,' . $id,
             'name'          => 'required|max:100',
-            'email'         => 'required|max:250',
+            'email'         => 'nullable|email|max:250',
             'contact_name'  => 'nullable|max:254',
             'phone'         => 'nullable|max:100',
             'contact_telf'  => 'nullable|max:100',

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Models\{User,Application, ApplicationDetail, PaymentProvider, CategoryService, Service, Transport, Load};
+use App\Models\{User,Application, ApplicationDetail, ApplicationSummary, PaymentProvider, CategoryService, Service, Transport, Load};
 use App\Models\{Currency, FileStore, FedexApi, FileStoreInternment, InternmentProcess, LocalWarehouse, JumpSellerAppPayment};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -213,28 +213,30 @@ class ApplicationController extends Controller
                 });
             }
 
-            if($request->type_transport == 'COURIER')
-            {
-                \DB::table('application_summaries as as')
-                    ->join('services as s', 'as.service_id', '=', 's.id')
-                    ->where([
-                        ["as.application_id", $application->id],
-                        ["as.status", true]
-                    ])
-                    ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02','CS03-02'])
-                    ->update(["as.status" => false, "as.amount" => 0]);
+            // activate services application summary
+            $summary_update = $request->type_transport == 'COURIER' 
+                ? ["as.status" => 0, "as.amount" => 0]
+                : ["as.status" => 1];
+           
+          
+            \DB::table('application_summaries as as')
+            ->join('services as s', 'as.service_id', '=', 's.id')
+            ->where("as.application_id", $application->id)
+            ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02'])
+            ->update($summary_update);
 
-            }
-            else {
-                \DB::table('application_summaries as as')
-                    ->join('services as s', 'as.service_id', '=', 's.id')
-                    ->where([
-                        ["as.application_id", $application->id],
-                        ["as.status", false]
-                    ])
-                    ->whereIn("s.code", ['CS04-05','CS06-01','CS06-02','CS03-02'])
-                    ->update(["as.status" => true]);
-            }
+           
+            $summary_update = $request->condition == 'EXW' && $request->type_transport != 'COURIER'
+             ? $summary_update = ["as.status" => 1]
+             : ["as.status" => 0, "as.amount" => 0, "as.amount2" => 0] ;
+             
+
+            \DB::table('application_summaries as as')
+            ->join('services as s', 'as.service_id', '=', 's.id')
+            ->where("as.application_id", $application->id)
+            ->where("s.code", 'CS03-02')
+            ->update($summary_update);
+           
 
             DB::commit();
         
@@ -331,66 +333,15 @@ class ApplicationController extends Controller
 
     public function setApplicationSummary(Request $request)
     {
-        $summary = \DB::table('application_summaries as aps')
-        ->join('applications', 'aps.application_id', '=', 'applications.id')
-        ->join('currencies as c1', 'aps.currency_id', '=', 'c1.id')
-        ->join('currencies as c2', 'aps.currency2_id', '=', 'c2.id')
-        ->where([
-            ["aps.application_id", base64_decode($request->application_id)],
-            ["aps.status", true],
-            ["applications.user_id", auth()->user()->id]
-        ])
-        ->select(
-            'aps.id',
-            'aps.amount',
-            'c1.code as currency',
-            'aps.amount2',
-            'aps.currency2_id',
-            'c2.code as currency2',
-        )
-        ->get();
+        $application = Application::where([
+            ['id', base64_decode($request->application_id)],
+            ['user_id', auth()->user()->id],
+        ])->firstOrFail();
 
-        $total = 0;
-        $currency = null;
-        if(isset($request->currency_code) || !is_null($request->currency_code)){
-            $currency = \DB::table('currencies')
-            ->where("code", $request->currency_code)
-            ->first();
-        }
-
-        foreach ($summary as $key => $item) {
-
-                $to_currency_code = is_null($currency) ? $item->currency2 : $currency->code;
-                $currency2_id     = is_null($currency) ? $item->currency2_id : $currency->id;
-
-                $exchange = New Currency;
-                $amount = $exchange->convertCurrency($item->amount, $item->currency, $to_currency_code);
-
-                \DB::table('application_summaries')
-                ->where('id', $item->id)
-                ->update([
-                    "amount2"      => $amount, 
-                    "currency2_id" => $currency2_id
-                ]);
-  
-        }
-
-        $total = \DB::table('application_summaries')
-                ->where("application_id", base64_decode($request->application_id))
-                ->sum('amount2');
-
-        $tco_clp = $total;
-
-        if($to_currency_code != 'CLP'){
-            $exchange = New Currency;
-            $tco_clp = $exchange->convertCurrency($total, $item->currency, 'CLP');
-        }
-
-        $total_app = Application::where('id', base64_decode($request->application_id))
-            ->update(["tco" => $total, "currency_tco" => $currency2_id, 'tco_clp' => round($tco_clp,0)]);
-
+        $data  = ['application_id' => base64_encode($application->id), 'currency_code' => $request->currency_code];
+        $total = ApplicationSummary::setSummary($data);
+        
         return response()->json($total, 200);
-       
     }
 
     public function edit($id)

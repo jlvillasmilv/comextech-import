@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="p-2 flex flex-wrap justify-around w-full">
-      <form class="relative sm:w-full sm:w-6/12 md:w-6/12 px-4">
+      <form class="relative sm:w-96  px-4">
         <div class="flex flex-warp mb-4 justify-center">
           <div class="flex justify-center w-full">
             <img src="/img/SII.png" alt="SII" width="100" height="25" />
