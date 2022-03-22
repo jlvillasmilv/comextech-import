@@ -48,9 +48,9 @@
                 form-select
               "
               >
-                <option value="1" selected>Caja</option>
+                <option v-if="data.type_transport !='CONSOLIDADO'" value="1">Caja</option>
                 <option value="2">Pallet</option>
-                <option value="3">Unidad</option>
+                <option v-if="data.type_transport !='CONSOLIDADO'" value="3">Unidad</option>
               </select>
             </div>
           </div>
@@ -554,7 +554,9 @@ export default {
   },
   created() {
     this.$store.state.load.mode_selected = this.$store.state.application.data.type_transport;
+    this.item.category_load_id =  this.data.type_transport !='CONSOLIDADO' ? 1 : 2
     if (!this.loads.length) this.reset();
-  }
+  },
+  
 };
 </script>
