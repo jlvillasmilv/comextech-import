@@ -87,20 +87,19 @@ function data() {
 
       switch (this.application.type_transport) {
         case 'AEREO':
-          this.icon = 'M3 18h18v2H3zm18.509-9.473a1.61 1.61 0 0 0-2.036-1.019L15 9L7 6L5 7l6 4l-4 2l-4-2l-1 1l4 4l14.547-5.455a1.611 1.611 0 0 0 .962-2.018z';
+          this.icon = 'bxs:plane-take-off';
           break;
 
         case 'CONSOLIDADO':
-          this.icon =
-            'M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z';
+          this.icon = 'bx:bar-chart-square';
           break;
 
         case 'CONTAINER':
-            this.icon ='clarity:container-line';
+            this.icon = 'clarity:container-line';
             break;
 
         default:
-          this.icon ='akar-icons:shipping-box-01';
+          this.icon = 'akar-icons:shipping-box-01';
           break;
       }
 

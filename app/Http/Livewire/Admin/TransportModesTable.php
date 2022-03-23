@@ -13,7 +13,7 @@ class TransportModesTable extends LivewireDatatable
 {
     public $model = TransportMode::class;
     public $exportable = true;
-    public $complex = true;
+  
 
     public function columns()
     {
