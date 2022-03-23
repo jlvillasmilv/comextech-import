@@ -26,57 +26,30 @@
             <div class="md:flex md:flex-col lg:w-3/12">
               <div>
                 <input
-                  v-if="expenses.courier_svc && AppAmount >= 3000"
-                  :value="false"
                   v-model="expenses.customs_house"
+                  :value="true"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  checked
-                />
-                <input
-                  v-else
-                  :value="false"
-                  v-model="expenses.customs_house"
-                  type="radio"
-                  class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? 'disabled' : ''"
+                  :disabled="!expenses.courier_svc && AppAmount <= 2999"
                 />
                 <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
               <div>
                 <input
-                  v-if="expenses.courier_svc && AppAmount >= 3000"
-                  :value="true"
                   v-model="expenses.customs_house"
-                  type="radio"
-                  class="form-checkbox h-5 w-5 text-blue-600"
-                />
-                <input
-                  v-else
                   :value="false"
-                  v-model="expenses.customs_house"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount >= 3000 ? 'disabled' : ''"
+                  :disabled="!expenses.courier_svc && AppAmount <= 2999"
                 />
                 <span class="mx-2 text-xs text-gray-500">Cliente</span>
               </div>
-              <div v-if="data.type_transport !== 'CONSOLIDADO'">
+              <div v-if="data.type_transport === 'COURIER'">
                 <input
-                  v-if="expenses.courier_svc && AppAmount <= 2999"
-                  :value="true"
                   v-model="expenses.courier_svc"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  checked
-                />
-                <input
-                  v-else
-                  :value="false"
-                  v-model="expenses.courier_svc"
-                  type="radio"
-                  class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount <= 2999 ? 'disabled' : ''"
+                  :disabled="expenses.courier_svc && AppAmount >= 2999"
                 />
                 <span class="mx-2 text-xs text-gray-500"> Servicio incluido </span>
               </div>
@@ -84,7 +57,10 @@
 
             <div class="my-5 lg:my-0 lg:flex lg:justify-center lg:w-9/12">
               <div class="lg:w-5/12 px-1 mb-2 lg:mb-0">
-                <label class="block text-sm" v-if="expenses.courier_svc && AppAmount <= 2999">
+                <label
+                  class="block text-sm"
+                  v-if="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                >
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
                     v-model="expenses.trans_company_id"
@@ -104,7 +80,6 @@
                       $store.state.address.expenses.trans_company_id == '' ? 'disabled' : ''
                     "
                   >
-                    <!--  -->
                     <option
                       v-for="item in trans_companies"
                       :value="item.id"
@@ -123,7 +98,10 @@
 
                 <label
                   class="block text-sm"
-                  v-if="!expenses.courier_svc || (expenses.courier_svc && AppAmount >= 3000)"
+                  v-if="
+                    (data.type_transport === 'COURIER' && AppAmount >= 3000) ||
+                      data.type_transport !== 'COURIER'
+                  "
                 >
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Seleccion </span>
                   <select
@@ -181,8 +159,8 @@
                       dark:text-gray-300 dark:focus:shadow-outline-gray
                       form-input
                     "
-                    :disabled="expenses.customs_house ? 'disabled' : ''"
                     placeholder="Monto"
+                    :disabled="expenses.customs_house"
                   />
                   <span
                     class="text-xs text-red-600 dark:text-red-400"
@@ -436,7 +414,6 @@
         class="container flex flex-col items-center justify-center py-4 px-6 mx-auto bg-white rounded-lg shadow-md"
       >
         <details class="w-full">
-          <!-- mb-1 text-lg bg-gray-200 text-black-600 -->
           <summary class="mb-4">
             Cálculo de impuestos según costos y paridades de Aduana Chile
           </summary>
@@ -804,16 +781,22 @@
 
       <!-- checkbox incluir -->
       <div class="w-full flex justify-between p-4 mt-4 bg-gray-200 rounded-lg shadow-md">
-        <div class="flex flex-col justify-around w-3/12 px-4">
-          <div class="flex justify-between bg-gray-300 p-2 rounded">
-            <p>6%</p>
-            <p>
-              {{ expenses.adv ? 0 : `${$options.filters.setPrice(expenses.adv_amt, 'CLP')} CLP` }}
-            </p>
+        <div class="flex flex-col justify-between w-3/12 px-4">
+          <div class="py-1">
+            <span class="font-semibold">Advalorem</span>
+            <div class="flex justify-between bg-gray-300 p-2 rounded">
+              <p>6%</p>
+              <p>
+                {{ expenses.adv ? 0 : `${$options.filters.setPrice(expenses.adv_amt, 'CLP')} CLP` }}
+              </p>
+            </div>
           </div>
-          <div class="flex justify-between bg-gray-300 p-2 rounded">
-            <p>19%</p>
-            <p>{{ `${$options.filters.setPrice(expenses.iva_amt, 'CLP')} CLP` }}</p>
+          <div class="py-3">
+            <span class="font-semibold">IVA de internacion</span>
+            <div class="flex justify-between bg-gray-300 p-2 rounded">
+              <p>19%</p>
+              <p>{{ `${$options.filters.setPrice(expenses.iva_amt, 'CLP')} CLP` }}</p>
+            </div>
           </div>
         </div>
         <div class="flex flex-col justify-between items-start w-5/12 h-48 px-4">
@@ -821,7 +804,8 @@
             <button type="button" class="mr-4 focus:outline-none" @click="advalorem()">
               <img
                 src="../../../../public/img/tgr.png"
-                class="w-24 bg-white px-2 border-2 shadow-md"
+                class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
+                :style="!expenses.adv ? { filter: filterImg } : ''"
                 alt="tgr"
               />
             </button>
@@ -839,8 +823,8 @@
             />
             <div>
               <p class="text-gray-400"><strong class="text-black">S</strong>ervicio de</p>
-              <p class="text-gray-400"><strong class="text-black">I</strong>mpuestos</p>
-              <p class="text-gray-400"><strong class="text-black">I</strong>nternos</p>
+              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>mpuestos</p>
+              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>nternos</p>
             </div>
           </figure>
         </div>
@@ -877,46 +861,12 @@
             </p>
           </div>
         </div>
-        <!-- <div class="w-10/12 flex flex-col lg:items-start mb-8">
-          <span class="font-semibold mt-3 mb-2">Incluir</span>
-          <div class="flex justify-start items-center my-1 ml-2">
-            <div class="w-full sm:w-3/5 flex flex-col md:flex-row items-center">
-              <input
-                type="checkbox"
-                v-model="expenses.iva"
-                class="form-checkbox h-5 w-5 text-blue-600"
-              />
-              <span :class="[expenses.iva ? 'text-center mx-2' : 'text-center mx-2 text-gray-400']">
-                {{ formatPrice(expenses.iva_amt, 'CLP') }} CLP
-              </span>
-              <h1 :class="[expenses.iva ? 'text-center mx-4' : 'text-center mx-4 text-gray-400']">
-                IVA ( 19% )
-              </h1>
-            </div>
-          </div>
-          <div class="flex justify-start items-center my-1 ml-2">
-            <div class="w-full sm:w-3/5 flex flex-col md:flex-row items-center">
-              <input
-                type="checkbox"
-                v-model="expenses.adv"
-                class="form-checkbox h-5 w-5 text-blue-600"
-                @click="advalorem()"
-              />
-              <span :class="[expenses.adv ? 'text-center mx-2' : 'text-center text-gray-400 mx-2']">
-                {{ formatPrice(expenses.adv_amt, 'CLP') }} CLP
-              </span>
-              <h1 :class="[expenses.adv ? 'text-center mx-4' : 'text-center text-gray-400 mx-4']">
-                Ad Valorem ( 6% )
-              </h1>
-            </div>
-          </div>
-        </div> -->
       </div>
 
       <!-- tabla gastos del puerto -->
       <div
         v-if="data.type_transport !== 'COURIER'"
-        class="container flex flex-col items-center justify-center px-6 mx-auto"
+        class="container flex flex-col items-center justify-center px-6 mx-auto my-6"
       >
         <details class="w-9/12">
           <summary class="mb-4 text-lg text-center text-black-600 dark:text-gray-300">
@@ -1122,6 +1072,7 @@ export default {
   },
   data() {
     return {
+      filterImg: 'grayscale(0)',
       certif: [
         {
           name: 'Cargar Invoice',
@@ -1427,6 +1378,15 @@ export default {
           this.$store.state.address.expenses.trans_company_id == ''
             ? 2
             : this.$store.state.address.expenses.trans_company_id;
+      } else {
+        this.expenses.courier_svc = false;
+      }
+
+      if (this.data.type_transport == 'COURIER' && this.AppAmount <= 2999) {
+        this.expenses.agent_payment = 0;
+        this.expenses.customs_house = '';
+      } else {
+        this.expenses.agent_payment = 250;
       }
 
       //asignar id de solicitud
@@ -1453,18 +1413,12 @@ export default {
         this.AppAmount = app_usd.data;
       }
 
-      if (this.data.type_transport == 'COURIER' && this.AppAmount <= 2999) {
-        this.expenses.agent_payment = 0;
-      } else {
-        this.expenses.agent_payment = 250;
-      }
-
       this.convertAmountToClp();
       this.taxCheck();
       this.calculateParity();
       this.advalorem();
 
-      if (this.data.type_transport != 'COURIER' || this.data.type_transport != 'TERRESTRE') {
+      if (this.data.type_transport != 'COURIER') {
         this.portCharge();
       }
     } catch (error) {
@@ -1477,3 +1431,12 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.img-advalorem {
+  filter: grayscale(100%);
+}
+
+.img-advalorem:hover {
+  filter: grayscale(0);
+}
+</style>
