@@ -47,7 +47,7 @@
                     'flex flex-col items-center hover:bg-blue-1000 dark:hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                   ]"
                 >
-                  <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
+                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="black"></span>
                 </button>
                 <button
                   type="button"
@@ -60,7 +60,7 @@
                     'flex flex-col items-center hover:bg-blue-1100 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                   ]"
                 >
-                  <Icon class="w-10 h-10 my-2" :icon="item.icon" color="white" />
+                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="white"></span>
                 </button>
                 <button
                   type="button"
@@ -81,7 +81,7 @@
                     focus:outline-none
                   "
                 >
-                  <Icon class="w-10 h-10 my-2" :icon="item.icon" color="gray" />
+                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="gray"></span>
                 </button>
                 <p
                   :class="[
@@ -460,7 +460,7 @@
                   ]"
                   @click="typeSelected(service.name)"
                 >
-                  <Icon class="w-10 h-10" :icon="service.icon" />
+                  <span class="iconify w-10 h-10" :data-icon="service.icon"></span>
                 </button>
                 <p :class="[service.disabled ? 'text-gray-400' : '', 'text-center']">
                   {{ service.name }}
@@ -566,7 +566,6 @@ import Exchange from '../components/Exchange';
 import servicedefault from '../data/services.json';
 import Tabs from '../components/Tabs.vue';
 import VueNumeric from 'vue-numeric';
-import { Icon } from '@iconify/vue2';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -629,8 +628,7 @@ export default {
     InternalStorage,
     Exchange,
     Tabs,
-    VueNumeric,
-    Icon
+    VueNumeric
   },
   methods: {
     ...mapMutations('address', ['HIDE_COURIER_QUOTES', 'HIDE_TABLE_FCL_LCL']),
