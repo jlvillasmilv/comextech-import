@@ -380,6 +380,10 @@ export default {
       this.transportDhl = parseFloat(this.transportDhl - this.dhl.ComextechDiscount);
       this.transportDhl = parseFloat(this.transportDhl).toFixed(2);
     }
+
+    if (this.expenses.trans_company_id === 2) this.isButtonFedex = false;
+
+    if (this.expenses.trans_company_id === 3) this.isButtonDhl = false;
   }
 };
 </script>
