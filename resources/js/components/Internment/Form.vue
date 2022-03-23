@@ -853,7 +853,7 @@
               @click="taxComex(false)"
               :class="[
                 'w-28 h-10 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
-                !expenses.taxComex ? 'bg-blue-200 ' : 'bg-transparent'
+                !expenses.tax_comex ? 'bg-blue-200 ' : 'bg-transparent'
               ]"
               type="button"
             >
@@ -863,7 +863,7 @@
               @click="taxComex(true)"
               :class="[
                 'w-28 h-10 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
-                expenses.taxComex ? 'bg-blue-200' : 'bg-transparent'
+                expenses.tax_comex ? 'bg-blue-200' : 'bg-transparent'
               ]"
               type="button"
             >
@@ -1297,7 +1297,7 @@ export default {
     },
 
     taxComex(value) {
-      this.expenses.taxComex = value;
+      this.expenses.tax_comex = value;
     },
 
     async taxCheck() {
