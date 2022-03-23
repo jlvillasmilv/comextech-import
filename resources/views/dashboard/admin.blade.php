@@ -68,11 +68,6 @@
             </div>
         </div>
 
-
-
-       
-
-
     </div>
 
 
@@ -96,7 +91,7 @@
                         Total clientes
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    {{ App\Models\User::role('Client')->count() }} 
+                    {{ App\Models\User::role('Cliente')->count() }} 
                     </p>
                 </div>
             </div>
@@ -114,7 +109,7 @@
                         los últimos 7 días
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                     {{ App\Models\User::role('Client')->whereDate('created_at','>=',  \Carbon\Carbon::now()->subDays(7))->count() }} 
+                     {{ App\Models\User::role('Cliente')->whereDate('created_at','>=',  \Carbon\Carbon::now()->subDays(7))->count() }} 
                      
                     </p>
                 </div>
@@ -133,7 +128,7 @@
                         los últimos 15 días
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        {{ App\Models\User::role('Client')->whereDate('created_at','>=',  \Carbon\Carbon::now()->subDays(15))->count() }} 
+                        {{ App\Models\User::role('Cliente')->whereDate('created_at','>=',  \Carbon\Carbon::now()->subDays(15))->count() }} 
                     </p>
                 </div>
             </div>
@@ -151,7 +146,7 @@
                         los últimos 30 días
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        {{ App\Models\User::role('Client')->whereDate('created_at','>=',  \Carbon\Carbon::now()->subDays(30))->count() }} 
+                        {{ App\Models\User::role('Cliente')->whereDate('created_at','>=',  \Carbon\Carbon::now()->subDays(30))->count() }} 
                     </p>
                 </div>
             </div>

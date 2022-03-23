@@ -108,7 +108,7 @@ class ApplicationController extends Controller
         );
 
         $user_admin = User::whereHas('roles', function ($query) {
-            $query->where('name','!=', 'Client');
+            $query->where('name','!=', 'Cliente');
         })->pluck('id');
 
         User::all()

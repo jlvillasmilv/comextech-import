@@ -131,7 +131,7 @@
                                     <td class="w-4/12" id="total-prepagoSII">
                                         <input id="input-available" type="text" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
-                                            x-on:change="formatterPrepaid()" />
+                                            x-on:input.debounce="formatterPrepaid()" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,7 +167,7 @@
                                     <td class="w-4/12" id="total-credito">
                                         <input type="text" id="input-credit" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
-                                            x-on:change="formatterCredit()" />
+                                            x-on:input.debounce="formatterCredit()" />
                                     </td>
                                 </tr>
                                 <tr class="border-b-4">

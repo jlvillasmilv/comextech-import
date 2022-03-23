@@ -52,7 +52,7 @@ class CreateNewUser implements CreatesNewUsers
 
         $country_code = is_null($country) ? 41 : $country;
 
-        $user->assignRole('Client'); //assign role to user
+        $user->assignRole('Cliente'); //assign role to user
         $user->company()->create([
             'tax_id'        => $input['tax_id'],
             'name'          => $input['company_name'],

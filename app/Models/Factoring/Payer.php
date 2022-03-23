@@ -50,7 +50,7 @@ class Payer extends Model
     }
     public function scopeInvoicesLastThreeMonths($query)
     {  
-        if(auth()->user()->hasRole('Client')) {
+        if(auth()->user()->hasRole('Cliente')) {
             return $query->select('factoring_payers.*','factoring_invoice_histories.*', 'factoring_clients_payers.settlement_status_id')
             ->join('factoring_clients_payers', 'factoring_payers.id', '=', 'factoring_clients_payers.payer_id')
             ->join('factoring_invoice_histories', 'factoring_clients_payers.id', '=', 'factoring_invoice_histories.client_payer_id')

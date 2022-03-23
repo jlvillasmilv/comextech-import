@@ -69,7 +69,7 @@
                       </ul>
                   </template>
               </li>
-              @if(auth()->user()->hasRole('Client') && auth()->user()->company->executive)
+              @if(auth()->user()->hasRole('Cliente') && auth()->user()->company->executive)
               <!-- Executive menu -->
               <li class="relative">
                 <button class="align-middle rounded-full focus:shadow-outline-blue focus:outline-none" @click="toggleExecutiveMenu" @keydown.escape="closeExecutiveMenu" aria-label="Ejecutivo Comercial" aria-haspopup="true" title="Ejecutivo Comercial">
@@ -136,7 +136,8 @@
                               </a>
                           </li>
 
-                        @if(auth()->user()->hasRole('Client'))  
+                        @if(auth()->user()->hasRole('Cliente'))  
+                            @can('client.company.index')
                             <li class="flex">
                                 <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="{{route('company.index')}}">
                                     <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -145,7 +146,9 @@
                                     <span>Empresa</span>
                                 </a>
                             </li>
-
+                            @endcan
+                            
+                            @can('client.address.index')
                             <li class="flex">
                                 <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="{{route('address.index')}}">
                                     <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -155,7 +158,7 @@
                                     <span>Direcciones </span>
                                 </a>
                             </li>
-
+                            @endcan
                       
                         @endif
 

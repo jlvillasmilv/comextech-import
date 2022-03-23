@@ -6,6 +6,7 @@ use App\Models\Factoring\{Disbursement, Application, FileStore, FileDisbursement
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class DisbursementController extends Controller
 {
@@ -16,6 +17,9 @@ class DisbursementController extends Controller
      */
     public function index()
     {
+        if (! Gate::allows('factoring.disbursements.index')) {
+            return abort(401);
+        }
 
         $applications = Application::has('disbursement', '>=', 1 )
         ->where([
@@ -44,6 +48,9 @@ class DisbursementController extends Controller
      */
     public function store(Request $request)
     {
+        if (! Gate::allows('factoring.disbursements.create')) {
+            return abort(401);
+        }
 
         $request->validate([
             'file' => 'required|file|max:3000'
@@ -95,6 +102,10 @@ class DisbursementController extends Controller
      */
     public function show($id)
     {
+        if (! Gate::allows('factoring.disbursements.show')) {
+            return abort(401);
+        }
+
         $bankAccounts = auth()->user()->bankAccounts;
 
         $applications = Application::where([
@@ -130,6 +141,10 @@ class DisbursementController extends Controller
      */
     public function update(Request $request, Disbursement $disbursement)
     {
+        if (! Gate::allows('factoring.disbursements.edit')) {
+            return abort(401);
+        }
+
         $data = $disbursement->fill($request->all())->save();
         $id   = $request->input('bank_accounts_id') === null ? $disbursement->bank_accounts_id : $request->input('bank_accounts_id');
         $bankAccounts = auth()->user()->bankAccounts->where('id',$id )->first();
