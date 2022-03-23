@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="p-2 flex flex-wrap justify-around w-full">
-      <form class="relative sm:w-96  px-4">
+      <form class="relative sm:w-5/12 px-4">
         <div class="flex flex-warp mb-4 justify-center">
           <div class="flex justify-center w-full">
             <img src="/img/SII.png" alt="SII" width="100" height="25" />
@@ -10,7 +10,7 @@
 
         <div class="flex flex-col justify-center mb-4">
           <label class="flex justify-center text-gray-600"> Actualizar Contraseña </label>
-          <div class="relative flex flex-wrap justify-around items-stretch w-full mb-2">
+          <div class="relative flex justify-around w-full mb-2">
             <div @click="passwordOldStatusIcon">
               <div
                 class="
@@ -67,9 +67,8 @@
               class="
                 relative
                 flex flex-grow flex-shrink
-                rounded-r-lg
                 px-3
-                py-1.5
+                h-10
                 text-base text-gray-600
                 bg-white
                 border-2 border-solid border-gray-300
@@ -77,14 +76,13 @@
               "
               v-model="credentialSII.provider_password"
             />
-            <div class="flex mt-1">
+            <div class="flex">
               <button
                 type="button"
                 class="
                   flex
                   px-4
                   py-2
-                  mb-2
                   text-sm
                   font-medium
                   leading-5
@@ -93,7 +91,7 @@
                   duration-150
                   bg-blue-1300
                   border border-transparent
-                  rounded-lg
+                  rounded-r-lg
                   hover:bg-blue-1200
                   focus:outline-none focus:shadow-outline-blue
                 "
@@ -128,12 +126,12 @@ export default {
       showPasswordOld: false,
       inputOld: 'password',
       credentialSII: {},
-      client: {},
+      client: {}
     };
   },
   components: {
     SingleFile,
-    DownloadFile,
+    DownloadFile
   },
   methods: {
     passwordOldStatusIcon() {
@@ -144,7 +142,7 @@ export default {
       if (this.credentialSII.provider_password.length > 2) {
         let response = await axios.post('/factoring/clients/credential', {
           providerName: 'SII',
-          password: this.credentialSII.provider_password,
+          password: this.credentialSII.provider_password
         });
 
         this.$emit('updatePassword');
@@ -158,10 +156,10 @@ export default {
       let response = await axios.get('/factoring/clients/credential');
       this.client = response.data.client;
       this.credentialSII = response.data.credential;
-    },
+    }
   },
   async created() {
     this.getCredential();
-  },
+  }
 };
 </script>
