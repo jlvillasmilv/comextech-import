@@ -30,7 +30,7 @@
                   :value="true"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount <= 2999"
+                  :disabled="data.type_transport === 'COURIER' && AppAmount <= 2999"
                 />
                 <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
@@ -40,7 +40,7 @@
                   :value="false"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="!expenses.courier_svc && AppAmount <= 2999"
+                  :disabled="data.type_transport === 'COURIER' && AppAmount <= 2999"
                 />
                 <span class="mx-2 text-xs text-gray-500">Cliente</span>
               </div>
