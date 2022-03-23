@@ -10,7 +10,7 @@ class TotalDisbursementsClient {
 	public function compose(View $view)
 	{
          
-        if(auth()->user()->hasRole('Client')) {
+        if(auth()->user()->hasRole('Cliente')) {
 
             $disbursement = Application::has('disbursement', '>=', 1 )
             ->where([

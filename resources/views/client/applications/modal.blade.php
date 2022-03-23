@@ -34,12 +34,7 @@
                         <div class="flex justify-start w-full">
                             <div class="w-7/12 sm:w-7/12 flex flex-col justify-center items-center mt-2 mb-3 lg:mb-8">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        x-bind:d="icon" fill="bg-white" />
-                                </svg>
+                                <span class="iconify h-10 w-10" x-bind:data-icon="icon"></span>
 
                                 <p id="servicio" class="text-center font-semibold" x-html="application.type_transport">
                                 </p>
@@ -49,23 +44,6 @@
                     <div class="w-6/12 flex justify-center">
                         <div class="w-10/12 flex flex-col">
                             <h3 class="font-bold text-center text-blue-1400">Resumen</h3>
-                            {{-- <details>
-                                <summary class="text-lg uppercase font-semibold">Resumen de costos</summary>
-                                <div class="flex flex-col">
-                              <div class="mt-2 flex justify-between">
-                                <label class="text-lg">Proveedor</label>
-                                <span class="text-center w-6/12 text-lg border-b-2" id="proveedor">1.600.000</span>
-                              </div>
-                              <div class="mt-2 flex justify-between">
-                                <label class="text-lg">Transporte</label>
-                                <span class="text-center w-6/12 text-lg border-b-2" id="transporte">500.000</span>
-                              </div>
-                              <div class="mt-2 flex justify-between">
-                                <label class="text-lg">Internacion</label>
-                                <span class="text-center w-6/12 text-lg border-b-2" id="internacion">399.000</span>
-                              </div>
-                            </div>
-                            </details> --}}
                             <div class="mt-2 flex justify-center">
                                 <label class="mr-2 flex flex-col justify-center text-xl font-semibold">Total</label>
                                 <span id="total-costos"
@@ -131,7 +109,7 @@
                                     <td class="w-4/12" id="total-prepagoSII">
                                         <input id="input-available" type="text" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
-                                            x-on:change="formatterPrepaid()" />
+                                            x-on:input.debounce="formatterPrepaid()" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,7 +145,7 @@
                                     <td class="w-4/12" id="total-credito">
                                         <input type="text" id="input-credit" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
-                                            x-on:change="formatterCredit()" />
+                                            x-on:input.debounce="formatterCredit()" />
                                     </td>
                                 </tr>
                                 <tr class="border-b-4">
@@ -269,13 +247,5 @@
         </div>
         </form>
     </div>
-    <!-- <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-                <button x-on:click="closeModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-                    Cancel
-                </button>
-                <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
-                    Accept
-                </button>
-            </footer> -->
 </div>
 </div>

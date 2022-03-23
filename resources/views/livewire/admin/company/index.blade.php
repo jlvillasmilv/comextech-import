@@ -66,7 +66,7 @@
                        </td>
                        <td class="px-4 py-3 text-xs">
                            <div class="flex items-center text-sm">                                 
-                              {{ $client->email }}
+                              {{ $client->user->email }}
                            </div>
                            
                        </td>

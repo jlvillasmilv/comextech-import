@@ -22,6 +22,7 @@ class CreateInternmentProcessesTable extends Migration
             $table->boolean('customs_house')->default(true);
             $table->decimal('agent_payment', 12, 2)->default(0)->nullable();
             $table->decimal('cif_amt', 12, 2)->default(0)->nullable();
+            $table->boolean('tax_comex')->default(false);
             $table->boolean('iva')->default(false);
             $table->unsignedDecimal('iva_amt', 12, 2)->default(0)->nullable();
             $table->unsignedDecimal('insurance', 12, 2)->default(0)->nullable();

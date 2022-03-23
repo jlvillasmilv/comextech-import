@@ -16,22 +16,26 @@ class TransportModeSeeder extends Seeder
         \DB::table('transport_modes')->insert([
             ['name'         => 'COURIER',
              'description'  => 'Transporte Courier envió de mensajería y paquetes.', 
-             'icon'         => 'akar-icons:shipping-box-01'
+             'icon'         => 'akar-icons:shipping-box-01',
+             'disabled'     => 0
             ],
             [
              'name'         => 'AEREO',
              'description'  => 'TRANSPORTE AEREO',
-             'icon'         => 'bxs:plane-take-off'
+             'icon'         => 'bxs:plane-take-off',
+             'disabled'     => 1
             ],
             [
              'name'        => 'CONTAINER',
              'description' => 'Transporte Courier envió de mensajería y paquetes.',
-             'icon'        => 'clarity:container-line'
+             'icon'        => 'clarity:container-line',
+             'disabled'    => 1
             ],
             [
              'name' => 'CONSOLIDADO',
              'description' => 'El transporte de carga consolidada',
-             'icon'        => 'bx:bar-chart-square'
+             'icon'        => 'bx:bar-chart-square',
+             'disabled'    => 1
             ],
         ]);
     }

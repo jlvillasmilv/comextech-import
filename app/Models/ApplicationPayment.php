@@ -20,6 +20,11 @@ class ApplicationPayment extends Model
         'updated_at',
     ];
 
+    public function application()
+    {
+        return $this->belongsTo(Application::class, 'application_id');
+    }
+
     public static function addPayment($application_id, $data)
     {
         $data_payment = [

@@ -155,7 +155,7 @@
         </div>
 
         <!-- restriccion -->
-        <div class="md:flex md:items-center my-3">
+        <div class="md:flex md:items-center my-3" v-if="form.type_pay=='Transferencia'">
           <div class="md:w-1/3">
             <label
               class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -164,8 +164,8 @@
               Restricción
             </label>
           </div>
-          <div class="md:w-2/3">
-            <div class="relative">
+          <div class="md:w-2/3" >
+            <div class="relative" >
               <select
                 v-model="form.payment_release"
                 class="
@@ -469,7 +469,7 @@ export default {
       form: {
         percentage: '',
         date_pay: new Date().toISOString().slice(0, 10),
-        type_pay: '',
+        type_pay: 'Transferencia',
         payment_release: 'Sin Restricción',
         manyPayment: '',
         id: ''

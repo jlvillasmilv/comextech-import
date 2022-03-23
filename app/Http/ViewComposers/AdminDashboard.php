@@ -10,7 +10,7 @@ class AdminDashboard {
 
 	public function compose(View $view)
 	{
-		$clients = User::role('Client')
+		$clients = User::role('Cliente')
 		->with('application')
 		->orderBy('id', 'desc')
 		->limit(10)->get();

@@ -11,7 +11,7 @@ class FeesHistoryComposer {
 	{
 
                 $payers = User::whereHas('roles', function ($query) {
-                                $query->where('name','=', 'client');
+                                $query->where('name','=', 'Cliente');
                         })->pluck('name','id');
                         
                 $view->with('payers',  $payers);

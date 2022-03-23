@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{Company, Country, CompanyAddress};
 use App\Http\Requests\Web\CompanyRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyController extends Controller
 {
@@ -16,6 +17,11 @@ class CompanyController extends Controller
      */
     public function index()
     {
+
+        if (! Gate::allows('client.company.index')) {
+            return abort(401);
+        }
+
         $data = Company::where('user_id', auth()->user()->id)->firstOrFail();
 
         $country = Country::OrderBy('name')
@@ -79,6 +85,10 @@ class CompanyController extends Controller
      */
     public function update(CompanyRequest $request, $id)
     {
+        if (! Gate::allows('client.company.edit')) {
+            return abort(401);
+        }
+
         $data = Company::findOrFail(base64_decode($id));
 
         $data->fill($request->all())->save();

@@ -14,7 +14,7 @@ class CustomAgentTable extends LivewireDatatable
 
     public function builder()
     {
-        if(auth()->user()->hasRole('Client')) { 
+        if(auth()->user()->hasRole('Cliente')) { 
             return CustomAgent::where('user_id', auth()->user()->id);
         }
 

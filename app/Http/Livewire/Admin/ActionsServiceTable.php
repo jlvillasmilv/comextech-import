@@ -17,9 +17,6 @@ class ActionsServiceTable extends LivewireDatatable
         return [
             NumberColumn::name('id'),
 
-            Column::name('category.name')
-            ->label('Categoria'),
-
             Column::name('name')->searchable()->label('Nombre'),
 
             Column::callback(['id'], function ($id) {

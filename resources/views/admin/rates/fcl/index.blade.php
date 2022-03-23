@@ -22,7 +22,7 @@
         </div>
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full whitespace-no-wrap">
-                <livewire:admin.rates.fcl-table searchable="from" />
+                <livewire:admin.rates.fcl-table />
             </div>
         </div>
 
