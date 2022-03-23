@@ -47,7 +47,7 @@
                     'flex flex-col items-center hover:bg-blue-1000 dark:hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                   ]"
                 >
-                  <Icon class="w-10 h-10 my-2" :icon="item.icon" color="black" />
+                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="black"></span>
                 </button>
                 <button
                   type="button"
@@ -60,7 +60,7 @@
                     'flex flex-col items-center hover:bg-blue-1100 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
                   ]"
                 >
-                  <Icon class="w-10 h-10 my-2" :icon="item.icon" color="white" />
+                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="white"></span>
                 </button>
                 <button
                   type="button"
@@ -81,7 +81,7 @@
                     focus:outline-none
                   "
                 >
-                  <Icon class="w-10 h-10 my-2" :icon="item.icon" color="gray" />
+                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="gray"></span>
                 </button>
                 <p
                   :class="[
@@ -460,113 +460,11 @@
                   ]"
                   @click="typeSelected(service.name)"
                 >
-                  <svg
-                    v-if="service.name !== 'COURIER' && service.name !== 'CONSOLIDADO'"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-10 w-10"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      :d="service.icon"
-                      fill="bg-white"
-                    />
-                  </svg>
-                  <svg
-                    v-if="service.name === 'COURIER'"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    role="img"
-                    class="w-10 h-10"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                  >
-                    <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2">
-                      <path
-                        stroke-linecap="round"
-                        d="M11.029 2.54a2 2 0 0 1 1.942 0l7.515 4.174a1 1 0 0 1 .514.874v8.235a2 2 0 0 1-1.029 1.748l-7 3.89a2 2 0 0 1-1.942 0l-7-3.89A2 2 0 0 1 3 15.824V7.588a1 1 0 0 1 .514-.874L11.03 2.54Z"
-                      />
-                      <path d="m3 7l9 5m0 0l9-5m-9 5v10" />
-                      <path stroke-linecap="round" d="m7.5 9.5l9-5M6 12.328L9 14" />
-                    </g>
-                  </svg>
-                  <svg
-                    v-if="service.name === 'CONSOLIDADO'"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    role="img"
-                    class="w-10 h-10"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 36 36"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M32 30H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h28a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2ZM4 8v20h28V8Z"
-                      class="clr-i-outline clr-i-outline-path-1"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M9 25.3a.8.8 0 0 1-.8-.8v-13a.8.8 0 0 1 1.6 0v13a.8.8 0 0 1-.8.8Z"
-                      class="clr-i-outline clr-i-outline-path-2"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M14.92 25.3a.8.8 0 0 1-.8-.8v-13a.8.8 0 0 1 1.6 0v13a.8.8 0 0 1-.8.8Z"
-                      class="clr-i-outline clr-i-outline-path-3"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M21 25.3a.8.8 0 0 1-.8-.8v-13a.8.8 0 0 1 1.6 0v13a.8.8 0 0 1-.8.8Z"
-                      class="clr-i-outline clr-i-outline-path-4"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M27 25.3a.8.8 0 0 1-.8-.8v-13a.8.8 0 0 1 1.6 0v13a.8.8 0 0 1-.8.8Z"
-                      class="clr-i-outline clr-i-outline-path-5"
-                    />
-                    <path fill="none" d="M0 0h36v36H0z" />
-                  </svg>
+                  <span class="iconify w-10 h-10" :data-icon="service.icon"></span>
                 </button>
                 <p :class="[service.disabled ? 'text-gray-400' : '', 'text-center']">
                   {{ service.name }}
                 </p>
-                <!-- <ul class="flex space-x-2 mt-3">
-                                    <li
-                                        v-for="service in $store.state.load
-                                            .types"
-                                        :key="service.name"
-                                        :class="[
-                                            'flex flex-col items-center border border-green-500 rounded hover:bg-green-600 px-3 text-gray-900 border-b-2',
-                                            service.name ==
-                                            $store.state.application.data
-                                                .type_transport
-                                                ? 'bg-green-600'
-                                                : ''
-                                        ]"
-                                        @click="typeSelected(service.name)"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-10 w-10"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                :d="service.path"
-                                                fill="bg-white"
-                                            />
-                                        </svg>
-                                        {{ service.name }}
-                                    </li>
-                                </ul> -->
               </div>
               <span
                 class="text-xs text-red-600 dark:text-red-400"
@@ -668,7 +566,6 @@ import Exchange from '../components/Exchange';
 import servicedefault from '../data/services.json';
 import Tabs from '../components/Tabs.vue';
 import VueNumeric from 'vue-numeric';
-import { Icon } from '@iconify/vue2';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -731,8 +628,7 @@ export default {
     InternalStorage,
     Exchange,
     Tabs,
-    VueNumeric,
-    Icon
+    VueNumeric
   },
   methods: {
     ...mapMutations('address', ['HIDE_COURIER_QUOTES', 'HIDE_TABLE_FCL_LCL']),
