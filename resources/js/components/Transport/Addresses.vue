@@ -403,6 +403,8 @@ export default {
 
       /* Active button saveData */
       this.$store.commit('address/ACTIVE_SAVE_DATA', false);
+
+      this.expenses.trans_company_id = '';
     },
 
     /* Show/Hide button transporte local */
