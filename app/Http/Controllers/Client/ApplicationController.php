@@ -532,6 +532,7 @@ class ApplicationController extends Controller
                     'insurance'            => $request->insurance,
                     'port_charges'         => $request->port_charges,
                     'transport_amt'        => $request->transport_amt,
+                    'tax_comex'            => $request->tax_comex,
                 ]
             );
 

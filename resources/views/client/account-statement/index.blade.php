@@ -11,7 +11,7 @@
         </div>
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full whitespace-no-wrap">
-                <livewire:client.account-statement-table />
+                <livewire:client.company-account-statement-table />
             </div>
         </div>
 
