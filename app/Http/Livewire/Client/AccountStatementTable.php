@@ -36,7 +36,6 @@ class AccountStatementTable extends LivewireDatatable
 
             Column::name('total')
             ->label('CARGO'),
-           
         ];
 
         return $table;

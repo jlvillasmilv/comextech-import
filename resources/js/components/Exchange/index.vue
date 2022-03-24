@@ -163,6 +163,7 @@
                         item.code == 'CS03-02' ||
                         item.code == 'CS03-03' ||
                         item.code == 'CS03-04' ||
+                        item.code == 'CS03-05' ||
                         item.code == 'CS04-02' ||
                         item.code == 'CS04-03' ||
                         item.code == 'CS04-04' ||
