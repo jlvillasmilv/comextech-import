@@ -45,7 +45,7 @@
         <div class="mt-5">
             @if (! $this->enabled)
             <x-button type="button" wire:click="enableTwoFactorAuthentication" wire:loading.attr="disabled">
-                {{ __('Enable') }}
+                {{ __('Habilitado') }}
             </x-button>
             @else
             @if ($showingRecoveryCodes)
