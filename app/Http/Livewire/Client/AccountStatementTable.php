@@ -11,13 +11,14 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 class AccountStatementTable extends LivewireDatatable
 {
     public $model = ApplicationPayment::class;
-
+    public $exportable = true;
     public function builder()
     {
         $application  = Application::where('user_id', auth()->user()->id)->get()->pluck('id');
        
-       
-        return ApplicationPayment::whereIn('application_id', $application);
+        return ApplicationPayment::join('applications', 'application_payments.application_id', '=', 'applications.id')
+        ->select('application_payments.*','applications.code')
+        ->whereIn('application_id', $application);
 
     }
 
@@ -28,17 +29,20 @@ class AccountStatementTable extends LivewireDatatable
             DateColumn::name('created_at')
             ->label('Fecha'),
 
-            Column::name('application.code')
+            Column::name('applications.code')
+            ->searchable()
             ->label('Referencia'),
 
             Column::name('payment_method_type')
+            ->searchable()
             ->label('Tipo'),
 
-            Column::name('total')
+            NumberColumn::name('total')
             ->label('CARGO'),
         ];
 
         return $table;
         
     }
+
 }
