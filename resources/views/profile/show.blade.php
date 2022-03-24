@@ -36,7 +36,7 @@
 
         <div class="mt-10 sm:mt-0">
             <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                {{ __('Browser Sessions') }}
+                {{ __('Sesiones del navegador') }}
             </h4>
 
             @livewire('profile.logout-other-browser-sessions-form')

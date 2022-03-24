@@ -14,9 +14,11 @@ class AirTable extends LivewireDatatable
     {
         $table = [
 
-            Column::name('from'),
+            Column::name('from')
+            ->searchable(),
 
             Column::name('to')
+            ->searchable()
             ->label('To'),
 
             Column::name('via')
@@ -24,7 +26,6 @@ class AirTable extends LivewireDatatable
             ->searchable(),
 
             Column::name('t_time')
-            ->searchable()
             ->label('Transit time'),
 
             Column::callback(['id'], function ($id) {

@@ -50,7 +50,7 @@ class Disbursement extends Model
 
     function scopeApproved($query)
     {
-        if(auth()->user()->hasRole('Client')) {
+        if(auth()->user()->hasRole('Cliente')) {
             return $query->join('factoring_applications', 'factoring_applications.id', '=', 'factoring_disbursements.factoring_application_id')
             ->where('factoring_applications.user_id', '=', auth()->user()->id)
             ->where('factoring_applications.status', '=', 'Aprobada')

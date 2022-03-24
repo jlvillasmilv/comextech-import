@@ -41,6 +41,7 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(['factoring.application.index'], 'App\Http\ViewComposers\TotalApplicationsClient');
         View::composer([
             'factoring.disbursements.index',
+            'factoring.disbursements.summary',
             'layouts.partitions._collapse'
         ],
          'App\Http\ViewComposers\TotalDisbursementsClient');

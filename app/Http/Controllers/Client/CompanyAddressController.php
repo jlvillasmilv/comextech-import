@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{CompanyAddress, Port};
 use App\Http\Requests\Web\CompanyAddressRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyAddressController extends Controller
 {
@@ -16,6 +17,10 @@ class CompanyAddressController extends Controller
      */
     public function index()
     {   
+        if (! Gate::allows('client.address.index')) {
+            return abort(401);
+        }
+
         $data = CompanyAddress::where('company_id', auth()->user()->company->id)
         ->where('status', 1)->paginate();
 
@@ -43,6 +48,10 @@ class CompanyAddressController extends Controller
      */
     public function create()
     {
+        if (! Gate::allows('client.address.create')) {
+            return abort(401);
+        }
+
         return view('profile.address.form');
     }
 
@@ -76,6 +85,10 @@ class CompanyAddressController extends Controller
      */
     public function show($id)
     {
+        if (! Gate::allows('client.address.show')) {
+            return abort(401);
+        }
+
         $companyAddress = CompanyAddress::findOrFail(base64_decode($id)); 
         return view('profile.address.show', compact('companyAddress'));
     }
@@ -88,6 +101,10 @@ class CompanyAddressController extends Controller
      */
     public function edit($id)
     {   
+        if (! Gate::allows('client.address.edit')) {
+            return abort(401);
+        }
+
         $companyAddress = CompanyAddress::findOrFail(base64_decode($id)); 
         return view('profile.address.form', compact('companyAddress'));
     }
@@ -132,6 +149,10 @@ class CompanyAddressController extends Controller
 
     public function delPorts($id)
     {   
+        if (! Gate::allows('client.address.destroy')) {
+            return abort(401);
+        }
+
         auth()->user()->ports()->detach([$id]);
 
         $notification = array(

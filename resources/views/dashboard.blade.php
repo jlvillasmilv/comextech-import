@@ -4,7 +4,7 @@
             
         </h2>
 
-        @if(auth()->user()->hasRole('Client'))  
+        @if(auth()->user()->hasRole('Cliente') or auth()->user()->hasRole('ClienteLimitado'))  
             @include('dashboard.client')
         @else
             @include('dashboard.admin')

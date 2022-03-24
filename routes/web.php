@@ -62,6 +62,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return response()->json($suppl, 200);
     });
 
+    Route::resource('account-statement',  'App\Http\Controllers\Client\ApplicationPaymentController'); 
+
     
 
     /* get sea port by code country status

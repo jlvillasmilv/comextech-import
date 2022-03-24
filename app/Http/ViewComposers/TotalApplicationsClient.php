@@ -10,7 +10,7 @@ class TotalApplicationsClient {
 	public function compose(View $view)
 	{
 
-        if(auth()->user()->hasRole('Client')) {
+        if(auth()->user()->hasRole('Cliente')) {
 
             $application = Application::where('user_id', auth()->user()->id)->count();
 

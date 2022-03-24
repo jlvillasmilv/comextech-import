@@ -4,7 +4,8 @@ namespace App\Http\Livewire\Admin\Rates;
 
 use App\Models\RateLCE;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
-use Mediconesystems\LivewireDatatables\{Column, NumberColumn};
+use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class LocalSpendingTable extends LivewireDatatable
 {
