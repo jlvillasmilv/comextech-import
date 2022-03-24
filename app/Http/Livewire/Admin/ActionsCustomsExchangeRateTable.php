@@ -18,11 +18,12 @@ class ActionsCustomsExchangeRateTable extends LivewireDatatable
             NumberColumn::name('id'),
 
             Column::name('currency_code')
+            ->searchable()
             ->label('Moneda'),
 
-            NumberColumn::name('amount')->searchable()->label('Monto'),
+            NumberColumn::name('amount')->label('Monto'),
 
-            DateColumn::name('exchange')->searchable()->label('Fecha'),
+            DateColumn::name('exchange')->label('Fecha'),
     
             Column::callback(['id'], function ($id) {
                 return view('table-actions', [

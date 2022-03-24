@@ -50,14 +50,14 @@ class CategoryServiceSeeder extends Seeder
             ['category_service_id' => 3, 'code' => 'CS03-02', 'name' => 'B.- Transporte EXW (Origen)', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 3, 'code' => 'CS03-03', 'name' => 'B.1.- Flete', 'created_at' => now(), 'summary' => true ],
             ['category_service_id' => 3, 'code' => 'CS03-04', 'name' => 'B.2.- Seguro', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 3, 'code' => 'CS03-05', 'name' => 'C.- Gasto Local', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 4, 'code' => 'CS04-01', 'name' => 'D.- Internación/Aduana', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 4, 'code' => 'CS04-02', 'name' => 'D.1.- Agente de Aduana', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 4, 'code' => 'CS04-03', 'name' => 'D.2.- IVA Internacion', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 4, 'code' => 'CS04-04', 'name' => 'D.3.- Aranceles', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 4, 'code' => 'CS04-05', 'name' => 'D.4.- Gastos de Puerto', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 6, 'code' => 'CS06-01', 'name' => 'E.- Transporte Local', 'created_at' => now(), 'summary' => true ],
-            ['category_service_id' => 6, 'code' => 'CS06-02', 'name' => 'F.- Otros gastos', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 3, 'code' => 'CS03-05', 'name' => 'B.3.- Gasto Local', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 4, 'code' => 'CS04-01', 'name' => 'C.- Internación/Aduana', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 4, 'code' => 'CS04-02', 'name' => 'C.1.- Agente de Aduana', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 4, 'code' => 'CS04-03', 'name' => 'C.2.- IVA Internacion', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 4, 'code' => 'CS04-04', 'name' => 'C.3.- Aranceles', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 4, 'code' => 'CS04-05', 'name' => 'C.4.- Gastos de Puerto', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 6, 'code' => 'CS06-01', 'name' => 'D.- Transporte Local', 'created_at' => now(), 'summary' => true ],
+            ['category_service_id' => 6, 'code' => 'CS06-02', 'name' => 'E.- Otros gastos', 'created_at' => now(), 'summary' => true ],
         ]);
 
 

@@ -16,23 +16,21 @@ class FreightQuotesTable extends LivewireDatatable
     {
         $table = [
 
-            Column::name('code'),
+            Column::name('code')
+            ->searchable(),
 
             Column::name('customer.name')
             ->label('Cliente')
             ->searchable(),
 
             NumberColumn::name('transport_amount')
-            ->label('Costo transporte')
-            ->searchable(),
+            ->label('Costo transporte'),
 
             DateColumn::name('created_at')
             ->format('d/m/y')
-            ->searchable()
             ->label('Fecha Solicitud'),
 
             Column::name('status')
-            ->searchable()
             ->label('Estado'),
 
             Column::callback(['id'], function ($id) {

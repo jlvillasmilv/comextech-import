@@ -14,22 +14,21 @@ class LocalTransportTable extends LivewireDatatable
     {
         $table = [
 
-            Column::name('from'),
+            Column::name('from')
+            ->searchable(),
 
             Column::name('to')
+            ->searchable()
             ->label('To'),
 
             NumberColumn::name('weight')
-            ->label('Peso')
-            ->searchable(),
+            ->label('Peso'),
 
             NumberColumn::name('weight_limit')
-            ->label('Limite')
-            ->searchable(),
+            ->label('Limite'),
 
             NumberColumn::name('amount')
-            ->label('Monto')
-            ->searchable(),
+            ->label('Monto'),
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.rates.local-transport.', 'permission' => 'admin.rates.local-transport']);
