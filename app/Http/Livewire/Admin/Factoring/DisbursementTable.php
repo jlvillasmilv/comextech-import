@@ -30,7 +30,6 @@ class DisbursementTable extends LivewireDatatable
 
             DateColumn::name('created_at')
             ->format('d/m/y')
-            ->searchable()
             ->label('Fecha Solicitud'),
 
             // Column::name('invoices.total_amount:sum')

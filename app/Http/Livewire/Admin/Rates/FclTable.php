@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Admin\Rates;
 
 use App\Models\RateFcl;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
-use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\{Column, NumberColumn};
+;
+
 
 class FclTable extends LivewireDatatable
 {
@@ -14,17 +16,18 @@ class FclTable extends LivewireDatatable
     {
         $table = [
 
-            Column::name('from'),
+            Column::name('from')
+            ->searchable(),
 
             Column::name('to')
+            ->searchable()
             ->label('To'),
 
-            Column::name('via')
+            NumberColumn::name('via')
             ->label('VIA')
             ->searchable(),
 
-            Column::name('t_time')
-            ->searchable()
+            NumberColumn::name('t_time')
             ->label('Transit time'),
 
             Column::name('currency')
