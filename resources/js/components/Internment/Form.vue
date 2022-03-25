@@ -23,7 +23,7 @@
 
         <div class="py-8 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <div class="lg:flex lg:items-center my-1 px-8">
-            <div class="md:flex md:flex-col lg:w-3/12">
+            <div class="px-1 lg:flex lg:flex-col lg:w-3/12">
               <div>
                 <input
                   v-model="expenses.customs_house"
@@ -47,6 +47,7 @@
               <div v-if="data.type_transport === 'COURIER'">
                 <input
                   v-model="expenses.courier_svc"
+                  :value="true"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
                   :disabled="expenses.courier_svc && AppAmount >= 2999"
@@ -56,7 +57,7 @@
             </div>
 
             <div class="my-5 lg:my-0 lg:flex lg:justify-center lg:w-9/12">
-              <div class="lg:w-5/12 px-1 mb-2 lg:mb-0">
+              <div class="lg:w-5/12 xl:w-5/12 px-1 mb-2 lg:mb-0">
                 <label
                   class="block text-sm"
                   v-if="data.type_transport === 'COURIER' && AppAmount <= 2999"
@@ -140,7 +141,7 @@
                 </label>
               </div>
 
-              <div class="lg:w-4/12 px-1 mb-2 lg:mb-0">
+              <div class="lg:w-5/12 xl:w-4/12 px-1 mb-2 lg:mb-0">
                 <label class="block text-sm">
                   <span class="text-gray-700 dark:text-gray-400 font-semibold">
                     Costo Servicio
@@ -184,6 +185,7 @@
         <div
           class="
             flex
+            flex-wrap
             justify-center
             pt-4
             pb-8
@@ -219,6 +221,7 @@
                     py-2
                     m-2
                     text-sm
+                    text-center
                     font-medium
                     leading-5
                     text-white
@@ -288,6 +291,7 @@
                     py-2
                     m-2
                     text-sm
+                    text-center
                     font-medium
                     leading-5
                     text-white
@@ -358,6 +362,7 @@
                     py-2
                     m-2
                     text-sm
+                    text-center
                     font-medium
                     leading-5
                     text-white
@@ -420,10 +425,10 @@
           <div class="mt-8">
             <div class="container grid px-3">
               <div
-                class="w-full md:w-3/4 overflow-hidden rounded-lg flex"
-                :class="[!$store.getters.findService('ICS04') ? '' : 'justify-between']"
+                class="w-full overflow-hidden sm:flex sm:flex-wrap xl:flex-no-wrap  "
+                :class="[!$store.getters.findService('ICS04') ? '' : 'sm:justify-end']"
               >
-                <div class="flex justify-center w-5/12 overflow-x-auto">
+                <div class="flex justify-center sm:w-6/12 xl:w-5/12 overflow-x-auto">
                   <table>
                     <thead>
                       <tr
@@ -460,7 +465,29 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="flex flex-col justify-center">
+                <div class="top-arrow w-full my-4">
+                  <div class="">
+                    <table>
+                      <thead>
+                        <th></th>
+                      </thead>
+                      <tbody>
+                        <tr class="font-semibold">
+                          <td class="bg-gray-200 py-2 px-1">
+                            {{ $options.filters.setPrice(clpCif, 'CLP') }}
+                          </td>
+                          <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <span
+                    class="w-10 h-10 mt-4 iconify"
+                    data-icon="entypo:arrow-up"
+                    style="color: #142c44;"
+                  ></span>
+                </div>
+                <div class="div-arrow-full w-1/12">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
@@ -469,11 +496,12 @@
                     height="2.5em"
                     preserveAspectRatio="xMidYMid meet"
                     viewBox="0 0 20 20"
+                    class="arrow-full"
                   >
                     <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
                   </svg>
                 </div>
-                <div class="flex justify-center w-4/12 overflow-x-auto">
+                <div class="flex justify-center sm:w-5/12 xl:w-5/12 overflow-x-auto">
                   <table>
                     <thead>
                       <tr
@@ -512,7 +540,48 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="flex flex-col justify-center">
+                <div class="top-arrow-dollar w-full my-4">
+                  <div class="flex justify-between">
+                    <div class="cif-pesos pl-28">
+                      <table>
+                        <thead>
+                          <th></th>
+                        </thead>
+                        <tbody>
+                          <tr class="font-semibold">
+                            <td class="bg-gray-200 py-2 px-1">
+                              {{ $options.filters.setPrice(clpCif, 'CLP') }}
+                            </td>
+                            <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <table>
+                        <thead>
+                          <th></th>
+                        </thead>
+                        <tbody>
+                          <tr class="font-semibold">
+                            <td class="bg-gray-200 py-2 px-1">
+                              {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
+                            </td>
+                            <td class="bg-gray-200 py-2 px-1">CIF Dólar</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="flex justify-end sm:pr-14 mt-4">
+                    <span
+                      class="w-10 h-10 iconify"
+                      data-icon="entypo:arrow-up"
+                      style="color: #142c44;"
+                    ></span>
+                  </div>
+                </div>
+                <div class="div-arrow-full-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
@@ -521,11 +590,12 @@
                     height="2.5em"
                     preserveAspectRatio="xMidYMid meet"
                     viewBox="0 0 20 20"
+                    class="arrow-full-2"
                   >
                     <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
                   </svg>
                 </div>
-                <div class="flex justify-center w-4/12 overflow-x-auto">
+                <div class="flex justify-center sm:w-6/12 xl:w-4/12 overflow-x-auto">
                   <table>
                     <thead>
                       <tr
@@ -608,118 +678,12 @@
                     </tbody>
                   </table>
                 </div>
-
-                <!-- <table class="table-auto whitespace-no-wrap">
-                    <thead>
-                      <tr
-                        class="
-                  text-center
-                  font-semibold
-                  tracking-wide
-                  border-b
-                  dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
-                "
-                      >
-                        <th>Moneda Dólar</th>
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
-                        <th colspan="2">Moneda de Origen</th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white dark:bg-gray-800">
-                      <tr class="text-gray-700 dark:text-gray-400">
-                        <td class="px-2 py-3">{{ formatPrice(AppAmount, 'USD') }}</td>
-                        <td class="px-2 py-3">USD</td>
-                        <td class="px-2 py-3">Mercaderia</td>
-                        <td rowspan="3" class="px-2">
-                          <div class="flex justify-center">
-                            <svg
-                              class="w-8 h-8"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                                clip-rule="evenodd"
-                              ></path>
-                            </svg>
-                          </div>
-                        </td>
-                        <td class="px-2 py-3">
-                          {{ formatPrice(data.amount, currency.code) }}
-                        </td>
-                        <td class="px-2 py-3">{{ currency.code }}</td>
-                      </tr>
-                      <tr class="text-gray-700 dark:text-gray-400">
-                        <td class="px-2 py-3">{{ formatPrice(transpAmount, 'USD') }}</td>
-                        <td class="px-2 py-3">USD</td>
-                        <td class="px-2 py-3">Transporte</td>
-                        <td class="px-2 py-3">
-                          <span v-if="transport">
-                            <input
-                              v-model.number="transpAmount"
-                              type="number"
-                              class="
-                        block
-                        w-full
-                        mt-1
-                        text-sm
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                              placeholder="Monto Transporte"
-                            />
-                          </span>
-                          <span v-else>
-                            {{ formatPrice(transpAmount, 'USD') }}
-                          </span>
-                        </td>
-                        <td class="px-2 py-3">USD</td>
-                      </tr>
-                      <tr class="text-gray-700 dark:text-gray-400">
-                        <td class="px-2 py-3">
-                          {{ formatPrice(this.insureAmount) }}
-                        </td>
-                        <td class="px-2 py-3">USD</td>
-                        <td class="px-2 py-3">Seguro</td>
-                        <td class="px-2 py-3">
-                          <span v-if="insure">
-                            <input
-                              v-model.number="insureAmount"
-                              type="number"
-                              class="
-                        block
-                        w-full
-                        mt-1
-                        text-sm
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                              placeholder="Monto Seguro"
-                            />
-                          </span>
-                          <span v-else>
-                            {{ formatPrice(this.insureAmount) }}
-                          </span>
-                        </td>
-                        <td class="px-2 py-3">USD</td>
-                      </tr>
-                    </tbody>
-                  </table> -->
               </div>
             </div>
           </div>
         </details>
-        <div class="w-full">
-          <div class="flex ml-36 pl-1">
+        <div class="cif w-full">
+          <div class="lg:flex lg:ml-20 xl:ml-36 pl-1">
             <table>
               <thead>
                 <th></th>
@@ -733,7 +697,7 @@
                 </tr>
               </tbody>
             </table>
-            <div class="ml-16 pl-2">
+            <div class="lg:ml-4 xl:ml-12 pl-2">
               <table>
                 <thead>
                   <th></th>
@@ -758,30 +722,17 @@
               height="2.5em"
               preserveAspectRatio="xMidYMid meet"
               viewBox="0 0 20 20"
+              class="hidden md:block"
             >
               <path fill="#142c44" d="M10 17.5L3.5 11H7V3h6v8h3.5L10 17.5z" />
             </svg>
           </div>
         </div>
-        <!-- <table>
-          <thead>
-            <tr>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="bg-gray-100">
-              <td class="text-blue-1300 font-semibold px-2 py-3">{{ expenses.cif_amt }}</td>
-              <td class="text-blue-1300 font-semibold px-2 py-3">USD</td>
-              <td class="text-blue-1300 font-semibold px-2 py-3">Valor CIF</td>
-            </tr>
-          </tbody>
-        </table> -->
       </div>
 
       <!-- checkbox incluir -->
-      <div class="w-full flex justify-between p-4 mt-4 bg-gray-200 rounded-lg shadow-md">
-        <div class="flex flex-col justify-between w-3/12 px-4">
+      <div class="w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md">
+        <div class="flex flex-col xl:justify-between sm:w-6/12 lg:w-3/12 px-4 py-2">
           <div class="py-1">
             <span class="font-semibold">Advalorem</span>
             <div class="flex justify-between bg-gray-300 p-2 rounded">
@@ -799,7 +750,7 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col justify-between items-start w-5/12 h-48 px-4">
+        <div class="flex flex-col justify-between items-start sm:w-6/12 lg:w-5/12 h-48 px-4">
           <div class="flex justify-center">
             <button type="button" class="mr-4 focus:outline-none" @click="advalorem()">
               <img
@@ -828,15 +779,15 @@
             </div>
           </figure>
         </div>
-        <div class="flex flex-col justify-around w-4/12 px-4">
-          <div>
+        <div class="flex flex-col justify-around sm:w-6/12 lg:w-4/12 px-4">
+          <div class="my-4">
             <p class="font-semibold text-black text-center">Gestion de impuestos</p>
           </div>
-          <div class="flex justify-around">
+          <div class="flex flex-wrap justify-around">
             <button
               @click="taxComex(false)"
               :class="[
-                'w-28 h-10 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
+                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
                 !expenses.tax_comex ? 'bg-blue-200 ' : 'bg-transparent'
               ]"
               type="button"
@@ -846,7 +797,7 @@
             <button
               @click="taxComex(true)"
               :class="[
-                'w-28 h-10 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
+                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
                 expenses.tax_comex ? 'bg-blue-200' : 'bg-transparent'
               ]"
               type="button"
@@ -1378,13 +1329,11 @@ export default {
           this.$store.state.address.expenses.trans_company_id == ''
             ? 2
             : this.$store.state.address.expenses.trans_company_id;
-      } else {
-        this.expenses.courier_svc = false;
       }
 
       if (this.data.type_transport == 'COURIER' && this.AppAmount <= 2999) {
         this.expenses.agent_payment = 0;
-        this.expenses.customs_house = '';
+        // this.expenses.customs_house = '';
       } else {
         this.expenses.agent_payment = 250;
       }
@@ -1438,5 +1387,67 @@ export default {
 
 .img-advalorem:hover {
   filter: grayscale(0);
+}
+
+@media (max-width: 640px) {
+  .top-arrow {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .top-arrow-dollar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .cif-pesos {
+    display: none;
+  }
+  .div-arrow-full,
+  .div-arrow-full-2 {
+    display: none;
+  }
+}
+
+@media (max-width: 1280px) {
+  .cif {
+    display: none;
+  }
+  .arrow-full-2 {
+    display: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .top-arrow {
+    display: none;
+  }
+  .top-arrow-dollar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: ;
+    padding-right: 4rem;
+  }
+  .div-arrow-full,
+  .div-arrow-full-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .cif {
+    display: block;
+  }
+  .top-arrow-dollar {
+    display: none;
+  }
+  // .cif-pesos {
+  //   display: none;
+  // }
 }
 </style>
