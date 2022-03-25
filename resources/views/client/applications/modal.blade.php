@@ -109,8 +109,7 @@
                                     <td class="w-4/12" id="total-prepagoSII">
                                         <input id="input-available" type="text" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
-                                           
-                                            x-on:change="formatterCredit('input-available')" />
+                                            x-on:change.debounce="formatterCredit($event.target.id)" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -146,7 +145,7 @@
                                     <td class="w-4/12" id="total-credito">
                                         <input type="text" id="input-credit" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
-                                            x-on:change.debounce="formatterCredit('input-credit')" />
+                                            x-on:change.debounce="formatterCredit($event.target.id)" />
                                     </td>
                                 </tr>
                                 <tr class="border-b-4">
