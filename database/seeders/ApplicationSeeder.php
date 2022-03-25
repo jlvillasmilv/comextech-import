@@ -18,6 +18,7 @@ class ApplicationSeeder extends Seeder
         $application = Application::create([
             'type'                    => 1,
             'user_id'                 => 2,
+            'company_id'              => 1,
             'supplier_id'             => 1,
             'application_statuses_id' => 1,
             'currency_id'             => 2,

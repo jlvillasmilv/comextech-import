@@ -18,6 +18,7 @@ class CreateApplicationsTable extends Migration
             $table->string('code', 10)->nullable()->unique()->index()->comment('codigo para consultas');
             $table->unsignedTinyInteger('type')->default(1)->nullable();
             $table->foreignId('user_id')->index();
+            $table->foreignId('company_id')->nullable()->references('id')->on('companies')->onDelete('SET NULL');
             $table->string('type_transport',15)->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('application_statuses_id')->default(1);

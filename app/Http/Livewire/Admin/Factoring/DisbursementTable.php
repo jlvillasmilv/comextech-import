@@ -24,7 +24,7 @@ class DisbursementTable extends LivewireDatatable
             Column::name('factoring_application_id')
             ->label('Solicitud'),
 
-            Column::name('application.company.name')
+            Column::name('application.user.company.name')
             ->label('Cliente')
             ->searchable(),
 

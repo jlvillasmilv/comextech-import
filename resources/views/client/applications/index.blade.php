@@ -28,11 +28,11 @@
                         class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                         <tr class=>
                             <th class="px-4 py-3">Nro/Fecha </th>
-                            <th class="px-4 py-3"> Total Operacion </th>
-                            <th class="px-4 py-3"> Pago Proveedor </th>
-                            <th class="px-4 py-3"> Estatus </th>
-                            <th class="px-4 py-3"> Proveedor </th>
-                            <th class="px-4 py-3"> &nbsp; </th>
+                            <th class="px-4 py-3">Total Operacion </th>
+                            <th class="px-4 py-3">Pago Proveedor </th>
+                            <th class="px-4 py-3">Estatus </th>
+                            <th class="px-4 py-3">Proveedor </th> 
+                            <th class="px-4 py-3">&nbsp; </th> 
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-400 dark:divide-gray-700 dark:bg-gray-800">

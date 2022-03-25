@@ -34,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone'
+        'company_id', 'name', 'email', 'password','phone'
     ];
 
     public $orderable = [
@@ -99,7 +99,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class,'company_id');
     }
 
     public function application()
