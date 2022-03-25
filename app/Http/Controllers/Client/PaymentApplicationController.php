@@ -27,7 +27,7 @@ class PaymentApplicationController extends Controller
         ->leftjoin('jump_seller_app_payments as jsap', 'jsap.application_id', '=', 'app.id')
         ->where([
             ["app.id", $request->application_id],
-            ["app.user_id", auth()->user()->id]
+            ["app.company_id", auth()->user()->company->id]
         ])
         ->select('app.*', 'jsap.application_id', 'jsap.order_id', 'jsap.duplicate_url', 'jsap.recovery_url', 'jsap.checkout_url', 'jsap.status')
         ->first();
@@ -123,7 +123,7 @@ class PaymentApplicationController extends Controller
 
         $data  = Application::where([
             ['id', $id],
-            ['user_id', auth()->user()->id],
+            ['company_id', auth()->user()->company->id],
         ])
         ->select(
             'id',

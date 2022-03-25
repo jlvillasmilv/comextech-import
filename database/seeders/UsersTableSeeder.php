@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{User, TransCompany, Supplier};
+use App\Models\{Company, User, TransCompany, Supplier};
 use App\Models\Team;
 use Illuminate\Support\Str;
 
@@ -24,28 +24,27 @@ class UsersTableSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-
-        $client = User::create([
-            'name'      => 'Andres',
-            'email'     => 'andres@fabregat.cl',
-            'email_verified_at' => now(),
-            'phone'     => '+56991395040',
-            'password'  => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
-        ]);
-
-        $client->jumpSellerUser()->create([
-            'customer_id' => 7004968
-        ]);
-
-        $client->company()->create([
+        $company = Company::create([
             'country_id' => \DB::table('countries')->where('code','CL')->first()->id,
             'tax_id'  => '77277994-1',
             'name'    => 'FORZA INTERNATIONAL BUSINESS GROUP SPA',
             'email'   => 'info@Comex.Tech',
             'phone'   => '+56228977070',
-            'contact_name'   => 'Andres Fabregat',
-            'status'  => 1
+            'contact_name'   => 'Andres Fabregat'
+        ]);
+
+         $client = User::create([
+            'company_id' =>  $company->id,
+            'name'       => 'Andres',
+            'email'      => 'andres@fabregat.cl',
+            'email_verified_at' => now(),
+            'phone'      => '+56991395040',
+            'password'   => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        $client->jumpSellerUser()->create([
+            'customer_id' => 7004968
         ]);
 
         $client->ports()->sync([13,14]);

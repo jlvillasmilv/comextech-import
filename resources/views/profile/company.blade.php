@@ -68,7 +68,7 @@
                     <div class="flex mb-4">
                         <div class="w-1/2 mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Correo electrónico</label>
-                           <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@correo.com" name="email" value="{{ old('email', isset($data) ? $data->user->email : '') }}"
+                           <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@correo.com" name="email" value="{{ old('email', isset($data) ? auth()->user()->email : '') }}"
                             max="100"
                              disabled>
                              @if($errors->has('email'))

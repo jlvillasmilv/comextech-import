@@ -19,13 +19,17 @@ class ApplicationTable extends LivewireDatatable
 
         $table = [
 
-            Column::name('code'),
+            Column::name('code')
+            ->searchable(),
 
-            Column::name('company.tax_id')
+            Column::name('user.company.tax_id')
+            ->searchable()
+            ->excludeFromExport()
             ->label('Rut'),
 
-            Column::name('company.name')
+            Column::name('user.company.name')
             ->label('Cliente')
+            ->excludeFromExport()
             ->searchable(),
 
             DateColumn::name('created_at')
@@ -41,7 +45,7 @@ class ApplicationTable extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return view('table-actions', ['id' => base64_encode($id), 'route' => 'admin.factoring.applications.', 'permission' => 'admin.factoring.applications']);
-            })
+            })->excludeFromExport()
         ];
 
         return $table;

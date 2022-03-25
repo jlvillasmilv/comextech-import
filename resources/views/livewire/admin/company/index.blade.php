@@ -45,10 +45,6 @@
                            @include('components.table.sort', ['field' => 'code'])
                        </th>
                        <th class="px-4 py-3">
-                             Correo
-                           @include('components.table.sort', ['field' => 'symbol'])
-                       </th>
-                       <th class="px-4 py-3">
                              Usuario
                         </th>
                        <th class="px-4 py-3">Actions</th>
@@ -65,14 +61,17 @@
                            <p class="font-semibold">{{ $client->name }}</p>
                        </td>
                        <td class="px-4 py-3 text-xs">
-                           <div class="flex items-center text-sm">                                 
-                              {{ $client->user->email }}
+                           <div class="flex items-center text-sm">
+                              @forelse ($client->users as $user)
+                                {{ $user->name }} / {{ $user->email }}
+                              @empty
+                                  
+                              @endforelse                                 
+                              
                            </div>
                            
                        </td>
-                       <td class="px-4 py-3 text-sm">
-                           {{ $client->user->name }}
-                       </td>
+    
                        <td class="px-4 py-3">
                            <div class="flex items-center space-x-4 text-sm">
                                @can('client.show')

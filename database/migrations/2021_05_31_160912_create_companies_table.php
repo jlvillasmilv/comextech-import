@@ -15,7 +15,6 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->index();
             $table->unsignedBigInteger('executive_id')->nullable()->comment('id ejecutivo que atendera a ese cliente');
             $table->unsignedBigInteger('country_id')->nullable();
             $table->string('tax_id',100)->unique()->nullable();
@@ -26,7 +25,6 @@ class CreateCompaniesTable extends Migration
             $table->decimal('available_credit', 12, 2)->default(0)->nullable();
             $table->string('contact_name',100)->nullable();
             $table->string('contact_telf',100)->nullable();
-            $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
