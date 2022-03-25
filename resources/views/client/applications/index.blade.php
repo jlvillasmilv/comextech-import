@@ -21,13 +21,13 @@
             </a>
         </div>
 
-        <div class="mb-2 overflow-hidden rounded-lg shadow-xs" x-cloak>
+        <div class="mb-2 overflow-hidden rounded-lg shadow-xs">
             <div class="overflow-x-auto">
                 <table class="whitespace-no-wrap" id="table" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                     <thead
                         class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                         <tr class=>
-                            <th class="px-4 py-3">Nro/Fecha </th>
+                            <th class="px-4 py-3">Nro/Fecha  </th>
                             <th class="px-4 py-3">Total Operacion </th>
                             <th class="px-4 py-3">Pago Proveedor </th>
                             <th class="px-4 py-3">Estatus </th>
@@ -142,13 +142,13 @@
                                             </button>
                                         @endif
 
-
                                         @if ($application->tco_clp > 0)
                                             @if (!$application->status->client_modify)
                                                 @if (round($application->tco_clp - $application->applicationPayment->sum('total'), 0) > 0)
                                                     <!-- boton modal here -->
                                                     <button
-                                                        x-on:click.stop="setTimeout(() => openModalPayment({{ $application->id }}), 250)"
+                                                        type="button"
+                                                        x-on:click="openModalPayment({{ $application->id }})"
                                                         class="px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                         aria-label="Delete">
                                                         <svg class="w-6 h-6" fill="none" stroke="currentColor"
@@ -168,7 +168,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6">No entries found.</td>
+                                <td colspan="6">Sin solicitudes</td>
                             </tr>
                         @endforelse
 
@@ -180,34 +180,4 @@
         @include('client.applications.modal')
 
     </div>
-
-    @section('scripts')
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#table').DataTable({
-                    language: {
-                        url: '{{ asset('js/lang.json') }}'
-                    },
-                    processing: true,
-                    orderCellsTop: true,
-                    responsive: true,
-                    pageLength: 5,
-                    lengthChange: false,
-                    order: [
-                        [0, 'desc']
-                    ],
-                    columnDefs: [{
-                            orderable: false,
-                            targets: 5
-                        },
-                        {
-                            orderable: false,
-                            targets: 3
-                        }
-                    ]
-                }).columns.adjust();
-            });
-        </script>
-    @endsection
-
 </x-app-layout>

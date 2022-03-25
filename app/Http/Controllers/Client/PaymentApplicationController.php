@@ -128,6 +128,7 @@ class PaymentApplicationController extends Controller
         ->select(
             'id',
             'code',
+            'company_id',
             'user_id',
             'supplier_id',
             'type_transport',
@@ -139,12 +140,8 @@ class PaymentApplicationController extends Controller
             'services_code'
         )
         ->with([
-            'user' => function ($query) {
-                $query->select('id')->with([
-                    'company'  => function ($query) {
-                        $query->select('id', 'user_id', 'available_prepaid', 'available_credit');
-                    }
-                ]);
+            'company' => function ($query) {
+                $query->select('id','available_prepaid','available_credit');
             },
             'jumpSellerAppPayment' => function ($query) {
                 $query->select('id','application_id','order_id','duplicate_url','recovery_url', 'checkout_url');

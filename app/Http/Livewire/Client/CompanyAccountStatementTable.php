@@ -21,7 +21,6 @@ class CompanyAccountStatementTable extends LivewireDatatable
         $table = [
 
             DateColumn::name('movement_date')
-            ->filterable()
             ->label('Fecha'),
 
             Column::name('reference')

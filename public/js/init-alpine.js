@@ -59,6 +59,7 @@ function data() {
     isModalOpen: false,
     trapCleanup: null,
     openModal() {
+      console.log(123123123);
       this.isModalOpen = true;
     },
 
@@ -95,28 +96,20 @@ function data() {
           break;
 
         case 'CONTAINER':
-            this.icon = 'clarity:container-line';
-            break;
+          this.icon = 'clarity:container-line';
+          break;
 
         default:
           this.icon = 'akar-icons:shipping-box-01';
           break;
       }
 
-      this.formPaymentApp.availablePrepaid = Number(
-        this.application.user.company.available_prepaid
-      );
+      this.formPaymentApp.availablePrepaid = Number(this.application.company.available_prepaid);
 
-      // this.formPaymentApp.available_prepaid = Number(
-      //   this.application.user.company.available_prepaid
-      // );
-
-      this.formPaymentApp.availableCredit = Number(this.application.user.company.available_credit);
-
-      // this.formPaymentApp.available_credit = Number(this.application.user.company.available_credit);
+      this.formPaymentApp.availableCredit = Number(this.application.company.available_credit);
 
       this.isModalOpen = true;
-      // }
+   
     },
 
     prepaidValidate(value) {
@@ -155,10 +148,8 @@ function data() {
         return true;
       }
     },
-
-    
     formatterCredit(item) {
-    
+
       let valueCurrency = document.getElementById(item);
 
       if (valueCurrency.value === '' || typeof Number(valueCurrency.value) !== 'number') {
@@ -167,16 +158,14 @@ function data() {
 
       let removePoints = Number(valueCurrency.value.replaceAll('.', ''));
 
-      if(item === 'input-credit')
-      {
+      if (item === 'input-credit') {
         this.formPaymentApp.available_credit = isNaN(valueCurrency.value) ? 0 : removePoints;
       }
 
-      if(item === 'input-available')
-      {
+      if (item === 'input-available') {
         this.formPaymentApp.available_prepaid = isNaN(valueCurrency.value) ? 0 : removePoints;
       }
-      
+
       valueCurrency.value = isNaN(valueCurrency.value)
         ? 0
         : new Intl.NumberFormat('es-CL').format(valueCurrency.value);
@@ -201,7 +190,7 @@ function data() {
           }
 
           this.closeModal();
-          window.setTimeout(function() {
+          window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         })
