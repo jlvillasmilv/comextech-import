@@ -25,6 +25,7 @@ class InternmentProcessRequest extends FormRequest
     {
         $rules = [
             'application_id'          => 'required|exists:applications,id',
+            'customs_house'           => 'required',
             'custom_agent_id'         => 'required_if:customs_house,false',
             'agent_payment'           => 'nullable|numeric|between:0,999999999999|gt:-1',
             'iva_amt'                 => 'nullable|numeric',
@@ -53,6 +54,7 @@ class InternmentProcessRequest extends FormRequest
         return [
             'custom_agent_id'    => 'Agente de aduana',
             'agent_payment'      => 'Monto Total de Operacion',
+            'customs_house'      => 'Asignacion de Agente de Aduana',
         ];
     }
 

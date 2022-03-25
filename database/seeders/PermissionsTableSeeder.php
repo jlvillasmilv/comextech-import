@@ -26,6 +26,9 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'import.application.create']);
         Permission::create(['name' => 'import.application.destroy']);
 
+        
+        Permission::create(['name' => 'client.account-statement.index']);
+
         Permission::create(['name' => 'client.company.index']);
         Permission::create(['name' => 'client.company.edit']);
         Permission::create(['name' => 'client.company.show']);
@@ -37,6 +40,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'client.address.show']);
         Permission::create(['name' => 'client.address.create']);
         Permission::create(['name' => 'client.address.destroy']);
+        
 
         Permission::create(['name' => 'admin.applications.index']);
         Permission::create(['name' => 'admin.applications.edit']);
@@ -195,6 +199,7 @@ class PermissionsTableSeeder extends Seeder
         $client = Role::create(['name' => 'Cliente']);
 
         $client->givePermissionTo([
+            'client.account-statement.index',
             'client.address.index',
             'client.address.edit',
             'client.address.create',

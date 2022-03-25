@@ -156,8 +156,10 @@ function data() {
       }
     },
 
-    formatterPrepaid() {
-      let valueCurrency = document.getElementById('input-available');
+    
+    formatterCredit(item) {
+    
+      let valueCurrency = document.getElementById(item);
 
       if (valueCurrency.value === '' || typeof Number(valueCurrency.value) !== 'number') {
         valueCurrency.value = 0;
@@ -165,26 +167,19 @@ function data() {
 
       let removePoints = Number(valueCurrency.value.replaceAll('.', ''));
 
-      this.formPaymentApp.available_prepaid = isNaN(valueCurrency.value) ? 0 : removePoints;
-      valueCurrency.value = isNaN(valueCurrency.value)
-        ? 0
-        : new Intl.NumberFormat('es-es').format(valueCurrency.value);
-    },
-
-    formatterCredit() {
-      let valueCurrency = document.getElementById('input-credit');
-
-      if (valueCurrency.value === '' || typeof Number(valueCurrency.value) !== 'number') {
-        valueCurrency.value = 0;
+      if(item === 'input-credit')
+      {
+        this.formPaymentApp.available_credit = isNaN(valueCurrency.value) ? 0 : removePoints;
       }
 
-      let removePoints = Number(valueCurrency.value.replaceAll('.', ''));
-
-      this.formPaymentApp.available_credit = isNaN(valueCurrency.value) ? 0 : removePoints;
-
+      if(item === 'input-available')
+      {
+        this.formPaymentApp.available_prepaid = isNaN(valueCurrency.value) ? 0 : removePoints;
+      }
+      
       valueCurrency.value = isNaN(valueCurrency.value)
         ? 0
-        : new Intl.NumberFormat('es-es').format(valueCurrency.value);
+        : new Intl.NumberFormat('es-CL').format(valueCurrency.value);
     },
 
     async submitModalPayment() {

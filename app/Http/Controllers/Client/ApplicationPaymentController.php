@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\ApplicationPayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ApplicationPaymentController extends Controller
 {
@@ -15,7 +16,9 @@ class ApplicationPaymentController extends Controller
      */
     public function index()
     {
-        //account-statement
+        if (! Gate::allows('client.account-statement.index')) {
+            return abort(401);
+        }
 
         return view('client.account-statement.index');
     }
