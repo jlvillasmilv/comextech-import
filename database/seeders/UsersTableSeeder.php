@@ -30,8 +30,7 @@ class UsersTableSeeder extends Seeder
             'name'    => 'FORZA INTERNATIONAL BUSINESS GROUP SPA',
             'email'   => 'info@Comex.Tech',
             'phone'   => '+56228977070',
-            'contact_name'   => 'Andres Fabregat',
-            'status'  => 1
+            'contact_name'   => 'Andres Fabregat'
         ]);
 
          $client = User::create([

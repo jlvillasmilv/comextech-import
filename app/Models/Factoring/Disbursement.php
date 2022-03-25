@@ -78,4 +78,9 @@ class Disbursement extends Model
     {
         return $this->hasMany(FileDisbursement::class,'factoring_disbursement_id');
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class,'factoring_application_id','factoring_application_id');
+    }
 }
