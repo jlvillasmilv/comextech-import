@@ -15,7 +15,9 @@ class Application extends Model
     use SoftDeletes;
 
     protected $table = 'applications';
-    protected $fillable = ['user_id',
+    protected $fillable = [
+                           'company_id',
+                           'user_id',
                            'supplier_id',
                            'application_statuses_id',
                            'type_transport',
