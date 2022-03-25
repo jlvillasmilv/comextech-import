@@ -25,7 +25,7 @@ class ApplicationPayment extends Model
         return $this->belongsTo(Application::class, 'application_id');
     }
 
-    public static function addPayment($application_id, $data)
+    public static function addPayment($application_id, $application_code = null, $data)
     {
         $data_payment = [
             ['payment_method_type' => 'PREPAGO SII', 'total' => $data['available_prepaid'] ],
@@ -40,10 +40,30 @@ class ApplicationPayment extends Model
                 ],
                 [ 'total' => $item['total'] ]
             );
+
+            if($item['total'] > 0){
+
+                CompanyAccountStatement::updateOrCreate(
+                    [   
+                        'company_id'    => auth()->user()->company->id,
+                        'reference'     => $application_code,
+                        'method_type'   => 'PAGO CON'.$item['payment_method_type'],
+                        'movement_date' => date('Y-m-d'),
+        
+                    ],
+                    [
+                        'debit'       => $item['total'],
+                        'credit'      => 0,
+                    ]
+                );
+
+            }
+           
         }
 
         if ($data['available_prepaid'] > 0 && auth()->user()->company->available_prepaid > 0) {
             auth()->user()->company->decrement('available_prepaid', $data['available_prepaid']);
+
         }
 
         if ($data['available_credit'] > 0 && auth()->user()->company->available_credit > 0) {

@@ -56,7 +56,7 @@ class PaymentApplicationController extends Controller
             return response()->json(['error' => 'Solicitud no encontrada'], 500);
         }
 
-        ApplicationPayment::addPayment($application_order->id ,$request->all());
+        ApplicationPayment::addPayment($application_order->id, $application_order->code ,$request->all());
 
         $total = round($application_order->tco_clp - $request->available_credit - $request->available_prepaid, 0);
 

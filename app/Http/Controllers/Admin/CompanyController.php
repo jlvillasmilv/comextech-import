@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Company, UserMarkUp};
+use App\Models\{Company, CompanyAccountStatement, UserMarkUp};
 use App\Models\Factoring\{ClientLegalInfo ,FileStoreClient};
 use Illuminate\Http\Request;
 use App\Http\Requests\CompanyRequest;
@@ -153,6 +153,20 @@ class CompanyController extends Controller
                 'fcl'             => $request->fcl,
                 'lcl'             => $request->lcl,
                 'transfer_abroad' => $request->transfer_abroad,
+            ]
+        );
+
+        CompanyAccountStatement::updateOrCreate(
+            [   
+                'company_id'    => $request->input('id'),
+                'reference'     => '',
+                'method_type'   => 'ABONO CREDITO',
+                'movement_date' => date('Y-m-d'),
+
+            ],
+            [
+                'debit'       => 0,
+                'credit'      => $request->input('available_credit'),
             ]
         );
 
