@@ -26,31 +26,56 @@
             <div class="px-1 lg:flex lg:flex-col lg:w-3/12">
               <div>
                 <input
+                  v-if="
+                    data.type_transport !== 'COURIER' ||
+                      (data.type_transport === 'COURIER' && AppAmount >= 3000)
+                  "
                   v-model="expenses.customs_house"
                   :value="true"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                />
+                <input
+                  v-if="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                  type="radio"
+                  class="form-checkbox h-5 w-5 text-blue-600"
+                  disabled
                 />
                 <span class="mx-2 text-xs text-gray-500"> Comextech </span>
               </div>
               <div>
                 <input
+                  v-if="
+                    data.type_transport !== 'COURIER' ||
+                      (data.type_transport === 'COURIER' && AppAmount >= 3000)
+                  "
                   v-model="expenses.customs_house"
                   :value="false"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                />
+                <input
+                  v-if="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                  type="radio"
+                  class="form-checkbox h-5 w-5 text-blue-600"
+                  disabled
                 />
                 <span class="mx-2 text-xs text-gray-500">Cliente</span>
               </div>
               <div v-if="data.type_transport === 'COURIER'">
                 <input
+                  v-if="AppAmount <= 2999"
                   v-model="expenses.courier_svc"
                   :value="true"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
                   :disabled="expenses.courier_svc && AppAmount >= 2999"
+                />
+                <input
+                  v-if="AppAmount >= 3000"
+                  type="radio"
+                  class="form-checkbox h-5 w-5 text-blue-600"
+                  disabled
                 />
                 <span class="mx-2 text-xs text-gray-500"> Servicio incluido </span>
               </div>
@@ -161,7 +186,10 @@
                       form-input
                     "
                     placeholder="Monto"
-                    :disabled="expenses.customs_house"
+                    :disabled="
+                      expenses.customs_house ||
+                        (data.type_transport === 'COURIER' && AppAmount <= 2999)
+                    "
                   />
                   <span
                     class="text-xs text-red-600 dark:text-red-400"
