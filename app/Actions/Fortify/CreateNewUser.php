@@ -25,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
             'name'         => ['required', 'string', 'max:150'],
             'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'tax_id'       => ['required', 'string', 'max:100', 'unique:companies'],
-            'company_name' => ['required', 'string', 'max:100'],
+            'company_name' => ['nullable', 'string', 'max:100'],
             'password' => $this->passwordRules(),
         ])->validate();
 
@@ -37,7 +37,7 @@ class CreateNewUser implements CreatesNewUsers
 
             $company = Company::create([
                 'tax_id'        => $input['tax_id'],
-                'name'          => $input['company_name'],
+                'name'          => is_null($input['company_name']) ? $input['name'] : $input['company_name'],
                 'email'         => $input['email'],
                 'contact_name'  => $input['name'],
                 'country_id'    => $country_code
