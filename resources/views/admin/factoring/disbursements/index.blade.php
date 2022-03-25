@@ -13,10 +13,7 @@
         
               
         <div class="w-full overflow-x-auto">
-            <livewire:admin.factoring.disbursement-table
-                searchable="company.name"
-                exportable
-                />
+            <livewire:admin.factoring.disbursement-table />
                     
         </div>
       </div>

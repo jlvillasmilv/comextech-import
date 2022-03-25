@@ -14,10 +14,7 @@
     
           
           <div class="w-full overflow-x-auto">
-            <livewire:admin.factoring.application-table 
-            searchable="company.name"
-            exportable
-            />
+            <livewire:admin.factoring.application-table />
                 
             </div>
         </div>

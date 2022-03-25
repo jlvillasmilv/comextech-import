@@ -17,7 +17,7 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-        $data  = Application::where('user_id', auth()->user()->id)
+        $data  = Application::where('company_id', auth()->user()->company->id)
         ->orderBy('id','desc')
         ->get();
 
@@ -60,22 +60,24 @@ class ApplicationController extends Controller
             //  dd($request->value_initial <= 0 ? 0 : 100 - $value_initial);
 
             $application =  Application::updateOrCreate(
-                ['id' => $request->application_id,
-                'user_id'   => auth()->user()->id,
+                [
+                    'id'         => $request->application_id,
+                    'company_id' => auth()->user()->company->id
                 ],
                 [
-                    'supplier_id'     => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
-                    'type_transport'  => $request->type_transport,
-                    'amount'          => $request->amount,
-                    'fee1'            => $value_initial,
-                    'fee2'            => $request->value_initial <= 0 ? 0 : 100 - $value_initial,
+                    'user_id'           => auth()->user()->id,
+                    'supplier_id'       => $request->statusSuppliers == 'with' ? $request->supplier_id : null,
+                    'type_transport'    => $request->type_transport,
+                    'amount'            => $request->amount,
+                    'fee1'              => $value_initial,
+                    'fee2'              => $request->value_initial <= 0 ? 0 : 100 - $value_initial,
                     'application_statuses_id' => 1,
-                    'currency_id'   => is_null($request->currency_id) ? 1 : $request->currency_id,
-                    'ecommerce_url' => $request->ecommerce_url,
-                    'ecommerce_id'  => $request->statusSuppliers == 'E-commerce' ? $request->supplier_id : null,
-                    'condition'     => $request->condition,
-                    'services_code' => implode(',',$request->services),
-                    'state_process' => true
+                    'currency_id'       => is_null($request->currency_id) ? 1 : $request->currency_id,
+                    'ecommerce_url'     => $request->ecommerce_url,
+                    'ecommerce_id'      => $request->statusSuppliers == 'E-commerce' ? $request->supplier_id : null,
+                    'condition'         => $request->condition,
+                    'services_code'     => implode(',',$request->services),
+                    'state_process'     => true
                 ]
             );
 
@@ -265,7 +267,7 @@ class ApplicationController extends Controller
     {
         $application  = Application::where([
             ['id', '=',  Crypt::decryptString($id)],
-            ['user_id', auth()->user()->id],
+            ['company_id', auth()->user()->company->id],
         ])
         ->with([
             'currency' => function($query) {
@@ -301,7 +303,7 @@ class ApplicationController extends Controller
         ->where([
             ["aps.application_id", $id],
             ["aps.status", true],
-            ["applications.user_id", auth()->user()->id]
+            ["applications.company_id", auth()->user()->company->id]
         ])
         ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date',
         'aps.amount', 'aps.amount2 as amo2', 'c2.code as currency2', 's.category_service_id')
@@ -335,7 +337,7 @@ class ApplicationController extends Controller
     {
         $application = Application::where([
             ['id', base64_decode($request->application_id)],
-            ['user_id', auth()->user()->id],
+            ['company_id', auth()->user()->company->id],
         ])->firstOrFail();
 
         $data  = ['application_id' => base64_encode($application->id), 'currency_code' => $request->currency_code];
@@ -355,7 +357,7 @@ class ApplicationController extends Controller
     {
         $data  = Application::where([
             ['id', $id],
-            ['user_id', auth()->user()->id],
+            ['company_id', auth()->user()->company->id],
         ])
         ->select('id',
             'code',
@@ -659,7 +661,7 @@ class ApplicationController extends Controller
         $data  =  \DB::table('transports as trans')
         ->join('applications as app', 'trans.application_id', '=', 'app.id')
         ->where([
-            ["app.user_id", auth()->user()->id],
+            ["app.company_id", auth()->user()->company->id],
             ["app.application_statuses_id", '<=', 3]
         ])
         ->select('app.code','app.type_transport',

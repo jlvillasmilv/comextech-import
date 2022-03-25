@@ -15,7 +15,6 @@ class Company extends Model
 
     protected $table = 'companies';
     protected $fillable = [
-        'user_id',
         'executive_id',
         'country_id',
         'tax_id',
@@ -54,7 +53,12 @@ class Company extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id')->withDefault(['name' => '']);
+        return $this->hasOne(User::class,'company_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class,'company_id');
     }
 
     public function country()

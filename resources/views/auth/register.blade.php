@@ -32,29 +32,34 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Nombre</span>
-                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                                <span class="text-gray-700 dark:text-gray-400">Nombre y apellido</span>
+                                <span class="text-red-700 dark:text-red-400">(*)</span>
+                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Juan Soto" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
                             </label>
                             <label class="block mt-4 text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Email</span>
-                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Direción de correo electrónico" type="email" name="email" :value="old('email')" required />
+                                <span class="text-gray-700 dark:text-gray-400">Correo electrónico</span>
+                                <span class="text-red-700 dark:text-red-400">(*)</span>
+                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@ejemplo.com" type="email" name="email" :value="old('email')" required />
                             </label>
                             <label class="block mt-4 text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Id empresa</span>
-                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Numero Identificacion tributaria" type="text" name="tax_id" :value="old('tax_id')" required  maxlength="100"/>
+                                <span class="text-gray-700 dark:text-gray-400">Numero identificacion fiscal</span>
+                                <span class="text-red-700 dark:text-red-400">(*)</span>
+                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="000000-0" type="text" name="tax_id" :value="old('tax_id')" required  maxlength="100"/>
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Nombre empresa</span>
-                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre empresa" type="text" id="companyName" name="company_name" :value="old('company_name')" required  maxlength="100"/>
+                                <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre empresa" type="text" id="companyName" name="company_name" :value="old('company_name')"  maxlength="100"/>
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
+                                <span class="text-red-700 dark:text-red-400">(*)</span>
                                 <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" name="password" required autocomplete="new-password" />
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">
                                     Confirmar contraseña
                                 </span>
+                                <span class="text-red-700 dark:text-red-400">(*)</span>
                                 <x-jet-input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" name="password_confirmation" required autocomplete="new-password" />
                             </label>
 
@@ -70,7 +75,7 @@
 
                         <p class="mt-4">
                             <a class="text-sm font-medium text-blue-1100 dark:text-blue-400 hover:underline" href="{{ route('login') }}">
-                                ¿Ya tienes una cuenta? Login
+                                ¿Ya tienes una cuenta?
                             </a>
                         </p>
                     </div>

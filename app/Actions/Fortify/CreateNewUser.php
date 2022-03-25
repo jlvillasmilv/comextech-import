@@ -3,7 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\Team;
-use App\Models\{User, TransCompany, JumpSellerUser};
+use App\Models\{Company, User, TransCompany, JumpSellerUser};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -25,15 +25,29 @@ class CreateNewUser implements CreatesNewUsers
             'name'         => ['required', 'string', 'max:150'],
             'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'tax_id'       => ['required', 'string', 'max:100', 'unique:companies'],
-            'company_name' => ['required', 'string', 'max:100'],
+            'company_name' => ['nullable', 'string', 'max:100'],
             'password' => $this->passwordRules(),
         ])->validate();
-        
-        return DB::transaction(function () use ($input) {
+
+        $country = \DB::table('countries')->where('code', $input['country'],)->first()->id;
+
+        $country_code = is_null($country) ? 41 : $country;
+
+        return DB::transaction(function () use ($input,$country_code) {
+
+            $company = Company::create([
+                'tax_id'        => $input['tax_id'],
+                'name'          => is_null($input['company_name']) ? $input['name'] : $input['company_name'],
+                'email'         => $input['email'],
+                'contact_name'  => $input['name'],
+                'country_id'    => $country_code
+            ]);
+
             return tap(User::create([
-                'name'     => $input['name'],
-                'email'    => $input['email'],
-                'password' => $input['password'],
+                'company_id' => $company->id,
+                'name'       => $input['name'],
+                'email'      => $input['email'],
+                'password'   => $input['password'],
             ]), function (User $user) use ($input) {
                 $this->createCompany($user, $input);
             });
@@ -48,21 +62,10 @@ class CreateNewUser implements CreatesNewUsers
      */
     protected function createCompany(User $user, $input)
     {
-        $country = \DB::table('countries')->where('code', $input['country'],)->first()->id;
-
-        $country_code = is_null($country) ? 41 : $country;
+        
 
         $user->assignRole('Cliente'); //assign role to user
-        $user->company()->create([
-            'tax_id'        => $input['tax_id'],
-            'name'          => $input['company_name'],
-            'email'         => $input['email'],
-            'contact_name'  => $input['name'],
-            'country_id'    => $country_code,
-            'status'        => 1
-        ]);
-
-
+        
         $trans_company  = TransCompany::get();
 
         foreach ($trans_company as $key => $company) {

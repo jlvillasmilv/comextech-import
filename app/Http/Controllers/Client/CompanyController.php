@@ -22,13 +22,13 @@ class CompanyController extends Controller
             return abort(401);
         }
 
-        $data = Company::where('user_id', auth()->user()->id)->firstOrFail();
+        $data = Company::where('id', auth()->user()->company->id)->firstOrFail();
 
         $country = Country::OrderBy('name')
                 ->select('id', 'name')
                 ->orderBy('name', 'ASC')
                 ->pluck('name','id');
-
+                
         return view('profile.company' , compact('data','country'));
 
     }
