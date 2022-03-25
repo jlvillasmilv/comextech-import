@@ -766,7 +766,7 @@
             <div class="flex justify-between bg-gray-300 p-2 rounded">
               <p>6%</p>
               <p>
-                {{ expenses.adv ? 0 : `${$options.filters.setPrice(expenses.adv_amt, 'CLP')} CLP` }}
+                {{ expenses.adv ? `${$options.filters.setPrice(expenses.adv_amt, 'CLP')} CLP` : 0 }}
               </p>
             </div>
           </div>
@@ -780,11 +780,11 @@
         </div>
         <div class="flex flex-col justify-between items-start sm:w-6/12 lg:w-5/12 h-48 px-4">
           <div class="container-advalorem flex justify-center">
-            <button type="button" class="mr-4 focus:outline-none" @click="advalorem()">
+            <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
               <img
                 src="../../../../public/img/tgr.png"
                 class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
-                :style="!expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
+                :style="expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
                 alt="tgr"
               />
             </button>
@@ -1207,10 +1207,14 @@ export default {
       }
     },
 
-    async advalorem() {
+    activeAd() {
       this.expenses.adv = !this.expenses.adv;
+      this.advalorem();
+    },
+
+    async advalorem() {
       // change iva value if Advalorem is checked
-      if (!this.expenses.adv) {
+      if (this.expenses.adv) {
         let CIF = parseFloat(
           Number(this.expenses.cif_amt) + Number(this.expenses.cif_amt * 0.06)
         ).toFixed(2);
