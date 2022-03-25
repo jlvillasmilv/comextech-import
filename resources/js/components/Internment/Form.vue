@@ -732,7 +732,7 @@
 
       <!-- checkbox incluir -->
       <div class="w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md">
-        <div class="flex flex-col xl:justify-between sm:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="flex flex-col justify-between sm:w-6/12 lg:w-4/12 xl:w-3/12 px-4 xl:py-0">
           <div class="py-1">
             <span class="font-semibold">Advalorem</span>
             <div class="flex justify-between bg-gray-300 p-2 rounded">
@@ -751,12 +751,12 @@
           </div>
         </div>
         <div class="flex flex-col justify-between items-start sm:w-6/12 lg:w-5/12 h-48 px-4">
-          <div class="flex justify-center">
+          <div class="container-advalorem flex justify-center">
             <button type="button" class="mr-4 focus:outline-none" @click="advalorem()">
               <img
                 src="../../../../public/img/tgr.png"
                 class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
-                :style="!expenses.adv ? { filter: filterImg } : ''"
+                :style="!expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
                 alt="tgr"
               />
             </button>
@@ -1024,6 +1024,7 @@ export default {
   data() {
     return {
       filterImg: 'grayscale(0)',
+      opacityImg: '1',
       certif: [
         {
           name: 'Cargar Invoice',
@@ -1383,10 +1384,12 @@ export default {
 <style lang="scss" scoped>
 .img-advalorem {
   filter: grayscale(100%);
+  opacity: 0.35;
 }
 
 .img-advalorem:hover {
   filter: grayscale(0);
+  opacity: 1;
 }
 
 @media (max-width: 640px) {
@@ -1408,6 +1411,9 @@ export default {
   .div-arrow-full,
   .div-arrow-full-2 {
     display: none;
+  }
+  .container-advalorem {
+    margin-top: 1rem;
   }
 }
 
