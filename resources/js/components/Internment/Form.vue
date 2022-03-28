@@ -991,6 +991,21 @@
       <!-- checkbox incluir -->
       <div class="w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md">
         <div class="flex flex-col justify-between sm:w-6/12 lg:w-4/12 xl:w-3/12 px-4 xl:py-0">
+          <div class="button-ad-mobile">
+            <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
+              <img
+                src="../../../../public/img/tgr.png"
+                class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
+                :style="expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
+                alt="tgr"
+              />
+            </button>
+            <div>
+              <p class="text-gray-400"><strong class="text-black">T</strong>esoreria</p>
+              <p class="text-gray-400"><strong class="text-black">G</strong>eneral de la</p>
+              <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
+            </div>
+          </div>
           <div class="py-1">
             <span class="font-semibold">Advalorem</span>
             <div class="flex justify-between bg-gray-300 p-2 rounded">
@@ -1000,6 +1015,18 @@
               </p>
             </div>
           </div>
+          <figure class="container-sii">
+            <img
+              src="../../../../public/img/SII-white.png"
+              class="w-24 bg-white px-2 mr-4 border-2 shadow-md"
+              alt="sii"
+            />
+            <div>
+              <p class="text-gray-400"><strong class="text-black">S</strong>ervicio de</p>
+              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>mpuestos</p>
+              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>nternos</p>
+            </div>
+          </figure>
           <div class="py-3">
             <span class="font-semibold">IVA de internacion</span>
             <div class="flex justify-between bg-gray-300 p-2 rounded">
@@ -1024,7 +1051,7 @@
               <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
             </div>
           </div>
-          <figure class="flex justify-center">
+          <figure class="container-sii-full flex justify-center">
             <img
               src="../../../../public/img/SII-white.png"
               class="w-24 bg-white px-2 mr-4 border-2 shadow-md"
@@ -1732,8 +1759,32 @@ export default {
   .table-full {
     flex-wrap: nowrap;
   }
-  // .cif-pesos {
-  //   display: none;
-  // }
+}
+@media (max-width: 474px) {
+  .button-ad-mobile {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .container-sii {
+    display: flex;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .container-advalorem {
+    display: none;
+  }
+  .container-sii-full {
+    display: none;
+  }
+}
+@media (min-width: 474px) {
+  .button-ad-mobile {
+    display: none;
+  }
+  .container-sii {
+    display: none;
+  }
 }
 </style>
