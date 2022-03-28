@@ -20,6 +20,9 @@
                 <Provider />
             </div>
         </tab>
+         <tab name="Usuarios">
+            <Users />
+        </tab>
     </tabs>
 </template>
 
@@ -29,6 +32,7 @@ import Bank from "../../views/Bank";
 import LegalInfo from "../../views/LegalInfo";
 import FinancialInfo from "../../views/FinancialInfo";
 import Provider from "../../views/Provider"
+import Users from "../../views/Users"
 
 export default {
     name: "Menu",
@@ -41,7 +45,8 @@ export default {
        LegalInfo,
        FinancialInfo,
        Provider,
-       Bank
+       Bank,
+       Users
     },
     computed: {},
     methods: {},

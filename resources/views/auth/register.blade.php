@@ -13,7 +13,7 @@
                         </h3>
                         @if ($errors->any())
                         <div class="mb-4">
-                            <div class="font-medium text-red-600">...</div>
+                            <div class="font-medium text-red-600">Algo salió mal.</div>     
 
                             <ul class="mt-3 text-sm text-red-600 list-disc list-inside">
                                 @foreach ($errors->all() as $error)

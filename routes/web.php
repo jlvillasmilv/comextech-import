@@ -156,7 +156,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return response()->json($sett, 200);
 
     });
-    
+
+    Route::resource('users-company', 'App\Http\Controllers\Client\UserController')->only('index','update', 'store'); 
 
 });
 
