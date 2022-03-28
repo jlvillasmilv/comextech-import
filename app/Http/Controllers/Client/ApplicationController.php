@@ -302,7 +302,7 @@ class ApplicationController extends Controller
         ->join('applications', 'aps.application_id', '=', 'applications.id')
         ->where([
             ["aps.application_id", $id],
-            ["aps.status", true],
+            ["aps.status", 1],
             ["applications.company_id", auth()->user()->company->id]
         ])
         ->select('aps.id','currencies.code as currency','s.code','s.name as description','aps.fee_date',
@@ -319,7 +319,7 @@ class ApplicationController extends Controller
                 ->join('category_services as s', 'aps.category_service_id', 's.id')
                 ->where([
                     ["aps.application_id", $id],
-                    ["aps.status", true],
+                    ["aps.status", 1],
                     ["aps.category_service_id", $item->category_service_id],
                 ])
                 ->select("s.name", \DB::raw("SUM(aps.amount) as total_amount") , \DB::raw("SUM(aps.amount2) as total_amount2"))
@@ -563,14 +563,17 @@ class ApplicationController extends Controller
 
              // update application summary
               $service_id = $key == 0 ? 'CS04-02' :($key == 1 ? 'CS04-03' : 'CS04-04');
-
+              $tax_status = !$internment->tax_comex && $service_id != 'CS04-02' ? 0: 1;
               \DB::table('application_summaries as as')
                     ->join('services as s', 'as.service_id', '=', 's.id')
                     ->where([
                         ["as.application_id", $request->application_id],
                         ["s.code",  $service_id]
                     ])
-                ->update(['as.amount' =>  $mount,  'as.currency_id' =>  $key == 0 ? 8:1]);
+                ->update(['as.amount' =>  $mount,
+                  'as.currency_id' =>  $key == 0 ? 8:1,
+                  'as.status' => $tax_status
+                ]);
 
              }
 

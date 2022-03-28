@@ -68,6 +68,7 @@
                                 <td class=" py-3 border-b-2 border-gray-400">
                                     <div class="flex flex-nowrap">
                                         <a href="{{ route('applications.show', \Crypt::encryptString($application->id)) }}"
+                                            title="Ver detalle Solicitud {{$application->code}}"
                                             class="px-1 py-2  text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                             aria-label="Edit">
 
@@ -100,6 +101,7 @@
 
                                         @if ($application->status->client_modify)
                                             <a href="{{ route('applications.edit', \Crypt::encryptString($application->id)) }}"
+                                                title="Editar Solicitud {{$application->code}}"
                                                 class=" px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                 aria-label="Edit">
 
@@ -113,6 +115,7 @@
                                         @endif
                                         @if ($application->status->modify and $application->payment->status != 'Paid')
                                             <button data-id="{{ base64_encode($application->id) }}"
+                                                title="Actualizar costos a tasa de cambio actual"
                                                 data-msg="Desea actualizar el costo de la solicitud {{ $application->code }} al tipo de cambio vigente"
                                                 data-remote="{{ route('application.importUpdateCost') }}"
                                                 class="px-1 py-2 text-sm font-medium leading-5 text-gray-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app">
@@ -130,6 +133,7 @@
 
                                         @if ($application->status->name == 'Borrador')
                                             <button data-id="{{ \Crypt::encryptString($application->id) }}"
+                                                title="Eliminar {{$application->code}}"
                                                 data-remote="{{ route('applications.destroy', \Crypt::encryptString($application->id)) }}"
                                                 class="px-1 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-delete"
                                                 aria-label="Delete">
@@ -147,6 +151,7 @@
                                                 @if (round($application->tco_clp - $application->applicationPayment->sum('total'), 0) > 0)
                                                     <!-- boton modal here -->
                                                     <button
+                                                        title="Pagar Solicitud {{$application->code}}"
                                                         type="button"
                                                         x-on:click="openModalPayment({{ $application->id }})"
                                                         class="px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
