@@ -369,14 +369,13 @@
                       v-model="data.amount"
                       class="sm:block text-center text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none dark:text-gray-300 dark:focus:shadow-outline-gray form-input w-full sm:w-full"
                     />
-
-                    <span
-                      class="text-xs text-red-600 dark:text-red-400"
-                      v-if="data.errors.has('amount')"
-                      v-html="data.errors.get('amount')"
-                    ></span>
                   </div>
                 </div>
+                <span
+                  class="text-center text-xs my-1 text-red-600 dark:text-red-400"
+                  v-if="data.errors.has('amount')"
+                  v-html="data.errors.get('amount')"
+                ></span>
               </section>
 
               <!-- Porcentajes -->
