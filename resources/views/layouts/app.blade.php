@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 {{-- <html :class="{ 'theme-dark': !dark }" x-data="data()" lang="{{ str_replace('_', '-', app()->getLocale()) }}"> --}}
-    <html  x-data="data()" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html x-data="data()" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +27,8 @@
     <script src="{{ asset('js/init-alpine.js') }}" defer></script>
 
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons.png') }}">
+    <link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet">
+    {{-- <link href="https://unpkg.com/intro.js/themes/introjs-modern.css" rel="stylesheet"> --}}
 
 
 
@@ -70,6 +73,18 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
         <script src="https://code.iconify.design/2/2.2.0/iconify.min.js"></script>
 
+        <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+        <script>
+            setTimeout(() => {
+                introJs().setOptions({
+                    showProgress: true,
+                    nextLabel: 'Siguente',
+                    prevLabel: 'Atrás',
+                    doneLabel: 'Hecho!',
+                    tooltipClass: 'customTooltip'
+                }).start()
+            }, 1500);
+        </script>
         @livewireScripts
         @yield('scripts')
         @stack('scripts')
