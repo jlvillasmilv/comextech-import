@@ -26,7 +26,7 @@ class CreateNewUser implements CreatesNewUsers
             'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'tax_id'       => ['required', 'string', 'max:100', 'unique:companies'],
             'company_name' => ['nullable', 'string', 'max:100'],
-            'password' => $this->passwordRules(),
+            'password'     => $this->passwordRules(),
         ])->validate();
 
         $country = \DB::table('countries')->where('code', $input['country'],)->first()->id;
