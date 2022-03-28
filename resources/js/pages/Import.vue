@@ -31,13 +31,24 @@
         <div class="mt-1">
           <form @submit.prevent="submitFormApplications" @keydown="data.onKeydown($event)">
             <!-- Servicios -->
-            <h3 class="font-semibold text-blue-1300 text-lg dark:text-white">Servicios</h3>
-            <div class="flex w-full">
+            <h3 class="font-semibold text-blue-1300 text-lg dark:text-white">
+              Servicios
+            </h3>
+            <div
+              data-title="Tipo de servicio"
+              data-intro="Acá seleccionas el tipo de servicio a cotizar"
+              class="flex w-full"
+            >
               <div
                 v-for="(item, id) in $store.state.application.selectedCondition.services"
                 :key="id"
                 class="flex flex-col w-4/12 sm:w-4/12 mr-4"
               >
+                <div
+                  v-if="item.name === 'Proveedor'"
+                  data-title="Pago al proveedor"
+                  data-intro="Si activas el servicio de pago al proveedor, apareceran unos botones para que selecciones que tipo de pago con % escogeras"
+                ></div>
                 <button
                   type="button"
                   v-if="item.selected && !item.checked"
@@ -146,7 +157,11 @@
             ></span>
 
             <!-- Proveedor -->
-            <div class="w-full mb-4 sm:my-4 flex flex-col sm:flex-row">
+            <div
+              data-title="Proveedor"
+              data-intro="Acá seleccionas el proveedor"
+              class="w-full mb-4 sm:my-4 flex flex-col sm:flex-row"
+            >
               <section class="sm:w-7/12 flex flex-col justify-center mt-4 sm:mt-0 sm:mb-0">
                 <h3 class="mt-1 mb-1 font-semibold text-blue-1300 text-lg dark:text-white">
                   Proveedor
@@ -227,7 +242,11 @@
             <div class="w-full sm:my-4 flex flex-col sm:items-center sm:flex-row">
               <section class="sm:w-7/12 flex flex-col justify-center">
                 <h3 class="font-semibold text-blue-1300 text-lg my-1">Mercadería</h3>
-                <div class="w-full sm:w-2/6 md:w-2/6">
+                <div
+                  data-title="Tipo de moneda"
+                  data-intro="Seleccionas el tipo de moneda con el que vas a cotizar la importacion"
+                  class="w-full sm:w-2/6 md:w-2/6"
+                >
                   <h3 class="mx-1 my-2.5 text-gray-500 text-base">
                     Moneda
                   </h3>
@@ -264,6 +283,8 @@
                 <!-- Condicion y monto -->
                 <div class="flex sm:items-center sm:w-full">
                   <div
+                    data-title="Condicion de venta"
+                    data-intro="Acá seleccionas la condicion de venta"
                     v-if="$store.state.application.data.type_transport != 'COURIER'"
                     :class="[
                       data.statusSuppliers == 'with'
@@ -336,7 +357,11 @@
                   </div>
 
                   <!-- monto operacion -->
-                  <div class="px-1 flex flex-col w-6/12 sm:w-9/12 md:mb-0">
+                  <div
+                    data-title="Monto de operacion"
+                    data-intro="El monto de la mercaderia a importar"
+                    class="px-1 flex flex-col w-6/12 sm:w-9/12 md:mb-0"
+                  >
                     <h3 class="text-center my-2.5 text-gray-500 text-base">Monto</h3>
                     <vue-numeric
                       thousand-separator="."
@@ -356,6 +381,8 @@
 
               <!-- Porcentajes -->
               <section
+                data-title="Porcentajes para pago al proveedor"
+                data-intro="Si seleccionas el tipo de servicio para pagar a un proveedor, debes seleccionar de que manera estara gestionado el pago"
                 class="my-4 h-40 flex flex-col items-center md:mt-8 sm:my-0 sm:w-6/12 md:w-7/12"
               >
                 <div class="w-6/12 flex flex-wrap justify-center sm:w-full md:w-7/12">
@@ -443,7 +470,11 @@
 
             <!-- Tipo de transporte -->
             <h3 class="my-3 font-semibold text-blue-1300 text-lg">Tipo de Transporte</h3>
-            <div class="flex flex-wrap justify-center w-full">
+            <div
+              data-title="Tipo de transporte"
+              data-intro="El tipo de transporte que vas a querer para importar tu mercaderia"
+              class="flex flex-wrap justify-center w-full"
+            >
               <div
                 v-for="service in typeTransport"
                 :key="service.name"
