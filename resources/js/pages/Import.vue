@@ -330,7 +330,7 @@
                       </div>
                     </div>
                   </div>
-                  <div v-else class="w-full">
+                  <div v-else class="w-full flex flex-col justify-center">
                     <h3 class="text-gray-500 text-base p-2">Puerta a Puerta</h3>
                     <div class="relative"></div>
                   </div>
@@ -355,7 +355,9 @@
               </section>
 
               <!-- Porcentajes -->
-              <section class="h-40 flex flex-col items-center md:mt-8 sm:my-0 sm:w-6/12 md:w-7/12">
+              <section
+                class="my-4 h-40 flex flex-col items-center md:mt-8 sm:my-0 sm:w-6/12 md:w-7/12"
+              >
                 <div class="w-6/12 flex flex-wrap justify-center sm:w-full md:w-7/12">
                   <!-- <h3 class="my-3 text-gray-500 text-sm">
                                     Porcentaje de Pago
@@ -441,11 +443,11 @@
 
             <!-- Tipo de transporte -->
             <h3 class="my-3 font-semibold text-blue-1300 text-lg">Tipo de Transporte</h3>
-            <div class="flex flex-wrap w-full">
+            <div class="flex flex-wrap justify-center w-full">
               <div
                 v-for="service in typeTransport"
                 :key="service.name"
-                class="w-4/12 sm:w-3/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
+                class="w-5/12 sm:w-3/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
               >
                 <button
                   :disabled="service.disabled"
