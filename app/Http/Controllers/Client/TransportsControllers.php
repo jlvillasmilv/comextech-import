@@ -239,7 +239,7 @@ class TransportsControllers extends Controller
                     ->join('services as s', 'as.service_id', '=', 's.id')
                     ->where([
                         ["as.application_id", $request->application_id],
-                        ["s.code", 'CS06-02']
+                        ["s.code", 'CS03-05']
                     ])
             ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 

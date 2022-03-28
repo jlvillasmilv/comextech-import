@@ -43,7 +43,7 @@ class ApplicationSummary extends Model
         ->join('currencies as c2', 'aps.currency2_id', '=', 'c2.id')
         ->where([
             ["aps.application_id", base64_decode($data['application_id'])],
-            ["aps.status", true],
+            ["aps.status", 1],
         ])
         ->select(
             'aps.id',
@@ -80,7 +80,10 @@ class ApplicationSummary extends Model
         }
 
         $total = \DB::table('application_summaries')
-        ->where("application_id", base64_decode($data['application_id']))
+        ->where([
+            ["application_id", base64_decode($data['application_id'])],
+            ["status", 1],
+        ])
         ->sum('amount2');
 
         $tco_clp = $total;

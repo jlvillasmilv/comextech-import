@@ -6,7 +6,7 @@
       <div
         :class="[
           $store.state.payment.percentageInitial == 0 ? 'opacity-25' : '',
-          'lg:w-6/12 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
+          'lg:w-6/12 h-72 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
         ]"
       >
         <!-- primer/segundo pago -->
@@ -155,7 +155,7 @@
         </div>
 
         <!-- restriccion -->
-        <div class="md:flex md:items-center my-3" v-if="form.type_pay=='Transferencia'">
+        <div class="md:flex md:items-center my-3" v-if="form.type_pay == 'Transferencia'">
           <div class="md:w-1/3">
             <label
               class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -164,8 +164,8 @@
               Restricción
             </label>
           </div>
-          <div class="md:w-2/3" >
-            <div class="relative" >
+          <div class="md:w-2/3">
+            <div class="relative">
               <select
                 v-model="form.payment_release"
                 class="
