@@ -21,26 +21,35 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+       
         Validator::make($input, [
             'name'         => ['required', 'string', 'max:150'],
             'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'tax_id'       => ['required', 'string', 'max:100', 'unique:companies'],
             'company_name' => ['nullable', 'string', 'max:100'],
             'password'     => $this->passwordRules(),
-        ])->validate();
+        ],
+        [],
+        [
+            'name'         => 'Nombre',
+            'email'        => 'Correo electrónico',
+            'tax_id'       => 'Identificacion fiscal',
+            'company_name' => 'Nombre empresa',
+        ]
+        )->validate();
 
-        $country = \DB::table('countries')->where('code', $input['country'],)->first()->id;
+        $country = \DB::table('countries')
+        ->where('code', is_null($input['country']) ? 'CL' : $input['country'])
+        ->first()->id;
 
-        $country_code = is_null($country) ? 41 : $country;
-
-        return DB::transaction(function () use ($input,$country_code) {
+        return DB::transaction(function () use ($input,$country) {
 
             $company = Company::create([
                 'tax_id'        => $input['tax_id'],
                 'name'          => is_null($input['company_name']) ? $input['name'] : $input['company_name'],
                 'email'         => $input['email'],
                 'contact_name'  => $input['name'],
-                'country_id'    => $country_code
+                'country_id'    => $country
             ]);
 
             return tap(User::create([
