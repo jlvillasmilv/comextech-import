@@ -622,16 +622,16 @@ class ApplicationController extends Controller
             }
 
             //Agrega datos a carga de transporte
-            if($request->input('transport')=='true'){
-
+            if($request->input('transport')=='true' && count($request->input('dataLoad')) > 0 ){
+                
                 Load::cargo($request->input('dataLoad'),$request->application_id);
             }
         
             DB::commit();
 
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
              DB::rollback();
-             return response()->json(['status' => $e], 500);
+             return response()->json($e, 500);
          }
 
         return response()->json(['loads' => $internment->application->loads], 200);

@@ -124,7 +124,8 @@ $(document).ready(function () {
 
     const url = $(this).data('remote');
     var id = $(this).data('id');
-
+    $(this).attr('disabled', true);
+  
     Swal.fire({
       title: '¿Desea eliminar este registro?',
       icon: 'question',
@@ -141,7 +142,10 @@ $(document).ready(function () {
             icon: 'success',
             title: 'Operacion realizada con exito'
           })
-          $(`#${id}`).remove();
+        
+          $(`#${id}`).fadeOut("normal", function() {
+              $(this).remove();
+          });
 
         }).catch(error => {
           Toast.fire({
@@ -483,6 +487,8 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
   const msg = $(this).data('msg');
   const application_id = $(this).data('id');
 
+  $(this).attr('disabled', true);
+
   Swal.fire({
     title: msg,
     icon: 'question',
@@ -510,6 +516,8 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
               focusConfirm: false,
             })
 
+            $(this).attr('disabled', false);
+
           }
           else {
             Toast.fire({
@@ -517,6 +525,7 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
               title: 'Generado con exito',
             })
           }
+          window.setTimeout(function () { window.location.reload() }, 2000);
 
         }
 
@@ -530,7 +539,6 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
       })
         .then(function () {
           // always executed
-          window.setTimeout(function () { window.location.reload() }, 2000);
         });
 
     },
