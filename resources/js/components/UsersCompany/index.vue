@@ -141,7 +141,7 @@
       <div class="flex flex-col relative sm:w-full md:w-full lg:w-6/12 px-3.5">
         <label class="text-gray-500 mb-2"> Contraseña </label>
         <input
-          type="email"
+          type="password"
           class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
           v-model="userCompany.password"
         />

@@ -167,6 +167,11 @@ class Application extends Model
         return $this->hasOne(Transport::class,'application_id')->select('*',\DB::raw("'ICS03' as code_serv"));
     }
 
+    public function typeTransport()
+    {
+        return $this->belongsTo(TransportMode::class, 'type_transport', 'name');
+    }
+
     public function internmentProcess()
     {
         return $this->hasOne(InternmentProcess::class,'application_id')->select('*',\DB::raw("'ICS04' as code_serv"));
