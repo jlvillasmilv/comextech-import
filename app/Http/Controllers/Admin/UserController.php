@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\{Company, User};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
@@ -41,17 +43,47 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = User::create($request->all());
-        $roles = $request->input('roles') ? $request->input('roles') : '';
-        $user->assignRole($roles);
+        DB::beginTransaction();
 
-        $notification = array(
-            'message'    => 'Registro actualizado',
-            'alert_type' => 'success',);
+        try {
 
-        \Session::flash('notification', $notification);
+            $user = User::create($request->all());
+            $roles = $request->input('roles') ? $request->input('roles') : '';
+            $user->assignRole($roles);
 
-        return redirect()->route('admin.users.edit', $user->id);
+            if($user->hasRole('Cliente')){
+
+                do {
+                    $code = Str::upper(Str::random(6));
+                } while (Company::where("tax_id", "=", $code)->first());
+
+                $company = Company::create([
+                    'tax_id'        => $code,
+                    'name'          => $request->input('name'),
+                    'email'         => $request->input('email'),
+                    'contact_name'  => $request->input('name'),
+                    'country_id'    => 41
+                ]);
+
+                $user->company_id =  $company->id;
+                $user->save();
+            }
+
+            DB::commit();
+
+            } catch (Throwable $e) {
+                DB::rollback();
+                return redirect()->back();
+            }
+
+            $notification = array(
+                'message'    => 'Registro actualizado',
+                'alert_type' => 'success',);
+
+            \Session::flash('notification', $notification);
+
+            return redirect()->route('admin.users.edit', $user->id);
+        
     }
 
     /**
