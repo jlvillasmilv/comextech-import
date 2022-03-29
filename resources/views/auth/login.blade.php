@@ -52,11 +52,11 @@
                             </a>
                         </p>
 
-                        <p class="mt-4">
+                        {{-- <p class="mt-4">
                             <a class="text-sm font-medium text-blue-1100 dark:text-blue-400 hover:underline" href="{{ route('register') }}">
                                ¿No tienes cuenta?
                             </a>
-                        </p>
+                        </p> --}}
                     </div>
                 </div>
             </div>
