@@ -20,7 +20,7 @@ class ApplicationController extends Controller
         $data  = Application::where('company_id', auth()->user()->company->id)
         ->orderBy('id','desc')
         ->get();
-
+        
         return view('client.applications.index' , compact('data'));
     }
 
@@ -282,6 +282,11 @@ class ApplicationController extends Controller
             ,'transport','loads','internmentProcess','status'
         ])
         ->firstOrFail();
+        
+        // foreach ($application->internmentProcess->fileStoreInternment as $key => $value) {
+        //     dd( $value);
+        // }
+       
 
         return view('client.applications.show', compact('application'));
        
@@ -632,7 +637,7 @@ class ApplicationController extends Controller
         } catch (Throwable $e) {
              DB::rollback();
              return response()->json($e, 500);
-         }
+        }
 
         return response()->json(['loads' => $internment->application->loads], 200);
     }

@@ -200,19 +200,19 @@
 
             <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" type="button" class="w-full px-8 py-6 text-left">
             <div class="flex items-center justify-between">
-                <span class="font-bold text-gray-800 dark:text-gray-400"> Internación </span>
+                <span class="font-bold text-gray-800 dark:text-gray-400"> Aduana </span>
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
             </div>
         </a>
 
         <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
 
-            <div class="p-6">
+            <div class="px-6">
                 <div class="flex mb-2">
                     <div class="w-1/2 mr-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Agente de Aduana</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{  $application->internmentProcess->customs_house ? 'COMEXTECH S' : '' }}
+                            {{  $application->internmentProcess->customs_house ? 'COMEXTECH' : '' }}
                             {{$application->internmentProcess->customAgent->name}}
                         </p>
                     </div>
@@ -220,6 +220,36 @@
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Pago de Agente de Aduana</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
                             {{ number_format($application->internmentProcess->agent_payment,0,",",".") }}  
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6">
+                <div class="flex mb-2">
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> IVA</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                            <input
+                            disabled
+                            type="checkbox"
+                            {{  $application->internmentProcess->iva ? 'checked="true"' : '' }}
+                            class="form-checkbox h-4 w-4 text-gray-800"
+                            />
+                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }}
+                        </p>
+                    </div>
+                    <div class="w-1/2 ml-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Ad Valorem</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                          
+                            <input
+                            disabled
+                            type="checkbox"
+                            {{  $application->internmentProcess->adv ? 'checked="true"' : '' }}
+                            class="form-checkbox h-4 w-4 text-gray-800"
+                            />
+                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} 
                         </p>
                     </div>
                 </div>
@@ -252,41 +282,6 @@
                 </div>
             </div>
             @endif
-        </div>
-
-        <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
-
-            <div class="p-6">
-                <div class="flex mb-2">
-                    <div class="w-1/2 mr-1">
-                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> IVA</label>
-                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            <input
-                            disabled
-                            type="checkbox"
-                            {{  $application->internmentProcess->iva ? 'checked="true"' : '' }}
-                            class="form-checkbox h-4 w-4 text-gray-800"
-                            />
-                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }}
-                        </p>
-                    </div>
-                    <div class="w-1/2 ml-1">
-                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Ad Valorem</label>
-                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                          
-                            <input
-                            disabled
-                            type="checkbox"
-                            {{  $application->internmentProcess->adv ? 'checked="true"' : '' }}
-                            class="form-checkbox h-4 w-4 text-gray-800"
-                            />
-                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} 
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            
         </div>
 
     </li>
