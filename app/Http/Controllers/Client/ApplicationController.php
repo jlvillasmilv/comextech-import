@@ -632,7 +632,7 @@ class ApplicationController extends Controller
         } catch (Throwable $e) {
              DB::rollback();
              return response()->json($e, 500);
-         }
+        }
 
         return response()->json(['loads' => $internment->application->loads], 200);
     }
