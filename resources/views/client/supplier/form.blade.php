@@ -28,7 +28,7 @@
                     <div class="w-1/2 mr-1">
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400"> Banco</span>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Cuenta Bancaria" name="bank" value="{{ old('bank', isset($supplier) ? $supplier->bank : '') }}" max="100" required="">
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre del banco" name="bank" value="{{ old('bank', isset($supplier) ? $supplier->bank : '') }}" max="100" required="">
                              @if($errors->has('bank'))
                                  <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('bank') }}
@@ -40,7 +40,7 @@
                     <div class="w-1/4 mr-1">
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400"> ISIN </span>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder=" Número de identificación de valores internacionales
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Número de identificación de valores internacionales
                             "  name="isin" value="{{ old('isin', isset($supplier) ? $supplier->isin : '') }}" max="15" required="">
                             @if($errors->has('isin'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
