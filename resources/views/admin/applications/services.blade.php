@@ -207,12 +207,12 @@
 
         <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
 
-            <div class="p-6">
+            <div class="px-6">
                 <div class="flex mb-2">
                     <div class="w-1/2 mr-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Agente de Aduana</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            {{  $application->internmentProcess->customs_house ? 'COMEXTECH S' : '' }}
+                            {{  $application->internmentProcess->customs_house ? 'COMEXTECH' : '' }}
                             {{$application->internmentProcess->customAgent->name}}
                         </p>
                     </div>
@@ -220,6 +220,36 @@
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Pago de Agente de Aduana</label>
                         <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
                             {{ number_format($application->internmentProcess->agent_payment,0,",",".") }}  
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6">
+                <div class="flex mb-2">
+                    <div class="w-1/2 mr-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> IVA</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                            <input
+                            disabled
+                            type="checkbox"
+                            {{  $application->internmentProcess->iva ? 'checked="true"' : '' }}
+                            class="form-checkbox h-4 w-4 text-gray-800"
+                            />
+                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }}
+                        </p>
+                    </div>
+                    <div class="w-1/2 ml-1">
+                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Ad Valorem</label>
+                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
+                          
+                            <input
+                            disabled
+                            type="checkbox"
+                            {{  $application->internmentProcess->adv ? 'checked="true"' : '' }}
+                            class="form-checkbox h-4 w-4 text-gray-800"
+                            />
+                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} 
                         </p>
                     </div>
                 </div>
@@ -252,41 +282,6 @@
                 </div>
             </div>
             @endif
-        </div>
-
-        <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
-
-            <div class="p-6">
-                <div class="flex mb-2">
-                    <div class="w-1/2 mr-1">
-                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> IVA</label>
-                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                            <input
-                            disabled
-                            type="checkbox"
-                            {{  $application->internmentProcess->iva ? 'checked="true"' : '' }}
-                            class="form-checkbox h-4 w-4 text-gray-800"
-                            />
-                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }}
-                        </p>
-                    </div>
-                    <div class="w-1/2 ml-1">
-                        <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Ad Valorem</label>
-                        <p class="text-grey-dark mb-2 text-sm dark:text-gray-300">
-                          
-                            <input
-                            disabled
-                            type="checkbox"
-                            {{  $application->internmentProcess->adv ? 'checked="true"' : '' }}
-                            class="form-checkbox h-4 w-4 text-gray-800"
-                            />
-                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} 
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            
         </div>
 
     </li>
