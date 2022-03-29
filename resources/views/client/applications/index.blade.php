@@ -39,10 +39,13 @@
                         @forelse($data as $application)
                             <tr class="text-gray-700 dark:text-gray-400 text-center">
                                 <td class="px-2 pb-2 text-center tex-sm border-b-2 border-gray-400">
+                                    <div class="flex justify-center items-center">
+                                        <span class="iconify h-9 w-9" data-icon="{{ $application->typeTransport->icon }}"></span>
+                                    </div>
+                    
+                                    <p class="font-semibold text-md"> {{ $application->code }} </p>
 
-                                    <p class="font-semibold"> {{ $application->code }} </p>
-
-                                    <p class="text-gray-600 dark:text-gray-400 ">
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">
                                         {{ date('d-m-y', strtotime($application->created_at)) }}
                                     </p>
                                 </td>

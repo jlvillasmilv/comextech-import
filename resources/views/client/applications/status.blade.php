@@ -1,10 +1,3 @@
- <!-- <span class="px-2 py-1 font-semibold leading-tight {{ $application->status->status_color }}  rounded-full dark:text-white dark:bg-green-600">
-                                    {{ $application->status->name }}
-                                </span>
-                                <br>
-                                <span class="py-2 font-semibold leading-tight  rounded-full dark:text-white dark:bg-green-600">
-                                {{ $application->payment->status }}
-                                </span> -->
 
  <div
      class="flex items-center justify-center leading-tight rounded-lg p-1 border border-gray-400

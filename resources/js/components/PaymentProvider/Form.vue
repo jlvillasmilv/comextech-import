@@ -126,7 +126,7 @@
                 :disabled="$store.state.payment.discount === 0"
               >
                 <option value="Transferencia">Transferencia</option>
-                <option value="Carta de Credito">Carta de Credito</option>
+                <!-- <option value="Carta de Credito">Carta de Credito</option> -->
               </select>
               <div
                 class="
