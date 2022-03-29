@@ -5,7 +5,7 @@ export default {
   state: {
     expenses: new Form({
       application_id: '',
-      transport: '',
+      transport: false,
       custom_agent_id: '',
       trans_company_id: '',
       courier_svc: false,
