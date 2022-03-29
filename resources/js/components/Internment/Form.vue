@@ -1598,13 +1598,6 @@ export default {
             : this.$store.state.address.expenses.trans_company_id;
       }
 
-      if (this.data.type_transport == 'COURIER' && this.AppAmount <= 2999) {
-        this.expenses.agent_payment = 0;
-        // this.expenses.customs_house = '';
-      } else {
-        this.expenses.agent_payment = 250;
-      }
-
       //asignar id de solicitud
       this.expenses.application_id = this.application_id;
       // this.expenses.transport = !this.$store.getters.findService('ICS03');
@@ -1627,6 +1620,10 @@ export default {
         );
 
         this.AppAmount = app_usd.data;
+      }
+
+      if (this.data.type_transport == 'COURIER' && this.AppAmount <= 2999) {
+        this.expenses.agent_payment = 0;
       }
 
       this.convertAmountToClp();
