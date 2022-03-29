@@ -37,7 +37,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-400 dark:divide-gray-700 dark:bg-gray-800">
                         @forelse($data as $application)
-                            <tr class="text-gray-700 dark:text-gray-400 text-center">
+                            <tr class="text-gray-700 dark:text-gray-400 text-center" id="{{ $application->id }}">
                                 <td class="px-2 pb-2 text-center tex-sm border-b-2 border-gray-400">
                                     <div class="flex justify-center items-center">
                                         <span class="iconify h-9 w-9" data-icon="{{ $application->typeTransport->icon }}"></span>
@@ -135,7 +135,9 @@
                                         @endif
 
                                         @if ($application->status->name == 'Borrador')
-                                            <button data-id="{{ \Crypt::encryptString($application->id) }}"
+                                            <button
+                                                id="{{'bt-del-'.$application->id}}"
+                                                data-id="{{ $application->id }}"
                                                 title="Eliminar {{$application->code}}"
                                                 data-remote="{{ route('applications.destroy', \Crypt::encryptString($application->id)) }}"
                                                 class="px-1 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-delete"
@@ -157,8 +159,7 @@
                                                         title="Pagar Solicitud {{$application->code}}"
                                                         type="button"
                                                         x-on:click="openModalPayment({{ $application->id }})"
-                                                        class="px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                                        aria-label="Delete">
+                                                        class="px-1 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
                                                         <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
