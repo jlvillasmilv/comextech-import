@@ -1,10 +1,3 @@
- <!-- <span class="px-2 py-1 font-semibold leading-tight {{ $application->status->status_color }}  rounded-full dark:text-white dark:bg-green-600">
-                                    {{ $application->status->name }}
-                                </span>
-                                <br>
-                                <span class="py-2 font-semibold leading-tight  rounded-full dark:text-white dark:bg-green-600">
-                                {{ $application->payment->status }}
-                                </span> -->
 
  <div
      class="flex items-center justify-center leading-tight rounded-lg p-1 border border-gray-400
@@ -24,7 +17,8 @@
 
      @if ($application->status->name == 'Validada' and $application->state_process)
          <button type="button" data-id="{{ base64_encode($application->id) }}"
-             data-msg="Desea validar solicitud {{ $application->code }}" data-remote="{{ route('application.status') }}"
+             data-msg="Desea validar solicitud {{ $application->code }}"
+              data-remote="{{ route('application.status') }}"
              class="animate-pulse ml-2 leading-5 text-gray-800 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app">
              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor" stroke-width="2">
