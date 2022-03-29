@@ -5,17 +5,17 @@
                 <Bank />
             </div>
         </tab>
-        <tab name="Informacion Legal">
+        <tab name="Información legal">
             <div>
                 <LegalInfo />
             </div>
         </tab>
-        <tab name="Informacion Financiera">
+        <tab name="Información financiera">
             <div>
                 <FinancialInfo/>
             </div>
         </tab>
-        <tab name="SII y Previred">
+        <tab name="SII">
             <div>
                 <Provider />
             </div>

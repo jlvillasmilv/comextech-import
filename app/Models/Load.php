@@ -39,7 +39,7 @@ class Load extends Model
     }
 
     public static function cargo($data,$application_id=null)
-    {
+    {   
         if(isset($data[0]['id'])) {
 
             $idload = array();

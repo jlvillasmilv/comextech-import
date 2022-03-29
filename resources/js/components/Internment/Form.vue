@@ -1,18 +1,13 @@
 <template>
   <section class="lg:flex lg:flex-col items-center justify-center w-full p-4">
-    <div
+    <!-- <div
       class="lg:w-8/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 mb-5"
       v-show="$store.getters.findService('ICS04') && !$store.getters.findService('ICS03')"
     >
       <load />
-    </div>
+    </div> -->
 
-    <div
-      :class="[
-        'lg:w-10/12 flex flex-wrap -mx-3',
-        !$store.getters.findService('ICS04') ? 'justify-center' : 'justify-center'
-      ]"
-    >
+    <div class="lg:w-10/12 flex flex-wrap justify-center -mx-3">
       <!-- asignacion de aduana -->
       <div class="flex flex-col w-full">
         <div class="flex justify-between items-end">
@@ -361,8 +356,8 @@
 
             <span
               class="text-xs text-red-600 dark:text-red-400"
-              v-if="expenses.errors.has('file_descrip')"
-              v-html="expenses.errors.get('file_descrip')"
+              v-if="expenses.errors.has('files.0')"
+              v-html="expenses.errors.get('files.0')"
             ></span>
           </div>
           <div class="w-auto px-1 px-3">
@@ -432,8 +427,8 @@
 
             <span
               class="text-xs text-red-600 dark:text-red-400"
-              v-if="expenses.errors.has('file_descrip')"
-              v-html="expenses.errors.get('file_descrip')"
+              v-if="expenses.errors.has('files.0')"
+              v-html="expenses.errors.get('files.0')"
             ></span>
           </div>
         </div>
@@ -493,28 +488,6 @@
                     </tbody>
                   </table>
                 </div>
-                <!-- <div class="top-arrow w-full my-4">
-                  <div class="">
-                    <table>
-                      <thead>
-                        <th></th>
-                      </thead>
-                      <tbody>
-                        <tr class="font-semibold">
-                          <td class="bg-gray-200 py-2 px-1">
-                            {{ $options.filters.setPrice(clpCif, 'CLP') }}
-                          </td>
-                          <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <span
-                    class="w-10 h-10 mt-4 iconify"
-                    data-icon="entypo:arrow-up"
-                    style="color: #142c44;"
-                  ></span>
-                </div> -->
                 <div class="div-arrow-full w-1/12">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1092,8 +1065,11 @@
           </div>
           <div>
             <p class="text-center text-sm">
-              Los impuestos serán gestionados y pagados por el cliente, no por ComexTech y podrán
-              sufrir variación según Tipo de cambio
+              {{
+                expenses.tax_comex
+                  ? 'Los impuestos serán gestionados y pagados por ComexTech, no por el cliente y podrán sufrir variación según Tipo de cambio'
+                  : 'Los impuestos serán gestionados y pagados por el cliente, no por ComexTech y podrán sufrir variación según Tipo de cambio'
+              }}
             </p>
           </div>
         </div>
@@ -1442,7 +1418,7 @@ export default {
     async submitForm() {
       try {
         this.$store.dispatch('application/busyButton', true);
-        this.expenses.dataLoad = this.$store.state.load.loads;
+        // this.expenses.dataLoad = this.$store.state.load.loads;
 
         const { data } = await this.expenses.post('/internment');
         Toast.fire({
@@ -1631,7 +1607,7 @@ export default {
 
       //asignar id de solicitud
       this.expenses.application_id = this.application_id;
-      this.expenses.transport = !this.$store.getters.findService('ICS03');
+      // this.expenses.transport = !this.$store.getters.findService('ICS03');
       // /custom-convert-currency
       const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
       const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-04');

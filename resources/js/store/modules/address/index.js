@@ -51,7 +51,8 @@ const state = {
   showFedexDhlQuote: false,
   showLclFclQuote: false,
   tableFclLcl: {},
-  saveDataTransport: false
+  saveDataTransport: false,
+  isDisabled: false
 };
 
 const getters = {};
@@ -130,6 +131,7 @@ const mutations = {
     state.showDhlQuote = value;
   },
   SELECT_COURIER(state, type) {
+    state.isDisabled = false;
     if (type === 2) {
       state.showDhlQuote = false;
     }

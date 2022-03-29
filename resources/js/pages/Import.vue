@@ -480,7 +480,7 @@
                 class="w-5/12 sm:w-3/12 flex flex-col justify-center mt-2 mb-3 lg:mb-8"
               >
                 <button
-                  :disabled="service.disabled"
+                  :disabled="service.disabled || service.disabled ===1"
                   type="button"
                   :class="[
                     'mx-1 flex flex-col items-center border rounded px-3 py-2 border-b-2',
