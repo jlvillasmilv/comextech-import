@@ -194,11 +194,8 @@
             ? getCourierQuote()
             : submitQuote()
         "
-        :class="[
-          isEdit
-            ? 'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-            : 'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
-        ]"
+        :class="[isDisabled ? saveButtonDisabled : isEdit ? saveButton : quoteButton]"
+        :disabled="isDisabled"
       >
         {{ saveDataTransport ? 'Guardar' : 'Cotizar' }}
       </button>
@@ -218,7 +215,13 @@ export default {
   components: { OriginAddress, DestAddress, FormDate, FedexDhl, TableFclLcl },
   data() {
     return {
-      showShipping: false
+      showShipping: false,
+      saveButton:
+        'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300',
+      saveButtonDisabled:
+        'flex items-center justify-center ml-4 w-32 h-12 text-gray-500 transition-colors text-lg bg-gray-300 rounded-lg focus:shadow-outline',
+      quoteButton:
+        'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
     };
   },
   computed: {
@@ -233,7 +236,8 @@ export default {
       'portsDesTemp',
       'showFedexDhlQuote',
       'showLclFclQuote',
-      'saveDataTransport'
+      'saveDataTransport',
+      'isDisabled'
     ]),
     ...mapState('application', ['data'])
   },
@@ -274,8 +278,10 @@ export default {
         if (!fedexDhlQuote) {
           loader.hide();
           this.hideAddress();
+        } else {
+          this.$store.commit('address/ACTIVE_SAVE_DATA', true);
+          this.$store.state.address.isDisabled = true;
         }
-        this.$store.commit('address/ACTIVE_SAVE_DATA', true);
       } catch (error) {
         console.error(error);
       } finally {
@@ -340,6 +346,7 @@ export default {
         }
         this.$store.dispatch('load/setLoad', fclLclQuote.data);
         this.$store.commit('address/ACTIVE_SAVE_DATA', true);
+        this.$store.state.address.isDisabled = false;
         // this.$store.dispatch('callIncomingOrNextMenu', true);
       } catch (error) {
         this.hideAddress();
@@ -403,6 +410,8 @@ export default {
 
       /* Active button saveData */
       this.$store.commit('address/ACTIVE_SAVE_DATA', false);
+
+      this.$store.state.address.isDisabled = false;
 
       this.expenses.trans_company_id = '';
     },
