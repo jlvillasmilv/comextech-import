@@ -6,7 +6,7 @@
       <div
         :class="[
           $store.state.payment.percentageInitial == 0 ? 'opacity-25' : '',
-          'lg:w-6/12 h-72 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
+          'lg:w-6/12 md:h-72 mx-3 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
         ]"
       >
         <!-- primer/segundo pago -->

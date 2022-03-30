@@ -1340,6 +1340,8 @@ export default {
       });
     },
     openWindowFile({ e, name: entry }) {
+      this.expenses.files = [];
+      this.file1Name = '';
       this.nameFileUpload = entry;
       let value = this.treaties.find((a) => a.name == entry);
       if (!value.submit) {
@@ -1351,6 +1353,8 @@ export default {
       }
     },
     openWindowFile2({ e, name: entry }) {
+      this.expenses.files = [];
+      this.file2Name = '';
       this.nameFileUpload = entry;
       let value = this.otherFile.find((a) => a.name == entry);
       if (!value.submit) {
@@ -1362,6 +1366,8 @@ export default {
       }
     },
     openWindowFileCert({ e, name: entry }) {
+      this.certFileName = '';
+      this.expenses.file_certificate = '';
       this.nameFileUpload = entry;
       let value = this.certif.find((a) => a.name == entry);
       if (!value.submit) {
@@ -1406,6 +1412,9 @@ export default {
         );
       } else {
         this.treaties = this.treaties.map((e) =>
+          e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
+        );
+        this.otherFile = this.otherFile.map((e) =>
           e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
         );
       }
