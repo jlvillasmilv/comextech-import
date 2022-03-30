@@ -472,33 +472,67 @@ class TransportsControllers extends Controller
 
     }
 
-
-
-    
     // TEST API RATE FEDEX DHL
     public function test()
     {
-        // $result = FedexApi::tracking(776036833123);
 
-        // dd($result);
+        $data = [
+            "fav_origin_address" => false,
+            "origin_address" => "Miami Beach Boardwalk, Miami Beach, FL 33140, EE. UU.",
+            "origin_latitude" => 1.2670996,
+            "origin_longitude" => 103.8037803,
+            "origin_postal_code" => 33140,
+            "origin_locality" => "Miami Beach",
+            "origin_ctry_code" => "US",
+            "fav_dest_address" => true,
+            "dest_address" => "1",
+            "dest_latitude" => null,
+            "dest_longitude" => null,
+            "dest_postal_code" => null,
+            "dest_locality" => null,
+            "dest_ctry_code" => null,
+            "insurance" => false,
+            "estimated_date" => "2022-01-02",
+            "description" => "Carga",
+            "type_transport" => "CARGA AEREA",
+            "dataLoad" => [
+               [
+                "mode_calculate" => true,
+                "category_load_id" => 1,
+                "type_container" => 1,
+                "length" => 30,
+                "width"  => 30,
+                "height" => 30,
+                "length_unit" => "CM",
+                "id" => 0,
+                "cbm" => 0.1728,
+                "weight" => 16,
+                "weight_units" => "KG",
+                "stackable" => false
+               ],
+               [
+                "mode_calculate" => true,
+                "category_load_id" => 1,
+                "type_container" => 1,
+                "length" => 30,
+                "width"  => 30,
+                "height" => 30,
+                "length_unit" => "CM",
+                "id" => 0,
+                "cbm" => 0.1728,
+                "weight" => 300,
+                "weight_units" => "KG",
+                "stackable" => false
+               ],
+               
+            ]
+        ];
 
         
-        // $objJsonDocument = json_encode($result);
-        // $arrOutput = json_decode($objJsonDocument, TRUE);
+        $connect = new FedexApi;
+        $fedex_response = $connect->rateApi($data);
 
-      
-
-        // return response()->json( $arrOutput );
-
-       
-
-        $track = DHL::tracking(5034825880);
-
-        $objJsonDocument = json_encode($track);
-        $resp = json_decode($objJsonDocument, TRUE);
-
-        dd($resp);
-
+        dd($fedex_response);
     }
     
 }

@@ -135,7 +135,7 @@ class FedexApi extends Model
       $rateReply = $rateServiceRequest->getGetRatesReply($rateRequest); 
 
       $response = array();
-     //dd($rateReply->RateReplyDetails);
+    //  dd($rateReply->RateReplyDetails);
       if (!empty($rateReply->RateReplyDetails)) {
           foreach ($rateReply->RateReplyDetails as $rateReplyDetail) {
 
