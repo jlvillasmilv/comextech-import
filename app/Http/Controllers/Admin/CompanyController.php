@@ -149,10 +149,11 @@ class CompanyController extends Controller
         $internment = UserMarkUp::updateOrCreate(
             [   'user_id' => $company->user->id, ],
             [
-                'air'             => $request->air,
-                'fcl'             => $request->fcl,
-                'lcl'             => $request->lcl,
-                'transfer_abroad' => $request->transfer_abroad,
+                'air'              => $request->air,
+                'fcl'              => $request->fcl,
+                'lcl'              => $request->lcl,
+                'transfer_abroad'  => $request->transfer_abroad,
+                'exch_rate_margin' => $request->exch_rate_margin,
             ]
         );
 
@@ -162,7 +163,6 @@ class CompanyController extends Controller
                 'reference'     => '',
                 'method_type'   => 'ABONO CREDITO',
                 'movement_date' => date('Y-m-d'),
-
             ],
             [
                 'debit'       => 0,
@@ -201,8 +201,8 @@ class CompanyController extends Controller
             ]);
         }
 
-        $data  = Company::where('user_id', $request->input('user_id'))->firstOrFail();
-
+        $data  =  Company::findOrFail($request->input('company_id'));
+        
         $notification = array(
             'message'    => 'Descuento asignado',
             'alert_type' => 'success'

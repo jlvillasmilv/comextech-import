@@ -13,7 +13,8 @@ class UserMarkUp extends Model
         'air',
         'fcl',
         'lcl',
-        'transfer_abroad'
+        'transfer_abroad',
+        'exch_rate_margin'
     ];
 
     public $timestamps = false;

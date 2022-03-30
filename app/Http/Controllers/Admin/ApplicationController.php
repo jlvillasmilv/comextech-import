@@ -162,7 +162,11 @@ class ApplicationController extends Controller
                     ]);
             }
 
-            $data = ['application_id' => base64_encode($application->id), 'currency_code' => null];
+            $data = [
+                'application_id' => base64_encode($application->id),
+                'currency_code' => null,
+                'user_id'       => $application->user_id
+            ];
             $total = ApplicationSummary::setSummary($data);
         }
     

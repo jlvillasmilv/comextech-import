@@ -323,26 +323,25 @@ export default {
     typeAction(payload) {
       this.getUsers();
       this.mode = true;
-      this.userCompany = {
-        id: false,
-        name: '',
-        email: '',
-        password: '',
-        phone: '',
-      };
+
+      this.resetFrom();
+
       this.$swal.fire(Option('success', 'Se registro con Exito!'));
     },
     viewAddForm() {
       this.title = 'Registrar nuevo usuario';
-      this.userCompany = {
-        id: 0,
-        name: '',
-        email: '',
-        password: '',
-        phone: '',
-      };
+
+      this.resetFrom();
+      
       this.mode = !this.mode;
     },
+    resetFrom() {
+      this.userCompany.id = 0;
+      this.userCompany.name = '';
+      this.userCompany.email = '';
+      this.userCompany.phone = '';
+      this.userCompany.role_id = 3;
+    }
   },
   async created() {
     this.getUsers();
