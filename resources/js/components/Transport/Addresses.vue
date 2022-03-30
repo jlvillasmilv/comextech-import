@@ -251,6 +251,8 @@ export default {
     ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
     async getCourierQuote() {
+      this.expenses.app_amount = '';
+      this.expenses.trans_company_id = '';
       /* Vue-loader config and active */
       let loader = this.$loading.show({
         canCancel: true,
