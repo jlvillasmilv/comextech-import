@@ -3,7 +3,7 @@
     <form  role="form" method="POST" action="{{ route('admin.clients.discount') }}" >
     @csrf
 
-    <input type="hidden" name="user_id" value="{{ $company->user->id}}">
+    <input type="hidden" name="company_id" value="{{ $company->id}}">
 
     <div class="flex justify-between items-end">
         <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">

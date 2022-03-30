@@ -2,7 +2,7 @@
   <section class="py-8 lg:py-0">
     <!-- Fedex table quote -->
     <transition name="fade">
-      <div v-if="showFedexQuote">
+      <div v-if="isFedexQuote">
         <div>
           <h1 class="lg:pl-16 text-xl font-medium text-blue-1300">
             Cotización Fedex
@@ -134,7 +134,7 @@
                 <div class="">
                   <transition name="fade">
                     <button
-                      v-if="isButtonFedex"
+                      v-if="isButtonFedex && isFedexQuote"
                       @click="selectQuote(totalEstimed, 2)"
                       :class="[
                         isBusyFedex
@@ -162,7 +162,7 @@
 
     <!-- DHL table quote -->
     <transition name="fade">
-      <div v-if="showDhlQuote">
+      <div v-if="isDhlQuote">
         <div>
           <h1 class="lg:pl-16 text-xl font-medium text-blue-1300">
             Cotización DHL
@@ -284,7 +284,7 @@
                 <div class="">
                   <transition name="fade">
                     <button
-                      v-if="isButtonDhl"
+                      v-if="isButtonDhl && showDhlQuote"
                       @click="selectQuote(dhl.ComextechTotal, 3)"
                       :class="[
                         isBusyDhl
@@ -321,6 +321,8 @@ export default {
       transportQuote: 0,
       isButtonFedex: true,
       isButtonDhl: true,
+      isFedexQuote: true,
+      isDhlQuote: true,
       isBusyFedex: false,
       isBusyDhl: false
     };
@@ -335,10 +337,12 @@ export default {
      */
     async selectQuote(appAmount, transCompanyId) {
       if (transCompanyId === 2) {
+        this.isDhlQuote = false;
         this.$store.commit('address/SELECT_COURIER', transCompanyId);
         this.isButtonFedex = false;
       }
       if (transCompanyId === 3) {
+        this.isFedexQuote = false;
         this.$store.commit('address/SELECT_COURIER', transCompanyId);
         this.isButtonDhl = false;
       }
@@ -381,9 +385,15 @@ export default {
       this.transportDhl = parseFloat(this.transportDhl).toFixed(2);
     }
 
-    if (this.expenses.trans_company_id === 2) this.isButtonFedex = false;
+    if (this.expenses.trans_company_id === 2) {
+      this.isButtonFedex = false;
+      this.isDhlQuote = false;
+    }
 
-    if (this.expenses.trans_company_id === 3) this.isButtonDhl = false;
+    if (this.expenses.trans_company_id === 3) {
+      this.isButtonDhl = false;
+      this.isFedexQuote = false;
+    }
   }
 };
 </script>

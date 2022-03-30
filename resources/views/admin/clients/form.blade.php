@@ -164,7 +164,6 @@
                     </div>
 
                     <div class="sm:w-full md:w-auto px-3 ">
-
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Transferencia al Extranjero </span>
                             <input class="{{ $errors->has('transfer_abroad') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
@@ -179,8 +178,27 @@
                             @endif
 
                         </label>
-
                     </div>
+
+                    <div class="sm:w-full md:w-auto px-3 ">
+                        <label class="block text-sm my-3">
+                            <span class="text-gray-700 dark:text-gray-400">Margen de tipo de cambio % </span>
+                            <input class="{{ $errors->has('exch_rate_margin') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                            type="number"
+                            name="exch_rate_margin" 
+                            value="{{ old('exch_rate_margin', isset($company->user->markUp) ? $company->user->markUp->exch_rate_margin : '') }}"
+                            title="Las operaciones que se transforman a peso Chileno, debemos poder agregarle un margen correspondiente a un porcentaje que es variable para cada cliente"
+                            >
+                            @if($errors->has('exch_rate_margin'))
+                                <span class="text-xs text-red-600 dark:text-red-400">
+                                    {{ $errors->first('exch_rate_margin') }}
+                                </span>
+                            @endif
+
+                        </label>
+                    </div>
+
+                    
                 </div>
                
             </form>
