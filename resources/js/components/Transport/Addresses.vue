@@ -219,7 +219,7 @@ export default {
       saveButton:
         'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300',
       saveButtonDisabled:
-        'flex items-center justify-center ml-4 w-32 h-12 text-gray-500 transition-colors text-lg bg-gray-300 rounded-lg focus:shadow-outline',
+        'flex items-center justify-center ml-4 w-32 h-12 text-white transition-colors text-lg bg-gray-300 rounded-lg focus:shadow-outline',
       quoteButton:
         'flex items-center justify-center vld-parent sm:w-44 h-12 px-4 text-white transition-colors text-lg bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
     };
