@@ -72,7 +72,6 @@ class CreateNewUser implements CreatesNewUsers
     protected function createCompany(User $user, $input)
     {
         
-
         $user->assignRole('Cliente'); //assign role to user
         
         $trans_company  = TransCompany::get();

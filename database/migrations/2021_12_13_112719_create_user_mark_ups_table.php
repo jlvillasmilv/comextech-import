@@ -20,6 +20,7 @@ class CreateUserMarkUpsTable extends Migration
             $table->unsignedsmallinteger('fcl')->default(40)->comment('Value %');
             $table->unsignedsmallinteger('lcl')->default(40)->comment('Value %');
             $table->unsignedsmallinteger('transfer_abroad')->default(60)->comment('Transferencia al Extranjero USD');
+            $table->float('exch_rate_margin',4,2)->default(2)->comment('Exchange rate margin');
         });
     }
 

@@ -70,6 +70,18 @@ class ApplicationSummary extends Model
                 $exchange = New Currency;
                 $amount = $exchange->convertCurrency($item->amount, $item->currency, $to_currency_code);
 
+                if($to_currency_code == 'CLP')
+                {
+                    $rate_margin = 2;
+                    if(isset($data['user_id']) && $data['user_id'] > 0 )
+                    {
+                       $rate = UserMarkUp::where('user_id', $data['user_id'])->first()->exch_rate_margin;
+                       $rate_margin = is_null($rate) ? 2 : $rate ;
+                    }
+
+                    $amount = $amount + (($amount*$rate_margin)/100);
+                }
+
                 \DB::table('application_summaries')
                 ->where('id', $item->id)
                 ->update([

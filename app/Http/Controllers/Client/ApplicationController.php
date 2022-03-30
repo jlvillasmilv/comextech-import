@@ -283,11 +283,6 @@ class ApplicationController extends Controller
         ])
         ->firstOrFail();
         
-        // foreach ($application->internmentProcess->fileStoreInternment as $key => $value) {
-        //     dd( $value);
-        // }
-       
-
         return view('client.applications.show', compact('application'));
        
     }
@@ -345,7 +340,11 @@ class ApplicationController extends Controller
             ['company_id', auth()->user()->company->id],
         ])->firstOrFail();
 
-        $data  = ['application_id' => base64_encode($application->id), 'currency_code' => $request->currency_code];
+        $data  = [
+            'application_id' => base64_encode($application->id),
+            'currency_code' => $request->currency_code,
+            'user_id'       => auth()->user()->id
+        ];
         $total = ApplicationSummary::setSummary($data);
         
         return response()->json($total, 200);
