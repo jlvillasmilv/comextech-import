@@ -44,6 +44,7 @@ export default {
       state.expenses.iva_amt = payload.iva_amt;
       state.expenses.cif_amt = payload.cif_amt;
       state.expenses.transport_amt = payload.transport_amt;
+      state.expenses.tax_comex = payload.tax_comex;
     }
   },
   actions: {
