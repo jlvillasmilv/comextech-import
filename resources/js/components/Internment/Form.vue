@@ -1366,8 +1366,6 @@ export default {
       }
     },
     openWindowFileCert({ e, name: entry }) {
-      this.certFileName = '';
-      this.expenses.file_certificate = '';
       this.nameFileUpload = entry;
       let value = this.certif.find((a) => a.name == entry);
       if (!value.submit) {
@@ -1376,6 +1374,8 @@ export default {
         fileInputElement.click();
       } else {
         this.handleStatusSubmitFile('certif');
+        this.expenses.file_certificate = '';
+        this.certFileName = '';
       }
     },
     certificateFile() {
