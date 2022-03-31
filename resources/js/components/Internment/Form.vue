@@ -1262,7 +1262,12 @@
         </button>
       </div>
     </div>
+
+    <!-- <pre>
+    {{expenses}}
+  </pre> -->
   </section>
+  
 </template>
 
 <script>
@@ -1379,13 +1384,15 @@ export default {
       }
     },
     certificateFile() {
-      const file = this.$refs.file_cert.files[0];
+      let file = this.$refs.file_cert.files[0];
       this.certFileName = file.name;
       if (file) {
         this.handleStatusSubmitFile('certif');
         this.expenses.file_certificate = file;
         this.certificate = this.nameFileUpload;
+        this.$refs.file_cert.value =null;
       }
+
     },
     handleFile() {
       const file = this.$refs.file.files[0];
@@ -1394,6 +1401,7 @@ export default {
         this.handleStatusSubmitFile();
         this.expenses.files.push(file);
         this.expenses.file_descrip.push(this.nameFileUpload);
+        this.$refs.file.value =null;
       }
     },
     otherHandleFile() {
@@ -1403,6 +1411,7 @@ export default {
         this.handleStatusSubmitFile();
         this.expenses.files.push(file);
         this.expenses.file_descrip.push(this.nameFileUpload);
+        this.$refs.file_2.value = null;
       }
     },
     handleStatusSubmitFile(ref = null) {
