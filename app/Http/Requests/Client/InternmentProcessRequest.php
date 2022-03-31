@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Web;
+namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -32,8 +32,8 @@ class InternmentProcessRequest extends FormRequest
             'adv_amt'                 => 'nullable|numeric',
             'cif_amt'                 => 'nullable|numeric',
             'files'                   => 'nullable|array',
-            'files.*'                 => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlsx,xls,pdf|max:2048',
-            'file_certificate'        => 'nullable|mimes:png,jpg,jpeg,csv,txt,xlsx,xls,pdf|max:2048',
+            'files.*'                 => 'nullable|mimes:pdf|max:2048',
+            'file_certificate'        => 'nullable|mimes:pdf|max:2048',
             'dataLoad'                => 'required_if:transport,true',
             //"dataLoad.*.weight"       => "required_if:transport,true",
             // "dataLoad.*.cbm"          => "required_if:transport,true",
@@ -55,8 +55,8 @@ class InternmentProcessRequest extends FormRequest
             'custom_agent_id'    => 'Agente de aduana',
             'agent_payment'      => 'Monto Total de Operacion',
             'customs_house'      => 'Asignacion de Agente de Aduana',
+            'file_certificate'   => 'Invoice',
+            'files.*'            => 'Otros documentos'
         ];
     }
-
-
 }

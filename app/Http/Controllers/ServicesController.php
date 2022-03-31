@@ -89,13 +89,4 @@ class ServicesController extends Controller
        
     }
 
-    public function downloadAsset($id, $type = null)
-    {
-        $file_store_internment = FileStoreInternment::where('internment_id', $id)
-        ->where('intl_treaty', $type)->first();
-         
-         return Storage::disk('s3')->response('file/'.$file_store_internment->fileStore->file_name);
-
-    }
-
 }
