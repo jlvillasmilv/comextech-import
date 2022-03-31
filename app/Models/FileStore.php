@@ -13,14 +13,18 @@ class FileStore extends Model
     protected $table = 'file_stores';
 
     protected $fillable = [
-        'disk', 'type', 'file_name', 'mime_type', 'status'
+        'disk',
+        'file_name',
+        'mime_type',
+        'status'
     ];
 
 
-    public function addFile($file,$name=null)
+    public function addFile($file, $name=null)
     {
-        $file_name = is_null($name) ?  time() . '_' . $file->getClientOriginalName() : $name;
-
+        $extension = $file->getClientOriginalExtension();
+        $file_name = (is_null($name) ?  time() : $name).'.'.$extension;
+        
         // $exists = Storage::disk('s3')
         // ->exists('file/'.$file_name);
 
@@ -28,15 +32,15 @@ class FileStore extends Model
         //     Storage::disk('s3')
         //     ->delete('file/'.$file_name);
         // }
-
-        Storage::disk('s3')->put('file/'.$file_name, \File::get($file), 'public');
         
-        $fileStorage = FileStore::updateOrCreate([
-            'file_name'     => $file_name,
-        ],
-        [   'disk'          => Storage::disk('s3')->url('file/'.$file_name),
-            'mime_type'     => $file->getMimeType(),
-        ]
+        Storage::disk('s3')->put('file/'.$file_name.'.'.$extension, \File::get($file), 'public');
+        
+        $fileStorage = FileStore::updateOrCreate(
+            [ 'file_name'     => $file_name,  ],
+            [
+                'disk'      => Storage::disk('s3')->url('file/'.$file_name.'.'.$extension),
+                'mime_type' => $file->getMimeType(),
+            ]
         );
 
         return $fileStorage;
@@ -47,9 +51,13 @@ class FileStore extends Model
         return $this->hasOne(Factoring\FileStoreClient::class);
     }
 
+    public function FileStoreInternment()
+    {
+        return $this->hasOne(FileStoreInternment::class, 'file_store_id');
+    }
+
     public function FileDisbursement()
     {
         return $this->hasOne(Factoring\FileDisbursement::class, 'disbursement_id');
     }
-
 }
