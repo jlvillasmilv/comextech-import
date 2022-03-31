@@ -87,8 +87,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     ->name('applications.payment.provider'); 
 
      // Internment Process
-    Route::post('internment', 'App\Http\Controllers\Client\ApplicationController@internmentProcesses')
+    Route::post('internment', 'App\Http\Controllers\Client\CustomController@internmentProcesses')
     ->name('applications.internment'); 
+
+    Route::post('internment-file-remove', 'App\Http\Controllers\Client\CustomController@removeFile')
+    ->name('internment.file.remove'); 
+
+    Route::get('download-file-internment/{id}/{type}', 'App\Http\Controllers\Client\CustomController@downloadAsset')->name('download.file.internment');
 
     Route::get('download/{id}/{type}', 'DisbursementController@downloadAsset')->name('download');
 
@@ -114,9 +119,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');
     Route::get('/services/summary/{id}', [ServicesController::class, 'summary'])->name('services.summary');
     Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('services.edit');
-    Route::get('download/{id}/{type}', [ServicesController::class, 'downloadAsset'])->name('download.file.internment');
-
-    
+       
     //company address
     Route::get('/company/address/all', 'App\Http\Controllers\Client\CompanyController@address')->name('company.address');
 
