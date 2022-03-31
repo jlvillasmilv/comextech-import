@@ -81,7 +81,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('/get-dhl-quote','App\Http\Controllers\Client\TransportsControllers@dhlQuote');
     Route::get('/test-courier','App\Http\Controllers\Client\TransportsControllers@test');
 
-    Route::get('/get-application/{id}','App\Http\Controllers\Client\ApplicationController@getApplication')->where('id', '[0-9]+');
+    Route::post('/get-application/{id}','App\Http\Controllers\Client\ApplicationController@getApplication')->where('id', '[0-9]+');
     
     Route::post('applications/payment_provider', 'App\Http\Controllers\Client\ApplicationController@paymentProvider')
     ->name('applications.payment.provider'); 

@@ -27,7 +27,10 @@ export default {
       transport_amt: 0,
       code_serv: 'ICS04',
       tax_comex: false
-    })
+    }),
+      certFileName: '',
+      file1Name: '',
+      file2Name: ''
   },
   getters: {},
   mutations: {
@@ -45,6 +48,16 @@ export default {
       state.expenses.cif_amt = payload.cif_amt;
       state.expenses.transport_amt = payload.transport_amt;
       state.expenses.tax_comex = payload.tax_comex;
+
+      if(payload.file_store_internment)
+      {
+        payload.file_store_internment.map(function(data) {
+          if(data.intl_treaty == "Invoice")
+          {
+            state.certFileName = data.intl_treaty;
+          }
+      });
+      }
     }
   },
   actions: {

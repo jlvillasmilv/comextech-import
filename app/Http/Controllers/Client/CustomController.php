@@ -162,7 +162,7 @@ class CustomController extends Controller
     {
         try{
             DB::beginTransaction();
-            
+
             $file_store_internment = FileStoreInternment::where('internment_id', $id)
             ->where('intl_treaty', $type)->firstOrFail();
 

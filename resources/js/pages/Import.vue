@@ -822,7 +822,7 @@ export default {
 
       if (application !== null) {
         const id = application.value;
-        const { data } = await axios.get('/get-application/' + id);
+        const { data } = await axios.post('/get-application/' + id);
         Promise.all([
           this.$store.dispatch('application/setData', data),
           this.$store.dispatch('application/getServicesSelecteds', data.services_code.split(','))
