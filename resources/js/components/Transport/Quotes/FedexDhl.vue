@@ -10,9 +10,11 @@
         </div>
         <div class="sm:flex sm:flex-col sm:items-center mb-8">
           <div
-            class="lg:w-11/12 md:9/12 py-6 my-4 focus:outline-none rounded-2xl shadow-xl flex justify-center flex-wrap"
+            class="w-full py-6 my-4 focus:outline-none rounded-2xl shadow-xl flex justify-center flex-wrap"
           >
-            <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
+            <div
+              class="sm:w-6/12 lg:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8"
+            >
               <div class="mb-8 text-sm font-semibold">
                 <span>LLEGADA</span>
               </div>
@@ -30,7 +32,7 @@
               >
             </div>
 
-            <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
+            <div class="sm:w-6/12 lg:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
               <div class="mb-8 text-sm font-semibold">
                 <span>SERVICIO</span>
               </div>
@@ -44,7 +46,7 @@
               >
             </div>
 
-            <div class="sm:w-5/12 inline-block align-top px-2">
+            <div class="sm:w-6/12 lg:w-5/12 inline-block align-top px-2">
               <table>
                 <thead>
                   <tr>
@@ -53,11 +55,12 @@
                         <span>CONCEPTOS</span>
                       </div>
                     </th>
-                    <th class="w-28 sm:w-28 text-sm font-semibold">
-                      <div class="mb-8 text-sm font-semibold">
+                    <th class="w-28 sm:w-24 text-sm font-semibold">
+                      <div class="mb-8 text-sm font-semibold text-right">
                         <span>TARIFA</span>
                       </div>
                     </th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -65,70 +68,84 @@
                     <td class="text-left text-sm pl-4">Tarifa Transporte</td>
                     <td
                       :class="[
+                        'text-center ',
                         this.$store.state.address.showFedexQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
-                      {{ this.$store.state.address.showFedexQuote ? transportQuote : '- - -' }}
+                      {{
+                        this.$store.state.address.showFedexQuote
+                          ? `${$options.filters.setPrice(transportQuote, 'USD')}`
+                          : '- - -'
+                      }}
                     </td>
+                    <td class="text-sm">USD</td>
                   </tr>
                   <tr>
                     <td class="text-left text-sm pl-4">Recargo Combustible</td>
                     <td
                       :class="[
+                        'text-center ',
                         this.$store.state.address.showFedexQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
-                      {{ this.$store.state.address.showFedexQuote ? fedex.FUEL : '- - -' }}
+                      {{
+                        this.$store.state.address.showFedexQuote
+                          ? `${$options.filters.setPrice(fedex.FUEL, 'USD')}`
+                          : '- - -'
+                      }}
                     </td>
+                    <td class="text-sm">USD</td>
                   </tr>
                   <tr>
                     <td class="text-left text-sm pl-4">Recargo alta demanda</td>
                     <td
                       :class="[
+                        'text-center ',
                         this.$store.state.address.showFedexQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
-                      {{ this.$store.state.address.showFedexQuote ? fedex.PEAK : '- - -' }}
-                    </td>
-                  </tr>
-                  <!-- <tr>
-                  <td class="text-left text-sm pl-4">Descuento</td>
-                  <td :class="[
+                      {{
                         this.$store.state.address.showFedexQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
-                      ]">
-                    {{ fedex.Discount }}
-                  </td>
-                </tr> -->
+                          ? `${$options.filters.setPrice(fedex.PEAK, 'USD')}`
+                          : '- - -'
+                      }}
+                    </td>
+                    <td class="text-sm">USD</td>
+                  </tr>
                   <tr>
                     <td class="text-left text-sm pl-4">Total Estimado</td>
                     <td
                       :class="[
+                        'text-center',
                         this.$store.state.address.showFedexQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
-                      {{ this.$store.state.address.showFedexQuote ? totalEstimed : '- - -' }}
+                      {{
+                        this.$store.state.address.showFedexQuote
+                          ? `${$options.filters.setPrice(totalEstimed, 'USD')}`
+                          : '- - -'
+                      }}
                     </td>
+                    <td class="text-sm">USD</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div class="sm:w-2/12 inline-block align-top text-center text-sm px-2">
+            <div class="sm:w-5/12 lg:w-2/12 inline-block align-top text-center text-sm">
               <div class="flex h-28 flex-col justify-evenly items-center sm:mt-8">
                 <div class="">
                   <img
                     src="../../../../../public/img/fedex-logo.png"
                     alt="fedex-logo"
-                    class="mx-auto my-2 w-2/12 sm:w-11/12"
+                    class="mx-auto my-2 w-24"
                   />
                 </div>
                 <div class="">
@@ -160,7 +177,6 @@
       </div>
     </transition>
 
-    <!-- DHL table quote -->
     <transition name="fade">
       <div v-if="isDhlQuote">
         <div>
@@ -170,9 +186,11 @@
         </div>
         <div class="sm:flex sm:flex-col sm:items-center mb-8">
           <div
-            class="lg:w-11/12 md:9/12 py-6 my-4 focus:outline-none rounded-2xl shadow-xl flex justify-center flex-wrap"
+            class="w-full py-6 my-4 focus:outline-none rounded-2xl shadow-xl flex justify-center flex-wrap"
           >
-            <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8">
+            <div
+              class="sm:w-6/12 lg:w-2/12 sm:inline-block align-top text-center text-sm px-2 mb-8"
+            >
               <div class="mb-8 text-sm font-semibold">
                 <span>LLEGADA</span>
               </div>
@@ -187,7 +205,8 @@
                 }}</span
               >
             </div>
-            <div class="sm:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
+
+            <div class="sm:w-6/12 lg:w-2/12 sm:inline-block align-top text-center text-sm mb-8">
               <div class="mb-8 text-sm font-semibold">
                 <span>SERVICIO</span>
               </div>
@@ -200,7 +219,7 @@
                 >{{ this.$store.state.address.showDhlQuote ? dhl.ProductShortName : '- - -' }}</span
               >
             </div>
-            <div class="sm:w-5/12 inline-block align-top px-2">
+            <div class="sm:w-6/12 lg:w-5/12 inline-block align-top px-2">
               <table>
                 <thead>
                   <tr>
@@ -209,76 +228,97 @@
                         <span>CONCEPTOS</span>
                       </div>
                     </th>
-                    <th class="w-28 sm:w-28 text-sm font-semibold">
-                      <div class="mb-8 text-sm font-semibold">
+                    <th class="w-28 sm:w-24 text-sm font-semibold">
+                      <div class="mb-8 text-sm font-semibold text-right">
                         <span>TARIFA</span>
                       </div>
                     </th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="text-left text-sm pl-4">Tarifa de Transporte</td>
+                    <td class="text-left text-sm pl-4">Tarifa Transporte</td>
                     <td
                       :class="[
+                        'text-center ',
                         this.$store.state.address.showDhlQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
-                      {{ this.$store.state.address.showDhlQuote ? transportDhl : '- - -' }}
+                      {{
+                        this.$store.state.address.showDhlQuote
+                          ? `${$options.filters.setPrice(transportDhl, 'USD')}`
+                          : '- - -'
+                      }}
                     </td>
+                    <td class="text-sm">USD</td>
                   </tr>
                   <tr>
                     <td class="text-left text-sm pl-4">Recargo Combustible</td>
                     <td
                       :class="[
+                        'text-center ',
                         this.$store.state.address.showDhlQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
-                      {{ this.$store.state.address.showDhlQuote ? dhl['FUEL SURCHARGE'] : '- - -' }}
+                      {{
+                        this.$store.state.address.showDhlQuote
+                          ? `${$options.filters.setPrice(dhl['FUEL SURCHARGE'], 'USD')}`
+                          : '- - -'
+                      }}
                     </td>
+                    <td class="text-sm">USD</td>
                   </tr>
                   <tr>
                     <td class="text-left text-sm pl-4">Situación Emergencia</td>
                     <td
                       :class="[
+                        'text-center ',
                         this.$store.state.address.showDhlQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
                       {{
                         this.$store.state.address.showDhlQuote
-                          ? dhl['EMERGENCY SITUATION']
+                          ? `${$options.filters.setPrice(dhl['EMERGENCY SITUATION'], 'USD')}`
                           : '- - -'
                       }}
                     </td>
+                    <td class="text-sm">USD</td>
                   </tr>
                   <tr>
                     <td class="text-left text-sm pl-4">Total Estimado</td>
                     <td
                       :class="[
+                        'text-center',
                         this.$store.state.address.showDhlQuote
-                          ? 'text-right text-sm pr-4'
-                          : 'text-black text-center text-xl font-bold'
+                          ? 'text-sm'
+                          : 'text-black text-xl font-bold'
                       ]"
                     >
-                      {{ this.$store.state.address.showDhlQuote ? dhl.ComextechTotal : '- - -' }}
+                      {{
+                        this.$store.state.address.showDhlQuote
+                          ? `${$options.filters.setPrice(dhl.ComextechTotal, 'USD')}`
+                          : '- - -'
+                      }}
                     </td>
+                    <td class="text-sm">USD</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div class="sm:w-2/12 inline-block align-top text-center text-sm px-2">
+            <div class="sm:w-5/12 lg:w-2/12 inline-block align-top text-center text-sm">
               <div class="flex h-28 flex-col justify-evenly items-center sm:mt-8">
                 <div class="">
                   <img
                     src="../../../../../public/img/dhl-express.jpg"
                     alt="dhl-logo"
-                    class="mx-auto my-2 w-3/12 sm:w-11/12"
+                    class="mx-auto my-2 w-24"
                   />
                 </div>
                 <div class="">
