@@ -22,7 +22,7 @@
               <input
                 class="
                   block
-                  w-full
+                  w-24
                   mt-1
                   text-sm
                   dark:border-gray-600 dark:bg-gray-700
@@ -55,7 +55,7 @@
                             Monto Agregado
                         </span> -->
             <span class="block w-full mt-8 text-center">
-              {{ amountRound }}
+              {{ amountRound }} {{ currency.code }}
             </span>
           </div>
         </div>
@@ -252,7 +252,7 @@
         <div class="flex justify-around flex-wrap">
           <h3 class="md:w-1/3 my-4 dark:text-gray-200">Total</h3>
           <h3 class="my-4 dark:text-gray-200">
-            {{ Number(data.amount).toLocaleString() }}
+            {{ data.amount | setPrice(currency.code) }}
             {{ currency.code }}
           </h3>
         </div>
@@ -401,7 +401,8 @@
                   <td class="px-2 py-2 text-sm">{{ item.percentage }} %</td>
 
                   <td class="px-4 py-3 text-sm">
-                    {{ formatPrice(data.amount * (item.percentage / 100)) }} USD
+                    {{ $options.filters.setPrice(data.amount * (item.percentage / 100), 'USD') }}
+                    USD
                   </td>
                   <td class="px-4 py-3 text-xs text-center">
                     <span
@@ -445,7 +446,7 @@
                     Comisión:
                   </td>
                   <td class="px-4 text-xs font-semibold" colspan="2">
-                    {{ item.transfer_abroad }} USD
+                    {{ $options.filters.setPrice(item.transfer_abroad, 'USD') }} USD
                   </td>
                   <td class="px-4 text-xs font-semibold" colspan="2">
                     Transferencia al Extranjero
@@ -552,11 +553,12 @@ export default {
   computed: {
     ...mapState('payment', ['payment']),
     ...mapState('application', ['data', 'currency', 'editing', 'busy', 'transfer_abroad']),
+
     amountRound() {
       const { discount } = this.$store.state.payment;
-      return (
-        Number(Math.round(this.data.amount * (discount / 100))).toLocaleString() +
-        ' ' +
+
+      return this.$options.filters.setPrice(
+        Number(Math.round(this.data.amount * (discount / 100))),
         this.currency.code
       );
     }
