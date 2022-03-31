@@ -594,16 +594,22 @@ class ApplicationController extends Controller
             if ($request->hasFile('files')) {
                 
                 foreach ($request->input('file_descrip') as $key => $file) {
+
+                    // $data_check =  ['internment_id' => $internment->id, 'intl_treaty' =>  $file.'-'.$request->application_id.'-'.$internment->id];
+                
+                    // FileStoreInternment::checkFileExists($data_check);
+                    
                     $data = new FileStore;
                     $file_storage = $data->addFile(
                         $request->file('files')[$key],
                         $file.'-'.$request->application_id.'-'.$internment->id);
 
                     FileStoreInternment::updateOrCreate(
-                        ['file_store_id' => $file_storage->id,
-                         'internment_id' => $internment->id,
+                        [
+                            'file_store_id' => $file_storage->id,
+                            'internment_id' => $internment->id,
                         ],
-                        [ 'intl_treaty' => $file, ]
+                        [ 'intl_treaty' => $file.'-'.$request->application_id.'-'.$internment->id, ]
                     );
                    
                 }
@@ -611,14 +617,19 @@ class ApplicationController extends Controller
 
             if ($request->hasFile('file_certificate')) {
 
+                // $data_check =  ['internment_id' => $internment->id, 'intl_treaty' => $request->certificate];
+                
+                // FileStoreInternment::checkFileExists($data_check);
+                
                     $data = new FileStore;
                     $file_storage = $data->addFile(
                         $request->file('file_certificate'),
                         $request->certificate.'-'.$request->application_id.'-'.$internment->id);
 
                     FileStoreInternment::updateOrCreate(
-                        ['file_store_id' => $file_storage->id,
-                         'internment_id' => $internment->id,
+                        [
+                            'file_store_id' => $file_storage->id,
+                            'internment_id' => $internment->id,
                         ],
                         [ 'intl_treaty' => $request->certificate, ]
                     );

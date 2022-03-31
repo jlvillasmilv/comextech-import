@@ -17,7 +17,6 @@ class FileStore extends Model
         'file_name',
         'mime_type',
         'status'
-
     ];
 
 
@@ -35,8 +34,7 @@ class FileStore extends Model
         // }
         
         Storage::disk('s3')->put('file/'.$file_name.'.'.$extension, \File::get($file), 'public');
-        // Storage::disk('s3')->setVisibility('file/'.$file_name, \File::get($file), 'public');
-
+        
         $fileStorage = FileStore::updateOrCreate(
             [ 'file_name'     => $file_name,  ],
             [
