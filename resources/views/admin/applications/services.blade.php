@@ -263,7 +263,7 @@
 
                     <div class="w-auto mr-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> {{$file->intl_treaty}}</label>
-                        <a href="{{ route('download.file.internment', [$file->id, $file->intl_treaty]) }}"
+                        <a href="{{ route('download.file.internment', [$file->internment_id, $file->intl_treaty]) }}"
                             title="Descarga documento"
                           class="flex sm:w-32 px-2 py-2 text-white transition-colors duration-150 bg-blue-1300 rounded-lg active:bg-blue-1300 hover:bg-blue-1200 focus:outline-none focus:shadow-outline-blue" >
                              <span class="mr-2"> Descargar </span>
