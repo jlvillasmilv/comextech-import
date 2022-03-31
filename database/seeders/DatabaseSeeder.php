@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TransCompaniesSeeder::class);
         $this->call(SettingSeeder::class);
         $this->call(CustomsExchangeRateSeeder::class);
-        $this->call(UsersTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
         $this->call(CurrencySeeder::class);
         $this->call(ApplicationStatusSeeder::class);
         $this->call(CategoryServiceSeeder::class);
