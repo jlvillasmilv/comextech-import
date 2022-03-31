@@ -46,7 +46,6 @@ class CustomController extends Controller
                 ]
             );
 
-
             $add_serv = Service::join('category_services as cs', 'services.category_service_id' , 'cs.id')
             ->where('cs.code', $request->code_serv)
             ->where('services.summary', false)
@@ -150,7 +149,6 @@ class CustomController extends Controller
 
     public function downloadAsset($id, $type = null)
     {
-        
         $file_store_internment = FileStoreInternment::where('internment_id', $id)
         ->where('intl_treaty', $type)->firstOrFail();
        
