@@ -55,6 +55,8 @@ class InternmentProcessRequest extends FormRequest
             'custom_agent_id'    => 'Agente de aduana',
             'agent_payment'      => 'Monto Total de Operacion',
             'customs_house'      => 'Asignacion de Agente de Aduana',
+            'file_certificate'   => 'Invoice',
+            'files.*'            => 'Otros documentos'
         ];
     }
 
