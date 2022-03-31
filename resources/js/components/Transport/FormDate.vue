@@ -82,7 +82,6 @@ export default {
         const insuranceConvert = await axios.get(
           `/custom-convert-currency/${currencie}/${currency}`
         );
-        console.log(insuranceConvert);
       } catch (error) {
         console.error(error);
       }
