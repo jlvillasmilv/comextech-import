@@ -208,10 +208,32 @@ class Application extends Model
         
         $application_date   = date('Y-m-d', strtotime($application->updated_at));
 
-        
+
+        if ($application->tco_clp <= 0){  
+            $notifications[] = "Debe completar el proceso de solicitud.";
+        }
+
+
         if (($currentDate > $application_date) ){  
            $notifications[] = "Debe actualizar El tipo de Cambio.";
         }
+
+        
+        $compare_amount = $application->summary->sum('amount2');
+
+        if($application->currencyTco->code != 'CLP')
+        {
+          $exchange = New Currency;
+          $compare_amount = $exchange->convertCurrency($item->amount, $application->currencyTco->code, 'CLP');
+        }
+        
+        $compare_amount_var =  (($application->tco_clp - $compare_amount) / $application->tco_clp) * 100;
+
+        //dd($compare_amount_var);
+        // if($application->tco_clp)
+        // {
+
+        // }
 
         if((isset($application->paymentProvider) && count($application->paymentProvider)))
         {
