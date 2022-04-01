@@ -218,22 +218,30 @@ class Application extends Model
            $notifications[] = "Debe actualizar El tipo de Cambio.";
         }
 
-        
         $compare_amount = $application->summary->sum('amount2');
 
+        //exchange rate variation
+        $exch_rate_variation = Setting::first()->exch_rate_variation;
+       
         if($application->currencyTco->code != 'CLP')
         {
+           
           $exchange = New Currency;
-          $compare_amount = $exchange->convertCurrency($item->amount, $application->currencyTco->code, 'CLP');
+          $compare_amount = $exchange->convertCurrency($compare_amount, $application->currencyTco->code, 'CLP');
+
+          $rate = UserMarkUp::where('user_id', auth()->user()->id)->first()->exch_rate_margin;
+          $rate_margin = is_null($rate) ? 2 : $rate ;
+
+          $compare_amount +=  $compare_amount * 0.02;
+ 
         }
         
-        $compare_amount_var =  (($application->tco_clp - $compare_amount) / $application->tco_clp) * 100;
+        $compare_amount_var =  (($compare_amount - $application->tco_clp) / $compare_amount) * 100;
 
-        //dd($compare_amount_var);
-        // if($application->tco_clp)
-        // {
-
-        // }
+        if(round($compare_amount_var,2) > round($exch_rate_variation,2) || $compare_amount < $application->tco_clp)
+        {
+            $notifications[] = "Debe actualizar El tipo de Cambio. por variaciones de tipos de cambio";
+        }
 
         if((isset($application->paymentProvider) && count($application->paymentProvider)))
         {
