@@ -1229,7 +1229,7 @@ export default {
   },
   components: { Load },
   computed: {
-    ...mapState('internment', ['expenses']),
+    ...mapState('internment', ['expenses', 'files', 'certFileName']),
     ...mapState('application', ['data', 'currency', 'busy']),
     ...mapState('exchange', ['exchangeItem'])
   },
@@ -1277,7 +1277,7 @@ export default {
       dispatchLcl: 30,
       insure: false,
       transport: false,
-      certFileName: '',
+      // certFileName: '',
       file1Name: '',
       file2Name: '',
       isCertFile: false,
@@ -1292,7 +1292,7 @@ export default {
         maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
-    openWindowFileCert({ e, name: entry }) {
+    async openWindowFileCert({ e, name: entry }) {
       this.nameFileUpload = entry;
       let value = this.certif.find((a) => a.name == entry);
       if (!value.submit) {
@@ -1301,8 +1301,19 @@ export default {
         fileInputElement.click();
       } else {
         this.handleStatusSubmitFile('certif');
+        const { internment_id, intl_treaty } = this.certFileName;
+        const deteleInvoice = {
+          internment_id,
+          intl_treaty
+        };
+        console.log(internment_id);
+        const prueba = await axios.post('/internment-file-remove/', {
+          internment_id,
+          intl_treaty
+        });
+        console.log(prueba);
         this.expenses.file_certificate = '';
-        this.certFileName = '';
+        // this.certFileName = '';
         this.isCertFile = false;
       }
     },
@@ -1336,7 +1347,7 @@ export default {
     },
     certificateFile() {
       let file = this.$refs.file_cert.files[0];
-      this.certFileName = file.name;
+      // this.certFileName = file.name;
       if (file) {
         this.isCertFile = true;
         this.handleStatusSubmitFile('certif');
