@@ -401,8 +401,13 @@
                   <td class="px-2 py-2 text-sm">{{ item.percentage }} %</td>
 
                   <td class="px-4 py-3 text-sm">
-                    {{ $options.filters.setPrice(data.amount * (item.percentage / 100), 'USD') }}
-                    USD
+                    {{
+                      $options.filters.setPrice(
+                        data.amount * (item.percentage / 100),
+                        currency.code
+                      )
+                    }}
+                    {{ currency.code }}
                   </td>
                   <td class="px-4 py-3 text-xs text-center">
                     <span
