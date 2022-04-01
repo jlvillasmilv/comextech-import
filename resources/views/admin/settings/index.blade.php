@@ -6,6 +6,8 @@
             </h4>
            
         </div>
+
+		
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
     
             <form class="form-horizontal" role="form" method="POST" action="{{ isset($data) ? route('admin.settings.update', $data->id) : route('admin.settings.store') }}">
@@ -13,8 +15,6 @@
                  @if(isset($data))
 		           @method('PUT')
 		        @endif
-
-			
 
 	        <label class="block text-sm my-3">
 	            <span class="text-gray-700 dark:text-gray-400">Nombre</span>
@@ -32,8 +32,8 @@
 
             <label class="block text-sm my-3">
 				<div class="px-2" id="add_to">
-					<div class="flex mb-4">
-						<div class="w-1/4 mr-1 sm:w-full ">
+					<div class="sm:flex mb-4">
+						<div class="w-auto sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA:</label>
 							<input class="{{ $errors->has('rate') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							name="rate"
@@ -47,7 +47,7 @@
 							@endif
 						</div>
 					   
-						<div class="w-1/4 ml-1 sm:w-full ">
+						<div class="w-auto ml-1 sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA_MORA</label>
 							<input class="{{ $errors->has('mora_rate') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="number"
@@ -61,7 +61,7 @@
 							@endif
 						</div>
 
-						<div class="w-1/4 ml-1 sm:w-full">
+						<div class="w-auto ml-1 sm:w-full">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">DESCUENTO:</label>
 
                             <input class="{{ $errors->has('discount') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -79,7 +79,7 @@
 								@endif
 						</div>
 
-                        <div class="w-1/4 ml-1 sm:w-full">
+                        <div class="w-auto ml-1 sm:w-full">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">COMISION:</label>
 
                             <input class="{{ $errors->has('commission') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -210,14 +210,38 @@
 				</div>
 			  
 			</label>
+			<hr>
+
+			<label class="block text-sm my-3 font-bold ">Tasa de cambio</label>
+
+            <label class="block text-sm my-3">
+				<div class="px-2" id="add_to">
+					<div class="flex mb-4">
+						<div class="w-1/2">
+							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Variacion</label>
+							<input class="{{ $errors->has('exch_rate_variation') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+							name="exch_rate_variation"
+							value="{{ old('exch_rate_variation', isset($data) ? $data->exch_rate_variation : '') }}"
+							type="number"
+							required="">
+							@if($errors->has('exch_rate_variation'))
+								<span class="text-xs text-red-600 dark:text-red-400">
+									{{ $errors->first('exch_rate_variation') }}
+								</span>
+							@endif
+						</div>
+					</div>
+				</div>
+			  
+			</label>
 
 			<hr>
 			<label class="block text-sm my-3 font-bold ">Gatos de puerto (Aduana)</label>
 
             <label class="block text-sm my-3">
 				<div class="px-2" id="add_to">
-					<div class="flex mb-4">
-						<div class="w-1/4 mr-1 sm:w-full ">
+					<div class="sm:flex mb-4">
+						<div class="w-auto mr-1 sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Gestión Documental LCL</label>
 							<input class="{{ $errors->has('doc_mgmt_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							name="doc_mgmt_lcl"
@@ -231,7 +255,7 @@
 							@endif
 						</div>
 					   
-						<div class="w-1/4 ml-1 sm:w-full ">
+						<div class="w-auto ml-1 sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Visación documental LCL</label>
 							<input class="{{ $errors->has('doc_visa_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="number"
@@ -245,7 +269,7 @@
 							@endif
 						</div>
 
-						<div class="w-1/4 ml-1 sm:w-full">
+						<div class="w-auto ml-1 sm:w-full">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Despacho LCL</label>
 
                             <input class="{{ $errors->has('dispatch_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -270,8 +294,8 @@
 
 			<label class="block text-sm my-3">
 				<div class="px-2" id="add_to">
-					<div class="flex mb-4">
-						<div class="w-1/4 mr-1 sm:w-full ">
+					<div class="sm:flex mb-4">
+						<div class="w-auto mr-1 sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300"> Gestión Documental FCL</label>
 							<input class="{{ $errors->has('doc_mgmt_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							name="doc_mgmt_fcl"
@@ -285,7 +309,7 @@
 							@endif
 						</div>
 					   
-						<div class="w-1/4 ml-1 sm:w-full ">
+						<div class="w-auto ml-1 sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Comodato</label>
 							<input class="{{ $errors->has('loan_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="number"
@@ -299,7 +323,7 @@
 							@endif
 						</div>
 
-						<div class="w-1/4 ml-1 sm:w-full">
+						<div class="w-auto ml-1 sm:w-full">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Gate In</label>
 
                             <input class="{{ $errors->has('gate_in_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
