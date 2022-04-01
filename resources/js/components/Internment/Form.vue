@@ -236,29 +236,11 @@
               >
                 <a
                   @click="openWindowFileCert(item)"
-                  class="
-                    w-42
-                    flex
-                    items-center
-                    px-3.5
-                    py-2
-                    m-2
-                    text-sm
-                    text-center
-                    font-medium
-                    leading-5
-                    text-white
-                    transition-colors
-                    duration-150
-                    border border-transparent
-                    rounded-lg
-                    focus:outline-none focus:shadow-outline-blue
-                    bg-blue-1000 
-                    hover:bg-blue-1100 
-                    active:bg-blue-1000
-                  "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-1000 hover:bg-blue-1100'
+                    'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
+                    !isCertFile
+                      ? 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
+                      : 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -306,29 +288,11 @@
               >
                 <a
                   @click="openWindowFile(item)"
-                  class="
-                    w-42
-                    flex
-                    items-center
-                    px-2
-                    py-2
-                    m-2
-                    text-sm
-                    text-center
-                    font-medium
-                    leading-5
-                    text-white
-                    transition-colors
-                    duration-150
-                    border border-transparent
-                    rounded-lg
-                    focus:outline-none focus:shadow-outline-blue
-                    bg-blue-1000 
-                    hover:bg-blue-1100 
-                    active:bg-blue-1000
-                  "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-1000 hover:bg-blue-1100'
+                    'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
+                    !isSecFile
+                      ? 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
+                      : 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -377,29 +341,11 @@
               >
                 <a
                   @click="openWindowFile2(item)"
-                  class="
-                    w-42
-                    flex
-                    items-center
-                    px-2
-                    py-2
-                    m-2
-                    text-sm
-                    text-center
-                    font-medium
-                    leading-5
-                    text-white
-                    transition-colors
-                    duration-150
-                    border border-transparent
-                    rounded-lg
-                    focus:outline-none focus:shadow-outline-blue
-                    bg-blue-1000 
-                    hover:bg-blue-1100 
-                    active:bg-blue-1000
-                  "
                   :class="[
-                    item.submit ? 'bg-red-500 hover:bg-red-800' : 'bg-blue-1000 hover:bg-blue-1100'
+                    'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
+                    !isOtherFile
+                      ? 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
+                      : 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
                   ]"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1267,7 +1213,6 @@
     {{expenses}}
   </pre> -->
   </section>
-  
 </template>
 
 <script>
@@ -1334,7 +1279,10 @@ export default {
       transport: false,
       certFileName: '',
       file1Name: '',
-      file2Name: ''
+      file2Name: '',
+      isCertFile: false,
+      isSecFile: false,
+      isOtherFile: false
     };
   },
   methods: {
@@ -1343,32 +1291,6 @@ export default {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
         maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
-    },
-    openWindowFile({ e, name: entry }) {
-      this.expenses.files = [];
-      this.file1Name = '';
-      this.nameFileUpload = entry;
-      let value = this.treaties.find((a) => a.name == entry);
-      if (!value.submit) {
-        this.showInputFile = !this.showInputFile;
-        let fileInputElement = this.$refs.file;
-        fileInputElement.click();
-      } else {
-        this.handleStatusSubmitFile();
-      }
-    },
-    openWindowFile2({ e, name: entry }) {
-      this.expenses.files = [];
-      this.file2Name = '';
-      this.nameFileUpload = entry;
-      let value = this.otherFile.find((a) => a.name == entry);
-      if (!value.submit) {
-        this.showInputFile = !this.showInputFile;
-        let fileInputElement = this.$refs.file_2;
-        fileInputElement.click();
-      } else {
-        this.handleStatusSubmitFile();
-      }
     },
     openWindowFileCert({ e, name: entry }) {
       this.nameFileUpload = entry;
@@ -1381,33 +1303,64 @@ export default {
         this.handleStatusSubmitFile('certif');
         this.expenses.file_certificate = '';
         this.certFileName = '';
+        this.isCertFile = false;
+      }
+    },
+    openWindowFile({ e, name: entry }) {
+      this.nameFileUpload = entry;
+      let value = this.treaties.find((a) => a.name == entry);
+      if (!value.submit) {
+        this.showInputFile = !this.showInputFile;
+        let fileInputElement = this.$refs.file;
+        fileInputElement.click();
+      } else {
+        this.handleStatusSubmitFile();
+        this.expenses.files = [];
+        this.file1Name = '';
+        this.isSecFile = false;
+      }
+    },
+    openWindowFile2({ e, name: entry }) {
+      this.nameFileUpload = entry;
+      let value = this.otherFile.find((a) => a.name == entry);
+      if (!value.submit) {
+        this.showInputFile = !this.showInputFile;
+        let fileInputElement = this.$refs.file_2;
+        fileInputElement.click();
+      } else {
+        this.handleStatusSubmitFile();
+        this.expenses.files = [];
+        this.file2Name = '';
+        this.isOtherFile = false;
       }
     },
     certificateFile() {
       let file = this.$refs.file_cert.files[0];
       this.certFileName = file.name;
       if (file) {
+        this.isCertFile = true;
         this.handleStatusSubmitFile('certif');
         this.expenses.file_certificate = file;
         this.certificate = this.nameFileUpload;
-        this.$refs.file_cert.value =null;
+        this.$refs.file_cert.value = null;
       }
-
     },
     handleFile() {
       const file = this.$refs.file.files[0];
       this.file1Name = file.name;
       if (file) {
+        this.isSecFile = true;
         this.handleStatusSubmitFile();
         this.expenses.files.push(file);
         this.expenses.file_descrip.push(this.nameFileUpload);
-        this.$refs.file.value =null;
+        this.$refs.file.value = null;
       }
     },
     otherHandleFile() {
       const file = this.$refs.file_2.files[0];
       this.file2Name = file.name;
       if (file) {
+        this.isOtherFile = true;
         this.handleStatusSubmitFile();
         this.expenses.files.push(file);
         this.expenses.file_descrip.push(this.nameFileUpload);
