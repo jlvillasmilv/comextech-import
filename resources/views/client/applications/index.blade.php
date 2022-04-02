@@ -189,4 +189,33 @@
         @include('client.applications.modal')
 
     </div>
+    @section('scripts')
+    @parent
+    <script type="text/javascript">
+
+    $('#table').DataTable({
+        language: {
+            url: '/js/lang.json'
+        },
+       
+        orderCellsTop: true,
+        responsive: true,
+        pageLength: 5,
+        lengthChange: false,
+        order: [
+            [0, 'desc']
+        ],
+        columnDefs: [{
+                orderable: false,
+                targets: 5
+            },
+            {
+                orderable: false,
+                targets: 3
+            }
+        ]
+    }).columns.adjust();
+    </script>
+
+    @endsection
 </x-app-layout>

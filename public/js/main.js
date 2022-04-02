@@ -1,29 +1,6 @@
 $(document).ready(function () {
   window._token = $('meta[name="csrf-token"]').attr('content')
-  $('#table').DataTable({
-        language: {
-            url: '/js/lang.json'
-        },
-       
-        orderCellsTop: true,
-        responsive: true,
-        pageLength: 5,
-        lengthChange: false,
-        order: [
-            [0, 'desc']
-        ],
-        columnDefs: [{
-                orderable: false,
-                targets: 5
-            },
-            {
-                orderable: false,
-                targets: 3
-            }
-        ]
-    }).columns.adjust();
-
-
+ 
   $('.select2').select2();
 
   const Toast = Swal.mixin({

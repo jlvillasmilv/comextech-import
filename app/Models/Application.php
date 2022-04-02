@@ -218,27 +218,29 @@ class Application extends Model
            $notifications[] = "Debe actualizar El tipo de Cambio.";
         }
 
-        $compare_amount = $application->summary->sum('amount2');
+        $compare_amount = 0;
+        $rate = UserMarkUp::where('user_id', auth()->user()->id)->first()->exch_rate_margin;
+        $rate_margin = is_null($rate) ? 2 : $rate ;
+        
+        foreach ($application->summary as $key => $item) {
+
+            $exchange = New Currency;
+            $amount = $exchange->convertCurrency($item->amount, $item->currency->code, 'CLP');
+           
+        //   $compare_amount +=  (round($compare_amount,0)* $rate_margin)/100;
+
+            $compare_amount +=  round($amount,0) + ((round($amount,0)* $rate_margin)/100);
+        }
+
+        // $compare_amount = $application->summary->sum('amount2');
 
         //exchange rate variation
         $exch_rate_variation = Setting::first()->exch_rate_variation;
        
-        if($application->currencyTco->code != 'CLP')
-        {
-           
-          $exchange = New Currency;
-          $compare_amount = $exchange->convertCurrency($compare_amount, $application->currencyTco->code, 'CLP');
-
-          $rate = UserMarkUp::where('user_id', auth()->user()->id)->first()->exch_rate_margin;
-          $rate_margin = is_null($rate) ? 2 : $rate ;
-
-          $compare_amount +=  $compare_amount * 0.02;
- 
-        }
-        
         $compare_amount_var =  (($compare_amount - $application->tco_clp) / $compare_amount) * 100;
 
-        if(round($compare_amount_var,2) > round($exch_rate_variation,2) || $compare_amount < $application->tco_clp)
+
+        if(round($compare_amount_var,2) > round($exch_rate_variation,2) )
         {
             $notifications[] = "Debe actualizar El tipo de Cambio. por variaciones de tipos de cambio";
         }
