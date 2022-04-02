@@ -484,13 +484,24 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
 
           if (response.data.notifications) {
 
+
             Swal.fire({
               title: '<strong>No fue posible Generar</strong>',
               icon: 'warning',
               html: `<div style="text-align: left; margin-left: 10px"> ${response.data.notifications}</ div>`,
-              showCloseButton: true,
+              showDenyButton: false,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
               confirmButtonColor: '#142c44',
-              focusConfirm: false,
+              focusConfirm: true,
+              allowOutsideClick: false
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                 window.location.reload();
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+              }
             })
 
             $(this).attr('disabled', false);
@@ -501,8 +512,9 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
               icon: 'success',
               title: 'Generado con exito',
             })
+            window.setTimeout(function () { window.location.reload() }, 2000);
           }
-          window.setTimeout(function () { window.location.reload() }, 2000);
+          
 
         }
 
