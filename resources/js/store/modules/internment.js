@@ -28,9 +28,10 @@ export default {
       code_serv: 'ICS04',
       tax_comex: false
     }),
-      certFileName: '',
-      file1Name: '',
-      file2Name: ''
+    files: [],
+    certFileName: '',
+    file1Name: '',
+    file2Name: ''
   },
   getters: {},
   mutations: {
@@ -48,15 +49,14 @@ export default {
       state.expenses.cif_amt = payload.cif_amt;
       state.expenses.transport_amt = payload.transport_amt;
       state.expenses.tax_comex = payload.tax_comex;
+      state.files = payload.file_store_internment
+        ? (state.files = payload.file_store_internment)
+        : state.files;
 
-      if(payload.file_store_internment)
-      {
-        payload.file_store_internment.map(function(data) {
-          if(data.intl_treaty == "Invoice")
-          {
-            state.certFileName = data.intl_treaty;
-          }
-      });
+      if (state.files) {
+        const invoice = state.files.find((file) => file.intl_treaty === 'Invoice');
+
+        state.certFileName = invoice;
       }
     }
   },
