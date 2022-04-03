@@ -230,12 +230,11 @@
             />
             <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
               <label
-                v-for="(item, key) in certif"
-                :key="key"
+               
                 class="inline-flex justify-center items-center mt-3"
               >
                 <a
-                  @click="openWindowFileCert(item)"
+                  @click="openWindowFileCert(certif)"
                   :class="[
                     'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
                     !isCertFile
@@ -254,16 +253,17 @@
                       stroke-linejoin="round"
                       stroke-width="2"
                       :d="[
-                        item.submit
+                        certif.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
                           : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
                       ]"
                     ></path>
                   </svg>
-                  <span> {{ item.name }} </span>
+                  <span> {{ certif.name }} </span>
                 </a>
               </label>
-              <span class="text-center">{{ certFileName }}</span>
+              <span class="text-center">{{ filesUpload.certFile }}</span>
+              <span class="text-center">{{ filesUpload.file1Name }}</span>
             </div>
             <span
               class="text-xs text-red-600 dark:text-red-400"
@@ -1229,7 +1229,7 @@ export default {
   },
   components: { Load },
   computed: {
-    ...mapState('internment', ['expenses', 'files', 'certFileName']),
+    ...mapState('internment', ['expenses', 'files', 'filesUpload']),
     ...mapState('application', ['data', 'currency', 'busy']),
     ...mapState('exchange', ['exchangeItem'])
   },
@@ -1237,12 +1237,11 @@ export default {
     return {
       filterImg: 'grayscale(0)',
       opacityImg: '1',
-      certif: [
-        {
+      certif: 
+      {
           name: 'Cargar Invoice',
           submit: false
-        }
-      ],
+      },
       treaties: [
         {
           name: 'Otro Documento',
@@ -1292,28 +1291,24 @@ export default {
         maximumFractionDigits: currency == 'CLP' ? 0 : 2
       });
     },
-    async openWindowFileCert({ e, name: entry }) {
-      this.nameFileUpload = entry;
-      let value = this.certif.find((a) => a.name == entry);
+    async openWindowFileCert(value) {
+    
+      this.nameFileUpload = value.name;
+      
       if (!value.submit) {
         this.showInputFile = !this.showInputFile;
         let fileInputElement = this.$refs.file_cert;
         fileInputElement.click();
       } else {
         this.handleStatusSubmitFile('certif');
-        const { internment_id, intl_treaty } = this.certFileName;
-        const deteleInvoice = {
-          internment_id,
-          intl_treaty
-        };
-        console.log(internment_id);
-        const prueba = await axios.post('/internment-file-remove/', {
-          internment_id,
-          intl_treaty
-        });
-        console.log(prueba);
+        if(this.filesUpload.certFile){
+          const { internment_id, intl_treaty } = this.filesUpload.certFile;
+          const prueba = await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
+          this.filesUpload.certFile = '';
+        }
+        
         this.expenses.file_certificate = '';
-        // this.certFileName = '';
+        this.filesUpload.certFile = '';
         this.isCertFile = false;
       }
     },
@@ -1325,7 +1320,7 @@ export default {
         let fileInputElement = this.$refs.file;
         fileInputElement.click();
       } else {
-        this.handleStatusSubmitFile();
+        this.handleStatusSubmitFile('file1');
         this.expenses.files = [];
         this.file1Name = '';
         this.isSecFile = false;
@@ -1361,7 +1356,7 @@ export default {
       this.file1Name = file.name;
       if (file) {
         this.isSecFile = true;
-        this.handleStatusSubmitFile();
+        this.handleStatusSubmitFile('file1');
         this.expenses.files.push(file);
         this.expenses.file_descrip.push(this.nameFileUpload);
         this.$refs.file.value = null;
@@ -1380,13 +1375,14 @@ export default {
     },
     handleStatusSubmitFile(ref = null) {
       if (ref == 'certif') {
-        this.certif = this.certif.map((e) =>
+        this.certif.submit = !this.certif.submit;
+      } 
+      if(ref == 'file1'){
+         this.treaties = this.treaties.map((e) =>
           e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
         );
-      } else {
-        this.treaties = this.treaties.map((e) =>
-          e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
-        );
+      }
+      else {
         this.otherFile = this.otherFile.map((e) =>
           e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
         );
@@ -1551,6 +1547,11 @@ export default {
   },
   async mounted() {
     try {
+
+      this.certif.submit = this.filesUpload.certFile ? true : false;
+      this.treaties[0].submit = this.filesUpload.file1Name ? true : false;
+      this.otherFile[0].submit = this.filesUpload.file2Name ? true : false;
+
       await this.$store.dispatch('exchange/getSummary', this.application_id);
 
       const transpCostp = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
