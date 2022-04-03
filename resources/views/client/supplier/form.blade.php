@@ -121,8 +121,8 @@
                     </label>
                     
                     <div class="px-2" id="add_to">
-                        <div class="flex mb-4">
-                            <div class="w-1/4 mr-1">
+                        <div class="sm:flex mb-4">
+                            <div class="w-full sm:w-1/4 mr-1">
                                 <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Tipo:</label>
                                 <select id="location" name="services_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray ">
 
@@ -139,7 +139,7 @@
                                 </span>
                             </div>
                            
-                            <div class="w-3/4 ml-1">
+                            <div class="w-full sm:w-3/4 ml-1">
                                 <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Dirección </label>
 
                                 <input  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input map-input"
@@ -159,21 +159,20 @@
                                 
                             </div>
 
-                            <div class="w-1/4 ml-1">
+                            <div class="w-full sm:w-1/4 ml-1">
                                 <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Cod Postal </label>
 
                                 <input type="text" placeholder="Codigo postal" id='postal_code' name="post_code" value="{{ old('post_code') }}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
 
                             </div>
 
-                            <button id="add" type="button" class="btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue" 
+                            <button id="add" type="button" class="btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue" 
                                 data-remote="#" data-id="#" autocomplete="off"
                                 title="Agregar">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                                      </svg>
-
-                                </button>
+                            </button>
                         </div>
                     </div>
 
@@ -193,7 +192,7 @@
                                     {{ $suppAdd->address }}
                                  </td>
                                 <td>
-                                    <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red" onclick="remove({{ $suppAdd->id }})">
+                                    <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1400 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-red" onclick="remove({{ $suppAdd->id }})">
 
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
                                 </td>
@@ -208,7 +207,7 @@
                       </table>
                 </div>
                 <div class="flex  justify-start">
-                        <button type="submit" class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                        <button type="submit" class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg  hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
                                 </svg>

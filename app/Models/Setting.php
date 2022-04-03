@@ -15,6 +15,7 @@ class Setting extends Model
         'mora_rate',
         'discount',
         'commission',
+        'exch_rate_variation',
         'api_sii',
         'token_sii',
         'terms',
