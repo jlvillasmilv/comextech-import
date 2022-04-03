@@ -7,14 +7,14 @@
         x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0  transform translate-y-1/2" x-on:keydown.escape="closeModal"
-        class="w-full h-auto px-6 py-4 bg-white dark:bg-gray-800 sm:rounded-3xl border-2 border-blue-1200 sm:m-4 sm:max-w-2xl"
+        class="w-full h-auto sm:px-6 sm:py-4 bg-white dark:bg-gray-800 sm:rounded-3xl border-2 border-blue-1200 sm:m-4 sm:max-w-2xl"
         role="dialog" id="modal">
         <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
         <header class="flex justify-end">
             <button
                 class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
                 aria-label="close" x-on:click="closeModal">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
                     <path
                         d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                         clip-rule="evenodd" fill-rule="evenodd"></path>
@@ -22,7 +22,7 @@
             </button>
         </header>
         <!-- Modal body -->
-        <div class="h-9/12">
+        <div class="h-auto">
             <form action="/application-generate-order" method="POST" class="flex flex-col justify-evenly h-auto"
                 x-on:submit.prevent="submitModalPayment">
                 <input type="hidden" name="application_id" id="application_id" x-model="application.id" />
@@ -75,7 +75,7 @@
                             <tbody>
                                 <tr>
                                     <td class="w-4/12" id="prepagoSII">
-                                        <p class="flex flex-col justify-center h-12 my-2 bg-green-100 text-center rounded"
+                                        <p class="flex flex-col justify-center h-12 my-2 bg-gray-200 text-center rounded"
                                             x-html="new Intl.NumberFormat('es-es', {
                                                 style: 'currency',
                                                 currency: 'CLP',
@@ -114,7 +114,7 @@
                                 </tr>
                                 <tr>
                                     <td class="w-4/12" id="credito-disponible">
-                                        <p class="flex flex-col justify-center h-12 my-2 bg-green-100 text-center rounded"
+                                        <p class="flex flex-col justify-center h-12 my-2 bg-gray-200 text-center rounded"
                                             x-html="
                                             new Intl.NumberFormat('es-es', {
                                                 style: 'currency',
@@ -198,6 +198,7 @@
                                     <td colspan="3">
                                         <div class="flex justify-center px-4">
                                             <button
+                                                type="button"
                                                 class="flex flex-col items-center justify-center w-40 h-20 bg-blue-1400 text-white text-sm border rounded-lg hover:bg-blue-1000"
                                                 x-bind:disabled="isLoadingPay">
                                                 <span class="font-semibold uppercase">Activar</span>
