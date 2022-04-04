@@ -90,8 +90,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('internment', 'App\Http\Controllers\Client\CustomController@internmentProcesses')
     ->name('applications.internment'); 
 
-    Route::post('internment-file-remove', 'App\Http\Controllers\Client\CustomController@removeFile')
-    ->name('internment.file.remove'); 
+    Route::delete('internment-file-remove/{internment_id}/{intl_treaty}', 'App\Http\Controllers\Client\CustomController@removeFile')
+    ->where('internment_id', '[0-9]+'); 
 
     Route::get('download-file-internment/{id}/{type}', 'App\Http\Controllers\Client\CustomController@downloadAsset')->name('download.file.internment');
 

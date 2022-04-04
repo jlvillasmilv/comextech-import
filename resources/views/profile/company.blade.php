@@ -40,21 +40,34 @@
                 </div>
 
                 <div class="px-2">
-                    <div class="flex mb-4">
-                        <div class="w-1/2 mr-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Numero identificación tributaria</label>
-                           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="tax_id" value="{{ old('tax_id', isset($data) ? $data->tax_id : '') }}"
+                    <div class="sm:flex mb-4">
+                        <div class="sm:w-1/2 sm:mr-1">
+                           <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">
+                               RUT
+                            </label>
+                           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            placeholder="Registro Único Tributario (RUT)"
+                            title="Registro Único Tributario (RUT)"
+                            name="tax_id"
+                            value="{{ old('tax_id', isset($data) ? $data->tax_id : '') }}"
                             max="12"
                              required="">
-                             @if($errors->has('tax_id'))
+                            @if($errors->has('tax_id'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('tax_id') }}
                                 </span>
                             @endif
                         </div>
-                        <div class="w-1/2 ml-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Nombre de la Empresa</label>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="name" value="{{ old('name', isset($data) ? $data->name : '') }}" max="100" required="">
+                        <div class="w-auto ml-1">
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">
+                                Nombre de la Empresa
+                            </label>
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                             placeholder="Nombre de la Empresa"
+                              name="name"
+                               value="{{ old('name', isset($data) ? $data->name : '') }}"
+                               max="100"
+                               required="">
                              @if($errors->has('name'))
                                 <span class="text-xs text-red-600 dark:text-red-400">
                                     {{ $errors->first('name') }}
@@ -65,9 +78,11 @@
                 </div>
 
                   <div class="px-2">
-                    <div class="flex mb-4">
-                        <div class="w-1/2 mr-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Correo electrónico</label>
+                    <div class="sm:flex mb-4">
+                        <div class="w-auto sm:mr-1">
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">
+                                Correo electrónico
+                            </label>
                            <input type="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ejemplo@correo.com" name="email" value="{{ old('email', isset($data) ? auth()->user()->email : '') }}"
                             max="100"
                              disabled>
@@ -77,8 +92,10 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="w-1/2 ml-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" >Número de teléfono</label>
+                        <div class="w-auto sm:ml-1">
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">
+                                Número de teléfono
+                            </label>
                             <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Empresa" name="phone" value="{{ old('phone', isset($data) ? $data->phone : '') }}" max="100" required="">
                              @if($errors->has('phone'))
                                 <span class="text-xs text-red-600 dark:text-red-400">

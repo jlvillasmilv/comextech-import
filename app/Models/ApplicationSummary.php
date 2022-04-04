@@ -106,7 +106,11 @@ class ApplicationSummary extends Model
         }
 
         $total_app = Application::where('id', base64_decode($data['application_id']))
-            ->update(["tco" => $total, "currency_tco" => $currency2_id, 'tco_clp' => round($tco_clp,0)]);
+            ->update([
+                'state_process' => 1,
+                'tco' => $total,
+                'currency_tco' => $currency2_id,
+                'tco_clp' => round($tco_clp,0)]);
 
         return $total;
     }

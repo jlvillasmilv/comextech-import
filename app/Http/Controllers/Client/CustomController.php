@@ -102,7 +102,7 @@ class CustomController extends Controller
                             'file_store_id' => $file_storage->id,
                             'internment_id' => $internment->id,
                         ],
-                        [ 'intl_treaty' => $file.'-'.$request->application_id.'-'.$internment->id, ]
+                        [ 'intl_treaty' => $file ]
                     );
                    
                 }
@@ -156,13 +156,13 @@ class CustomController extends Controller
 
     }
 
-    public function removeFile(Request $request)
+    public function removeFile($internment_id, $intl_treaty)
     {
         try{
             DB::beginTransaction();
 
-            $file_store_internment = FileStoreInternment::where('internment_id', $id)
-            ->where('intl_treaty', $type)->firstOrFail();
+            $file_store_internment = FileStoreInternment::where('internment_id', $internment_id)
+            ->where('intl_treaty', $intl_treaty)->firstOrFail();
 
             $exists = Storage::disk('s3')
             ->exists('file/'.$file_store_internment->fileStore);
@@ -172,8 +172,8 @@ class CustomController extends Controller
             //     ->delete('file/'.$file_store_internment->fileStore);
             }
 
-            FileStore::where('id',$file_store_internment)->delete();
             FileStoreInternment::where('id',$file_store_internment->id)->delete();
+            FileStore::where('id',$file_store_internment->file_store_id)->delete();
 
             DB::commit();
 
