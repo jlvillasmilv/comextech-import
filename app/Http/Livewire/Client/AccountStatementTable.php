@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Client;
 
-use App\Models\{ Application, ApplicationPayment};
+use App\Models\{Application, ApplicationPayment};
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;

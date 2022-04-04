@@ -91,7 +91,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-
     public function setEmailAttribute($value)
     {
         $this->attributes['email'] = strtolower($value);
