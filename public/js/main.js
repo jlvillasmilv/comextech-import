@@ -225,6 +225,7 @@ $(document).ready(function () {
       cancelButtonText: 'No',
       cancelButtonColor: '#d33',
       showLoaderOnConfirm: true,
+      backdrop: true,
       preConfirm: () => {
         return fetch(url)
           .then(response => {
@@ -494,6 +495,7 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
               confirmButtonText: 'Ok',
               confirmButtonColor: '#142c44',
               focusConfirm: true,
+              backdrop: false,
               allowOutsideClick: false
             }).then((result) => {
               /* Read more about isConfirmed, isDenied below */

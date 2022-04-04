@@ -17,11 +17,13 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-        $data  = Application::where('company_id', auth()->user()->company->id)
-        ->orderBy('id','desc')
-        ->get();
+        // $data  = Application::where('company_id', auth()->user()->company->id)
+        // ->orderBy('id','desc')
+        // ->get();
         
-        return view('client.applications.index' , compact('data'));
+        //return view('client.applications.index' , compact('data'));
+
+        return view('client.applications.index');
     }
 
     /**
