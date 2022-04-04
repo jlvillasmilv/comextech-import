@@ -1,23 +1,23 @@
 <template>
-    <tabs>
-        <tab name="Cuentas bancarias">
-            <div>
-                <!-- <Bank /> -->
-            </div>
-        </tab>
-        <tab name="Información legal">
-            <!-- <LegalInfo /> -->
-        </tab>
-        <tab name="Información financiera">
-            <!-- <FinancialInfo/> -->
-        </tab>
-        <tab name="SII">
-            <!-- <Provider /> -->
-        </tab>
-         <tab name="Usuarios">
-            <!-- <Users /> -->
-        </tab>
-    </tabs>
+    <div>
+        <tabs :options="{ useUrlFragment: false }">
+            <tab name="Cuentas bancarias">
+                <Bank />
+            </tab>
+            <tab name="Información legal">
+                <LegalInfo />
+            </tab>
+            <tab name="Información financiera">
+                <FinancialInfo/>
+            </tab>
+            <tab name="SII">
+                <Provider />
+            </tab>
+            <tab name="Usuarios">
+                <Users />
+            </tab>
+        </tabs>
+    </div>
 </template>
 
 <script>

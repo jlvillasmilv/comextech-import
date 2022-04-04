@@ -20,8 +20,8 @@
 		        @endif
 
 			<div class="px-2">
-				<div class="flex mb-4">
-					<div class="w-1/2 mr-1">
+				<div class="sm:flex mb-4">
+					<div class="w-auto sm:w-1/2 sm:mr-1">
 						<label class="block text-sm my-3">
 							<span class="text-gray-700 dark:text-gray-400">RUT</span>
 							<input class="{{ $errors->has('rut') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Número de identificación fiscal" / name="rut" value="{{ old('rut', isset($data) ? $data->rut : '') }}" max="25" required="">
@@ -32,7 +32,7 @@
 								@endif
 						</label>
 					</div>
-					<div class="w-1/2 ml-1">
+					<div class="w-auto sm:w-1/2 sm:ml-1">
 
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Nombre</span>
@@ -50,8 +50,8 @@
 
 
             <div class="px-2">
-				<div class="flex mb-4">
-					<div class="w-1/2 mr-1">
+				<div class="sm:flex mb-4">
+					<div class="w-auto sm:w-1/2 mr-1">
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Persona de contacto</span>
                             <input class="{{ $errors->has('contact_person') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre Persona de contacto" / name="contact_person" value="{{ old('contact_person', isset($data) ? $data->contact_person : '') }}" max="50">
@@ -62,7 +62,7 @@
                                 @endif
                         </label>
 					</div>
-					<div class="w-1/2 ml-1">
+					<div class="w-auto sm:w-1/2 ml-1">
 
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Tarifa Base</span>
@@ -79,8 +79,8 @@
 			</div>
 
             <div class="px-2">
-				<div class="flex mb-4">
-					<div class="w-1/2 mr-1">
+				<div class="sm:flex mb-4">
+					<div class="w-auto sm:w-1/2 sm:mr-1">
                         <label class="block text-sm my-3">
                             <span class="text-gray-700 dark:text-gray-400">Banco para depósitos</span>
                             <input class="{{ $errors->has('bank') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre Banco para depósitos" name="bank" value="{{ old('bank', isset($data) ? $data->bank : '') }}" max="100">
@@ -91,10 +91,10 @@
                                 @endif
                         </label>
 					</div>
-					<div class="w-1/2 ml-1">
+					<div class="w-auto sm:w-1/2 ml-1">
 
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">Número de cuenta corriente</span>
+                            <span class="text-gray-700 dark:text-gray-400">Número de cuenta</span>
                             <input class="{{ $errors->has('account_number') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Número de cuenta corriente" name="account_number" value="{{ old('name', isset($data) ? $data->account_number : '') }}"  required="">
                             @if($errors->has('account_number'))
                                      <span class="text-xs text-red-600 dark:text-red-400">
