@@ -142,8 +142,13 @@ class CustomController extends Controller
              return response()->json($e, 500);
         }
 
+        $customs = InternmentProcess::where('id', $internment->id)
+        ->select('id')
+        ->with('fileStoreInternment','fileStoreInternment.fileStore')
+        ->first();
+
         return response()->json([
-            'file_store_internment' => $internment->fileStoreInternment,
+            'internmentProcess'     => $customs,
             'loads'                 => $internment->application->loads], 200);
     }
 
