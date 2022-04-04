@@ -142,8 +142,8 @@
 
             <label class="block text-sm my-3">
 				<div class="px-2" id="add_to">
-					<div class="flex mb-4">
-						<div class="w-1/4 mr-1 sm:w-full ">
+					<div class="sm:flex mb-4">
+						<div class="w-full sm:w-1/4 mr-1 sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA MIN FCL</label>
 							<input class="{{ $errors->has('min_rate_fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							name="min_rate_fcl"
@@ -157,7 +157,7 @@
 							@endif
 						</div>
 					   
-						<div class="w-1/4 ml-1 sm:w-full ">
+						<div class="w-full sm:w-1/4 sm:ml-1 sm:w-full ">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA MIN LCL</label>
 							<input class="{{ $errors->has('min_rate_lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 							type="number"
@@ -171,7 +171,7 @@
 							@endif
 						</div>
 
-						<div class="w-1/4 ml-1 sm:w-full">
+						<div class="w-full sm:w-1/4 ml-1 sm:w-full">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA MIN AEREO</label>
 
                             <input class="{{ $errors->has('min_rate_aereo') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -189,7 +189,7 @@
 								@endif
 						</div>
 
-                        <div class="w-1/4 ml-1 sm:w-full">
+                        <div class="w-full sm:w-1/4 ml-1 sm:w-full">
 							<label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">TASA MIN TRANSP</label>
 
                             <input class="{{ $errors->has('min_rate_transp') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"

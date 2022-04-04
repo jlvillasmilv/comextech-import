@@ -383,9 +383,10 @@ class ApplicationController extends Controller
                 $query->select('id', 'application_id', 'date_pay', 'payment_release', 'percentage', 'type_pay','transfer_abroad');
             },
             'internmentProcess' => function($query) {
-                $query->select('*')->with('fileStoreInternment');
+                $query->select('*')
+                ->with('fileStoreInternment','fileStoreInternment.fileStore');
             }
-            ,'transport','loads','localWarehouse','internmentProcess','internmentProcess.fileStoreInternment'
+            ,'transport','loads','localWarehouse'
         ])
         ->firstOrFail();
         

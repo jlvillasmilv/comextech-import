@@ -59,28 +59,28 @@ npm run watch // observer webpack compliler (in develop)
 Now, in this process you should get your API key, which will be the key to all of this. We put it in our Laravel projects .env file:
 
 ```
-API_KEY_CURRENCY   = 816f5ba6a3a918f44402
+API_KEY_CURRENCY   = 
 
-GOOGLE_MAPS_API_KEY= AIzaSyB24kb-ImiN4VTuK0n4BtN-vX137CNEvtU
+GOOGLE_MAPS_API_KEY= -
 
-FEDEX_KEY = kN6FcXySl6Chr2Z0
-FEDEX_PASSWORD = SttUWogpVE2kQ3xdbE7WrXDiv
-FEDEX_ACCOUNT_NUMBER = 955761375
-FEDEX_METER_NUMBER = 254271695
+FEDEX_KEY = 
+FEDEX_PASSWORD = 
+FEDEX_ACCOUNT_NUMBER = .
+FEDEX_METER_NUMBER = .
 FEDEX_OAUTH_URL = https://apis-sandbox.fedex.com/oauth/token
 FEDEX_RATE_URL = https://apis-sandbox.fedex.com/rate/v1/rates/quotes
 
-DHL_SITEID = v62_RaycURsgUZ
-DHL_PASSWORD = YYkBwXZmMm
-DHL_ACCOUNT_NUMBER = 955653942
+DHL_SITEID = .
+DHL_PASSWORD = .
+DHL_ACCOUNT_NUMBER = .
 
-DHL_EXP_SITEID = v62_DZy8vS4koW
-DHL_EXP_PASSWORD = I00uFsipN2
-DHL_EXP_ACCOUNT_NUMBER = 673181996
+DHL_EXP_SITEID = .
+DHL_EXP_PASSWORD = .
+DHL_EXP_ACCOUNT_NUMBER = .
 
 
-AWS_ACCESS_KEY_ID=AKIAXLECW5WQNSO3O3FF
-AWS_SECRET_ACCESS_KEY=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
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=.
 AWS_DEFAULT_REGION=sa-east-1
 AWS_BUCKET=my-file-container-comextech
 ```
