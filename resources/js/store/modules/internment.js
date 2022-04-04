@@ -34,7 +34,6 @@ export default {
       file1Name: '',
       file2Name: ''
     }
-    
   },
   getters: {},
   mutations: {
@@ -59,11 +58,11 @@ export default {
       if (state.files) {
         const invoice = state.files.find((file) => file.intl_treaty === 'Invoice');
         const otherfile = state.files.find((file) => file.intl_treaty === 'Otro Documento');
-        //const otherfile2 = state.files.find((file) => file.intl_treaty === 'Otro Documento 2');
-        
+        const otherfile2 = state.files.find((file) => file.intl_treaty === 'Otro Documento 2');
+
         state.filesUpload.certFile = invoice;
         state.filesUpload.file1Name = otherfile;
-        //state.filesUpload.file2Name = otherfile2;
+        state.filesUpload.file2Name = otherfile2;
       }
     }
   },
