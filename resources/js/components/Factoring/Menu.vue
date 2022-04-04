@@ -2,26 +2,20 @@
     <tabs>
         <tab name="Cuentas bancarias">
             <div>
-                <Bank />
+                <!-- <Bank /> -->
             </div>
         </tab>
         <tab name="Información legal">
-            <div>
-                <LegalInfo />
-            </div>
+            <!-- <LegalInfo /> -->
         </tab>
         <tab name="Información financiera">
-            <div>
-                <FinancialInfo/>
-            </div>
+            <!-- <FinancialInfo/> -->
         </tab>
         <tab name="SII">
-            <div>
-                <Provider />
-            </div>
+            <!-- <Provider /> -->
         </tab>
          <tab name="Usuarios">
-            <Users />
+            <!-- <Users /> -->
         </tab>
     </tabs>
 </template>
