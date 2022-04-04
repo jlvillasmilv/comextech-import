@@ -28,11 +28,14 @@ class Application extends Model
                            'ecommerce_url',
                            'condition',
                            'amount',
+                           'tco',
+                           'currency_tco',
+                           'tco_clp',
                            'services_code',
                            'modified_user_id',
                            'state_process',
                            'authorization_code'
-                            ];
+                        ];
 
     protected $dates = [
         'created_at',
@@ -42,11 +45,13 @@ class Application extends Model
 
     public $orderable = [
         'id',
+        'code',
+        'tco',
         'created_at',
     ];
 
     public $filterable = [
-        'id',
+        'code',
         'created_at',
     ];
 
@@ -211,6 +216,7 @@ class Application extends Model
 
         if ($application->tco_clp <= 0){  
             $notifications[] = "Debe completar el proceso de solicitud.";
+            return $notifications;
         }
 
 
@@ -232,18 +238,23 @@ class Application extends Model
             $compare_amount +=  round($amount,0) + ((round($amount,0)* $rate_margin)/100);
         }
 
-        // $compare_amount = $application->summary->sum('amount2');
-
+        
         //exchange rate variation
         $exch_rate_variation = Setting::first()->exch_rate_variation;
-       
-        $compare_amount_var =  (($compare_amount - $application->tco_clp) / $compare_amount) * 100;
 
+        try {
 
-        if(round($compare_amount_var,2) > round($exch_rate_variation,2) )
-        {
-            $notifications[] = "Debe actualizar El tipo de Cambio. por variaciones de tipos de cambio";
+            $compare_amount_var =  (($compare_amount - $application->tco_clp) / $compare_amount) * 100;
+
+            if(round($compare_amount_var,2) > round($exch_rate_variation,2) )
+            {
+                $notifications[] = "Debe actualizar El tipo de Cambio. por variaciones de tipos de cambio";
+            }
+
+        } catch (\Throwable $th) {
+             $notifications[] = "Debe actualizar El tipo de Cambio. por variaciones de tipos de cambio";
         }
+       
 
         if((isset($application->paymentProvider) && count($application->paymentProvider)))
         {
