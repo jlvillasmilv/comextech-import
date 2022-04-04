@@ -260,9 +260,11 @@
                 </a>
               </label>
               <span>{{ certFileName }}</span>
-              <span class="text-center">{{
-                filesUpload.certFile ? filesUpload.certFile.intl_treaty : ''
-              }}</span>
+              <a
+                :href="filesUpload.certFile ? filesUpload.certFile.file_store.disk : '#'"
+                class="text-center"
+                >{{ filesUpload.certFile ? filesUpload.certFile.intl_treaty : '' }}</a
+              >
             </div>
             <span
               class="text-xs text-red-600 dark:text-red-400"
@@ -311,9 +313,11 @@
                 >
               </label>
               <span class="text-center">{{ file1Name }}</span>
-              <a href="#" class="text-center">{{
-                filesUpload.file1Name ? filesUpload.file1Name.intl_treaty : ''
-              }}</a>
+              <a
+                :href="filesUpload.file1Name ? filesUpload.file1Name.file_store.disk : '#'"
+                class="text-center"
+                >{{ filesUpload.file1Name ? filesUpload.file1Name.intl_treaty : '' }}</a
+              >
             </div>
 
             <span
@@ -363,9 +367,11 @@
                 >
               </label>
               <span class="text-center">{{ file2Name }}</span>
-              <a href="#" class="text-center">{{
-                filesUpload.file2Name ? filesUpload.file2Name.intl_treaty : ''
-              }}</a>
+              <a
+                :href="filesUpload.file2Name ? filesUpload.file2Name.file_store.disk : '#'"
+                class="text-center"
+                >{{ filesUpload.file2Name ? filesUpload.file2Name.intl_treaty : '' }}</a
+              >
             </div>
 
             <span
