@@ -234,11 +234,12 @@
                   @click="openWindowFileCert(certif)"
                   :class="[
                     'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
-                    !isCertFile
-                      ? 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
-                      : 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
+                    isCertFile && certif.submit
+                      ? 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
+                      : 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
                   ]"
                   ><svg
+                    v-if="!deleteCertif"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -256,12 +257,34 @@
                       ]"
                     ></path>
                   </svg>
+                  <svg
+                    v-if="deleteCertif"
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
                   <span> {{ certif.name }} </span>
                 </a>
               </label>
               <span>{{ certFileName }}</span>
               <a
                 :href="filesUpload.certFile ? filesUpload.certFile.file_store.disk : '#'"
+                target="_blank"
                 class="text-center"
                 >{{ filesUpload.certFile ? filesUpload.certFile.intl_treaty : '' }}</a
               >
@@ -287,11 +310,12 @@
                   @click="openWindowFile(treaties)"
                   :class="[
                     'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
-                    !isSecFile
-                      ? 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
-                      : 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
+                    isSecFile && treaties.submit
+                      ? 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
+                      : 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
                   ]"
                   ><svg
+                    v-if="!deleteTreaties"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -309,12 +333,34 @@
                       ]"
                     ></path>
                   </svg>
+                  <svg
+                    v-if="deleteTreaties"
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
                   <span> {{ treaties.name }} </span></a
                 >
               </label>
               <span class="text-center">{{ file1Name }}</span>
               <a
                 :href="filesUpload.file1Name ? filesUpload.file1Name.file_store.disk : '#'"
+                target="_blank"
                 class="text-center"
                 >{{ filesUpload.file1Name ? filesUpload.file1Name.intl_treaty : '' }}</a
               >
@@ -341,11 +387,12 @@
                   @click="openWindowFile2(otherFile)"
                   :class="[
                     'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
-                    !isOtherFile
-                      ? 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
-                      : 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
+                    isOtherFile && otherFile.submit
+                      ? 'bg-transparent border-blue-1000 text-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000'
+                      : 'bg-blue-1000 border-transparent text-white hover:bg-blue-1100 active:bg-blue-1000'
                   ]"
                   ><svg
+                    v-if="!deleteOtherFile"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -363,12 +410,34 @@
                       ]"
                     ></path>
                   </svg>
+                  <svg
+                    v-if="deleteOtherFile"
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
                   <span> {{ otherFile.name }} </span></a
                 >
               </label>
               <span class="text-center">{{ file2Name }}</span>
               <a
                 :href="filesUpload.file2Name ? filesUpload.file2Name.file_store.disk : '#'"
+                target="_blank"
                 class="text-center"
                 >{{ filesUpload.file2Name ? filesUpload.file2Name.intl_treaty : '' }}</a
               >
@@ -1279,7 +1348,10 @@ export default {
       file2Name: '',
       isCertFile: false,
       isSecFile: false,
-      isOtherFile: false
+      isOtherFile: false,
+      deleteCertif: false,
+      deleteTreaties: false,
+      deleteOtherFile: false
     };
   },
   methods: {
@@ -1299,13 +1371,19 @@ export default {
       } else {
         this.handleStatusSubmitFile('certif');
         if (this.filesUpload.certFile) {
-          const { internment_id, intl_treaty } = this.filesUpload.certFile;
-          await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
-          this.filesUpload.certFile = '';
+          try {
+            this.deleteCertif = true;
+            const { internment_id, intl_treaty } = this.filesUpload.certFile;
+            await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
+            this.filesUpload.certFile = '';
+          } catch (error) {
+            console.error(error);
+          } finally {
+            this.deleteCertif = false;
+          }
         }
-
         this.expenses.file_certificate = '';
-        this.filesUpload.certFile = '';
+        this.certFileName = '';
         this.isCertFile = false;
       }
     },
@@ -1319,9 +1397,16 @@ export default {
       } else {
         this.handleStatusSubmitFile('file1');
         if (this.filesUpload.file1Name) {
-          const { internment_id, intl_treaty } = this.filesUpload.file1Name;
-          await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
-          this.filesUpload.file1Name = '';
+          try {
+            this.deleteTreaties = true;
+            const { internment_id, intl_treaty } = this.filesUpload.file1Name;
+            await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
+            this.filesUpload.file1Name = '';
+          } catch (error) {
+            console.error(error);
+          } finally {
+            this.deleteTreaties = false;
+          }
         }
         this.expenses.files = [];
         this.file1Name = '';
@@ -1338,9 +1423,16 @@ export default {
       } else {
         this.handleStatusSubmitFile('file2');
         if (this.filesUpload.file2Name) {
-          const { internment_id, intl_treaty } = this.filesUpload.file2Name;
-          await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
-          this.filesUpload.file2Name = '';
+          try {
+            this.deleteOtherFile = true;
+            const { internment_id, intl_treaty } = this.filesUpload.file2Name;
+            await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
+            this.filesUpload.file2Name = '';
+          } catch (error) {
+            console.error(error);
+          } finally {
+            this.deleteOtherFile = false;
+          }
         }
         this.expenses.files = [];
         this.file2Name = '';
@@ -1374,7 +1466,7 @@ export default {
       this.file2Name = file.name;
       if (file) {
         this.isOtherFile = true;
-        this.handleStatusSubmitFile();
+        this.handleStatusSubmitFile('file2');
         this.expenses.files.push(file);
         this.expenses.file_descrip.push(this.nameFileUpload);
         this.$refs.file_2.value = null;
@@ -1561,9 +1653,29 @@ export default {
       width: 100
     });
     try {
-      this.certif.submit = this.filesUpload.certFile ? true : false;
-      this.treaties.submit = this.filesUpload.file1Name ? true : false;
-      this.otherFile.submit = this.filesUpload.file2Name ? true : false;
+      if (this.filesUpload.certFile) {
+        this.certif.submit = true;
+        this.isCertFile = true;
+      } else {
+        this.certif.submit = false;
+        this.isCertFile = false;
+      }
+
+      if (this.filesUpload.file1Name) {
+        this.treaties.submit = true;
+        this.isSecFile = true;
+      } else {
+        this.treaties.submit = false;
+        this.isSecFile = false;
+      }
+
+      if (this.filesUpload.file2Name) {
+        this.otherFile.submit = true;
+        this.isOtherFile = true;
+      } else {
+        this.otherFile.submit = false;
+        this.isOtherFile = false;
+      }
 
       await this.$store.dispatch('exchange/getSummary', this.application_id);
 
