@@ -229,10 +229,7 @@
               hidden
             />
             <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
-              <label
-               
-                class="inline-flex justify-center items-center mt-3"
-              >
+              <label class="inline-flex justify-center items-center mt-3">
                 <a
                   @click="openWindowFileCert(certif)"
                   :class="[
@@ -262,8 +259,10 @@
                   <span> {{ certif.name }} </span>
                 </a>
               </label>
-              <span class="text-center">{{ filesUpload.certFile }}</span>
-              <span class="text-center">{{ filesUpload.file1Name }}</span>
+              <span>{{ certFileName }}</span>
+              <span class="text-center">{{
+                filesUpload.certFile ? filesUpload.certFile.intl_treaty : ''
+              }}</span>
             </div>
             <span
               class="text-xs text-red-600 dark:text-red-400"
@@ -281,13 +280,9 @@
               hidden
             />
             <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
-              <label
-                v-for="(item, key) in treaties"
-                :key="key"
-                class="inline-flex justify-center items-center mt-3"
-              >
+              <label class="inline-flex justify-center items-center mt-3">
                 <a
-                  @click="openWindowFile(item)"
+                  @click="openWindowFile(treaties)"
                   :class="[
                     'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
                     !isSecFile
@@ -306,16 +301,19 @@
                       stroke-linejoin="round"
                       stroke-width="2"
                       :d="[
-                        item.submit
+                        treaties.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
                           : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
                       ]"
                     ></path>
                   </svg>
-                  <span> {{ item.name }} </span></a
+                  <span> {{ treaties.name }} </span></a
                 >
               </label>
               <span class="text-center">{{ file1Name }}</span>
+              <a href="#" class="text-center">{{
+                filesUpload.file1Name ? filesUpload.file1Name.intl_treaty : ''
+              }}</a>
             </div>
 
             <span
@@ -334,13 +332,9 @@
               hidden
             />
             <div class="text-gray-600 dark:text-gray-400 flex flex-col justify-start">
-              <label
-                v-for="(item, key) in otherFile"
-                :key="key"
-                class="inline-flex justify-center items-center mt-3"
-              >
+              <label class="inline-flex justify-center items-center mt-3">
                 <a
-                  @click="openWindowFile2(item)"
+                  @click="openWindowFile2(otherFile)"
                   :class="[
                     'w-42 flex items-center px-3.5 py-2 m-2 text-sm text-center font-medium leading-5 transition-colors duration-150 border rounded-lg focus:outline-none focus:shadow-outline-blue',
                     !isOtherFile
@@ -359,16 +353,19 @@
                       stroke-linejoin="round"
                       stroke-width="2"
                       :d="[
-                        item.submit
+                        otherFile.submit
                           ? 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
                           : 'M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z'
                       ]"
                     ></path>
                   </svg>
-                  <span> {{ item.name }} </span></a
+                  <span> {{ otherFile.name }} </span></a
                 >
               </label>
               <span class="text-center">{{ file2Name }}</span>
+              <a href="#" class="text-center">{{
+                filesUpload.file2Name ? filesUpload.file2Name.intl_treaty : ''
+              }}</a>
             </div>
 
             <span
@@ -1237,23 +1234,18 @@ export default {
     return {
       filterImg: 'grayscale(0)',
       opacityImg: '1',
-      certif: 
-      {
-          name: 'Cargar Invoice',
-          submit: false
+      certif: {
+        name: 'Cargar Invoice',
+        submit: false
       },
-      treaties: [
-        {
-          name: 'Otro Documento',
-          submit: false
-        }
-      ],
-      otherFile: [
-        {
-          name: 'Otro Documento 2',
-          submit: false
-        }
-      ],
+      treaties: {
+        name: 'Otro Documento',
+        submit: false
+      },
+      otherFile: {
+        name: 'Otro Documento 2',
+        submit: false
+      },
       certificate: {},
       custom_agents: [],
       trans_companies: [],
@@ -1276,7 +1268,7 @@ export default {
       dispatchLcl: 30,
       insure: false,
       transport: false,
-      // certFileName: '',
+      certFileName: '',
       file1Name: '',
       file2Name: '',
       isCertFile: false,
@@ -1292,49 +1284,58 @@ export default {
       });
     },
     async openWindowFileCert(value) {
-    
       this.nameFileUpload = value.name;
-      
+
       if (!value.submit) {
         this.showInputFile = !this.showInputFile;
         let fileInputElement = this.$refs.file_cert;
         fileInputElement.click();
       } else {
         this.handleStatusSubmitFile('certif');
-        if(this.filesUpload.certFile){
+        if (this.filesUpload.certFile) {
           const { internment_id, intl_treaty } = this.filesUpload.certFile;
-          const prueba = await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
+          await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
           this.filesUpload.certFile = '';
         }
-        
+
         this.expenses.file_certificate = '';
         this.filesUpload.certFile = '';
         this.isCertFile = false;
       }
     },
-    openWindowFile({ e, name: entry }) {
-      this.nameFileUpload = entry;
-      let value = this.treaties.find((a) => a.name == entry);
+    async openWindowFile(value) {
+      this.nameFileUpload = value.name;
+
       if (!value.submit) {
         this.showInputFile = !this.showInputFile;
         let fileInputElement = this.$refs.file;
         fileInputElement.click();
       } else {
         this.handleStatusSubmitFile('file1');
+        if (this.filesUpload.file1Name) {
+          const { internment_id, intl_treaty } = this.filesUpload.file1Name;
+          await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
+          this.filesUpload.file1Name = '';
+        }
         this.expenses.files = [];
         this.file1Name = '';
         this.isSecFile = false;
       }
     },
-    openWindowFile2({ e, name: entry }) {
-      this.nameFileUpload = entry;
-      let value = this.otherFile.find((a) => a.name == entry);
+    async openWindowFile2(value) {
+      this.nameFileUpload = value.name;
+
       if (!value.submit) {
         this.showInputFile = !this.showInputFile;
         let fileInputElement = this.$refs.file_2;
         fileInputElement.click();
       } else {
-        this.handleStatusSubmitFile();
+        this.handleStatusSubmitFile('file2');
+        if (this.filesUpload.file2Name) {
+          const { internment_id, intl_treaty } = this.filesUpload.file2Name;
+          await axios.delete(`/internment-file-remove/${internment_id}/${intl_treaty}`);
+          this.filesUpload.file2Name = '';
+        }
         this.expenses.files = [];
         this.file2Name = '';
         this.isOtherFile = false;
@@ -1342,7 +1343,7 @@ export default {
     },
     certificateFile() {
       let file = this.$refs.file_cert.files[0];
-      // this.certFileName = file.name;
+      this.certFileName = file.name;
       if (file) {
         this.isCertFile = true;
         this.handleStatusSubmitFile('certif');
@@ -1376,16 +1377,12 @@ export default {
     handleStatusSubmitFile(ref = null) {
       if (ref == 'certif') {
         this.certif.submit = !this.certif.submit;
-      } 
-      if(ref == 'file1'){
-         this.treaties = this.treaties.map((e) =>
-          e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
-        );
       }
-      else {
-        this.otherFile = this.otherFile.map((e) =>
-          e.name === this.nameFileUpload ? { ...e, submit: !e.submit } : e
-        );
+      if (ref == 'file1') {
+        this.treaties.submit = !this.treaties.submit;
+      }
+      if (ref == 'file2') {
+        this.otherFile.submit = !this.otherFile.submit;
       }
     },
 
@@ -1546,11 +1543,21 @@ export default {
     }
   },
   async mounted() {
+    /* Vue-loader config and active */
+    let loader = this.$loading.show({
+      canCancel: true,
+      transition: 'fade',
+      color: '#142c44',
+      loader: 'spinner',
+      lockScroll: true,
+      enforceFocus: true,
+      height: 100,
+      width: 100
+    });
     try {
-
       this.certif.submit = this.filesUpload.certFile ? true : false;
-      this.treaties[0].submit = this.filesUpload.file1Name ? true : false;
-      this.otherFile[0].submit = this.filesUpload.file2Name ? true : false;
+      this.treaties.submit = this.filesUpload.file1Name ? true : false;
+      this.otherFile.submit = this.filesUpload.file2Name ? true : false;
 
       await this.$store.dispatch('exchange/getSummary', this.application_id);
 
@@ -1618,7 +1625,10 @@ export default {
         this.portCharge();
       }
     } catch (error) {
+      loader.hide();
       console.error(error);
+    } finally {
+      loader.hide();
     }
   },
   created: function() {
