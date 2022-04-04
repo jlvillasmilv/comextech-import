@@ -20,7 +20,7 @@
             @livewire('profile.update-password-form')
         </div>
 
-        @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
+        {{-- @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
         <x-section-border />
 
         <div class="mt-10 sm:mt-0">
@@ -30,7 +30,7 @@
 
             @livewire('profile.two-factor-authentication-form')
         </div>
-        @endif
+        @endif --}}
 
         <x-section-border />
 
