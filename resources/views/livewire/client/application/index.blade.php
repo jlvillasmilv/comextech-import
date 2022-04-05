@@ -34,19 +34,27 @@
                          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                      </svg>
                  </div>
-                 <input  class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-input" type="text" placeholder="Busqueda" aria-label="Search" wire:model.debounce.300ms="search" />
+                 
+                <x-input class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-input"
+                   placeholder="Busqueda"
+                    aria-label="Search"
+                    wire:model.debounce.300ms="search" 
+                />
+                
              </div>
        </div>
       
    </div>
 
-   <div class="w-full overflow-hidden rounded-lg shadow-xs">
+   <div class="w-full overflow-hidden rounded-lg shadow-xs  mb-8">
        <div class="w-full overflow-x-auto">
            <table class="w-full whitespace-no-wrap" id="table">
                 <thead
                     class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                     <tr>
-                        <th class="px-4 py-3">Nro/Fecha  </th>
+                        <th class="px-4 py-3">
+                            @include('components.table.sort', ['field' => 'code', 'label' => 'Nro/Fecha'])
+                        </th>
                         <th class="px-4 py-3">Total Operacion </th>
                         <th class="px-4 py-3">Pago Proveedor </th>
                         <th class="px-4 py-3">Estatus </th>
@@ -56,7 +64,9 @@
                 </thead>
                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                    @forelse($datas as $application)
-                   <tr class="text-gray-700 dark:text-gray-400 text-center" id="{{ $application->id }}">
+                   <tr class="text-gray-700 dark:text-gray-400 text-center"
+                    wire:loading.class.delay="opacity-50"
+                    id="{{ $application->id }}">
                        <td class="px-2 pb-2 text-center tex-sm border-b-2 border-gray-400">
                            <div class="flex justify-center items-center">
                                <span class="iconify h-9 w-9" data-icon="{{ $application->typeTransport->icon }}"></span>
@@ -87,7 +97,7 @@
                                {{ $application->supplier->name }}
                            </p>
                        </td>
-                       <td class=" py-3 border-b-2 border-gray-400">
+                       <td class="py-3 border-b-2 border-gray-400">
                            <div class="flex flex-nowrap">
                                <a href="{{ route('applications.show', \Crypt::encryptString($application->id)) }}"
                                    title="Ver detalle Solicitud {{$application->code}}"
@@ -197,7 +207,9 @@
                @empty
                    <tr>
                        <td class="px-4 py-3 border-b-2 border-gray-400" colspan="6">
-                           Sin solicitudes
+                           <div class="flex justify-center items-center">
+                                <span class="font-medium py-8 text-cool-gray-400 text-xl">Sin solicitudes</span> 
+                           </div>
                         </td>
                    </tr>
                @endforelse
@@ -205,7 +217,7 @@
             </tbody>
            </table>
        </div>
-       {{ $datas->links() }}
+       {{ $datas->withQueryString()->links() }}
    </div>
 </div>
 

@@ -144,7 +144,7 @@ class ApplicationController extends Controller
         $application->modified_user_id = auth()->user()->id;
         $application->save();
 
-        if ($application->transport->exists()) {
+        if (!is_null($application->transport)) {
 
             $application->transport->update(['tracking_number' => $request->input('tracking_number') ]);
         }
