@@ -40,10 +40,7 @@
                        <th class="px-4 py-3">Numero </th>
                        <th class="px-4 py-3">Cliente </th>
                        <th class="px-4 py-3">Status </th>
-                       <th class="px-4 py-3">
-                           Fecha
-                           @include('components.table.sort', ['field' => 'created_at'])
-                       </th>
+                       <th class="px-4 py-3"> Fecha    </th>
                        <th class="px-4 py-3">Actions</th>
                    </tr>
                </thead>

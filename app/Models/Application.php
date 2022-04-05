@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Support\HasAdvancedFilter;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Application extends Model
 {
@@ -44,7 +45,6 @@ class Application extends Model
     ];
 
     public $orderable = [
-        'id',
         'code',
         'tco',
         'created_at',
@@ -52,8 +52,14 @@ class Application extends Model
 
     public $filterable = [
         'code',
+        'tco',
         'created_at',
     ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('project.date_format')) : null;
+    }
 
     public function validStatus($id)
     {

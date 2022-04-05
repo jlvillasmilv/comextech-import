@@ -1,3 +1,3 @@
 <x-app-layout title="Listado de Solicitudes">
-    @livewire('client.application.index')
+    @livewire('client.application-component')
 </x-app-layout>
