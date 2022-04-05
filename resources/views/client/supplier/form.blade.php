@@ -234,10 +234,8 @@
 
     function remove(id){
 
-        //Obj of data to send in future like a dummyDb
         const data = { id: id };
         
-
         Swal.fire({
             title: '¿Desea eliminar este registro?',
             icon: 'question',
@@ -295,7 +293,8 @@
             <tr id="${Date.now()}">
                 <td><input type="hidden" name="place[]" value="${value}">  ${value}</td>
                 <td>
-                    <input type="hidden" name="origin_address[]" value="${address.value}"> ${address.value} ${post_cod.value}
+                    ${address.value} ${post_cod.value}
+                    <input type="hidden" name="origin_address[]" value="${address.value}">
                     <input type="hidden" class="form-input" name="latitude[]" id="latitude" value="${latit.value}" />
                     <input type="hidden" class="form-input" name="longitude[]" id="longitude" value="${logit.value}" />
                     <input type="hidden" class="form-input" name="postal_code[]" id="longitude" value="${post_cod.value}" />
@@ -303,9 +302,15 @@
                     <input type="hidden" class="form-input" name="locality[]" value="${locality.value}" />
                 </td>
                 <td>
-                    <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue" onclick="onDeleteRow(${Date.now()})">
+                    <button 
+                    type="button" 
+                    class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue"
+                     onclick="onDeleteRow(${Date.now()})">
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
                 </td>
             </tr>
         `;

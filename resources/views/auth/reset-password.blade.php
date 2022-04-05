@@ -23,7 +23,7 @@
             </div>
 
             <div class="mt-4">
-                <x-label value="Confirmar Contraseña" />
+                <x-label value="Confirmar contraseña" />
                 <x-input class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
