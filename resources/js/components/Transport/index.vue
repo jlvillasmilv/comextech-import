@@ -1,5 +1,6 @@
 <template>
   <div class="w-full md:flex md:flex-col md:items-center px-1 md:px-6 my-1">
+    <loader />
     <transition name="fade">
       <div
         v-if="$store.state.load.showLoad"
@@ -24,11 +25,13 @@ import Load from './Load.vue';
 import Addresses from './Addresses.vue';
 import { mapState } from 'vuex';
 import Container from '../Container.vue';
+import Loader from '../common/utils/Loader.vue';
 
 export default {
   components: {
     Load,
-    Addresses
+    Addresses,
+    Loader
   },
   props: {
     Container
@@ -88,6 +91,7 @@ export default {
     }
   },
   async created() {
+    this.$store.dispatch('playPauseLoading', true);
     this.expenses.application_id = this.data.application_id;
 
     const type = this.data.type_transport == 'AEREO' ? 'A' : 'P';
@@ -97,6 +101,9 @@ export default {
     );
     await this.$store.dispatch('address/getAddressDestination');
     await this.$store.dispatch('address/getPorts', type);
+  },
+  mounted() {
+    this.$store.dispatch('playPauseLoading', false);
   }
 };
 </script>

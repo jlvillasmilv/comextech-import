@@ -1,5 +1,6 @@
 <template>
   <section class="md:flex md:justify-center">
+    <loader />
     <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg shadow-xs">
       <table class="table-auto md:w-full whitespace-no-wrap">
         <thead>
@@ -137,10 +138,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import Loader from '../../common/utils/Loader.vue';
 export default {
   data() {
     return {};
   },
+  components: { Loader },
   computed: {
     ...mapState('address', ['showLclFclQuote', 'tableFclLcl']),
     ...mapState('application', ['data'])

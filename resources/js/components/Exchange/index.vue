@@ -1,5 +1,6 @@
 <template>
   <div class="flex justify-center container px-6 my-1">
+    <loader />
     <div class="md:w-9/12 overflow-hidden rounded-lg shadow-xs">
       <div class="w-full md:w-3/4 overflow-x-auto">
         <div class="flex space-x-4">
@@ -296,6 +297,8 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import Loader from '../common/utils/Loader.vue';
+
 export default {
   props: {
     application_id: {
@@ -303,6 +306,7 @@ export default {
       required: false
     }
   },
+  components: { Loader },
   data() {
     return {
       form: new Form({
@@ -374,8 +378,15 @@ export default {
     ...mapState('application', ['busy'])
   },
   mounted: async function() {
-   await this.$store.dispatch('exchange/getSummary', this.application_id);
-    this.convert('CLP');
+    this.$store.dispatch('playPauseLoading', true);
+    try {
+      await this.$store.dispatch('exchange/getSummary', this.application_id);
+      this.convert('CLP');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.$store.dispatch('playPauseLoading', false);
+    }
   }
 };
 </script>

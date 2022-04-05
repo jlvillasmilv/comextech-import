@@ -1,5 +1,6 @@
 <template>
   <div class="md:container md:mx-auto text-gray-900 dark:text-gray-200">
+    <loader />
     <tabs />
 
     <div class="w-full p-2">
@@ -349,11 +350,9 @@
                   </div>
 
                   <!-- monto operacion -->
-                    <!-- data-title="Monto de operacion"
+                  <!-- data-title="Monto de operacion"
                     data-intro="El monto de la mercaderia a importar" -->
-                  <div
-                    class="px-1 flex flex-col w-6/12 sm:w-9/12 md:mb-0"
-                  >
+                  <div class="px-1 flex flex-col w-6/12 sm:w-9/12 md:mb-0">
                     <h3 class="text-center my-2.5 text-gray-500 text-base">Monto</h3>
                     <vue-numeric
                       thousand-separator="."
@@ -371,7 +370,7 @@
               </section>
 
               <!-- Porcentajes -->
-                <!-- data-title="Porcentajes para pago al proveedor"
+              <!-- data-title="Porcentajes para pago al proveedor"
                 data-intro="Si seleccionas el tipo de servicio para pagar a un proveedor, debes seleccionar de que manera estara gestionado el pago" -->
               <section
                 class="my-4 h-40 flex flex-col items-center md:mt-8 sm:my-0 sm:w-6/12 md:w-7/12"
@@ -461,11 +460,9 @@
 
             <!-- Tipo de transporte -->
             <h3 class="my-3 font-semibold text-blue-1300 text-lg">Tipo de Transporte</h3>
-              <!-- data-title="Tipo de transporte"
+            <!-- data-title="Tipo de transporte"
               data-intro="El tipo de transporte que vas a querer para importar tu mercaderia" -->
-            <div
-              class="flex flex-wrap justify-center w-full"
-            >
+            <div class="flex flex-wrap justify-center w-full">
               <div
                 v-for="service in typeTransport"
                 :key="service.name"
@@ -580,6 +577,7 @@
   </div>
 </template>
 <script>
+import Loader from '../components/common/utils/Loader.vue';
 import Modal from '../components/Modal.vue';
 import Container from '../components/Container.vue';
 import Transport from '../components/Transport/index.vue';
@@ -644,6 +642,7 @@ export default {
     };
   },
   components: {
+    Loader,
     Modal,
     Container,
     Transport,
@@ -810,6 +809,7 @@ export default {
     }
   },
   async mounted() {
+    this.$store.dispatch('playPauseLoading', true);
     try {
       Promise.all([
         this.$store.dispatch('application/getSuppliers'),
@@ -839,6 +839,8 @@ export default {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      this.$store.dispatch('playPauseLoading', false);
     }
   }
 };

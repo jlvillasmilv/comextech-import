@@ -1,5 +1,6 @@
 <template>
   <section class="lg:flex lg:flex-col items-center justify-center w-full p-4">
+    <loader />
     <!-- <div
       class="lg:w-8/12 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 mb-5"
       v-show="$store.getters.findService('ICS04') && !$store.getters.findService('ICS03')"
@@ -1290,6 +1291,7 @@
 <script>
 import { mapState } from 'vuex';
 import Load from '../Transport/Load.vue';
+import Loader from '../common/utils/Loader.vue';
 // import TableMobile from './TableMobile.vue';
 
 export default {
@@ -1299,7 +1301,7 @@ export default {
       type: Number
     }
   },
-  components: { Load },
+  components: { Load, Loader },
   computed: {
     ...mapState('internment', ['expenses', 'files', 'filesUpload']),
     ...mapState('application', ['data', 'currency', 'busy']),
@@ -1351,7 +1353,8 @@ export default {
       isOtherFile: false,
       deleteCertif: false,
       deleteTreaties: false,
-      deleteOtherFile: false
+      deleteOtherFile: false,
+      isLoading: true
     };
   },
   methods: {
@@ -1606,19 +1609,16 @@ export default {
       const insuranceClp = await axios.get(`/api/convert-currency/${this.insureAmount}/USD/CLP`);
       this.clpInsurance = insuranceClp.data;
 
-      const cifClp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
-      this.clpCif = cifClp.data;
+      this.clpCif = this.clpAmount + this.clpTransport + this.clpInsurance;
     },
 
     async calculateParity() {
       const parityOrigin = parseFloat(this.AppAmount);
       const dataAmount = parseFloat(this.data.amount);
-      this.parityAmountOrigin = (Math.trunc(parityOrigin) / dataAmount).toFixed(2);
 
-      const parityDollar = await axios.get(`/api/convert-currency/${this.AppAmount}/USD/CLP`);
-      this.parityAmountDollar = (
-        Math.trunc(parseFloat(parityDollar.data)) / this.AppAmount
-      ).toFixed(0);
+      this.parityAmountOrigin = (Math.trunc(parityOrigin) / dataAmount).toFixed(0);
+
+      this.parityAmountDollar = (this.clpAmount / this.AppAmount).toFixed(0);
     }
   },
   watch: {
@@ -1641,40 +1641,21 @@ export default {
     }
   },
   async mounted() {
-    /* Vue-loader config and active */
-    let loader = this.$loading.show({
-      canCancel: true,
-      transition: 'fade',
-      color: '#142c44',
-      loader: 'spinner',
-      lockScroll: true,
-      enforceFocus: true,
-      height: 100,
-      width: 100
-    });
+    this.$store.dispatch('playPauseLoading', true);
     try {
       if (this.filesUpload.certFile) {
         this.certif.submit = true;
         this.isCertFile = true;
-      } else {
-        this.certif.submit = false;
-        this.isCertFile = false;
       }
 
       if (this.filesUpload.file1Name) {
         this.treaties.submit = true;
         this.isSecFile = true;
-      } else {
-        this.treaties.submit = false;
-        this.isSecFile = false;
       }
 
       if (this.filesUpload.file2Name) {
         this.otherFile.submit = true;
         this.isOtherFile = true;
-      } else {
-        this.otherFile.submit = false;
-        this.isOtherFile = false;
       }
 
       await this.$store.dispatch('exchange/getSummary', this.application_id);
@@ -1730,23 +1711,22 @@ export default {
         this.AppAmount = app_usd.data;
       }
 
-      if (this.data.type_transport == 'COURIER' && this.AppAmount <= 2999) {
+      if (this.data.type_transport === 'COURIER' && this.AppAmount <= 2999) {
         this.expenses.agent_payment = 0;
       }
 
-      this.convertAmountToClp();
-      this.taxCheck();
+      await this.convertAmountToClp();
       this.calculateParity();
+      this.taxCheck();
       this.advalorem();
 
       if (this.data.type_transport != 'COURIER') {
         this.portCharge();
       }
     } catch (error) {
-      loader.hide();
       console.error(error);
     } finally {
-      loader.hide();
+      this.$store.dispatch('playPauseLoading', false);
     }
   },
   created: function() {

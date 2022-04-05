@@ -251,19 +251,9 @@ export default {
     ...mapMutations('load', ['SHOW_LOAD_CHARGE']),
 
     async getCourierQuote() {
+      this.$store.dispatch('playPauseLoading', true);
       this.expenses.app_amount = '';
       this.expenses.trans_company_id = '';
-      /* Vue-loader config and active */
-      let loader = this.$loading.show({
-        canCancel: true,
-        transition: 'fade',
-        color: '#142c44',
-        loader: 'spinner',
-        lockScroll: true,
-        enforceFocus: true,
-        height: 100,
-        width: 100
-      });
 
       /* Show button (editar) */
       this.SHOW_BUTTON_EDIT(true);
@@ -278,7 +268,7 @@ export default {
         const fedexDhlQuote = await this.$store.dispatch('address/getFedexDhlQuote', this.expenses);
 
         if (!fedexDhlQuote) {
-          loader.hide();
+          this.$store.dispatch('playPauseLoading', false);
           this.hideAddress();
         } else {
           this.$store.commit('address/ACTIVE_SAVE_DATA', true);
@@ -287,22 +277,12 @@ export default {
       } catch (error) {
         console.error(error);
       } finally {
-        loader.hide();
+        this.$store.dispatch('playPauseLoading', false);
       }
     },
 
     async submitQuote() {
-      /* Vue-loader config */
-      let loader = this.$loading.show({
-        canCancel: true,
-        transition: 'fade',
-        color: '#142c44',
-        loader: 'spinner',
-        lockScroll: true,
-        enforceFocus: true,
-        height: 100,
-        width: 100
-      });
+      this.$store.dispatch('playPauseLoading', true);
 
       /* Show button (editar) */
       this.SHOW_BUTTON_EDIT(true);
@@ -322,6 +302,7 @@ export default {
 
         // Message to validate if transport_amount is 0
         if (fclLclQuote.data.transport.transport_amount === 0) {
+          this.$store.dispatch('playPauseLoading', false);
           Swal.fire({
             title: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
             // text: '¿Quiere solicitar una tarifa para su operación al Equipo ComexTech?',
@@ -354,17 +335,17 @@ export default {
         this.hideAddress();
         console.error(error);
       } finally {
-        loader.hide();
+        this.$store.dispatch('playPauseLoading', false);
       }
     },
 
     saveData() {
+      this.$store.dispatch('callIncomingOrNextMenu', true);
       Toast.fire({
         icon: 'success',
         title: 'Datos Agregados'
       });
-
-      this.$store.dispatch('callIncomingOrNextMenu', true);
+      this.$store.dispatch('playPauseLoading', true);
       this.$store.commit('address/ACTIVE_SAVE_DATA', false);
     },
 
