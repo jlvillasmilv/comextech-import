@@ -101,28 +101,26 @@
                     </div>
                 </div>
                 
+                <span class="text-gray-700 dark:text-gray-400"> Origen del Transporte </span>
                 <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> Origen del Transporte </span>
-
-                    <label class="block text-sm my-3">
-                        <span class="text-gray-700 dark:text-gray-400"> Puertos asignados </span>
-                        <select class="select2 " name="port_id[]" multiple="multiple">
-                            @forelse ($ports as $port)
-                            
-                            <option value="{{$port->id}}" {{ (old('port_id') || isset($supplier) && $supplier->ports->contains($port->id)) ? 'selected' : ''}}>{{$port->name}}</option>
+                    <span class="text-gray-700 dark:text-gray-400"> Puertos asignados </span>
+                    <select class="select2" name="port_id[]" multiple="multiple">
+                        @forelse ($ports as $port)
+                            <option value="{{$port->id}}" {{ (old('port_id') || isset($supplier) && $supplier->ports->contains($port->id)) ? 'selected' : ''}}>
+                                {{$port->name}}
+                            </option>
                             @empty
-                            @endforelse
-                        </select>
-                        @if($errors->has('address'))
-                             <span class="text-xs text-red-600 dark:text-red-400">
-                                {{ $errors->first('address') }}
-                            </span>
-                        @endif
-                    </label>
-                    
+                        @endforelse
+                    </select>
+                    @if($errors->has('address'))
+                        <span class="text-xs text-red-600 dark:text-red-400">
+                            {{ $errors->first('address') }}
+                        </span>
+                    @endif
+                 
                     <div class="px-2" id="add_to">
                         <div class="sm:flex mb-4">
-                            <div class="w-full sm:w-1/4 mr-1">
+                            <div class="w-full mt-3 sm:w-1/4 mr-1">
                                 <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">Tipo:</label>
                                 <select id="location" name="services_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray ">
 
@@ -139,10 +137,10 @@
                                 </span>
                             </div>
                            
-                            <div class="w-full sm:w-3/4 ml-1">
-                                <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Dirección </label>
+                        <div class="w-full mt-3 sm:w-3/4 sm:ml-1">
+                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Dirección </label>
 
-                                <input  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input map-input"
+                            <input  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input map-input"
                                  placeholder="Dirección Origen"
                                   id="_address"
                                   onfocus="this.value=''" >
@@ -159,19 +157,23 @@
                                 
                             </div>
 
-                            <div class="w-full sm:w-1/4 ml-1">
+                            <div class="w-full mt-3 sm:w-1/4 ml-1">
                                 <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Cod Postal </label>
 
                                 <input type="text" placeholder="Codigo postal" id='postal_code' name="post_code" value="{{ old('post_code') }}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
 
                             </div>
 
-                            <button id="add" type="button" class="btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue" 
-                                data-remote="#" data-id="#" autocomplete="off"
-                                title="Agregar">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                                     </svg>
+                            <button
+                             id="add"
+                             type="button"
+                             class="btn-add flex ml-2 px-3 py-2 sm:mt-10 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-1300 hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue" 
+                             data-remote="#"
+                             data-id="#"
+                             title="Agregar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -192,7 +194,7 @@
                                     {{ $suppAdd->address }}
                                  </td>
                                 <td>
-                                    <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1400 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-red" onclick="remove({{ $suppAdd->id }})">
+                                    <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300  hover:bg-blue-1400 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-red" onclick="remove({{ $suppAdd->id }})">
 
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
                                 </td>
@@ -220,8 +222,6 @@
 
 @section('scripts')
 @parent
-
-
 <script type="text/javascript">
 
     (function() {
@@ -237,23 +237,37 @@
         //Obj of data to send in future like a dummyDb
         const data = { id: id };
         
-        //POST request with body equal on data in JSON format
-        fetch('{{ route("supplier.remove") }}', {
-          method: 'POST',
-          headers: {
-            "X-CSRF-Token": $('input[name="_token"]').val(),
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-        .then((response) => response.json())
-        //Then with the data from the response in JSON...
-        .then((data) => {
-            onDeleteRow(id);
-        })
-        //Then with the error genereted...
-        .catch((error) => {
-          console.error('Error:', error);
+
+        Swal.fire({
+            title: '¿Desea eliminar este registro?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            confirmButtonColor: '#142c44',
+            cancelButtonText: 'No',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+
+
+                //POST request with body equal on data in JSON format
+                fetch('{{ route("supplier.remove") }}', {
+                method: 'POST',
+                headers: {
+                    "X-CSRF-Token": $('input[name="_token"]').val(),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                })
+                .then((response) => response.json())
+                //Then with the data from the response in JSON...
+                .then((data) => {
+                    onDeleteRow(id);
+                })
+                //Then with the error genereted...
+                .catch((error) => {
+                console.error('Error:', error);
+                });
+            }
         });
 
     }
@@ -268,28 +282,28 @@
         const user = document.getElementById("location");
         var value  = user.options[user.selectedIndex].value;
 
-        const address  = document.getElementById("_address").value;
-        const latit    = document.getElementById("latitude").value;
-        const logit    = document.getElementById("longitude").value; 
-        const post_cod = document.getElementById("postal_code").value;  
-        const country_code = document.getElementById("country_code").value; 
-        const locality  = document.getElementById("locality").value; 
+        const address  = document.getElementById("_address");
+        const latit    = document.getElementById("latitude");
+        const logit    = document.getElementById("longitude"); 
+        const post_cod = document.getElementById("postal_code");  
+        const country_code = document.getElementById("country_code"); 
+        const locality  = document.getElementById("locality"); 
 
-        if (address.length <= 0 || post_cod.length <= 0 ) { return;  }
+        if (address.value.length <= 0 || post_cod.length <= 0 ) { return;  }
 
         tbodyEl.innerHTML += `
             <tr id="${Date.now()}">
                 <td><input type="hidden" name="place[]" value="${value}">  ${value}</td>
                 <td>
-                    <input type="hidden" name="origin_address[]" value="${address}"> ${address} ${post_cod}
-                    <input type="hidden" class="form-input" name="latitude[]" id="latitude" value="${latit}" />
-                    <input type="hidden" class="form-input" name="longitude[]" id="longitude" value="${logit}" />
-                    <input type="hidden" class="form-input" name="postal_code[]" id="longitude" value="${post_cod}" />
-                    <input type="hidden" class="form-input" name="country_code[]" value="${country_code}" />
-                    <input type="hidden" class="form-input" name="locality[]" value="${locality}" />
+                    <input type="hidden" name="origin_address[]" value="${address.value}"> ${address.value} ${post_cod.value}
+                    <input type="hidden" class="form-input" name="latitude[]" id="latitude" value="${latit.value}" />
+                    <input type="hidden" class="form-input" name="longitude[]" id="longitude" value="${logit.value}" />
+                    <input type="hidden" class="form-input" name="postal_code[]" id="longitude" value="${post_cod.value}" />
+                    <input type="hidden" class="form-input" name="country_code[]" value="${country_code.value}" />
+                    <input type="hidden" class="form-input" name="locality[]" value="${locality.value}" />
                 </td>
                 <td>
-                    <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red" onclick="onDeleteRow(${Date.now()})">
+                    <button type="button" class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue" onclick="onDeleteRow(${Date.now()})">
 
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
                 </td>
@@ -300,7 +314,8 @@
         latit.value   = '';
         logit.value   = '';
         post_cod.value = '';
-
+        country_code.value = '';
+        locality.value = '';
       });
 
 
