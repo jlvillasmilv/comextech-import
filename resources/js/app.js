@@ -58,10 +58,6 @@ Vue.use(VueLuxon, {
   }
 });
 
-import VueLoading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
-Vue.use(VueLoading);
-
 // component tab
 import './assets/tabs-component.css';
 import Tabs from 'vue-tabs-component';
