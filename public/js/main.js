@@ -485,7 +485,6 @@ $('#table').on('click', '.btn-sync-app[data-remote]', function (e) {
 
           if (response.data.notifications) {
 
-
             Swal.fire({
               title: '<strong>No fue posible Generar</strong>',
               icon: 'warning',

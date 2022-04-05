@@ -43,19 +43,16 @@
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3">
-                                Id
-                                @include('components.table.sort', ['field' => 'id'])
+                                @include('components.table.sort', ['field' => 'id', 'label' => 'Id'])
                             </th>
-                            <th class="px-4 py-3">Nombre
-                                @include('components.table.sort', ['field' => 'name'])
+                            <th class="px-4 py-3">
+                                @include('components.table.sort', ['field' => 'name', 'label' => 'Nombre'])
                             </th>
                             <th class="px-4 py-3">
                                 Correo
-                                @include('components.table.sort', ['field' => 'email'])
                             </th>
                             <th class="px-4 py-3">
                                 F. Registro
-                                @include('components.table.sort', ['field' => 'created_at'])
                             </th>
                             <th class="px-4 py-3">
                                 Rol

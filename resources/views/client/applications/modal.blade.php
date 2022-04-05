@@ -109,6 +109,7 @@
                                     <td class="w-4/12" id="total-prepagoSII">
                                         <input id="input-available" type="text" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
+                                            onfocus="if(this.flag == undefined){ this.flag = true; this.value=''; }"
                                             x-on:keydown.enter.prevent=""
                                             x-on:change.debounce="formatterCredit($event.target.id)" />
                                     </td>
@@ -146,6 +147,7 @@
                                     <td class="w-4/12" id="total-credito">
                                         <input type="text" id="input-credit" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
+                                            onfocus="if(this.value == '0'){this.value='';}"
                                             x-on:keydown.enter.prevent=""
                                             x-on:change.debounce="formatterCredit($event.target.id)" />
                                     </td>

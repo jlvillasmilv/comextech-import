@@ -1,5 +1,6 @@
 <template>
   <section class="flex flex-col lg:items-center w-full dark:bg-gray-900">
+    <loader />
     <!-- Pagos -->
     <section class="lg:flex lg:w-8/12 overflow-x-auto">
       <!-- pagos, fecha, tipo, restriccion -->
@@ -468,8 +469,10 @@
 
 <script>
 import { mapState } from 'vuex';
+import Loader from '../common/utils/Loader.vue';
 
 export default {
+  components: { Loader },
   data() {
     return {
       form: {
@@ -569,6 +572,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch('playPauseLoading', true);
     const { name: typePayment, valueInitial } = this.data.valuePercentage;
 
     if (this.editing && this.payment.length) {
@@ -579,6 +583,9 @@ export default {
     else if (this.$store.state.application.statusSuppliers == 'E-commerce')
       this.$store.state.payment.discount = 100;
     else if (typePayment !== 'Otros') this.$store.state.payment.discount = valueInitial;
+  },
+  mounted() {
+    this.$store.dispatch('playPauseLoading', false);
   }
 };
 </script>

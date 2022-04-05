@@ -1,5 +1,6 @@
 <template>
   <div class="mx-3 px-4 py-3 mb-8 bg-white rounded-lg dark:bg-gray-800">
+    <loader />
     <h3 class="my-2 font-semibold text-gray-700 dark:text-gray-200">Destino</h3>
     <div class="flex flex-wrap -mx-3">
       <div class="px-3 md:mb-0 ">
@@ -19,7 +20,6 @@
               leading-tight
               focus:outline-none focus:bg-white focus:border-gray-500
               dark:text-gray-300
-              dark:border-gray-600
               dark:bg-gray-700
               dark:focus:shadow-outline-gray
               form-select
@@ -117,8 +117,10 @@
 
 <script>
 import { mapState } from 'vuex';
+import Loader from './common/utils/Loader.vue';
 
 export default {
+  components: { Loader },
   computed: {
     ...mapState('internalStorage', ['form']),
     ...mapState('application', ['data', 'busy'])
@@ -161,6 +163,7 @@ export default {
     }
   },
   async created() {
+    this.$store.dispatch('playPauseLoading', true);
     try {
       let warehouses = await axios.get('/api/warehouses');
       let agencyTransport = await axios.get('/api/trans_companies');
@@ -169,6 +172,8 @@ export default {
       this.form.application_id = this.data.application_id;
     } catch (error) {
       console.log(error);
+    } finally {
+      this.$store.dispatch('playPauseLoading', false);
     }
   }
 };
