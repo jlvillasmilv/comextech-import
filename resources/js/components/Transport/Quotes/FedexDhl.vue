@@ -1,5 +1,6 @@
 <template>
   <section class="py-8 lg:py-0">
+    <loader />
     <!-- Fedex table quote -->
     <transition name="fade">
       <div v-if="isFedexQuote">
@@ -353,7 +354,9 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import Loader from '../../common/utils/Loader.vue';
 export default {
+  components: { Loader },
   data() {
     return {
       transportDhl: 0 /* transportation rate DHL */,

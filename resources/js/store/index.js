@@ -15,7 +15,8 @@ const state = () => ({
   selectedServices: [],
   tabActive: '',
   statusModal: true,
-  positionTabs: 0
+  positionTabs: 0,
+  isLoading: true
 });
 
 const mutations = {
@@ -79,6 +80,9 @@ const mutations = {
     //   return clearService;
     // });
     // this.state.application.selectedCondition.services = newCondition;
+  },
+  PLAY_PAUSE_LOADING(state, isAction) {
+    state.isLoading = isAction ? true : false;
   }
 };
 
@@ -94,6 +98,9 @@ const actions = {
   },
   clearService({ commit }) {
     commit('CLEAR_SERVICE');
+  },
+  playPauseLoading({ commit }, action) {
+    commit('PLAY_PAUSE_LOADING', action);
   }
 };
 
