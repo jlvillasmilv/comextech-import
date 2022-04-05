@@ -23,7 +23,7 @@
         </header>
         <!-- Modal body -->
         <div class="h-auto">
-            <form action="/application-generate-order" method="POST" class="flex flex-col justify-evenly h-auto"
+            <form class="flex flex-col justify-evenly h-auto"
                 x-on:submit.prevent="submitModalPayment">
                 <input type="hidden" name="application_id" id="application_id" x-model="application.id" />
 
@@ -109,6 +109,7 @@
                                     <td class="w-4/12" id="total-prepagoSII">
                                         <input id="input-available" type="text" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
+                                            x-on:keydown.enter.prevent=""
                                             x-on:change.debounce="formatterCredit($event.target.id)" />
                                     </td>
                                 </tr>
@@ -145,6 +146,7 @@
                                     <td class="w-4/12" id="total-credito">
                                         <input type="text" id="input-credit" value="0"
                                             class="text-center h-12 w-full p-3 border-black border rounded"
+                                            x-on:keydown.enter.prevent=""
                                             x-on:change.debounce="formatterCredit($event.target.id)" />
                                     </td>
                                 </tr>
@@ -198,9 +200,9 @@
                                     <td colspan="3">
                                         <div class="flex justify-center px-4">
                                             <button
-                                                type="button"
                                                 class="flex flex-col items-center justify-center w-40 h-20 bg-blue-1400 text-white text-sm border rounded-lg hover:bg-blue-1000"
-                                                x-bind:disabled="isLoadingPay">
+                                                x-bind:disabled="isLoadingPay"
+                                                >
                                                 <span class="font-semibold uppercase">Activar</span>
                                                 <span>(Firmar y/o Pagar)</span>
                                                 <svg x-show="isLoadingPay" class="animate-spin  h-5 w-5 text-white"
@@ -225,7 +227,8 @@
                                         <div>
                                             <button
                                                 class="flex items-center justify-evenly bg-gray-100 text-sm text-center font-semibold px-4 w-28 h-8 border border-blue-1400 rounded-lg hover:bg-gray-300"
-                                                type="button" id="btn-solicitar"
+                                                type="button"
+                                                id="btn-solicitar"
                                                 x-on:click="sendAuthorizationCode(application.id)"
                                                 x-bind:disabled="isDisabled && isLoadingValidation">
                                                 Solicitar<svg x-show="isLoadingValidation"

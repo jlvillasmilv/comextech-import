@@ -35,7 +35,7 @@
 					<div class="w-auto sm:w-1/2 sm:ml-1">
 
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">Nombre</span>
+                            <span class="text-gray-700 dark:text-gray-400">Nombre agencia de aduna</span>
                             <input class="{{ $errors->has('name') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre del Agente de aduana" / name="name" value="{{ old('name', isset($data) ? $data->name : '') }}" max="100" required="">
                             @if($errors->has('name'))
                                      <span class="text-xs text-red-600 dark:text-red-400">
@@ -48,12 +48,11 @@
 				</div>
 			</div>
 
-
             <div class="px-2">
 				<div class="sm:flex mb-4">
 					<div class="w-auto sm:w-1/2 mr-1">
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">Persona de contacto</span>
+                            <span class="text-gray-700 dark:text-gray-400">Nombre del contacto</span>
                             <input class="{{ $errors->has('contact_person') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nombre Persona de contacto" / name="contact_person" value="{{ old('contact_person', isset($data) ? $data->contact_person : '') }}" max="50">
                             @if($errors->has('contact_person'))
                                      <span class="text-xs text-red-600 dark:text-red-400">

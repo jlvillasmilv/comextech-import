@@ -25,7 +25,7 @@
 					<div class="w-1/2 ml-1">
 
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">Nombre</span>
+                            <span class="text-gray-700 dark:text-gray-400">Nombre agencia de aduna</span>
                             <p class="font-semibold">{{$data->name}}</p>
                         </label>
 						
@@ -38,7 +38,7 @@
 				<div class="flex mb-4">
 					<div class="w-1/2 mr-1">
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">Persona de contacto</span>
+                            <span class="text-gray-700 dark:text-gray-400">Nombre del contacto</span>
 
                             <p class=" text-gray-600 dark:text-gray-400">
                                 {{$data->contact_person}}
