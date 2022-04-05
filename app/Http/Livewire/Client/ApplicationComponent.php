@@ -24,16 +24,14 @@ class ApplicationComponent extends Component
 
     public array $paginationOptions;
 
+    public $sortField;
+
+    public $sortDirection = 'desc';
+
     protected $queryString = [
-        'search' => [
-            'except' => '',
-        ],
-        'sortBy' => [
-            'except' => 'id',
-        ],
-        'sortDirection' => [
-            'except' => 'desc',
-        ],
+        'search' => [ 'except' => ''],
+        'sortBy' => ['except' => 'id'],
+        'sortDirection' => ['except' => 'desc'],
     ];
 
     public function getSelectedCountProperty()

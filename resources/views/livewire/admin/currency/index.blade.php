@@ -44,15 +44,15 @@
                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             
                             <th class="px-4 py-3">Nombre
-                                @include('components.table.sort', ['field' => 'name'])
+                             
                             </th>
                             <th class="px-4 py-3">
                                 Codigo
-                                @include('components.table.sort', ['field' => 'code'])
+                             
                             </th>
                             <th class="px-4 py-3">
                                 Simbolo
-                                @include('components.table.sort', ['field' => 'symbol'])
+                               
                             </th>
                             <th class="px-4 py-3">Actions</th>
                         </tr>
