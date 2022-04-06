@@ -3,7 +3,7 @@
         <table class="w-full whitespace-no-wrap">
             <thead>
                 <tr
-                class="text-sm font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
+                class="text-sm font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">Servicio </th>
                     <th class="px-4 py-3">Fecha </th>
                     <th class="px-4 py-3">Moneda / Monto </th>
@@ -24,7 +24,8 @@
                     </td>
                   
                     <td class="px-4 py-3 text-sm">
-                        {{ $detail->currency->code }}  {{ $detail->currency->symbol }}   {{number_format($detail->amount,0,",",".") }}
+                         {{number_format($detail->amount, $detail->currency->code == 'CLP' ? 0 : 2 ,",",".") }}
+                         {{ $detail->currency->code }} 
                     </td>
                     
                 </tr>

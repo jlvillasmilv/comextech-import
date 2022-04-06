@@ -17,7 +17,7 @@
                     <table class="w-full whitespace-no-wrap">
                         <thead>
                             <tr
-                                class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                                class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800"
                             >
                                 <th class="px-4 py-3">Pago</th>
                                 <th class="">Porcentaje</th>
@@ -236,7 +236,7 @@
                             {{  $application->internmentProcess->iva ? 'checked="true"' : '' }}
                             class="form-checkbox h-4 w-4 text-gray-800"
                             />
-                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }}
+                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }} CLP
                         </p>
                     </div>
                     <div class="w-1/2 ml-1">
@@ -249,7 +249,7 @@
                             {{  $application->internmentProcess->adv ? 'checked="true"' : '' }}
                             class="form-checkbox h-4 w-4 text-gray-800"
                             />
-                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} 
+                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} CLP
                         </p>
                     </div>
                 </div>
@@ -365,7 +365,7 @@
                 <table class="w-full whitespace-no-wrap">
                     <thead>
                         <tr
-                            class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800"
+                            class="text-xs font-semibold tracking-wide text-left text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800"
                         >
                            
                             <th class="px-4 py-3">{{ $application->type_transport == 'CONTAINER' ? 'Tipo de Container' : 'Tipo de Carga' }} </th>
