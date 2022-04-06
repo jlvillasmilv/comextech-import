@@ -59,7 +59,6 @@ function data() {
     isModalOpen: false,
     trapCleanup: null,
     openModal() {
-      console.log(123123123);
       this.isModalOpen = true;
     },
 
@@ -179,7 +178,7 @@ function data() {
           console.log(response);
 
           if (response.data.order) {
-            window.open(response.data.order + '?n=' + new Date().getTime(), '_blank');
+            window.open(response.data.order, '_blank');
           }
 
           if (response.status == 200) {
@@ -192,7 +191,7 @@ function data() {
           this.closeModal();
           window.setTimeout(function () {
             window.location.reload();
-          }, 2000);
+          }, 3000);
         })
         .catch((error) => {
           this.isLoadingPay = false;
