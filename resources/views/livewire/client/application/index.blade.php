@@ -79,14 +79,19 @@
                            </p>
                        </td>
                        <td class="px-2 py-2  text-sm border-b-2 border-gray-400">
-                           <strong> {{ $application->currencyTco->code }}
-                               {{ $application->currencyTco->symbol }}
-                               {{ number_format($application->tco, 0, ',', '.') }}
+                           <strong> 
+                              
+                               
+                               {{ number_format($application->tco, ($application->currencyTco->code == 'CLP' ? 0 : 2) , ',', '.') }}
+                               {{ $application->currencyTco->code }}
                            </strong>
                        </td>
                        <td class="px-2 py-2  text-sm border-b-2 border-gray-400">
-                           <strong> {{ $application->currency->code }} {{ $application->currency->symbol }}
-                               {{ number_format($application->amount, 0, ',', '.') }}</strong>
+                           <strong> 
+                                
+                                {{ number_format($application->amount, ($application->currency->code == 'CLP' ? 0 : 2) , ',', '.') }}
+                                {{ $application->currency->code }}
+                            </strong>
                        </td>
                        <td class="px-2 text-sm w-32 border-b-2 border-gray-400">
                            {{-- Status application --}}

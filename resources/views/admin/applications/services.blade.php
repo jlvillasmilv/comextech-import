@@ -236,7 +236,7 @@
                             {{  $application->internmentProcess->iva ? 'checked="true"' : '' }}
                             class="form-checkbox h-4 w-4 text-gray-800"
                             />
-                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }}
+                            {{ number_format($application->internmentProcess->iva_amt,0,",",".") }} CLP
                         </p>
                     </div>
                     <div class="w-1/2 ml-1">
@@ -249,7 +249,7 @@
                             {{  $application->internmentProcess->adv ? 'checked="true"' : '' }}
                             class="form-checkbox h-4 w-4 text-gray-800"
                             />
-                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} 
+                            {{ number_format($application->internmentProcess->adv_amt,0,",",".") }} CLP
                         </p>
                     </div>
                 </div>
