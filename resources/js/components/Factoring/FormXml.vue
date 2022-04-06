@@ -59,10 +59,10 @@
       :useCustomSlot="true"
     >
       <div class="dropzone-custom-content">
-        <h3 class="dropzone-custom-title text-green-400 font-bold text-2xl mb-2">
+        <h3 class="dropzone-custom-title text-blue-1000 font-bold text-2xl mb-2">
           Arrastrar aqui archivos XML
         </h3>
-        <div class="font-bold text-lg">
+        <div class="text-lg">
           o haga clic para seleccionar un archivo de su computadora
         </div>
       </div>
