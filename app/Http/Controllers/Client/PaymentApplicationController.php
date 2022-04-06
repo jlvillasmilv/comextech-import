@@ -88,7 +88,7 @@ class PaymentApplicationController extends Controller
                     return response()->json($url["message"], 500);
                 }
 
-                $url_order = $url["duplicate_url"];
+                $url_order = $url["checkout_url"];
             }
         
             return response()->json(['order' => $url_order], 200);

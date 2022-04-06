@@ -65,7 +65,7 @@ class ApplicationComponent extends Component
     {
         $this->sortBy            = 'code';
         $this->sortDirection     = 'desc';
-        $this->perPage           = 10;
+        $this->perPage           = 5;
         $this->paginationOptions = config('project.pagination.options');
         $this->orderable         = ['code','name','created_at'];
     }
