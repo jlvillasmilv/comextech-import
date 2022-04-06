@@ -20,13 +20,7 @@
     </div>
 
   <div class="flex flex-wrap ">
-       <div class="w-full md:w-1/2 px-3">
-             <select wire:model="perPage" class="flex w-1/2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select ">
-               @foreach($paginationOptions as $value)
-                   <option value="{{ $value }}">{{ $value }}</option>
-               @endforeach
-           </select>
-       </div>
+      
        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <div class="relative w-full max-w-xl mr-6 focus-within:text-blue-500 ">
                  <div class="absolute inset-y-0 flex items-center pl-2">
@@ -222,7 +216,17 @@
             </tbody>
            </table>
        </div>
-       {{ $datas->withQueryString()->links() }}
+       <div class="sm:flex my-3 justify-between">
+            <div class="w-full md:w-1/2 px-3">
+                <select wire:model="perPage" class="flex w-1/2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-select ">
+                @foreach($paginationOptions as $value)
+                    <option value="{{ $value }}">{{ $value }}</option>
+                @endforeach
+            </select>
+            </div>
+            {{ $datas->withQueryString()->links() }}
+       </div>
+       
    </div>
 </div>
 
