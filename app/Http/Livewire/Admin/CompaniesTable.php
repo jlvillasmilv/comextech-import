@@ -28,7 +28,8 @@ class CompaniesTable extends LivewireDatatable
             // })->searchable()->filterOn('users.name')->label('Usuario'),
 
             Column::callback(['id'], function ($id) {
-                return view('table-actions', ['id' => $id, 'route' => 'admin.clients.']);
+                $company = Company::with('user')->where('id', $id)->first();
+                return view('admin.clients.table-actions', ['id' => $id, 'route' => 'admin.clients.', 'company' => $company]);
             })->excludeFromExport()
         ];
     }

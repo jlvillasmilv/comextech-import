@@ -1,5 +1,5 @@
 <div class="container grid px-6 mx-auto">
-    <h2 class="mt-5   text-2xl font-semibold text-gray-700 dark:text-gray-200">
+    <h2 class="mt-5 text-2xl font-semibold text-gray-700 dark:text-gray-200">
        Solicitudes
      </h2>
 
@@ -227,7 +227,6 @@
             {{ $datas->withQueryString()->links() }}
        </div>
        
+        @include('client.applications.modal')
    </div>
 </div>
-
-@include('client.applications.modal')
