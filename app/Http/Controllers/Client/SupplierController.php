@@ -68,7 +68,7 @@ class SupplierController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('supplier.edit', $supplier->id);
+        return redirect()->route('supplier.index');
     }
 
     /**
@@ -128,7 +128,7 @@ class SupplierController extends Controller
 
         \Session::flash('notification', $notification);
 
-        return redirect()->route('supplier.edit', $supplier->id);
+        return redirect()->route('supplier.index');
 
     }
 
