@@ -11,7 +11,7 @@
             
         </div>
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
-            <div class="w-full whitespace-no-wrap">
+            <div class="w-full whitespace-no-wrap" id="table">
                 <livewire:admin.companies-table />
             </div>
         </div>
