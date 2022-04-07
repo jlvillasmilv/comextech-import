@@ -152,7 +152,7 @@ $credential = auth()->user()->credentialStores;
                                     <td class="px-4 py-3">
                                         <div class="flex flex-nowrap">
                                             <a href="{{ route('factoring.applications.show', base64_encode($application->id)) }}"
-                                                class="px-2 py-2  text-sm font-medium leading-5 text-green-300 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                class="px-2 py-2  text-sm font-medium leading-5 text-blue-1000 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                 aria-label="Edit">
 
                                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
