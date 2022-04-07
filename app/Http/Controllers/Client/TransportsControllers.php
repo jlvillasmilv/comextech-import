@@ -122,19 +122,13 @@ class TransportsControllers extends Controller
 
             $transport_amount = is_null($request->app_amount) ? 0 : $request->app_amount;
 
-            $rate_insurance_transp = \DB::table('settings')->first(['min_rate_transp'])->min_rate_transp;
-
             $amount = $transport->application->amount;
 
-           
-
-            if($transport->application->currency->code != 'USD'){
-
+            if($transport->application->currency->code != 'USD')
+            {
                 $exchange = New Currency;
                 $amount = $exchange->convertCurrency($transport->application->amount, $transport->application->currency->code, 'USD');
-
             }
-
 
             $cif = $amount + $transport_amount;
             $oth_exp  = 0;
@@ -144,7 +138,6 @@ class TransportsControllers extends Controller
             $to_port_transport   = '';
 
             //data calculate other expenses courier
-
             if($transport->application->type_transport == "COURIER")
             {
                 $data = [
@@ -169,9 +162,23 @@ class TransportsControllers extends Controller
             }
 
            
-            $insurance_amount = $cif * 0.015 > $rate_insurance_transp ? $cif * 0.015 : $rate_insurance_transp;
+            // transport insurance calculation (Courier)
+            $insurance_amount = 0;
+            $rate_insurance_transp = \DB::table('settings')->first(['min_rate_transp'])->min_rate_transp;
 
-            if($transport->application->type_transport == "AEREO" || $transport->application->type_transport == "CONTAINER" || $transport->application->type_transport == "CONSOLIDADO")
+            if($amount <= 3000)
+            {
+                $insurance_amount = $cif * 0.015 > 30 ? $cif * 0.015 : 30;
+            }
+            else {
+                $insurance_amount = $cif * 0.035 > $rate_insurance_transp ? $cif * 0.035 : $rate_insurance_transp;
+            }
+
+            
+
+            if($transport->application->type_transport == "AEREO" 
+                || $transport->application->type_transport == "CONTAINER"
+                || $transport->application->type_transport == "CONSOLIDADO")
             {
                 $data = [
                     'commodity'      => $amount,
