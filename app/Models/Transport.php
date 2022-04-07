@@ -86,8 +86,6 @@ class Transport extends Model
                 $type_mark_up = 'fcl';
                 $rate_insurance_transp = \DB::table('settings')->first(['min_rate_fcl'])->min_rate_fcl;
 
-               
-              
                 foreach($data['cargo'] as $key => $item) {
                     $field = empty($item['container_name'])  ? 'c'.$item->container->name : 'c'.$item['container_name'];
 

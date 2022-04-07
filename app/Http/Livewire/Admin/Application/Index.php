@@ -59,11 +59,11 @@ class Index extends Component
 
     public function mount()
     {
-        $this->sortBy            = 'id';
+        $this->sortBy            = 'code';
         $this->sortDirection     = 'desc';
-        $this->perPage           = 10;
+        $this->perPage           = 5;
         $this->paginationOptions = config('project.pagination.options');
-        $this->orderable         = ['id','name','email'];
+        $this->orderable         = ['code','name','created_at'];
     }
 
     public function render()
@@ -76,6 +76,6 @@ class Index extends Component
 
         $datas = $query->paginate($this->perPage);
 
-        return view('livewire.admin.application.index', compact( 'datas', 'datas'));
+        return view('livewire.admin.application.index', compact('datas'));
     }
 }
