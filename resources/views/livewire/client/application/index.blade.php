@@ -207,7 +207,7 @@
                    <tr>
                        <td class="px-4 py-3 border-b-2 border-gray-400" colspan="6">
                            <div class="flex justify-center items-center">
-                                <span class="font-medium py-8 text-cool-gray-400 text-xl">Sin solicitudes</span> 
+                                <span class="font-medium py-4 text-cool-gray-400 text-xl">Sin solicitudes</span> 
                            </div>
                         </td>
                    </tr>

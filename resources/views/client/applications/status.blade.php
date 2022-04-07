@@ -16,10 +16,13 @@
      {!! $application->status->name == 'Validada' || $application->status->name == 'Activada' ? ($application->status->name == 'Validada' && !$application->state_process ? "<p class='animate-pulse text-red-300'>Validando</p>" : 'Validada') : 'Validación' !!}
 
      @if ($application->status->name == 'Validada' and $application->state_process)
-         <button type="button" data-id="{{ base64_encode($application->id) }}"
+         <button
+             type="button"
+             data-id="{{ base64_encode($application->id) }}"
              data-msg="Desea validar solicitud {{ $application->code }}"
-              data-remote="{{ route('application.status') }}"
-             class="animate-pulse ml-2 leading-5 text-gray-800 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app">
+             data-remote="{{ route('application.status') }}"
+             x-on:click = "applicationStatus(event.currentTarget)"
+             class="animate-pulse ml-2 leading-5 text-gray-800 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor" stroke-width="2">
                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
@@ -32,7 +35,8 @@
 {{ $application->status->name == 'Borrador' ? ' bg-blue-1000' : ' bg-gray-200' }}">
      Borrador
      @if (!$application->state_process)
-         <button title="Ver detalles de Observaciones" data-id="{{ base64_encode($application->id) }}"
+         <button title="Ver detalles de Observaciones"
+             data-id="{{ base64_encode($application->id) }}"
              data-remote="{{ route('application.notifications') }}"
              class="float-right animate-pulse ml-2 leading-5 text-red-500 dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-notif-app">
              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -44,10 +48,15 @@
      @endif
 
      @if ($application->status->name == 'Borrador' and $application->state_process)
-         <button type="button" data-id="{{ base64_encode($application->id) }}"
+         <button
+             id="{{ 'b'.$application->code }}"
+             type="button"
+             data-id="{{ base64_encode($application->id) }}"
              data-msg="Desea validar solicitud {{ $application->code }}"
              data-remote="{{ route('application.status') }}"
-             class="animate-pulse ml-2 leading-5 text-gray-800 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app">
+             x-on:click = "applicationStatus(event.currentTarget)"
+             class="animate-pulse ml-2 leading-5 text-gray-800 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+             >
              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor" stroke-width="2">
                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
