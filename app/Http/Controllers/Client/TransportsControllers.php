@@ -161,20 +161,20 @@ class TransportsControllers extends Controller
                     ]);
             }
 
-           
             // transport insurance calculation (Courier)
             $insurance_amount = 0;
             $rate_insurance_transp = \DB::table('settings')->first(['min_rate_transp'])->min_rate_transp;
 
             if($amount <= 3000)
             {
-                $insurance_amount = $cif * 0.015 > 30 ? $cif * 0.015 : 30;
+                $insurance_amount = ($cif * 1.5) / 100 > 30 ? ($cif * 1.5) / 100 : 30;
             }
             else {
-                $insurance_amount = $cif * 0.035 > $rate_insurance_transp ? $cif * 0.035 : $rate_insurance_transp;
+                $cif_mayor = $cif + ($cif * 10) / 100; 
+                $insurance_amount = $cif_mayor * 0.035 > $rate_insurance_transp
+                 ? $cif_mayor * 0.035 
+                 : $rate_insurance_transp;
             }
-
-            
 
             if($transport->application->type_transport == "AEREO" 
                 || $transport->application->type_transport == "CONTAINER"
