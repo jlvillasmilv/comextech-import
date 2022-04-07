@@ -209,6 +209,7 @@ function data() {
 
       this.isModalOpen = false;
       this.trapCleanup = null;
+      window.setTimeout(function () { window.location.reload() }, 1000);
     },
     async sendAuthorizationCode(id) {
       this.isDisabled = true;
@@ -236,24 +237,93 @@ function data() {
       this.isLoadingPay = false;
       this.isLoadingValidation = false;
       this.isDisabled = false;
+    },
+    applicationStatus(el) {
+
+      const url = el.getAttribute('data-remote');
+      const msg = el.getAttribute('data-msg');
+      const application_id = el.getAttribute('data-id'); 
+      
+      el.setAttribute('disabled', true);
+     
+      Swal.fire({
+        title: msg,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        confirmButtonColor: '#142c44',
+        cancelButtonText: 'No',
+        cancelButtonColor: '#d33',
+        showLoaderOnConfirm: true,
+        preConfirm: async () => {
+          await axios.post(url, {
+            application_id: application_id,
+          }).then(response => {
+
+              if (response.data.notifications) {
+
+                Swal.fire({
+                  title: '<strong>No fue posible Generar</strong>',
+                  icon: 'warning',
+                  html: `<div style="text-align: left; margin-left: 10px"> ${response.data.notifications}</ div>`,
+                  showDenyButton: false,
+                  showCancelButton: false,
+                  confirmButtonText: 'Ok',
+                  confirmButtonColor: '#142c44',
+                  focusConfirm: true,
+                  backdrop: false,
+                  allowOutsideClick: false
+                }).then((result) => {
+                  /* Read more about isConfirmed, isDenied below */
+                  if (result.isConfirmed) {
+                    window.location.reload();
+                  } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                  }
+                })
+
+                $(this).attr('disabled', false);
+
+              }
+              else {
+               
+                if(response.data.application.status.name =='Activada')
+                {
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'Activado con exito!, proceder a realizar el pago de la solicitud: '+response.data.application.code,
+                  })
+
+                  this.openModalPayment(response.data.application.id);
+                }
+                else {
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'Generado con exito',
+                  })
+  
+                  window.setTimeout(function () { window.location.reload() }, 2000);
+
+                }
+               
+              }
+              
+          }).catch(error => {
+            console.log(error);
+            Toast.fire({
+              icon: 'error',
+              title: "No es posible continuar verifique y vuelve a intentarlo más tarde"
+            })
+
+          })
+            .then(function () {
+              // always executed
+            });
+
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+      })
+
     }
   };
 }
-// let selector = document.getElementById('input-available');
-// $(document).ready(function() {
-//   $(selector).inputmask('99-9999999');
-// });
-// $("input[name='masknumber']").on('keyup change', function() {
-//   $("input[name='number']").val(destroyMask(this.value));
-//   // this.formPaymentApp.available_prepaid = this.value;
-//   console.log(this.formPaymentApp.available_prepaid);
-//   this.value = createMask($("input[name='number']").val());
-// });
-
-// function createMask(string) {
-//   return string.replace(/(\d{1})(\d{3})(\d{3})/, '$1.$2.$3');
-// }
-
-// function destroyMask(string) {
-//   return string.replace(/\D/g, '').substring(0, 7);
-// }
