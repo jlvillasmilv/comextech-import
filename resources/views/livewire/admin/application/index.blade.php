@@ -36,8 +36,8 @@
            <table class="w-full whitespace-no-wrap">
                <thead>
                    <tr
-                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                       <th class="px-4 py-3">Numero </th>
+                       class="text-xs font-semibold tracking-wide text-left text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
+                       <th class="px-4 py-3">@include('components.table.sort', ['field' => 'code', 'label' => 'Numero']) </th>
                        <th class="px-4 py-3">Cliente </th>
                        <th class="px-4 py-3">Status </th>
                        <th class="px-4 py-3">Fecha  </th>
@@ -46,7 +46,7 @@
                </thead>
                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                    @forelse($datas as $data)
-                   <tr class="text-gray-700 dark:text-gray-400">
+                   <tr class="text-gray-700 dark:text-gray-400" wire:loading.class.delay="opacity-50" id="{{ $data->id }}">
                        
                        <td class="px-4 py-3 text-sm">
                            <p class="font-semibold">{{ $data->code }}</p>
@@ -67,7 +67,7 @@
                            <div class="flex items-center space-x-4 text-sm">
                                @can('admin.applications.show')
                                <a  href="{{ route('admin.applications.show', $data->id) }}" 
-                                   class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                   class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-1400 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                    aria-label="Edit">
                                   
                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -96,7 +96,7 @@
                                @endcan
                                @can('admin.applications.edit')
                                    <a  href="{{ route('admin.applications.edit', $data->id) }}"
-                                       class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                       class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-1300 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                        aria-label="Delete">
                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
                                            viewBox="0 0 20 20">
@@ -112,12 +112,16 @@
 
                    @empty
                    <tr class="text-gray-700 dark:text-gray-400">
-                       <td class="px-4 py-3 text-sm" colspan="5">No entries found.</td>
+                       <td class="px-4 py-3 text-sm" colspan="5">
+                            <div class="flex justify-center items-center">
+                                <span class="font-medium py-4 text-cool-gray-400 text-xl">Sin solicitudes</span> 
+                            </div>
+                       </td>
                    </tr>
                @endforelse
                </tbody>
            </table>
        </div>
-       {{ $datas->links() }}
+       {{ $datas->withQueryString()->links() }}
    </div>
 </div>
