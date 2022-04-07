@@ -40,7 +40,7 @@
                        <th class="px-4 py-3">Numero </th>
                        <th class="px-4 py-3">Cliente </th>
                        <th class="px-4 py-3">Status </th>
-                       <th class="px-4 py-3"> Fecha    </th>
+                       <th class="px-4 py-3">Fecha  </th>
                        <th class="px-4 py-3">Actions</th>
                    </tr>
                </thead>
@@ -49,7 +49,7 @@
                    <tr class="text-gray-700 dark:text-gray-400">
                        
                        <td class="px-4 py-3 text-sm">
-                           <p class="font-semibold">{{ $data->id }}</p>
+                           <p class="font-semibold">{{ $data->code }}</p>
                        </td>
                        <td class="px-4 py-3 text-xs">
                            <div class="flex items-center text-sm">                                 
