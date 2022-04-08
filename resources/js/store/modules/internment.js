@@ -17,7 +17,7 @@ export default {
       file_certificate: '',
       dataLoad: [],
       files: [],
-      iva: true,
+      iva: false,
       iva_amt: 0,
       adv: false,
       adv_amt: 0,
@@ -33,7 +33,8 @@ export default {
       certFile: '',
       file1Name: '',
       file2Name: ''
-    }
+    },
+    isTaxDutys: false
   },
   getters: {},
   mutations: {
@@ -63,6 +64,20 @@ export default {
         state.filesUpload.certFile = invoice;
         state.filesUpload.file1Name = otherfile;
         state.filesUpload.file2Name = otherfile2;
+      }
+    },
+    changeTax(state, value) {
+      if (value) {
+        state.expenses.tax_comex = true;
+        state.expenses.iva = true;
+        state.expenses.adv = true;
+        state.isTaxDutys = true;
+      }
+      if (!value) {
+        state.expenses.tax_comex = false;
+        state.expenses.iva = false;
+        state.expenses.adv = false;
+        state.isTaxDutys = false;
       }
     }
   },
