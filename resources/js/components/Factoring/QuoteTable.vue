@@ -244,7 +244,7 @@
               </div>
               <div>
                 <div class="font-bold uppercase mb-6">
-                  Cambio de fecha de vencimiento de factura Folio #{{ itemEditing.number }}
+                  Fecha de vencimiento de factura{{ itemEditing.number }}
                 </div>
                 <div class="flex flex-wrap justify-center items-center px-2">
                   <div class="flex px-8" v-if="expireDate">
@@ -285,13 +285,13 @@
                       data-toggle="modal"
                       v-bind="$attrs"
                       data-dismiss="modal"
-                      class="w-48 h-10 flex items-center justify-around text-white uppercase bg-blue-1000 text-center align-middle p-2 text-sm rounded hover:bg-blue-1100 focus:shadow-outline-blue focus:outline-none"
+                      class="w-40 h-10 flex items-center justify-around text-white uppercase bg-blue-1000 text-center align-middle p-2 text-sm rounded hover:bg-blue-1100 focus:shadow-outline-blue focus:outline-none"
                     >
-                      Actualizar fecha
+                      Actualizar
                       <span
                         class="iconify w-5 h-5"
                         data-icon="fa6-solid:calendar-check"
-                        color="#142c44"
+                        color="#ffffff"
                       ></span>
                     </button>
                   </div>
