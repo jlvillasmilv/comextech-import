@@ -153,7 +153,7 @@
                   <transition name="fade">
                     <button
                       v-if="isButtonFedex && isFedexQuote"
-                      @click="selectQuote(totalEstimed, 2)"
+                      @click="selectQuote(totalEstimed, 2, fedex.DeliveryTimestamp)"
                       :class="[
                         isBusyFedex
                           ? 'flex flex-col items-center justify-center w-24 px-2 h-15 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
@@ -326,7 +326,7 @@
                   <transition name="fade">
                     <button
                       v-if="isButtonDhl && showDhlQuote"
-                      @click="selectQuote(dhl.ComextechTotal, 3)"
+                      @click="selectQuote(dhl.ComextechTotal, 3, dhl.DeliveryDate)"
                       :class="[
                         isBusyDhl
                           ? 'flex flex-col items-center justify-center w-24 px-2 h-15 text-white transition-colors text-sm bg-blue-1300 rounded-lg focus:shadow-outline hover:bg-blue-1200 active:bg-blue-1300'
@@ -378,7 +378,7 @@ export default {
      * @param {2} FEDEX
      * @param {3} DHL
      */
-    async selectQuote(appAmount, transCompanyId) {
+    async selectQuote(appAmount, transCompanyId, eta = null) {
       if (transCompanyId === 2) {
         this.isDhlQuote = false;
         this.$store.commit('address/SELECT_COURIER', transCompanyId);
@@ -389,6 +389,8 @@ export default {
         this.$store.commit('address/SELECT_COURIER', transCompanyId);
         this.isButtonDhl = false;
       }
+
+      this.expenses.eta = eta;
       this.expenses.dataLoad = this.$store.state.load.loads;
       this.expenses.app_amount = appAmount;
       this.expenses.trans_company_id = transCompanyId;
@@ -414,6 +416,8 @@ export default {
     if (this.showFedexQuote) {
       this.transportQuote =
         parseFloat(this.fedex.TotalBaseCharge) - parseFloat(this.fedex.Discount);
+
+        this.address.eta = this.fedex.DeliveryTimestamp;
 
       this.transportQuote = this.transportQuote.toFixed(2);
 

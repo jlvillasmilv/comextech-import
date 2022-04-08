@@ -84,15 +84,15 @@
                             
                         <div class="flex justify-center items-start mt-1">
                             <span 
-                              class="iconify h-5 w-5 {{ in_array('ICS01', (array)explode(",", $application->services_code)) ? 'text-blue-1400' : '' }} "
+                              class="iconify h-5 w-5 {{ in_array('ICS01', (array)explode(",", $application->services_code)) ? 'text-blue-1000' : 'text-gray-500' }} "
                               data-icon="vs:p-square"></span>
                         </div>
                         <div class="flex justify-center items-start mt-1">
-                            <span class="iconify h-5 w-5 text-red {{ in_array('ICS03', (array)explode(",", $application->services_code)) ? 'text-blue-1400' : '' }} "
+                            <span class="iconify h-5 w-5 {{ in_array('ICS03', (array)explode(",", $application->services_code)) ? 'text-blue-1000' : 'text-gray-500' }} "
                              data-icon="vs:t-square"></span>
                         </div>
                         <div class="flex justify-center items-start mt-1">
-                            <span class="iconify h-5 w-5 text-bg-red-300 {{ in_array('ICS04', (array)explode(",", $application->services_code)) ? 'text-blue-1400' : '' }}"
+                            <span class="iconify h-5 w-5 text-bg-red-300 {{ in_array('ICS04', (array)explode(",", $application->services_code)) ? 'text-blue-1000' : 'text-gray-500' }}"
                              data-icon="vs:a-square"></span>
                         </div>
                            

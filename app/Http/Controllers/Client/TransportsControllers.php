@@ -114,6 +114,7 @@ class TransportsControllers extends Controller
                     'dest_longitude'        => $request->dest_longitude,
                     
                     'estimated_date'        => $request->estimated_date,
+                    'eta'                   => $request->eta,
                     'insurance'             => $request->insurance,
                 ]
             );
@@ -215,6 +216,8 @@ class TransportsControllers extends Controller
                 $currency_id       = 1;
               
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
+
+                \DB::table('transports')->where('id', $transport->id)->update(['eta' => $fee_date]);
 
             }
 
