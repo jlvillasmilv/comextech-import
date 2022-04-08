@@ -47,6 +47,7 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+      
         $app_id = new Application;
         $status = $app_id->validStatus($request->application_id);
         //$services_code = array_diff($request->services, array("ICS07"));
@@ -58,8 +59,6 @@ class ApplicationController extends Controller
          try {
 
             $value_initial = isset($request->valuePercentage['valueInitial']) ? $request->valuePercentage['valueInitial'] : 0;
-
-            //  dd($request->value_initial <= 0 ? 0 : 100 - $value_initial);
 
             $application =  Application::updateOrCreate(
                 [

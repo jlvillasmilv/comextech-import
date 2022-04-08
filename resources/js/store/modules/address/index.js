@@ -21,6 +21,7 @@ const state = {
     dest_latitude: 0,
     dest_longitude: 0,
     estimated_date: new Date().toISOString().slice(0, 10),
+    eta: new Date().toISOString().slice(0, 10),
     description: '',
     dataLoad: [],
     fav_origin_address: false,

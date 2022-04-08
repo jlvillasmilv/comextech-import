@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transport extends Model
 {
-    use HasFactory;
+
     use SoftDeletes;
 
     protected $table = 'transports';
@@ -245,7 +244,7 @@ class Transport extends Model
             ->join('services as s', 'as.service_id', '=', 's.id')
             ->where([
                ["as.application_id", $data['application_id'] ],
-               ["s.code", 'CS03-03']
+               ["s.code", 'CS03-05']
                ])
             ->update([
                     'amount'      =>  $total,
