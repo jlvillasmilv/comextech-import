@@ -114,6 +114,7 @@ class TransportsControllers extends Controller
                     'dest_longitude'        => $request->dest_longitude,
                     
                     'estimated_date'        => $request->estimated_date,
+                    'eta'                   => $request->eta,
                     'insurance'             => $request->insurance,
                 ]
             );
@@ -141,13 +142,14 @@ class TransportsControllers extends Controller
             if($transport->application->type_transport == "COURIER")
             {
                 $data = [
-                        'application_id'     => $request->application_id,
+                        'application_id'     => $transport->application->id,
                         'trans_company_id'   => $transport->trans_company_id,
                         'amount'             => $amount,
                 ];
 
                 Transport::rateLocalCourierExpenses($data);
-            }else {
+            }
+            else {
                 // update application summary local expense
                 \DB::table('application_summaries as as')
                 ->join('services as s', 'as.service_id', '=', 's.id')
@@ -215,6 +217,8 @@ class TransportsControllers extends Controller
               
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
 
+                \DB::table('transports')->where('id', $transport->id)->update(['eta' => $fee_date]);
+
             }
 
             // update application summary International transport
@@ -248,7 +252,7 @@ class TransportsControllers extends Controller
                     ->join('services as s', 'as.service_id', '=', 's.id')
                     ->where([
                         ["as.application_id", $request->application_id],
-                        ["s.code", 'CS03-05']
+                        ["s.code", 'CS06-02']
                     ])
             ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
@@ -328,6 +332,7 @@ class TransportsControllers extends Controller
                     
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = round($item->Amount->Amount, 2);
+                        $quote[$item->SurchargeType.'_Currency'] = $item->Amount->Currency;
                         /* Applying the discount on the estimated total */
                         $quote['TotalEstimed'] = round($quote['TotalEstimed'] + $item->Amount->Amount, 2);
                     }
@@ -493,15 +498,16 @@ class TransportsControllers extends Controller
             "origin_postal_code" => 33140,
             "origin_locality" => "Miami Beach",
             "origin_ctry_code" => "US",
-            "fav_dest_address" => true,
-            "dest_address" => "1",
-            "dest_latitude" => null,
-            "dest_longitude" => null,
+            "fav_dest_address" => false,
+            "dest_address" => "Eliodoro Yañez, Providencia, Región Metropolitana, Chile",
+            "dest_latitude" => -33.4308132,
+            "dest_longitude" => -70.6064803,
             "dest_postal_code" => null,
-            "dest_locality" => null,
-            "dest_ctry_code" => null,
+            "dest_locality" => "Providencia",
+            "dest_ctry_code" => "CL",
+            "dest_province" => "Santiago",
             "insurance" => false,
-            "estimated_date" => "2022-01-02",
+            "estimated_date" => "2022-04-08",
             "description" => "Carga",
             "type_transport" => "CARGA AEREA",
             "dataLoad" => [
@@ -509,30 +515,16 @@ class TransportsControllers extends Controller
                 "mode_calculate" => true,
                 "category_load_id" => 1,
                 "type_container" => 1,
-                "length" => 30,
-                "width"  => 30,
-                "height" => 30,
+                "length" => 100,
+                "width"  => 100,
+                "height" => 100,
                 "length_unit" => "CM",
                 "id" => 0,
-                "cbm" => 0.1728,
-                "weight" => 16,
+                "cbm" => 1,
+                "weight" => 10,
                 "weight_units" => "KG",
                 "stackable" => false
-               ],
-               [
-                "mode_calculate" => true,
-                "category_load_id" => 1,
-                "type_container" => 1,
-                "length" => 30,
-                "width"  => 30,
-                "height" => 30,
-                "length_unit" => "CM",
-                "id" => 0,
-                "cbm" => 0.1728,
-                "weight" => 300,
-                "weight_units" => "KG",
-                "stackable" => false
-               ],
+               ]
                
             ]
         ];
@@ -541,7 +533,7 @@ class TransportsControllers extends Controller
         $connect = new FedexApi;
         $fedex_response = $connect->rateApi($data);
 
-        dd($fedex_response);
+        dd($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']);
     }
     
 }
