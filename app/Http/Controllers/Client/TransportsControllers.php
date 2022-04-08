@@ -170,9 +170,11 @@ class TransportsControllers extends Controller
                 $insurance_amount = ($cif * 1.5) / 100 > 30 ? ($cif * 1.5) / 100 : 30;
             }
             else {
-                $cif_mayor = $cif + ($cif * 10) / 100; 
-                $insurance_amount = $cif_mayor * 0.035 > $rate_insurance_transp
-                 ? $cif_mayor * 0.035 
+
+                $cif_mayor = round(((($cif * 0.35)) *1.1)/ (100-(0.35*1.1)),2);
+ 
+                $insurance_amount =  $cif_mayor > $rate_insurance_transp
+                 ? $cif_mayor
                  : $rate_insurance_transp;
             }
 

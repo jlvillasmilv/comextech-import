@@ -586,8 +586,11 @@ class ApplicationController extends Controller
 
                 return response()->json(['notifications' => $string], 200);
             }
+            $status_id = $application->application_statuses_id + 1 >= 3 
+                ? 3 
+                : $application->application_statuses_id + 1;
 
-            $application->application_statuses_id =  $application->application_statuses_id + 1; 
+            $application->application_statuses_id =  $status_id; 
             $application->save();
 
             /****Send notification to admin about change status applications**/
