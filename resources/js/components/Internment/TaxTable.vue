@@ -16,7 +16,7 @@
         ]"
         :disabled="!isTaxDutys"
       >
-        Cálculo de impuestos según costos y paridades de Aduana Chile
+        Cálculo de impuestos y aranceles
       </button>
     </div>
     <div v-if="isTableTax" class="mt-8">
@@ -503,7 +503,7 @@
       </div>
     </div>
     <div class="cif w-full">
-      <div class="lg:flex lg:ml-20 xl:ml-36 pl-1">
+      <div :class="['lg:flex pl-1', isTableTax ? 'lg:ml-20 xl:ml-36' : 'justify-center']">
         <table>
           <thead>
             <th></th>
@@ -533,7 +533,7 @@
           </table>
         </div>
       </div>
-      <div class="flex justify-end w-3/12 my-2 pr-2">
+      <div :class="['flex justify-end my-2 pr-2', isTableTax ? 'w-3/12' : 'w-4/12']">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
