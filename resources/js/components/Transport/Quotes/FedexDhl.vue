@@ -417,8 +417,6 @@ export default {
       this.transportQuote =
         parseFloat(this.fedex.TotalBaseCharge) - parseFloat(this.fedex.Discount);
 
-        this.address.eta = this.fedex.DeliveryTimestamp;
-
       this.transportQuote = this.transportQuote.toFixed(2);
 
       this.totalEstimed = this.fedex.TotalEstimed.toFixed(2);

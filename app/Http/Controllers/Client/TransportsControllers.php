@@ -332,6 +332,7 @@ class TransportsControllers extends Controller
                     
                     foreach ($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']['Surcharges'] as $key => $item) {
                         $quote[$item->SurchargeType] = round($item->Amount->Amount, 2);
+                        $quote[$item->SurchargeType.'_Currency'] = $item->Amount->Currency;
                         /* Applying the discount on the estimated total */
                         $quote['TotalEstimed'] = round($quote['TotalEstimed'] + $item->Amount->Amount, 2);
                     }
@@ -497,15 +498,16 @@ class TransportsControllers extends Controller
             "origin_postal_code" => 33140,
             "origin_locality" => "Miami Beach",
             "origin_ctry_code" => "US",
-            "fav_dest_address" => true,
-            "dest_address" => "1",
-            "dest_latitude" => null,
-            "dest_longitude" => null,
+            "fav_dest_address" => false,
+            "dest_address" => "Eliodoro Yañez, Providencia, Región Metropolitana, Chile",
+            "dest_latitude" => -33.4308132,
+            "dest_longitude" => -70.6064803,
             "dest_postal_code" => null,
-            "dest_locality" => null,
-            "dest_ctry_code" => null,
+            "dest_locality" => "Providencia",
+            "dest_ctry_code" => "CL",
+            "dest_province" => "Santiago",
             "insurance" => false,
-            "estimated_date" => "2022-01-02",
+            "estimated_date" => "2022-04-08",
             "description" => "Carga",
             "type_transport" => "CARGA AEREA",
             "dataLoad" => [
@@ -513,30 +515,16 @@ class TransportsControllers extends Controller
                 "mode_calculate" => true,
                 "category_load_id" => 1,
                 "type_container" => 1,
-                "length" => 30,
-                "width"  => 30,
-                "height" => 30,
+                "length" => 100,
+                "width"  => 100,
+                "height" => 100,
                 "length_unit" => "CM",
                 "id" => 0,
-                "cbm" => 0.1728,
-                "weight" => 16,
+                "cbm" => 1,
+                "weight" => 10,
                 "weight_units" => "KG",
                 "stackable" => false
-               ],
-               [
-                "mode_calculate" => true,
-                "category_load_id" => 1,
-                "type_container" => 1,
-                "length" => 30,
-                "width"  => 30,
-                "height" => 30,
-                "length_unit" => "CM",
-                "id" => 0,
-                "cbm" => 0.1728,
-                "weight" => 300,
-                "weight_units" => "KG",
-                "stackable" => false
-               ],
+               ]
                
             ]
         ];
@@ -545,7 +533,7 @@ class TransportsControllers extends Controller
         $connect = new FedexApi;
         $fedex_response = $connect->rateApi($data);
 
-        dd($fedex_response);
+        dd($fedex_response['PREFERRED_ACCOUNT_SHIPMENT']);
     }
     
 }
