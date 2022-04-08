@@ -533,7 +533,7 @@
           </table>
         </div>
       </div>
-      <div :class="['flex justify-end my-2 pr-2', isTableTax ? 'w-3/12' : 'w-4/12']">
+      <div :class="['flex justify-end my-2 pr-2', isTableTax ? 'w-3/12' : 'w-5/12']">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
