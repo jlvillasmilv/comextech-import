@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Web;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ApplicationRequest extends FormRequest
 {
@@ -23,8 +24,7 @@ class ApplicationRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            // 'supplier_id'              => 'required_if:statusSuppliers,with',
+        $rules = [ 
             'currency_id'              => 'required|exists:currencies,id',
             'type_transport'           => 'required',
             'valuePercentage'          => 'required_if:statusSuppliers,with',
@@ -33,6 +33,13 @@ class ApplicationRequest extends FormRequest
             'statusSuppliers'          => 'required',
             'ecommerce_url'            => 'required_if:statusSuppliers,E-commerce',
             'services'                 => 'required',
+            "services.*"               => 'required|string|distinct|min:3',
+            'supplier_id'              => 
+                Rule::requiredIf (
+                    function () {
+                        return in_array('ICS01', (array)$this->request->get("services"));
+                    }
+                ),
         ];
 
         return $rules;

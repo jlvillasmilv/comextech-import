@@ -114,6 +114,7 @@ class TransportsControllers extends Controller
                     'dest_longitude'        => $request->dest_longitude,
                     
                     'estimated_date'        => $request->estimated_date,
+                    'eta'                   => $request->eta,
                     'insurance'             => $request->insurance,
                 ]
             );
@@ -141,13 +142,14 @@ class TransportsControllers extends Controller
             if($transport->application->type_transport == "COURIER")
             {
                 $data = [
-                        'application_id'     => $request->application_id,
+                        'application_id'     => $transport->application->id,
                         'trans_company_id'   => $transport->trans_company_id,
                         'amount'             => $amount,
                 ];
 
                 Transport::rateLocalCourierExpenses($data);
-            }else {
+            }
+            else {
                 // update application summary local expense
                 \DB::table('application_summaries as as')
                 ->join('services as s', 'as.service_id', '=', 's.id')
@@ -215,6 +217,8 @@ class TransportsControllers extends Controller
               
                 $fee_date = date('Y-m-d', strtotime($request->estimated_date. ' + '.$t_time.' day'));
 
+                \DB::table('transports')->where('id', $transport->id)->update(['eta' => $fee_date]);
+
             }
 
             // update application summary International transport
@@ -248,7 +252,7 @@ class TransportsControllers extends Controller
                     ->join('services as s', 'as.service_id', '=', 's.id')
                     ->where([
                         ["as.application_id", $request->application_id],
-                        ["s.code", 'CS03-05']
+                        ["s.code", 'CS06-02']
                     ])
             ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
