@@ -453,11 +453,43 @@
         </div>
       </div>
 
-      <!-- tabla  acordeon -->
-      <div class="w-full">
-        <h2 class="mb-1 text-xl text-blue-1300 font-semibold">Impuestos y Aranceles</h2>
+      <!-- gestion y pago de impuestos -->
+      <div class="w-full flex justify-center">
+        <div class="flex flex-col justify-around sm:w-6/12 lg:w-4/12 px-4 pb-8 mb-8">
+          <div class="my-4">
+            <p class="font-semibold text-black text-center">Gestión y pago de impuestos</p>
+          </div>
+          <div class="flex flex-wrap justify-around">
+            <button
+              @click="taxComex(false)"
+              :class="[
+                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
+                !expenses.tax_comex ? 'bg-blue-200 ' : 'bg-transparent'
+              ]"
+              type="button"
+            >
+              Cliente
+            </button>
+            <button
+              @click="taxComex(true)"
+              :class="[
+                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
+                expenses.tax_comex ? 'bg-blue-200' : 'bg-transparent'
+              ]"
+              type="button"
+            >
+              Comextech
+            </button>
+          </div>
+        </div>
       </div>
+
+      <!-- tabla  acordeon -->
+      <!-- <div class="w-full">
+        <h2 class="mb-1 text-xl text-blue-1300 font-semibold">Impuestos y Aranceles</h2>
+      </div> -->
       <div
+        v-if="isTaxDutys"
         class="container flex flex-col items-center justify-center py-4 px-6 mx-auto bg-white rounded-lg shadow-md"
       >
         <details class="w-full">
@@ -981,9 +1013,35 @@
       </div>
 
       <!-- checkbox incluir -->
-      <div class="w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md">
-        <div class="flex flex-col justify-between sm:w-6/12 lg:w-4/12 xl:w-3/12 px-4 xl:py-0">
-          <div class="button-ad-mobile">
+      <div
+        v-if="isTaxDutys"
+        class="w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md"
+      >
+        <div class="flex justify-between sm:w-6/12 lg:w-4/12 xl:w-6/12 px-4 xl:py-0">
+          <div class="py-1 w-5/12">
+            <span class="font-semibold">IVA de internacion</span>
+            <div class="flex justify-between bg-gray-300 p-2 rounded">
+              <p>19%</p>
+              <p>{{ `${$options.filters.setPrice(expenses.iva_amt, 'CLP')} CLP` }}</p>
+            </div>
+          </div>
+          <div class="w-7/12">
+            <figure class="container-sii-full flex justify-center">
+              <img
+                src="../../../../public/img/SII-white.png"
+                class="w-24 bg-white px-2 mr-4 border-2 shadow-md"
+                alt="sii"
+              />
+              <div>
+                <p class="text-gray-400"><strong class="text-black">S</strong>ervicio de</p>
+                <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>mpuestos</p>
+                <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>nternos</p>
+              </div>
+            </figure>
+          </div>
+        </div>
+        <div class="flex justify-between sm:w-6/12 lg:w-4/12 xl:w-6/12 px-4 xl:py-0">
+          <!-- <div class="button-ad-mobile">
             <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
               <img
                 src="../../../../public/img/tgr.png"
@@ -997,8 +1055,8 @@
               <p class="text-gray-400"><strong class="text-black">G</strong>eneral de la</p>
               <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
             </div>
-          </div>
-          <div class="py-1">
+          </div> -->
+          <div class="py-1 w-5/12">
             <span class="font-semibold">Advalorem</span>
             <div class="flex justify-between bg-gray-300 p-2 rounded">
               <p>6%</p>
@@ -1007,27 +1065,26 @@
               </p>
             </div>
           </div>
-          <figure class="container-sii">
-            <img
-              src="../../../../public/img/SII-white.png"
-              class="w-24 bg-white px-2 mr-4 border-2 shadow-md"
-              alt="sii"
-            />
-            <div>
-              <p class="text-gray-400"><strong class="text-black">S</strong>ervicio de</p>
-              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>mpuestos</p>
-              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>nternos</p>
-            </div>
-          </figure>
-          <div class="py-3">
-            <span class="font-semibold">IVA de internacion</span>
-            <div class="flex justify-between bg-gray-300 p-2 rounded">
-              <p>19%</p>
-              <p>{{ `${$options.filters.setPrice(expenses.iva_amt, 'CLP')} CLP` }}</p>
+          <div class="w-7/12">
+            <div class="container-advalorem flex justify-center">
+              <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
+                <img
+                  src="../../../../public/img/tgr.png"
+                  class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
+                  :style="expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
+                  alt="tgr"
+                />
+              </button>
+              <div>
+                <p class="text-gray-400"><strong class="text-black">T</strong>esoreria</p>
+                <p class="text-gray-400"><strong class="text-black">G</strong>eneral de la</p>
+                <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="flex flex-col justify-between items-start sm:w-6/12 lg:w-5/12 h-48 px-4">
+
+        <!-- <div class="flex flex-col justify-between items-start sm:w-6/12 lg:w-5/12 h-48 px-4">
           <div class="container-advalorem flex justify-center">
             <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
               <img
@@ -1055,43 +1112,7 @@
               <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>nternos</p>
             </div>
           </figure>
-        </div>
-        <div class="flex flex-col justify-around sm:w-6/12 lg:w-4/12 px-4">
-          <div class="my-4">
-            <p class="font-semibold text-black text-center">Gestion de impuestos</p>
-          </div>
-          <div class="flex flex-wrap justify-around">
-            <button
-              @click="taxComex(false)"
-              :class="[
-                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
-                !expenses.tax_comex ? 'bg-blue-200 ' : 'bg-transparent'
-              ]"
-              type="button"
-            >
-              Cliente
-            </button>
-            <button
-              @click="taxComex(true)"
-              :class="[
-                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
-                expenses.tax_comex ? 'bg-blue-200' : 'bg-transparent'
-              ]"
-              type="button"
-            >
-              Comextech
-            </button>
-          </div>
-          <div>
-            <p class="text-center text-sm">
-              {{
-                expenses.tax_comex
-                  ? 'Los impuestos serán gestionados y pagados por ComexTech, no por el cliente y podrán sufrir variación según Tipo de cambio'
-                  : 'Los impuestos serán gestionados y pagados por el cliente, no por ComexTech y podrán sufrir variación según Tipo de cambio'
-              }}
-            </p>
-          </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- tabla gastos del puerto -->
@@ -1354,7 +1375,8 @@ export default {
       deleteCertif: false,
       deleteTreaties: false,
       deleteOtherFile: false,
-      isLoading: true
+      isLoading: true,
+      isTaxDutys: false
     };
   },
   methods: {
@@ -1543,6 +1565,7 @@ export default {
 
     taxComex(value) {
       this.expenses.tax_comex = value;
+      this.isTaxDutys = value;
     },
 
     async taxCheck() {
