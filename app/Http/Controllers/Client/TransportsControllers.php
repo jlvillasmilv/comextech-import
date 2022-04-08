@@ -141,7 +141,7 @@ class TransportsControllers extends Controller
             if($transport->application->type_transport == "COURIER")
             {
                 $data = [
-                        'application_id'     => $request->application_id,
+                        'application_id'     => $transport->application->id,
                         'trans_company_id'   => $transport->trans_company_id,
                         'amount'             => $amount,
                 ];
@@ -248,7 +248,7 @@ class TransportsControllers extends Controller
                     ->join('services as s', 'as.service_id', '=', 's.id')
                     ->where([
                         ["as.application_id", $request->application_id],
-                        ["s.code", 'CS03-05']
+                        ["s.code", 'CS06-02']
                     ])
             ->update(['amount' =>  $oth_exp,  'currency_id' =>  1, 'fee_date' => $request->estimated_date]);
 
