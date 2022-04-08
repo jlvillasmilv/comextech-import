@@ -24,7 +24,7 @@
                 <input
                   v-if="
                     data.type_transport !== 'COURIER' ||
-                      (data.type_transport === 'COURIER' && AppAmount >= 3000)
+                      (data.type_transport === 'COURIER' && amountsDollar.AppAmount >= 3000)
                   "
                   v-model="expenses.customs_house"
                   :value="true"
@@ -32,7 +32,7 @@
                   class="form-checkbox h-5 w-5 text-blue-600"
                 />
                 <input
-                  v-if="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                  v-if="data.type_transport === 'COURIER' && amountsDollar.AppAmount <= 2999"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
                   disabled
@@ -43,7 +43,7 @@
                 <input
                   v-if="
                     data.type_transport !== 'COURIER' ||
-                      (data.type_transport === 'COURIER' && AppAmount >= 3000)
+                      (data.type_transport === 'COURIER' && amountsDollar.AppAmount >= 3000)
                   "
                   v-model="expenses.customs_house"
                   :value="false"
@@ -51,7 +51,7 @@
                   class="form-checkbox h-5 w-5 text-blue-600"
                 />
                 <input
-                  v-if="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                  v-if="data.type_transport === 'COURIER' && amountsDollar.AppAmount <= 2999"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
                   disabled
@@ -60,15 +60,15 @@
               </div>
               <div v-if="data.type_transport === 'COURIER'">
                 <input
-                  v-if="AppAmount <= 2999"
+                  v-if="amountsDollar.AppAmount <= 2999"
                   v-model="expenses.courier_svc"
                   :value="true"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
-                  :disabled="expenses.courier_svc && AppAmount >= 2999"
+                  :disabled="expenses.courier_svc && amountsDollar.AppAmount >= 2999"
                 />
                 <input
-                  v-if="AppAmount >= 3000"
+                  v-if="amountsDollar.AppAmount >= 3000"
                   type="radio"
                   class="form-checkbox h-5 w-5 text-blue-600"
                   disabled
@@ -81,7 +81,7 @@
               <div class="lg:w-5/12 xl:w-5/12 px-1 mb-2 lg:mb-0">
                 <label
                   class="block text-sm"
-                  v-if="data.type_transport === 'COURIER' && AppAmount <= 2999"
+                  v-if="data.type_transport === 'COURIER' && amountsDollar.AppAmount <= 2999"
                 >
                   <span class="text-gray-700 dark:text-gray-400 font-semibold"> Courier </span>
                   <select
@@ -121,7 +121,7 @@
                 <label
                   class="block text-sm"
                   v-if="
-                    (data.type_transport === 'COURIER' && AppAmount >= 3000) ||
+                    (data.type_transport === 'COURIER' && amountsDollar.AppAmount >= 3000) ||
                       data.type_transport !== 'COURIER'
                   "
                 >
@@ -184,7 +184,7 @@
                     placeholder="Monto"
                     :disabled="
                       expenses.customs_house ||
-                        (data.type_transport === 'COURIER' && AppAmount <= 2999)
+                        (data.type_transport === 'COURIER' && amountsDollar.AppAmount <= 2999)
                     "
                   />
                   <span
@@ -455,7 +455,7 @@
 
       <!-- gestion y pago de impuestos -->
       <div class="w-full flex justify-center">
-        <div class="flex flex-col justify-around sm:w-6/12 lg:w-4/12 px-4 pb-8 mb-8">
+        <div class="flex flex-col justify-around sm:w-6/12 lg:w-4/12 py-4 pb-8 mb-8">
           <div class="my-4">
             <p class="font-semibold text-black text-center">Gestión y pago de impuestos</p>
           </div>
@@ -463,8 +463,8 @@
             <button
               @click="taxComex(false)"
               :class="[
-                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
-                !expenses.tax_comex ? 'bg-blue-200 ' : 'bg-transparent'
+                'w-28 h-10 my-1 border-2 border-blue-1300 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-1200 hover:text-white ',
+                !expenses.tax_comex ? 'bg-blue-1300 text-white' : 'text-blue-1300 bg-transparent'
               ]"
               type="button"
             >
@@ -473,8 +473,8 @@
             <button
               @click="taxComex(true)"
               :class="[
-                'w-28 h-10 my-1 border-2 border-blue-500 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-200 ',
-                expenses.tax_comex ? 'bg-blue-200' : 'bg-transparent'
+                'w-28 h-10 my-1 border-2 border-blue-1300 rounded-md transition-colors duration-150 focus:outline-none hover:bg-blue-1200 hover:text-white ',
+                expenses.tax_comex ? 'bg-blue-1300 text-white' : 'text-blue-1300 bg-transparent'
               ]"
               type="button"
             >
@@ -485,537 +485,21 @@
       </div>
 
       <!-- tabla  acordeon -->
-      <!-- <div class="w-full">
-        <h2 class="mb-1 text-xl text-blue-1300 font-semibold">Impuestos y Aranceles</h2>
-      </div> -->
-      <div
-        v-if="isTaxDutys"
-        class="container flex flex-col items-center justify-center py-4 px-6 mx-auto bg-white rounded-lg shadow-md"
-      >
-        <details class="w-full">
-          <summary class="mb-4">
-            Cálculo de impuestos según costos y paridades de Aduana Chile
-          </summary>
-          <div class="mt-8">
-            <div class="container grid px-3">
-              <div
-                class="table-full w-full overflow-hidden xl:flex-no-wrap  "
-                :class="[!$store.getters.findService('ICS04') ? '' : 'sm:justify-end']"
-              >
-                <div class="flex justify-center sm:w-6/12 xl:w-5/12 overflow-x-auto">
-                  <table>
-                    <thead>
-                      <tr
-                        class="
-                          text-right
-                          font-semibold
-                          tracking-wide
-                        "
-                      >
-                        <th colspan="3">Moneda CLP</th>
-                      </tr>
-                      <tr>
-                        <th class="py-2">&nbsp;</th>
-                        <th class="py-2 px-3 font-normal">Monto</th>
-                        <th class="py-2 pr-1 font-normal">Moneda</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center">
-                      <tr class="text-sm">
-                        <td class="py-2 px-4 text-base">Mercaderia</td>
-                        <td class="py-2">{{ $options.filters.setPrice(clpAmount, 'CLP') }}</td>
-                        <td class="py-2">CLP</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2 px-4 text-base">Transporte</td>
-                        <td class="py-2">{{ $options.filters.setPrice(clpTransport, 'CLP') }}</td>
-                        <td class="py-2">CLP</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2 px-4 text-base">Seguro</td>
-                        <td class="py-2">{{ $options.filters.setPrice(clpInsurance, 'CLP') }}</td>
-                        <td class="py-2">CLP</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="div-arrow-full w-1/12">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    role="img"
-                    width="2.5em"
-                    height="2.5em"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 20 20"
-                    class="arrow-full"
-                  >
-                    <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
-                  </svg>
-                </div>
-                <div class="flex justify-center sm:w-5/12 xl:w-5/12 overflow-x-auto">
-                  <table>
-                    <thead>
-                      <tr
-                        class="
-                          text-center
-                          font-semibold
-                          tracking-wide
-                        "
-                      >
-                        <th colspan="3">
-                          Moneda Dolár
-                        </th>
-                      </tr>
-                      <tr>
-                        <th class="py-2 px-3 font-normal">Monto</th>
-                        <th class="py-2 pr-1 font-normal">Paridad</th>
-                        <th class="py-2 font-normal">Moneda</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center">
-                      <tr class="text-sm">
-                        <td class="py-2">{{ $options.filters.setPrice(AppAmount, 'USD') }}</td>
-                        <td class="py-2">{{ parityAmountDollar }}</td>
-                        <td class="py-2">USD</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2">{{ $options.filters.setPrice(transpAmount, 'USD') }}</td>
-                        <td class="py-2">{{ parityAmountDollar }}</td>
-                        <td class="py-2">USD</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2">{{ $options.filters.setPrice(insureAmount, 'USD') }}</td>
-                        <td class="py-2">{{ parityAmountDollar }}</td>
-                        <td class="py-2">USD</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="top-arrow-dollar w-full my-4">
-                  <div class="flex justify-between">
-                    <div class="cif-pesos pl-28">
-                      <table>
-                        <thead>
-                          <th></th>
-                        </thead>
-                        <tbody>
-                          <tr class="font-semibold">
-                            <td class="bg-gray-200 py-2 px-1">
-                              {{ $options.filters.setPrice(clpCif, 'CLP') }}
-                            </td>
-                            <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div>
-                      <table>
-                        <thead>
-                          <th></th>
-                        </thead>
-                        <tbody>
-                          <tr class="font-semibold">
-                            <td class="bg-gray-200 py-2 px-1">
-                              {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
-                            </td>
-                            <td class="bg-gray-200 py-2 px-1">CIF Dólar</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="flex justify-end sm:pr-14 mt-4">
-                    <span
-                      class="w-10 h-10 iconify"
-                      data-icon="entypo:arrow-up"
-                      style="color: #142c44;"
-                    ></span>
-                  </div>
-                </div>
-                <div class="div-arrow-full-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    role="img"
-                    width="2.5em"
-                    height="2.5em"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 20 20"
-                    class="arrow-full-2"
-                  >
-                    <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
-                  </svg>
-                </div>
-                <div class="flex justify-center sm:w-6/12 xl:w-4/12 overflow-x-auto">
-                  <table>
-                    <thead>
-                      <tr
-                        class="
-                          text-center
-                          font-semibold
-                          tracking-wide
-                        "
-                      >
-                        <th colspan="3">
-                          Moneda original
-                        </th>
-                      </tr>
-                      <tr>
-                        <th class="py-2 px-3 font-normal">Monto</th>
-                        <th class="py-2 pr-1 font-normal">Paridad</th>
-                        <th class="py-2 font-normal">Moneda</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center">
-                      <tr class="text-sm">
-                        <td class="py-2">
-                          {{ $options.filters.setPrice(data.amount, currency.code) }}
-                        </td>
-                        <td class="py-2">{{ parityAmountOrigin }}</td>
-                        <td class="py-2">{{ currency.code }}</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2">
-                          <span v-if="transport">
-                            <input
-                              v-model.number="transpAmount"
-                              type="number"
-                              class="
-                        block
-                        w-full
-                        mt-1
-                        text-sm
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                              placeholder="Monto Transporte"
-                            />
-                          </span>
-                          <span v-else>
-                            {{ $options.filters.setPrice(transpAmount, 'USD') }}
-                          </span>
-                        </td>
-                        <td class="py-2">1</td>
-                        <td class="py-2">USD</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2">
-                          <span v-if="insure">
-                            <input
-                              v-model.number="insureAmount"
-                              type="number"
-                              class="
-                        block
-                        w-full
-                        mt-1
-                        text-sm
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                              placeholder="Monto Seguro"
-                            />
-                          </span>
-                          <span v-else>
-                            {{ $options.filters.setPrice(insureAmount, 'USD') }}
-                          </span>
-                        </td>
-                        <td class="py-2">1</td>
-                        <td class="py-2">USD</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="table-mobile mt-8">
-                <div class="flex flex-col items-center">
-                  <table>
-                    <thead>
-                      <tr
-                        class="
-                          text-center
-                          font-semibold
-                          tracking-wide
-                        "
-                      >
-                        <th colspan="3">
-                          Moneda original
-                        </th>
-                      </tr>
-                      <tr>
-                        <th class="py-2 px-3 font-normal">Monto</th>
-                        <th class="py-2 pr-1 font-normal">Paridad</th>
-                        <th class="py-2 font-normal">Moneda</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center">
-                      <tr class="text-sm">
-                        <td class="py-2">
-                          {{ $options.filters.setPrice(data.amount, currency.code) }}
-                        </td>
-                        <td class="py-2">{{ parityAmountOrigin }}</td>
-                        <td class="py-2">{{ currency.code }}</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2">
-                          <span v-if="transport">
-                            <input
-                              v-model.number="transpAmount"
-                              type="number"
-                              class="
-                        block
-                        w-full
-                        mt-1
-                        text-sm
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                              placeholder="Monto Transporte"
-                            />
-                          </span>
-                          <span v-else>
-                            {{ $options.filters.setPrice(transpAmount, 'USD') }}
-                          </span>
-                        </td>
-                        <td class="py-2">1</td>
-                        <td class="py-2">USD</td>
-                      </tr>
-                      <tr class="text-sm">
-                        <td class="py-2">
-                          <span v-if="insure">
-                            <input
-                              v-model.number="insureAmount"
-                              type="number"
-                              class="
-                        block
-                        w-full
-                        mt-1
-                        text-sm
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-blue-400 focus:outline-none focus:shadow-outline-blue
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                              placeholder="Monto Seguro"
-                            />
-                          </span>
-                          <span v-else>
-                            {{ $options.filters.setPrice(insureAmount, 'USD') }}
-                          </span>
-                        </td>
-                        <td class="py-2">1</td>
-                        <td class="py-2">USD</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="w-full flex justify-center">
-                  <div class="flex justify-center w-3/12 my-2 pr-2">
-                    <span
-                      class="w-10 h-10 iconify"
-                      data-icon="entypo:arrow-down"
-                      style="color: #142c44;"
-                    ></span>
-                  </div>
-                </div>
-                <div class="flex flex-col items-center">
-                  <div>
-                    <table>
-                      <thead>
-                        <tr
-                          class="
-                          text-center
-                          font-semibold
-                          tracking-wide
-                        "
-                        >
-                          <th colspan="3">
-                            Moneda Dolár
-                          </th>
-                        </tr>
-                        <tr>
-                          <th class="py-2 px-3 font-normal">Monto</th>
-                          <th class="py-2 pr-1 font-normal">Paridad</th>
-                          <th class="py-2 font-normal">Moneda</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-center">
-                        <tr class="text-sm">
-                          <td class="py-2">{{ $options.filters.setPrice(AppAmount, 'USD') }}</td>
-                          <td class="py-2">{{ parityAmountDollar }}</td>
-                          <td class="py-2">USD</td>
-                        </tr>
-                        <tr class="text-sm">
-                          <td class="py-2">
-                            {{ $options.filters.setPrice(transpAmount, 'USD') }}
-                          </td>
-                          <td class="py-2">{{ parityAmountDollar }}</td>
-                          <td class="py-2">USD</td>
-                        </tr>
-                        <tr class="text-sm">
-                          <td class="py-2">
-                            {{ $options.filters.setPrice(insureAmount, 'USD') }}
-                          </td>
-                          <td class="py-2">{{ parityAmountDollar }}</td>
-                          <td class="py-2">USD</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="lg:ml-4 xl:ml-12 pl-2">
-                    <table>
-                      <thead>
-                        <th></th>
-                      </thead>
-                      <tbody>
-                        <tr class="font-semibold">
-                          <td class="bg-gray-200 py-2 px-1">
-                            {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
-                          </td>
-                          <td class="bg-gray-200 py-2 px-1">CIF Dólar</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="w-full flex justify-center">
-                  <div class="flex justify-center w-3/12 my-2 pr-2">
-                    <span
-                      class="w-10 h-10 iconify"
-                      data-icon="entypo:arrow-down"
-                      style="color: #142c44;"
-                    ></span>
-                  </div>
-                </div>
-                <div class="flex flex-col items-center">
-                  <div>
-                    <table>
-                      <thead>
-                        <tr
-                          class="
-                text-right
-                font-semibold
-                tracking-wide
-                "
-                        >
-                          <th colspan="3">Moneda CLP</th>
-                        </tr>
-                        <tr>
-                          <!-- <th class="py-2">&nbsp;</th> -->
-                          <th class="py-2 px-3 font-normal">Monto</th>
-                          <th class="py-2 pr-1 font-normal">Moneda</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-center">
-                        <tr class="text-sm">
-                          <!-- <td class="py-2 px-4 text-base">Mercaderia</td> -->
-                          <td class="py-2">{{ $options.filters.setPrice(clpAmount, 'CLP') }}</td>
-                          <td class="py-2">CLP</td>
-                        </tr>
-                        <tr class="text-sm">
-                          <!-- <td class="py-2 px-4 text-base">Transporte</td> -->
-                          <td class="py-2">
-                            {{ $options.filters.setPrice(clpTransport, 'CLP') }}
-                          </td>
-                          <td class="py-2">CLP</td>
-                        </tr>
-                        <tr class="text-sm">
-                          <!-- <td class="py-2 px-4 text-base">Seguro</td> -->
-                          <td class="py-2">
-                            {{ $options.filters.setPrice(clpInsurance, 'CLP') }}
-                          </td>
-                          <td class="py-2">CLP</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div>
-                    <table>
-                      <thead>
-                        <th></th>
-                      </thead>
-                      <tbody>
-                        <tr class="font-semibold">
-                          <td class="bg-gray-200 py-2 px-1">
-                            {{ $options.filters.setPrice(clpCif, 'CLP') }}
-                          </td>
-                          <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="w-full flex justify-center">
-                  <div class="flex justify-center w-3/12 my-2 pr-2">
-                    <span
-                      class="w-10 h-10 iconify"
-                      data-icon="entypo:arrow-down"
-                      style="color: #142c44;"
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </details>
-        <div class="cif w-full">
-          <div class="lg:flex lg:ml-20 xl:ml-36 pl-1">
-            <table>
-              <thead>
-                <th></th>
-              </thead>
-              <tbody>
-                <tr class="font-semibold">
-                  <td class="bg-gray-200 py-2 px-1">
-                    {{ $options.filters.setPrice(clpCif, 'CLP') }}
-                  </td>
-                  <td class="bg-gray-200 py-2 px-1">CIF Pesos</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="lg:ml-4 xl:ml-12 pl-2">
-              <table>
-                <thead>
-                  <th></th>
-                </thead>
-                <tbody>
-                  <tr class="font-semibold">
-                    <td class="bg-gray-200 py-2 px-1">
-                      {{ $options.filters.setPrice(expenses.cif_amt, 'USD') }}
-                    </td>
-                    <td class="bg-gray-200 py-2 px-1">CIF Dólar</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="flex justify-end w-3/12 my-2 pr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              role="img"
-              width="2.5em"
-              height="2.5em"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 20 20"
-              class="hidden md:block"
-            >
-              <path fill="#142c44" d="M10 17.5L3.5 11H7V3h6v8h3.5L10 17.5z" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <tax-table
+        :amountsDollar="amountsDollar"
+        :amountsClp="amountsClp"
+        :paritys="paritys"
+        :insure="insure"
+        :transport="transport"
+        :isTaxDutys="isTaxDutys"
+      ></tax-table>
 
       <!-- checkbox incluir -->
       <div
-        v-if="isTaxDutys"
-        class="w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md"
+        :class="[
+          'w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md',
+          isTaxDutys ? '' : 'bg-gray-300 opacity-25'
+        ]"
       >
         <div class="flex justify-between sm:w-6/12 lg:w-4/12 xl:w-6/12 px-4 xl:py-0">
           <div class="py-1 w-5/12">
@@ -1310,9 +794,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import Load from '../Transport/Load.vue';
 import Loader from '../common/utils/Loader.vue';
+import TaxTable from './TaxTable.vue';
 // import TableMobile from './TableMobile.vue';
 
 export default {
@@ -1322,9 +807,9 @@ export default {
       type: Number
     }
   },
-  components: { Load, Loader },
+  components: { Load, Loader, TaxTable },
   computed: {
-    ...mapState('internment', ['expenses', 'files', 'filesUpload']),
+    ...mapState('internment', ['expenses', 'files', 'filesUpload', 'isTaxDutys']),
     ...mapState('application', ['data', 'currency', 'busy']),
     ...mapState('exchange', ['exchangeItem'])
   },
@@ -1349,15 +834,21 @@ export default {
       trans_companies: [],
       showInputFile: false,
       nameFileUpload: '',
-      transpAmount: 0,
-      insureAmount: 0,
-      AppAmount: 0,
-      clpAmount: 0,
-      clpTransport: 0,
-      clpInsurance: 0,
-      clpCif: 0,
-      parityAmountOrigin: 0,
-      parityAmountDollar: 0,
+      amountsDollar: {
+        transpAmount: 0,
+        insureAmount: 0,
+        AppAmount: 0
+      },
+      amountsClp: {
+        clpAmount: 0,
+        clpTransport: 0,
+        clpInsurance: 0,
+        clpCif: 0
+      },
+      paritys: {
+        parityAmountOrigin: 0,
+        parityAmountDollar: 0
+      },
       docMgmtFcl: 25,
       loanFcl: 120,
       gateInFcl: 120,
@@ -1375,11 +866,11 @@ export default {
       deleteCertif: false,
       deleteTreaties: false,
       deleteOtherFile: false,
-      isLoading: true,
-      isTaxDutys: false
+      isLoading: true
     };
   },
   methods: {
+    ...mapMutations('internment', ['changeTax']),
     formatPrice(value, currency) {
       return Number(value).toLocaleString(navigator.language, {
         minimumFractionDigits: currency == 'CLP' ? 0 : 2,
@@ -1563,27 +1054,46 @@ export default {
       }
     },
 
-    taxComex(value) {
-      this.expenses.tax_comex = value;
-      this.isTaxDutys = value;
+    async taxComex(value) {
+      if (value) {
+        this.changeTax(value);
+        await this.convertAmountToClp(true);
+        this.calculateParity();
+        this.taxCheck(true);
+        this.advalorem();
+      }
+      if (!value) {
+        this.changeTax(value);
+        this.convertAmountToClp(false);
+        this.taxCheck(false);
+      }
     },
 
-    async taxCheck() {
-      this.expenses.cif_amt = parseFloat(
-        Number(this.AppAmount) + Number(this.transpAmount) + Number(this.insureAmount)
-      ).toFixed(2);
+    async taxCheck(value) {
+      if (value) {
+        this.expenses.cif_amt = parseFloat(
+          Number(this.amountsDollar.AppAmount) +
+            Number(this.amountsDollar.transpAmount) +
+            Number(this.amountsDollar.insureAmount)
+        ).toFixed(2);
 
-      this.expenses.insurance = Number(this.insureAmount);
-      this.expenses.transport_amt = Number(this.transpAmount);
+        this.expenses.insurance = Number(this.amountsDollar.insureAmount);
+        this.expenses.transport_amt = Number(this.amountsDollar.transpAmount);
 
-      let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
+        let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
 
-      if (cif_clp.data <= 0) {
-        cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
+        if (cif_clp.data <= 0) {
+          cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
+        }
+
+        this.expenses.iva_amt = cif_clp.data * (19 / 100);
+        this.expenses.adv_amt = cif_clp.data * (6 / 100);
       }
-
-      this.expenses.iva_amt = cif_clp.data * (19 / 100);
-      this.expenses.adv_amt = cif_clp.data * (6 / 100);
+      if (!value) {
+        this.expenses.cif_amt = 0;
+        this.expenses.iva_amt = 0;
+        this.expenses.adv_amt = 0;
+      }
     },
 
     async portCharge() {
@@ -1622,26 +1132,43 @@ export default {
       }
     },
 
-    async convertAmountToClp() {
-      const amountClp = await axios.get(`/api/convert-currency/${this.AppAmount}/USD/CLP`);
-      this.clpAmount = amountClp.data;
+    async convertAmountToClp(value) {
+      if (value) {
+        const amountClp = await axios.get(
+          `/api/convert-currency/${this.amountsDollar.AppAmount}/USD/CLP`
+        );
+        this.amountsClp.clpAmount = amountClp.data;
 
-      const transportClp = await axios.get(`/api/convert-currency/${this.transpAmount}/USD/CLP`);
-      this.clpTransport = transportClp.data;
+        const transportClp = await axios.get(
+          `/api/convert-currency/${this.amountsDollar.transpAmount}/USD/CLP`
+        );
+        this.amountsClp.clpTransport = transportClp.data;
 
-      const insuranceClp = await axios.get(`/api/convert-currency/${this.insureAmount}/USD/CLP`);
-      this.clpInsurance = insuranceClp.data;
+        const insuranceClp = await axios.get(
+          `/api/convert-currency/${this.amountsDollar.insureAmount}/USD/CLP`
+        );
+        this.amountsClp.clpInsurance = insuranceClp.data;
 
-      this.clpCif = this.clpAmount + this.clpTransport + this.clpInsurance;
+        this.amountsClp.clpCif =
+          this.amountsClp.clpAmount + this.amountsClp.clpTransport + this.amountsClp.clpInsurance;
+      }
+      if (!value) {
+        this.amountsClp.clpAmount = 0;
+        this.amountsClp.clpTransport = 0;
+        this.amountsClp.clpInsurance = 0;
+        this.amountsClp.clpCif = 0;
+      }
     },
 
     async calculateParity() {
-      const parityOrigin = parseFloat(this.AppAmount);
+      const parityOrigin = parseFloat(this.amountsDollar.AppAmount);
       const dataAmount = parseFloat(this.data.amount);
 
-      this.parityAmountOrigin = (Math.trunc(parityOrigin) / dataAmount).toFixed(0);
+      this.paritys.parityAmountOrigin = (Math.trunc(parityOrigin) / dataAmount).toFixed(0);
 
-      this.parityAmountDollar = (this.clpAmount / this.AppAmount).toFixed(0);
+      this.paritys.parityAmountDollar = (
+        this.amountsClp.clpAmount / this.amountsDollar.AppAmount
+      ).toFixed(0);
     }
   },
   watch: {
@@ -1652,16 +1179,16 @@ export default {
         this.expenses.agent_payment = this.expenses.customs_house ? 250 : 0;
       },
       deep: true
-    },
-    insureAmount: function(after, before) {
-      this.debouncedGetTaxs();
-    },
-    transpAmount: function(after, before) {
-      this.debouncedGetTaxs();
-    },
-    AppAmount: function(after, before) {
-      this.debouncedGetTaxs();
     }
+    // amountsDollar.insureAmount: function(after, before) {
+    //   this.debouncedGetTaxs();
+    // },
+    // transpAmount: function(after, before) {
+    //   this.debouncedGetTaxs();
+    // },
+    // amountsDollar.AppAmount: function(after, before) {
+    //   this.debouncedGetTaxs();
+    // }
   },
   async mounted() {
     this.$store.dispatch('playPauseLoading', true);
@@ -1717,31 +1244,30 @@ export default {
       const transp_cost = this.exchangeItem.find((tic) => tic.code === 'CS03-03');
       const insure_cost = this.exchangeItem.find((ic) => ic.code === 'CS03-04');
 
-      this.insureAmount =
+      this.amountsDollar.insureAmount =
         Number(insure_cost.amount) == 0 ? this.expenses.insurance : Number(insure_cost.amount);
-      this.transpAmount =
+      this.amountsDollar.transpAmount =
         Number(transp_cost.amount) == 0 ? this.expenses.transport_amt : Number(transp_cost.amount);
-      this.AppAmount = Number(this.data.amount);
+      this.amountsDollar.AppAmount = Number(this.data.amount);
 
       this.insure = !this.$store.getters.findService('ICS03') ? true : false;
       this.transport = !this.$store.getters.findService('ICS03') ? true : false;
 
-      if (this.AppAmount > 0 && this.currency.code != 'USD') {
+      if (this.amountsDollar.AppAmount > 0 && this.currency.code != 'USD') {
         const app_usd = await axios.get(
-          `/api/convert-currency/${this.AppAmount}/${this.currency.code}/USD`
+          `/api/convert-currency/${this.amountsDollar.AppAmount}/${this.currency.code}/USD`
         );
 
-        this.AppAmount = app_usd.data;
+        this.amountsDollar.AppAmount = app_usd.data;
       }
 
-      if (this.data.type_transport === 'COURIER' && this.AppAmount <= 2999) {
+      if (this.data.type_transport === 'COURIER' && this.amountsDollar.AppAmount <= 2999) {
         this.expenses.agent_payment = 0;
       }
 
-      await this.convertAmountToClp();
-      this.calculateParity();
-      this.taxCheck();
-      this.advalorem();
+      if (this.expenses.tax_comex) {
+        await this.taxComex(true);
+      }
 
       if (this.data.type_transport != 'COURIER') {
         this.portCharge();
@@ -1751,11 +1277,11 @@ export default {
     } finally {
       this.$store.dispatch('playPauseLoading', false);
     }
-  },
-  created: function() {
-    this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
-    // this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
   }
+  // created: function() {
+  //   this.debouncedGetTaxs = _.debounce(this.taxCheck, 500);
+  //   // this.expenses.agent_payment = this.data.type_transport == 'COURIER' ? 0 : 250;
+  // }
 };
 </script>
 <style lang="scss" scoped>
@@ -1770,81 +1296,8 @@ export default {
 }
 
 @media (max-width: 640px) {
-  .top-arrow {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .top-arrow-dollar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .cif-pesos {
-    display: none;
-  }
-  .div-arrow-full,
-  .div-arrow-full-2 {
-    display: none;
-  }
   .container-advalorem {
     margin-top: 1rem;
-  }
-  .table-full {
-    display: none;
-  }
-  .table-mobile {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 1280px) {
-  .cif {
-    display: none;
-  }
-  .arrow-full-2 {
-    display: none;
-  }
-}
-
-@media (min-width: 640px) {
-  .top-arrow {
-    display: none;
-  }
-  .top-arrow-dollar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    // align-items: ;
-    padding-right: 4rem;
-  }
-  .div-arrow-full,
-  .div-arrow-full-2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .table-full {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .table-mobile {
-    display: none;
-  }
-}
-
-@media (min-width: 1280px) {
-  .cif {
-    display: block;
-  }
-  .top-arrow-dollar {
-    display: none;
-  }
-  .table-full {
-    flex-wrap: nowrap;
   }
 }
 @media (max-width: 474px) {
