@@ -621,4 +621,23 @@ class ApplicationController extends Controller
         return response()->json($notification, 200);
     }
 
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Supplier  $supplier
+     * @return \Illuminate\Http\Response
+     */
+    public function showApplicationDocuments($id)
+    {
+        $application  = Application::where([
+            ['id', '=',  Crypt::decryptString($id)],
+            ['company_id', auth()->user()->company->id],
+        ])
+        ->with(['internmentProcess','status'])
+        ->firstOrFail();
+        
+        return view('client.applications.documents', compact('application'));
+       
+    }
+
 }

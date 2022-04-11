@@ -295,7 +295,7 @@
 
 @endif
 
-{{-- Fin de  transporte--}}
+{{-- Fin PROCESO INTERNACION Aduana--}}
 
 {{-- Bodegaje Local  --}}
 @if (isset($application->localWarehouse->id))

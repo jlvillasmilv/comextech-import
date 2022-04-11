@@ -126,11 +126,15 @@
                                {{ $application->supplier->name }}
                            </p>
                        </td>
-                       <td class="py-3 ">
+                       <td class="">
                             @include('livewire.client.application.actions')
                        </td>
-                       <td class="py-3 ">
-                       
+                       <td class="py-3">
+                            <a href="{{ route('applications.documents', \Crypt::encryptString($application->id)) }}"
+                                class="px-2 py-2 text-sm font-medium transition-colors duration-150 bg-gray-200 border rounded-lg hover:bg-gray-300"
+                                title="Documentos cargados a la solicitud">
+                                <span> Finales </span>
+                            </a>
                        </td>
                    </tr>
                @empty
