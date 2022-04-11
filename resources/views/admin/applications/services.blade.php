@@ -267,6 +267,7 @@
                         </label>
                         <a href="{{ route('download.file.internment', [$file->internment_id, $file->intl_treaty]) }}"
                             title="Descarga documento"
+                            target="_blank"
                           class="flex sm:w-32 px-2 py-2 text-white transition-colors duration-150 bg-blue-1300 rounded-lg active:bg-blue-1300 hover:bg-blue-1200 focus:outline-none focus:shadow-outline-blue" >
                              <span class="mr-2"> Descargar </span>
                              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -295,7 +296,7 @@
 
 @endif
 
-{{-- Fin de  transporte--}}
+{{-- Fin PROCESO INTERNACION Aduana--}}
 
 {{-- Bodegaje Local  --}}
 @if (isset($application->localWarehouse->id))
