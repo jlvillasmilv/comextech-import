@@ -14,12 +14,11 @@
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         
 
-            <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.applications.update', $application->id) }}"  >
+            <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.applications.update', $application->id) }}"  enctype="multipart/form-data">
                 @csrf
                  @if(isset($application))
 		           @method('PUT')
 		        @endif
-
 
                 <div class="flex flex-wrap">
                     <div class="sm:w-full md:w-2/6 px-2 ">
@@ -113,7 +112,7 @@
 
                     <div class="px-3 w-full">
                         <div class="flex justify-end mt-1">
-                            <button class="flex px-4 py-2 mt-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue">
+                            <button type="submit" class="flex px-4 py-2 mt-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
 								 </svg>
@@ -161,7 +160,6 @@
             showLoaderOnConfirm: true,
             preConfirm: () => {
 
-
                 //POST request with body equal on data in JSON format
                 fetch('{{ route("supplier.remove") }}', {
                 method: 'POST',
@@ -185,44 +183,63 @@
 
     }
     
-    const tbodyEl = document.querySelector("tbody");
-    const tableEl = document.getElementById("table");
-
      // Agrega nuevo registro Direccion orgen tansporte 
      function addRow(tableID) {
        
         var table = document.getElementById("table");
+        const tbodyEl = document.getElementById('table').getElementsByTagName('tbody')[0];
 
         let applicationDocument = document.getElementById("application_document_file_id");
-        let documentFile = document.getElementById("document_file");
+        var value = applicationDocument.options[applicationDocument.selectedIndex].text;
+        // let documentFile = document.getElementById("document_file");
        
-        if (applicationDocument.value.length <= 0 || documentFile.length <= 0 ) { return;  }
+        if (applicationDocument.value.length <= 0 ) { return;  }
 
-        table.innerHTML += `
-            <tr id="${Date.now()}">
-                <td>
-                 ${applicationDocument.value} 
-
-                 ${applicationDocument.value}
+        tbodyEl.innerHTML += `
+            <tr id="${Date.now()}" class="text-gray-700 dark:text-gray-400" >
+                <td class="px-4 py-3">
+                 ${value}
                     <input type="hidden" name="application_document_file_id[]" value="${applicationDocument.value}">
-                    <input type="hidden" name="application_file[]" value="${documentFile.value}" />                
+                    <input type="file"
+                     accept="application/pdf"
+                     class="form-control
+                              block
+                              w-full
+                              px-3
+                              py-1.5
+                              text-base
+                              font-normal
+                              text-gray-700
+                              bg-white bg-clip-padding
+                              border border-solid border-gray-300
+                              rounded
+                              transition
+                              ease-in-out
+                              m-0
+                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                               name="application_files[]"
+                               />                
                 </td>
-                <td>${Date.now()} </td>
-                <td>
-                    <button 
-                    type="button" 
-                    class="deleteBtn btn-add flex ml-2 px-3 py-1 my-8 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue"
-                     onclick="onDeleteRow(${Date.now()})">
+                <td class="px-4 py-3">${new Date().toISOString().slice(0, 10)} </td>
+                <td class="px-4 py-3">
 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </button>
+                    <button
+                        type="button"
+                        onclick="onDeleteRow(${Date.now()})"
+                        class="px-1 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                        aria-label="Delete">
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill="#e5494d" fill-rule="evenodd"
+                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+
                 </td>
             </tr>
         `;
 
-         documentFile.value = '';
        
       };
 

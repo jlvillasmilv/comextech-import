@@ -83,6 +83,7 @@ class ApplicationController extends Controller
      */
     public function edit(Application $application)
     {
+        
         $services = Service::join('category_services', 'services.category_service_id', '=', 'category_services.id')
         ->select('services.id', \DB::raw("CONCAT(category_services.name,' / ', services.name) as name_code"))
         ->whereNotIn('services.id', $application->details->pluck('service_id'))
@@ -102,9 +103,12 @@ class ApplicationController extends Controller
      */
     public function update(ApplicationRequest $request, $id)
     {
+        
         if (! Gate::allows('admin.applications.index')) {
             return abort(401);
         }
+
+        dd($request->all());
 
         $application = Application::findOrFail($id);
 

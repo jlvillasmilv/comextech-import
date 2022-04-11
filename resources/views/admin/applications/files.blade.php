@@ -1,23 +1,5 @@
-<div class="bg-white border border-gray-200 mb-2" x-data="{selected:null}">
-    <ul class="shadow-box">                
-        <li class="relative border-b border-gray-200">
 
-                <a x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null" 
-                    type="button" 
-                    class="w-full px-8 py-6 text-left"
-                >
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-gray-800 dark:text-gray-400">Documentos Finales </span>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
-                </div>
-            </a>
-
-            <div class="relative overflow-hidden transition-all max-h-0 duration-700" 
-                x-ref="container1"
-                 x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
                 <div class="p-6">
-
-
 
                     <div class="px-2" id="add_to">
                         <div class="sm:flex mb-4">
@@ -26,24 +8,17 @@
                                 <select
                                  id="application_document_file_id" 
                                  class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray ">
-
                                     @foreach($documents as $id => $name)
 
-                                        <option value="{{ $name }}" {{old('location') == $name ? 'selected' : ''}}>
+                                        <option value="{{ $id }}" {{old('location') == $name ? 'selected' : ''}}>
                                             {{ $name }}
                                         </option>
 
                                     @endforeach
-
-                                    
                                 </select>
-                                <span id="application_document_file_idError" class="text-xs text-red-600 dark:text-red-400">
-                                    <strong></strong>
-                                </span>
                             </div>
                            
-                        <div class="w-full mt-3 sm:w-3/4 sm:ml-1">
-                            
+                        {{-- <div class="w-full mt-3 sm:w-3/4 sm:ml-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Documento a subir </label>
 
                             <input type="file"
@@ -65,7 +40,7 @@
                                placeholder="Dirección Origen" 
                                id="document_file" 
                                onfocus="this.value=''" >                                                          
-                            </div>
+                            </div> --}}
 
                            
                             <button
@@ -147,7 +122,3 @@
                     @endif                 
                    
                 </div>
-            </div>
-        </li>
-    </ul>
-</div>
