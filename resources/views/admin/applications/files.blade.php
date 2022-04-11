@@ -1,5 +1,11 @@
 
                 <div class="p-6">
+                    <div class="flex justify-between items-end">
+                        <h4 class="mb-4 text-lg  text-gray-600 dark:text-gray-300">
+                           Documentos Finales
+                        </h4>
+                       
+                    </div>
 
                     <div class="px-2" id="add_to">
                         <div class="sm:flex mb-4">
@@ -17,31 +23,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                           
-                        {{-- <div class="w-full mt-3 sm:w-3/4 sm:ml-1">
-                            <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300" > Documento a subir </label>
-
-                            <input type="file"
-                              class="form-control
-                              block
-                              w-full
-                              px-3
-                              py-1.5
-                              text-base
-                              font-normal
-                              text-gray-700
-                              bg-white bg-clip-padding
-                              border border-solid border-gray-300
-                              rounded
-                              transition
-                              ease-in-out
-                              m-0
-                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                               placeholder="Dirección Origen" 
-                               id="document_file" 
-                               onfocus="this.value=''" >                                                          
-                            </div> --}}
-
                            
                             <button
                              id="add"
@@ -96,10 +77,10 @@
     
                                         <button
                                             type="button"
-                                            id="{{'bt-del-'.$application->id}}"
-                                            data-id="{{ $application->id }}"
-                                            title="Eliminar {{$application->code}}"
-                                            data-remote="{{ route('applications.destroy', \Crypt::encryptString($application->id)) }}"
+                                            id="{{'bt-del-'.$file->id}}"
+                                            data-id="{{ $file->id }}"
+                                            title="Eliminar {{ $file->applicationDocumentFile->name }}"
+                                            data-remote="{{ route('admin.applicaton.file.remove', $file->id) }}"
                                             class="px-1 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-delete"
                                             aria-label="Delete">
                                             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor"
