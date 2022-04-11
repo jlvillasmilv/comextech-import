@@ -50,7 +50,7 @@
                          title="Numero de solicitud / Fecha registro">
                             @include('components.table.sort', ['field' => 'code', 'label' => 'Nro/Fecha'])
                         </th>
-                        <th class="px-4 py-3"
+                        <th class="px-4 py-3 w-24"
                          title="Servicios Seleccionados">
                          SERVICIOS 
                         </th>
@@ -58,18 +58,19 @@
                          title="Monto Total Operacion / Pago Proveedor">
                          M. TOTAL / PROVEEDOR
                         </th>
-                        <th class="px-4 py-3">ETD/ETA</th>
+                        <th class="px-4 py-3 w-24">ETD/ETA</th>
                         <th class="px-4 py-3">Estatus </th>
                         <th class="px-4 py-3">Proveedor </th> 
-                        <th class="px-4 py-3">&nbsp; </th> 
+                        <th class="px-4 py-3">Acciones</th> 
+                        <th class="px-4 py-3">DOCUMENTOS </th> 
                     </tr>
                 </thead>
                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                    @forelse($datas as $application)
-                   <tr class="text-gray-700 dark:text-gray-400 text-center"
+                   <tr class="text-gray-700 dark:text-gray-400 text-center border-b-2 border-gray-400"
                     wire:loading.class.delay="opacity-50"
                     id="{{ $application->id }}">
-                       <td class="px-2 pb-2 text-center tex-sm border-b-2 border-gray-400">
+                       <td class="px-2 pb-2 text-center tex-sm ">
                            <div class="flex justify-center items-center">
                                <span class="iconify h-9 w-9" data-icon="{{ $application->typeTransport->icon }}"></span>
                            </div>
@@ -80,7 +81,7 @@
                                {{ date('d-m-y', strtotime($application->created_at)) }}
                            </p>
                        </td>
-                       <td class="px-2 py-2  text-sm border-b-2 border-gray-400">
+                       <td class="px-2 py-2  text-sm ">
                             
                         <div class="flex justify-center items-start mt-1">
                             <span 
@@ -97,18 +98,18 @@
                         </div>
                            
                        </td>
-                       <td class="px-2 py-2  text-sm border-b-2 border-gray-400">
-                           <strong> 
+                       <td class="px-2 py-2 ">
+                           <strong class="font-semibold"> 
                                 {{ number_format($application->tco, ($application->currencyTco->code == 'CLP' ? 0 : 2) , ',', '.') }}
                                 {{ $application->currencyTco->code }}
                            </strong>
                            <br>
-                           <strong> 
+                           <strong class="text-xs"> 
                                 {{ number_format($application->amount, ($application->currency->code == 'CLP' ? 0 : 2) , ',', '.') }}
                                 {{ $application->currency->code }}
                             </strong>
                        </td>
-                       <td class="px-2 py-2  text-sm border-b-2 border-gray-400">
+                       <td class="px-2 py-2  text-sm ">
                            @if (isset($application->transport->id))
                                 {{ date('d-m-y', strtotime($application->transport->estimated_date)) }}
                                 <br>
@@ -116,17 +117,20 @@
                            @endif
                             
                        </td>
-                       <td class="px-2 text-sm w-32 border-b-2 border-gray-400">
+                       <td class="px-2 text-sm w-32 ">
                            {{-- Status application --}}
-                           @include('client.applications.status')
+                           @include('livewire.client.application.status')
                        </td>
-                       <td class="px-4 py-3 border-b-2 border-gray-400">
+                       <td class="px-4 py-3 ">
                            <p class="font-semibold  text-md">
                                {{ $application->supplier->name }}
                            </p>
                        </td>
-                       <td class="py-3 border-b-2 border-gray-400">
+                       <td class="py-3 ">
                             @include('livewire.client.application.actions')
+                       </td>
+                       <td class="py-3 ">
+                       
                        </td>
                    </tr>
                @empty
@@ -153,6 +157,6 @@
             {{ $datas->withQueryString()->links() }}
        </div>
        
-        @include('client.applications.modal')
+        @include('livewire.client.application.modal')
    </div>
 </div>

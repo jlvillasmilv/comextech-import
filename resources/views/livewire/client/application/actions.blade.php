@@ -1,4 +1,4 @@
-<div class="flex flex-nowrap">
+<div class="grid grid-cols-2 items-center place-items-center">
     <a href="{{ route('applications.show', \Crypt::encryptString($application->id)) }}"
         title="Ver detalle Solicitud {{$application->code}}"
         class="px-1 py-2  text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
