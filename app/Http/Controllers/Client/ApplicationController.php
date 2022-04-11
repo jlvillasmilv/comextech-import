@@ -633,7 +633,7 @@ class ApplicationController extends Controller
             ['id', '=',  Crypt::decryptString($id)],
             ['company_id', auth()->user()->company->id],
         ])
-        ->with(['internmentProcess','status'])
+        ->with(['internmentProcess','status','applicationFile','applicationFile.applicationDocumentFile','applicationFile.fileStore'])
         ->firstOrFail();
         
         return view('client.applications.documents', compact('application'));

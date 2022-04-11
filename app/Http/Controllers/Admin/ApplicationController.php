@@ -265,4 +265,17 @@ class ApplicationController extends Controller
         }
         
     }
+
+    public function showApplicationDocuments($id)
+    {
+        $application  = Application::findOrFail($id)
+        ->with([
+            'internmentProcess','status',
+            'applicationFile','applicationFile.applicationDocumentFile',
+            'applicationFile.fileStore'
+        ]);
+        
+        return view('client.applications.documents', compact('application'));
+       
+    }
 }

@@ -16,6 +16,7 @@ class CreateApplicationDocumentFilesTable extends Migration
         Schema::create('application_document_files', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

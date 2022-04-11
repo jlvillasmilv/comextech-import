@@ -211,7 +211,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     Route::resource('users', 'UserController');
     Route::resource('applications', 'ApplicationController')->except(['create']);
-    Route::get('applications/tracking/{id}', 'ApplicationController@tracking')->name('applications.tracking');
+    Route::get('application-documents/{id}','ApplicationController@showApplicationDocuments')
+    ->where('id', '[0-9]+')
+    ->name('applications.documents');
+    
+    Route::get('applications/tracking/{id}', 'ApplicationController@tracking')
+    ->where('id', '[0-9]+')
+    ->name('applications.tracking');
+
     Route::resources([
         'category_service' => CategoryServiceController::class,
         'currencies'       => CurrencyController::class,

@@ -17,7 +17,7 @@ class CreateApplicationFilesTable extends Migration
             $table->id();
             $table->foreignId('application_id')->references('id')->on('applications')->onDelete('cascade');
             $table->foreignId('file_store_id')->references('id')->on('file_stores')->onDelete('cascade');
-            $table->string('document_name', 20)->nullable();
+            $table->foreignId('application_document_file_id')->references('id')->on('application_document_files');
             $table->timestamps();
         });
     }

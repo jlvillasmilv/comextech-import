@@ -65,6 +65,7 @@
 
     @if ($application->status->name == 'Borrador')
         <button
+            type="button"
             id="{{'bt-del-'.$application->id}}"
             data-id="{{ $application->id }}"
             title="Eliminar {{$application->code}}"
