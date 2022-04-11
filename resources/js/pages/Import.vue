@@ -630,7 +630,7 @@ export default {
       objectPayment2: {
         code: 'ICS05',
         id: 5,
-        name: 'Entrega',
+        name: 'Servicios',
         pivot: {
           application_cond_sale_id: 1,
           category_service_id: 5
