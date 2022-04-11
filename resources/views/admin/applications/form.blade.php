@@ -146,43 +146,6 @@
 @parent
 <script type="text/javascript">
 
-    function remove(id){
-
-        const data = { id: id };
-        
-        Swal.fire({
-            title: '¿Desea eliminar este registro?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Si',
-            confirmButtonColor: '#142c44',
-            cancelButtonText: 'No',
-            showLoaderOnConfirm: true,
-            preConfirm: () => {
-
-                //POST request with body equal on data in JSON format
-                fetch('{{ route("supplier.remove") }}', {
-                method: 'POST',
-                headers: {
-                    "X-CSRF-Token": $('input[name="_token"]').val(),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-                })
-                .then((response) => response.json())
-                //Then with the data from the response in JSON...
-                .then((data) => {
-                    onDeleteRow(id);
-                })
-                //Then with the error genereted...
-                .catch((error) => {
-                console.error('Error:', error);
-                });
-            }
-        });
-
-    }
-    
      // Agrega nuevo registro Direccion orgen tansporte 
      function addRow(tableID) {
        

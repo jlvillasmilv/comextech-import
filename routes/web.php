@@ -44,8 +44,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::get('/application-summary/{id}','App\Http\Controllers\Client\ApplicationController@getApplicationSummary')->where('id', '[0-9]+');
     Route::post('set-application-summary','App\Http\Controllers\Client\ApplicationController@setApplicationSummary')->name('application.importUpdateCost');
-    Route::get('/application-documents/{id}','App\Http\Controllers\Client\ApplicationController@showApplicationDocuments')->name('applications.documents'); 
-
+    Route::get('/application-documents/{id}','App\Http\Controllers\Client\ApplicationController@showApplicationDocuments')->name('applications.documents');
+    
+    
     Route::post('application-status','App\Http\Controllers\Client\ApplicationController@updateStaus')->name('application.status');
     Route::post('application-notifications','App\Http\Controllers\Client\ApplicationController@notifications')->name('application.notifications');
     
@@ -214,6 +215,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('application-documents/{id}','ApplicationController@showApplicationDocuments')
     ->where('id', '[0-9]+')
     ->name('applications.documents');
+
+    Route::delete('applicaton-file-remove/{id}', 'ApplicationController@destroyapplicationFile')
+    ->name('applicaton.file.remove')
+    ->where('id', '[0-9]+');
     
     Route::get('applications/tracking/{id}', 'ApplicationController@tracking')
     ->where('id', '[0-9]+')

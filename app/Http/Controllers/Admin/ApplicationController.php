@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Application,ApplicationDetail,ApplicationSummary, ApplicationStatus, Currency, Service, FedexApi};
+use App\Models\{Application, ApplicationDocumentFile, ApplicationFile, ApplicationDetail,ApplicationSummary, ApplicationStatus, Currency, Service, FedexApi};
+use App\Models\FileStore;
 use App\Models\services\{DHL, DHLTracking };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+
 use App\Http\Requests\Admin\{ApplicationRequest,ApplicationServiceRequest};
+
 
 class ApplicationController extends Controller
 {
@@ -108,8 +112,6 @@ class ApplicationController extends Controller
             return abort(401);
         }
 
-        dd($request->all());
-
         $application = Application::findOrFail($id);
 
         $status = ApplicationStatus::where('id', $application->application_statuses_id)->firstOrFail();
@@ -125,6 +127,7 @@ class ApplicationController extends Controller
             return redirect()->route('admin.applications.edit', $application->id);
 
         }
+
 
         if($application->status != $request->get('application_statuses_id')){
 
@@ -173,6 +176,31 @@ class ApplicationController extends Controller
             ];
             $total = ApplicationSummary::setSummary($data);
         }
+       
+        if(isset($request->application_document_file_id)){
+           
+            foreach ($request->application_document_file_id as $key => $file) {
+              
+                 // agregar datos de subida de archivo
+                if ($request->hasFile('application_files.'.$key)) {
+        
+                    $document = ApplicationDocumentFile::where('id',  $file)->first();
+                  
+                        $data = new FileStore;
+                        $file_storage = $data->addFile(
+                            $request->file('application_files')[$key],
+                            $document->name.'-'. $application->id);
+
+                            ApplicationFile::updateOrCreate(
+                            [
+                                'file_store_id' => $file_storage->id,
+                                'application_id' => $application->id,
+                            ],
+                            [ 'application_document_file_id' => $file ]
+                        );
+                }
+            }
+        }
     
 
         $notification = array(
@@ -194,6 +222,40 @@ class ApplicationController extends Controller
     {
         ApplicationDetail::where('id', $id)->delete();
         return  response()->json(['aviso' => 'OK'],200);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyapplicationFile($id)
+    {
+        try{
+            \DB::beginTransaction();
+
+            $file_store = ApplicationFile::where('id', $id)->firstOrFail();
+
+            $exists = Storage::disk('s3')
+            ->exists('file/'.$file_store->fileStore);
+
+            if($exists){
+            //     Storage::disk('s3')
+            //     ->delete('file/'.$file_store_internment->fileStore);
+            }
+
+            ApplicationFile::where('id',$file_store->id)->delete();
+            FileStore::where('id',$file_store->file_store_id)->delete();
+
+            \DB::commit();
+
+        } catch (Throwable $e) {
+            \DB::rollback();
+            return response()->json($e, 500);
+        }
+
     }
 
     public function tracking($id)
