@@ -54050,6 +54050,145 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
   /*bg-indigo-500*/
 }
 
+/* Internment IVA and Advalorem */
+
+.img-advalorem {
+  filter: grayscale(100%);
+  opacity: 0.35;
+}
+
+.img-advalorem:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+@media (max-width: 639px) {
+  .img-container-sii {
+    display: none;
+  }
+
+  .img-container-ad {
+    display: none;
+  }
+
+  .mobile-sii {
+    display: block;
+    width: 100%;
+  }
+
+  .mobile-img-advalorem {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (min-width: 640px) {
+  .img-container-sii {
+    display: block;
+  }
+
+  .img-container-ad {
+    display: block;
+  }
+
+  .mobile-sii {
+    display: none;
+  }
+
+  .mobile-img-advalorem {
+    display: none;
+  }
+}
+
+/* Internment table taxes */
+
+@media (max-width: 640px) {
+  .top-arrow {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .top-arrow-dollar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cif-pesos {
+    display: none;
+  }
+
+  .div-arrow-full,
+.div-arrow-full-2 {
+    display: none;
+  }
+
+  .table-full {
+    display: none;
+  }
+
+  .table-mobile {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1280px) {
+  .cif {
+    display: none;
+  }
+
+  .arrow-full-2 {
+    display: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .top-arrow {
+    display: none;
+  }
+
+  .top-arrow-dollar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 4rem;
+  }
+
+  .div-arrow-full,
+.div-arrow-full-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .table-full {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .table-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .cif {
+    display: block;
+  }
+
+  .top-arrow-dollar {
+    display: none;
+  }
+
+  .table-full {
+    flex-wrap: nowrap;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
