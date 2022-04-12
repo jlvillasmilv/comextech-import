@@ -208,6 +208,10 @@ class Application extends Model
         return $this->hasMany(ApplicationPayment::class,'application_id');
     }
 
+    public function applicationFile()
+    {
+        return $this->hasMany(ApplicationFile::class,'application_id');
+    }
 
     public static function validateApplication($id)
     {

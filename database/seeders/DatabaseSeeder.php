@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EcommerceSeeder::class);
         $this->call(FactoringSeeder::class);
         $this->call(RateLceSeeder::class);
+        $this->call(ApplicationDocumentFileSeeder::class);
     }
 }
