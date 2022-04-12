@@ -32,7 +32,7 @@ class PaymentApplicationController extends Controller
         ->select('app.*', 'jsap.application_id', 'jsap.order_id', 'jsap.duplicate_url', 'jsap.recovery_url', 'jsap.checkout_url', 'jsap.status')
         ->first();
 
-        if ($application_order->authorization_code != $request->authorization_code)
+        if ($application_order->authorization_code != $request->authorization_code && $application_order->tco_clp > 3000000 )
         {
             return response()->json(['error' => 'Codigo Invalido'], 422);
         }
@@ -62,10 +62,13 @@ class PaymentApplicationController extends Controller
 
         if ($total > 0 ) {
             $url_order = "";
-            if (!is_null($application_order->duplicate_url)) {
-
+           
+            if (!is_null($application_order->order_id)) {
+                
                 $jump_seller_order = JumpSellerAppPayment::getSingleOrder($application_order->order_id);
                 $url_order =  empty($jump_seller_order["recovery_url"]) ? $jump_seller_order["duplicate_url"] : $jump_seller_order["recovery_url"];
+                
+                $url_order = $jump_seller_order["status"] != "Pending Payment" ? "" : $url_order;
 
                 if ($total != $jump_seller_order["total"] && $jump_seller_order["status"] != 'Paid' )
                 { 

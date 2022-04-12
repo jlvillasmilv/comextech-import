@@ -189,7 +189,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="py-2 text-left">Validar Codigo</td>
-                                    <td colspan="1" class="py-2 text-left">Total a Pagar</td>
+                                    <td colspan="1" class="py-2 text-left">Total Operación</td>
                                 </tr>
                                 <tr>
                                     <td colspan="1">
