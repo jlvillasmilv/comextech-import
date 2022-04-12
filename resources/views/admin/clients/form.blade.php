@@ -109,10 +109,13 @@
                     <div class="sm:w-full md:w-auto px-3 ">
 
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">Aereo</span>
+                            <span class="text-gray-700 dark:text-gray-400">Aereo %</span>
                             <input class="{{ $errors->has('air') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             type="number"
-                            name="air" 
+                            name="air"
+                            min="0"
+                            placeholder="%"
+                            title="número en % de recargo comision" 
                             value="{{ old('air', isset($company->user->markUp) ? $company->user->markUp->air : '') }}"
                              >
                             @if($errors->has('air'))
@@ -128,10 +131,13 @@
                     <div class="sm:w-full md:w-auto px-3 ">
 
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">FCL</span>
+                            <span class="text-gray-700 dark:text-gray-400">FCL %</span>
                             <input class="{{ $errors->has('fcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
                             type="number"
                             name="fcl" 
+                            min="0"
+                            placeholder="%"
+                            title="número en % de recargo comision"
                             value="{{ old('fcl', isset($company->user->markUp) ? $company->user->markUp->fcl : '') }}"
                              >
                             @if($errors->has('fcl'))
@@ -147,10 +153,13 @@
                     <div class="sm:w-full md:w-auto px-3 ">
 
                         <label class="block text-sm my-3">
-                            <span class="text-gray-700 dark:text-gray-400">LCL</span>
+                            <span class="text-gray-700 dark:text-gray-400">LCL %</span>
                             <input class="{{ $errors->has('lcl') ? ' border-red-600 ' : '' }} block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
                             type="number"
-                            name="lcl" 
+                            name="lcl"
+                            min="0"
+                            placeholder="%" 
+                            title="número en % de recargo comision"
                             value="{{ old('lcl', isset($company->user->markUp) ? $company->user->markUp->lcl : '') }}"
                              >
                             @if($errors->has('lcl'))

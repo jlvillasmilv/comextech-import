@@ -55,13 +55,15 @@ class JumpSellerAppPayment extends Model
 
         //check available variant variant_id product
         $variant_id = JumpSellerAppPayment::variantProduct();
-
+        
         if ($variant_id <= 0) {
             return response()->json('Product not found', 500);
         }
 
         //update variant variant_id product
         $up_variant_id = JumpSellerAppPayment::UpdateVariantProduct($variant_id, $data);
+
+        
 
         if (!empty($up_variant_id["message"])) {
             return response()->json($up_variant_id["message"], 404);
