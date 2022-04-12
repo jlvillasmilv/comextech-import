@@ -189,7 +189,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="py-2 text-left">Validar Codigo</td>
-                                    <td colspan="1" class="py-2 text-left">Total a Pagar</td>
+                                    <td colspan="1" class="py-2 text-left">Total Operación</td>
                                 </tr>
                                 <tr>
                                     <td colspan="1">
@@ -219,7 +219,17 @@
                                     </td>
                                     <td colspan="1" id="total-pagos">
                                         <p id="total-costos"
-                                            x-text="new Intl.NumberFormat('es-es', { style: 'currency', currency: 'CLP' }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid).toFixed(2))"
+                                            x-text="new Intl.NumberFormat('es-es', {
+                                                style: 'currency',
+                                                currency: 'CLP'
+                                            }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid)
+                                            .toFixed(2)) < '0'
+                                            ? 0
+                                            : new Intl.NumberFormat('es-es', {
+                                                style: 'currency',
+                                                currency: 'CLP'
+                                            }).format(parseFloat(application.tco_clp - formPaymentApp.available_credit - formPaymentApp.available_prepaid)
+                                            .toFixed(2))"
                                             class="font-semibold flex flex-col justify-center h-11 my-2 bg-gray-200 text-center rounded">
                                         </p>
                                     </td>
