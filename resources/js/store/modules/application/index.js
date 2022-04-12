@@ -152,6 +152,10 @@ const mutations = {
     state.selectedCondition.services = state.selectedCondition.services.map((tab) =>
       tab.sort == payload ? { ...tab, checked: false } : tab
     );
+
+    if (this.state.selectedServices.every((service) => service.code === 'ICS07')) {
+      this.state.selectedServices = [];
+    }
   },
   BUSY_BUTTON(state, value) {
     state.busy = value;
