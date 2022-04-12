@@ -48,48 +48,23 @@
                 <div v-if="item.name === 'Proveedor'"></div>
                 <button
                   type="button"
-                  v-if="item.selected && !item.checked"
-                  @click="selectedService(item)"
-                  :class="[
-                    !item.checked ? 'bg-transparent dark:bg-gray-300' : 'bg-blue-1000',
-                    'flex flex-col items-center hover:bg-blue-1000 dark:hover:bg-blue-1000 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
-                  ]"
-                >
-                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="black"></span>
-                </button>
-                <button
-                  type="button"
-                  v-if="item.checked"
-                  @click="deleteService(item.sort)"
-                  :class="[
-                    item.checked
-                      ? 'bg-blue-1000 text-blue-1300 '
-                      : 'bg-transparent text-blue-1000 ',
-                    'flex flex-col items-center hover:bg-blue-1100 font-semibold hover:text-white px-1 py-1 text-sm mx-0.5 border border-blue-1000 hover:border-transparent rounded my-2 text-center focus:outline-none'
-                  ]"
-                >
-                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="white"></span>
-                </button>
-                <button
-                  type="button"
-                  v-if="!item.checked && !item.selected"
-                  class="
-                    bg-gray-300
-                    flex flex-col
-                    items-center
-                    font-semibold
-                    px-1
-                    py-1
-                    text-sm
-                    mx-0.5
-                    border border-gray-200
-                    rounded
-                    my-2
-                    text-center
-                    focus:outline-none
+                  @click="
+                    item.selected && !item.checked
+                      ? selectedService(item)
+                      : !item.selected
+                      ? ''
+                      : deleteService(item.sort)
                   "
+                  :class="[
+                    'flex flex-col items-center text-center text-sm font-semibold px-1 py-1 mx-0.5 my-2 border rounded focus:outline-none',
+                    item.checked
+                      ? 'bg-blue-1000 text-white border-blue-1000 hover:bg-transparent hover:text-black active:bg-transparent active:text-black'
+                      : !item.selected
+                      ? 'text-gray-400 bg-gray-300 border-gray-200'
+                      : 'bg-transparent border-blue-1000 hover:bg-blue-1000 hover:text-white active:bg-blue-1000 active:text-white'
+                  ]"
                 >
-                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon" color="gray"></span>
+                  <span class="iconify w-10 h-10 my-2" :data-icon="item.icon"></span>
                 </button>
                 <p
                   :class="[
@@ -99,53 +74,6 @@
                   {{ item.name }}
                 </p>
               </div>
-              <!-- <label
-                                v-for="(item, id) in $store.state.application
-                                    .selectedCondition.services"
-                                :key="id"
-                                class="flex flex-col w-3/12 my-2 mr-6"
-                            >
-                            
-                                <div
-                                    class="flex flex-col items-center bg-transparent text-blue-700 hover:bg-blue-500 font-semibold hover:text-white px-1 py-2 text-sm mx-0.5 border border-blue-500 hover:border-transparent rounded my-2 text-center"
-                                >
-                                    <Icon
-                                        class="w-10 h-10 my-2"
-                                        :icon="item.icon"
-                                        color="black"
-                                    />
-                                    <input
-                                        v-if="item.selected && !item.checked"
-                                        type="checkbox"
-                                        class="focus:outline-none form-checkbox h-5 222 11 w-5 text-green-600"
-                                        :value="item"
-                                        v-model="$store.state.selectedServices"
-                                    />
-                                    <input
-                                        v-if="item.checked"
-                                        type="checkbox"
-                                        class="focus:outline-none form-checkbox h-5 2 2222 7 w-5 text-green-600"
-                                        @click="deleteService(item)"
-                                        :value="item"
-                                        :checked="item.checked"
-                                    />
-                                    <div v-else-if="!item.selected">
-                                        
-                                    </div>
-                                </div>
-                                <div>
-                                    <p
-                                        :class="[
-                                            !item.selected
-                                                ? 'text-gray-300'
-                                                : '',
-                                            'text-center'
-                                        ]"
-                                    >
-                                        {{ item.name }}
-                                    </p>
-                                </div>
-                            </label> -->
             </div>
             <span
               class="text-xs text-red-600 dark:text-red-400"
@@ -743,8 +671,6 @@ export default {
           icon: 'error',
           title: 'Se ha producido un error al procesar los datos'
         });
-
-        this.$store.dispatch('application/busyButton', false);
       } finally {
         this.$store.dispatch('application/busyButton', false);
       }
@@ -767,7 +693,7 @@ export default {
     handleCurrency() {
       this.$store.state.payment.payment = [];
       this.$store.state.payment.percentageInitial = 100;
-      this.data.amount = 0;
+      // this.data.amount = 0;
     },
     toogleMenuTabs() {
       this.clearSelectedServices();
