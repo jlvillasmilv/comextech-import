@@ -5,7 +5,7 @@
       <div class="lg:w-5/12 flex justify-center mb-6">
         <div class="w-11/12 md:w-10/12">
           <span class="text-sm text-gray-700 dark:text-gray-400 font-semibold">
-            Fecha de envío
+            Fecha de embarque
           </span>
           <label class="flex">
             <input
