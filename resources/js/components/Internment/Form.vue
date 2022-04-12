@@ -457,7 +457,9 @@
       <div class="w-full flex justify-center">
         <div class="flex flex-col justify-around sm:w-6/12 lg:w-4/12 py-4 pb-8 mb-8">
           <div class="my-4">
-            <p class="font-semibold text-black text-center">Gestión y pago de impuestos</p>
+            <p class="text-xl font-semibold text-blue-1300 text-center">
+              Gestión y pago de impuestos
+            </p>
           </div>
           <div class="flex flex-wrap justify-around">
             <button
@@ -484,7 +486,7 @@
         </div>
       </div>
 
-      <!-- tabla  acordeon -->
+      <!-- table taxes and dutys -->
       <tax-table
         :amountsDollar="amountsDollar"
         :amountsClp="amountsClp"
@@ -492,112 +494,10 @@
         :insure="insure"
         :transport="transport"
         :isTaxDutys="isTaxDutys"
-      ></tax-table>
+      />
 
-      <!-- checkbox incluir -->
-      <div
-        :class="[
-          'w-full flex flex-wrap justify-center p-4 mt-4 bg-gray-200 rounded-lg shadow-md',
-          isTaxDutys ? '' : 'bg-gray-300 opacity-25'
-        ]"
-      >
-        <div class="flex justify-between sm:w-6/12 lg:w-4/12 xl:w-6/12 px-4 xl:py-0">
-          <div class="py-1 w-5/12">
-            <span class="font-semibold">IVA de internacion</span>
-            <div class="flex justify-between bg-gray-300 p-2 rounded">
-              <p>19%</p>
-              <p>{{ `${$options.filters.setPrice(expenses.iva_amt, 'CLP')} CLP` }}</p>
-            </div>
-          </div>
-          <div class="w-7/12">
-            <figure class="container-sii-full flex justify-center">
-              <img
-                src="../../../../public/img/SII-white.png"
-                class="w-24 bg-white px-2 mr-4 border-2 shadow-md"
-                alt="sii"
-              />
-              <div>
-                <p class="text-gray-400"><strong class="text-black">S</strong>ervicio de</p>
-                <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>mpuestos</p>
-                <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>nternos</p>
-              </div>
-            </figure>
-          </div>
-        </div>
-        <div class="flex justify-between sm:w-6/12 lg:w-4/12 xl:w-6/12 px-4 xl:py-0">
-          <!-- <div class="button-ad-mobile">
-            <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
-              <img
-                src="../../../../public/img/tgr.png"
-                class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
-                :style="expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
-                alt="tgr"
-              />
-            </button>
-            <div>
-              <p class="text-gray-400"><strong class="text-black">T</strong>esoreria</p>
-              <p class="text-gray-400"><strong class="text-black">G</strong>eneral de la</p>
-              <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
-            </div>
-          </div> -->
-          <div class="py-1 w-5/12">
-            <span class="font-semibold">Advalorem</span>
-            <div class="flex justify-between bg-gray-300 p-2 rounded">
-              <p>6%</p>
-              <p>
-                {{ expenses.adv ? `${$options.filters.setPrice(expenses.adv_amt, 'CLP')} CLP` : 0 }}
-              </p>
-            </div>
-          </div>
-          <div class="w-7/12">
-            <div class="container-advalorem flex justify-center">
-              <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
-                <img
-                  src="../../../../public/img/tgr.png"
-                  class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
-                  :style="expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
-                  alt="tgr"
-                />
-              </button>
-              <div>
-                <p class="text-gray-400"><strong class="text-black">T</strong>esoreria</p>
-                <p class="text-gray-400"><strong class="text-black">G</strong>eneral de la</p>
-                <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- <div class="flex flex-col justify-between items-start sm:w-6/12 lg:w-5/12 h-48 px-4">
-          <div class="container-advalorem flex justify-center">
-            <button type="button" class="mr-4 focus:outline-none" @click="activeAd()">
-              <img
-                src="../../../../public/img/tgr.png"
-                class="w-24 bg-white px-2 border-2 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 img-advalorem"
-                :style="expenses.adv ? { filter: filterImg, opacity: opacityImg } : ''"
-                alt="tgr"
-              />
-            </button>
-            <div>
-              <p class="text-gray-400"><strong class="text-black">T</strong>esoreria</p>
-              <p class="text-gray-400"><strong class="text-black">G</strong>eneral de la</p>
-              <p class="text-gray-400"><strong class="text-black">R</strong>epublica</p>
-            </div>
-          </div>
-          <figure class="container-sii-full flex justify-center">
-            <img
-              src="../../../../public/img/SII-white.png"
-              class="w-24 bg-white px-2 mr-4 border-2 shadow-md"
-              alt="sii"
-            />
-            <div>
-              <p class="text-gray-400"><strong class="text-black">S</strong>ervicio de</p>
-              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>mpuestos</p>
-              <p class="text-gray-400"><strong class="pl-0.5 text-black">I</strong>nternos</p>
-            </div>
-          </figure>
-        </div> -->
-      </div>
+      <!-- taxes and dutys IVA Advalorem -->
+      <taxes-dutys :amountsDollar="amountsDollar" />
 
       <!-- tabla gastos del puerto -->
       <div
@@ -786,19 +686,16 @@
         </button>
       </div>
     </div>
-
-    <!-- <pre>
-    {{expenses}}
-  </pre> -->
   </section>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import mixinInternment from '../common/mixins/internment/index.js';
 import Load from '../Transport/Load.vue';
 import Loader from '../common/utils/Loader.vue';
 import TaxTable from './TaxTable.vue';
-// import TableMobile from './TableMobile.vue';
+import TaxesDutys from './TaxesDutys.vue';
 
 export default {
   props: {
@@ -807,7 +704,8 @@ export default {
       type: Number
     }
   },
-  components: { Load, Loader, TaxTable },
+  mixins: [mixinInternment],
+  components: { Load, Loader, TaxTable, TaxesDutys },
   computed: {
     ...mapState('internment', ['expenses', 'files', 'filesUpload', 'isTaxDutys']),
     ...mapState('application', ['data', 'currency', 'busy']),
@@ -815,8 +713,6 @@ export default {
   },
   data() {
     return {
-      filterImg: 'grayscale(0)',
-      opacityImg: '1',
       certif: {
         name: 'Cargar Invoice',
         submit: false
@@ -1030,30 +926,6 @@ export default {
       }
     },
 
-    activeAd() {
-      this.expenses.adv = !this.expenses.adv;
-      this.advalorem();
-    },
-
-    async advalorem() {
-      // change iva value if Advalorem is checked
-      if (this.expenses.adv) {
-        let CIF = parseFloat(
-          Number(this.expenses.cif_amt) + Number(this.expenses.cif_amt * 0.06)
-        ).toFixed(2);
-
-        let cif_clp = await axios.get(`/custom-convert-currency/${CIF}/USD`);
-
-        if (cif_clp.data <= 0) {
-          cif_clp = await axios.get(`/api/convert-currency/${CIF}/USD/CLP`);
-        }
-
-        this.expenses.iva_amt = cif_clp.data * (19 / 100);
-      } else {
-        this.taxCheck();
-      }
-    },
-
     async taxComex(value) {
       if (value) {
         this.changeTax(value);
@@ -1066,33 +938,6 @@ export default {
         this.changeTax(value);
         this.convertAmountToClp(false);
         this.taxCheck(false);
-      }
-    },
-
-    async taxCheck(value) {
-      if (value) {
-        this.expenses.cif_amt = parseFloat(
-          Number(this.amountsDollar.AppAmount) +
-            Number(this.amountsDollar.transpAmount) +
-            Number(this.amountsDollar.insureAmount)
-        ).toFixed(2);
-
-        this.expenses.insurance = Number(this.amountsDollar.insureAmount);
-        this.expenses.transport_amt = Number(this.amountsDollar.transpAmount);
-
-        let cif_clp = await axios.get(`/custom-convert-currency/${this.expenses.cif_amt}/USD`);
-
-        if (cif_clp.data <= 0) {
-          cif_clp = await axios.get(`/api/convert-currency/${this.expenses.cif_amt}/USD/CLP`);
-        }
-
-        this.expenses.iva_amt = cif_clp.data * (19 / 100);
-        this.expenses.adv_amt = cif_clp.data * (6 / 100);
-      }
-      if (!value) {
-        this.expenses.cif_amt = 0;
-        this.expenses.iva_amt = 0;
-        this.expenses.adv_amt = 0;
       }
     },
 
@@ -1176,7 +1021,7 @@ export default {
       handler(after, before) {
         this.expenses.custom_agent_id = '';
 
-        this.expenses.agent_payment = this.expenses.customs_house ? 250 : 0;
+        this.expenses.agent_payment = this.expenses.customs_house ? 150 : 0;
       },
       deep: true
     }
@@ -1284,47 +1129,3 @@ export default {
   // }
 };
 </script>
-<style lang="scss" scoped>
-.img-advalorem {
-  filter: grayscale(100%);
-  opacity: 0.35;
-}
-
-.img-advalorem:hover {
-  filter: grayscale(0);
-  opacity: 1;
-}
-
-@media (max-width: 640px) {
-  .container-advalorem {
-    margin-top: 1rem;
-  }
-}
-@media (max-width: 474px) {
-  .button-ad-mobile {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  .container-sii {
-    display: flex;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  .container-advalorem {
-    display: none;
-  }
-  .container-sii-full {
-    display: none;
-  }
-}
-@media (min-width: 474px) {
-  .button-ad-mobile {
-    display: none;
-  }
-  .container-sii {
-    display: none;
-  }
-}
-</style>
