@@ -25,7 +25,7 @@
           class="table-full w-full overflow-hidden xl:flex-no-wrap  "
           :class="[!$store.getters.findService('ICS04') ? '' : 'sm:justify-end']"
         >
-          <div class="flex justify-center sm:w-6/12 xl:w-5/12 overflow-x-auto">
+          <div class="flex justify-center sm:w-6/12 xl:w-5/12">
             <table>
               <thead>
                 <tr
@@ -82,7 +82,7 @@
               <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
             </svg>
           </div>
-          <div class="flex justify-center sm:w-5/12 xl:w-5/12 overflow-x-auto">
+          <div class="flex justify-center sm:w-5/12 xl:w-5/12">
             <table>
               <thead>
                 <tr
@@ -182,7 +182,7 @@
               <path fill="#142c44" d="M2.5 10L9 3.5V7h8v6H9v3.5L2.5 10z" />
             </svg>
           </div>
-          <div class="flex justify-center sm:w-6/12 xl:w-4/12 overflow-x-auto">
+          <div class="flex justify-center sm:w-6/12 xl:w-4/12">
             <table>
               <thead>
                 <tr
@@ -596,80 +596,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@media (max-width: 640px) {
-  .top-arrow {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .top-arrow-dollar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .cif-pesos {
-    display: none;
-  }
-  .div-arrow-full,
-  .div-arrow-full-2 {
-    display: none;
-  }
-  .table-full {
-    display: none;
-  }
-  .table-mobile {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 1280px) {
-  .cif {
-    display: none;
-  }
-  .arrow-full-2 {
-    display: none;
-  }
-}
-
-@media (min-width: 640px) {
-  .top-arrow {
-    display: none;
-  }
-  .top-arrow-dollar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    // align-items: ;
-    padding-right: 4rem;
-  }
-  .div-arrow-full,
-  .div-arrow-full-2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .table-full {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .table-mobile {
-    display: none;
-  }
-}
-
-@media (min-width: 1280px) {
-  .cif {
-    display: block;
-  }
-  .top-arrow-dollar {
-    display: none;
-  }
-  .table-full {
-    flex-wrap: nowrap;
-  }
-}
-</style>
