@@ -3,7 +3,6 @@ require('./bootstrap');
 
 import Import from './pages/Import';
 import FreightQuote from './components/FreightQuote/index';
-import PaymentImport from './components/PaymentImport';
 
 import Vue from 'vue';
 import store from './store';
@@ -88,7 +87,6 @@ const app = new Vue({
     'view-quote': Quote,
     'menu-profile': Menu,
     'vue-numeric': Import,
-    'freight-quote': FreightQuote,
-    'modal-payment': PaymentImport
+    'freight-quote': FreightQuote
   }
 });
