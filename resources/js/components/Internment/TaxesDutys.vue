@@ -45,7 +45,7 @@
       </div>
     </div>
     <div
-      class="flex flex-col items-center sm:flex-row justify-between sm:w-full xl:w-6/12 px-2 xl:py-0"
+      class="flex flex-col items-center sm:flex-row justify-between sm:w-full xl:w-6/12 sm:px-4 xl:px-2 sm:py-4 xl:py-0"
     >
       <div class="mobile-img-advalorem">
         <figure class="flex justify-center py-4">
