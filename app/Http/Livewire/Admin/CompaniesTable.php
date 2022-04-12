@@ -23,6 +23,8 @@ class CompaniesTable extends LivewireDatatable
 
             Column::name('user.name')->searchable()->label('Usuario'),
 
+            Column::name('user.email')->searchable()->label('Correo'),
+
             // Column::callback(['user.name', 'user.email'], function ($name, $allegiance) { 
             //     return "$name | $allegiance"; 
             // })->searchable()->filterOn('users.name')->label('Usuario'),

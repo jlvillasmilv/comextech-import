@@ -119,10 +119,11 @@
           </div>
 
           <!-- transporte local -->
-          <div v-if="data.type_transport != 'COURIER'" class="flex justify-center w-full py-4">
-            <button
-              @click="showShippingMethod()"
-              class="
+          <div class="w-full flex flex-col items-center">
+            <div v-if="data.type_transport != 'COURIER'" class="flex justify-center w-full py-4">
+              <button
+                @click="showShippingMethod()"
+                class="
                 lg:w-3/12
                 bg-transparent
                 focus:outline-none
@@ -138,18 +139,60 @@
                 hover:border-transparent
                 rounded active:bg-blue-1100
               "
-            >
-              Transporte Local
-            </button>
-            <hr class="md:w-8/12 md:mt-4 md:mb-4 md:border-solid md:border-t-2" />
-          </div>
+              >
+                Transporte Local
+              </button>
+              <hr class="md:w-8/12 md:mt-4 md:mb-4 md:border-solid md:border-t-2" />
+            </div>
 
-          <!-- Destino de Envio -->
-          <div
-            v-if="showShipping || data.type_transport == 'COURIER'"
-            class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0"
-          >
-            <dest-address />
+            <div v-if="showShipping" class="flex flex-wrap justify-center w-full my-4 sm:my-0">
+              <div class="flex flex-col items-center justify-center w-6/12 sm:w-2/12 mx-2">
+                <button
+                  class="flex items-center justify-center w-32 h-20 px-2 border bg-blue-1000 rounded-md focus:outline-none"
+                  type="button"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="h-14 w-14"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="flex justify-center items-center w-9/12 sm:w-2/12 mx-2">
+                <button
+                  class="w-32 h-20 px-2 border bg-blue-1000 rounded-md focus:outline-none"
+                  type="button"
+                >
+                  <img src="../../../../public/img/weStorage.png" alt="" />
+                </button>
+              </div>
+              <div class="flex flex-col justify-center w-32 h-28 mx-4">
+                <button
+                  class="w-32 h-20 px-2 border bg-blue-1000 rounded-md focus:outline-none"
+                  type="button"
+                >
+                  <!-- style="background-color: #1e36d9;" -->
+                  <img src="../../../../public/img/clic-oh.png" alt="" />
+                </button>
+              </div>
+            </div>
+
+            <!-- Destino de Envio -->
+            <div
+              v-if="showShipping || data.type_transport == 'COURIER'"
+              class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0"
+            >
+              <dest-address />
+            </div>
           </div>
         </div>
 
