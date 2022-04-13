@@ -1021,7 +1021,16 @@ export default {
       handler(after, before) {
         this.expenses.custom_agent_id = '';
 
-        this.expenses.agent_payment = this.expenses.customs_house ? 150 : 0;
+        let serviceFee = 0;
+        let cifMayor = 0;
+
+         cifMayor = ((( Number(this.expenses.cif_amt) * 0.35)) *1.1)/ (100-(0.35*1.1));
+
+         serviceFee =  cifMayor > 150
+                 ? cifMayor
+                 : 150;
+
+        this.expenses.agent_payment = this.expenses.customs_house ? serviceFee + 80 : 0;
       },
       deep: true
     }
