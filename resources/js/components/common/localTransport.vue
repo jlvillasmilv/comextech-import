@@ -48,7 +48,7 @@
           <div class="flex justify-center items-center sm:w-4/12 mx-2 my-2">
             <button
               :class="[
-                `w-40 
+                `w-44
               text-xs 
               uppercase 
               px-2 
@@ -69,7 +69,7 @@
           <div class="flex justify-center items-center sm:w-4/12 mx-2 my-2">
             <button
               :class="[
-                `w-40 
+                `w-44
               text-xs 
               uppercase 
               px-2 
@@ -84,7 +84,7 @@
               type="button"
               @click="localAddress(false)"
             >
-              Dirección bodegaje
+              Bodegaje/Fullfilment
             </button>
           </div>
         </div>

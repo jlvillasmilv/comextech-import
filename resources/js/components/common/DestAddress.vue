@@ -28,8 +28,8 @@
       <select
         class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
       >
-        <option value="">We Storage</option>
-        <option value="">Clic Oh</option>
+        <option value="">WeeStorage - Americo Vespucio</option>
+        <!-- <option value="">Clic Oh</option> -->
       </select>
     </div>
     <label v-if="isLocalAddress" class="inline-flex text-sm items-center mx-2 mt-2">
