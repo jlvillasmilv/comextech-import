@@ -9,7 +9,7 @@ export default {
       custom_agent_id: '',
       trans_company_id: '',
       courier_svc: false,
-      agent_payment: 150,
+      agent_payment: 230,
       treatiesSelected: [],
       file_descrip: [],
       customs_house: true,

@@ -1,8 +1,10 @@
 <template>
   <!-- Address destination -->
-  <div>
-    <span class="text-sm font-semibold">Destino</span>
-    <div v-if="!expenses.fav_dest_address" class="flex">
+  <div class="h-24">
+    <span class="text-sm font-semibold">{{
+      !isLocalAddress ? 'Bodegaje fullfilment' : 'Destino'
+    }}</span>
+    <div v-if="!expenses.fav_dest_address && isLocalAddress" class="flex">
       <vue-google-autocomplete
         v-model="expenses.dest_address"
         id="addressDestination"
@@ -12,7 +14,7 @@
       >
       </vue-google-autocomplete>
     </div>
-    <div v-else class="flex">
+    <div v-if="expenses.fav_dest_address" class="flex">
       <select
         v-model="expenses.dest_address"
         class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
@@ -22,7 +24,15 @@
         </option>
       </select>
     </div>
-    <label class="inline-flex text-sm items-center mx-2 mt-2">
+    <div v-if="!isLocalAddress">
+      <select
+        class="text-sm block w-full mt-1 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
+      >
+        <option value="">WeeStorage - Americo Vespucio</option>
+        <!-- <option value="">Clic Oh</option> -->
+      </select>
+    </div>
+    <label v-if="isLocalAddress" class="inline-flex text-sm items-center mx-2 mt-2">
       <input
         type="checkbox"
         class="form-checkbox h-4 w-4 text-gray-800"
@@ -83,6 +93,13 @@ import VueGoogleAutocomplete from 'vue-google-autocomplete';
 import { mapState } from 'vuex';
 
 export default {
+  props: {
+    isLocalAddress: {
+      type: Boolean,
+      required: true,
+      default: () => true
+    }
+  },
   components: { VueGoogleAutocomplete },
   computed: {
     ...mapState('address', ['expenses', 'addressDestination', 'postalCodeDestination']),

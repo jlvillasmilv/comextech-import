@@ -63,8 +63,6 @@ class JumpSellerAppPayment extends Model
         //update variant variant_id product
         $up_variant_id = JumpSellerAppPayment::UpdateVariantProduct($variant_id, $data);
 
-        
-
         if (!empty($up_variant_id["message"])) {
             return response()->json($up_variant_id["message"], 404);
         }
