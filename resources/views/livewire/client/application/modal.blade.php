@@ -80,9 +80,9 @@
                                                 style: 'currency',
                                                 currency: 'CLP',
                                             })
-                                            .format(formPaymentApp.availablePrepaid)"></p>
+                                            .format(formPaymentApp.availablePrepaid - formPaymentApp.available_prepaid)"></p>
                                     </td>
-                                    <td class="w-1/12">
+                                    <td class="w-10">
                                         <div>
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -97,8 +97,8 @@
                                             <span>(Cesión SII)</span>
                                         </div>
                                     </td>
-                                    <td class="w-1/12">
-                                        <div>
+                                    <td >
+                                        <div class="w-10">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -111,7 +111,7 @@
                                             class="text-center h-12 w-full p-3 border-black border rounded"
                                             onfocus="if(this.flag == undefined){ this.flag = true; this.value=''; }"
                                             x-on:keydown.enter.prevent=""
-                                            x-on:change.debounce="formatterCredit($event.target.id)" />
+                                            x-on:input.change.debounce="formatterCredit($event.target.id)" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -122,11 +122,11 @@
                                                 style: 'currency',
                                                 currency: 'CLP'
                                             })
-                                            .format(formPaymentApp.availableCredit)">
+                                            .format(formPaymentApp.availableCredit - formPaymentApp.available_credit)">
                                         </p>
                                     </td>
-                                    <td class="w-1/12">
-                                        <div>
+                                    <td >
+                                        <div class="w-10">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -135,8 +135,8 @@
                                         </div>
                                     </td>
                                     <td class="font-semibold text-center w-3/12">CREDITO DISPONIBLE</td>
-                                    <td class="1/12">
-                                        <div>
+                                    <td >
+                                        <div class="w-10">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -149,7 +149,7 @@
                                             class="text-center h-12 w-full p-3 border-black border rounded"
                                             onfocus="if(this.value == '0'){this.value='';}"
                                             x-on:keydown.enter.prevent=""
-                                            x-on:change.debounce="formatterCredit($event.target.id)" />
+                                            x-on:input.change.debounce="formatterCredit($event.target.id)" />
                                     </td>
                                 </tr>
                                 <tr class="border-b-4">
