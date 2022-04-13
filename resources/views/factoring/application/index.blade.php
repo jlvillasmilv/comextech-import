@@ -38,12 +38,12 @@ $credential = auth()->user()->credentialStores;
 
         <!-- Application list table -->
         <div class="grid gap-6 mb-4 ">
-            <div class="min-w-0 px-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <div class="min-w-0 px-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
                     Listado de Solicitudes
                 </h4>
                 <div class="w-full overflow-x-auto">
-                    <table id="table" class="w-full whitespace-no-wrap">
+                    <table id="table" class="w-full whitespace-nowrap">
                         <thead>
                             <tr
                                 class="text-xs text-center font-semibold tracking-wide text-white border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">

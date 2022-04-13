@@ -8,7 +8,7 @@
 
 
     <div class="grid gap-6 mb-8 ">
-      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+      <div class="min-w-0 p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
     
       {{-- <p class="card-text text-uppercase font-weight-bol "> <strong class="font-bold"> TASA ACTUAL </strong></p>
       <h6 class="card-title  text-uppercase font-weight-bold">Cliente: {{ $data->application->user->company->name }}</h6> --}}

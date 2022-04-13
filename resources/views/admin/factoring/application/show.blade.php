@@ -5,7 +5,7 @@
     </h2>
 
     <div class="grid gap-6 mb-8 ">
-      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+      <div class="min-w-0 p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
            Solicitud # {{str_pad($data->id, 6, '0', STR_PAD_LEFT) }}
         </h4>

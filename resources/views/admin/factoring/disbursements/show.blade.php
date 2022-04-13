@@ -8,7 +8,7 @@
 
 
     <div class="grid gap-6 mb-8 ">
-      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+      <div class="min-w-0 p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <h6 class="card-title  text-uppercase font-weight-bold">Cliente: {{ $data->application->user->company->name }}</h6>
         <p class="my-2"> RUT: <strong class="font-bold">{{ $data->application->user->company->tax_id }}</strong></p>
         <p class="my-2">STATUS: <b>{{ $data->status}}</b></p> 

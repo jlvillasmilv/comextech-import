@@ -2,7 +2,7 @@
     $legal_info =  auth()->user()->client_legal_info()->count();
 @endphp
 
-<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800 mb-4 ">
+<div class="min-w-0 p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800 mb-4 ">
       <div class="flex justify-start">
          {{-- Cesión de Facturas SII --}}
         <div class="mr-2">

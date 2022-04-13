@@ -22,7 +22,7 @@
     <div v-if="isTableTax" class="mt-8">
       <div class="container grid px-3">
         <div
-          class="table-full w-full overflow-hidden xl:flex-no-wrap  "
+          class="table-full w-full overflow-hidden xl:flex-nowrap  "
           :class="[!$store.getters.findService('ICS04') ? '' : 'sm:justify-end']"
         >
           <div class="flex justify-center sm:w-6/12 xl:w-5/12">

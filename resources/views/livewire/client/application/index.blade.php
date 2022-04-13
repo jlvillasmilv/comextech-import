@@ -40,9 +40,9 @@
       
    </div>
 
-   <div class="w-full overflow-hidden rounded-lg shadow-xs  mb-8">
+   <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5  mb-8">
        <div class="w-full overflow-x-auto">
-           <table class="w-full whitespace-no-wrap" id="table">
+           <table class="w-full whitespace-nowrap" id="table">
                 <thead
                     class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                     <tr>

@@ -2,7 +2,7 @@
   <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
 
     <!-- Card -->
-    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+    <div class="flex items-center p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <div class="p-3 mr-4 text-blue-1000 bg-blue-1300 rounded-full dark:text-blue-100 dark:bg-blue-500">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z">
@@ -19,7 +19,7 @@
         </div>
     </div>
     <!-- Card -->
-    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+    <div class="flex items-center p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <div class="p-3 mr-4 text-blue-1300 bg-blue-1000 rounded-full dark:text-teal-100 dark:bg-teal-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -37,7 +37,7 @@
 
     
         <!-- Card -->
-    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+    <div class="flex items-center p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <div class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -54,7 +54,7 @@
     </div>
 
     <!-- Card -->
-    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+    <div class="flex items-center p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <div class="p-3 mr-4 text-gray-500 bg-gray-200 rounded-full dark:text-red-100 dark:bg-red-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />

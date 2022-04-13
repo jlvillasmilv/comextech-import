@@ -5,10 +5,10 @@
         </h2>
 	
 
-    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
         <div class="w-full overflow-x-auto">
 
-        	<table class="w-full whitespace-no-wrap">
+        	<table class="w-full whitespace-nowrap">
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                         
                         <tr class="text-gray-700 dark:text-gray-400" >

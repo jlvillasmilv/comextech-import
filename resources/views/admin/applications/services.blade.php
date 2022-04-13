@@ -14,7 +14,7 @@
 
             <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
                 <div class="p-6">
-                    <table class="w-full whitespace-no-wrap">
+                    <table class="w-full whitespace-nowrap">
                         <thead>
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800"
@@ -363,7 +363,7 @@
         <div class="relative overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
 
             <div class="p-6">
-                <table class="w-full whitespace-no-wrap">
+                <table class="w-full whitespace-nowrap">
                     <thead>
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800"
