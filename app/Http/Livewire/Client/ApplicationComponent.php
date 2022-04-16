@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Client;
 
-use App\Models\Application;
+use App\Models\{Application, ApplicationSummary};
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -27,6 +27,8 @@ class ApplicationComponent extends Component
     public $sortField;
 
     public $sortDirection = 'desc';
+
+    protected $listeners = ['setApplicationSummary'];
 
     protected $queryString = [
         'search' => [ 'except' => ''],
@@ -70,6 +72,22 @@ class ApplicationComponent extends Component
         $this->orderable         = ['code','name','created_at'];
     }
 
+    public function setApplicationSummary($id)
+    {
+        $application = Application::where([
+            ['id', base64_decode($id)],
+            ['company_id', auth()->user()->company->id],
+        ])->firstOrFail();
+
+        $data  = [
+            'application_id' => base64_encode($application->id),
+            'currency_code' => null,
+            'user_id'       => auth()->user()->id
+        ];
+
+        $total = ApplicationSummary::setSummary($data);
+    }
+
     public function render()
     {
         $datas = Application::advancedFilter([
@@ -83,4 +101,5 @@ class ApplicationComponent extends Component
         return view('livewire.client.application.index', compact( 'datas'));
 
     }
+
 }

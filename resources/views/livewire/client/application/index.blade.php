@@ -164,3 +164,42 @@
         @include('livewire.client.application.modal')
    </div>
 </div>
+
+@section('scripts')
+@parent
+<script>
+
+    livewire.on('UpdateCost', applicationId => {
+        
+        Swal.fire({
+            title: 'Actualizar costos a tasa de cambio actual',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            confirmButtonColor: '#142c44',
+            cancelButtonText: 'No',
+            cancelButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            preConfirm: function(result) {
+                if (result) {
+
+                    return @this.call('setApplicationSummary',applicationId).then(() => {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Generado con exito',
+                        })
+                    });
+
+                 // livewire.emitTo('client.application-component', 'setApplicationSummary', applicationId)
+                }
+
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+
+    });
+
+    
+</script>
+
+@endsection

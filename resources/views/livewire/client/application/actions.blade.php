@@ -46,11 +46,10 @@
         </a>
     @endif
     @if ($application->status->modify and $application->payment->status != 'Paid')
-        <button data-id="{{ base64_encode($application->id) }}"
-            title="Actualizar costos a tasa de cambio actual"
-            data-msg="Desea actualizar el costo de la solicitud {{ $application->code }} al tipo de cambio vigente"
-            data-remote="{{ route('application.importUpdateCost') }}"
-            class="px-1 py-2 text-sm font-medium leading-5 text-gray-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray btn-sync-app">
+        <button 
+            title="Actualizar el costo de la solicitud {{ $application->code }} al tipo de cambio vigente"
+            wire:click="$emit('UpdateCost', '{{ base64_encode($application->id) }}')"
+            class="px-1 py-2 text-sm font-medium leading-5 text-gray-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
 
             <svg class="w-6 h-6" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
