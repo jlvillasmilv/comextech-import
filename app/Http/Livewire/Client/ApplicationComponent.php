@@ -69,7 +69,7 @@ class ApplicationComponent extends Component
         $this->sortDirection     = 'desc';
         $this->perPage           = 5;
         $this->paginationOptions = config('project.pagination.options');
-        $this->orderable         = ['code','name','created_at'];
+        $this->orderable         = ['code','supplier.name','created_at'];
     }
 
     public function setApplicationSummary($id)
@@ -87,6 +87,17 @@ class ApplicationComponent extends Component
 
         $total = ApplicationSummary::setSummary($data);
     }
+
+    public function delete($id)
+    {
+        $application = Application::where([
+            ['id', base64_decode($id)],
+            ['company_id', auth()->user()->company->id],
+        ])->firstOrFail();
+
+       
+    }
+
 
     public function render()
     {

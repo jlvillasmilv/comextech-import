@@ -127,7 +127,7 @@ $(document).ready(function () {
         }).catch(error => {
           Toast.fire({
             icon: 'error',
-            title: 'Errore de Conexion'
+            title: 'Error de conexión'
           })
 
         });
@@ -173,7 +173,7 @@ $(document).ready(function () {
         }).catch(error => {
           Toast.fire({
             icon: 'error',
-            title: 'Errore de Conexion'
+            title: 'Error de conexión'
           })
 
           console.error(error.response.data)
