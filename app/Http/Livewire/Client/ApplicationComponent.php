@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire\Client;
 
-use App\Models\{Application, ApplicationSummary};
+use App\Models\{Application, ApplicationSummary, PaymentProvider, Transport, Load};   
+use App\Models\{InternmentProcess, FileStoreInternment, FileStore};   
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -28,7 +29,7 @@ class ApplicationComponent extends Component
 
     public $sortDirection = 'desc';
 
-    protected $listeners = ['setApplicationSummary'];
+    protected $listeners = ['setApplicationSummary','delete'];
 
     protected $queryString = [
         'search' => [ 'except' => ''],
@@ -72,6 +73,12 @@ class ApplicationComponent extends Component
         $this->orderable         = ['code','supplier.name','created_at'];
     }
 
+    /**
+     * updates costs of the summary of an application to the current exchange rate
+     *
+     * @param  \App\Models\Application  $id
+     * @return \Illuminate\Http\Response
+    */
     public function setApplicationSummary($id)
     {
         $application = Application::where([
@@ -88,6 +95,12 @@ class ApplicationComponent extends Component
         $total = ApplicationSummary::setSummary($data);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  @param  \App\Models\Application  $id
+     * @return \Illuminate\Http\Response
+    */
     public function delete($id)
     {
         $application = Application::where([
@@ -95,7 +108,39 @@ class ApplicationComponent extends Component
             ['company_id', auth()->user()->company->id],
         ])->firstOrFail();
 
-       
+        PaymentProvider::where('application_id',  $application->id)->delete();
+        Transport::where('application_id',  $application->id)->delete();
+
+        if(Load::where('application_id',  $application->id)->exists()){
+            Load::where('application_id',  $application->id)->delete();
+        }
+
+        if(isset($application->internmentProcess->fileStoreInternment)){
+
+            foreach ($application->internmentProcess->fileStoreInternment as $key => $item) {
+              
+                $exists = \Storage::disk('s3')
+                ->exists('file/'.$item->fileStore->file_name);
+    
+                // if($exists){
+                //     \Storage::disk('s3')
+                //     ->delete('file/'.$item->fileStore->file_name);
+                // }
+    
+                FileStoreInternment::where('id', $item->id)->delete();
+    
+                if (!is_null($item->fileStore->id)) {
+                    FileStore::where('id', $item->fileStore->id)->delete();
+                }
+    
+            }
+
+        }
+
+        InternmentProcess::where('application_id', $application->id)->delete();
+
+        $application->delete();
+
     }
 
 

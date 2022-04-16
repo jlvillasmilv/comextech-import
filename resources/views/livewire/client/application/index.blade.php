@@ -150,10 +150,10 @@
 @parent
 <script>
 
-    livewire.on('UpdateCost', applicationId => {
-        
+    livewire.on('setApplication', (applicationId, type) => {
+       
         Swal.fire({
-            title: 'Actualizar costos a tasa de cambio actual',
+            title: type == 'setApplicationSummary' ? '¿Actualizar costos a tasa de cambio actual?' : '¿Desea eliminar este registro?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Si',
@@ -161,13 +161,14 @@
             cancelButtonText: 'No',
             cancelButtonColor: '#d33',
             showLoaderOnConfirm: true,
+            backdrop: true,
             preConfirm: function(result) {
                 if (result) {
 
-                    return @this.call('setApplicationSummary',applicationId).then(() => {
+                    return @this.call(type,applicationId).then(() => {
                         Toast.fire({
                             icon: 'success',
-                            title: 'Generado con exito',
+                            title: type == 'setApplicationSummary' ? 'Generado con exito' : 'Registro eliminado con exito' ,
                         })
                     });
 
@@ -179,7 +180,6 @@
         })
 
     });
-
     
 </script>
 
