@@ -119,7 +119,10 @@
           </div>
 
           <!-- local transport -->
-          <local-transport />
+          <local-transport v-if="data.type_transport !== 'COURIER'" />
+          <div v-else class="w-11/12 lg:w-8/12 mb-4 md:px-4 lg:px-0">
+            <dest-address />
+          </div>
         </div>
 
         <!-- Date and description -->
@@ -174,6 +177,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import DestAddress from '../common/DestAddress.vue';
 import LocalTransport from '../common/localTransport.vue';
 import OriginAddress from '../common/OriginAddress.vue';
 import FormDate from './FormDate.vue';
@@ -181,7 +185,7 @@ import FedexDhl from './Quotes/FedexDhl.vue';
 import TableFclLcl from './Quotes/TableFclLcl.vue';
 
 export default {
-  components: { OriginAddress, FormDate, FedexDhl, TableFclLcl, LocalTransport },
+  components: { OriginAddress, FormDate, FedexDhl, TableFclLcl, LocalTransport, DestAddress },
   data() {
     return {
       saveButton:

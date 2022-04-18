@@ -178,7 +178,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Nunito', ...defaultTheme.fontFamily.sans]
-      }
+      },
+      fontWeight: ['hover', 'focus']
     }
   },
 
@@ -213,7 +214,7 @@ module.exports = {
 
   plugins: [
     require('tailwindcss-multi-theme'),
-    require('@tailwindcss/custom-forms'),
+    // require('@tailwindcss/custom-forms'),
     require('@tailwindcss/ui'),
     plugin(({ addUtilities, e, theme, variants }) => {
       const newUtilities = {};

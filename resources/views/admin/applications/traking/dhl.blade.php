@@ -23,7 +23,7 @@
            
         </div>
        
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
             <div class="w-full overflow-x-auto">
                    
                 <div class="px-2">
@@ -104,7 +104,7 @@
 
                             <div class="relative overflow-hidde overflow-hidden transition-all max-h-0 duration-700" style="" x-ref="container1" x-bind:style="selected == 1 ? 'max-height: ' + $refs.container1.scrollHeight + 'px' : ''">
                                 <div class="p-6 overflow-x-auto">
-                                    <table class="w-full whitespace-no-wrap">
+                                    <table class="w-full whitespace-nowrap">
                                         <thead>
                                             <tr
                                                 class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800"

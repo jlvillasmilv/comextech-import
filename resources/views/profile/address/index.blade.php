@@ -17,9 +17,9 @@
             </a>
         </div>
       
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full mb-8 overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
             <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap">
+                <table class="w-full whitespace-nowrap">
                     <thead>
                         <tr 
                             class="text-sm font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">

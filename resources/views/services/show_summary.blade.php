@@ -18,9 +18,9 @@
     <div class="flex">
         <div class="w-1/2   bg-white p-3 dark:text-gray-400 dark:bg-gray-800">
            <div class="  px-4 py-3 text-gray-500 text-lg">   </div>
-           <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
+           <div class="mb-8 overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
                    <div class="flex w-full overflow-x-auto">
-                       <table class="w-full whitespace-no-wrap">
+                       <table class="w-full whitespace-nowrap">
                            <thead>
                                <tr class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
                                    <th class="px-4 py-3">
@@ -90,9 +90,9 @@
        </div>
        <div class="w-1/2   bg-white dark:text-gray-400 dark:bg-gray-800 p-3 rounded-lg">
            <div class="  px-4 py-3 text-gray-500 text-lg">   </div>
-           <div class="mb-8 overflow-hidden rounded-lg shadow-xs">
+           <div class="mb-8 overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
                    <div class="flex w-full overflow-x-auto">
-                       <table class="w-full whitespace-no-wrap">
+                       <table class="w-full whitespace-nowrap">
                            <thead>
                                <tr
                                    class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">

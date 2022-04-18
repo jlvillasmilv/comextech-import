@@ -180,7 +180,7 @@
 
                 </label>
                 <div class="px-2 w-full overflow-x-auto">
-                  <table id="table" class="w-full whitespace-no-wrap">
+                  <table id="table" class="w-full whitespace-nowrap">
                         
                         <tbody
                         class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">

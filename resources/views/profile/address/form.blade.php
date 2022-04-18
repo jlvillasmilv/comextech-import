@@ -15,7 +15,7 @@
                     @endif
 
                 <label class="block text-sm my-3">
-                    <span class="text-gray-700 dark:text-gray-400"> Direccion </span>
+                    <span class="text-gray-700 dark:text-gray-400">Direccion </span>
                     <input type="text" id="address-input" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:text-gray-300 dark:focus:shadow-outline-gray form-input  map-input" placeholder="Direccion Postal" name="address" value="{{ old('address', isset($companyAddress) ? $companyAddress->address : '') }}" max="255" required="">
                     @if($errors->has('address'))
                         <span class="text-xs text-red-600 dark:text-red-400">
@@ -140,7 +140,7 @@
                 value="{{ old('longitude', isset($companyAddress) ? $companyAddress->longitude : 0) }}" />
                
                 <div class="flex  justify-start">
-                        <button type="submit" class="flex  px-5 py-2  text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                        <button type="submit" class="flex px-5 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-1300 border border-transparent rounded-lg hover:bg-blue-1400 focus:outline-none focus:shadow-outline-blue">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
                                 </svg>

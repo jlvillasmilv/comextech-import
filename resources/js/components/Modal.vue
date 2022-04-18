@@ -17,7 +17,7 @@
         <slot name="body"> </slot>
       </div>
       <footer
-        class="flex items-center sm:justify-end justify-around px-6 py-1 -mx-6 -mb-2 sm:space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row dark:bg-gray-800"
+        class="flex items-center sm:justify-end justify-around px-6 py-1 -mx-6 -mb-2 sm:space-y-0 sm:space-x-6 sm:flex-row dark:bg-gray-800"
       >
         <slot name="footer"> </slot>
       </footer>

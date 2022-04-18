@@ -15,7 +15,7 @@
                        
         </div>
        
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
             
             <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.clients.excutive') }}">
                 @csrf
@@ -220,7 +220,7 @@
            
         </div>
 
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
             <form  role="form" method="POST" action="{{ isset($data->id) ? route('admin.clients.update', $data->id) : route('admin.clients.store') }}" >
                 @csrf
 

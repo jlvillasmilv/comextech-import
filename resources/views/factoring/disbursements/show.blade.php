@@ -37,12 +37,12 @@
     @endif
 
     <div class="grid gap-6 mb-8 ">
-      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+      <div class="min-w-0 p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <p class="font-semibold  dark:text-white ">Desembolso #: {{str_pad($applications->disbursement->id, 6, '0', STR_PAD_LEFT) }} </p>
         <p class="font-semibold  dark:text-white ">Estado: {{$applications->disbursement->status}} </p>
         
           <div class="w-full overflow-x-auto">
-              <table  id="table" class="w-full whitespace-no-wrap">
+              <table  id="table" class="w-full whitespace-nowrap">
                   <thead>
                       <tr
                           class="text-xs text-center font-semibold tracking-wide text-left text-white border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">
