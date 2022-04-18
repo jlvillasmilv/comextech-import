@@ -416,23 +416,42 @@ class ApplicationController extends Controller
         return response()->json(['status' => 'OK'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
-        PaymentProvider::where('application_id',  Crypt::decryptString($id))->delete();
-        Transport::where('application_id',  Crypt::decryptString($id))->delete();
+        // todo: pass to livewi ass to livewares components
+        // $application = Application::findOrFail(Crypt::decryptString($id));
 
-        if(Load::where('application_id',  Crypt::decryptString($id))->exists()){
-            Load::where('application_id',  Crypt::decryptString($id))->delete();
-        }
+        // PaymentProvider::where('application_id',  $application->id)->delete();
+        // Transport::where('application_id',  $application->id)->delete();
 
-        Application::findOrFail( Crypt::decryptString($id))->delete();
-        return response()->json(['status' => 'OK'], 200);
+        // if(Load::where('application_id',  $application->id)->exists()){
+        //     Load::where('application_id',  $application->id)->delete();
+        // }
+
+        // foreach ($application->internmentProcess->fileStoreInternment as $key => $item) {
+              
+        //     $exists = \Storage::disk('s3')
+        //     ->exists('file/'.$item->fileStore->file_name);
+
+        //     // if($exists){
+        //     //     \Storage::disk('s3')
+        //     //     ->delete('file/'.$item->fileStore->file_name);
+        //     // }
+
+        //     FileStoreInternment::where('id', $item->id)->delete();
+
+        //     if (!is_null($item->fileStore->id)) {
+        //         FileStore::where('id', $item->fileStore->id)->delete();
+        //     }
+
+        // }
+
+        // InternmentProcess::where('application_id', $application->id)->delete();
+
+        // $application->delete();
+        
+        // return response()->json(['status' => 'OK'], 200);
     }
 
     /**

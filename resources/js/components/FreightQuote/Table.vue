@@ -1,7 +1,7 @@
 <template>
   <section class="md:flex md:justify-center">
-    <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg shadow-xs">
-      <table class="table-auto md:w-full whitespace-no-wrap">
+    <div class="md:flex md:w-10/12 overflow-x-auto rounded-lg ring-1 ring-black ring-opacity-5">
+      <table class="table-auto md:w-full whitespace-nowrap">
         <thead>
           <tr class="text-sm text-center font-semibold tracking-wide text-white">
             <th

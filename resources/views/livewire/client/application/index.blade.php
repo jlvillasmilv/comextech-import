@@ -19,34 +19,15 @@
         </a>
     </div>
 
-  <div class="flex flex-wrap ">
-      
-       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <div class="relative w-full max-w-xl mr-6 focus-within:text-blue-500 ">
-                 <div class="absolute inset-y-0 flex items-center pl-2">
-                     <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-                     </svg>
-                 </div>
-                 
-                <x-input class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-blue-300 focus:outline-none focus:shadow-outline-blue form-input"
-                   placeholder="Busqueda"
-                    aria-label="Search"
-                    wire:model.debounce.300ms="search" 
-                />
-                
-             </div>
-       </div>
-      
-   </div>
+   <x-table.search />
 
-   <div class="w-full overflow-hidden rounded-lg shadow-xs  mb-8">
+   <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5  mb-8">
        <div class="w-full overflow-x-auto">
-           <table class="w-full whitespace-no-wrap" id="table">
+           <table class="w-full " id="table">
                 <thead
                     class="text-xs text-center font-semibold tracking-wide text-white uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800">
                     <tr>
-                        <th class="px-4 py-3"
+                        <th class="px-4 py-3 cursor-pointer"
                          title="Numero de solicitud / Fecha registro">
                             @include('components.table.sort', ['field' => 'code', 'label' => 'Nro/Fecha'])
                         </th>
@@ -98,7 +79,7 @@
                         </div>
                            
                        </td>
-                       <td class="px-2 py-2 ">
+                       <td class="px-2 py-2 whitespace-nowrap">
                            <strong class="font-semibold"> 
                                 {{ number_format($application->tco, ($application->currencyTco->code == 'CLP' ? 0 : 2) , ',', '.') }}
                                 {{ $application->currencyTco->code }}
@@ -121,7 +102,7 @@
                            {{-- Status application --}}
                            @include('livewire.client.application.status')
                        </td>
-                       <td class="px-4 py-3 ">
+                       <td class="px-4 py-3 whitespace-nowrap">
                            <p class="font-semibold  text-md">
                                {{ $application->supplier->name }}
                            </p>
@@ -164,3 +145,42 @@
         @include('livewire.client.application.modal')
    </div>
 </div>
+
+@section('scripts')
+@parent
+<script>
+
+    livewire.on('setApplication', (applicationId, type) => {
+       
+        Swal.fire({
+            title: type == 'setApplicationSummary' ? '¿Actualizar costos a tasa de cambio actual?' : '¿Desea eliminar este registro?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            confirmButtonColor: '#142c44',
+            cancelButtonText: 'No',
+            cancelButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            backdrop: true,
+            preConfirm: function(result) {
+                if (result) {
+
+                    return @this.call(type,applicationId).then(() => {
+                        Toast.fire({
+                            icon: 'success',
+                            title: type == 'setApplicationSummary' ? 'Generado con exito' : 'Registro eliminado con exito' ,
+                        })
+                    });
+
+                 // livewire.emitTo('client.application-component', 'setApplicationSummary', applicationId)
+                }
+
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+
+    });
+    
+</script>
+
+@endsection

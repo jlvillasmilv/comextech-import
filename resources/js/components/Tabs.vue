@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-visible rounded-lg shadow-xs">
+  <div class="overflow-visible rounded-lg ring-1 ring-black ring-opacity-5">
     <div class="overflow-x-auto">
       <ul class="flex items-center mt-2 sm:justify-center ">
         <button

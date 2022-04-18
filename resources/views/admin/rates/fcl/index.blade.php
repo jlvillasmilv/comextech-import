@@ -20,8 +20,8 @@
             @endcan
 
         </div>
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
-            <div class="w-full whitespace-no-wrap">
+        <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
+            <div class="w-full whitespace-nowrap">
                 <livewire:admin.rates.fcl-table />
             </div>
         </div>

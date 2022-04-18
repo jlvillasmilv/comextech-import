@@ -512,7 +512,7 @@
             <div class="container grid px-3">
               <div class="w-full md:w-3/4 md:mx-4 overflow-hidden rounded-lg ">
                 <div class="w-full overflow-x-auto">
-                  <table class="table-auto whitespace-no-wrap">
+                  <table class="table-auto whitespace-nowrap">
                     <thead>
                       <tr
                         class="

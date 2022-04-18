@@ -8,9 +8,9 @@
     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
       &nbsp;
     </h4>
-    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full mb-8 overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
         <div class="w-full overflow-x-auto">
-            <table class="w-full whitespace-no-wrap" id="table">
+            <table class="w-full whitespace-nowrap" id="table">
               <thead>
                 <tr
                 class="text-xs text-center font-semibold tracking-wide text-left text-white">

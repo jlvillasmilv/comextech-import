@@ -75,7 +75,7 @@
                     @endif
                 </div>
 
-                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
                     <div class="w-full overflow-x-auto">
                 
                         <label class="block mt-4 text-sm">
@@ -130,7 +130,7 @@
                 
                 @include('admin.applications.services')
 
-                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                <div class="w-full overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
                     @if ($application->status->modify)
                         @include('admin.applications.summary')
                     @endif

@@ -58,7 +58,7 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="w-auto ml-1">
+                        <div class="w-auto sm:w-1/2 ml-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">
                                 Nombre de la Empresa
                             </label>
@@ -79,7 +79,7 @@
 
                   <div class="px-2">
                     <div class="sm:flex mb-4">
-                        <div class="w-auto sm:mr-1">
+                        <div class="w-auto sm:w-1/2 sm:mr-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">
                                 Correo electrónico
                             </label>
@@ -92,7 +92,7 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="w-auto sm:ml-1">
+                        <div class="w-auto sm:w-1/2 sm:ml-1">
                             <label class="block text-grey-darker text-sm font-bold mb-2 dark:text-gray-300">
                                 Número de teléfono
                             </label>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center container px-6 my-1">
     <loader />
-    <div class="md:w-9/12 overflow-hidden rounded-lg shadow-xs">
+    <div class="md:w-9/12 overflow-hidden rounded-lg ring-1 ring-black ring-opacity-5">
       <div class="w-full md:w-3/4 overflow-x-auto">
         <div class="flex space-x-4">
           <table class="table-auto w-full">

@@ -5,7 +5,7 @@
     </h2>
 
     <div class="grid gap-6 mb-8 ">
-      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+      <div class="min-w-0 p-4 bg-white rounded-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
            Solicitud # {{$applications->code}}
         </h4>
@@ -20,7 +20,7 @@
           <p class="font-semibold  dark:text-white ">{{ $applications->description}}</p>
           <br>
           <div class="w-full overflow-x-auto">
-              <table  id="table" class="w-full whitespace-no-wrap">
+              <table  id="table" class="w-full whitespace-nowrap">
                   <thead>
                       <tr
                           class="text-xs text-center font-semibold tracking-wide text-left text-white border-b dark:border-gray-700 bg-blue-900 dark:text-gray-400 dark:bg-gray-800">

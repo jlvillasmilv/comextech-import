@@ -38,7 +38,7 @@
                     </div>
 
                     @if (isset($application->applicationFile))
-                    <table class="w-full whitespace-no-wrap" id="table">
+                    <table class="w-full whitespace-nowrap" id="table">
                         <thead>
                             <tr 
                                 class="text-xs font-semibold tracking-wide text-left text-white  uppercase border-b dark:border-gray-700 bg-blue-1300 dark:text-gray-400 dark:bg-gray-800"
