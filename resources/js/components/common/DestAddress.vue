@@ -96,7 +96,7 @@ export default {
   props: {
     isLocalAddress: {
       type: Boolean,
-      required: true,
+      required: false,
       default: () => true
     }
   },
